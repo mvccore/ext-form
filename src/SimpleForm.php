@@ -181,7 +181,7 @@ class SimpleForm extends SimpleForm_Core_Base
 	public function Submit () {
 		if (!$this->initialized) $this->Init();
 		SimpleForm_Core_Helpers::ValidateMaxPostSizeIfNecessary($this);
-		$this->submitFields($this->Controller->GetRequest()->Params);
+		$this->submitFields($this->Controller->GetRequest()->params);
 		// yxcv($this->Controller->GetRequest()->Params);
 		return array(
 			$this->Result,
