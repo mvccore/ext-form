@@ -30,4 +30,4 @@ Library to render web forms, handle it's submits, managing forms sessions and er
 - templates rendering automaticly or by custom template
 
 ## Examples
-- [**Application Questionnaires (mvccore/app-questionnaire)**](https://github.com/mvccore/app-questionnaire)
+- [**Application Questionnaires (mvccore/app-questionnaires)**](https://github.com/mvccore/app-questionnaires)
