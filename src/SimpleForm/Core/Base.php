@@ -166,7 +166,7 @@ class SimpleForm_Core_Base
 			."document.getElementById('".$this->Id."'),"
 			."[".implode(',', $fieldsConstructors)."]"
 		.")";
-		if (class_exists('MvcCore_View') && strpos(MvcCore_View::$Doctype, 'XHTML') !== FALSE) {
+		if (class_exists('MvcCore_View') && property_exists('MvcCore_View', 'Doctype') && strpos(MvcCore_View::$Doctype, 'XHTML') !== FALSE) {
 			$result = '/* <![CDATA[ */' . $result . '/* ]]> */';
 		}
 		return '<script type="text/javascript">' . $result . '</script>';

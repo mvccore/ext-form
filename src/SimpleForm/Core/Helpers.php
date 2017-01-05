@@ -2,38 +2,65 @@
 
 require_once('/../../SimpleForm.php');
 require_once('Base.php');
-require_once('Zend/Session/Namespace.php');
 
 class SimpleForm_Core_Helpers
 {
-	public static $controllerViewGetters = array('GetView', 'getView');
-	public static $controllerViewProperties = array('View', 'view', 'Template', 'template');
+	const CTRL_VIEW_PROVIDER_METHOD = 0;
+	const CTRL_VIEW_PROVIDER_PROPERTY = 1;
+	const SESSION_PROVIDER_INSTANCE = 0;
+	const SESSION_PROVIDER_STATIC = 1;
+	/**
+	 * @var array<String>
+	 */
+	public static $ControllerViewProvider = array(
+		'type'		=> self::CTRL_VIEW_PROVIDER_METHOD,
+		'getter'	=> 'GetView',
+	);
+	/**
+	 * @var array<String>
+	 */
+	public static $SessionProvider = array(
+		// to get simple $_SESSION records - use:
+		'type'		=> self::SESSION_PROVIDER_STATIC,
+		'callable'	=> array(__CLASS__, 'getSimpleSessionRecord'),
+		'expirator'	=> '',
+		'expiration'=> 0,
+		
+		/**
+		 * OTHER EXAMPLES:
+		*/
+
+		/* MvcCore_Session - use:
+		'type'		=> self::SESSION_PROVIDER_STATIC,
+		'callable'	=> array('MvcCore_Session', 'GetNamespace'),
+		'expirator'	=> 'setExpirationSeconds',
+		'expiration'=> 32872500,  // (60 * 60 * 24 * 365.25) -> year
+		*/
+		
+		/* Zend_Session - use:
+		'type'		=> self::SESSION_PROVIDER_INSTANCE,
+		'class'		=> 'Zend_Session_Namespace',
+		'expirator'	=> 'setExpirationSeconds',
+		'expiration'=> 32872500,  // (60 * 60 * 24 * 365.25) -> year
+		*/
+	);
 	protected static $sessionData = NULL;
 	protected static $sessionErrors = NULL;
 	protected static $yearSeconds = 32872500; // (60 * 60 * 24 * 365.25);
-	/* session ***********************************************************************/
 	public static function GetControllerView (& $controller) {
 		$result = NULL;
-		$found = FALSE;
-		foreach (self::$controllerViewGetters as $viewGetter) {
-			if (method_exists($controller, $viewGetter)) {
-				$result = $controller->$viewGetter();
-				$found = TRUE;
-				break;
-			}
-		}
-		if (!$found) {
-			foreach (self::$controllerViewProperties as $viewProperty) {
-				if (property_exists($controller, $viewProperty)) {
-					$result = $controller->$viewProperty;
-					break;
-				}
-			}
+		$type = static::$ControllerViewProvider['type'];
+		$getter = static::$ControllerViewProvider['getter'];
+		if ($type == self::CTRL_VIEW_PROVIDER_PROPERTY) {
+			$result = $controller->{$getter};
+		} else if ($type == self::CTRL_VIEW_PROVIDER_METHOD) {
+			$result = $controller->{$getter}();
 		}
 		return $result;
 	}
+	/* session ***********************************************************************/
 	public static function GetSessionData ($formId = '') {
-		$sessionData = & self::_getSessionData();
+		$sessionData = & static::setUpSessionData();
 		if ($formId && isset($sessionData->$formId)) {
 			$rawResult = $sessionData->$formId;
 			return $rawResult;
@@ -42,7 +69,7 @@ class SimpleForm_Core_Helpers
 		}
 	}
     public static function GetSessionErrors ($formId = '') {
-		$sessionErrors = & self::_getSessionErrors();
+		$sessionErrors = & static::setUpSessionErrors();
 		if ($formId && isset($sessionErrors->$formId)) {
 			$rawResult = $sessionErrors->$formId;
 			return $rawResult;
@@ -51,28 +78,41 @@ class SimpleForm_Core_Helpers
 		}
 	}
 	public static function SetSessionData ($formId = '', $data = array()) {
-		$sessionData = & self::_getSessionData();
+		$sessionData = & static::setUpSessionData();
 		if ($formId) $sessionData->$formId = $data;
 	}
 	public static function SetSessionErrors ($formId = '', $errors = array()) {
-		$sessionErrors = & self::_getSessionErrors();
+		$sessionErrors = & static::setUpSessionErrors();
 		if ($formId) $sessionErrors->$formId = $errors;
 	}
-	private static function & _getSessionData () {
-		if (self::$sessionData == null) {
-			self::$sessionData = new Zend_Session_Namespace('SimpleForm_Data');
-			self::$sessionData->setExpirationSeconds(self::$yearSeconds);
-		}
-		return self::$sessionData;
+	protected static function & setUpSessionData () {
+		if (static::$sessionData == NULL) static::$sessionData = static::getSessionNamespace('SimpleForm_Data');
+		return static::$sessionData;
 	}
-	private static function & _getSessionErrors () {
-		if (self::$sessionErrors == null) {
-			self::$sessionErrors = new Zend_Session_Namespace('SimpleForm_Errors');
-			// do not use this, because all page elements should be requested throw php script in MvcCore package, including all assets
-			// self::$sessionErrors->SetExpirationHoops(1);
-			self::$sessionErrors->setExpirationSeconds(self::$yearSeconds);
-		}
+	protected static function & setUpSessionErrors () {
+		if (self::$sessionErrors == NULL) static::$sessionErrors = static::getSessionNamespace('SimpleForm_Errors');
 		return self::$sessionErrors;
+	}
+	protected static function & getSessionNamespace ($namespace) {
+		$type = static::$SessionProvider['type'];
+		if ($type == self::SESSION_PROVIDER_INSTANCE) {
+			$class = static::$SessionProvider['class'];
+			$result = new $class($namespace);
+		} else if ($type == self::SESSION_PROVIDER_STATIC) {
+			$result = call_user_func(static::$SessionProvider['callable'], $namespace);
+		}
+		$expirator = static::$SessionProvider['expirator'];
+		$expiration = static::$SessionProvider['expiration'];
+		// do not use this, because all page elements should be requested throw php script in MvcCore package, including all assets
+		// $result->SetExpirationHoops(1);
+		if ($expirator && $expiration) $result->$expirator($expiration);
+		return $result;
+	}
+	protected static function & getSimpleSessionRecord ($namespace) {
+		if (!(isset($_SESSION[$namespace]) && !is_null($_SESSION[$namespace]))) {
+			$_SESSION[$namespace] = new stdClass;
+		}
+		return $_SESSION[$namespace];
 	}
 	/* common helpers ********************************************************************/
 	public static function ValidateMaxPostSizeIfNecessary(SimpleForm & $form) {

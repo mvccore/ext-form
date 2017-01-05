@@ -12,6 +12,7 @@ Library to render web forms, handle it's submits, managing forms sessions and er
   - textarea
   - no-type input to extend basic input with your custom class
 - submit validators
+  - automatic cross site request forgery token validation in all form types
   - each form filed has natural validator(s) by it's type
   - possible submit values validators:
 	- email, max length, safe string, preg_replace pattern

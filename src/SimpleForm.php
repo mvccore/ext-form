@@ -198,7 +198,7 @@ class SimpleForm extends SimpleForm_Core_Base
 		try {
 			$result = $this->Render();
 		} catch (Exception $e) {
-			Debug::_exceptionHandler($e);
+			if (class_exists('Debug')) Debug::_exceptionHandler($e);
 			$result = $e->GetMessage();
 		}
 		return $result;
