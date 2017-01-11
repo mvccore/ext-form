@@ -1,187 +1,120 @@
 <?php
 
-require_once('/../../SimpleForm.php');
-require_once('/../Button.php');
+require_once(__DIR__.'/../../SimpleForm.php');
+require_once(__DIR__.'/../Button.php');
 require_once('Helpers.php');
 require_once('Field.php');
 require_once('Validator.php');
 require_once('View.php');
 
-class SimpleForm_Core_Base
+abstract class SimpleForm_Core_Base
 {
-	const METHOD_DELETE = 'delete';
-	const METHOD_GET    = 'get';
-	const METHOD_POST   = 'post';
-	const METHOD_PUT    = 'put';
-	
-	const ENCTYPE_URLENCODED = 'application/x-www-form-urlencoded';
-	const ENCTYPE_MULTIPART  = 'multipart/form-data';
-	
-	const HTML_IDS_DELIMITER = '_';
-	
-	const EQUAL = ':equal',
-		NOT_EQUAL = ':notEqual',
-		REQUIRED = ':required',
-		INVALID_FORMAT = ':invalidFormat',
-		INVALID_CHARS = ':invalidChars',
-		EMPTY_CONTENT = ':empty',
-		// text
-		MIN_LENGTH = ':minLength',
-		MAX_LENGTH = ':maxLength',
-		LENGTH = ':length',
-		EMAIL = ':email',
-		URL = ':url',
-		NUMBER = ':number',
-		INTEGER = ':integer',
-		FLOAT = ':float',
-		PHONE = ':phone',
-		ZIP_CODE = ':zipCode',
-		TAX_ID = ':taxId',
-		VAT_ID = ':varId',
-		GREATER = ':greater',
-		LOWER = ':lower',
-		RANGE = ':range',
-		// file upload
-		MAX_FILE_SIZE = ':fileSize',
-		MAX_POST_SIZE = ':maxPostSize',
-		IMAGE = ':image',
-		MIME_TYPE = ':mimeType',
-		// other
-		VALID = ':valid',
-		CHOOSE_MIN_OPTS = ':chooseMinOpts',
-		CHOOSE_MAX_OPTS = ':chooseMaxOpts',
-		CHOOSE_MIN_OPTS_BUBBLE = ':chooseMinOptsBubble',
-		CHOOSE_MAX_OPTS_BUBBLE = ':chooseMaxOptsBubble';
-
-	public static $DefaultMessages = array(
-		self::EQUAL					=> "Field '{0}' requires exact value: '{1}'.",
-		self::NOT_EQUAL				=> "Value for field '{0}' should not be '{1}'.",
-		self::REQUIRED				=> "Field '{0}' is required.",
-		self::INVALID_FORMAT		=> "Field '{0}' has invalid format ('{1}').",
-		self::INVALID_CHARS			=> "Field '{0}' contains invalid characters.",
-		self::EMPTY_CONTENT			=> "Sent data are empty.",
-		self::MIN_LENGTH			=> "Field '{0}' requires at least {1} characters.",
-		self::MAX_LENGTH			=> "Field '{0}' requires no more than {1} characters.",
-		self::LENGTH				=> "Field '{0}' requires a value between {1} and {2} characters long.",
-		self::EMAIL					=> "Field '{0}' requires a valid email address.",
-		self::URL					=> "Field '{0}' requires a valid URL.",
-		self::NUMBER				=> "Field '{0}' requires a valid number.",
-		self::INTEGER				=> "Field '{0}' requires a valid integer.",
-		self::FLOAT					=> "Field '{0}' requires a valid float number.",
-		self::PHONE					=> "Field '{0}' requires a valid phone number.",
-		self::ZIP_CODE				=> "Field '{0}' requires a valid zip code.",
-		self::TAX_ID				=> "Field '{0}' requires a valid TAX ID.",
-		self::VAT_ID				=> "Field '{0}' requires a valid VAR ID.",
-		self::GREATER				=> "Field '{0}' requires a value greater than {1}.",
-		self::LOWER					=> "Field '{0}' requires a value lower than {1}.",
-		self::RANGE					=> "Field '{0}' requires a value between {1} and {2}.",
-		self::MAX_FILE_SIZE			=> "The size of the uploaded file can be up to {0} bytes.",
-		self::MAX_POST_SIZE			=> "The uploaded data exceeds the limit of {0} bytes.",
-		self::IMAGE					=> "The uploaded file has to be image in format JPEG, GIF or PNG.",
-		self::MIME_TYPE				=> "The uploaded file is not in the expected file format.",
-		self::VALID					=> "Field '{0}' requires a valid option.",
-		self::CHOOSE_MIN_OPTS		=> "Field '{0}' requires at least {1} chosen option(s) at minimal.",
-		self::CHOOSE_MAX_OPTS		=> "Field '{0}' requires {1} of the selected option(s) at maximum.",
-		self::CHOOSE_MIN_OPTS_BUBBLE=> "Please select at least {0} options as minimal.",
-		self::CHOOSE_MAX_OPTS_BUBBLE=> "Please select up to {0} options at maximum.",
-	);
-
-	const RESULT_ERRORS		= 0;
-	const RESULT_SUCCESS	= 1;
-	const RESULT_NEXT_PAGE	= 2;
-	
-	const FIELD_RENDER_MODE_NORMAL			= 'normal';
-	const FIELD_RENDER_MODE_NO_LABEL		= 'no-label';
-	const FIELD_RENDER_MODE_LABEL_AROUND	= 'label-around';
-	
-	const ERROR_RENDER_MODE_ALL_TOGETHER		= 'all-together';
-	const ERROR_RENDER_MODE_BEFORE_EACH_CONTROL	= 'before-each-control';
-	const ERROR_RENDER_MODE_AFTER_EACH_CONTROL	= 'after-each-control';
-	
 	/**
-	 * @var MvcCore_Controller
+	 * Initialized state. You can call $form->Init(); method any time you want,
+	 * it automaticly recognize, if it is already initialized or not, but there is 
+	 * necessary to call at Init() function begin parent::Init(); call to do it.
+	 * Sometimes you need to work with feelds before rendering outside of form
+	 * and there is necessary to call $form->Init() menthod by yourself, but normaly 
+	 * it's called internaly after it is realy needed, so only for render process 
+	 * and submit process. This initialization state property has three values:
+	 *	0 - not initialized
+	 *	1 - initialized, but fields are not prepared internaly for rendering
+	 *	2 - all fieds are prepared for rendering (it is processed internaly in 
+	 *		$form->Render() function, state 2 is not necessary to know.
+	 * @var int
 	 */
-	public $Controller = null;
-	
-	/**
-	 * @var SimpleForm_Core_View
-	 */
-	public $View = null;
-
-	public $Id = '';
-	public $Method = self::METHOD_POST;
-	public $Enctype = self::ENCTYPE_URLENCODED;
-	public $Action = '';
-	public $Lang = '';
-	public $CssClass = '';
-	public $Attributes = array();
-	public $SuccessUrl = '';
-	public $NextStepUrl = '';
-	public $ErrorUrl = '';
-	public $Result = self::RESULT_SUCCESS;
-	public $Translator = null;
-	public $Translate = null;
-	public $Required = null;
-	public $Fields = array();
-	public $Data = array();
-	public $Errors = array();
-
-	public $FieldsDefaultRenderMode = self::FIELD_RENDER_MODE_NORMAL;
-	public $ErrorsRenderMode = SimpleForm::ERROR_RENDER_MODE_ALL_TOGETHER;
-	public $TemplatePath = '';
-	public $TemplateTypePath = 'Scripts';
-
-	public $Js = array();
-	public $Css = array();
-	public $JsBaseFile = '__SIMPLE_FORM_DIR__/simple-form.js';
-	public $JsRenderer = null;
-	public $CssRenderer = null;
-
 	protected $initialized = 0;
+	/**
+	 * Temporary collection of js files to add after form (directly into html output
+	 * or by external renderer, doesn't metter), this serves only for purposes how to 
+	 * determinate to add supporting javascript by field type only once. Keys are relative
+	 * javascript file paths and values are simple dummy booleans.
+	 * @var array
+	 */
 	protected static $js = array();
+	/**
+	 * Temporary collection of css files to add after form (directly into html output
+	 * or by external renderer, doesn't metter), this serves only for purposes how to
+	 * determinate to add supporting css by field type only once. Keys are relative
+	 * css file paths and values are simple dummy booleans.
+	 * @var array
+	 */
 	protected static $css = array();
-	protected static $jsAssetsRootDir = '';
-	protected static $cssAssetsRootDir = '';
+	/**
+	 * Simple form javascript assets root directory.
+	 * After SimpleForm instance is created, this value is completed to library internal
+	 * assets directory. If you want to create any custom field with custom javascript,
+	 * you can do it by loading github package mvccore/simpleform-cusom-js somewhere
+	 * create there any other custom javascript for any custom field and change this value 
+	 * to that directory. All supporting javascript for SimpleForm fields will be loaded from there.
+	 * @var string
+	 */
+	protected $jsAssetsRootDir = '';
+	/**
+	 * Simple form css assets root directory.
+	 * After SimpleForm instance is created, this value is completed to library internal
+	 * assets directory. If you want to create any custom field with custom css,
+	 * you can do it by creating an empty directory somewhere, by copying every css file from 
+	 * library assets directory into it, by creating any other custom css for any custom field 
+	 * and by change this value to that directory. All supporting css for SimpleForm 
+	 * fields will be loaded from there.
+	 * @var string
+	 */
+	protected $cssAssetsRootDir = '';
+	/**
+	 * Collection with callable handlers to process anytime CSRF checking cause an error inside form.
+	 * @var array
+	 */
+	protected static $csrfErrorHandlers = array();
 
-	public function RenderJs () {
-		if (!$this->Js) return '';
-		$jsFiles = $this->completeAssets('js');
-		$jsFilesContent = '';
-		$fieldsConstructors = array();
-		$loadJsFilesContents = !is_callable($this->JsRenderer);
-		if (!isset(self::$js[$this->JsBaseFile])) {
-			$this->JsBaseFile = $this->absolutizeAssetPath($this->JsBaseFile, 'js');
-			self::$js[$this->JsBaseFile] = TRUE;
-			$this->renderAssetFile($jsFilesContent, $this->JsRenderer, $loadJsFilesContents, $this->JsBaseFile);
-		}
-		foreach ($jsFiles as $jsFile) {
-			$this->renderAssetFile($jsFilesContent, $this->JsRenderer, $loadJsFilesContents, $jsFile);
-		}
-		foreach ($this->Js as $item) {
-			$paramsStr = json_encode($item[2]);
-			$paramsStr = mb_substr($paramsStr, 1, mb_strlen($paramsStr) - 2);
-			$fieldsConstructors[] = "new " . $item[1] . "(" . $paramsStr . ")";
-		}
-		$result = $jsFilesContent."new SimpleForm("
-			."document.getElementById('".$this->Id."'),"
-			."[".implode(',', $fieldsConstructors)."]"
-		.")";
-		if (class_exists('MvcCore_View') && property_exists('MvcCore_View', 'Doctype') && strpos(MvcCore_View::$Doctype, 'XHTML') !== FALSE) {
-			$result = '/* <![CDATA[ */' . $result . '/* ]]> */';
-		}
-		return '<script type="text/javascript">' . $result . '</script>';
+
+	/**
+	 * Get request path with protocol, domain, port, part but without any possible query string.
+	 * @return string
+	 */
+	protected function getRequestPath () {
+		$requestUri = $_SERVER['REQUEST_URI'];
+		$lastQuestionMark = mb_strpos($requestUri, '?');
+		if ($lastQuestionMark !== FALSE) $requestUri = mb_substr($requestUri, 0, $lastQuestionMark);
+		$protocol = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https:' : 'http:';
+		return $protocol . '//' . $_SERVER['HTTP_HOST'] . $requestUri;
 	}
-	public function RenderCss () {
-		if (!$this->Css) return '';
-		$cssFiles = $this->completeAssets('css');
-		$cssFilesContent = '';
-		$loadCssFilesContents = !is_callable($this->CssRenderer);
-		foreach ($cssFiles as $cssFile) {
-			$this->renderAssetFile($cssFilesContent, $this->CssRenderer, $loadCssFilesContents, $cssFile);
+	/**
+	 * Check cross site request forgery sended tokens from user with session tokens.
+	 * If tokens are diferent, add form error and process csrf error handlers queue.
+	 * @param array $rawRequestParams 
+	 * @return void
+	 */
+	protected function checkCsrf ($rawRequestParams = array()) {
+		$result = FALSE;
+		$sessionCsrf = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
+		list($name, $value) = $sessionCsrf ? $sessionCsrf : array(NULL, NULL);
+		if (!is_null($name) && !is_null($value)) {
+			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value) {
+				$result = TRUE;
+			}
 		}
-		if (!$loadCssFilesContents) return '';
-		return '<style type="text/css">'.$cssFilesContent.'</style>';
+		if (!$result) {
+			$errorMsg = SimpleForm::$DefaultMessages[self::CSRF];
+			if ($this->Translate) {
+				$translator = $this->Translator;
+				$errorMsg = $translator($errorMsg);
+			}
+			$this->AddError($errorMsg);
+			foreach (static::$csrfErrorHandlers as $handler) {
+				if (is_callable($handler)) {
+					call_user_func($handler, $this);
+				}
+			}
+		}
 	}
+	/**
+	 * Complete css or js supporting files to add after rendered form
+	 * or to add them by external renderer. This function process all 
+	 * added assets and filter them to add them finally only one by once.
+	 * @param string $assetsKey 
+	 * @return array
+	 */
 	protected function completeAssets ($assetsKey = '') {
 		$files = array();
 		$assetsKeyUcFirst = ucfirst($assetsKey);
@@ -198,24 +131,51 @@ class SimpleForm_Core_Base
 		}
 		return array_values($files);
 	}
+	/**
+	 * Absolutize assets path. Every field has cofigured it's supporting css or js file with
+	 * absolute path replacement inside file path string by '__SIMPLE_FORM_DIR__'.
+	 * Replace now the replacement by prepared properties $form->jsAssetsRootDir or $form->cssAssetsRootDir
+	 * to set path into library assets folder by default or to any other user defined paths.
+	 * @param string $path
+	 * @param string $assetsKey
+	 * @return string
+	 */
 	protected function absolutizeAssetPath ($path = '', $assetsKey = '') {
-		$assetsRootDir = $assetsKey == 'js' ? static::$jsAssetsRootDir : static::$cssAssetsRootDir;
+		$assetsRootDir = $assetsKey == 'js' ? $this->jsAssetsRootDir : $this->cssAssetsRootDir;
 		return str_replace(
 			array('__SIMPLE_FORM_DIR__', '\\'),
 			array($assetsRootDir, '/'),
 			$path
 		);
 	}
+	/**
+	 * Render supporting js/css file. Add it after renderer form content or call extenal renderer.
+	 * @param string	$content 
+	 * @param callable	$renderer 
+	 * @param bool		$loadContent 
+	 * @param string	$absPath 
+	 * @return void
+	 */
 	protected function renderAssetFile (& $content, & $renderer, $loadContent, $absPath) {
 		if ($loadContent) {
 			$content .= trim(file_get_contents($absPath), "\n\r;") . ';';
 		} else {
-			$renderer(new SplFileInfo($absPath));
+			call_user_func($renderer, new SplFileInfo($absPath));
 		}
 	}
+	/**
+	 * Process all fields configured validators and add errors where necessary.
+	 * Clean client values to safe values by configured validator classes for each field.
+	 * After all fields are processed, store clean values and error messages into session
+	 * to use them in any possible future request, where is necessary to fill and submit 
+	 * the form again, for example by any error and redirecting to form error url.
+	 * @param array $rawRequestParams
+	 * @return void
+	 */
 	protected function submitFields ($rawRequestParams = array()) {
-		foreach ($this->Fields as $fieldName => $field) {
-			if ($field->Readonly) {
+		foreach ($this->Fields as $fieldName => & $field) {
+			/** @var $field SimpleForm_Core_Field */
+			if ($field->Readonly || $field->Disabled) {
 				$safeValue = $field->GetValue(); // get by SetDefaults(array()) call
 			} else {
 				$safeValue = $this->submitField($fieldName, $rawRequestParams, $field);
@@ -226,18 +186,27 @@ class SimpleForm_Core_Base
 				$this->Data[$fieldName] = $safeValue;
 			}
 		}
-		//xcv($rawRequestParams);
-		//yxcv($this->Data);
+		//x($rawRequestParams);
+		//xxx($this->Data);
 		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, $this->Errors);
 		SimpleForm_Core_Helpers::SetSessionData($this->Id, $this->Data);
 	}
+	/**
+	 * Process single field configured validators and add errors where necessary.
+	 * Clean client value to safe value by configured validator classes for this field.
+	 * Return safe value.
+	 * @param string				$fieldName 
+	 * @param array					$rawRequestParams 
+	 * @param SimpleForm_Core_Field $field 
+	 * @return string|array
+	 */
 	protected function submitField ($fieldName, & $rawRequestParams, SimpleForm_Core_Field & $field) {
 		$result = null;
 		if (!$field->Validators) {
 			$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
 			$result = $submitValue;
 		} else {
-			//xcv($field->Validators);
+			//x($field->Validators);
 			foreach ($field->Validators as $validatorKey => $validator) {
 				if ($validatorKey > 0) {
 					$submitValue = $result; // take previous
@@ -271,7 +240,7 @@ class SimpleForm_Core_Base
 						$errorMsg, array($field->Label ? $field->Label : $fieldName)
 					);
 					$this->AddError(
-						$fieldName, $errorMsg
+						$errorMsg, $fieldName
 					);
 				}
 				$result = $safeValue;

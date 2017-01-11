@@ -1,27 +1,70 @@
 <?php
 
+/**
+ * SimpleForm
+ *
+ * This source file is subject to the BSD 3 License
+ * For the full copyright and license information, please view 
+ * the LICENSE.md file that are distributed with this source code.
+ *
+ * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/simpleform)
+ * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
+ */
+
 require_once('Field.php');
 require_once('Exception.php');
 require_once('View.php');
 
-class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
+abstract class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 {
+	/**
+	 * Form control type, unique type accross all form field types.
+	 * @var string
+	 */
 	public $Type = '';
+	/**
+	 * Form control value.
+	 * @var array
+	 */
 	public $Value = array();
+	/**
+	 * Form control options.
+	 * No specific usage, practical in extended classes.
+	 * @var array
+	 */
 	public $Options = array();
+	/**
+	 * Css class for controls container.
+	 * Specify more css classes as strings separated by space.
+	 * @var string
+	 */
 	public $GroupCssClasses = array();
+	/**
+	 * Css class for controls container label.
+	 * Specify more css classes as strings separated by space.
+	 * @var string
+	 */
 	public $GroupLabelAttrs = array();
+	/**
+	 * Internal common templates how to render field group elements naturaly.
+	 * @var array
+	 */
 	protected static $templates = array(
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
 		'control'			=> '<input id="{id}" name="{name}" type="{type}" value="{value}"{checked}{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	);
+
+
 	/* setters *******************************************************************************/
+
+
 	public function SetOptions ($options) {
 		$this->Options = $options;
 		return $this;
 	}
+
 	public function SetGroupCssClasses ($cssClasses) {
 		if (gettype($cssClasses) == 'array') {
 			$this->GroupCssClasses = $cssClasses;
@@ -42,7 +85,10 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		$this->GroupLabelAttrs[] = $attr;
 		return $this;
 	}
+
+
 	/* core methods **************************************************************************/
+
 	/*
 	// use this constructor in extended class to merge control or label automatic templates
 	public function __construct(array $cfg = array()) {
@@ -50,6 +96,7 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
 	}
 	*/
+
 	public function OnAdded (SimpleForm & $form) {
 		parent::OnAdded($form);
 		if (!$this->Options) {
@@ -57,6 +104,7 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 			throw new SimpleForm_Core_Exception("No 'Options' defined for form field: '$clsName'.");
 		}
 	}
+
 	public function SetUp () {
 		parent::SetUp();
 		if (!$this->Translate) return;
@@ -65,18 +113,21 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		foreach ($this->Options as $key => $value) {
 			if (gettype($value) == 'string') {
 				// most simple key/value array options configuration
-				if ($value) $this->Options[$key] = $translator((string)$value, $lang);
+				if ($value) $this->Options[$key] = call_user_func($translator, (string)$value, $lang);
 			} else if (gettype($value) == 'array') {
 				// advanced configuration with key, text, css class, and any other attributes for single option tag
 				$optObj = (object) $value;
 				$text = isset($optObj->text) ? $optObj->text : $key;
 				if ($text) {
-					$this->Options[$key]['text'] = $translator((string)$text, $lang);
+					$this->Options[$key]['text'] = call_user_func($translator, (string)$text, $lang);
 				}
 			}
 		}
 	}
+
+
 	/* rendering ******************************************************************************/
+
 	public function RenderNaturally () {
 		$result = '';
 		if (
@@ -97,6 +148,7 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		}
 		return $result;
 	}
+
 	public function RenderControlInsideLabel () {
 		if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_NO_LABEL) return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
@@ -117,6 +169,7 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		}
 		return $result;
 	}
+
 	public function RenderControl () {
 		$result = '';
 		foreach ($this->Options as $key => $value) {
@@ -124,6 +177,7 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		}
 		return $result;
 	}
+
 	public function RenderLabel () {
 		if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_NO_LABEL) return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
@@ -135,6 +189,7 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
 		));
 	}
+
 	public function RenderControlItem ($key, $option) {
 		$result = '';
 		$itemControlId = implode(SimpleForm::HTML_IDS_DELIMITER, array(
@@ -182,7 +237,10 @@ class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		}
 		return $result;
 	}
+
+
 	/* protected renderers *******************************************************************/
+
 	protected function renderControlItemCompleteAttrsClassesAndText ($key, $option) {
 		$optionType = gettype($option);
 		$labelAttrsStr = '';
