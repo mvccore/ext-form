@@ -11,10 +11,10 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../../SimpleForm.php');
-require_once('/../Core/Validator.php');
-require_once('/../Core/Field.php');
-require_once('/../Core/View.php');
+require_once(__DIR__.'/../../SimpleForm.php');
+require_once(__DIR__.'/../Core/Validator.php');
+require_once(__DIR__.'/../Core/Field.php');
+require_once(__DIR__.'/../Core/View.php');
 
 class SimpleForm_Validators_ValueInOptions extends SimpleForm_Core_Validator
 {
@@ -29,13 +29,17 @@ class SimpleForm_Validators_ValueInOptions extends SimpleForm_Core_Validator
 			($safeValueType == 'string' && $safeValueLen !== mb_strlen($submitValue)) ||
 			($safeValueType == 'string' && $safeValueLen === 0 && $field->Required)
 		) {
-			$errorMsg = SimpleForm::$DefaultMessages[SimpleForm::VALID];
-			$this->addErrorMsg(
-				$errorMsg, $fieldName, $field, array()
+			$this->addError(
+				$field, 
+				SimpleForm::$DefaultMessages[SimpleForm::VALID], 
+				function ($msg, $args) {
+					return SimpleForm_Core_View::Format($msg, $args);
+				}
 			);
 		}
 		return $safeValue;
 	}
+
 	protected function completeSafeValueByOptions ($submitValue, & $field) {
 		if (gettype($submitValue) == 'array') {
 			$submitValues = $submitValue;
@@ -75,21 +79,5 @@ class SimpleForm_Validators_ValueInOptions extends SimpleForm_Core_Validator
 			}
 		}
 		return $safeValue;
-	}
-	protected function addErrorMsg ($errorMsg, & $fieldName, SimpleForm_Core_Field & $field, array $errorMsgReplacements = array()) {
-		if ($this->Translate) {
-			$translator = $this->Translator;
-			$errorMsg = $translator($errorMsg);
-			$label = $field->Label ? $translator($field->Label) : $fieldName;
-		} else {
-			$label = $field->Label ? $field->Label : $fieldName;
-		}
-		array_unshift($errorMsgReplacements, $label);
-		$errorMsg = SimpleForm_Core_View::Format(
-			$errorMsg, $errorMsgReplacements
-		);
-		$this->Form->AddError(
-			$errorMsg, $fieldName
-		);
 	}
 }

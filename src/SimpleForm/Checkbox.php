@@ -11,8 +11,8 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/Core/Field.php');
-require_once('/Core/View.php');
+require_once('Core/Field.php');
+require_once('Core/View.php');
 
 class SimpleForm_Checkbox extends SimpleForm_Core_Field
 {

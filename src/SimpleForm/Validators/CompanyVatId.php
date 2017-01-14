@@ -11,21 +11,26 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../../SimpleForm.php');
-require_once('CompanyTaxId.php');
+require_once(__DIR__.'/../../SimpleForm.php');
+require_once('CompanyId.php');
 
-class SimpleForm_Validators_CompanyVatId extends SimpleForm_Validators_CompanyTaxId
+class SimpleForm_Validators_CompanyVatId extends SimpleForm_Validators_CompanyId
 {
-	protected static $exceptionMessage = "No company VAT ID verification method for language: '{lang}'.";
+	/**
+	 * Error message key
+	 * @var string
+	 */
 	protected static $errorMessageKey = SimpleForm::VAT_ID;
-	protected function validate_CS ($id = '')
-	{
-		$id = preg_replace('#\s+#', '', $id);
-		if (substr($id, 0, 2) == 'CZ') {
-			$id = substr($id, 2);
-			return parent::validate_CS($id);
-		} else {
-			return FALSE;
-		}
+	/**
+	 * Check company ID by regular expression base.
+	 * Return true if company ID matches.
+	 * @param string $regExpBase
+	 * @param string $locale
+	 * @param string $id
+	 * @return bool
+	 */
+	protected function checkCompanyIdByRegExpBase ($regExpBase, $locale, $id) {
+		preg_match("#^($locale)$regExpBase$#", $id, $matches);
+		return count($matches) > 0;
 	}
 }

@@ -11,8 +11,8 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/Core/Field.php');
-require_once('/Core/View.php');
+require_once(__DIR__.'/Core/Field.php');
+require_once(__DIR__.'/Core/View.php');
 
 class SimpleForm_Range extends SimpleForm_Core_Field
 {
@@ -64,8 +64,10 @@ class SimpleForm_Range extends SimpleForm_Core_Field
 			'name'		=> $this->Name, 
 			'type'		=> $this->Type,
 			'value'		=> $valueStr . '" data-value="' . $valueStr,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
+			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
-		return str_replace('{control}', $result, $this->Wrapper);
+		$wrapperReplacement = '{control}';
+		$wrapper = mb_strpos($wrapperReplacement, $this->Wrapper) !== FALSE ? $this->Wrapper : $wrapperReplacement;
+		return str_replace($wrapperReplacement, $result, $wrapper);
 	}
 }

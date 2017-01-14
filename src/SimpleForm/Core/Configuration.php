@@ -11,7 +11,7 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('SimpleForm/Core/Base.php');
+require_once('Base.php');
 
 abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 {
@@ -85,6 +85,13 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	NUMBER = ':number',
 	INTEGER = ':integer',
 	FLOAT = ':float',
+	DATE = ':date',
+	DATE_TO_LOW = ':dateToLow',
+	DATE_TO_HIGH = ':dateToHigh',
+	TIME = ':time',
+	TIME_TO_LOW = ':timeToLow',
+	TIME_TO_HIGH = ':timeToHigh',
+	DATETIME = ':datetime',
 	PHONE = ':phone',
 	ZIP_CODE = ':zipCode',
 	TAX_ID = ':taxId',
@@ -126,6 +133,13 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 		self::NUMBER				=> "Field '{0}' requires a valid number.",
 		self::INTEGER				=> "Field '{0}' requires a valid integer.",
 		self::FLOAT					=> "Field '{0}' requires a valid float number.",
+		self::DATE					=> "Field '{0}' requires a valid date format: '{1}'.",
+		self::DATE_TO_LOW			=> "Field '{0}' requires date higher or equal to '{1}'.",
+		self::DATE_TO_HIGH			=> "Field '{0}' requires date lower or equal to '{1}'.",
+		self::TIME					=> "Field '{0}' requires a valid time format: '00:00 - 23:59'.",
+		self::TIME_TO_LOW			=> "Field '{0}' requires time higher or equal to '{1}'.",
+		self::TIME_TO_HIGH			=> "Field '{0}' requires time lower or equal to '{1}'.",
+		self::DATETIME				=> "Field '{0}' requires a valid date time format: '{1}'.",
 		self::PHONE					=> "Field '{0}' requires a valid phone number.",
 		self::ZIP_CODE				=> "Field '{0}' requires a valid zip code.",
 		self::TAX_ID				=> "Field '{0}' requires a valid TAX ID.",
@@ -269,6 +283,15 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 * @var string
 	 */
 	public $Lang = '';
+	/**
+	 * Field to create proper validator for zip codes, currencies etc...
+	 * If you are operating in multilanguage project and you want to use
+	 * form field validators for locale specific needs in SimpleForm,
+	 * set $form->Locale property to desired international locale code
+	 * you want to use proper validator functionality.
+	 * @var string
+	 */
+	public $Locale = '';
 	/**
 	 * Form html element css class attribute value.
 	 * To specify more css classes - add more strings separated by space.
@@ -443,6 +466,19 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 
 
 	/**
+	 * Add cross site request forgery error handler.
+	 * By CSRF error by submitting process there shoud be called
+	 * queue of those handlers, for example to deauthenticate the user
+	 * or anything else to secure your app more.
+	 * @static
+	 * @param callable $handler
+	 */
+	public static function AddCsrfErrorHandler (callable $handler) {
+		static::$csrfErrorHandlers[] = $handler;
+	}
+
+
+	/**
 	 * Set form id, required to configure.
 	 * Form Id us used to identify session data, error messages,
 	 * csrf tokens, html form attribute id value and much more.
@@ -499,6 +535,19 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 */
 	public function SetLang ($lang = '') {
 		$this->Lang = $lang;
+		return $this;
+	}
+	/**
+	 * Set $form->Locale, usualy used to create proper validator for zip codes, currencies etc...
+	 * If you are operating in multilanguage project and you want to use
+	 * form field validators for locale specific needs in SimpleForm, 
+	 * set $form->Locale property to desired international locale code
+	 * you want to use proper validator functionality.
+	 * @param string $locale
+	 * @return SimpleForm
+	 */
+	public function SetLocale ($locale = '') {
+		$this->Locale = strtoupper($locale);
 		return $this;
 	}
 	/**
@@ -606,7 +655,12 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 * @return SimpleForm
 	 */
 	public function SetTranslator (callable $translator = null) {
-		$this->Translator = $translator;
+		$this->Translate = is_callable($translator);
+		if ($this->Translate) {
+			$this->Translator = $translator;
+		} else {
+			$this->Translator = NULL;
+		}
 		return $this;
 	}
 	/**
@@ -630,7 +684,7 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 * @param string $fieldsDefaultRenderMode
 	 * @return SimpleForm
 	 */
-	public function SetFieldsDefaultRenderMode ($fieldsDefaultRenderMode = self::FIELD_RENDER_MODE_NORMAL) {
+	public function SetFieldsDefaultRenderMode ($fieldsDefaultRenderMode = SimpleForm::FIELD_RENDER_MODE_NORMAL) {
 		$this->FieldsDefaultRenderMode = $fieldsDefaultRenderMode;
 		return $this;
 	}
@@ -642,7 +696,7 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 * @param mixed $errorsRenderMode
 	 * @return SimpleForm
 	 */
-	public function SetErrorsRenderMode ($errorsRenderMode = self::ERROR_RENDER_MODE_ALL_TOGETHER) {
+	public function SetErrorsRenderMode ($errorsRenderMode = SimpleForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 		$this->ErrorsRenderMode = $errorsRenderMode;
 		return $this;
 	}
@@ -747,18 +801,5 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	public function SetCssRenderer (callable $cssRenderer) {
 		$this->CssRenderer = $cssRenderer;
 		return $this;
-	}
-
-
-	/**
-	 * Add cross site request forgery error handler.
-	 * By CSRF error by submitting process there shoud be called 
-	 * queue of those handlers, for example to deauthenticate the user
-	 * or anything else to secure your app more.
-	 * @static
-	 * @param callable $handler 
-	 */
-	public static function AddCsrfErrorHandler (callable $handler) {
-		static::$csrfErrorHandlers[] = $handler;
 	}
 }

@@ -92,7 +92,9 @@ class SimpleForm extends SimpleForm_Core_Configuration
 			$field->SetUp();
 		}
 		$errors = SimpleForm_Core_Helpers::GetSessionErrors($this->Id);
-		foreach ($errors as $fieldName => $errorMsg) {
+		foreach ($errors as & $errorMsgAndFieldName) {
+			if (!isset($errorMsgAndFieldName[1])) $errorMsgAndFieldName[1] = '';
+			list($errorMsg, $fieldName) = $errorMsgAndFieldName;
 			$this->AddError($errorMsg, $fieldName);
 			if (isset($this->Fields[$fieldName])) {
 				// add error classes into settings config where necessary

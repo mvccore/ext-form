@@ -11,10 +11,10 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../../SimpleForm.php');
-require_once('/../Core/Validator.php');
-require_once('/../Core/Field.php');
-require_once('/../Core/View.php');
+require_once(__DIR__.'/../../SimpleForm.php');
+require_once(__DIR__.'/../Core/Validator.php');
+require_once(__DIR__.'/../Core/Field.php');
+require_once(__DIR__.'/../Core/View.php');
 
 class SimpleForm_Validators_Phone extends SimpleForm_Core_Validator
 {
@@ -41,27 +41,16 @@ class SimpleForm_Validators_Phone extends SimpleForm_Core_Validator
 		}
 
 		if ((mb_strlen($noSpacesValue) === 0 && $field->Required) || !$goodFormat) {
-			$errorMsg = SimpleForm::$DefaultMessages[SimpleForm::PHONE];
-			if ($this->Translate) {
-				$translator = $this->Translator;
-				$errorMsg = $translator($errorMsg);
-				$label = $field->Label ? $translator($field->Label) : $fieldName;
-			} else {
-				$label = $field->Label ? $field->Label : $fieldName;
-			}
-			$errorMsg = SimpleForm_Core_View::Format(
-				$errorMsg, array($label)
-			);
-			$this->Form->AddError(
-				$errorMsg, $fieldName
-			);
+			$this->addError($field, SimpleForm::$DefaultMessages[SimpleForm::PHONE], function ($msg, $args) {
+				return SimpleForm_Core_View::Format($msg, $args);
+			});
 		}
 		return $spacesValue;
 	}
 	protected static function verifyPhoneFormat ($noSpacesValue = '') {
 		$goodFormat = FALSE;
 		if (strlen($noSpacesValue) > 9) {
-			$phoneCallingCode = str_replace('+', '', substr($noSpacesValue, 0, strlen($noSpacesValue) - 9));
+			$phoneCallingCode = str_replace(array('+', '00'), '', substr($noSpacesValue, 0, strlen($noSpacesValue) - 9));
 			if (strpos(self::$countryPhoneCallingCodes, ',' . $phoneCallingCode . ',') !== FALSE) {
 				$goodFormat = TRUE;
 			}

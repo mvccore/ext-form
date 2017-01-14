@@ -100,7 +100,7 @@ class SimpleForm_CheckboxGroup extends SimpleForm_Core_FieldGroup
 				array(), array_merge($this->ControlAttrs, array(
 					'data-min-selected-options' => $this->MinSelectedOptionsCount,
 					'data-max-selected-options' => $this->MaxSelectedOptionsCount,
-				)), $this->CssClasses
+				)), $this->CssClasses, TRUE
 			);
 		} else if ($optionType == 'array') {
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
@@ -126,7 +126,7 @@ class SimpleForm_CheckboxGroup extends SimpleForm_Core_FieldGroup
 				array(), $attrsArr, $classArr
 			);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				array(), $attrsArr, $classArr
+				array(), $attrsArr, $classArr, TRUE
 			);
 		}
 		if ($this->Type == 'checkbox') $this->Required = $originalRequired;
@@ -138,8 +138,8 @@ class SimpleForm_CheckboxGroup extends SimpleForm_Core_FieldGroup
 		if ($this->MinSelectedOptionsCount > 0) {
 			if ($this->Translate) {
 				$translator = $this->Form->Translator;
-				$this->MinSelectedOptionsBubbleMessage = $translator($this->MinSelectedOptionsBubbleMessage);
-				$this->MaxSelectedOptionsBubbleMessage = $translator($this->MaxSelectedOptionsBubbleMessage);
+				$this->MinSelectedOptionsBubbleMessage = call_user_func($translator, $this->MinSelectedOptionsBubbleMessage);
+				$this->MaxSelectedOptionsBubbleMessage = call_user_func($translator, $this->MaxSelectedOptionsBubbleMessage);
 			}
 			$this->MinSelectedOptionsBubbleMessage = SimpleForm_Core_View::Format(
 				$this->MinSelectedOptionsBubbleMessage, array($this->MinSelectedOptionsCount)

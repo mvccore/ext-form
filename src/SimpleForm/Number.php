@@ -52,8 +52,10 @@ class SimpleForm_Number extends SimpleForm_Core_Field
 			'name'		=> $this->Name, 
 			'type'		=> $this->Type,
 			'value'		=> $this->Value,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
+			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
-		return str_replace('{control}', $result, $this->Wrapper);
+		$wrapperReplacement = '{control}';
+		$wrapper = mb_strpos($wrapperReplacement, $this->Wrapper) !== FALSE ? $this->Wrapper : $wrapperReplacement;
+		return str_replace($wrapperReplacement, $result, $wrapper);
 	}
 }

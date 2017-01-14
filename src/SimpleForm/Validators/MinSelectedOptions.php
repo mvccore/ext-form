@@ -11,8 +11,8 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../../SimpleForm.php');
-require_once('/../Core/Field.php');
+require_once(__DIR__.'/../../SimpleForm.php');
+require_once(__DIR__.'/../Core/Field.php');
 require_once('ValueInOptions.php');
 
 class SimpleForm_Validators_MinSelectedOptions extends SimpleForm_Validators_ValueInOptions
@@ -22,8 +22,13 @@ class SimpleForm_Validators_MinSelectedOptions extends SimpleForm_Validators_Val
 		$safeValueCount = count($safeValue);
 		// check if there is enough options checked
 		if ($field->MinSelectedOptionsCount > 0 && $safeValueCount < $field->MinSelectedOptionsCount) {
-			$this->addErrorMsg(
-				SimpleForm::$DefaultMessages[SimpleForm::CHOOSE_MIN_OPTS], $fieldName, $field, array($field->MinSelectedOptionsCount)
+			$this->addError(
+				$field,
+				SimpleForm::$DefaultMessages[SimpleForm::CHOOSE_MIN_OPTS],
+				function ($msg, $args) use (& $field) {
+					$args[] = $field->MinSelectedOptionsCount;
+					return SimpleForm_Core_View::Format($msg, $args);
+				}
 			);
 		}
 		return $safeValue;

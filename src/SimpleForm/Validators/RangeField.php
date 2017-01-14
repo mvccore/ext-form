@@ -11,8 +11,8 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../Core/Validator.php');
-require_once('/../Core/Field.php');
+require_once(__DIR__.'/../Core/Validator.php');
+require_once(__DIR__.'/../Core/Field.php');
 
 class SimpleForm_Validators_RangeField extends SimpleForm_Core_Validator
 {

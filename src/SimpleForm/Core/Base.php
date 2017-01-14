@@ -95,10 +95,9 @@ abstract class SimpleForm_Core_Base
 			}
 		}
 		if (!$result) {
-			$errorMsg = SimpleForm::$DefaultMessages[self::CSRF];
+			$errorMsg = SimpleForm::$DefaultMessages[static::CSRF];
 			if ($this->Translate) {
-				$translator = $this->Translator;
-				$errorMsg = $translator($errorMsg);
+				$errorMsg = call_user_func($this->Translator, $errorMsg);
 			}
 			$this->AddError($errorMsg);
 			foreach (static::$csrfErrorHandlers as $handler) {
@@ -123,10 +122,10 @@ abstract class SimpleForm_Core_Base
 		}
 		$files = array_keys($files);
 		foreach ($files as $key => $file) {
-			if (isset(self::${$assetsKey}[$file])) {
+			if (isset(static::${$assetsKey}[$file])) {
 				unset($files[$key]);
 			} else {
-				self::${$assetsKey}[$file] = TRUE;
+				static::${$assetsKey}[$file] = TRUE;
 			}
 		}
 		return array_values($files);
@@ -233,8 +232,7 @@ abstract class SimpleForm_Core_Base
 				) {
 					$errorMsg = SimpleForm::$DefaultMessages[SimpleForm::REQUIRED];
 					if ($this->Translate) {
-						$translator = $this->Translator;
-						$errorMsg = $translator($errorMsg);
+						$errorMsg = call_user_func($this->Translator, $errorMsg);
 					}
 					$errorMsg = SimpleForm_Core_View::Format(
 						$errorMsg, array($field->Label ? $field->Label : $fieldName)

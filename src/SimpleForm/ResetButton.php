@@ -40,8 +40,7 @@ class SimpleForm_ResetButton extends SimpleForm_Button
 		parent::SetUp();
 		$this->Form->AddJs($this->Js, $this->JsClass, array($this->Name));
 		if ($this->Translate && $this->Value) {
-			$translator = $this->Form->Translator;
-			$this->Value = $translator($this->Value, $this->Form->Lang);
+			$this->Value = call_user_func($this->Form->Translator, $this->Value, $this->Form->Lang);
 		}
 	}
 }

@@ -11,10 +11,10 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../SimpleForm.php');
-require_once('/Core/Field.php');
-require_once('/Core/Exception.php');
-require_once('/Core/View.php');
+require_once(__DIR__.'/../SimpleForm.php');
+require_once('Core/Field.php');
+require_once('Core/Exception.php');
+require_once('Core/View.php');
 
 class SimpleForm_ResetInput extends SimpleForm_Core_Field
 {
@@ -43,8 +43,7 @@ class SimpleForm_ResetInput extends SimpleForm_Core_Field
 		parent::SetUp();
 		$this->Form->AddJs($this->Js, $this->JsClass, array($this->Name));
 		if ($this->Translate && $this->Value) {
-			$translator = $this->Form->Translator;
-			$this->Value = $translator($this->Value, $this->Form->Lang);
+			$this->Value = call_user_func($this->Form->Translator, $this->Value, $this->Form->Lang);
 		}
 	}
 	public function RenderControl () {

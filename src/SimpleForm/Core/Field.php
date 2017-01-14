@@ -22,8 +22,8 @@ abstract class SimpleForm_Core_Field
 	 */
 	public $Id = '';
 	/**
-	 * Form control type, usually used in <input type=""> attr value,
-	 * but unique type accross all form field types.
+	 * Form control type, usually used in <input type=""> 
+	 * attr value, but unique type accross all form field types.
 	 * @var string
 	 */
 	public $Type = '';
@@ -518,13 +518,13 @@ abstract class SimpleForm_Core_Field
 	 * @return void
 	 */
 	public function SetUp () {
+		$form = $this->Form;
+		$translator = $form->Translator;
 		// if there is no specific render mode - set render mode by form
 		if (is_null($this->RenderMode)) {
 			$this->RenderMode = $form->FieldsDefaultRenderMode;
 		}
 		// translate only if Translate options is null or true and translator handler is defined
-		$form = $this->Form;
-		$translator = $form->Translator;
 		if (
 			(is_null($this->Translate) || $this->Translate === TRUE || $form->Translate) && 
 			!is_null($translator)
@@ -680,18 +680,62 @@ abstract class SimpleForm_Core_Field
 
 	/* protected renderers *******************************************************************/
 
+	/**
+	 * Complete HTML attributes and css classes strings for label element
+	 * by selected field variables from $this field context
+	 * only if called $fieldVars item in $this field context is 
+	 * something different then NULL value.
+	 * Automaticly render into attributes and css classes also 
+	 * system field properties: 'Disabled', 'Readonly' and 'Required'
+	 * in boolean mode. All named field context properties translate
+	 * into attributes names and css classes strings from PascalCase into
+	 * dashed-case.
+	 * @param string[] $fieldVars 
+	 * @return string
+	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = array()) {
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->LabelAttrs, $this->CssClasses
 		);
 	}
+	/**
+	 * Complete HTML attributes and css classes strings for control element
+	 * by selected field variables from $this field context
+	 * only if called $fieldVars item in $this field context is
+	 * something different then NULL value.
+	 * Automaticly render into attributes and css classes also
+	 * system field properties: 'Disabled', 'Readonly' and 'Required'
+	 * in boolean mode. All named field context properties translate
+	 * into attributes names and css classes strings from PascalCase into
+	 * dashed-case.
+	 * @param string[] $fieldVars
+	 * @return string
+	 */
 	protected function renderControlAttrsWithFieldVars ($fieldVars = array()) {
 		return $this->renderAttrsWithFieldVars(
-			$fieldVars, $this->ControlAttrs, $this->CssClasses
+			$fieldVars, $this->ControlAttrs, $this->CssClasses, TRUE
 		);
 	}
+	/**
+	 * Complete HTML attributes and css classes strings for label/control element
+	 * by selected field variables from $this field context
+	 * only if called $fieldVars item in $this field context is
+	 * something different then NULL value.
+	 * Automaticly render into attributes and css classes also
+	 * system field properties: 'Disabled', 'Readonly' and 'Required'
+	 * in boolean mode. All named field context properties translate
+	 * into attributes names and css classes strings from PascalCase into
+	 * dashed-case.
+	 * Only if fourth param is false, do not add system attributes in boolean 
+	 * mode into attributes, only into css class.
+	 * @param string[] $fieldVars 
+	 * @param array $fieldAttrs 
+	 * @param string $cssClasses 
+	 * @param bool $controlRendering 
+	 * @return string
+	 */
 	protected function renderAttrsWithFieldVars (
-		$fieldVars = array(), $fieldAttrs = array(), $cssClasses = array()
+		$fieldVars = array(), $fieldAttrs = array(), $cssClasses = array(), $controlRendering = FALSE
 	) {
 		$attrs = array();
 		foreach ($fieldVars as $fieldVar) {
@@ -704,7 +748,7 @@ abstract class SimpleForm_Core_Field
 		foreach ($boolFieldVars as $fieldVar) {
 			if ($this->$fieldVar) {
 				$attrName = lcfirst($fieldVar);
-				$attrs[$attrName] = $attrName;
+				if ($controlRendering) $attrs[$attrName] = $attrName;
 				$cssClasses[] = $attrName;
 			}
 		}

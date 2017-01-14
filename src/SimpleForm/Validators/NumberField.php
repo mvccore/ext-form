@@ -11,10 +11,10 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../../SimpleForm.php');
-require_once('/../Core/Validator.php');
-require_once('/../Core/Field.php');
-require_once('/../Core/View.php');
+require_once(__DIR__.'/../../SimpleForm.php');
+require_once(__DIR__.'/../Core/Validator.php');
+require_once(__DIR__.'/../Core/Field.php');
+require_once(__DIR__.'/../Core/View.php');
 
 class SimpleForm_Validators_NumberField extends SimpleForm_Core_Validator
 {
@@ -55,15 +55,8 @@ class SimpleForm_Validators_NumberField extends SimpleForm_Core_Validator
 		}
 		if (mb_strlen($safeValue) !== mb_strlen($submitValue) || $errorMsgKey) {
 			$errorMsgKey = $errorMsgKey ? $errorMsgKey : $errorMsgKeyCommon ;
-			$errorMsg = SimpleForm::$DefaultMessages[$errorMsgKey];
-			if ($this->Translate) {
-				$translator = $this->Translator;
-				$errorMsg = $translator($errorMsg);
-				$label = $field->Label ? $translator($field->Label) : $fieldName;
-			} else {
-				$label = $field->Label ? $field->Label : $fieldName;
-			}
-			$errorReplacements = array($label);
+			
+			$errorReplacements = array();
 			if ($errorMsgKey == SimpleForm::RANGE) {
 				$errorReplacements[] = $field->Min;
 				$errorReplacements[] = $field->Max;
@@ -72,11 +65,14 @@ class SimpleForm_Validators_NumberField extends SimpleForm_Core_Validator
 			} else if ($errorMsgKey == SimpleForm::LOWER) {
 				$errorReplacements[] = $field->Max;
 			}
-			$errorMsg = SimpleForm_Core_View::Format(
-				$errorMsg, $errorReplacements
-			);
-			$this->Form->AddError(
-				$errorMsg, $fieldName
+
+			$this->addError(
+				$field,
+				SimpleForm::$DefaultMessages[$errorMsgKey],
+				function ($msg, $args) use (& $errorReplacements) {
+					$args = array_merge($args, $errorReplacements);
+					return SimpleForm_Core_View::Format($msg, $args);
+				}
 			);
 		}
 		return $safeValue;

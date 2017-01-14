@@ -46,9 +46,8 @@ class SimpleForm_Text extends SimpleForm_Core_Field
 	public function SetUp () {
 		parent::SetUp();
 		$form = $this->Form;
-		$translator = $form->Translator;
 		if ($this->Translate && $this->Placeholder) {
-			$this->Placeholder = $translator($this->Placeholder, $form->Lang);
+			$this->Placeholder = call_user_func($form->Translator, $this->Placeholder, $form->Lang);
 		}
 	}
 	public function RenderControl () {

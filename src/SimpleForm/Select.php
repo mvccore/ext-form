@@ -11,10 +11,10 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('/../SimpleForm.php');
-require_once('/Core/Field.php');
-require_once('/Core/Exception.php');
-require_once('/Core/View.php');
+require_once(__DIR__.'/../SimpleForm.php');
+require_once('Core/Field.php');
+require_once('Core/Exception.php');
+require_once('Core/View.php');
 
 class SimpleForm_Select extends SimpleForm_Core_Field
 {
@@ -69,7 +69,7 @@ class SimpleForm_Select extends SimpleForm_Core_Field
 		foreach ($this->Options as $key => $value) {
 			if (gettype($value) == 'string') {
 				// most simple key/value array options configuration
-				if ($value) $options[$key] = $translator((string)$value, $lang);
+				if ($value) $options[$key] = call_user_func($translator, (string)$value, $lang);
 			} else if (gettype($value) == 'array') {
 				if (isset($value['options']) && gettype($value['options']) == 'array') {
 					// optgroup options configuration
@@ -86,13 +86,13 @@ class SimpleForm_Select extends SimpleForm_Core_Field
 		$translator = $this->Form->Translator;
 		$label = isset($optGroup['label']) ? $optGroup['label'] : '';
 		if ($label) {
-			$optGroup['label'] = $translator((string)$label, $lang);
+			$optGroup['label'] = call_user_func($translator, (string)$label, $lang);
 		}
 		$options = $optGroup['options'] ? $optGroup['options'] : array();
 		foreach ($options as $key => $value) {
 			if (gettype($value) == 'string') {
 				// most simple key/value array options configuration
-				if ($value) $optGroup['options'][$key] = $translator((string)$value, $lang);
+				if ($value) $optGroup['options'][$key] = call_user_func($translator, (string)$value, $lang);
 			} else if (gettype($value) == 'array') {
 				// advanced configuration with key, text, cs class, and any other attributes for single option tag
 				$this->setUpTranslateOptionsAdvanced($key, $value);
@@ -103,8 +103,7 @@ class SimpleForm_Select extends SimpleForm_Core_Field
 		$optObj = (object) $option;
 		$text = isset($optObj->text) ? $optObj->text : $key;
 		if ($this->Translate && $text) {
-			$translator = $this->Form->Translator;
-			$option['text'] = $translator((string)$text, $this->Form->Lang);
+			$option['text'] = call_user_func($this->Form->Translator, (string)$text, $this->Form->Lang);
 		}
 	}
 	/* rendering ******************************************************************************/

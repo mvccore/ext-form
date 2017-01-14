@@ -95,7 +95,7 @@ class SimpleForm_Core_Helpers
 		$maxSize = ini_get('post_max_size');
 		if (empty($_SERVER['CONTENT_LENGTH'])) {
 			$form->AddError(
-				sprintf(SimpleForm_Core_Base::$DefaultMessages[SimpleForm_Core_Base::EMPTY_CONTENT], $maxSize)
+				sprintf(SimpleForm::$DefaultMessages[SimpleForm::EMPTY_CONTENT], $maxSize)
 			);
 			$form->Result = SimpleForm::RESULT_ERRORS;
 		}
@@ -105,7 +105,7 @@ class SimpleForm_Core_Helpers
 		}
 		if ($maxSize > 0 && isset($_SERVER['CONTENT_LENGTH']) && $maxSize < $_SERVER['CONTENT_LENGTH']) {
 			$form->AddError(
-				sprintf(SimpleForm_Core_Base::$DefaultMessages[SimpleForm_Core_Base::MAX_POST_SIZE], $maxSize)
+				sprintf(SimpleForm::$DefaultMessages[SimpleForm::MAX_POST_SIZE], $maxSize)
 			);
 			$form->Result = SimpleForm::RESULT_ERRORS;
 		}

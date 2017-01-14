@@ -17,25 +17,19 @@ require_once('Field.php');
 abstract class SimpleForm_Core_Validator
 {
 	/** @var SimpleForm */
-	protected $Form = null;
+	protected $Form = NULL;
 
 	/** @var MvcCore_Controller|mixed */
-	protected $Controller = null;
+	protected $Controller = NULL;
 
 	/** @var bool */
-	protected $Translate = null;
+	protected $Translate = FALSE;
 	
 	/** @var callable */
-	protected $Translator = null;
-
-	/** @var array */
-	protected static $validators = array('SafeString');
+	protected $Translator = NULL;
 
 	/** @var string */
 	protected static $validatorsClassNameTemplate = 'SimpleForm_Validators_{ValidatorName}';
-
-	/** @var array */
-	protected static $validatorsKeys = array();
 
 	/** @var array */
 	protected static $instances = array();
@@ -49,24 +43,15 @@ abstract class SimpleForm_Core_Validator
 	 * @return string|array
 	 */
 	public static function Create ($validatorName = '', SimpleForm & $form) {
-		if (!self::$validatorsKeys) {
-			$exploded = explode(',', self::$validators);
-			foreach ($exploded as $value) self::$validatorsKeys[$value] = TRUE;
-		}
-		if (!isset(self::$validatorsKeys[$validatorName])) {
-			if (strpos($validatorName, '_') !== FALSE) { // if not any full class name - go throw exception
-				throw new Exception ("[SimpleForm_Core_Validator] Validator: '$validatorName' doesn't exist.");
-			}
-		}
-		if (!isset(self::$instances[$validatorName])) {
+		if (!isset(static::$instances[$validatorName])) {
 			if (strpos($validatorName, '_') === FALSE) { // if not any full class name - it's built in validator
-				$className = str_replace('{ValidatorName}', $validatorName, self::$validatorsClassNameTemplate);
+				$className = str_replace('{ValidatorName}', $validatorName, static::$validatorsClassNameTemplate);
 			} else {
 				$className = $validatorName;
 			}
-			self::$instances[$validatorName] = new $className($form);
+			static::$instances[$validatorName] = new $className($form);
 		}
-		return self::$instances[$validatorName];
+		return static::$instances[$validatorName];
 	}
 	/**
 	 * Create new validator instance.
@@ -76,7 +61,7 @@ abstract class SimpleForm_Core_Validator
 		$this->Form = $form;
 		$this->Controller = & $form->Controller;
 		$this->Translate = $form->Translate;
-		$this->Translator = $form->Translator;
+		if ($this->Translate) $this->Translator = & $form->Translator;
 	}
 	/**
 	 * Validation template method.
@@ -91,5 +76,23 @@ abstract class SimpleForm_Core_Validator
 	 */
 	public function Validate ($submitValue, $fieldName, SimpleForm_Core_Field & $field) {
 		return $submitValue;
+	}
+
+	protected function addError (SimpleForm_Core_Field & $field, $msg = '', callable $replaceCall = NULL) {
+		$replacing = !is_null($replaceCall);
+		$label = '';
+		if ($replacing) $label = $field->Label ? $field->Label : $field->Name;
+		if ($this->Translate) {
+			$msg = call_user_func($this->Translator, $msg);
+			if ($replacing) {
+				$label = $field->Label ? call_user_func($this->Translator, $field->Label) : $field->Name;
+			}
+		}
+		if ($replacing) {
+			$msg = call_user_func($replaceCall, $msg, array($label));
+		}
+		$this->Form->AddError(
+			$msg, $field->Name
+		);
 	}
 }
