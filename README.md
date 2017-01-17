@@ -4,8 +4,8 @@ to handle and validate submited user data, to manage forms sessions for default 
 to manage user input errors and to extend and develop custom fields and field groups.
 
 ## Features
-- creates, renders and submits dynamicly created web forms
-	without needs to specify any static class for form model (like .NET MVC)
+- creates, renders and submits dynamicly created web forms without needs to specify 
+  any static model class for form model (like in stupid classic .NET MVC forms)
 - possibility to extend form itself, any field, field group or validator
 - automaticly preconfigured controls for specific types with predefined validators
 - every form (GET/POST...) has it's own cross site request forgery (CSRF) hidden 
