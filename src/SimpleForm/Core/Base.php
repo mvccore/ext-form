@@ -1,11 +1,11 @@
 <?php
 
-require_once(__DIR__.'/../../SimpleForm.php');
-require_once(__DIR__.'/../Button.php');
-require_once('Helpers.php');
+//require_once(__DIR__.'/../Button.php');
+//require_once('Helpers.php');
 require_once('Field.php');
-require_once('Validator.php');
-require_once('View.php');
+//include_once('Configuration.php');
+//require_once('Validator.php');
+//require_once('View.php');
 
 abstract class SimpleForm_Core_Base
 {
@@ -87,6 +87,7 @@ abstract class SimpleForm_Core_Base
 	 */
 	protected function checkCsrf ($rawRequestParams = array()) {
 		$result = FALSE;
+		include_once('Helpers.php');
 		$sessionCsrf = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
 		list($name, $value) = $sessionCsrf ? $sessionCsrf : array(NULL, NULL);
 		if (!is_null($name) && !is_null($value)) {
@@ -95,7 +96,8 @@ abstract class SimpleForm_Core_Base
 			}
 		}
 		if (!$result) {
-			$errorMsg = SimpleForm::$DefaultMessages[static::CSRF];
+			include_once('Configuration.php');
+			$errorMsg = SimpleForm_Core_Configuration::$DefaultMessages[SimpleForm_Core_Configuration::CSRF];
 			if ($this->Translate) {
 				$errorMsg = call_user_func($this->Translator, $errorMsg);
 			}
@@ -172,6 +174,9 @@ abstract class SimpleForm_Core_Base
 	 * @return void
 	 */
 	protected function submitFields ($rawRequestParams = array()) {
+		include_once(__DIR__.'/../Button.php');
+		include_once('Helpers.php');
+		include_once('Field.php');
 		foreach ($this->Fields as $fieldName => & $field) {
 			/** @var $field SimpleForm_Core_Field */
 			if ($field->Readonly || $field->Disabled) {
@@ -206,6 +211,9 @@ abstract class SimpleForm_Core_Base
 			$result = $submitValue;
 		} else {
 			//x($field->Validators);
+			include_once('Validator.php');
+			include_once('Configuration.php');
+			include_once('View.php');
 			foreach ($field->Validators as $validatorKey => $validator) {
 				if ($validatorKey > 0) {
 					$submitValue = $result; // take previous
@@ -230,7 +238,7 @@ abstract class SimpleForm_Core_Base
 						(gettype($safeValue) == 'array' && count($safeValue) === 0)
 					) && $field->Required
 				) {
-					$errorMsg = SimpleForm::$DefaultMessages[SimpleForm::REQUIRED];
+					$errorMsg = SimpleForm_Core_Configuration::$DefaultMessages[SimpleForm_Core_Configuration::REQUIRED];
 					if ($this->Translate) {
 						$errorMsg = call_user_func($this->Translator, $errorMsg);
 					}

@@ -11,8 +11,9 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once('Exception.php');
-require_once('View.php');
+require_once('Configuration.php');
+//require_once('Exception.php');
+//require_once('View.php');
 
 abstract class SimpleForm_Core_Field
 {
@@ -257,7 +258,7 @@ abstract class SimpleForm_Core_Field
 	 * @param string $renderMode 
 	 * @return SimpleForm_Core_Field
 	 */
-	public function SetRenderMode ($renderMode = SimpleForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+	public function SetRenderMode ($renderMode = SimpleForm_Core_Configuration::FIELD_RENDER_MODE_LABEL_AROUND) {
 		$this->RenderMode = $renderMode;
 		return $this;
 	}
@@ -469,6 +470,7 @@ abstract class SimpleForm_Core_Field
 			$propertyName = ucfirst($key);
 			if (in_array($propertyName, static::$declaredProtectedProperties)) {
 				$clsName = get_class($this);
+				include_once('Exception.php');
 				throw new SimpleForm_Core_Exception(
 					"Property: '$propertyName' is protected, class: '$clsName'."
 				);
@@ -500,10 +502,11 @@ abstract class SimpleForm_Core_Field
 	public function OnAdded (SimpleForm & $form) {
 		if (!$this->Name) {
 			$clsName = get_class($this);
+			include_once('Exception.php');
 			throw new SimpleForm_Core_Exception("No 'Name' defined for form field: '$clsName'.");
 		}
 		$this->Form = $form;
-		$this->Id = implode(SimpleForm::HTML_IDS_DELIMITER, array(
+		$this->Id = implode(SimpleForm_Core_Configuration::HTML_IDS_DELIMITER, array(
 			$form->Id,
 			$this->Name
 		));
@@ -559,6 +562,7 @@ abstract class SimpleForm_Core_Field
 	 * @return string
 	 */
 	public function RenderTemplate () {
+		include_once('View.php');
 		$view = new SimpleForm_Core_View($this->Form);
 		$this->Field = $this;
 		$view->SetUp($this);
@@ -574,16 +578,16 @@ abstract class SimpleForm_Core_Field
 	 */
 	public function RenderNaturally () {
 		$result = '';
-		if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_NORMAL && $this->Label) {
+		if ($this->RenderMode == SimpleForm_Core_Configuration::FIELD_RENDER_MODE_NORMAL && $this->Label) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_LABEL_AROUND && $this->Label) {
+		} else if ($this->RenderMode == SimpleForm_Core_Configuration::FIELD_RENDER_MODE_LABEL_AROUND && $this->Label) {
 			$result = $this->RenderControlInsideLabel();
-		} else if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_NO_LABEL || !$this->Label) {
+		} else if ($this->RenderMode == SimpleForm_Core_Configuration::FIELD_RENDER_MODE_NO_LABEL || !$this->Label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
-			if ($this->Form->ErrorsRenderMode !== SimpleForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+			if ($this->Form->ErrorsRenderMode !== SimpleForm_Core_Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 				$result = $errors . $result;
-			} else if ($this->Form->ErrorsRenderMode !== SimpleForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+			} else if ($this->Form->ErrorsRenderMode !== SimpleForm_Core_Configuration::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $errors;
 			}
 		}
@@ -602,9 +606,9 @@ abstract class SimpleForm_Core_Field
 			$result = $this->RenderControl() . $this->RenderLabel();
 		}
 		$errors = $this->RenderErrors();
-		if ($this->Form->ErrorsRenderMode == SimpleForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($this->Form->ErrorsRenderMode == SimpleForm_Core_Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($this->Form->ErrorsRenderMode == SimpleForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($this->Form->ErrorsRenderMode == SimpleForm_Core_Configuration::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -615,7 +619,7 @@ abstract class SimpleForm_Core_Field
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_NO_LABEL) return $this->RenderControl();
+		if ($this->RenderMode == SimpleForm_Core_Configuration::FIELD_RENDER_MODE_NO_LABEL) return $this->RenderControl();
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$template = $this->LabelSide == 'left' ? static::$templates->togetherLabelLeft : static::$templates->togetherLabelRight;
 		$result = $this->Form->View->Format($template, array(
@@ -625,9 +629,9 @@ abstract class SimpleForm_Core_Field
 			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
 		));
 		$errors = $this->RenderErrors();
-		if ($this->Form->ErrorsRenderMode == SimpleForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($this->Form->ErrorsRenderMode == SimpleForm_Core_Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($this->Form->ErrorsRenderMode == SimpleForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($this->Form->ErrorsRenderMode == SimpleForm_Core_Configuration::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -651,7 +655,7 @@ abstract class SimpleForm_Core_Field
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->RenderMode == SimpleForm::FIELD_RENDER_MODE_NO_LABEL) return '';
+		if ($this->RenderMode == SimpleForm_Core_Configuration::FIELD_RENDER_MODE_NO_LABEL) return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		return $this->Form->View->Format(static::$templates->label, array(
 			'id'		=> $this->Id, 
@@ -665,7 +669,7 @@ abstract class SimpleForm_Core_Field
 	 */
 	public function RenderErrors () {
 		$result = "";
-		if ($this->Errors && $this->Form->ErrorsRenderMode !== SimpleForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		if ($this->Errors && $this->Form->ErrorsRenderMode !== SimpleForm_Core_Configuration::ERROR_RENDER_MODE_ALL_TOGETHER) {
 			$result .= '<span class="errors">';
 			foreach ($this->Errors as $key => $errorMessage) {
 				$errorCssClass = 'error';
@@ -754,6 +758,7 @@ abstract class SimpleForm_Core_Field
 		}
 		$cssClasses[] = MvcCore_Tool::GetDashedFromPascalCase($this->Name);
 		$attrs['class'] = implode(' ', $cssClasses);
+		include_once('View.php');
 		return SimpleForm_Core_View::RenderAttrs(
 			array_merge($fieldAttrs, $attrs)
 		);

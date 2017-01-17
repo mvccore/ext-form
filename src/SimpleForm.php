@@ -12,10 +12,10 @@
  */
 
 require_once('SimpleForm/Core/Configuration.php');
-require_once('SimpleForm/Core/Exception.php');
+//require_once('SimpleForm/Core/Exception.php');
 require_once('SimpleForm/Core/Field.php');
-require_once('SimpleForm/Core/Helpers.php');
-require_once('SimpleForm/Core/View.php');
+//require_once('SimpleForm/Core/Helpers.php');
+//require_once('SimpleForm/Core/View.php');
 
 class SimpleForm extends SimpleForm_Core_Configuration
 {
@@ -46,6 +46,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		$this->initialized = 1;
 		if (!$this->Id) {
 			$clsName = get_class($this);
+			include_once('SimpleForm/Core/Exception.php');
 			throw new SimpleForm_Core_Exception("No form 'Id' property defined in: '$clsName'.");
 		}
 		if ((is_null($this->Translate) || $this->Translate === TRUE) && !is_null($this->Translator)) {
@@ -91,6 +92,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->SetUp();
 		}
+		include_once('SimpleForm/Core/Helpers.php');
 		$errors = SimpleForm_Core_Helpers::GetSessionErrors($this->Id);
 		foreach ($errors as & $errorMsgAndFieldName) {
 			if (!isset($errorMsgAndFieldName[1])) $errorMsgAndFieldName[1] = '';
@@ -164,6 +166,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 */
 	public function Submit ($rawParams = array()) {
 		if (!$this->initialized) $this->Init();
+		include_once('SimpleForm/Core/Helpers.php');
 		SimpleForm_Core_Helpers::ValidateMaxPostSizeIfNecessary($this);
 		if (!$rawParams) $rawParams = $this->Controller->GetRequest()->Params;
 		$this->checkCsrf($rawParams);
@@ -182,6 +185,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 */
 	public function ClearSession () {
 		$this->Data = array();
+		include_once('SimpleForm/Core/Helpers.php');
 		SimpleForm_Core_Helpers::SetSessionData($this->Id, array());
 		SimpleForm_Core_Helpers::SetSessionCsrf($this->Id, array());
 		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, array());
@@ -192,13 +196,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * @return string
 	 */
 	public function __toString () {
-		try {
-			$result = $this->Render();
-		} catch (Exception $e) {
-			MvcCore_Debug::Exception($e);
-			$result = $e->GetMessage();
-		}
-		return $result;
+		return $this->Render();
 	}
 	/**
 	 * Prepare form and it's fields for rendering.
@@ -229,6 +227,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		$result = '';
 		if (!$this->initialized) $this->Init();
 		if ($this->initialized < 2) $this->prepareForRendering();
+		include_once('SimpleForm/Core/View.php');
 		$this->View = new SimpleForm_Core_View($this);
 		$this->View->SetUp($this);
 		if ($this->TemplatePath) {
@@ -237,6 +236,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 			$result = $this->View->RenderNaturally();
 		}
 		$this->Errors = array();
+		include_once('SimpleForm/Core/Helpers.php');
 		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, array());
 		return $result;
 	}
@@ -290,6 +290,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 */
 	public function RedirectAfterSubmit () {
 		if (!$this->initialized) $this->Init();
+		include_once('SimpleForm/Core/Helpers.php');
 		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, $this->Errors);
 		SimpleForm_Core_Helpers::SetSessionData($this->Id, $this->Data);
 		$url = "";
@@ -338,6 +339,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 			."document.getElementById('".$this->Id."'),"
 			."[".implode(',', $fieldsConstructors)."]"
 		.")";
+		include_once('SimpleForm/Core/View.php');
 		if (class_exists('MvcCore_View') && strpos(MvcCore_View::$Doctype, 'XHTML') !== FALSE) {
 			$result = '/* <![CDATA[ */' . $result . '/* ]]> */';
 		}
@@ -375,6 +377,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		$nowTime = (string)time();
 		$name = '____'.sha1($this->Id . $requestPath . 'name' . $nowTime . $randomHash);
 		$value = sha1($this->Id . $requestPath . 'value' . $nowTime . $randomHash);
+		include_once('SimpleForm/Core/Helpers.php');
 		SimpleForm_Core_Helpers::SetSessionCsrf($this->Id, array($name, $value));
 		return array($name, $value);
 	}
@@ -385,6 +388,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * @return stdClass
 	 */
 	public function GetCsrf () {
+		include_once('SimpleForm/Core/Helpers.php');
 		list($name, $value) = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
 		return (object) array('name' => $name, 'value' => $value);
 	}

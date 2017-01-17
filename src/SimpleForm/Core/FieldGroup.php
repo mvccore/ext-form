@@ -12,8 +12,8 @@
  */
 
 require_once('Field.php');
-require_once('Exception.php');
-require_once('View.php');
+//require_once('Exception.php');
+//require_once('View.php');
 
 abstract class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 {
@@ -219,6 +219,7 @@ abstract class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		parent::OnAdded($form);
 		if (!$this->Options) {
 			$clsName = get_class($this);
+			include_once('Exception.php');
 			throw new SimpleForm_Core_Exception("No 'Options' defined for form field: '$clsName'.");
 		}
 	}
@@ -293,6 +294,7 @@ abstract class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 			array(), $this->GroupLabelAttrs, $this->GroupCssClasses, TRUE
 		);
 		$template = $this->LabelSide == 'left' ? static::$templates->togetherLabelLeft : static::$templates->togetherLabelRight;
+		include_once('View.php');
 		$result = SimpleForm_Core_View::Format($template, array(
 			'id'		=> $this->Id, 
 			'label'		=> $this->Label,
@@ -327,6 +329,7 @@ abstract class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			array(), $this->GroupLabelAttrs, $this->GroupCssClasses
 		);
+		include_once('View.php');
 		return SimpleForm_Core_View::Format(static::$templates->label, array(
 			'id'		=> $this->Id, 
 			'label'		=> $this->Label,
@@ -355,6 +358,7 @@ abstract class SimpleForm_Core_FieldGroup extends SimpleForm_Core_Field
 		} else {
 			$checked = $this->Value === $key;
 		}
+		include_once('View.php');
 		$itemControl = SimpleForm_Core_View::Format(static::$templates->control, array(
 			'id'		=> $itemControlId,
 			'name'		=> $this->Name,

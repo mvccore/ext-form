@@ -13,6 +13,9 @@
 
 //require_once('MvcCore/View.php');
 
+//require_once('Helpers.php');
+//require_once('Configuration.php');
+
 class SimpleForm_Core_View extends MvcCore_View
 {
 	/**
@@ -32,6 +35,7 @@ class SimpleForm_Core_View extends MvcCore_View
 			$this->Controller = $ctrl;
 		}
 		$this->Form = $form;
+		include_once('Helpers.php');
 		$this->View = SimpleForm_Core_Helpers::GetControllerView($ctrl);
 	}
 	/**
@@ -113,7 +117,8 @@ class SimpleForm_Core_View extends MvcCore_View
 	 */
 	public function RenderErrors () {
 		$result = "";
-		if ($this->Form->Errors && $this->Form->ErrorsRenderMode == SimpleForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		include_once('Configuration.php');
+		if ($this->Form->Errors && $this->Form->ErrorsRenderMode == SimpleForm_Core_Configuration::ERROR_RENDER_MODE_ALL_TOGETHER) {
 			$result .= '<div class="errors">';
 			foreach ($this->Form->Errors as & $errorMessageAndFieldName) {
 				$errorMessage = $errorMessageAndFieldName[0];
@@ -137,6 +142,7 @@ class SimpleForm_Core_View extends MvcCore_View
 		$fieldRendered = "";
 		foreach ($this->Form->Fields as $field) {
 			$fieldRendered = $field->Render();
+			include_once(__DIR__ . '/../Hidden.php');
 			if (!($field instanceof SimpleForm_Hidden)) {
 				$fieldRendered = "<div>".$fieldRendered."</div>";
 			}

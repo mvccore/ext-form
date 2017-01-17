@@ -11,7 +11,7 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-require_once(__DIR__.'/../../SimpleForm.php');
+require_once('Configuration.php');
 require_once('Field.php');
 
 abstract class SimpleForm_Core_Validator
@@ -42,7 +42,7 @@ abstract class SimpleForm_Core_Validator
 	 * @throws Exception 
 	 * @return string|array
 	 */
-	public static function Create ($validatorName = '', SimpleForm & $form) {
+	public static function Create ($validatorName = '', SimpleForm_Core_Configuration & $form) {
 		if (!isset(static::$instances[$validatorName])) {
 			if (strpos($validatorName, '_') === FALSE) { // if not any full class name - it's built in validator
 				$className = str_replace('{ValidatorName}', $validatorName, static::$validatorsClassNameTemplate);
@@ -57,7 +57,7 @@ abstract class SimpleForm_Core_Validator
 	 * Create new validator instance.
 	 * @param SimpleForm $form 
 	 */
-	public function __construct (SimpleForm & $form) {
+	public function __construct (SimpleForm_Core_Configuration & $form) {
 		$this->Form = $form;
 		$this->Controller = & $form->Controller;
 		$this->Translate = $form->Translate;

@@ -11,6 +11,5 @@
  * @license		https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md
  */
 
-class SimpleForm_Core_Exception extends Exception
-{ 
+class SimpleForm_Core_Exception extends Exception { 
 }
