@@ -18,7 +18,7 @@ class SimpleForm_Checkbox extends SimpleForm_Core_Field
 {
 	public $Type = 'checkbox';
 	public $LabelSide = 'right';
-	public $Validators = array('Checked');
+	public $Validators = array('SafeString');
 	protected static $templates = array(
 		'control'			=> '<input id="{id}" name="{name}" type="checkbox" value="true"{value}{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',

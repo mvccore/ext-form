@@ -78,53 +78,39 @@ abstract class SimpleForm_Core_Base
 	 */
 	protected static $csrfErrorHandlers = array();
 
-
 	/**
-	 * Get request path with protocol, domain, port, part but without any possible query string.
+	 * Absolutize assets path. Every field has cofigured it's supporting css or js file with
+	 * absolute path replacement inside file path string by '__SIMPLE_FORM_DIR__'.
+	 * Replace now the replacement by prepared properties $form->jsAssetsRootDir or $form->cssAssetsRootDir
+	 * to set path into library assets folder by default or to any other user defined paths.
+	 * @param string $path
+	 * @param string $assetsKey
 	 * @return string
 	 */
-	protected function getRequestPath () {
-		$requestUri = $_SERVER['REQUEST_URI'];
-		$lastQuestionMark = mb_strpos($requestUri, '?');
-		if ($lastQuestionMark !== FALSE) $requestUri = mb_substr($requestUri, 0, $lastQuestionMark);
-		$protocol = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https:' : 'http:';
-		return $protocol . '//' . $_SERVER['HTTP_HOST'] . $requestUri;
+	protected function absolutizeAssetPath ($path = '', $assetsKey = '') {
+		$assetsRootDir = $assetsKey == 'js' ? $this->jsAssetsRootDir : $this->cssAssetsRootDir;
+		return str_replace(
+			array('__SIMPLE_FORM_DIR__', '\\'),
+			array($assetsRootDir, '/'),
+			$path
+		);
 	}
 	/**
-	 * Check cross site request forgery sended tokens from user with session tokens.
-	 * If tokens are diferent, add form error and process csrf error handlers queue.
-	 * @param array $rawRequestParams 
-	 * @return void
+	 * Clean up after rendering.
+	 * - clean session errors
+	 * @return SimpleForm
 	 */
-	protected function checkCsrf ($rawRequestParams = array()) {
-		$result = FALSE;
+	protected function cleanUpRenderIfNecessary () {
+		$this->Errors = array();
 		include_once('Helpers.php');
-		$sessionCsrf = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
-		list($name, $value) = $sessionCsrf ? $sessionCsrf : array(NULL, NULL);
-		if (!is_null($name) && !is_null($value)) {
-			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value) {
-				$result = TRUE;
-			}
-		}
-		if (!$result) {
-			include_once('Configuration.php');
-			$errorMsg = SimpleForm_Core_Configuration::$DefaultMessages[SimpleForm_Core_Configuration::CSRF];
-			if ($this->Translate) {
-				$errorMsg = call_user_func($this->Translator, $errorMsg);
-			}
-			$this->AddError($errorMsg);
-			foreach (static::$csrfErrorHandlers as $handler) {
-				if (is_callable($handler)) {
-					call_user_func($handler, $this);
-				}
-			}
-		}
+		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, array());
+		return $this;
 	}
 	/**
 	 * Complete css or js supporting files to add after rendered form
-	 * or to add them by external renderer. This function process all 
+	 * or to add them by external renderer. This function process all
 	 * added assets and filter them to add them finally only one by once.
-	 * @param string $assetsKey 
+	 * @param string $assetsKey
 	 * @return array
 	 */
 	protected function completeAssets ($assetsKey = '') {
@@ -144,21 +130,56 @@ abstract class SimpleForm_Core_Base
 		return array_values($files);
 	}
 	/**
-	 * Absolutize assets path. Every field has cofigured it's supporting css or js file with
-	 * absolute path replacement inside file path string by '__SIMPLE_FORM_DIR__'.
-	 * Replace now the replacement by prepared properties $form->jsAssetsRootDir or $form->cssAssetsRootDir
-	 * to set path into library assets folder by default or to any other user defined paths.
-	 * @param string $path
-	 * @param string $assetsKey
+	 * Get request path with protocol, domain, port, part but without any possible query string.
 	 * @return string
 	 */
-	protected function absolutizeAssetPath ($path = '', $assetsKey = '') {
-		$assetsRootDir = $assetsKey == 'js' ? $this->jsAssetsRootDir : $this->cssAssetsRootDir;
-		return str_replace(
-			array('__SIMPLE_FORM_DIR__', '\\'),
-			array($assetsRootDir, '/'),
-			$path
-		);
+	protected function getRequestPath () {
+		$requestUri = $_SERVER['REQUEST_URI'];
+		$lastQuestionMark = mb_strpos($requestUri, '?');
+		if ($lastQuestionMark !== FALSE) $requestUri = mb_substr($requestUri, 0, $lastQuestionMark);
+		$protocol = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https:' : 'http:';
+		return $protocol . '//' . $_SERVER['HTTP_HOST'] . $requestUri;
+	}
+	/**
+	 * Prepare for rendering.
+	 * - process all defined fields and call $field->setUp();
+	 *   to prepare field for rendering process.
+	 * - load any possible error from session and set up
+	 *   errors into fields and into form object to render them properly
+	 * - load any possible previously submitted or stored data
+	 *   from session and set up form with them.
+	 * - set initialized state to 2, which means - prepared for rendering
+	 * @return SimpleForm
+	 */
+	protected function prepareRenderIfNecessary () {
+		if ($this->initialized == 2) return $this;
+		if (!$this->initialized) $this->Init();
+		foreach ($this->Fields as & $field) {
+			// translate fields if necessary and do any rendering preparation stuff
+			$field->SetUp();
+		}
+		include_once('Helpers.php');
+		$errors = SimpleForm_Core_Helpers::GetSessionErrors($this->Id);
+		foreach ($errors as & $errorMsgAndFieldName) {
+			if (!isset($errorMsgAndFieldName[1])) $errorMsgAndFieldName[1] = '';
+			list($errorMsg, $fieldName) = $errorMsgAndFieldName;
+			$this->AddError($errorMsg, $fieldName);
+			if (isset($this->Fields[$fieldName])) {
+				// add error classes into settings config where necessary
+				$fieldInstance = & $this->Fields[$fieldName];
+				$fieldInstance->AddCssClass('error');
+				if (method_exists($fieldInstance, 'AddGroupCssClass')) {
+					$fieldInstance->AddGroupCssClass('error');
+				}
+			}
+		}
+		$data = SimpleForm_Core_Helpers::GetSessionData($this->Id);
+		if ($data) $this->SetDefaults($data);
+		include_once('View.php');
+		$this->View = new SimpleForm_Core_View($this);
+		$this->View->SetUp($this);
+		$this->initialized = 2;
+		return $this;
 	}
 	/**
 	 * Render supporting js/css file. Add it after renderer form content or call extenal renderer.
@@ -174,6 +195,66 @@ abstract class SimpleForm_Core_Base
 		} else {
 			call_user_func($renderer, new SplFileInfo($absPath));
 		}
+	}
+	/**
+	 * Process single field configured validators and add errors where necessary.
+	 * Clean client value to safe value by configured validator classes for this field.
+	 * Return safe value.
+	 * @param string				$fieldName
+	 * @param array					$rawRequestParams
+	 * @param SimpleForm_Core_Field $field
+	 * @return string|array
+	 */
+	protected function submitField ($fieldName, & $rawRequestParams, SimpleForm_Core_Field & $field) {
+		$result = null;
+		if (!$field->Validators) {
+			$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
+			$result = $submitValue;
+		} else {
+			include_once('Validator.php');
+			include_once('Configuration.php');
+			include_once('View.php');
+			foreach ($field->Validators as $validatorKey => $validator) {
+				if ($validatorKey > 0) {
+					$submitValue = $result; // take previous
+				} else {
+					// take submitted or default by SetDefault(array()) call in first verification loop
+					$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
+				}
+				if ($validator instanceof Closure) {
+					$safeValue = $validator(
+						$submitValue, $fieldName, $field, $this
+					);
+				} else /*if (gettype($validator) == 'string')*/ {
+					$validatorInstance = SimpleForm_Core_Validator::Create($validator, $this);
+					$safeValue = $validatorInstance->Validate(
+						$submitValue, $fieldName, $field
+					);
+				}
+				// set safe value as field submit result value
+				$result = $safeValue;
+			}
+			if (is_null($safeValue)) $safeValue = '';
+			// add required error message if necessary
+			if (
+				(
+					(gettype($safeValue) == 'string' && strlen($safeValue) === 0) ||
+					(gettype($safeValue) == 'array' && count($safeValue) === 0)
+				) && $field->Required
+			) {
+				$errorMsg = SimpleForm_Core_Configuration::$DefaultMessages[SimpleForm_Core_Configuration::REQUIRED];
+				if ($this->Translate) {
+					$errorMsg = call_user_func($this->Translator, $errorMsg);
+				}
+				$errorMsg = SimpleForm_Core_View::Format(
+					$errorMsg, array($field->Label ? $field->Label : $fieldName)
+				);
+				$this->AddError(
+					$errorMsg, $fieldName
+				);
+			}
+		}
+		return $result;
 	}
 	/**
 	 * Process all fields configured validators and add errors where necessary.
@@ -205,64 +286,5 @@ abstract class SimpleForm_Core_Base
 		//xxx($this->Data);
 		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, $this->Errors);
 		SimpleForm_Core_Helpers::SetSessionData($this->Id, $this->Data);
-	}
-	/**
-	 * Process single field configured validators and add errors where necessary.
-	 * Clean client value to safe value by configured validator classes for this field.
-	 * Return safe value.
-	 * @param string				$fieldName 
-	 * @param array					$rawRequestParams 
-	 * @param SimpleForm_Core_Field $field 
-	 * @return string|array
-	 */
-	protected function submitField ($fieldName, & $rawRequestParams, SimpleForm_Core_Field & $field) {
-		$result = null;
-		if (!$field->Validators) {
-			$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
-			$result = $submitValue;
-		} else {
-			//x($field->Validators);
-			include_once('Validator.php');
-			include_once('Configuration.php');
-			include_once('View.php');
-			foreach ($field->Validators as $validatorKey => $validator) {
-				if ($validatorKey > 0) {
-					$submitValue = $result; // take previous
-				} else {
-					// take submitted or default by SetDefault(array()) call in first verification loop
-					$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
-				}
-				if ($validator instanceof Closure) {
-					$safeValue = $validator(
-						$submitValue, $fieldName, $field, $this
-					);
-				} else /*if (gettype($validator) == 'string')*/ {
-					$validatorInstance = SimpleForm_Core_Validator::Create($validator, $this);
-					$safeValue = $validatorInstance->Validate(
-						$submitValue, $fieldName, $field
-					);
-				}
-				if (is_null($safeValue)) $safeValue = '';
-				if (
-					(
-						(gettype($safeValue) == 'string' && strlen($safeValue) === 0) || 
-						(gettype($safeValue) == 'array' && count($safeValue) === 0)
-					) && $field->Required
-				) {
-					$errorMsg = SimpleForm_Core_Configuration::$DefaultMessages[SimpleForm_Core_Configuration::REQUIRED];
-					if ($this->Translate) {
-						$errorMsg = call_user_func($this->Translator, $errorMsg);
-					}
-					$errorMsg = SimpleForm_Core_View::Format(
-						$errorMsg, array($field->Label ? $field->Label : $fieldName)
-					);
-					$this->AddError(
-						$errorMsg, $fieldName
-					);
-				}
-				$result = $safeValue;
-			}
-		}
-		return $result;
 	}
 }

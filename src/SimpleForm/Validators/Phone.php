@@ -40,7 +40,7 @@ class SimpleForm_Validators_Phone extends SimpleForm_Core_Validator
 			$safeCounter++;
 		}
 
-		if ((mb_strlen($noSpacesValue) === 0 && $field->Required) || !$goodFormat) {
+		if (!$goodFormat) {
 			$this->addError($field, SimpleForm::$DefaultMessages[SimpleForm::PHONE], function ($msg, $args) {
 				return SimpleForm_Core_View::Format($msg, $args);
 			});

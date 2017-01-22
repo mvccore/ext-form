@@ -17,12 +17,17 @@ require_once('Core/View.php');
 class SimpleForm_Number extends SimpleForm_Core_Field
 {
 	public $Type = 'number';
+	public $Size = null;
 	public $Min = null;
 	public $Max = null;
 	public $Step = null;
 	public $Pattern = null;
 	public $Wrapper = '{control}';
 	public $Validators = array('NumberField');
+	public function SetSize ($size) {
+		$this->Size = $size;
+		return $this;
+	}
 	public function SetMin ($min) {
 		$this->Min = $min;
 		return $this;
@@ -45,7 +50,7 @@ class SimpleForm_Number extends SimpleForm_Core_Field
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Min', 'Max', 'Step', 'Pattern')
+			array('Size', 'Min', 'Max', 'Step', 'Pattern')
 		);
 		$result = SimpleForm_Core_View::Format(static::$templates->control, array(
 			'id'		=> $this->Id, 

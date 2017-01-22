@@ -20,7 +20,7 @@ class SimpleForm_Textarea extends SimpleForm_Core_Field
 	public $Rows = null;
 	public $Cols = null;
 	public $Maxlength = null;
-	public $Validators = array('SafeString', 'Maxlength');
+	public $Validators = array('SafeString'/*, 'Maxlength', 'Pattern'*/);
 	protected static $templates = array(
 		'control'	=> '<textarea id="{id}" name="{name}"{attrs}>{value}</textarea>',
 	);
@@ -39,6 +39,12 @@ class SimpleForm_Textarea extends SimpleForm_Core_Field
 	public function SetMaxlength ($maxlength) {
 		$this->Maxlength = $maxlength;
 		return $this;
+	}
+	public function OnAdded (SimpleForm & $form) {
+		parent::OnAdded($form);
+		if ($this->Maxlength && !in_array('Maxlength', $this->Validators)) {
+			$this->Validators[] = 'Maxlength';
+		}
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(

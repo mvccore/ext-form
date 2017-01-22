@@ -24,18 +24,12 @@ class SimpleForm_Validators_Url extends SimpleForm_Core_Validator
 		$safeValue = filter_var($submitValue, FILTER_VALIDATE_URL);
 		$safeValue = $safeValue === FALSE ? '' : $safeValue ;
 		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {
-			$errorMsg = SimpleForm::$DefaultMessages[SimpleForm::URL];
-			if ($this->Translate) {
-				$errorMsg = call_user_func($this->Translator, $errorMsg);
-				$label = $field->Label ? call_user_func($this->Translator, $field->Label) : $fieldName;
-			} else {
-				$label = $field->Label ? $field->Label : $fieldName;
-			}
-			$errorMsg = SimpleForm_Core_View::Format(
-				$errorMsg, array($label)
-			);
-			$this->Form->AddError(
-				$errorMsg, $fieldName
+			$this->addError(
+				$field,
+				SimpleForm::$DefaultMessages[SimpleForm::URL],
+				function ($msg, $args) {
+					return SimpleForm_Core_View::Format($msg, $args);
+				}
 			);
 		}
 		return $safeValue;

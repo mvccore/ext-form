@@ -25,9 +25,7 @@ class SimpleForm_Validators_ValueInOptions extends SimpleForm_Core_Validator
 		$safeValueLen = is_array($safeValue) ? count($safeValue) : mb_strlen($safeValue);
 		if (
 			($safeValueType == 'array' && $safeValueCount !== count($submitValue)) ||
-			($safeValueType == 'array' && $safeValueCount === 0 && $field->Required) ||
-			($safeValueType == 'string' && $safeValueLen !== mb_strlen($submitValue)) ||
-			($safeValueType == 'string' && $safeValueLen === 0 && $field->Required)
+			($safeValueType == 'string' && $safeValueLen !== mb_strlen($submitValue))
 		) {
 			$this->addError(
 				$field, 

@@ -22,7 +22,7 @@ class SimpleForm_Text extends SimpleForm_Core_Field
 	public $Maxlength = null;
 	public $Pattern = null;
 	public $Autocomplete = null;
-	public $Validators = array('SafeString', 'Maxlength', 'Pattern');
+	public $Validators = array('SafeString'/*, 'Maxlength', 'Pattern'*/);
 	public function SetPlaceholder ($placeholder) {
 		$this->Placeholder = $placeholder;
 		return $this;
@@ -42,6 +42,15 @@ class SimpleForm_Text extends SimpleForm_Core_Field
 	public function SetAutocomplete ($autocomplete) {
 		$this->Autocomplete = $autocomplete;
 		return $this;
+	}
+	public function OnAdded (SimpleForm & $form) {
+		parent::OnAdded($form);
+		if ($this->Pattern && !in_array('Pattern', $this->Validators)) {
+			$this->Validators[] = 'Pattern';
+		}
+		if ($this->Maxlength && !in_array('Maxlength', $this->Validators)) {
+			$this->Validators[] = 'Maxlength';
+		}
 	}
 	public function SetUp () {
 		parent::SetUp();

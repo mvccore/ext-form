@@ -19,6 +19,13 @@ require_once('SimpleForm/Core/Field.php');
 
 class SimpleForm extends SimpleForm_Core_Configuration
 {
+	/**
+	 * SimpleForm elements version:
+	 * Comparation by PHP function version_compare();
+	 * @see http://php.net/manual/en/function.version-compare.php
+	 */
+	const VERSION = '3.1.0';
+	
 	/* public methods ************************************************************************/
 	/**
 	 * Create SimpleForm instance.
@@ -34,27 +41,12 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		if (!$this->cssAssetsRootDir) $this->cssAssetsRootDir = $baseLibPath;
 	}
 	/**
-	 * Initialize the form, check if we are initialized or not and do it only once,
-	 * check if any form id exists and initialize translation boolean for better field initializations.
-	 * This is template method. To define any fields in custom SimpleForm class extension,
-	 * do it in Init method and call parent method as first line inside your custom Init method.
-	 * @throws SimpleForm_Core_Exception 
-	 * @return SimpleForm
+	 * Rendering process alias.
+	 * @see SimpleForm::Render();
+	 * @return string
 	 */
-	public function Init () {
-		if ($this->initialized) return $this;
-		$this->initialized = 1;
-		if (!$this->Id) {
-			$clsName = get_class($this);
-			include_once('SimpleForm/Core/Exception.php');
-			throw new SimpleForm_Core_Exception("No form 'Id' property defined in: '$clsName'.");
-		}
-		if ((is_null($this->Translate) || $this->Translate === TRUE) && !is_null($this->Translator)) {
-			$this->Translate = TRUE;
-		} else {
-			$this->Translate = FALSE;
-		}
-		return $this;
+	public function __toString () {
+		return $this->Render();
 	}
 	/**
 	 * Add form submit error and switch form result to zero - error state.
@@ -78,38 +70,15 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		return $this;
 	}
 	/**
-	 * Prepare for rendering.
-	 * - process all defined fields and call $field->setUp();
-	 *   to prepare field for rendering process.
-	 * - load any possible error from session and set up 
-	 *   errors into fields and into form object to render them properly
-	 * - load any possible previously submitted or stored data 
-	 *   from session and set up form with them.
-	 * - set initialized state to 2, which means - prepared for rendering
+	 * Add configured form field instance.
+	 * @param SimpleForm_Core_Field $field
+	 * @return SimpleForm
 	 */
-	protected function prepareForRendering () {
-		foreach ($this->Fields as & $field) {
-			// translate fields if necessary and do any rendering preparation stuff
-			$field->SetUp();
-		}
-		include_once('SimpleForm/Core/Helpers.php');
-		$errors = SimpleForm_Core_Helpers::GetSessionErrors($this->Id);
-		foreach ($errors as & $errorMsgAndFieldName) {
-			if (!isset($errorMsgAndFieldName[1])) $errorMsgAndFieldName[1] = '';
-			list($errorMsg, $fieldName) = $errorMsgAndFieldName;
-			$this->AddError($errorMsg, $fieldName);
-			if (isset($this->Fields[$fieldName])) {
-				// add error classes into settings config where necessary
-				$field = $this->Fields[$fieldName];
-				$field->AddCssClass('error');
-				if (method_exists($field, 'AddGroupCssClass')) {
-					$field->AddGroupCssClass('error');
-				}
-			}
-		}
-		$data = SimpleForm_Core_Helpers::GetSessionData($this->Id);
-		if ($data) $this->SetDefaults($data);
-		$this->initialized = 2;
+	public function AddField (SimpleForm_Core_Field $field) {
+		if (!$this->initialized) $this->Init();
+		$field->OnAdded($this);
+		$this->Fields[$field->Name] = $field;
+		return $this;
 	}
 	/**
 	 * Add multiple configured form field instances, 
@@ -126,57 +95,22 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		return $this;
 	}
 	/**
-	 * Add configured form field instance.
-	 * @param SimpleForm_Core_Field $field 
+	 * Unset submitted $form->Data records wchid are empty string or empty array.
 	 * @return SimpleForm
 	 */
-	public function AddField (SimpleForm_Core_Field $field) {
-		if (!$this->initialized) $this->Init();
-		$field->OnAdded($this);
-		$this->Fields[$field->Name] = $field;
-		return $this;
-	}
-	/**
-	 * Set multiple fields values by key/value array.
-	 * For each key in $defaults array, library try to find form control
-	 * with the same name as array key and that control value is set to array value.
-	 * @param array $defaults 
-	 * @return void
-	 */
-	public function SetDefaults (array $defaults = array()) {
-		if (!$this->initialized) $this->Init();
-		foreach ($defaults as $fieldName => $fieldValue) {
-			if (isset($this->Fields[$fieldName])) {
-				$this->Fields[$fieldName]->SetValue($fieldValue);
-				if ($fieldValue) $this->Data[$fieldName] = $fieldValue;
+	public function UnsetEmptyData () {
+		$dataKeys = array_keys($this->Data);
+		for ($i = 0, $l = count($dataKeys); $i < $l; $i += 1) {
+			$dataKey = $dataKeys[$i];
+			$dataValue = $this->Data[$dataKey];
+			$dataValueType = gettype($dataValue);
+			if ($dataValueType == 'array') {
+				if (!$dataValue) unset($this->Data[$dataKey]);
+			} else {
+				if ($dataValue === '') unset($this->Data[$dataKey]);
 			}
 		}
-	}
-	/**
-	 * Process standard low level submit process.
-	 * If no params passed as first argument, all params from MvcCore request object are used.
-	 * - if fields are not initialized - initialize them by calling $form->Init();
-	 * - check max post size by php configuration if form is posted
-	 * - check cross site request forgery tokens with session tokens
-	 * - process all field values and their validators and call $form->AddError() where necessary
-	 *	 AddError method automaticly switch $form->Result property to zero - 0 means error submit result
-	 * Return array with form result, safe values by validators and errors.
-	 * @param array $rawParams optional
-	 * @return array array($form->Result, $form->Data, $form->Errors);
-	 */
-	public function Submit ($rawParams = array()) {
-		if (!$this->initialized) $this->Init();
-		include_once('SimpleForm/Core/Helpers.php');
-		SimpleForm_Core_Helpers::ValidateMaxPostSizeIfNecessary($this);
-		if (!$rawParams) $rawParams = $this->Controller->GetRequest()->Params;
-		$this->checkCsrf($rawParams);
-		$this->submitFields($rawParams);
-		// xxx($rawParams);
-		return array(
-			$this->Result,
-			$this->Data,
-			$this->Errors,
-		);
+		return $this;
 	}
 	/**
 	 * Clear all session records for this form by form id.
@@ -191,12 +125,99 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, array());
 	}
 	/**
-	 * Rendering process alias.
-	 * @see SimpleForm::Render();
-	 * @return string
+	 * Return current cross site request forgery hidden
+	 * input name and it's value as stdClass.
+	 * Result stdClass elements has keys 'name' and 'value'.
+	 * @return stdClass
 	 */
-	public function __toString () {
-		return $this->Render();
+	public function GetCsrf () {
+		include_once('SimpleForm/Core/Helpers.php');
+		list($name, $value) = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
+		return (object) array('name' => $name, 'value' => $value);
+	}
+	/**
+	 * Return form field instance by form field name if it exists, else return null;
+	 * @param string $fieldName
+	 * @return SimpleForm_Core_Field|null
+	 */
+	public function & GetField ($fieldName = '') {
+		$result = NULL;
+		if (isset($this->Fields[$fieldName])) $result = $this->Fields[$fieldName];
+		return $result;
+	}
+	/**
+	 * Return form field instances by field type string
+	 * @param string $fieldType
+	 * @return SimpleForm_Core_Field[]
+	 */
+	public function & GetFieldsByType ($fieldType = '') {
+		$result = array();
+		foreach ($this->Fields as & $field) {
+			if ($field->Type == $fieldType) $result[$field->Name] = $field;
+		}
+		return $result;
+	}
+	/**
+	 * Return form field instances by field class name
+	 * compared by 'is_a($field, $fieldClassName)' check
+	 * @param string $fieldClassName
+	 * @param bool   $directTypesOnly Get only instances created directly from called type, no extended instances
+	 * @return SimpleForm_Core_Field[]
+	 */
+	public function & GetFieldsByClass ($fieldClassName = '', $directTypesOnly = FALSE) {
+		$result = array();
+		foreach ($this->Fields as & $field) {
+			if (is_a($field, $fieldClassName)) {
+				if ($directTypesOnly) {
+					if (is_subclass_of($field, $fieldClassName)) continue;
+				}
+				$result[$field->Name] = $field;
+			}
+		}
+		return $result;
+	}
+	/**
+	 * Return first catched form field instance by field class name
+	 * compared by 'is_a($field, $fieldClassName)' check
+	 * @param string $fieldClassName
+	 * @param bool   $directTypesOnly Get only instances created directly from called type, no extended instances
+	 * @return SimpleForm_Core_Field|null
+	 */
+	public function & GetFirstFieldsByClass ($fieldClassName = '', $directTypesOnly = FALSE) {
+		$result = NULL;
+		foreach ($this->Fields as & $field) {
+			if (is_a($field, $fieldClassName)) {
+				if ($directTypesOnly) {
+					if (is_subclass_of($field, $fieldClassName)) continue;
+				}
+				$result = $field;
+				break;
+			}
+		}
+		return $result;
+	}
+	/**
+	 * Initialize the form, check if we are initialized or not and do it only once,
+	 * check if any form id exists and initialize translation boolean for better field initializations.
+	 * This is template method. To define any fields in custom SimpleForm class extension,
+	 * do it in Init method and call parent method as first line inside your custom Init method.
+	 * @throws SimpleForm_Core_Exception
+	 * @return SimpleForm
+	 */
+	public function Init () {
+		if ($this->initialized) return $this;
+		$this->initialized = 1;
+		if (!$this->Id) {
+			$clsName = get_class($this);
+			include_once('SimpleForm/Core/Exception.php');
+			throw new SimpleForm_Core_Exception("No form 'Id' property defined in: '$clsName'.");
+		}
+		if ((is_null($this->Translate) || $this->Translate === TRUE) && !is_null($this->Translator)) {
+			$this->Translate = TRUE;
+		} else {
+			$this->Translate = FALSE;
+		}
+		return $this;
 	}
 	/**
 	 * Prepare form and it's fields for rendering.
@@ -209,6 +230,40 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	public function Prepare () {
 		if (!$this->initialized) $this->Init();
 		if ($this->initialized < 2) $this->prepareForRendering();
+	}
+	/**
+	 * After every custom $form->Submit(); function implementation is at the end,
+	 * call this function to redirect user by configured success/error/next step address
+	 * into final place and store everything into session.
+	 * @return void
+	 */
+	public function RedirectAfterSubmit () {
+		if (!$this->initialized) $this->Init();
+		include_once('SimpleForm/Core/Helpers.php');
+		$url = "";
+		if ($this->Result === SimpleForm::RESULT_ERRORS) {
+			$url = $this->ErrorUrl;
+		} else if ($this->Result === SimpleForm::RESULT_SUCCESS) {
+			$url = $this->SuccessUrl;
+			$this->Data = array();
+		} else if ($this->Result === SimpleForm::RESULT_NEXT_PAGE) {
+			$url = $this->NextStepUrl;
+			$this->Data = array();
+		}
+		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, $this->Errors);
+		SimpleForm_Core_Helpers::SetSessionData($this->Id, $this->Data);
+		$ctrl = $this->Controller;
+		$ctrl::Redirect($url, 303);
+	}
+	/**
+	 * Remove configured form field instance by field name.
+	 * @param string $fieldName
+	 * @return SimpleForm
+	 */
+	public function RemoveField ($fieldName = '') {
+		if (!$this->initialized) $this->Init();
+		if (isset($this->Fields[$fieldName])) unset($this->Fields[$fieldName]);
+		return $this;
 	}
 	/**
 	 * Rendering process.
@@ -224,41 +279,14 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * @return string
 	 */
 	public function Render () {
-		$result = '';
-		if (!$this->initialized) $this->Init();
-		if ($this->initialized < 2) $this->prepareForRendering();
-		include_once('SimpleForm/Core/View.php');
-		$this->View = new SimpleForm_Core_View($this);
-		$this->View->SetUp($this);
+		$this->prepareRenderIfNecessary();
 		if ($this->TemplatePath) {
 			$result = $this->View->RenderTemplate();
 		} else {
 			$result = $this->View->RenderNaturally();
 		}
-		$this->Errors = array();
-		include_once('SimpleForm/Core/Helpers.php');
-		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, array());
+		$this->cleanUpRenderIfNecessary();
 		return $result;
-	}
-	/**
-	 * Render form begin.
-	 * Render opening <form> tag and hidden input with csrf tokens.
-	 * @return string
-	 */
-	public function RenderFormBegin () {
-		if (!$this->initialized) $this->Init();
-		return $this->View->RenderFormBegin();
-	}
-	/**
-	 * Render form errors.
-	 * If form is configured to render all errors together at form beginning,
-	 * this function completes all form errors into div.errors with div.error elements
-	 * inside containing each single errors message.
-	 * @return string
-	 */
-	public function RenderErrors () {
-		if (!$this->initialized) $this->Init();
-		return $this->View->RenderErrors();
 	}
 	/**
 	 * Render form content.
@@ -269,8 +297,28 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * @return string
 	 */
 	public function RenderContent () {
-		if (!$this->initialized) $this->Init();
+		$this->prepareRenderIfNecessary();
 		return $this->View->RenderContent();
+	}
+	/**
+	 * Render form errors.
+	 * If form is configured to render all errors together at form beginning,
+	 * this function completes all form errors into div.errors with div.error elements
+	 * inside containing each single errors message.
+	 * @return string
+	 */
+	public function RenderErrors () {
+		$this->prepareRenderIfNecessary();
+		return $this->View->RenderErrors();
+	}
+	/**
+	 * Render form begin.
+	 * Render opening <form> tag and hidden input with csrf tokens.
+	 * @return string
+	 */
+	public function RenderBegin () {
+		$this->prepareRenderIfNecessary();
+		return $this->View->RenderBegin();
 	}
 	/**
 	 * Render form end.
@@ -278,31 +326,32 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * if is form not using external js/css renderers.
 	 * @return string
 	 */
-	public function RenderFormEnd () {
+	public function RenderEnd () {
 		if (!$this->initialized) $this->Init();
-		return $this->View->RenderFormEnd();
+		$result = $this->View->RenderEnd();
+		$this->cleanUpRenderIfNecessary();
+		return $result;
 	}
 	/**
-	 * After every custom $form->Submit(); function implementation is at the end,
-	 * call this function to redirect user by configured success/error/next step address
-	 * into final place and store everything into session.
-	 * @return void
+	 * Render all supporting css files directly
+	 * as <style> tag content inside html template
+	 * called usualy right after form end tag
+	 *	or
+	 * render all supporting css files by external
+	 * css assets renderer to add only links to html head
+	 * linked to external css source files.
+	 * @return string
 	 */
-	public function RedirectAfterSubmit () {
-		if (!$this->initialized) $this->Init();
-		include_once('SimpleForm/Core/Helpers.php');
-		SimpleForm_Core_Helpers::SetSessionErrors($this->Id, $this->Errors);
-		SimpleForm_Core_Helpers::SetSessionData($this->Id, $this->Data);
-		$url = "";
-		if ($this->Result === SimpleForm::RESULT_ERRORS) {
-			$url = $this->ErrorUrl;
-		} else if ($this->Result === SimpleForm::RESULT_SUCCESS) {
-			$url = $this->SuccessUrl;
-		} else if ($this->Result === SimpleForm::RESULT_NEXT_PAGE) {
-			$url = $this->NextStepUrl;
+	public function RenderCss () {
+		if (!$this->Css) return '';
+		$cssFiles = $this->completeAssets('css');
+		$cssFilesContent = '';
+		$loadCssFilesContents = !is_callable($this->CssRenderer);
+		foreach ($cssFiles as $cssFile) {
+			$this->renderAssetFile($cssFilesContent, $this->CssRenderer, $loadCssFilesContents, $cssFile);
 		}
-		$ctrl = $this->Controller;
-		$ctrl::Redirect($url, 303);
+		if (!$loadCssFilesContents) return '';
+		return '<style type="text/css">'.$cssFilesContent.'</style>';
 	}
 	/**
 	 * Render all supporting js files directly
@@ -346,28 +395,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		return '<script type="text/javascript">' . $result . '</script>';
 	}
 	/**
-	 * Render all supporting css files directly 
-	 * as <style> tag content inside html template
-	 * called usualy right after form end tag
-	 *	or
-	 * render all supporting css files by external
-	 * css assets renderer to add only links to html head 
-	 * linked to external css source files.
-	 * @return string
-	 */
-	public function RenderCss () {
-		if (!$this->Css) return '';
-		$cssFiles = $this->completeAssets('css');
-		$cssFilesContent = '';
-		$loadCssFilesContents = !is_callable($this->CssRenderer);
-		foreach ($cssFiles as $cssFile) {
-			$this->renderAssetFile($cssFilesContent, $this->CssRenderer, $loadCssFilesContents, $cssFile);
-		}
-		if (!$loadCssFilesContents) return '';
-		return '<style type="text/css">'.$cssFilesContent.'</style>';
-	}
-	/**
-	 * Create new cresh cross site request forgery tokens,
+	 * Create new fresh cross site request forgery tokens,
 	 * store them into session under $form->Id and return them.
 	 * @return string[]
 	 */
@@ -382,14 +410,58 @@ class SimpleForm extends SimpleForm_Core_Configuration
 		return array($name, $value);
 	}
 	/**
-	 * Return current cross site request forgery hidden 
-	 * input name and it's value as stdClass.
-	 * Result stdClass elements has keys 'name' and 'value'.
-	 * @return stdClass
+	 * Process standard low level submit process.
+	 * If no params passed as first argument, all params from MvcCore request object are used.
+	 * - if fields are not initialized - initialize them by calling $form->Init();
+	 * - check max post size by php configuration if form is posted
+	 * - check cross site request forgery tokens with session tokens
+	 * - process all field values and their validators and call $form->AddError() where necessary
+	 *	 AddError method automaticly switch $form->Result property to zero - 0 means error submit result
+	 * Return array with form result, safe values by validators and errors.
+	 * @param array $rawParams optional
+	 * @return array array($form->Result, $form->Data, $form->Errors);
 	 */
-	public function GetCsrf () {
+	public function Submit ($rawParams = array()) {
+		if (!$this->initialized) $this->Init();
 		include_once('SimpleForm/Core/Helpers.php');
-		list($name, $value) = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
-		return (object) array('name' => $name, 'value' => $value);
+		SimpleForm_Core_Helpers::ValidateMaxPostSizeIfNecessary($this);
+		if (!$rawParams) $rawParams = $this->Controller->GetRequest()->Params;
+		$this->ValidateCsrf($rawParams);
+		$this->submitFields($rawParams);
+		return array(
+			$this->Result,
+			$this->Data,
+			$this->Errors,
+		);
+	}
+	/**
+	 * Check cross site request forgery sended tokens from user with session tokens.
+	 * If tokens are diferent, add form error and process csrf error handlers queue.
+	 * @param array $rawRequestParams
+	 * @return bool
+	 */
+	public function ValidateCsrf ($rawRequestParams = array()) {
+		$result = FALSE;
+		include_once('SimpleForm/Core/Helpers.php');
+		$sessionCsrf = SimpleForm_Core_Helpers::GetSessionCsrf($this->Id);
+		list($name, $value) = $sessionCsrf ? $sessionCsrf : array(NULL, NULL);
+		if (!is_null($name) && !is_null($value)) {
+			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value) {
+				$result = TRUE;
+			}
+		}
+		if (!$result) {
+			$errorMsg = SimpleForm::$DefaultMessages[SimpleForm::CSRF];
+			if ($this->Translate) {
+				$errorMsg = call_user_func($this->Translator, $errorMsg);
+			}
+			$this->AddError($errorMsg);
+			foreach (static::$csrfErrorHandlers as $handler) {
+				if (is_callable($handler)) {
+					$handler($this, $errorMsg);
+				}
+			}
+		}
+		return $result;
 	}
 }

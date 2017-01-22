@@ -370,13 +370,13 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 * Every form control after it is added by $form->AddField() method is added under it's name
 	 * into this public array fith all form fields except csrf input:hidden. Fields are rendered
 	 * by order in this array.
-	 * @var array
+	 * @var SimpleForm_Core_Field[]
 	 */
 	public $Fields = array();
 	/**
 	 * Form submited data from client. After $form->Submit() has been called,
 	 * data are clean and ready to use if $form->Result is in success state.
-	 * @var SimpleForm_Core_Field[]
+	 * @var array
 	 */
 	public $Data = array();
 	/**
@@ -479,15 +479,34 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 
 
 	/**
-	 * Set form id, required to configure.
-	 * Form Id us used to identify session data, error messages,
-	 * csrf tokens, html form attribute id value and much more.
-	 * @requires
-	 * @param string $id
+	 * Add supporting css files.
+	 * @param string $cssFile supporting css file relative path
 	 * @return SimpleForm
 	 */
-	public function SetId ($id = '') {
-		$this->Id = $id;
+	public function AddCss ($cssFile = '') {
+		$this->Css[] = array($cssFile);
+		return $this;
+	}
+	/**
+	 * Add css class (or classes separated by space) and add new value(s)
+	 * after previous css class(es) attribute values. Value is used for
+	 * standard css class attribute for HTML form tag.
+	 * @param string $cssClass
+	 * @return SimpleForm
+	 */
+	public function AddCssClass ($cssClass = '') {
+		$this->CssClass .= (($this->CssClass) ? ' ' : '') . $cssClass;
+		return $this;
+	}
+	/**
+	 * Add supporting javascript files configuration.
+	 * @param string $jsFile				supporting javascript file relative path
+	 * @param string $jsClass				supporting javascript full class name inside supporting file
+	 * @param array  $jsConstructorParams	supporting javascript constructor params
+	 * @return SimpleForm
+	 */
+	public function AddJs ($jsFile = '', $jsClass = 'SimpleForm.FieldType', $jsConstructorParams = array()) {
+		$this->Js[] = array($jsFile, $jsClass, $jsConstructorParams);
 		return $this;
 	}
 	/**
@@ -502,14 +521,84 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 		$this->Action = $url;
 		return $this;
 	}
-    /**
-	 * Set form http submitting method.
-	 * 'post' by default.
-	 * @param string $method
+	/**
+	 * Set form html element additional attributes.
+	 * To add any other attribute for html <form> element,
+	 * set here key/value array, keys will be used as attribute names,
+	 * values as attribute values, simple. All previously configured additional
+	 * attributes will be replaced by this function call.
+	 * @param array $attributes
 	 * @return SimpleForm
 	 */
-    public function SetMethod ($method = '') {
-		$this->Method = $method;
+	public function SetAttributes (array $attributes = array()) {
+		$this->Attributes = $attributes;
+		return $this;
+	}
+	/**
+	 * Set supporting css files.
+	 * All previously configured supporting css files will be replaced.
+	 * Set it as array with all necessary css file paths to add into html response after
+	 * form is rendered by contained fields. Every record in this field has defined:
+	 *	- supporting css file relative path
+	 * @param array $cssFiles
+	 * @return SimpleForm
+	 */
+	public function SetCss (array $cssFiles = array()) {
+		$this->Css = array();
+		foreach ($cssFiles as $item) $this->AddCss($item);
+		return $this;
+	}
+	/**
+	 * Set form html element css class attribute value.
+	 * To specify more css classes - add more strings separated by space
+	 * and overwrite any previous css class attribute value. Value is used for
+	 * standard css class attribute for HTML form tag.
+	 * @param string $cssClass
+	 * @return SimpleForm
+	 */
+	public function SetCssClass ($cssClass = '') {
+		$this->CssClass = $cssClass;
+		return $this;
+	}
+	/**
+	 * Set css external files renderer. If any callable is set, it has
+	 * to accept first param to be SplFileInfo about extenal support css file.
+	 * Css renderer must add supporting css file only once into html
+	 * output result in any custom way, it is it's responsibility.
+	 * @param callable $cssRenderer
+	 * @return SimpleForm
+	 */
+	public function SetCssRenderer (callable $cssRenderer) {
+		$this->CssRenderer = $cssRenderer;
+		return $this;
+	}
+	/**
+	 * Set multiple fields values by key/value array.
+	 * For each key in $defaults array, library try to find form control
+	 * with the same name as array key and that control value is set to array value.
+	 * Only data with existing fields by keys are setted into field values.
+	 * Values are setted by keys keys sensitively by default.
+	 * @param array $defaults			key value array with data to set as values into fields by keys
+	 * @param bool  $keysInsensitive	if true, set up properties from $data with case insensivity
+	 * @return SimpleForm
+	 */
+	public function SetDefaults (array $defaults = array(), $keysInsensitive = FALSE) {
+		if (!$this->initialized) $this->Init();
+		$defaultsKeys = $keysInsensitive ? ',' . implode(',', array_keys($defaults)) . ',' : '' ;
+		foreach ($this->Fields as $fieldName => & $field) {
+			if (isset($defaults[$fieldName])) {
+				$fieldValue = $defaults[$fieldName];
+			} else if ($keysInsensitive) {
+				$defaultsKeyPos = stripos($defaultsKeys, ','.$fieldName.',');
+				if ($defaultsKeyPos === FALSE) continue;
+				$defaultsKey = substr($defaultsKeys, $defaultsKeyPos + 1, strlen($fieldName));
+				$fieldValue = $defaults[$defaultsKey];
+			} else {
+				continue;
+			}
+			$field->SetValue($fieldValue);
+			if ($fieldValue) $this->Data[$fieldName] = $fieldValue;
+		}
 		return $this;
 	}
 	/**
@@ -522,6 +611,86 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	 */
 	public function SetEnctype ($enctype = '') {
 		$this->Enctype = $enctype;
+		return $this;
+	}
+	/**
+	 * Set errors rendering mode, by default configured as string: 'all-together',
+	 * It means all errors are rendered naturaly at form begin together in one html div.errors element.
+	 * If you are using custom template for form - you have to call after form beginning: $this->RenderErrors();
+	 * to get all errors into template.
+	 * @param mixed $errorsRenderMode
+	 * @return SimpleForm
+	 */
+	public function SetErrorsRenderMode ($errorsRenderMode = SimpleForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		$this->ErrorsRenderMode = $errorsRenderMode;
+		return $this;
+	}
+	/**
+	 * Set error url string, relative or absolute, to specify, where
+	 * user will be redirected after form will not be submitted successfully.
+	 * It's not required to use SimpleForm like this, but if you want to use method
+	 * $form->RedirectAfterSubmit(); at the end of custom Submit method implementation,
+	 * you need to specify at least success and error url strings.
+	 * @param string $url
+	 * @return SimpleForm
+	 */
+	public function SetErrorUrl ($url = '') {
+		$this->ErrorUrl = $url;
+		return $this;
+	}
+	/**
+	 * Det default control/label rendering mode for each form control/label.
+	 * Default configured value by default is string 'normal', it means label will be rendered
+	 * before control, only for checkbox and radio button label will be
+	 * rendered after control.
+	 * @param string $fieldsDefaultRenderMode
+	 * @return SimpleForm
+	 */
+	public function SetFieldsDefaultRenderMode ($fieldsDefaultRenderMode = SimpleForm::FIELD_RENDER_MODE_NORMAL) {
+		$this->FieldsDefaultRenderMode = $fieldsDefaultRenderMode;
+		return $this;
+	}
+	/**
+	 * Set form id, required to configure.
+	 * Form Id us used to identify session data, error messages,
+	 * csrf tokens, html form attribute id value and much more.
+	 * @requires
+	 * @param string $id
+	 * @return SimpleForm
+	 */
+	public function SetId ($id = '') {
+		$this->Id = $id;
+		return $this;
+	}
+	/**
+	 * Set supporting javascript files configuration.
+	 * All previously configured supporting javascripts will be replaced.
+	 * Set it as array with all necessary javascript contructors and file paths to add
+	 * into html response after form is rendered by contained fields.
+	 * Every record in this field has to be defined as array with:
+	 *	 0 - string - supporting javascript file relative path
+	 *	 1 - string - supporting javascript full class name inside supporting file
+	 *	 2 - array - supporting javascript constructor params
+	 * @param array $jsFilesClassesAndConstructorParams
+	 * @return SimpleForm
+	 */
+	public function SetJs (array $jsFilesClassesAndConstructorParams = array()) {
+		$this->Js = array();
+		foreach ($jsFilesClassesAndConstructorParams as $item) {
+			$this->AddJs($item[0], $item[1], $item[2]);
+		}
+		return $this;
+	}
+	/**
+	 * Set javascript external files renderer. If any callable is set, it has
+	 * to accept first param to be SplFileInfo about extenal supporting javascript file.
+	 * Javascript renderer has to add supporting javascript file only once into html
+	 * output result in any custom way, it is it's responsibility.
+	 * @param callable $jsRenderer
+	 * @return SimpleForm
+	 */
+	public function SetJsRenderer (callable $jsRenderer) {
+		$this->JsRenderer = $jsRenderer;
 		return $this;
 	}
 	/**
@@ -540,7 +709,7 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 	/**
 	 * Set $form->Locale, usualy used to create proper validator for zip codes, currencies etc...
 	 * If you are operating in multilanguage project and you want to use
-	 * form field validators for locale specific needs in SimpleForm, 
+	 * form field validators for locale specific needs in SimpleForm,
 	 * set $form->Locale property to desired international locale code
 	 * you want to use proper validator functionality.
 	 * @param string $locale
@@ -551,52 +720,13 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 		return $this;
 	}
 	/**
-	 * Set form html element css class attribute value.
-	 * To specify more css classes - add more strings separated by space
-	 * and overwrite any previous css class attribute value. Value is used for
-	 * standard css class attribute for HTML form tag.
-	 * @param string $cssClass
+	 * Set form http submitting method.
+	 * 'post' by default.
+	 * @param string $method
 	 * @return SimpleForm
 	 */
-	public function SetCssClass ($cssClass = '') {
-		$this->CssClass = $cssClass;
-		return $this;
-	}
-	/**
-	 * Add css class (or classes separated by space) and add new value(s)
-	 * after previous css class(es) attribute values. Value is used for
-	 * standard css class attribute for HTML form tag.
-	 * @param string $cssClass
-	 * @return SimpleForm
-	 */
-	public function AddCssClass ($cssClass = '') {
-		$this->CssClass .= (($this->CssClass) ? ' ' : '') . $cssClass;
-		return $this;
-	}
-	/**
-	 * Set form html element additional attributes.
-	 * To add any other attribute for html <form> element,
-	 * set here key/value array, keys will be used as attribute names,
-	 * values as attribute values, simple. All previously configured additional
-	 * attributes will be replaced by this function call.
-	 * @param array $attributes
-	 * @return SimpleForm
-	 */
-	public function SetAttributes (array $attributes = array()) {
-		$this->Attributes = $attributes;
-		return $this;
-	}
-	/**
-	 * Set success url string, relative or absolute, to specify, where
-	 * user will be redirected after form will be submitted successfully.
-	 * It's required to use SimpleForm like this, but if you want to use method
-	 * $form->RedirectAfterSubmit();, at the end of custom Submit method implementation,
-	 * you need to specify at least success and error url strings.
-	 * @param string $url
-	 * @return SimpleForm
-	 */
-	public function SetSuccessUrl ($url = '') {
-		$this->SuccessUrl = $url;
+    public function SetMethod ($method = '') {
+		$this->Method = $method;
 		return $this;
 	}
 	/**
@@ -617,16 +747,54 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 		return $this;
 	}
 	/**
-	 * Set error url string, relative or absolute, to specify, where
-	 * user will be redirected after form will not be submitted successfully.
-	 * It's not required to use SimpleForm like this, but if you want to use method
-	 * $form->RedirectAfterSubmit(); at the end of custom Submit method implementation,
+	 * Default required attribute for all fields in form.
+	 * It this global required setter is configured to TRUE,
+	 * every field with no required configuration after adding
+	 * into form instance is configured automaticly by this efault property
+	 * as required. Default values is FALSE, means not required fields in all forms by default.
+	 * @param bool $required
+	 * @return SimpleForm
+	 */
+	public function SetRequired ($required = TRUE) {
+		$this->Required = $required;
+		return $this;
+	}
+	/**
+	 * Set success url string, relative or absolute, to specify, where
+	 * user will be redirected after form will be submitted successfully.
+	 * It's required to use SimpleForm like this, but if you want to use method
+	 * $form->RedirectAfterSubmit();, at the end of custom Submit method implementation,
 	 * you need to specify at least success and error url strings.
 	 * @param string $url
 	 * @return SimpleForm
 	 */
-	public function SetErrorUrl ($url = '') {
-		$this->ErrorUrl = $url;
+	public function SetSuccessUrl ($url = '') {
+		$this->SuccessUrl = $url;
+		return $this;
+	}
+	/**
+	 * Set form custom template relative path without .phtml extension.
+	 * By default $form->TemplatePath is an empty string, which means there will be used no template and form
+	 * will be rendered naturaly, one field by one without any breaking line html element.
+	 * If there is any path defined, it has to be defined relatively from directory '/App/Views/Scripts'
+	 * to desired template.
+	 * @param string $path
+	 * @return SimpleForm
+	 */
+	public function SetTemplatePath ($path = '') {
+		$this->TemplatePath = str_replace('\\', '/', $path);
+		return $this;
+	}
+	/**
+	 * Set $form->TemplateTypePath property, where current form templates will be located.
+	 * By default, all form templates are located in '/App/Views/Scripts', if you want to change it,
+	 * you can set this property for example to 'Forms' to define base directory for form templates to
+	 * /App/Views/Forms' or by defining this property to '../Forms' to '/App/Forms' etc...
+	 * @param string $typePath
+	 * @return SimpleForm
+	 */
+	public function SetTemplateTypePath ($typePath = '') {
+		$this->TemplateTypePath = str_replace('\\', '/', $typePath);
 		return $this;
 	}
 	/**
@@ -661,145 +829,6 @@ abstract class SimpleForm_Core_Configuration extends SimpleForm_Core_Base
 		} else {
 			$this->Translator = NULL;
 		}
-		return $this;
-	}
-	/**
-	 * Default required attribute for all fields in form.
-	 * It this global required setter is configured to TRUE,
-	 * every field with no required configuration after adding 
-	 * into form instance is configured automaticly by this efault property
-	 * as required. Default values is FALSE, means not required fields in all forms by default.
-	 * @param bool $required
-	 * @return SimpleForm
-	 */
-	public function SetRequired ($required = TRUE) {
-		$this->Required = $required;
-		return $this;
-	}
-	/**
-	 * Det default control/label rendering mode for each form control/label.
-	 * Default configured value by default is string 'normal', it means label will be rendered
-	 * before control, only for checkbox and radio button label will be
-	 * rendered after control.
-	 * @param string $fieldsDefaultRenderMode
-	 * @return SimpleForm
-	 */
-	public function SetFieldsDefaultRenderMode ($fieldsDefaultRenderMode = SimpleForm::FIELD_RENDER_MODE_NORMAL) {
-		$this->FieldsDefaultRenderMode = $fieldsDefaultRenderMode;
-		return $this;
-	}
-	/**
-	 * Set errors rendering mode, by default configured as string: 'all-together',
-	 * It means all errors are rendered naturaly at form begin together in one html div.errors element.
-	 * If you are using custom template for form - you have to call after form beginning: $this->RenderErrors();
-	 * to get all errors into template.
-	 * @param mixed $errorsRenderMode
-	 * @return SimpleForm
-	 */
-	public function SetErrorsRenderMode ($errorsRenderMode = SimpleForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
-		$this->ErrorsRenderMode = $errorsRenderMode;
-		return $this;
-	}
-	/**
-	 * Set form custom template relative path without .phtml extension.
-	 * By default $form->TemplatePath is an empty string, which means there will be used no template and form
-	 * will be rendered naturaly, one field by one without any breaking line html element.
-	 * If there is any path defined, it has to be defined relatively from directory '/App/Views/Scripts'
-	 * to desired template.
-	 * @param string $path 
-	 * @return SimpleForm
-	 */
-	public function SetTemplatePath ($path = '') {
-		$this->TemplatePath = str_replace('\\', '/', $path);
-		return $this;
-	}
-	/**
-	 * Set $form->TemplateTypePath property, where current form templates will be located.
-	 * By default, all form templates are located in '/App/Views/Scripts', if you want to change it,
-	 * you can set this property for example to 'Forms' to define base directory for form templates to
-	 * /App/Views/Forms' or by defining this property to '../Forms' to '/App/Forms' etc...
-	 * @param string $typePath 
-	 * @return SimpleForm
-	 */
-	public function SetTemplateTypePath ($typePath = '') {
-		$this->TemplateTypePath = str_replace('\\', '/', $typePath);
-		return $this;
-	}
-	/**
-	 * Set supporting javascript files configuration.
-	 * All previously configured supporting javascripts will be replaced.
-	 * Set it as array with all necessary javascript contructors and file paths to add
-	 * into html response after form is rendered by contained fields.
-	 * Every record in this field has to be defined as array with:
-	 *	 0 - string - supporting javascript file relative path
-	 *	 1 - string - supporting javascript full class name inside supporting file
-	 *	 2 - array - supporting javascript constructor params
-	 * @param array $jsFilesClassesAndConstructorParams 
-	 * @return SimpleForm
-	 */
-	public function SetJs (array $jsFilesClassesAndConstructorParams = array()) {
-		$this->Js = array();
-		foreach ($jsFilesClassesAndConstructorParams as $item) {
-			$this->AddJs($item[0], $item[1], $item[2]);
-		}
-		return $this;
-	}
-	/**
-	 * Add supporting javascript files configuration.
-	 * @param string $jsFile				supporting javascript file relative path
-	 * @param string $jsClass				supporting javascript full class name inside supporting file
-	 * @param array  $jsConstructorParams	supporting javascript constructor params
-	 * @return SimpleForm
-	 */
-	public function AddJs ($jsFile = '', $jsClass = 'SimpleForm.FieldType', $jsConstructorParams = array()) {
-		$this->Js[] = array($jsFile, $jsClass, $jsConstructorParams);
-		return $this;
-	}
-	/**
-	 * Set supporting css files.
-	 * All previously configured supporting css files will be replaced.
-	 * Set it as array with all necessary css file paths to add into html response after
-	 * form is rendered by contained fields. Every record in this field has defined:
-	 *	- supporting css file relative path
-	 * @param array $cssFiles 
-	 * @return SimpleForm
-	 */
-	public function SetCss (array $cssFiles = array()) {
-		$this->Css = array();
-		foreach ($cssFiles as $item) $this->AddCss($item);
-		return $this;
-	}
-	/**
-	 * Add supporting css files.
-	 * @param string $cssFile supporting css file relative path
-	 * @return SimpleForm
-	 */
-	public function AddCss ($cssFile = '') {
-		$this->Css[] = array($cssFile);
-		return $this;
-	}
-	/**
-	 * Set javascript external files renderer. If any callable is set, it has
-	 * to accept first param to be SplFileInfo about extenal supporting javascript file.
-	 * Javascript renderer has to add supporting javascript file only once into html
-	 * output result in any custom way, it is it's responsibility.
-	 * @param callable $jsRenderer 
-	 * @return SimpleForm
-	 */
-	public function SetJsRenderer (callable $jsRenderer) {
-		$this->JsRenderer = $jsRenderer;
-		return $this;
-	}
-	/**
-	 * Set css external files renderer. If any callable is set, it has
-	 * to accept first param to be SplFileInfo about extenal support css file.
-	 * Css renderer must add supporting css file only once into html
-	 * output result in any custom way, it is it's responsibility.
-	 * @param callable $cssRenderer 
-	 * @return SimpleForm
-	 */
-	public function SetCssRenderer (callable $cssRenderer) {
-		$this->CssRenderer = $cssRenderer;
 		return $this;
 	}
 }

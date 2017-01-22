@@ -149,11 +149,7 @@ class SimpleForm_Validators_CompanyId extends SimpleForm_Core_Validator
 				}
 			}
 		}
-		if (
-			(strlen($safeValue) > 0 && !$result) ||
-			(!$result && $field->Required) || 
-			strlen($safeValue) !== strlen($submitValue)
-		) {
+		if ((strlen($safeValue) > 0 && !$result) || strlen($safeValue) !== strlen($submitValue)) {
 			$this->addError($field, SimpleForm::$DefaultMessages[static::$errorMessageKey], function ($msg, $args) {
 				return SimpleForm_Core_View::Format($msg, $args);
 			});

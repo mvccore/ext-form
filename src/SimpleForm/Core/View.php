@@ -28,13 +28,13 @@ class SimpleForm_Core_View extends MvcCore_View
 	public $View = null;
 
     public function __construct (SimpleForm & $form) {
-		$ctrl = $form->Controller;
+		$ctrl = & $form->Controller;
 		if (class_exists('MvcCore_Controller') && $ctrl instanceof MvcCore_Controller) {
 			parent::__construct($ctrl);
 		} else {
-			$this->Controller = $ctrl;
+			$this->Controller = & $ctrl;
 		}
-		$this->Form = $form;
+		$this->Form = & $form;
 		include_once('Helpers.php');
 		$this->View = SimpleForm_Core_Helpers::GetControllerView($ctrl);
 	}
@@ -74,7 +74,7 @@ class SimpleForm_Core_View extends MvcCore_View
 	public function RenderBegin () {
 		$result = "<form";
 		$attrs = array();
-		$form = $this->Form;
+		$form = & $this->Form;
 		$formProperties = array('Id', 'Action', 'Method', 'Enctype');
 		foreach ($formProperties as $property) {
 			if ($form->$property) $attrs[strtolower($property)] = $form->$property;
@@ -122,7 +122,7 @@ class SimpleForm_Core_View extends MvcCore_View
 			$result .= '<div class="errors">';
 			foreach ($this->Form->Errors as & $errorMessageAndFieldName) {
 				$errorMessage = $errorMessageAndFieldName[0];
-				$fieldName = isset($errorMessageAndFieldName[1]) ? '' : $errorMessageAndFieldName[1] ;
+				$fieldName = isset($errorMessageAndFieldName[1]) ? $errorMessageAndFieldName[1] : '' ;
 				$result .= '<div class="error ' . $fieldName . '">'.$errorMessage.'</div>';
 			}
 			$result .= '</div>';
@@ -140,7 +140,7 @@ class SimpleForm_Core_View extends MvcCore_View
 	public function RenderContent () {
 		$result = "";
 		$fieldRendered = "";
-		foreach ($this->Form->Fields as $field) {
+		foreach ($this->Form->Fields as & $field) {
 			$fieldRendered = $field->Render();
 			include_once(__DIR__ . '/../Hidden.php');
 			if (!($field instanceof SimpleForm_Hidden)) {

@@ -44,7 +44,9 @@ abstract class SimpleForm_Core_Validator
 	 */
 	public static function Create ($validatorName = '', SimpleForm_Core_Configuration & $form) {
 		if (!isset(static::$instances[$validatorName])) {
-			if (strpos($validatorName, '_') === FALSE) { // if not any full class name - it's built in validator
+			$localValidatorClassName = strpos($validatorName, '_') === FALSE && strpos($validatorName, '\\') === FALSE;
+			if ($localValidatorClassName) {
+				// if not any full class name - it's built in validator
 				$className = str_replace('{ValidatorName}', $validatorName, static::$validatorsClassNameTemplate);
 			} else {
 				$className = $validatorName;
@@ -58,7 +60,7 @@ abstract class SimpleForm_Core_Validator
 	 * @param SimpleForm $form 
 	 */
 	public function __construct (SimpleForm_Core_Configuration & $form) {
-		$this->Form = $form;
+		$this->Form = & $form;
 		$this->Controller = & $form->Controller;
 		$this->Translate = $form->Translate;
 		if ($this->Translate) $this->Translator = & $form->Translator;

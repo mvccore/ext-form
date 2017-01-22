@@ -19,7 +19,7 @@ require_once(__DIR__.'/../Core/View.php');
 class SimpleForm_Validators_NumberField extends SimpleForm_Core_Validator
 {
 	public function Validate ($submitValue, $fieldName, SimpleForm_Core_Field & $field) {
-		$submitValue = trim($submitValue);
+		$submitValue = trim((string) $submitValue);
 		$intValueStr = preg_replace("#[^0-9]#", '', $submitValue);
 		$floatValueStr = preg_replace("#[^0-9\.]#", '', str_replace(',','.',$submitValue));
 		$errorMsgKeyCommon = '';

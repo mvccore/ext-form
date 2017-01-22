@@ -22,7 +22,7 @@ class SimpleForm_Validators_Email extends SimpleForm_Core_Validator
 		$submitValue = trim($submitValue);
 		$safeValue = filter_var($submitValue, FILTER_VALIDATE_EMAIL);
 		$safeValue = $safeValue === FALSE ? '' : $safeValue ;
-		if ((mb_strlen($submitValue) !== mb_strlen($safeValue)) || (!$safeValue && $field->Required)) {
+		if (mb_strlen($submitValue) !== mb_strlen($safeValue)) {
 			$this->addError($field, SimpleForm::$DefaultMessages[SimpleForm::EMAIL], function ($msg, $args) {
 				return SimpleForm_Core_View::Format($msg, $args);
 			});
