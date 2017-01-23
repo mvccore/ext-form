@@ -24,7 +24,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '3.1.0';
+	const VERSION = '3.1.3';
 	
 	/* public methods ************************************************************************/
 	/**
@@ -229,7 +229,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 */
 	public function Prepare () {
 		if (!$this->initialized) $this->Init();
-		if ($this->initialized < 2) $this->prepareForRendering();
+		if ($this->initialized < 2) $this->prepareRenderIfNecessary();
 	}
 	/**
 	 * After every custom $form->Submit(); function implementation is at the end,
