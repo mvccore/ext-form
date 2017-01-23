@@ -1,4 +1,9 @@
 # SimpleForm
+
+[![Latest Stable Version](https://img.shields.io/badge/Stable-v3.1.0-brightgreen.svg?style=plastic)](https://github.com/mvccore/example-helloworld/releases)
+[![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://github.com/mvccore/example-helloworld/blob/master/LICENCE.md)
+![PHP Version](https://img.shields.io/badge/PHP->=5.3-brightgreen.svg?style=plastic)
+
 PHP Library to render web forms with classic user controls and some HTML5 controls, 
 to handle and validate submited user data, to manage forms sessions for default values, 
 to manage user input errors and to extend and develop custom fields and field groups.
