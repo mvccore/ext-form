@@ -8,6 +8,11 @@ PHP Library to render web forms with classic user controls and some HTML5 contro
 to handle and validate submited user data, to manage forms sessions for default values, 
 to manage user input errors and to extend and develop custom fields and field groups.
 
+## Installation
+```shell
+composer require mvccore/simpleform
+```
+
 ## Features
 - creates, renders and submits dynamicly created web forms without needs to specify 
   any static model class for form model (like in stupid classic .NET MVC forms)
