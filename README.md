@@ -77,18 +77,18 @@ composer require mvccore/simpleform
 
 ## Basic Example
 
-### Form Initialization At 'Contact::Default' Route:
+### Form Initialization At 'Contact:Default' Route:
 ```php
 $form = (new SimpleForm($mvcCoreController))
 	->SetId('newsletter')
 	->SetAction(
-		$mvcCoreController->Url('Contact::Submit')
+		$mvcCoreController->Url('Contact:Submit')
 	)
 	->SetSuccessUrl(
-		$mvcCoreController->Url('Contact::Submitted')
+		$mvcCoreController->Url('Contact:Submitted')
 	)
 	->SetErrorUrl(
-		$mvcCoreController->Url('Contact::Default')
+		$mvcCoreController->Url('Contact:Default')
 	);
 $email = (new SimpleForm_Email)
 	->SetName('mail')
@@ -101,14 +101,14 @@ $form->AddFields($email, $submit);
 $mvcCoreController->view->newsletterForm = $form;
 ```
 
-### Form Rendering In Template At 'Contact::Default' Route:
+### Form Rendering In Template At 'Contact:Default' Route:
 ```php
 <body>
 	<?php echo $this->newsletterForm; ?>
 </body>
 ```
 
-### Form Submitting At 'Contact::Submit' Route:
+### Form Submitting At 'Contact:Submit' Route:
 ```php
 // ... form initialization again into var: $form 
 
