@@ -24,7 +24,7 @@ class SimpleForm extends SimpleForm_Core_Configuration
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '3.1.3';
+	const VERSION = '3.2.0';
 	
 	/* public methods ************************************************************************/
 	/**
