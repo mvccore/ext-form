@@ -1,8 +1,7 @@
 # MvcCore - SimpleForm
 
 [![Latest Stable Version](https://img.shields.io/badge/Stable-v3.2.2-brightgreen.svg?style=plastic)](https://github.com/mvccore/simpleform/releases)
-[![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/3.0.0/LICENCE.md)
-![PHP Version](https://img.shields.io/badge/PHP->=5.3-brightgreen.svg?style=plastic)
+[![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/simpleform/3.0.0/LICENCE.md)
 
 PHP Library to render web forms with classic user controls and some HTML5 controls, 
 to handle and validate submited user data, to manage forms sessions for default values, 
