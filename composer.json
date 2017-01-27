@@ -1,7 +1,28 @@
 {
-	"name": "mvccore/simpleform",
-	"description": "PHP Library to render web forms with classic user controls and some HTML5 controls, to handle and validate submited user data, to manage forms sessions for default values, to manage user input errors and to extend and develop custom fields and field groups.",
-	"keywords": ["simpleform", "mvccore", "form", "forms", "dynamic forms", "web forms", "html5", "submitting", "validating"],
+	"name": "mvccore/ext-form",
+	"type": "library",
+	"description": "MvcCore Extension - Form - render web forms with classic user controls and some HTML5 controls, to handle and validate submited user data, to manage forms sessions for default values, to manage user input errors and to extend and develop custom fields and field groups.",
+	"keywords": [
+		"mvc", 
+		"mvccore", 
+		"framework", 
+		"extension", 
+		"plugin", 
+		"plug-in", 
+		"ext", 
+		"mvccore", 
+		"mvccore form", 
+		"form", 
+		"forms", 
+		"dynamic forms", 
+		"web forms", 
+		"html5", 
+		"submit", 
+		"submitting", 
+		"validate", 
+		"validation", 
+		"validating"
+	],
 	"license": ["BSD-3-Clause"],
 	"authors": [
 		{
@@ -11,7 +32,7 @@
 	],
 	"require": {
 		"php": ">=5.3.0",
-		"mvccore/mvccore": "^3.0"
+		"mvccore/mvccore": "dev-master"
 	},
 	"autoload": {
 		"classmap": ["src/"]

@@ -1,16 +1,16 @@
-# MvcCore - SimpleForm
+# MvcCore Extension - Form
 
-[![Latest Stable Version](https://img.shields.io/badge/Stable-v3.2.0-brightgreen.svg?style=plastic)](https://github.com/mvccore/simpleform/releases)
-[![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/3.0.0/LICENCE.md)
+[![Latest Stable Version](https://img.shields.io/badge/Stable-v4.0.0-brightgreen.svg?style=plastic)](https://github.com/mvccore/ext-form/releases)
+[![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md)
 ![PHP Version](https://img.shields.io/badge/PHP->=5.3-brightgreen.svg?style=plastic)
 
-PHP Library to render web forms with classic user controls and some HTML5 controls, 
+MvcCore extension to render web forms with classic user controls and some HTML5 controls, 
 to handle and validate submited user data, to manage forms sessions for default values, 
 to manage user input errors and to extend and develop custom fields and field groups.
 
 ## Installation
 ```shell
-composer require mvccore/simpleform
+composer require mvccore/ext-form
 ```
 
 ## Features
@@ -63,23 +63,24 @@ composer require mvccore/simpleform
 - templates rendering automaticly or by custom template
 	- naturaly rendered form has each control in empty div
 	- rendered custom template shoud have any content and CSRF tokens are creted
-	  automaticly by $form->RenderFormBegin();
+	  automaticly by `$form->RenderFormBegin();`
 	- any complex form control shoud have also it's own custom template
 	- any form or control template has automaticly asigned properties 
-	  from it's local $this context and original $controller->View from 
-	  controller passed into form __construct() is asigned into $this->View.
+	  from it's local `$this` context and original `$controller->View` from 
+	  controller passed into form `__construct();` is asigned into `$this->View`.
 - every visible form shoud be translated by configured translator callable
 - form have build-in language property (for translator) and locale for advanced fields and validators
-- posibility to extend build-in javascripts by checkout and extend: "[**mvccore/simpleform-custom-js**](https://github.com/mvccore/simpleform-custom-js)"
+- posibility to extend build-in javascripts by checkout and extend: "[**mvccore/ext-form-js**](https://github.com/mvccore/ext-form-js)"
 
 ## Examples
-- [**Application Questionnaires (mvccore/app-questionnaires)**](https://github.com/mvccore/app-questionnaires)
+- [**Example - CD Collection (mvccore/example-cdcol)**](https://github.com/mvccore/example-cdcol)
+- [**Application - Questionnaires (mvccore/app-questionnaires)**](https://github.com/mvccore/app-questionnaires)
 
 ## Basic Example
 
 ### Form Initialization At 'Contact:Default' Route:
 ```php
-$form = (new SimpleForm($mvcCoreController))
+$form = (new \MvcCore\Ext\Form($mvcCoreController))
 	->SetId('newsletter')
 	->SetAction(
 		$mvcCoreController->Url('Contact:Submit')
@@ -90,11 +91,11 @@ $form = (new SimpleForm($mvcCoreController))
 	->SetErrorUrl(
 		$mvcCoreController->Url('Contact:Default')
 	);
-$email = (new SimpleForm_Email)
+$email = (new \MvcCore\Ext\Form\Email)
 	->SetName('mail')
 	->SetLabel('Your email:')
 	->SetRequired();
-$submit = (new SimpleForm_SubmitButton)
+$submit = (new \MvcCore\Ext\Form\SubmitButton)
 	->SetName('submit')
 	->SetValue('Send');
 $form->AddFields($email, $submit);
@@ -113,11 +114,11 @@ $mvcCoreController->view->newsletterForm = $form;
 // ... form initialization again into var: $form 
 
 // process all configured validators by: $form->Submit();
-list ($result, $data, $errors) = $form->Submit();
+list($result, $data, $errors) = $form->Submit();
 
 // if data has been submitted successfuly, 
 // store user email somewhere in database:
-if ($result == SimpleForm::RESULT_SUCCESS) {
+if ($result == \MvcCore\Ext\Form::RESULT_SUCCESS) {
 	// store user email somewhere by any custom model class (User):
 	(new User())->SetEmail($data['mail'])->Save();
 	// clear form session space to not display filled 
