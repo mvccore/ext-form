@@ -11,12 +11,12 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Validators;
+
 require_once(__DIR__.'/../../Form.php');
 require_once(__DIR__.'/../Core/Field.php');
 require_once(__DIR__.'/../Core/View.php');
 require_once('Date.php');
-
-namespace MvcCore\Ext\Form\Validators;
 
 use
 	MvcCore\Ext\Form,

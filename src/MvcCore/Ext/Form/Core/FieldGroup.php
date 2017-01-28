@@ -11,12 +11,12 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Core;
+
 include_once(__DIR__.'/../../Form.php');
 require_once('Field.php');
 //require_once('Exception.php');
 //require_once('View.php');
-
-namespace MvcCore\Ext\Form\Core;
 
 abstract class FieldGroup extends Field
 {
@@ -88,7 +88,7 @@ abstract class FieldGroup extends Field
 	public $GroupLabelAttrs = array();
 	/**
 	 * Internal common templates how to render field group elements naturaly.
-	 * @var array
+	 * @var array|\stdClass
 	 */
 	protected static $templates = array(
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',

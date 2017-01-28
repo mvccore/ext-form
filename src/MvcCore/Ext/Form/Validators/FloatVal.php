@@ -11,18 +11,18 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Validators;
+
 require_once(__DIR__.'/../../Form.php');
 require_once(__DIR__.'/../Core/Validator.php');
 require_once(__DIR__.'/../Core/Field.php');
 require_once(__DIR__.'/../Core/View.php');
 
-namespace MvcCore\Ext\Form\Validators;
-
 use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class Float extends Core\Validator
+class FloatVal extends Core\Validator
 {
 	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
 		$submitValue = trim($submitValue);

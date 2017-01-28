@@ -11,11 +11,11 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Core;
+
 require_once('Configuration.php');
 //require_once('Exception.php');
 //require_once('View.php');
-
-namespace MvcCore\Ext\Form\Core;
 
 abstract class Field
 {

@@ -11,9 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-require_once('Core/Field.php');
-
 namespace MvcCore\Ext\Form;
+
+require_once('Core/Field.php');
 
 class NoType extends Core\Field
 {

@@ -11,13 +11,13 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext;
+
 require_once('Form/Core/Configuration.php');
 //require_once('Form/Core/Exception.php');
 require_once('Form/Core/Field.php');
 //require_once('Form/Core/Helpers.php');
 //require_once('Form/Core/View.php');
-
-namespace MvcCore\Ext;
 
 class Form extends Form\Core\Configuration
 {

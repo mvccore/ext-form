@@ -11,9 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-require_once('Select.php');
-
 namespace MvcCore\Ext\Form;
+
+require_once('Select.php');
 
 class CountrySelect extends Select
 {

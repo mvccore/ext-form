@@ -11,9 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-require_once('Base.php');
-
 namespace MvcCore\Ext\Form\Core;
+
+require_once('Base.php');
 
 abstract class Configuration extends Base
 {

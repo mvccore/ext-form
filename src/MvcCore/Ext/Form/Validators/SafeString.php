@@ -11,6 +11,8 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Validators;
+
 require_once(__DIR__.'/../../Form.php');
 require_once(__DIR__.'/../Core/Validator.php');
 require_once(__DIR__.'/../Core/Field.php');
@@ -20,8 +22,6 @@ require_once(__DIR__.'/../Core/View.php');
  * THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS!
  * To prevent sql injects - use PDO::prepare and PDO::execute.
  */
-
-namespace MvcCore\Ext\Form\Validators;
 
 use
 	MvcCore\Ext\Form,

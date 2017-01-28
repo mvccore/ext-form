@@ -11,9 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-require_once('Date.php');
-
 namespace MvcCore\Ext\Form;
+
+require_once('Date.php');
 
 class Time extends Date
 {

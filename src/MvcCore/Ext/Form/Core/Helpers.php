@@ -11,10 +11,10 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Core;
+
 require_once(__DIR__.'/../../Form.php');
 require_once('Base.php');
-
-namespace MvcCore\Ext\Form\Core;
 
 use \MvcCore\Ext\Form;
 

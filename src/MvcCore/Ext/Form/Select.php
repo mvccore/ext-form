@@ -11,12 +11,12 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form;
+
 require_once(__DIR__.'/../Form.php');
 require_once('Core/Field.php');
 //require_once('Core/Exception.php');
 //require_once('Core/View.php');
-
-namespace MvcCore\Ext\Form;
 
 class Select extends Core\Field
 {

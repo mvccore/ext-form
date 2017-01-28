@@ -11,9 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-require_once('Button.php');
-
 namespace MvcCore\Ext\Form;
+
+require_once('Button.php');
 
 class SubmitButton extends Button
 {

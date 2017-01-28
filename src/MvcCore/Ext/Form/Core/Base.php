@@ -11,14 +11,14 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
+namespace MvcCore\Ext\Form\Core;
+
 //require_once(__DIR__.'/../Button.php');
 //require_once('Helpers.php');
 require_once('Field.php');
 //include_once('Configuration.php');
 //require_once('Validator.php');
 //require_once('View.php');
-
-namespace MvcCore\Ext\Form\Core;
 
 use MvcCore\Ext\Form;
 
