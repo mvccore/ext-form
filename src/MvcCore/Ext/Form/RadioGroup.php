@@ -22,6 +22,6 @@ class RadioGroup extends Core\FieldGroup
 	public $Validators = array('ValueInOptions');
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
+		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
 	}
 }

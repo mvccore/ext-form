@@ -28,7 +28,7 @@ class Select extends Core\Field
 	public $FirstOptionText = '';
 	public $Options = array();
 	public $Validators = array('ValueInOptions');
-	protected static $templates = array(
+	public static $Templates = array(
 		'control'	=> '<select id="{id}" name="{name}"{multiple}{size}{attrs}>{options}</select>',
 		'option'	=> '<option value="{value}"{selected}{class}{attrs}>{text}</option>',
 		'optgroup'	=> '<optgroup{label}>{options}</optgroup>',
@@ -56,7 +56,7 @@ class Select extends Core\Field
 	/* core methods **************************************************************************/
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
+		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
 	}
 	public function OnAdded (\MvcCore\Ext\Form & $form) {
 		parent::OnAdded($form);
@@ -116,7 +116,7 @@ class Select extends Core\Field
 		$optionsStr = $this->RenderControlOptions();
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->control, array(
+		return Core\View::Format(static::$Templates->control, array(
 			'id'		=> $this->Id, 
 			'name'		=> $this->Multiple ? $this->Name . '[]' : $this->Name , 
 			'multiple'	=> $this->Multiple ? ' multiple="multiple"' : '',
@@ -162,7 +162,7 @@ class Select extends Core\Field
 			$selected = $this->Value === $key;
 		}
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->option, array(
+		return Core\View::Format(static::$Templates->option, array(
 			'value'		=> $key,
 			'selected'	=> $selected ? ' selected="selected"' : '',
 			'class'		=> '',
@@ -183,7 +183,7 @@ class Select extends Core\Field
 		}
 		$label = isset($optGroup['label']) ? $optGroup['label'] : '';
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->optgroup, array(
+		return Core\View::Format(static::$Templates->optgroup, array(
 			'label'		=> $label ? ' label="' . $label . '"' : '',
 			'options'	=> $optionsStr
 		));
@@ -199,7 +199,7 @@ class Select extends Core\Field
 			$selected = $this->Value === $key;
 		}
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->option, array(
+		return Core\View::Format(static::$Templates->option, array(
 			'value'		=> $value,
 			'selected'	=> $selected ? ' selected="selected"' : '',
 			'class'		=> isset($option['class']) ? ' class="' . $option['class'] . '"' : '',

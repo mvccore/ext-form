@@ -54,7 +54,7 @@ class ResetInput extends Core\Field
 			array('Accesskey',)
 		);
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->control, array(
+		return Core\View::Format(static::$Templates->control, array(
 			'id'		=> $this->Id, 
 			'name'		=> $this->Name, 
 			'type'		=> $this->Type,

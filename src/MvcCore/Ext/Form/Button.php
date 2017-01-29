@@ -24,12 +24,12 @@ class Button extends Core\Field
 	public $Value = 'OK';
 	public $RenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 	public $Accesskey = null;
-	protected static $templates = array(
+	public static $Templates = array(
 		'control'	=> '<button id="{id}" name="{name}" type="{type}"{attrs}>{value}</button>',
 	);
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
+		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
 	}
 	public function SetAccesskey ($accesskey) {
 		$this->Accesskey = $accesskey;
@@ -54,7 +54,7 @@ class Button extends Core\Field
 			array('Accesskey',)
 		);
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->control, array(
+		return Core\View::Format(static::$Templates->control, array(
 			'id'		=> $this->Id, 
 			'name'		=> $this->Name, 
 			'type'		=> $this->Type,

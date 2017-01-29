@@ -90,7 +90,7 @@ abstract class FieldGroup extends Field
 	 * Internal common templates how to render field group elements naturaly.
 	 * @var array|\stdClass
 	 */
-	protected static $templates = array(
+	public static $Templates = array(
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
 		'control'			=> '<input id="{id}" name="{name}" type="{type}" value="{value}"{checked}{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
@@ -201,7 +201,7 @@ abstract class FieldGroup extends Field
 	// use this constructor in extended class to merge control or label automatic templates
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
+		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
 	}
 	*/
 
@@ -296,7 +296,7 @@ abstract class FieldGroup extends Field
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			array(), $this->GroupLabelAttrs, $this->GroupCssClasses, TRUE
 		);
-		$template = $this->LabelSide == 'left' ? static::$templates->togetherLabelLeft : static::$templates->togetherLabelRight;
+		$template = $this->LabelSide == 'left' ? static::$Templates->togetherLabelLeft : static::$Templates->togetherLabelRight;
 		include_once('View.php');
 		$result = View::Format($template, array(
 			'id'		=> $this->Id, 
@@ -333,7 +333,7 @@ abstract class FieldGroup extends Field
 			array(), $this->GroupLabelAttrs, $this->GroupCssClasses
 		);
 		include_once('View.php');
-		return View::Format(static::$templates->label, array(
+		return View::Format(static::$Templates->label, array(
 			'id'		=> $this->Id, 
 			'label'		=> $this->Label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
@@ -362,7 +362,7 @@ abstract class FieldGroup extends Field
 			$checked = $this->Value === $key;
 		}
 		include_once('View.php');
-		$itemControl = View::Format(static::$templates->control, array(
+		$itemControl = View::Format(static::$Templates->control, array(
 			'id'		=> $itemControlId,
 			'name'		=> $this->Name,
 			'type'		=> $this->Type,
@@ -372,7 +372,7 @@ abstract class FieldGroup extends Field
 		));
 		if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 			// control and label
-			$itemLabel = View::Format(static::$templates->label, array(
+			$itemLabel = View::Format(static::$Templates->label, array(
 				'id'		=> $itemControlId, 
 				'label'		=> $itemLabelText,
 				'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '', 
@@ -381,7 +381,7 @@ abstract class FieldGroup extends Field
 		} else if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND) {
 			// control inside label
 			$result = View::Format(
-				static::$templates->{'togetherLabel' . (($this->LabelSide == 'left') ? 'Right' : 'Left')}, 
+				static::$Templates->{'togetherLabel' . (($this->LabelSide == 'left') ? 'Right' : 'Left')}, 
 				array(
 					'id'		=> $itemControlId, 
 					'label'		=> $itemLabelText,

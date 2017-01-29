@@ -24,12 +24,12 @@ class Textarea extends Core\Field
 	public $Cols = null;
 	public $Maxlength = null;
 	public $Validators = array('SafeString'/*, 'Maxlength', 'Pattern'*/);
-	protected static $templates = array(
+	public static $Templates = array(
 		'control'	=> '<textarea id="{id}" name="{name}"{attrs}>{value}</textarea>',
 	);
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
+		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
 	}
 	public function SetRows ($rows) {
 		$this->Rows = $rows;
@@ -54,7 +54,7 @@ class Textarea extends Core\Field
 			array('Maxlength', 'Rows', 'Cols')
 		);
 		include_once('Core/View.php');
-		return Core\View::Format(static::$templates->control, array(
+		return Core\View::Format(static::$Templates->control, array(
 			'id'		=> $this->Id, 
 			'name'		=> $this->Name, 
 			'value'		=> $this->Value,

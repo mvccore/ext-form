@@ -62,7 +62,7 @@ class Range extends Core\Field
 		$this->Multiple = $this->Multiple ? TRUE : FALSE ;
 		$valueStr = $this->Multiple && gettype($this->Value) == 'array' ? implode(',', $this->Value) : (string)$this->Value;
 		include_once('Core/View.php');
-		$result = Core\View::Format(static::$templates->control, array(
+		$result = Core\View::Format(static::$Templates->control, array(
 			'id'		=> $this->Id, 
 			'name'		=> $this->Name, 
 			'type'		=> $this->Type,

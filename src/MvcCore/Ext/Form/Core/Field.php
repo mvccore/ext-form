@@ -167,7 +167,7 @@ abstract class Field
 	 * by custom field rendering process.
 	 * @var array
 	 */
-	protected static $templates = array(
+	public static $Templates = array(
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
 		'control'			=> '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
@@ -467,7 +467,7 @@ abstract class Field
      * @throws \MvcCore\Ext\Form\Core\Exception
      */
     public function __construct ($cfg = array()) {
-		static::$templates = (object) static::$templates;
+		static::$Templates = (object) static::$Templates;
 		foreach ($cfg as $key => $value) {
 			$propertyName = ucfirst($key);
 			if (in_array($propertyName, static::$declaredProtectedProperties)) {
@@ -623,7 +623,7 @@ abstract class Field
 	public function RenderControlInsideLabel () {
 		if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NO_LABEL) return $this->RenderControl();
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
-		$template = $this->LabelSide == 'left' ? static::$templates->togetherLabelLeft : static::$templates->togetherLabelRight;
+		$template = $this->LabelSide == 'left' ? static::$Templates->togetherLabelLeft : static::$Templates->togetherLabelRight;
 		$result = $this->Form->View->Format($template, array(
 			'id'		=> $this->Id, 
 			'label'		=> $this->Label,
@@ -644,7 +644,7 @@ abstract class Field
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
-		return $this->Form->View->Format(static::$templates->control, array(
+		return $this->Form->View->Format(static::$Templates->control, array(
 			'id'		=> $this->Id, 
 			'name'		=> $this->Name, 
 			'type'		=> $this->Type,
@@ -659,7 +659,7 @@ abstract class Field
 	public function RenderLabel () {
 		if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NO_LABEL) return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
-		return $this->Form->View->Format(static::$templates->label, array(
+		return $this->Form->View->Format(static::$Templates->label, array(
 			'id'		=> $this->Id, 
 			'label'		=> $this->Label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '', 

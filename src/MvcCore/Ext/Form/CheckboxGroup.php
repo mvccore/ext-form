@@ -33,12 +33,12 @@ class CheckboxGroup extends Core\FieldGroup
 	public $JsClass = 'MvcCoreForm.CheckboxGroup';
 	public $Js = '__MVCCORE_FORM_DIR__/fields/checkbox-group.js';
 	
-	protected static $templates = array(
+	public static $Templates = array(
 		'control'			=> '<input id="{id}" name="{name}[]" type="{type}" value="{value}"{checked}{attrs} />',
 	);
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge((array)parent::$templates, (array)self::$templates);
+		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
 	}
 	public function SetMinSelectedOptionsCount ($minSelectedOptionsCount) {
 		$this->MinSelectedOptionsCount = $minSelectedOptionsCount;
