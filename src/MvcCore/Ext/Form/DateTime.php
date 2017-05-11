@@ -17,7 +17,7 @@ require_once('Date.php');
 
 class DateTime extends Date
 {
-	public $Type = 'datetime';
-	public $Format = 'Y-m-d H:i';
+	public $Type = 'datetime-local';
+	public $Format = 'Y-m-d\TH:i';
 	public $Validators = array('Date');
 }

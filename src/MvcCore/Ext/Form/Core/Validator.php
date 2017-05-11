@@ -39,12 +39,12 @@ abstract class Validator
 	/**
 	 * Create new validator instance by validator class name end if necessary,
 	 * if validator instance for this name exists, previous instance is returned.
-	 * @param string $validatorName validator class name end
 	 * @param \MvcCore\Ext\Form $form submitting simple form instance
+	 * @param string $validatorName validator class name end
 	 * @throws Exception
 	 * @return \MvcCore\Ext\Form\Core\Validator[]|mixed
 	 */
-	public static function Create ($validatorName = '', \MvcCore\Ext\Form\Core\Configuration & $form) {
+	public static function Create (\MvcCore\Ext\Form\Core\Configuration & $form, $validatorName = '') {
 		if (!isset(static::$instances[$validatorName])) {
 			$localValidatorClassName = strpos($validatorName, '_') === FALSE && strpos($validatorName, '\\') === FALSE;
 			if ($localValidatorClassName) {

@@ -266,7 +266,7 @@ abstract class Field
 	}
 	/**
 	 * Set control value, should be string or array, by field type implementation.
-	 * @param string|array $value 
+	 * @param string|array|mixed $value 
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetValue ($value) {

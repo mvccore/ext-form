@@ -230,7 +230,7 @@ abstract class Base
 						$submitValue, $fieldName, $field, $this
 					);
 				} else /*if (gettype($validator) == 'string')*/ {
-					$validatorInstance = Validator::Create($validator, $this);
+					$validatorInstance = Validator::Create($this, $validator);
 					$safeValue = $validatorInstance->Validate(
 						$submitValue, $fieldName, $field
 					);

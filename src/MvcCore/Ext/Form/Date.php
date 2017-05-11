@@ -64,6 +64,20 @@ class Date extends Core\Field
 	 */
 	public $Validators = array('Date');
 	/**
+	 * Set datetime value and hold it formated as string by:
+	 * http://php.net/manual/en/datetime.createfromformat.php
+	 * @param \DateTime|string $format
+	 * @return \MvcCore\Ext\Form\Date
+	 */
+	public function SetValue ($value) {
+		if (gettype($value) == 'string') {
+			$this->Value = $value;
+		} else {
+			$this->Value = $value->format($this->Format);
+		}
+		return $this;
+	}
+	/**
 	 * Set valid date format for:
 	 * http://php.net/manual/en/datetime.createfromformat.php
 	 * @param string $format 
