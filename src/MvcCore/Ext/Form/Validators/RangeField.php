@@ -23,7 +23,7 @@ use
 class RangeField extends Core\Validator
 {
 	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
-		$validatorInstance = Core\Validator::Create('NumberField', $field->Form);
+		$validatorInstance = Core\Validator::Create($field->Form, 'NumberField');
 		if ($field->Multiple) {
 			$submitValues = is_array($submitValue) ? $submitValue : explode(',',$submitValue);
 			$result = array();

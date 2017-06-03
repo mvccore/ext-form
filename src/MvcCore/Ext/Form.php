@@ -26,7 +26,7 @@ class Form extends Form\Core\Configuration
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '4.1.0';
+	const VERSION = '4.1.1';
 	
 	/* public methods ************************************************************************/
 	/**
