@@ -4,7 +4,7 @@
  * MvcCore
  *
  * This source file is subject to the BSD 3 License
- * For the full copyright and license information, please view 
+ * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
@@ -26,15 +26,15 @@ class Form extends Form\Core\Configuration
 	 * Comparation by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '4.2.0';
-	
+	const VERSION = '4.3.1';
+
 	/* public methods ************************************************************************/
 	/**
 	 * Create \MvcCore\Ext\Form instance.
 	 * Please don't forget to configure at least $form->Id, $form->Action,
-	 * any control to work with and finaly any button:submit/input:submit 
+	 * any control to work with and finaly any button:submit/input:submit
 	 * to submit the form to any url defined in $form->Action.
-	 * @param \MvcCore\Controller|mixed $controller 
+	 * @param \MvcCore\Controller|mixed $controller
 	 */
 	public function __construct (/*\MvcCore\Controller*/ & $controller) {
 		$this->Controller = $controller;
@@ -58,7 +58,7 @@ class Form extends Form\Core\Configuration
 	 */
 	public function AddError ($errorMsg, $fieldName = '') {
 		$errorMsgUtf8 = iconv(
-			mb_detect_encoding($errorMsg, mb_detect_order(), true), 
+			mb_detect_encoding($errorMsg, mb_detect_order(), true),
 			"UTF-8",
 			$errorMsg
 		);
@@ -83,7 +83,7 @@ class Form extends Form\Core\Configuration
 		return $this;
 	}
 	/**
-	 * Add multiple configured form field instances, 
+	 * Add multiple configured form field instances,
 	 * function have infinite params with new field instances.
 	 * @param \MvcCore\Ext\Form\Core\Field $fields,... Any \MvcCore\Ext\Form field instance to add into form
 	 * @return \MvcCore\Ext\Form
@@ -269,14 +269,14 @@ class Form extends Form\Core\Configuration
 	}
 	/**
 	 * Rendering process.
-	 * - if forms is not initialized, there is automaticly 
+	 * - if forms is not initialized, there is automaticly
 	 *   called $form->Init(); method
-	 * - if form is not prepared for rendering, there is 
+	 * - if form is not prepared for rendering, there is
 	 *   automaticly called $form->prepareForRendering(); method
 	 * - create new form view instance and set up the view with local
 	 *   context variables
 	 * - render form naturaly or by custom template
-	 * - clean session errors, because errors shoud be rendered 
+	 * - clean session errors, because errors shoud be rendered
 	 *   only once, only when it's used and it is now in rendering process
 	 * @return string
 	 */
