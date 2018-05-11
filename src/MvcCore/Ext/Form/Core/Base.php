@@ -26,22 +26,22 @@ abstract class Base
 {
 	/**
 	 * Initialized state. You can call $form->Init(); method any time you want,
-	 * it automaticly recognize, if it is already initialized or not, but there is 
+	 * it automaticly recognize, if it is already initialized or not, but there is
 	 * necessary to call at Init() function begin parent::Init(); call to do it.
 	 * Sometimes you need to work with feelds before rendering outside of form
-	 * and there is necessary to call $form->Init() menthod by yourself, but normaly 
-	 * it's called internaly after it is realy needed, so only for render process 
+	 * and there is necessary to call $form->Init() menthod by yourself, but normaly
+	 * it's called internaly after it is realy needed, so only for render process
 	 * and submit process. This initialization state property has three values:
 	 *	0 - not initialized
 	 *	1 - initialized, but fields are not prepared internaly for rendering
-	 *	2 - all fieds are prepared for rendering (it is processed internaly in 
+	 *	2 - all fieds are prepared for rendering (it is processed internaly in
 	 *		$form->Render() function, state 2 is not necessary to know.
 	 * @var int
 	 */
 	protected $initialized = 0;
 	/**
 	 * Temporary collection of js files to add after form (directly into html output
-	 * or by external renderer, doesn't metter), this serves only for purposes how to 
+	 * or by external renderer, doesn't metter), this serves only for purposes how to
 	 * determinate to add supporting javascript by field type only once. Keys are relative
 	 * javascript file paths and values are simple dummy booleans.
 	 * @var array
@@ -60,7 +60,7 @@ abstract class Base
 	 * After \MvcCore\Ext\Form instance is created, this value is completed to library internal
 	 * assets directory. If you want to create any custom field with custom javascript,
 	 * you can do it by loading github package mvccore/simpleform-cusom-js somewhere
-	 * create there any other custom javascript for any custom field and change this value 
+	 * create there any other custom javascript for any custom field and change this value
 	 * to that directory. All supporting javascript for \MvcCore\Ext\Form fields will be loaded from there.
 	 * @var string
 	 */
@@ -69,9 +69,9 @@ abstract class Base
 	 * Simple form css assets root directory.
 	 * After \MvcCore\Ext\Form instance is created, this value is completed to library internal
 	 * assets directory. If you want to create any custom field with custom css,
-	 * you can do it by creating an empty directory somewhere, by copying every css file from 
-	 * library assets directory into it, by creating any other custom css for any custom field 
-	 * and by change this value to that directory. All supporting css for \MvcCore\Ext\Form 
+	 * you can do it by creating an empty directory somewhere, by copying every css file from
+	 * library assets directory into it, by creating any other custom css for any custom field
+	 * and by change this value to that directory. All supporting css for \MvcCore\Ext\Form
 	 * fields will be loaded from there.
 	 * @var string
 	 */
@@ -181,16 +181,16 @@ abstract class Base
 		if ($data) $this->SetDefaults($data);
 		include_once('View.php');
 		$this->View = new View($this);
-		$this->View->SetUp($this);
+		//$this->View->SetValues($this);// todo - tohle vymyslet jak udělat nově
 		$this->initialized = 2;
 		return $this;
 	}
 	/**
 	 * Render supporting js/css file. Add it after renderer form content or call extenal renderer.
-	 * @param string	$content 
-	 * @param callable	$renderer 
-	 * @param bool		$loadContent 
-	 * @param string	$absPath 
+	 * @param string	$content
+	 * @param callable	$renderer
+	 * @param bool		$loadContent
+	 * @param string	$absPath
 	 * @return void
 	 */
 	protected function renderAssetFile (& $content, & $renderer, $loadContent, $absPath) {
@@ -264,7 +264,7 @@ abstract class Base
 	 * Process all fields configured validators and add errors where necessary.
 	 * Clean client values to safe values by configured validator classes for each field.
 	 * After all fields are processed, store clean values and error messages into session
-	 * to use them in any possible future request, where is necessary to fill and submit 
+	 * to use them in any possible future request, where is necessary to fill and submit
 	 * the form again, for example by any error and redirecting to form error url.
 	 * @param array $rawRequestParams
 	 * @return void

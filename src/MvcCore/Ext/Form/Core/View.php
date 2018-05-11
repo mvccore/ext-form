@@ -4,7 +4,7 @@
  * MvcCore
  *
  * This source file is subject to the BSD 3 License
- * For the full copyright and license information, please view 
+ * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
@@ -33,12 +33,12 @@ class View extends \MvcCore\View
 
     /**
      * Form View Constructor, extending \MvcCore\View
-	 * @param \MvcCore\Ext\Form $form 
+	 * @param \MvcCore\Ext\Form $form
      */
     public function __construct (\MvcCore\Ext\Form & $form) {
 		$ctrl = & $form->Controller;
 		if (class_exists('\MvcCore\Controller') && $ctrl instanceof \MvcCore\Controller) {
-			parent::__construct($ctrl);
+			//parent::__construct();
 		} else {
 			$this->Controller = & $ctrl;
 		}
@@ -48,8 +48,8 @@ class View extends \MvcCore\View
 	}
 	/**
 	 * Call public field method if exists under called name or try to call any parent view helper.
-	 * @param string $method 
-	 * @param mixed  $arguments 
+	 * @param string $method
+	 * @param mixed  $arguments
 	 * @return mixed
 	 */
 	public function __call ($method, $arguments) {
@@ -99,7 +99,7 @@ class View extends \MvcCore\View
 	}
 	/**
 	 * Render hidden input with CSRF tokens.
-	 * This method is not necessary to call, it's 
+	 * This method is not necessary to call, it's
 	 * called internaly by $form->View->RenderBegin();
 	 * @return string
 	 */
@@ -173,7 +173,7 @@ class View extends \MvcCore\View
 	/**
 	 * Format string function.
 	 * @param string $str template with replacements like {0}, {1}, {anyStringKey}...
-	 * @param array $args each value under it's index is replaced as 
+	 * @param array $args each value under it's index is replaced as
 	 *					  string representation by replacement in form {arrayKey}
 	 * @return string
 	 */
@@ -185,7 +185,7 @@ class View extends \MvcCore\View
 	}
 	/**
 	 * Render content of html tag attributes by key/value array.
-	 * @param array $atrributes 
+	 * @param array $atrributes
 	 * @return string
 	 */
 	public static function RenderAttrs (array $atrributes = array()) {
