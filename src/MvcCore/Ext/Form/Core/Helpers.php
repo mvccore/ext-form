@@ -234,6 +234,7 @@ class Helpers
 		$expirator = static::$SessionProvider['expirator'];
 		$expiration = static::$SessionProvider['expiration'];
 		// do not use hoops
+		// TODO: why?
 		// $result->SetExpirationHoops(1);
 		if ($expirator && $expiration) $result->$expirator($expiration);
 		return $result;
