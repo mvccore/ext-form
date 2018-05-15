@@ -427,7 +427,7 @@ class Form extends Form\Core\Configuration
 		if (!$this->initialized) $this->Init();
 		include_once('Form/Core/Helpers.php');
 		Form\Core\Helpers::ValidateMaxPostSizeIfNecessary($this);
-		if (!$rawParams) $rawParams = $this->Controller->GetRequest()->GetParams();
+		if (!$rawParams) $rawParams = $this->Controller->GetRequest()->GetParams('.*');
 		$this->ValidateCsrf($rawParams);
 		$this->submitFields($rawParams);
 		return array(
