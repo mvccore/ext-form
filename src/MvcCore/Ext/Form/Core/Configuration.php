@@ -519,7 +519,7 @@ abstract class Configuration extends Base
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetAction ($url = '') {
+	public function & SetAction ($url = '') {
 		$this->Action = $url;
 		return $this;
 	}
@@ -636,7 +636,7 @@ abstract class Configuration extends Base
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetErrorUrl ($url = '') {
+	public function & SetErrorUrl ($url = '') {
 		$this->ErrorUrl = $url;
 		return $this;
 	}
@@ -770,7 +770,7 @@ abstract class Configuration extends Base
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetSuccessUrl ($url = '') {
+	public function & SetSuccessUrl ($url = '') {
 		$this->SuccessUrl = $url;
 		return $this;
 	}
@@ -824,7 +824,7 @@ abstract class Configuration extends Base
 	 * @param callable $handler
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetTranslator (callable $translator = null) {
+	public function & SetTranslator (callable $translator = null) {
 		$this->Translate = is_callable($translator);
 		if ($this->Translate) {
 			$this->Translator = $translator;
