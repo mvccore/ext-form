@@ -27,7 +27,9 @@ class Url extends Core\Validator
 {
 	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
 		$submitValue = trim($submitValue);
-		$safeValue = filter_var($submitValue, FILTER_VALIDATE_URL);
+		while (mb_strpos($submitValue, '%') !== FALSE) 
+			$submitValue = rawurldecode($submitValue);
+			$safeValue = filter_var($submitValue, FILTER_VALIDATE_URL);
 		$safeValue = $safeValue === FALSE ? '' : $safeValue ;
 		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {
 			$this->addError(

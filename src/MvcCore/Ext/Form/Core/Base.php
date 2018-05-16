@@ -166,14 +166,21 @@ abstract class Base
 		$errors = Helpers::GetSessionErrors($this->Id);
 		foreach ($errors as & $errorMsgAndFieldName) {
 			if (!isset($errorMsgAndFieldName[1])) $errorMsgAndFieldName[1] = '';
-			list($errorMsg, $fieldName) = $errorMsgAndFieldName;
-			$this->AddError($errorMsg, $fieldName);
-			if (isset($this->Fields[$fieldName])) {
-				// add error classes into settings config where necessary
-				$fieldInstance = & $this->Fields[$fieldName];
-				$fieldInstance->AddCssClass('error');
-				if (method_exists($fieldInstance, 'AddGroupCssClass')) {
-					$fieldInstance->AddGroupCssClass('error');
+			list($errorMsg, $fieldNames) = $errorMsgAndFieldName;
+			$this->AddError($errorMsg, $fieldNames);
+			/** @var int $fieldNameType 0 - NULL, 1 - string, 2 - array */
+			$fieldNameType = $fieldNames === NULL ? 0 : (gettype($fieldNames) == 'array' ? 2 : 1);
+			if ($fieldNameType > 0) {
+				if ($fieldNameType < 2) $fieldNames = array($fieldNames);
+				foreach ($fieldNames as $fieldName) {
+					if (isset($this->Fields[$fieldName])) {
+						// add error classes into settings config where necessary
+						$fieldInstance = & $this->Fields[$fieldName];
+						$fieldInstance->AddCssClass('error');
+						if (method_exists($fieldInstance, 'AddGroupCssClass')) {
+							$fieldInstance->AddGroupCssClass('error');
+						}
+					}
 				}
 			}
 		}

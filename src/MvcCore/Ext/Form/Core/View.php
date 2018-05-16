@@ -130,8 +130,10 @@ class View extends \MvcCore\View
 			$result .= '<div class="errors">';
 			foreach ($this->Form->Errors as & $errorMessageAndFieldName) {
 				$errorMessage = $errorMessageAndFieldName[0];
-				$fieldName = isset($errorMessageAndFieldName[1]) ? $errorMessageAndFieldName[1] : '' ;
-				$result .= '<div class="error ' . $fieldName . '">'.$errorMessage.'</div>';
+				$fieldNames = isset($errorMessageAndFieldName[1]) ? $errorMessageAndFieldName[1] : NULL ;
+				/** @var int $fieldNameType 0 - NULL, 1 - string, 2 - array */
+				$fieldNames = $fieldNames === NULL ? array() : (gettype($fieldNames) == 'array' ? $fieldNames : array($fieldNames));
+				$result .= '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
 			}
 			$result .= '</div>';
 		}

@@ -586,7 +586,10 @@ abstract class Configuration extends Base
 	 */
 	public function SetDefaults (array $defaults = array(), $keysInsensitive = FALSE) {
 		if (!$this->initialized) $this->Init();
-		$defaultsKeys = $keysInsensitive ? ',' . implode(',', array_keys($defaults)) . ',' : '' ;
+		$this->ClearSession();
+		$defaultsKeys = $keysInsensitive
+			? ',' . implode(',', array_keys($defaults)) . ','
+			: '' ;
 		foreach ($this->Fields as $fieldName => & $field) {
 			if (isset($defaults[$fieldName])) {
 				$fieldValue = $defaults[$fieldName];
@@ -803,9 +806,9 @@ abstract class Configuration extends Base
 	 * Set TRUE to translate everything visible in form.
 	 * Control placeholders, label texts and error messages.
 	 * If you are configuring your form to be translated, there is also necessary to
-	 * set $form->Translator callable to translate everything with it by method 
+	 * set $form->Translator callable to translate everything with it by method
 	 * $form->SetTranslator();.
-	 * Default values is NULL, means no translations will 
+	 * Default values is NULL, means no translations will
 	 * be processed it no Translator callable is set.
 	 * @param bool $translate
 	 * @return \MvcCore\Ext\Form

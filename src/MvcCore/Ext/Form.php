@@ -53,20 +53,29 @@ class Form extends Form\Core\Configuration
 	/**
 	 * Add form submit error and switch form result to zero - error state.
 	 * @param string $errorMsg
-	 * @param string $fieldName optional
+	 * @param string|array|NULL $fieldNames optional
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddError ($errorMsg, $fieldName = '') {
+	public function AddError ($errorMsg, $fieldNames = NULL) {
 		$errorMsgUtf8 = iconv(
-			mb_detect_encoding($errorMsg, mb_detect_order(), true),
+			mb_detect_encoding($errorMsg, mb_detect_order(), TRUE),
 			"UTF-8",
 			$errorMsg
 		);
 		$newErrorRec = array(strip_tags($errorMsgUtf8));
-		if ($fieldName) $newErrorRec[] = $fieldName;
-		$this->Errors[] = $newErrorRec;
-		if ($fieldName && isset($this->Fields[$fieldName])) {
-			$this->Fields[$fieldName]->AddError($errorMsgUtf8);
+		/** @var int $fieldNameType 0 - NULL, 1 - string, 2 - array */
+		$fieldNameType = $fieldNames === NULL ? 0 : (gettype($fieldNames) == 'array' ? 2 : 1);
+		if ($fieldNameType > 0) {
+			$newErrorRec[] = $fieldNames;
+			if ($fieldNameType === 1) {
+				if (isset($this->Fields[$fieldNames]))
+					$this->Fields[$fieldNames]->AddError($errorMsgUtf8);
+			} else if ($fieldNameType === 2) {
+				foreach ($fieldNames as $fieldName)
+					if (isset($this->Fields[$fieldName]))
+						$this->Fields[$fieldName]->AddError($errorMsgUtf8);
+			}
+			$this->Errors[] = $newErrorRec;
 		}
 		$this->Result = Form::RESULT_ERRORS;
 		return $this;
@@ -117,7 +126,7 @@ class Form extends Form\Core\Configuration
 	/**
 	 * Clear all session records for this form by form id.
 	 * Data sended from last submit, any csrf tokens and any errors.
-	 * @return void
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function ClearSession () {
 		$this->Data = array();
@@ -125,6 +134,7 @@ class Form extends Form\Core\Configuration
 		Form\Core\Helpers::SetSessionData($this->Id, array());
 		Form\Core\Helpers::SetSessionCsrf($this->Id, array());
 		Form\Core\Helpers::SetSessionErrors($this->Id, array());
+		return $this;
 	}
 	/**
 	 * Return current cross site request forgery hidden
