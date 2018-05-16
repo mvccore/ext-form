@@ -4,7 +4,7 @@
  * MvcCore
  *
  * This source file is subject to the BSD 3 License
- * For the full copyright and license information, please view 
+ * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
@@ -96,16 +96,24 @@ class Helpers
 
 	public static function ValidateMaxPostSizeIfNecessary(\MvcCore\Ext\Form & $form) {
 		if (strtolower($form->Method) != 'post') return;
-		$maxSize = ini_get('post_max_size');
+		$rawMaxSize = ini_get('post_max_size');
 		if (empty($_SERVER['CONTENT_LENGTH'])) {
 			$form->AddError(
-				sprintf(Form::$DefaultMessages[Form::EMPTY_CONTENT], $maxSize)
+				sprintf(Form::$DefaultMessages[Form::EMPTY_CONTENT], $rawMaxSize)
 			);
 			$form->Result = Form::RESULT_ERRORS;
 		}
-		$units = array('k' => 10, 'm' => 20, 'g' => 30);
-		if (isset($units[$ch = strtolower(substr($maxSize, -1))])) {
-			$maxSize <<= $units[$ch];
+		$units = array('k' => 1000, 'm' => 1048576, 'g' => 1073741824);
+		if (is_integer($rawMaxSize)) {
+			$maxSize = intval($valueStr);
+		} else {
+			$unit = strtolower(substr($rawMaxSize, -1));
+			$valueStr = substr($rawMaxSize, 0, strlen($rawMaxSize) - 1);
+			if (isset($units[$unit])) {
+				$maxSize = intval($valueStr) * $units[$unit];
+			} else {
+				$maxSize = intval($valueStr);
+			}
 		}
 		if ($maxSize > 0 && isset($_SERVER['CONTENT_LENGTH']) && $maxSize < $_SERVER['CONTENT_LENGTH']) {
 			$form->AddError(
@@ -138,7 +146,7 @@ class Helpers
 
 	/**
 	 * Get form default values by form id.
-	 * @param string $formId 
+	 * @param string $formId
 	 * @return array
 	 */
 	public static function GetSessionData ($formId = '') {
@@ -182,8 +190,8 @@ class Helpers
 	}
 	/**
 	 * Set form default values by form id into session.
-	 * @param string $formId 
-	 * @param array $data 
+	 * @param string $formId
+	 * @param array $data
 	 */
 	public static function SetSessionData ($formId = '', $data = array()) {
 		$sessionData = & static::setUpSessionData();
