@@ -241,8 +241,8 @@ class Helpers
 		}
 		$expirator = static::$SessionProvider['expirator'];
 		$expiration = static::$SessionProvider['expiration'];
-		// do not use hoops
-		// TODO: why?
+		// do not use hoops, because there is better to set up any large value into session namespace
+		// or zero value to browser close and after rendered errors just clear the errors.
 		// $result->SetExpirationHoops(1);
 		if ($expirator && $expiration) $result->$expirator($expiration);
 		return $result;

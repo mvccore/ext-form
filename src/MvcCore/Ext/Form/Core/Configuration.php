@@ -582,11 +582,12 @@ abstract class Configuration extends Base
 	 * Values are setted by keys keys sensitively by default.
 	 * @param array $defaults			key value array with data to set as values into fields by keys
 	 * @param bool  $keysInsensitive	if true, set up properties from $data with case insensivity
+	 * @param bool  $clearPreviousDataInSession If `TRUE`, clear all previous data records for this form id in session.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetDefaults (array $defaults = array(), $keysInsensitive = FALSE) {
+	public function SetDefaults (array $defaults = array(), $keysInsensitive = FALSE, $clearPreviousDataInSession = FALSE) {
 		if (!$this->initialized) $this->Init();
-		$this->ClearSession();
+		if ($clearPreviousDataInSession) $this->ClearSession();
 		$defaultsKeys = $keysInsensitive
 			? ',' . implode(',', array_keys($defaults)) . ','
 			: '' ;
