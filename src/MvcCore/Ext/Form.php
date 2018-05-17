@@ -37,6 +37,7 @@ class Form extends Form\Core\Configuration
 	 * @param \MvcCore\Controller|mixed $controller
 	 */
 	public function __construct (/*\MvcCore\Controller*/ & $controller) {
+		$this->application = \MvcCore\Application::GetInstance();
 		$this->Controller = $controller;
 		$baseLibPath = str_replace('\\', '/', __DIR__ . '/Form');
 		if (!$this->jsAssetsRootDir) $this->jsAssetsRootDir = $baseLibPath;

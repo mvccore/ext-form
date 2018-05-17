@@ -232,6 +232,7 @@ abstract class Configuration extends Base
 	 */
 	const ERROR_RENDER_MODE_AFTER_EACH_CONTROL	= 'after-each-control';
 
+	protected $application = NULL;
 
 	/**
 	 * Controller object, always passed and required
