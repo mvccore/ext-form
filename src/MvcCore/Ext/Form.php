@@ -86,7 +86,7 @@ class Form extends Form\Core\Configuration
 	 * @param \MvcCore\Ext\Form\Core\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddField (\MvcCore\Ext\Form\Core\Field $field) {
+	public function AddField (\MvcCore\Ext\Form\IField $field) {
 		if (!$this->initialized) $this->Init();
 		$field->OnAdded($this);
 		$this->Fields[$field->Name] = $field;
