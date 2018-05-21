@@ -4,7 +4,7 @@
  * MvcCore
  *
  * This source file is subject to the BSD 3 License
- * For the full copyright and license information, please view 
+ * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
@@ -17,7 +17,7 @@ require_once('Configuration.php');
 //require_once('Exception.php');
 //require_once('View.php');
 
-abstract class Field
+abstract class Field implements \MvcCore\Ext\Form\IField
 {
 	/**
 	 * Form control html id
@@ -25,7 +25,7 @@ abstract class Field
 	 */
 	public $Id = '';
 	/**
-	 * Form control type, usually used in <input type=""> 
+	 * Form control type, usually used in <input type="">
 	 * attr value, but unique type accross all form field types.
 	 * @var string
 	 */
@@ -54,7 +54,7 @@ abstract class Field
 	 */
 	public $LabelSide = 'left'; // right | left
 	/**
-	 * Form control attribute required, determinating 
+	 * Form control attribute required, determinating
 	 * if controll will be required to complete by user.
 	 * @var bool
 	 */
@@ -82,7 +82,7 @@ abstract class Field
 	public $Translate = NULL;
 	/**
 	 * Control/label rendering mode, defined in form by defaut as: 'normal'.
-	 * Normal means label will be rendered before control, only for checkbox 
+	 * Normal means label will be rendered before control, only for checkbox
 	 * and radio buttons labels will be rendered after controls.
 	 * Another possible values are 'no-label' and 'label-around'.
 	 * Use \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL, \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL and
@@ -108,7 +108,7 @@ abstract class Field
 	/**
 	 * List of validator classes end-names or list of closure functions
 	 * accepting arguments: $submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field
-	 * and returning safe value as result. Closure function should call 
+	 * and returning safe value as result. Closure function should call
 	 * $field->Form->AddError() internaly if necessary and submitted value is not correct.
 	 * All validator classes are located in directory: /Form/Validators/...
 	 * For validator class \MvcCore\Ext\Form\Validators\Numeric is necessary only tu set 'Numeric'.
@@ -121,7 +121,7 @@ abstract class Field
 	 */
 	public $Errors = array();
 	/**
-	 * Field relative template path without .phtml extension, 
+	 * Field relative template path without .phtml extension,
 	 * empty string by default to render field naturaly.
 	 * If there is configured any path, relative from directory /App/Views/Scripts,
 	 * field is rendered by custom template.
@@ -141,7 +141,7 @@ abstract class Field
 	public $JsClass = '';
 	/**
 	 * Supporting javascript file relative path.
-	 * Replacement '__MVCCORE_FORM_DIR__' is in rendering process 
+	 * Replacement '__MVCCORE_FORM_DIR__' is in rendering process
 	 * replaced by \MvcCore\Ext\Form library root dir or by any other
 	 * reconfigured value from $this->Form->jsAssetsRootDir;
 	 * @var string
@@ -174,7 +174,7 @@ abstract class Field
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	);
 	/**
-	 * Local $this context properties which is not possible 
+	 * Local $this context properties which is not possible
 	 * to configure throught constructor config array.
 	 * @var string[]
 	 */
@@ -188,7 +188,7 @@ abstract class Field
 	/**
 	 * Set field name, used to identify submitting value.
 	 * @requires
-	 * @param string $name 
+	 * @param string $name
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetName ($name) {
@@ -206,7 +206,7 @@ abstract class Field
 	}
 	/**
 	 * Set control label visible text.
-	 * Translation will be processed internaly inside 
+	 * Translation will be processed internaly inside
 	 * Simpleform before rendering process by $this->Form->Translator();
 	 * @param string $label
 	 * @return \MvcCore\Ext\Form\Core\Field
@@ -218,7 +218,7 @@ abstract class Field
 	/**
 	 * Set label side - location where label will be rendered.
 	 * By default $this->LabelSide is configured to 'left'.
-	 * If you want to reconfigure it to different side, 
+	 * If you want to reconfigure it to different side,
 	 * next possible value is 'right'.
 	 * @param string $labelSide
 	 * @return \MvcCore\Ext\Form\Core\Field
@@ -228,9 +228,9 @@ abstract class Field
 		return $this;
 	}
 	/**
-	 * Set required boolean if field will be 
+	 * Set required boolean if field will be
 	 * required to complete by user for submit.
-	 * @param bool $required 
+	 * @param bool $required
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetRequired ($required = TRUE) {
@@ -241,7 +241,7 @@ abstract class Field
 	 * Set read only boolean if field will be
 	 * read only, not possible to complete by user for submit,
 	 * result value will be used from session.
-	 * @param bool $readonly 
+	 * @param bool $readonly
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetReadonly ($readonly = TRUE) {
@@ -250,14 +250,14 @@ abstract class Field
 	}
 	/**
 	 * Set field render mode to render label normaly before control
-	 * by value 'normal', which controls have mostly configured by default 
+	 * by value 'normal', which controls have mostly configured by default
 	 * or to render label around the control by value 'label-around' or
 	 * to not render any label by value 'no-label'.
 	 * Use \MvcCore\Ext\Form class constants:
 	 * - \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL
 	 * - \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND
 	 * - \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL
-	 * @param string $renderMode 
+	 * @param string $renderMode
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetRenderMode ($renderMode = \MvcCore\Ext\Form\Core\Configuration::FIELD_RENDER_MODE_LABEL_AROUND) {
@@ -266,7 +266,7 @@ abstract class Field
 	}
 	/**
 	 * Set control value, should be string or array, by field type implementation.
-	 * @param string|array|mixed $value 
+	 * @param string|array|mixed $value
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetValue ($value) {
@@ -284,7 +284,7 @@ abstract class Field
 	 * Set translate to TRUE if you want to translate this field.
 	 * It is necessary to set up any $form->Translator callable to
 	 * translate cotnrol placeholder, label and error messages.
-	 * @param bool $translate 
+	 * @param bool $translate
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetTranslate ($translate = TRUE) {
@@ -293,7 +293,7 @@ abstract class Field
 	}
 	/**
 	 * Set disabled boolean if field will be
-	 * disabled for user, not possible to complete 
+	 * disabled for user, not possible to complete
 	 * by user for submit and disabled in submitting process,
 	 * result value will be used from session.
 	 * @param bool $readonly
@@ -306,7 +306,7 @@ abstract class Field
 	/**
 	 * Set value to control html class attribute.
 	 * More classes is necessary to set as strings separated by spaces.
-	 * @param string $cssClasses 
+	 * @param string $cssClasses
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetCssClasses ($cssClasses) {
@@ -330,7 +330,7 @@ abstract class Field
 	/**
 	 * Set any additional control html attributes by key/value array.
 	 * Do not use system attributes as id, name, value, readonly, disabled, class...
-	 * @param array $attrs 
+	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetControlAttrs ($attrs = array()) {
@@ -368,13 +368,13 @@ abstract class Field
 	}
 	/**
 	 * Set field validators collection, it shoud be validator class end-name in pascal
-	 * case or closure function. All validators are located in /Form/Validators/... 
+	 * case or closure function. All validators are located in /Form/Validators/...
 	 * dir. So for validator class \MvcCore\Ext\Form\Validators\Numeric is necessary only to set
 	 * array('Numeric'). Or any validator shoud be defined as simple closure function
 	 * accepting arguments: $submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field
-	 * and returnning safe value as result. This closure function shoud call 
+	 * and returnning safe value as result. This closure function shoud call
 	 * $field->Form->AddError(); whenever is necessary and values is not correct.
-	 * @param string[]|\Closure[] $validators 
+	 * @param string[]|\Closure[] $validators
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetValidators ($validators = array()) {
@@ -383,7 +383,7 @@ abstract class Field
 	}
 	/**
 	 * Add field validators, it shoud be validator class end-name in pascal
-	 * case or closure function. All validators are located in /Form/Validators/... 
+	 * case or closure function. All validators are located in /Form/Validators/...
 	 * dir. So for validator class \MvcCore\Ext\Form\Validators\Numeric is necessary only to set
 	 * array('Numeric'). Or any validator shoud be defined as simple closure function
 	 * accepting arguments: $submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field
@@ -403,7 +403,7 @@ abstract class Field
 	 * Empty string by default to render field naturaly.
 	 * If there is configured any path, relative from directory /App/Views/Scripts,
 	 * field is rendered by custom template.
-	 * @param string $templatePath 
+	 * @param string $templatePath
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetTemplatePath ($templatePath = '') {
@@ -412,7 +412,7 @@ abstract class Field
 	}
 	/**
 	 * Set supporting javascript full class name.
-	 * @param string $jsClass 
+	 * @param string $jsClass
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function SetJsClass ($jsClass) {
@@ -446,10 +446,10 @@ abstract class Field
 	/**
 	 * Add field error message.
 	 * This method is always called internaly from \MvcCore\Ext\Form
-	 * in render preparing process. Do not use it. 
-	 * To add form error properly, use $field->Form->AddError(); 
+	 * in render preparing process. Do not use it.
+	 * To add form error properly, use $field->Form->AddError();
 	 * method isntead.
-	 * @param string $errorText 
+	 * @param string $errorText
 	 * @return \MvcCore\Ext\Form\Core\Field
 	 */
 	public function AddError ($errorText) {
@@ -462,7 +462,7 @@ abstract class Field
 
     /**
      * Create new form control instance.
-     * @param array $cfg config array with camel case 
+     * @param array $cfg config array with camel case
 	 *					 public properties and its values which you want to configure.
      * @throws \MvcCore\Ext\Form\Core\Exception
      */
@@ -482,23 +482,23 @@ abstract class Field
 		}
 	}
 	/**
-	 * Set any nondeclared property dynamicly 
+	 * Set any nondeclared property dynamicly
 	 * to get it in view by rendering process.
-	 * @param string $name 
-	 * @param mixed $value 
+	 * @param string $name
+	 * @param mixed $value
 	 */
 	public function __set ($name, $value) {
 		$this->$name = $value;
 	}
 	/**
 	 * This method  is called internaly from \MvcCore\Ext\Form after field
-	 * is added into form by $form->AddField(); method. Do not use it 
+	 * is added into form by $form->AddField(); method. Do not use it
 	 * if you are only user of this library.
 	 * - check if field has any name, which is required
 	 * - set up form and field id attribute by form id and field name
 	 * - set up required
-	 * @param \MvcCore\Ext\Form $form 
-	 * @throws \MvcCore\Ext\Form\Core\Exception 
+	 * @param \MvcCore\Ext\Form $form
+	 * @throws \MvcCore\Ext\Form\Core\Exception
 	 * @return void
 	 */
 	public function OnAdded (\MvcCore\Ext\Form & $form) {
@@ -531,7 +531,7 @@ abstract class Field
 		}
 		// translate only if Translate options is null or true and translator handler is defined
 		if (
-			(is_null($this->Translate) || $this->Translate === TRUE || $form->Translate) && 
+			(is_null($this->Translate) || $this->Translate === TRUE || $form->Translate) &&
 			!is_null($translator)
 		) {
 			$this->Translate = TRUE;
@@ -572,8 +572,8 @@ abstract class Field
 	}
 	/**
 	 * Render field naturaly by render mode.
-	 * Field shoud be rendered with label beside, label around 
-	 * or without label by local field configuration. Also there 
+	 * Field shoud be rendered with label beside, label around
+	 * or without label by local field configuration. Also there
 	 * could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
 	 * @return string
@@ -625,10 +625,10 @@ abstract class Field
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$template = $this->LabelSide == 'left' ? static::$Templates->togetherLabelLeft : static::$Templates->togetherLabelRight;
 		$result = $this->Form->View->Format($template, array(
-			'id'		=> $this->Id, 
+			'id'		=> $this->Id,
 			'label'		=> $this->Label,
 			'control'	=> $this->RenderControl(),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
+			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 		$errors = $this->RenderErrors();
 		if ($this->Form->ErrorsRenderMode == Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
@@ -645,11 +645,11 @@ abstract class Field
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		return $this->Form->View->Format(static::$Templates->control, array(
-			'id'		=> $this->Id, 
-			'name'		=> $this->Name, 
+			'id'		=> $this->Id,
+			'name'		=> $this->Name,
 			'type'		=> $this->Type,
 			'value'		=> $this->Value,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
+			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}
 	/**
@@ -660,9 +660,9 @@ abstract class Field
 		if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NO_LABEL) return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		return $this->Form->View->Format(static::$Templates->label, array(
-			'id'		=> $this->Id, 
+			'id'		=> $this->Id,
 			'label'		=> $this->Label,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '', 
+			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}
 	/**
@@ -689,14 +689,14 @@ abstract class Field
 	/**
 	 * Complete HTML attributes and css classes strings for label element
 	 * by selected field variables from $this field context
-	 * only if called $fieldVars item in $this field context is 
+	 * only if called $fieldVars item in $this field context is
 	 * something different then NULL value.
-	 * Automaticly render into attributes and css classes also 
+	 * Automaticly render into attributes and css classes also
 	 * system field properties: 'Disabled', 'Readonly' and 'Required'
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into
 	 * dashed-case.
-	 * @param string[] $fieldVars 
+	 * @param string[] $fieldVars
 	 * @return string
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = array()) {
@@ -732,12 +732,12 @@ abstract class Field
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into
 	 * dashed-case.
-	 * Only if fourth param is false, do not add system attributes in boolean 
+	 * Only if fourth param is false, do not add system attributes in boolean
 	 * mode into attributes, only into css class.
-	 * @param string[] $fieldVars 
-	 * @param array $fieldAttrs 
-	 * @param array $cssClasses 
-	 * @param bool $controlRendering 
+	 * @param string[] $fieldVars
+	 * @param array $fieldAttrs
+	 * @param array $cssClasses
+	 * @param bool $controlRendering
 	 * @return string
 	 */
 	protected function renderAttrsWithFieldVars (

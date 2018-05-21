@@ -486,7 +486,7 @@ abstract class Configuration extends Base
 	 * @param string $cssFile supporting css file relative path
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddCss ($cssFile = '') {
+	public function & AddCss ($cssFile = '') {
 		$this->Css[] = array($cssFile);
 		return $this;
 	}
@@ -497,7 +497,7 @@ abstract class Configuration extends Base
 	 * @param string $cssClass
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddCssClass ($cssClass = '') {
+	public function & AddCssClass ($cssClass = '') {
 		$this->CssClass .= (($this->CssClass) ? ' ' : '') . $cssClass;
 		return $this;
 	}
@@ -508,7 +508,7 @@ abstract class Configuration extends Base
 	 * @param array  $jsConstructorParams	supporting javascript constructor params
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddJs ($jsFile = '', $jsClass = 'MvcCoreForm.FieldType', $jsConstructorParams = array()) {
+	public function & AddJs ($jsFile = '', $jsClass = 'MvcCoreForm.FieldType', $jsConstructorParams = array()) {
 		$this->Js[] = array($jsFile, $jsClass, $jsConstructorParams);
 		return $this;
 	}
@@ -533,7 +533,7 @@ abstract class Configuration extends Base
 	 * @param array $attributes
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetAttributes (array $attributes = array()) {
+	public function & SetAttributes (array $attributes = array()) {
 		$this->Attributes = $attributes;
 		return $this;
 	}
@@ -546,7 +546,7 @@ abstract class Configuration extends Base
 	 * @param array $cssFiles
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetCss (array $cssFiles = array()) {
+	public function & SetCss (array $cssFiles = array()) {
 		$this->Css = array();
 		foreach ($cssFiles as $item) $this->AddCss($item);
 		return $this;
@@ -559,7 +559,7 @@ abstract class Configuration extends Base
 	 * @param string $cssClass
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetCssClass ($cssClass = '') {
+	public function & SetCssClass ($cssClass = '') {
 		$this->CssClass = $cssClass;
 		return $this;
 	}
@@ -571,7 +571,7 @@ abstract class Configuration extends Base
 	 * @param callable $cssRenderer
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetCssRenderer (callable $cssRenderer) {
+	public function & SetCssRenderer (callable $cssRenderer) {
 		$this->CssRenderer = $cssRenderer;
 		return $this;
 	}
@@ -586,7 +586,7 @@ abstract class Configuration extends Base
 	 * @param bool  $clearPreviousDataInSession If `TRUE`, clear all previous data records for this form id in session.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetDefaults (array $defaults = array(), $keysInsensitive = FALSE, $clearPreviousDataInSession = FALSE) {
+	public function & SetDefaults (array $defaults = array(), $keysInsensitive = FALSE, $clearPreviousDataInSession = FALSE) {
 		if (!$this->initialized) $this->Init();
 		if ($clearPreviousDataInSession) $this->ClearSession();
 		$defaultsKeys = $keysInsensitive
@@ -616,7 +616,7 @@ abstract class Configuration extends Base
 	 * @param string $enctype
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetEnctype ($enctype = '') {
+	public function & SetEnctype ($enctype = '') {
 		$this->Enctype = $enctype;
 		return $this;
 	}
@@ -628,7 +628,7 @@ abstract class Configuration extends Base
 	 * @param mixed $errorsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\Form::ERROR_RENDER_MODE_ALL_TOGETHER) {
+	public function & SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\Form::ERROR_RENDER_MODE_ALL_TOGETHER) {
 		$this->ErrorsRenderMode = $errorsRenderMode;
 		return $this;
 	}
@@ -653,7 +653,7 @@ abstract class Configuration extends Base
 	 * @param string $fieldsDefaultRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetFieldsDefaultRenderMode ($fieldsDefaultRenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
+	public function & SetFieldsDefaultRenderMode ($fieldsDefaultRenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 		$this->FieldsDefaultRenderMode = $fieldsDefaultRenderMode;
 		return $this;
 	}
@@ -665,7 +665,7 @@ abstract class Configuration extends Base
 	 * @param string $id
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetId ($id = '') {
+	public function & SetId ($id = '') {
 		$this->Id = $id;
 		return $this;
 	}
@@ -681,7 +681,7 @@ abstract class Configuration extends Base
 	 * @param array $jsFilesClassesAndConstructorParams
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetJs (array $jsFilesClassesAndConstructorParams = array()) {
+	public function & SetJs (array $jsFilesClassesAndConstructorParams = array()) {
 		$this->Js = array();
 		foreach ($jsFilesClassesAndConstructorParams as $item) {
 			$this->AddJs($item[0], $item[1], $item[2]);
@@ -696,7 +696,7 @@ abstract class Configuration extends Base
 	 * @param callable $jsRenderer
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetJsRenderer (callable $jsRenderer) {
+	public function & SetJsRenderer (callable $jsRenderer) {
 		$this->JsRenderer = $jsRenderer;
 		return $this;
 	}
@@ -709,7 +709,7 @@ abstract class Configuration extends Base
 	 * @param string $lang
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetLang ($lang = '') {
+	public function & SetLang ($lang = '') {
 		$this->Lang = $lang;
 		return $this;
 	}
@@ -722,7 +722,7 @@ abstract class Configuration extends Base
 	 * @param string $locale
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetLocale ($locale = '') {
+	public function & SetLocale ($locale = '') {
 		$this->Locale = strtoupper($locale);
 		return $this;
 	}
@@ -732,7 +732,7 @@ abstract class Configuration extends Base
 	 * @param string $method
 	 * @return \MvcCore\Ext\Form
 	 */
-    public function SetMethod ($method = '') {
+    public function & SetMethod ($method = '') {
 		$this->Method = $method;
 		return $this;
 	}
@@ -749,7 +749,7 @@ abstract class Configuration extends Base
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetNextStepUrl ($url = '') {
+	public function & SetNextStepUrl ($url = '') {
 		$this->NextStepUrl = $url;
 		return $this;
 	}
@@ -762,7 +762,7 @@ abstract class Configuration extends Base
 	 * @param bool $required
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetRequired ($required = TRUE) {
+	public function & SetRequired ($required = TRUE) {
 		$this->Required = $required;
 		return $this;
 	}
@@ -788,7 +788,7 @@ abstract class Configuration extends Base
 	 * @param string $path
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetTemplatePath ($path = '') {
+	public function & SetTemplatePath ($path = '') {
 		$this->TemplatePath = str_replace('\\', '/', $path);
 		return $this;
 	}
@@ -800,7 +800,7 @@ abstract class Configuration extends Base
 	 * @param string $typePath
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetTemplateTypePath ($typePath = '') {
+	public function & SetTemplateTypePath ($typePath = '') {
 		$this->TemplateTypePath = str_replace('\\', '/', $typePath);
 		return $this;
 	}
@@ -815,7 +815,7 @@ abstract class Configuration extends Base
 	 * @param bool $translate
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetTranslate ($translate = TRUE) {
+	public function & SetTranslate ($translate = TRUE) {
 		$this->Translate = $translate;
 		return $this;
 	}
