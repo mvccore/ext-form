@@ -4,7 +4,7 @@
  * MvcCore
  *
  * This source file is subject to the BSD 3 License
- * For the full copyright and license information, please view 
+ * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Form\Core;
 require_once('Configuration.php');
 require_once('Field.php');
 
-abstract class Validator
+abstract class Validator implements \MvcCore\Ext\Form\Interfaces\IValidator
 {
 	/** @var \MvcCore\Ext\Form|\MvcCore\Ext\Form\Core\Base */
 	protected $Form = NULL;
@@ -26,7 +26,7 @@ abstract class Validator
 
 	/** @var bool */
 	protected $Translate = FALSE;
-	
+
 	/** @var callable */
 	protected $Translator = NULL;
 
@@ -59,7 +59,7 @@ abstract class Validator
 	}
 	/**
 	 * Create new validator instance.
-	 * @param \MvcCore\Ext\Form $form 
+	 * @param \MvcCore\Ext\Form $form
 	 */
 	public function __construct (\MvcCore\Ext\Form\Core\Configuration & $form) {
 		$this->Form = & $form;
@@ -69,12 +69,12 @@ abstract class Validator
 	}
 	/**
 	 * Validation template method.
-	 * In your validator implementation, check submitted value 
+	 * In your validator implementation, check submitted value
 	 * by validator specific rules and if there is any error, call
 	 * $form->AddError with translated or not translated error message.
 	 * Return safe submitted value as result.
-	 * @param string|array					$submitValue 
-	 * @param string						$fieldName 
+	 * @param string|array					$submitValue
+	 * @param string						$fieldName
 	 * @param \MvcCore\Ext\Form\Core\Field	$field
 	 * @return string|array					safe submitted value
 	 */

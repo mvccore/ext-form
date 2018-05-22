@@ -512,10 +512,11 @@ abstract class Configuration extends Base
 		$this->Js[] = array($jsFile, $jsClass, $jsConstructorParams);
 		return $this;
 	}
+
 	/**
 	 * Set form submitting url value.
-	 * Should be relative or absolute, anything
-	 * tn complete classic html form attribute action.
+	 * It could be relative or absolute, anything
+	 * to complete classic html form attribute `action`.
 	 * @requires
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
@@ -551,11 +552,12 @@ abstract class Configuration extends Base
 		foreach ($cssFiles as $item) $this->AddCss($item);
 		return $this;
 	}
+
 	/**
 	 * Set form html element css class attribute value.
 	 * To specify more css classes - add more strings separated by space
 	 * and overwrite any previous css class attribute value. Value is used for
-	 * standard css class attribute for HTML form tag.
+	 * standard css class attribute for HTML `<form>` tag.
 	 * @param string $cssClass
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -632,11 +634,12 @@ abstract class Configuration extends Base
 		$this->ErrorsRenderMode = $errorsRenderMode;
 		return $this;
 	}
+
 	/**
 	 * Set error url string, relative or absolute, to specify, where
-	 * user will be redirected after form will not be submitted successfully.
-	 * It's not required to use \MvcCore\Ext\Form like this, but if you want to use method
-	 * $form->RedirectAfterSubmit(); at the end of custom Submit method implementation,
+	 * to redirect user after form not submitted successfully.
+	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
+	 * `$form->RedirectAfterSubmit();` at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error url strings.
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
@@ -659,7 +662,7 @@ abstract class Configuration extends Base
 	}
 	/**
 	 * Set form id, required to configure.
-	 * Form Id us used to identify session data, error messages,
+	 * Form id is used to identify session data, error messages,
 	 * csrf tokens, html form attribute id value and much more.
 	 * @requires
 	 * @param string $id
@@ -726,9 +729,10 @@ abstract class Configuration extends Base
 		$this->Locale = strtoupper($locale);
 		return $this;
 	}
+
 	/**
 	 * Set form http submitting method.
-	 * 'post' by default.
+	 * `POST` by default.
 	 * @param string $method
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -766,11 +770,12 @@ abstract class Configuration extends Base
 		$this->Required = $required;
 		return $this;
 	}
+
 	/**
 	 * Set success url string, relative or absolute, to specify, where
-	 * user will be redirected after form will be submitted successfully.
-	 * It's required to use \MvcCore\Ext\Form like this, but if you want to use method
-	 * $form->RedirectAfterSubmit();, at the end of custom Submit method implementation,
+	 * to redirect user after form submitted successfully.
+	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
+	 * `$form->RedirectAfterSubmit();` at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error url strings.
 	 * @param string $url
 	 * @return \MvcCore\Ext\Form
@@ -819,17 +824,18 @@ abstract class Configuration extends Base
 		$this->Translate = $translate;
 		return $this;
 	}
+
 	/**
 	 * Set translator callable to translate everything visible in form.
 	 * Handler is necessary to design with first param to be a translation key,
-	 * second param to be a language code and ahdler has to return translated string result.
-	 * This property is optional to configure but if it is configured to any callable,
+	 * second param to be a language code and hadler has to return translated string result.
+	 * This property is optional to configure, but if it is configured to any callable,
 	 * everything in form will be translated, except fields strictly defined to not translate.
-	 * Default values is NULL, means no translations will be processed.
+	 * Default value is `NULL`, it means no translation will be processed.
 	 * @param callable $handler
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function & SetTranslator (callable $translator = null) {
+	public function & SetTranslator (callable $translator = NULL) {
 		$this->Translate = is_callable($translator);
 		if ($this->Translate) {
 			$this->Translator = $translator;

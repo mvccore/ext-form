@@ -17,7 +17,7 @@ require_once('Configuration.php');
 //require_once('Exception.php');
 //require_once('View.php');
 
-abstract class Field implements \MvcCore\Ext\Form\IField
+abstract class Field implements \MvcCore\Ext\Form\Interfaces\IField
 {
 	/**
 	 * Form control html id

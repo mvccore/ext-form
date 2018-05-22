@@ -11,9 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Form;
+namespace MvcCore\Ext\Form\Interfaces;
 
-interface IField
+interface IValidator
 {
-
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field);
 }

@@ -22,7 +22,7 @@ require_once('Field.php');
 
 use MvcCore\Ext\Form;
 
-abstract class Base
+abstract class Base implements Form\Interfaces\IForm
 {
 	/**
 	 * Initialized state. You can call $form->Init(); method any time you want,

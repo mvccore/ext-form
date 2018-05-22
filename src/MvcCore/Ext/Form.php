@@ -43,6 +43,7 @@ class Form extends Form\Core\Configuration
 		if (!$this->jsAssetsRootDir) $this->jsAssetsRootDir = $baseLibPath;
 		if (!$this->cssAssetsRootDir) $this->cssAssetsRootDir = $baseLibPath;
 	}
+
 	/**
 	 * Rendering process alias.
 	 * @see \MvcCore\Ext\Form::Render();
@@ -86,7 +87,7 @@ class Form extends Form\Core\Configuration
 	 * @param \MvcCore\Ext\Form\Core\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddField (\MvcCore\Ext\Form\IField $field) {
+	public function & AddField (\MvcCore\Ext\Form\Interfaces\IField $field) {
 		if (!$this->initialized) $this->Init();
 		$field->OnAdded($this);
 		$this->Fields[$field->Name] = $field;
@@ -95,10 +96,10 @@ class Form extends Form\Core\Configuration
 	/**
 	 * Add multiple configured form field instances,
 	 * function have infinite params with new field instances.
-	 * @param \MvcCore\Ext\Form\Core\Field $fields,... Any \MvcCore\Ext\Form field instance to add into form
+	 * @param \MvcCore\Ext\Form\Core\Field $fields,... Any `\MvcCore\Ext\Form\Interfaces\IField` instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddFields () {
+	public function & AddFields () {
 		if (!$this->initialized) $this->Init();
 		$fields = func_get_args();
 		foreach ($fields as & $field) {
@@ -124,6 +125,7 @@ class Form extends Form\Core\Configuration
 		}
 		return $this;
 	}
+
 	/**
 	 * Clear all session records for this form by form id.
 	 * Data sended from last submit, any csrf tokens and any errors.
@@ -210,10 +212,10 @@ class Form extends Form\Core\Configuration
 		return $result;
 	}
 	/**
-	 * Initialize the form, check if we are initialized or not and do it only once,
-	 * check if any form id exists and initialize translation boolean for better field initializations.
-	 * This is template method. To define any fields in custom \MvcCore\Ext\Form class extension,
-	 * do it in Init method and call parent method as first line inside your custom Init method.
+	 * Initialize the form, check if form is initialized or not and do it only once.
+	 * Check if any form id exists and initialize translation boolean for better field initializations.
+	 * This is template method. To define any fields in custom `\MvcCore\Ext\Form` class extension,
+	 * do it in `Init()` method and call `parent::Init();` as first line inside your custom `Init()` method.
 	 * @throws \MvcCore\Ext\Form\Core\Exception
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -244,10 +246,11 @@ class Form extends Form\Core\Configuration
 		if (!$this->initialized) $this->Init();
 		if ($this->initialized < 2) $this->prepareRenderIfNecessary();
 	}
+
 	/**
-	 * After every custom $form->Submit(); function implementation is at the end,
-	 * call this function to redirect user by configured success/error/next step address
-	 * into final place and store everything into session.
+	 * Call this function in custom `\MvcCore\Ext\Form::Submit();` method implementation
+	 * at the end of custom `Submit()` method to redirect user by configured success/error/next
+	 * step url address into final place and store everything into session.
 	 * @return void
 	 */
 	public function RedirectAfterSubmit () {
@@ -278,17 +281,18 @@ class Form extends Form\Core\Configuration
 		if (isset($this->Fields[$fieldName])) unset($this->Fields[$fieldName]);
 		return $this;
 	}
+
 	/**
-	 * Rendering process.
-	 * - if forms is not initialized, there is automaticly
-	 *   called $form->Init(); method
-	 * - if form is not prepared for rendering, there is
-	 *   automaticly called $form->prepareForRendering(); method
-	 * - create new form view instance and set up the view with local
-	 *   context variables
-	 * - render form naturaly or by custom template
-	 * - clean session errors, because errors shoud be rendered
-	 *   only once, only when it's used and it is now in rendering process
+	 * Render form into string to display it.
+	 * - If form is not initialized, there is automaticly
+	 *   called `$form->Init();` method.
+	 * - If form is not prepared for rendering, there is
+	 *   automaticly called `$form->prepareForRendering();` method.
+	 * - Create new form view instance and set up the view with local
+	 *   context variables.
+	 * - Render form naturaly or by custom template.
+	 * - Clean session errors, because errors shoud be rendered
+	 *   only once, only when it's used and it's now - in this rendering process.
 	 * @return string
 	 */
 	public function Render () {
@@ -422,17 +426,19 @@ class Form extends Form\Core\Configuration
 		Form\Core\Helpers::SetSessionCsrf($this->Id, array($name, $value));
 		return array($name, $value);
 	}
+
 	/**
 	 * Process standard low level submit process.
-	 * If no params passed as first argument, all params from \MvcCore request object are used.
-	 * - if fields are not initialized - initialize them by calling $form->Init();
-	 * - check max post size by php configuration if form is posted
-	 * - check cross site request forgery tokens with session tokens
-	 * - process all field values and their validators and call $form->AddError() where necessary
-	 *	 AddError method automaticly switch $form->Result property to zero - 0 means error submit result
-	 * Return array with form result, safe values by validators and errors.
+	 * If no params passed as first argument, all params from object
+	 * `\MvcCore\Application::GetInstance()->GetRequest()` are used.
+	 * - If fields are not initialized - initialize them by calling `$form->Init();`.
+	 * - Check max. post size by php configuration if form is posted.
+	 * - Check cross site request forgery tokens with session tokens.
+	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
+	 *	 `AddError()` method automaticly switch `$form->Result` property to zero - `0`, it means error submit result.
+	 * Return array with form result, safe values from validators and errors array.
 	 * @param array $rawParams optional
-	 * @return array array($form->Result, $form->Data, $form->Errors);
+	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
 	 */
 	public function Submit ($rawParams = array()) {
 		if (!$this->initialized) $this->Init();
