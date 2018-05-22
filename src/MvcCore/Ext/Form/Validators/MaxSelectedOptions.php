@@ -23,7 +23,7 @@ use
 
 class MaxSelectedOptions extends ValueInOptions
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$safeValue = is_array($submitValue) ? $submitValue : array();
 		$safeValueCount = count($safeValue);
 		// check if there is enough options checked

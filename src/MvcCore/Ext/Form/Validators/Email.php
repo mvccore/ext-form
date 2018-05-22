@@ -24,7 +24,7 @@ use
 
 class Email extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 		$safeValue = filter_var($submitValue, FILTER_VALIDATE_EMAIL);
 		$safeValue = $safeValue === FALSE ? '' : $safeValue ;

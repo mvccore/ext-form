@@ -24,7 +24,7 @@ use
 
 class FloatVal extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 		$floatValStr = preg_replace("#[^0-9\.,]#", '', $submitValue);
 		$safeValue = (float) str_replace(",", '.', $floatValStr);

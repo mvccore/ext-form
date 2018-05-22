@@ -194,7 +194,7 @@ class ZipCode extends Core\Validator
 			'ZM' => $p5,
 		);
 	}
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 		// remove all chars except: 'A-Z', '0-9', spaces and '-'
 		$notCheckedValue = preg_replace("#[^0-9A-Z\- ]#", '', strtoupper($submitValue));

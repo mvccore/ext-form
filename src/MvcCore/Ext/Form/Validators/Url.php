@@ -25,7 +25,7 @@ use
 
 class Url extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 		while (mb_strpos($submitValue, '%') !== FALSE) 
 			$submitValue = rawurldecode($submitValue);

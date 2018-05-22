@@ -24,7 +24,7 @@ use
 
 class ValueInOptions extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$safeValue = $this->completeSafeValueByOptions($submitValue, $field);
 		$safeValueType = gettype($safeValue);
 		$safeValueCount = count($safeValue);

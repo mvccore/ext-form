@@ -131,7 +131,7 @@ class Form extends Form\Core\Configuration
 	 * Data sended from last submit, any csrf tokens and any errors.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function ClearSession () {
+	public function & ClearSession () {
 		$this->Data = array();
 		include_once('Form/Core/Helpers.php');
 		Form\Core\Helpers::SetSessionData($this->Id, array());

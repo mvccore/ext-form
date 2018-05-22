@@ -24,7 +24,7 @@ use
 
 class Pattern extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$safeValue = '';
 		$submitValue = trim($submitValue);
 		if (isset($field->Pattern) && !is_null($field->Pattern)) {

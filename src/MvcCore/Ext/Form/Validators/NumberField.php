@@ -24,7 +24,7 @@ use
 
 class NumberField extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim((string) $submitValue);
 		$intValueStr = preg_replace("#[^0-9]#", '', $submitValue);
 		$floatValueStr = preg_replace("#[^0-9\.]#", '', str_replace(',','.',$submitValue));

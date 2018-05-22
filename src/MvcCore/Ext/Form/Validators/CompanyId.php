@@ -4,7 +4,7 @@
  * MvcCore
  *
  * This source file is subject to the BSD 3 License
- * For the full copyright and license information, please view 
+ * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
  * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
@@ -33,7 +33,7 @@ class CompanyId extends Core\Validator
 	/**
 	 * EU validators
 	 * Array of regexp bases to check company id.
-	 * If item is array of regexp bases, company id is 
+	 * If item is array of regexp bases, company id is
 	 * checked in or behaviour. If item is closure function,
 	 * company id is checked by calling closure function
 	 * with fist param to be company id. Closure function has
@@ -118,10 +118,10 @@ class CompanyId extends Core\Validator
 	 * @param string				$submitValue	raw submitted value
 	 * @param string				$fieldName		form field name
 	 * @param \MvcCore\Ext\Form\Core\Field $field			form field for company id
-	 * @throws \MvcCore\Ext\Form\Core\Exception 
+	 * @throws \MvcCore\Ext\Form\Core\Exception
 	 * @return mixed
 	 */
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 		$safeValue = preg_replace("#[^0-9A-Z\*\+]#", '', strtoupper($submitValue));
 		$formLocale = strtoupper($this->Form->Locale);
@@ -167,7 +167,7 @@ class CompanyId extends Core\Validator
 	 * Return true if company ID matches.
 	 * @param string $regExpBase
 	 * @param string $locale
-	 * @param string $id 
+	 * @param string $id
 	 * @return bool
 	 */
 	protected function checkCompanyIdByRegExpBase ($regExpBase, $locale, $id) {

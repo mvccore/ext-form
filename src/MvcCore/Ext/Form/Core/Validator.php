@@ -78,7 +78,7 @@ abstract class Validator implements \MvcCore\Ext\Form\Interfaces\IValidator
 	 * @param \MvcCore\Ext\Form\Core\Field	$field
 	 * @return string|array					safe submitted value
 	 */
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		return $submitValue;
 	}
 

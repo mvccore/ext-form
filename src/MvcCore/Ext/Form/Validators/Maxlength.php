@@ -24,7 +24,7 @@ use
 
 class Maxlength extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 		if (isset($field->Maxlength) && !is_null($field->Maxlength) && $field->Maxlength > 0) {
 			$safeValue = mb_substr($submitValue, 0, $field->Maxlength);

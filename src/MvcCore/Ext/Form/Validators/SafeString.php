@@ -29,7 +29,7 @@ use
 
 class SafeString extends Core\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 
 		// remove whitespaces from the beginning ant at the end: SPACE \t \n \r \0 \x0B
 		// @see http://php.net/manual/en/function.trim.php

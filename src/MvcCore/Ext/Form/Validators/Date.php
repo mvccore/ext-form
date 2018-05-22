@@ -45,7 +45,7 @@ class Date extends Core\Validator
 		's' => '00-59',
 		'u' => '0-999999',
 	);
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field) {
+	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Form\Interfaces\IField & $field) {
 		$submitValue = trim($submitValue);
 
 		$safeValue = preg_replace("#[^a-zA-Z0-9\:\.\-\,/ ]#", '', $submitValue);
