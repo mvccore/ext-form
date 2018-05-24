@@ -128,5 +128,5 @@ if ($result == \MvcCore\Ext\Form::RESULT_SUCCESS) {
 
 // redirect user to configured success 
 // or error url (by internal $form->Result property):
-$form->RedirectAfterSubmit();
+$form->SubmittedRedirect();
 ```
