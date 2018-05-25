@@ -16,6 +16,17 @@ namespace MvcCore\Ext\Form;
 trait FieldMethods
 {
 	/**
+	 * Get all form field controls.
+	 * After adding any field into form instance by `$form->AddField()` method
+	 * field is added under it's name into this array with all another form fields 
+	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]
+	 */
+	public function & GetFields() {
+		return $this->fields;
+	}
+
+	/**
 	 * Replace all previously configured fields with given fully configured fields array.
 	 * This method is dangerous - it will remove all previously added form fiels
 	 * and add given fields. If you want only to add another field(s) into form,

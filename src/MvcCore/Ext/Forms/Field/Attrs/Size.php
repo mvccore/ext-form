@@ -11,11 +11,18 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Fields;
+namespace MvcCore\Ext\Forms\Field\Attrs;
 
-class Hidden extends \MvcCore\Ext\Forms\Field
+trait Size
 {
-	protected $type = 'hidden';
+	protected $size = NULL;
 
-	protected $validators = array('SafeString');
+	public function GetSize () {
+		return $this->size;
+	}
+
+	public function & SetSize ($size) {
+		$this->size = $size;
+		return $this;
+	}
 }

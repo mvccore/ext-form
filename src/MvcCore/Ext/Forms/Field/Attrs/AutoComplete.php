@@ -11,11 +11,18 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Fields;
+namespace MvcCore\Ext\Forms\Field\Attrs;
 
-class Hidden extends \MvcCore\Ext\Forms\Field
+trait AutoComplete
 {
-	protected $type = 'hidden';
+	protected $autoComplete = NULL;
 
-	protected $validators = array('SafeString');
+	public function GetAutoComplete () {
+		return $this->autoComplete;
+	}
+
+	public function & SetAutoComplete ($autoComplete) {
+		$this->autoComplete = $autoComplete;
+		return $this;
+	}
 }

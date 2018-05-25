@@ -16,22 +16,31 @@ namespace MvcCore\Ext\Forms\Field;
 trait Setters
 {
 	/**
+	 * Set field id, completed from form name and field name.
+	 * @param string $id
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 */
+	public function SetId ($id = NULL) {
+		$this->id = $id;
+		return $this;
+	}
+	/**
 	 * Set field name, used to identify submitting value.
 	 * @requires
 	 * @param string $name
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetName ($name) {
-		$this->Name = $name;
+	public function SetName ($name = NULL) {
+		$this->name = $name;
 		return $this;
 	}
 	/**
 	 * Set input type like: 'text', 'number', 'range'...
 	 * @param string $type
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetType ($type) {
-		$this->Type = $type;
+	public function SetType ($type = NULL) {
+		$this->type = $type;
 		return $this;
 	}
 	/**
@@ -39,10 +48,10 @@ trait Setters
 	 * Translation will be processed internaly inside
 	 * Simpleform before rendering process by $this->Form->Translator();
 	 * @param string $label
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetLabel ($label) {
-		$this->Label = $label;
+	public function SetLabel ($label = NULL) {
+		$this->label = $label;
 		return $this;
 	}
 	/**
@@ -51,20 +60,20 @@ trait Setters
 	 * If you want to reconfigure it to different side,
 	 * next possible value is 'right'.
 	 * @param string $labelSide
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetLabelSide ($labelSide = 'right') {
-		$this->LabelSide = $labelSide;
+	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
+		$this->labelSide = $labelSide;
 		return $this;
 	}
 	/**
 	 * Set required boolean if field will be
 	 * required to complete by user for submit.
 	 * @param bool $required
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetRequired ($required = TRUE) {
-		$this->Required = $required;
+		$this->required = $required;
 		return $this;
 	}
 	/**
@@ -72,10 +81,10 @@ trait Setters
 	 * read only, not possible to complete by user for submit,
 	 * result value will be used from session.
 	 * @param bool $readonly
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetReadonly ($readonly = TRUE) {
-		$this->Readonly = $readonly;
+	public function SetReadOnly ($readOnly = TRUE) {
+		$this->readOnly = $readOnly;
 		return $this;
 	}
 	/**
@@ -88,37 +97,19 @@ trait Setters
 	 * - \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND
 	 * - \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL
 	 * @param string $renderMode
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetRenderMode ($renderMode = \MvcCore\Ext\Form\Core\Configuration::FIELD_RENDER_MODE_LABEL_AROUND) {
-		$this->RenderMode = $renderMode;
+	public function SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+		$this->renderMode = $renderMode;
 		return $this;
 	}
 	/**
 	 * Set control value, should be string or array, by field type implementation.
 	 * @param string|array|mixed $value
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetValue ($value) {
-		$this->Value = $value;
-		return $this;
-	}
-	/**
-	 * Get control value, should be string or array, by field type implementation.
-	 * @return string|array
-	 */
-	public function GetValue () {
-		return $this->Value;
-	}
-	/**
-	 * Set translate to TRUE if you want to translate this field.
-	 * It is necessary to set up any $form->Translator callable to
-	 * translate cotnrol placeholder, label and error messages.
-	 * @param bool $translate
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
-	 */
-	public function SetTranslate ($translate = TRUE) {
-		$this->Translate = $translate;
+		$this->value = $value;
 		return $this;
 	}
 	/**
@@ -127,23 +118,23 @@ trait Setters
 	 * by user for submit and disabled in submitting process,
 	 * result value will be used from session.
 	 * @param bool $readonly
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetDisabled ($disabled) {
-		$this->Disabled = $disabled;
+		$this->disabled = $disabled;
 		return $this;
 	}
 	/**
 	 * Set value to control html class attribute.
 	 * More classes is necessary to set as strings separated by spaces.
 	 * @param string $cssClasses
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetCssClasses ($cssClasses) {
 		if (gettype($cssClasses) == 'array') {
-			$this->CssClasses = $cssClasses;
+			$this->cssClasses = $cssClasses;
 		} else {
-			$this->CssClasses = explode(' ', (string)$cssClasses);
+			$this->cssClasses = explode(' ', (string)$cssClasses);
 		}
 		return $this;
 	}
@@ -151,20 +142,20 @@ trait Setters
 	 * Add value to html class attribute.
 	 * More classes is necessary to add as strings separated by spaces.
 	 * @param string $cssClasses
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddCssClass ($cssClass) {
-		$this->CssClasses[] = $cssClass;
+		$this->cssClasses[] = $cssClass;
 		return $this;
 	}
 	/**
 	 * Set any additional control html attributes by key/value array.
 	 * Do not use system attributes as id, name, value, readonly, disabled, class...
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetControlAttrs ($attrs = array()) {
-		$this->ControlAttrs = $attrs;
+		$this->controlAttrs = $attrs;
 		return $this;
 	}
 	/**
@@ -172,28 +163,28 @@ trait Setters
 	 * Do not use system attributes as id, name, value, readonly, disabled, class...
 	 * Use specific setter for them.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddControlAttr ($attr = array()) {
-		$this->ControlAttrs[] = $attr;
+		$this->controlAttrs[] = $attr;
 		return $this;
 	}
 	/**
 	 * Set any additional control html attributes by key/value array.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetLabelAttrs ($attrs = array()) {
-		$this->LabelAttrs = $attrs;
+		$this->labelAttrs = $attrs;
 		return $this;
 	}
 	/**
 	 * Add any additional control html attributes by key/value array.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddLabelAttr ($attr = array()) {
-		$this->LabelAttrs[] = $attr;
+		$this->labelAttrs[] = $attr;
 		return $this;
 	}
 	/**
@@ -205,10 +196,10 @@ trait Setters
 	 * and returnning safe value as result. This closure function shoud call
 	 * $field->Form->AddError(); whenever is necessary and values is not correct.
 	 * @param string[]|\Closure[] $validators
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetValidators ($validators = array()) {
-		$this->Validators = $validators;
+		$this->validators = $validators;
 		return $this;
 	}
 	/**
@@ -220,11 +211,12 @@ trait Setters
 	 * and returnning safe value as result. This closure function shoud call
 	 * $field->Form->AddError(); whenever is necessary and values is not correct.
 	 * @param string|Closure,... $validators
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddValidators () {
 		$args = func_get_args();
-		foreach ($args as $arg) $this->Validators[] = $arg;
+		foreach ($args as $arg) 
+			$this->validators[] = $arg;
 		return $this;
 	}
 	/**
@@ -234,19 +226,10 @@ trait Setters
 	 * If there is configured any path, relative from directory /App/Views/Scripts,
 	 * field is rendered by custom template.
 	 * @param bool|string|NULL $boolOrViewScriptPath
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
 		$this->viewScript = $boolOrViewScriptPath;
-		return $this;
-	}
-	/**
-	 * Set supporting javascript full class name.
-	 * @param string $jsClass
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
-	 */
-	public function SetJsClass ($jsClass) {
-		$this->JsClass = $jsClass;
 		return $this;
 	}
 	/**
@@ -255,10 +238,19 @@ trait Setters
 	 * replaced by \MvcCore\Ext\Form library root dir or by any other
 	 * reconfigured value from $this->Form->jsAssetsRootDir;
 	 * @param string $jsFullFile
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetJs ($jsFullFile) {
-		$this->Js = $jsFullFile;
+	public function SetJsSupportingFile ($jsSupportingFilePath) {
+		$this->jsSupportingFile = $jsSupportingFilePath;
+		return $this;
+	}
+	/**
+	 * Set supporting javascript full class name.
+	 * @param string $jsClass
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 */
+	public function SetJsClassName ($jsClassName) {
+		$this->jsClassName = $jsClassName;
 		return $this;
 	}
 	/**
@@ -267,10 +259,10 @@ trait Setters
 	 * replaced by \MvcCore\Ext\Form library root dir or by any other
 	 * reconfigured value from $this->Form->cssAssetsRootDir;
 	 * @param string $cssFullFile
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetCss ($cssFullFile) {
-		$this->Css = $cssFullFile;
+	public function SetCssSupportingFile ($cssSupportingFilePath) {
+		$this->cssSupportingFile = $cssSupportingFilePath;
 		return $this;
 	}
 	/**
@@ -280,10 +272,10 @@ trait Setters
 	 * To add form error properly, use $field->Form->AddError();
 	 * method isntead.
 	 * @param string $errorText
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Field
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddError ($errorText) {
-		$this->Errors[] = $errorText;
+		$this->errors[] = $errorText;
 		return $this;
 	}
 }

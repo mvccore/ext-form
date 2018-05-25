@@ -13,7 +13,6 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Core/Field.php');
 //require_once('Core/View.php');
 
 class Date extends Core\Field
@@ -24,7 +23,7 @@ class Date extends Core\Field
 	 * @see http://www.html5tutorial.info/html5-date.php
 	 * @var string
 	 */
-	public $Type = 'date';
+	protected $type = 'date';
 	/**
 	 * Valid Datetime format to create PHP Datetime
 	 * by DateTime::createFromFormat($field->Format);.
@@ -32,37 +31,37 @@ class Date extends Core\Field
 	 * @example 'Y-m-d', 'Y/m/d' ...
 	 * @var string
 	 */
-	public $Format = 'Y-m-d';
+	protected $format = 'Y-m-d';
 	/**
 	 * Minimum date/time/datetime for current control,
 	 * by configured format asigned as string value.
 	 * @var string
 	 */
-	public $Min = null;
+	protected $min = null;
 	/**
 	 * Maximum date/time/datetime for current control,
 	 * by configured format asigned as string value.
 	 * @var string
 	 */
-	public $Max = null;
+	protected $max = null;
 	/**
 	 * HTML5 input:date, input:time and input:datetime control
 	 * step attribute in seconds.
 	 * @see input:date
 	 * @var string
 	 */
-	public $Step = null;
+	protected $step = null;
 	/**
 	 * Any html code containing substring '{control}'
 	 * to wrap any code around control itself.
 	 * @var string
 	 */
-	public $Wrapper = '{control}';
+	protected $wrapper = '{control}';
 	/**
 	 * Validators used for submitted value to check format, min, max and dangerous characters
 	 * @var string[]|\Closure[]
 	 */
-	public $Validators = array('Date');
+	protected $validators = array('Date');
 	/**
 	 * Set datetime value and hold it formated as string by:
 	 * http://php.net/manual/en/datetime.createfromformat.php
@@ -71,9 +70,9 @@ class Date extends Core\Field
 	 */
 	public function SetValue ($value) {
 		if (gettype($value) == 'string') {
-			$this->Value = $value;
+			$this->value = $value;
 		} else {
-			$this->Value = $value->format($this->Format);
+			$this->value = $value->format($this->format);
 		}
 		return $this;
 	}
@@ -84,7 +83,7 @@ class Date extends Core\Field
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
 	 */
 	public function SetFormat ($format) {
-		$this->Format = $format;
+		$this->format = $format;
 		return $this;
 	}
 	/**
@@ -97,7 +96,7 @@ class Date extends Core\Field
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
 	 */
 	public function SetMin ($min) {
-		$this->Min = $min;
+		$this->min = $min;
 		return $this;
 	}
 	/**
@@ -110,7 +109,7 @@ class Date extends Core\Field
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
 	 */
 	public function SetMax ($max) {
-		$this->Max = $max;
+		$this->max = $max;
 		return $this;
 	}
 	/**
@@ -120,7 +119,7 @@ class Date extends Core\Field
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
 	 */
 	public function SetStep ($step) {
-		$this->Step = $step;
+		$this->step = $step;
 		return $this;
 	}
 	/**
@@ -131,7 +130,7 @@ class Date extends Core\Field
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
 	 */
 	public function SetWrapper ($wrapper) {
-		$this->Wrapper = $wrapper;
+		$this->wrapper = $wrapper;
 		return $this;
 	}
 	/**
@@ -140,18 +139,19 @@ class Date extends Core\Field
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Min', 'Max', 'Step')
+			array('min', 'max', 'step')
 		);
-		include_once('Core/View.php');
-		$result = Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		$result = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 		$wrapperReplacement = '{control}';
-		$wrapper = mb_strpos($wrapperReplacement, $this->Wrapper) !== FALSE ? $this->Wrapper : $wrapperReplacement;
+		$wrapper = mb_strpos($wrapperReplacement, $this->wrapper) !== FALSE 
+			? $this->wrapper 
+			: $wrapperReplacement;
 		return str_replace($wrapperReplacement, $result, $wrapper);
 	}
 }

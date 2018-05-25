@@ -17,19 +17,19 @@ trait Rendering
 {
 
 	/**
-	 * Rendering process alias.
-	 * @see \MvcCore\Ext\Form::Render();
+	 * Rendering process alias for `\MvcCore\Ext\Form::Render();`.
 	 * @return string
 	 */
 	public function __toString () {
 		return $this->Render();
 	}
+
 	/**
-	 * Render form into string to display it.
+	 * Render whole `<form>` with all content into HTML string to display it.
 	 * - If form is not initialized, there is automaticly
 	 *   called `$form->Init();` method.
-	 * - If form is not prepared for rendering, there is
-	 *   automaticly called `$form->prepareForRendering();` method.
+	 * - If form is not pre-dispatched for rendering, there is
+	 *   automaticly called `$form->Predispatch();` method.
 	 * - Create new form view instance and set up the view with local
 	 *   context variables.
 	 * - Render form naturaly or by custom template.
@@ -40,151 +40,157 @@ trait Rendering
 	public function Render ($controllerDashedName = '', $actionDashedName = '') {
 		$this->preDispatchIfNecessary();
 		if ($this->viewScript) {
-			$result = $this->View->RenderTemplate();
+			$result = $this->view->RenderTemplate();
 		} else {
-			$result = $this->View->RenderNaturally();
+			$result = $this->view->RenderNaturally();
 		}
-		$this->cleanUpRenderIfNecessary();
+		$this->cleanSessionErrorsAfterRender();
 		return $result;
 	}
+
 	/**
-	 * Render form content.
-	 * Go through all $form->Fields and call $field->Render(); on every field
-	 * and put it into an empty <div> element. Render each field in full possible
-	 * way - naturaly by label configuration with possible errors configured beside
-	 * or with custom field template.
+	 * Render form inner content, all field controls, content inside `<form>` tag, 
+	 * without form errors. Go through all `$form->fields` and call `$field->Render();` 
+	 * on every field instance and put field render result into an empty `<div>` 
+	 * element. Render each field in full possible way - naturaly by label 
+	 * configuration with possible errors configured beside or with custom field template.
 	 * @return string
 	 */
 	public function RenderContent () {
-		$this->preDispatchIfNecessary();
-		return $this->View->RenderContent();
+		return $this->preDispatchIfNecessary()->view->RenderContent();
 	}
+
 	/**
-	 * Render form errors.
+	 * Render form errors to display them inside `<form>` element.
 	 * If form is configured to render all errors together at form beginning,
-	 * this function completes all form errors into div.errors with div.error elements
+	 * this function completes all form errors into `div.errors` with `div.error` elements
 	 * inside containing each single errors message.
 	 * @return string
 	 */
 	public function RenderErrors () {
-		$this->preDispatchIfNecessary();
-		return $this->View->RenderErrors();
+		return $this->preDispatchIfNecessary()->view->RenderErrors();
 	}
+
 	/**
-	 * Render form begin.
-	 * Render opening <form> tag and hidden input with csrf tokens.
+	 * Render form begin - opening `<form>` tag and automaticly
+	 * prepared hidden input with CSRF (Cross Site Request Forgery) tokens.
 	 * @return string
 	 */
 	public function RenderBegin () {
-		$this->preDispatchIfNecessary();
-		return $this->View->RenderBegin();
+		return $this->preDispatchIfNecessary()->view->RenderBegin();
 	}
+
 	/**
-	 * Render form end.
-	 * Render html closing </form> tag and supporting javascript and css files
-	 * if is form not using external js/css renderers.
+	 * Render form end - closing `</form>` tag and supporting javascript and css files
+	 * only if there is necessary to add any supporting javascript or css files by
+	 * form configuration and if form is not using external JS/CSS renderer(s).
 	 * @return string
 	 */
 	public function RenderEnd () {
-		if ($this->dispatchState < 1) $this->Init();
-		$result = $this->View->RenderEnd();
-		$this->cleanUpRenderIfNecessary();
+		$result = $this->preDispatchIfNecessary()->view->RenderEnd();
+		$this->cleanSessionErrorsAfterRender();
 		return $result;
 	}
+
 	/**
-	 * Render all supporting css files directly
-	 * as <style> tag content inside html template
-	 * called usualy right after form end tag
-	 *	or
-	 * render all supporting css files by external
-	 * css assets renderer to add only links to html head
-	 * linked to external css source files.
+	 * Render all supporting CSS files directly
+	 * as `<style>` tag content inside HTML template
+	 * placed directly after `</form>` end tag or
+	 * render all supporting CSS files by configured external
+	 * CSS files renderer to add only links to HTML response `<head>`
+	 * section, linked to external CSS source files.
 	 * @return string
 	 */
-	public function RenderCss () {
-		if (!$this->Css) return '';
-		$cssFiles = $this->completeAssets('css');
+	public function RenderSupportingCss () {
+		if (!$this->cssSupportFiles) return '';
+		$cssFiles = $this->completeSupportingFilesToRender(FALSE);
+		if (!$cssFiles) return '';
 		$cssFilesContent = '';
-		$loadCssFilesContents = !is_callable($this->CssRenderer);
+		$useExternalRenderer = is_callable($this->cssSupportFilesRenderer);
 		foreach ($cssFiles as $cssFile) {
-			$this->renderAssetFile($cssFilesContent, $this->CssRenderer, $loadCssFilesContents, $cssFile);
+			$this->renderSupportingFile(
+				$cssFilesContent, $cssFile, 
+				$useExternalRenderer, $this->cssSupportFilesRenderer 
+			);
 		}
-		if (!$loadCssFilesContents) return '';
+		if ($useExternalRenderer) return '';
 		return '<style type="text/css">'.$cssFilesContent.'</style>';
 	}
+
 	/**
-	 * Render all supporting js files directly
-	 * as <script> tag content inside html template
-	 * called usualy right after form end tag
-	 *	or
-	 * render all supporting javascript files by external
-	 * assets renderer to add only scripts to html head
-	 * linked to external script source files. But there is still created
-	 * one <script> tag right after form tag end with supporting javascripts
-	 * initializations by rendered form fieds options, names, counts, values etc...
+	 * Render all supporting JS files directly
+	 * as `<script>` tag content inside HTML template
+	 * placed directly after `</form>` end tag or
+	 * render all supporting JS files by configured external
+	 * JS files renderer to add only links to HTML response `<head>`
+	 * section, linked to external JS source files.
+	 * Anyway there is always created at least one `<script>` tag 
+	 * placed directly after `</form>` end tag with supporting javascripts
+	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fieds 
+	 * options, names, counts, values etc...
 	 * @return string
 	 */
-	public function RenderJs () {
-		if (!$this->Js) return '';
-		$jsFiles = $this->completeAssets('js');
+	public function RenderSupportingJs () {
+		if (!$this->jsSupportFiles) return '';
+		$jsFiles = $this->completeSupportingFilesToRender(TRUE);
+		if (!$jsFiles) return '';
 		$jsFilesContent = '';
 		$fieldsConstructors = array();
-		$loadJsFilesContents = !is_callable($this->JsRenderer);
-		if (!isset(self::$js[$this->JsBaseFile])) {
-			$this->JsBaseFile = $this->absolutizeAssetPath($this->JsBaseFile, 'js');
-			self::$js[$this->JsBaseFile] = TRUE;
-			$this->renderAssetFile($jsFilesContent, $this->JsRenderer, $loadJsFilesContents, $this->JsBaseFile);
+		$useExternalRenderer = is_callable($this->jsSupportFilesRenderer);
+		if (!isset(self::$allJsSupportFiles[$this->jsBaseSupportFile])) {
+			$this->jsBaseSupportFile = $this->absolutizeAssetPath($this->jsBaseSupportFile, 'js');
+			self::$allJsSupportFiles[$this->jsBaseSupportFile] = TRUE;
+			$this->renderSupportingFile(
+				$jsFilesContent, $this->jsBaseSupportFile, 
+				$useExternalRenderer, $this->jsSupportFilesRenderer 
+			);
 		}
-		foreach ($jsFiles as $jsFile) {
-			$this->renderAssetFile($jsFilesContent, $this->JsRenderer, $loadJsFilesContents, $jsFile);
+		foreach ($jsFiles as $jsFile)
+			$this->renderSupportingFile(
+				$jsFilesContent, $jsFile, 
+				$useExternalRenderer, $this->jsSupportFilesRenderer 
+			);
+		foreach ($this->jsSupportFiles as $jsSupportFile) {
+			list(, $jsFullClassName, $constructParams) = $jsSupportFile;
+			$constructParamsEncoded = json_encode($constructParams);
+			// remove beggining char and ending char from javascript array: `[`, `]`
+			$constructParamsEncoded = mb_substr(
+				$constructParamsEncoded, 1, mb_strlen($constructParamsEncoded) - 2
+			);
+			$fieldsConstructors[] = 'new ' . $jsFullClassName . '(' . $constructParamsEncoded . ')';
 		}
-		foreach ($this->Js as $item) {
-			$paramsStr = json_encode($item[2]);
-			$paramsStr = mb_substr($paramsStr, 1, mb_strlen($paramsStr) - 2);
-			$fieldsConstructors[] = "new " . $item[1] . "(" . $paramsStr . ")";
-		}
-		$result = $jsFilesContent."new MvcCoreForm("
-			."document.getElementById('".$this->Id."'),"
-			."[".implode(',', $fieldsConstructors)."]"
-		.")";
-		include_once('Form/Core/View.php');
-		if (class_exists('\MvcCore\View') && strpos(\MvcCore\View::GetDoctype(), 'XHTML') !== FALSE) {
-			$result = '/* <![CDATA[ */' . $result . '/* ]]> */';
-		}
+		$result = $jsFilesContent . 'new MvcCoreForm('
+			. 'document.getElementById(\'' . $this->id . '\'),'
+			. '[' . implode(',', $fieldsConstructors) . ']'
+		. ')';
+		$viewDocType = \MvcCore\View::GetDoctype();
+		if (
+			$this->response->IsXmlOutput() ||
+			strpos($viewDocType, \MvcCore\View::DOCTYPE_XHTML) !== FALSE ||
+			strpos($viewDocType, \MvcCore\View::DOCTYPE_XML) !== FALSE
+		) $result = '/*<![CDATA[*/' . $result . '/*]]>*/';
 		return '<script type="text/javascript">' . $result . '</script>';
 	}
 
 	/**
-	 * Clean up after rendering.
-	 * - clean session errors
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm|\MvcCore\Ext\Form\Core\Base
-	 */
-	protected function cleanUpRenderIfNecessary () {
-		$this->Errors = array();
-		include_once('Helpers.php');
-		Helpers::SetSessionErrors($this->Id, array());
-		return $this;
-	}
-	/**
-	 * Prepare for rendering.
-	 * - process all defined fields and call $field->setUp();
-	 *   to prepare field for rendering process.
-	 * - load any possible error from session and set up
-	 *   errors into fields and into form object to render them properly
-	 * - load any possible previously submitted or stored data
-	 *   from session and set up form with them.
-	 * - set initialized state to 2, which means - prepared for rendering
+	 * Form rendering preparing (pre-dispatching).
+	 * - Process all defined fields and call `$field->PreDispatch();`
+	 *   to prepare all fields for rendering process.
+	 * - Load any possible error from session and set up
+	 *   errors into fields and into form object to render them properly.
+	 * - Load any possible previously submitted and/or stored values
+	 *   from session and set up form fields with them.
+	 * - Set initialized state to 2, which means - prepared, pre-dispatched for rendering.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	protected function preDispatchIfNecessary () {
-		if ($this->dispatchState > 2) return $this;
+		if ($this->dispatchState > 1) return $this;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
-		xxx($this->fields);
 		foreach ($this->fields as & $field)
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
 		$session = & $this->getSession();
-		foreach ($session->errors as & $errorMsgAndFieldNames) {
+		foreach ($session->errors as $errorMsgAndFieldNames) {
 			list($errorMsg, $fieldNames) = array_merge(array(), $errorMsgAndFieldNames);
 			$this->AddError($errorMsg, $fieldNames);
 		}
@@ -192,12 +198,30 @@ trait Rendering
 			$this->SetValues(array_merge(array(), $session->values));
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
-			->SetController($this->parentController)
-			->SetForm($this)
-			->SetUpValuesFromController($this->parentController, TRUE)
-			->SetUpValuesFromView($this->parentController->GetView(), TRUE)
-			->SetUpValuesFromController($this, TRUE);
+			->SetForm($this);
+		if ($this->viewScript) {
+			$this->view
+				->SetController($this->parentController)
+				->SetView($this->parentController->GetView())
+				->SetUpValuesFromController($this->parentController, TRUE)
+				->SetUpValuesFromView($this->parentController->GetView(), TRUE)
+				->SetUpValuesFromController($this, TRUE);
+		}
 		$this->dispatchState = 2;
+		return $this;
+	}
+
+	/**
+	 * Call this function fter form has been rendered 
+	 * to clear session errors, because there is not necessary 
+	 * to have there those errors anymore, because will be 
+	 * displayed in rendered form.
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	protected function cleanSessionErrorsAfterRender () {
+		$this->errors = array();
+		$session = & $this->getSession();
+		$session->errors = array();
 		return $this;
 	}
 }

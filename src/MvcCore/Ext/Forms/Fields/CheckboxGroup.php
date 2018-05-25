@@ -31,7 +31,7 @@ class CheckboxGroup extends Core\FieldGroup
 	public $MaxSelectedOptionsClassName = 'max-selected-options';
 	public $Validators = array("ValueInOptions");
 	public $JsClass = 'MvcCoreForm.CheckboxGroup';
-	public $Js = \MvcCore\Ext\Forms\IForm::FORM_DIR_REPLACEMENT . '/fields/checkbox-group.js';
+	public $Js = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/checkbox-group.js';
 
 	public static $Templates = array(
 		'control'			=> '<input id="{id}" name="{name}[]" type="{type}" value="{value}"{checked}{attrs} />',

@@ -16,6 +16,26 @@ namespace MvcCore\Ext\Forms\Field;
 trait Getters
 {
 	public function GetName () {
-		return $this->Name;
+		return $this->name;
+	}
+
+	/**
+	 * Get control value, should be string or array, by field type implementation.
+	 * @return string|array
+	 */
+	public function GetValue () {
+		return $this->value;
+	}
+
+	public function GetReadOnly () {
+		return $this->readOnly;
+	}
+
+	public function GetDisabled () {
+		return $this->disabled;
+	}
+
+	public static function & GetTemplates () {
+		return (array) static::$templates;
 	}
 }

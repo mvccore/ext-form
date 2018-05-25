@@ -16,58 +16,75 @@ namespace MvcCore\Ext\Form;
 trait Assets
 {
 	/**
-	 * Absolutize assets path. Every field has cofigured it's supporting css or js file with
-	 * absolute path replacement inside file path string by '__MVCCORE_FORM_DIR__'.
-	 * Replace now the replacement by prepared properties $form->jsAssetsRootDir or $form->cssAssetsRootDir
-	 * to set path into library assets folder by default or to any other user defined paths.
-	 * @param string $path
-	 * @param string $assetsKey
-	 * @return string
+	 * Absolutize supporting JS/CSS relative file path. Every field has cofigured 
+	 * it's supporting css or js file with `absolute path replacement` inside supporting 
+	 * file path string by `__MVCCORE_FORM_ASSETS_DIR__` substring.
+	 * Replace now the replacement substring by prepared properties values 
+	 * `$form->jsAssetsRootDir` or `$form->cssAssetsRootDir` to set path into 
+	 * library assets folder by default or to set path into any other customized defined directory.
+	 * @param string $supportingFileRelPath Supporting file relative path with `__MVCCORE_FORM_ASSETS_DIR__` replacement substring.
+	 * @param string $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
+	 * @return string Return absolute path to suporting javascript.
 	 */
-	protected function absolutizeAssetPath ($path = '', $assetsKey = '') {
-		$assetsRootDir = $assetsKey == 'js' ? $this->jsAssetsRootDir : $this->cssAssetsRootDir;
+	protected function absolutizeSupportingFilePath ($supportingFileRelPath = '', $javascriptFiles = TRUE) {
+		$assetsRootDir = $javascriptFiles 
+			? $this->jsAssetsRootDir 
+			: $this->cssAssetsRootDir;
 		return str_replace(
-			array('__MVCCORE_FORM_DIR__', '\\'),
+			array(\MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'),
 			array($assetsRootDir, '/'),
-			$path
+			$supportingFileRelPath
 		);
 	}
+
 	/**
-	 * Complete css or js supporting files to add after rendered form
-	 * or to add them by external renderer. This function process all
-	 * added assets and filter them to add them finally only one by once.
-	 * @param string $assetsKey
+	 * Complete JS/CSS supporting file(s) to add them after rendered `<form>` element
+	 * or to add them into response by external renderer. This function processes all
+	 * assets necessary to and and filters them for asset files aready added into response.
+	 * @param bool $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
 	 * @return array
 	 */
-	protected function completeAssets ($assetsKey = '') {
+	protected function completeSupportingFilesToRender ($javascriptFiles = TRUE) {
 		$files = array();
-		$assetsKeyUcFirst = ucfirst($assetsKey);
-		foreach ($this->$assetsKeyUcFirst as $item) {
-			$files[$this->absolutizeAssetPath($item[0], $assetsKey)] = TRUE;
+		if ($javascriptFiles) {
+			$instanceCollection = & $this->jsSupportFiles;
+			$staticCollection = & self::$allJsSupportFiles;
+		} else {
+			$instanceCollection = & $this->cssSupportFiles;
+			$staticCollection = & self::$allCssSupportFiles;
 		}
+		foreach ($instanceCollection as $item)
+			$files[$this->absolutizeSupportingFilePath($item[0], $javascriptFiles)] = TRUE;
 		$files = array_keys($files);
 		foreach ($files as $key => $file) {
-			if (isset(static::${$assetsKey}[$file])) {
+			if (isset($staticCollection[$file])) {
 				unset($files[$key]);
 			} else {
-				static::${$assetsKey}[$file] = TRUE;
+				$staticCollection[$file] = TRUE;
 			}
 		}
 		return array_values($files);
 	}
+
 	/**
-	 * Render supporting js/css file. Add it after renderer form content or call extenal renderer.
-	 * @param string	$content
-	 * @param callable	$renderer
-	 * @param bool		$loadContent
-	 * @param string	$absPath
+	 * Render supporting js/css file. Add it's content after given first 
+	 * argument string `$content` or call extenal renderer handler.
+	 * @param string	$content				HTML content code with rendered supporting JS/CSS files.
+	 * @param string	$absolutePath			Absolute path to supporting JS/CSS file.
+	 * @param bool		$useExternalRenderer	`TRUE` to use any external cofngired renderer `callable`, default `FALSE`.
+	 * @param callable	$rendererHandler		External renderer `callable` accepting first argument as `\SplFileInfo` about supporting JS/CSS file.
 	 * @return void
 	 */
-	protected function renderAssetFile (& $content, & $renderer, $loadContent, $absPath) {
-		if ($loadContent) {
-			$content .= trim(file_get_contents($absPath), "\n\r;") . ';';
+	protected function renderSupportingFile (
+		& $content, 
+		& $absolutePath, 
+		$useExternalRenderer = FALSE, 
+		& $rendererHandler = NULL
+	) {
+		if ($useExternalRenderer) {
+			call_user_func($rendererHandler, new \SplFileInfo($absolutePath));
 		} else {
-			call_user_func($renderer, new \SplFileInfo($absPath));
+			$content .= trim(file_get_contents($absolutePath), "\n\r;") . ';';
 		}
 	}
 }

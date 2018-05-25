@@ -327,4 +327,23 @@ trait GetMethods
 	public function GetCssSupportFilesRootDir () {
 		return $this->cssSupportFilesRootDir;
 	}
+
+	/**
+	 * Get internal flag to quickly know if form fields will be translated or not.
+	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
+	 * @return bool
+	 */
+	public function GetTranslate () {
+		return $this->translate;
+	}
+
+	/**
+	 * Translate given string with configured translator and configured language code.
+	 * @param string $translationKey 
+	 * @return string
+	 */
+	public function Translate ($translationKey) {
+		return call_user_func_array($this->translator, $translationKey, $this->lang);
+	}
 }

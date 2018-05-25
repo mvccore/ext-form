@@ -33,15 +33,17 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderTemplate () {
-		include_once('View.php');
 		$view = new View($this->Form);
-		$this->Field = $this;
+		
 		$view->SetUp($this);
+		$this->field = $this;
+
 		return $view->Render(
 			\MvcCore\Ext\Forms\View::GetFormsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
 		);
 	}
+
 	/**
 	 * Render field naturaly by render mode.
 	 * Field shoud be rendered with label beside, label around
@@ -52,102 +54,118 @@ trait Rendering
 	 */
 	public function RenderNaturally () {
 		$result = '';
-		if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NORMAL && $this->Label) {
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL && $this->label) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_LABEL_AROUND && $this->Label) {
+		} else if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $this->label) {
 			$result = $this->RenderControlInsideLabel();
-		} else if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NO_LABEL || !$this->Label) {
+		} else if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
-			if ($this->Form->ErrorsRenderMode !== Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+			if ($formErrorsRenderMode !== \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 				$result = $errors . $result;
-			} else if ($this->Form->ErrorsRenderMode !== Configuration::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+			} else if ($formErrorsRenderMode !== \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $errors;
 			}
 		}
 		return $result;
 	}
+
 	/**
 	 * Render field control and label by local configuration in left or in right side,
 	 * errors beside if form is configured to render specific errors beside controls.
 	 * @return string
 	 */
 	public function RenderLabelAndControl () {
-		$result = "";
-		if ($this->LabelSide == 'left') {
+		$result = '';
+		if ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
 			$result = $this->RenderLabel() . $this->RenderControl();
 		} else {
 			$result = $this->RenderControl() . $this->RenderLabel();
 		}
 		$errors = $this->RenderErrors();
-		if ($this->Form->ErrorsRenderMode == Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($this->Form->ErrorsRenderMode == Configuration::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
 	}
+
 	/**
 	 * Render field control inside label by local configuration, render field
 	 * errors beside if form is configured to render specific errors beside controls.
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NO_LABEL) return $this->RenderControl();
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+			return $this->RenderControl();
+		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
+			? static::$templates->togetherLabelLeft 
+			: static::$templates->togetherLabelRight;
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
-		$template = $this->LabelSide == 'left' ? static::$Templates->togetherLabelLeft : static::$Templates->togetherLabelRight;
-		$result = $this->Form->View->Format($template, array(
-			'id'		=> $this->Id,
-			'label'		=> $this->Label,
+		$result = $this->form->GetView()->Format($template, array(
+			'id'		=> $this->id,
+			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 		$errors = $this->RenderErrors();
-		if ($this->Form->ErrorsRenderMode == Configuration::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($this->Form->ErrorsRenderMode == Configuration::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
 	}
+
 	/**
 	 * Render control tag only without label or specific errors.
 	 * @return string
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
-		return $this->Form->View->Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		return $this->form->GetView()->Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}
+
 	/**
 	 * Render label tag only without control or specific errors.
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->RenderMode == Configuration::FIELD_RENDER_MODE_NO_LABEL) return '';
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
-		return $this->Form->View->Format(static::$Templates->label, array(
-			'id'		=> $this->Id,
-			'label'		=> $this->Label,
+		return $this->form->GetView()->Format(static::$templates->label, array(
+			'id'		=> $this->id,
+			'label'		=> $this->label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}
+
 	/**
+	 * TODO: co je v této metodě: $this->fields? to jako $form->fields???
 	 * Render field specific errors only without control or label.
 	 * @return string
 	 */
 	public function RenderErrors () {
 		$result = "";
-		if ($this->Errors && $this->Form->ErrorsRenderMode !== Configuration::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		if (
+			$this->errors && 
+			$this->form->GetErrorsRenderMode() !== \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER
+		) {
 			$result .= '<span class="errors">';
-			foreach ($this->Errors as $key => $errorMessage) {
+			foreach ($this->errors as $key => $errorMessage) {
 				$errorCssClass = 'error';
-				if (isset($this->Fields[$key])) $errorCssClass .= " $key";
+				if (isset($this->fields[$key])) $errorCssClass .= " $key";
 				$result .= "<span class=\"$errorCssClass\">$errorMessage</span>";
 			}
 			$result .= '</span>';
@@ -173,7 +191,7 @@ trait Rendering
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = array()) {
 		return $this->renderAttrsWithFieldVars(
-			$fieldVars, $this->LabelAttrs, $this->CssClasses
+			$fieldVars, $this->labelAttrs, $this->cssClasses
 		);
 	}
 	/**
@@ -191,7 +209,7 @@ trait Rendering
 	 */
 	protected function renderControlAttrsWithFieldVars ($fieldVars = array()) {
 		return $this->renderAttrsWithFieldVars(
-			$fieldVars, $this->ControlAttrs, $this->CssClasses, TRUE
+			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
 		);
 	}
 	/**
@@ -213,27 +231,29 @@ trait Rendering
 	 * @return string
 	 */
 	protected function renderAttrsWithFieldVars (
-		$fieldVars = array(), $fieldAttrs = array(), $cssClasses = array(), $controlRendering = FALSE
+		$fieldVars = array(), 
+		$fieldAttrs = array(), 
+		$cssClasses = array(), 
+		$controlRendering = FALSE
 	) {
 		$attrs = array();
-		foreach ($fieldVars as $fieldVar) {
-			if (!is_null($this->$fieldVar)) {
-				$attrName = \MvcCore\Tool::GetDashedFromPascalCase($fieldVar);
-				$attrs[$attrName] = $this->$fieldVar;
+		foreach ($fieldVars as $fieldName) {
+			if ($this->$fieldName !== NULL) {
+				$attrName = strtolower($fieldName);
+				$attrs[$attrName] = $this->$fieldName;
 			}
 		}
-		$boolFieldVars = array('Disabled', 'Readonly', 'Required');
-		foreach ($boolFieldVars as $fieldVar) {
-			if ($this->$fieldVar) {
-				$attrName = lcfirst($fieldVar);
+		$boolFieldVars = array('disabled', 'readOnly', 'required');
+		foreach ($boolFieldVars as $fieldName) {
+			if ($this->$fieldName) {
+				$attrName = strtolower($fieldName);
 				if ($controlRendering) $attrs[$attrName] = $attrName;
 				$cssClasses[] = $attrName;
 			}
 		}
-		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->Name);
+		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
 		$attrs['class'] = implode(' ', $cssClasses);
-		include_once('View.php');
-		return View::RenderAttrs(
+		return \MvcCore\Ext\Forms\View::RenderAttrs(
 			array_merge($fieldAttrs, $attrs)
 		);
 	}

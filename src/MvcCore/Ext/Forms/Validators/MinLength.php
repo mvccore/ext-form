@@ -22,7 +22,8 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class MaxLength extends Core\Validator
+// TODO: hodně
+class MinLength extends \MvcCore\Ext\Forms\Validator
 {
 	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
 		$submitValue = trim($submitValue);
@@ -34,7 +35,7 @@ class MaxLength extends Core\Validator
 		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {
 			$this->addError(
 				$field, 
-				Form::$DefaultMessages[Form::MAX_LENGTH], 
+				Form::$DefaultMessages[Form::MIN_LENGTH], 
 				function ($msg, $args) use (& $field) {
 					$args[] = $field->Maxlength;
 					return Core\View::Format($msg, $args);

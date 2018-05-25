@@ -153,10 +153,11 @@ trait ConfigProps
 	protected $defaultRequired = FALSE;
 
 	/**
-	 * Every form control after adding into form instance by `$form->AddField()` method
-	 * is added under it's name into this array with all form fields except CSRF `input:hidden`s.
-	 * Fields are rendered by order in this array.
-	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField[]
+	 * All form field controls.
+	 * After adding any field into form instance by `$form->AddField()` method
+	 * field is added under it's name into this array with all another form fields 
+	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
+	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]
 	 */
 	protected $fields = array();
 

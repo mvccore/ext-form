@@ -15,5 +15,6 @@ namespace MvcCore\Ext\Forms;
 
 interface IField
 {
-
+	const LABEL_SIDE_LEFT = 'left';
+	const LABEL_SIDE_RIGHT = 'right';
 }

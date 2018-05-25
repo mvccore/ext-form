@@ -13,51 +13,39 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once(__DIR__ . '/../Form.php');
-require_once('Core/Field.php');
-//require_once('Core/View.php');
-
-class Textarea extends Core\Field
+class Textarea extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'textarea';
-	public $Rows = null;
-	public $Cols = null;
-	public $Maxlength = null;
-	public $Validators = array('SafeString'/*, 'Maxlength', 'Pattern'*/);
-	public static $Templates = array(
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxText;
+	use \MvcCore\Ext\Forms\Field\Attrs\RowsCols;
+
+	protected $type = 'textarea';
+
+	protected $validators = array('SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+
+	protected static $templates = array(
 		'control'	=> '<textarea id="{id}" name="{name}"{attrs}>{value}</textarea>',
 	);
-	public function __construct(array $cfg = array()) {
+
+	public function __construct (array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
+		static::$templates = (object) array_merge(
+			(array) parent::$templates, 
+			(array) self::$templates
+		);
 	}
-	public function SetRows ($rows) {
-		$this->Rows = $rows;
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		$this->checkValidatorsMinMaxLength();
 		return $this;
-	}
-	public function SetCols ($cols) {
-		$this->Cols = $cols;
-		return $this;
-	}
-	public function SetMaxlength ($maxlength) {
-		$this->Maxlength = $maxlength;
-		return $this;
-	}
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if ($this->Maxlength && !in_array('Maxlength', $this->Validators)) {
-			$this->Validators[] = 'Maxlength';
-		}
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Maxlength', 'Rows', 'Cols')
+			array('MinLength', 'MaxLength', 'Rows', 'Cols')
 		);
-		include_once('Core/View.php');
-		return Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'value'		=> $this->Value,
+		return \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}

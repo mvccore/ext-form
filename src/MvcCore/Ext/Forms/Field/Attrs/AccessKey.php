@@ -11,11 +11,17 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Fields;
+namespace MvcCore\Ext\Forms\Field\Attrs;
 
-class Hidden extends \MvcCore\Ext\Forms\Field
+trait AccessKey
 {
-	protected $type = 'hidden';
+	protected $accessKey = NULL;
 
-	protected $validators = array('SafeString');
+	public function GetAccessKey ($accessKey) {
+		return $this->accessKey;
+	}
+	public function & SetAccessKey ($accessKey) {
+		$this->accessKey = $accessKey;
+		return $this;
+	}
 }

@@ -16,70 +16,77 @@ namespace MvcCore\Ext\Form;
 trait Csrf
 {
 	/**
-	 * Return current cross site request forgery hidden
-	 * input name and it's value as stdClass.
-	 * Result stdClass elements has keys 'name' and 'value'.
+	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form Form instance where CSRF error happend.
+	 * @param string $errorMsg Translated error message abouzt CSRF invalid tokens.
+	 * @return void
+	 */
+	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm & $form, $errorMsg) {
+		$request = $form->GetRequest();
+		foreach (static::$csrfErrorHandlers as $handlersRecord) {
+			list ($handler, $isClosure) = $handlersRecord;
+			try {
+				if ($isClosure) {
+					$handler($form, $request, $errorMsg);
+				} else {
+					call_user_func($handler, $form, $request, $errorMsg);
+				}
+			} catch (\Exception $e) {
+				$debugClass = $form->GetApplication()->GetDebugClass();
+				$debugClass::Log($e, \MvcCore\Interfaces\IDebug::CRITICAL);
+			}
+		}
+	}
+
+	/**
+	 * Return current CSRF (Cross Site Request Forgery) hidden
+	 * input name and it's value as `\stdClass`with  keys `name` and `value`.
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
-		include_once('Form/Core/Helpers.php');
-		list($name, $value) = Form\Core\Helpers::GetSessionCsrf($this->Id);
+		$session = & $this->getSession();
+		list($name, $value) = $session->csrf;
 		return (object) array('name' => $name, 'value' => $value);
 	}
+
 	/**
-	 * Check cross site request forgery sended tokens from user with session tokens.
-	 * If tokens are diferent, add form error and process csrf error handlers queue.
-	 * @param array $rawRequestParams
+	 * Check CSRF (Cross Site Request Forgery) sended tokens from user with session tokens.
+	 * If tokens are diferent, add form error and process CSRF error handlers queue.
+	 * If there is any exception catched in CSRF error handlers queue, it's logged
+	 * by configured core debug class with `CRITICAL` flag.
+	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
 	 * @return bool
 	 */
 	public function ValidateCsrf ($rawRequestParams = array()) {
 		$result = FALSE;
-		include_once('Form/Core/Helpers.php');
-		$sessionCsrf = Form\Core\Helpers::GetSessionCsrf($this->Id);
-		list($name, $value) = $sessionCsrf ? $sessionCsrf : array(NULL, NULL);
-		if (!is_null($name) && !is_null($value)) {
-			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value) {
+		$session = & $this->getSession();
+		list($name, $value) = $session->csrf ? $session->csrf : array(NULL, NULL);
+		if ($name !== NULL && $value !== NULL)
+			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value)
 				$result = TRUE;
-			}
-		}
 		if (!$result) {
-			$errorMsg = Form::$DefaultMessages[Form::CSRF];
-			if ($this->Translate) {
-				$errorMsg = call_user_func($this->Translator, $errorMsg);
-			}
+			$errorMsg = self::getError(\MvcCore\Ext\Forms\IError::CSRF);
+			if ($this->translate)
+				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($errorMsg);
-			foreach (static::$csrfErrorHandlers as $handler) {
-				if (is_callable($handler)) {
-					$handler($this, $errorMsg);
-				}
-			}
+			static::ProcessCsrfErrorHandlersQueue($this, $errorMsg);
 		}
 		return $result;
 	}
+
 	/**
-	 * Create new fresh cross site request forgery tokens,
-	 * store them into session under $form->Id and return them.
+	 * Create new fresh CSRF (Cross Site Request Forgery) tokens,
+	 * store them in current form session namespace and return them.
 	 * @return string[]
 	 */
 	public function SetUpCsrf () {
-		$requestPath = $this->getRequestPath();
+		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
 		$randomHash = bin2hex(openssl_random_pseudo_bytes(32));
 		$nowTime = (string)time();
-		$name = '____'.sha1($this->Id . $requestPath . 'name' . $nowTime . $randomHash);
-		$value = sha1($this->Id . $requestPath . 'value' . $nowTime . $randomHash);
-		include_once('Form/Core/Helpers.php');
-		Form\Core\Helpers::SetSessionCsrf($this->Id, array($name, $value));
+		$name = '____'.sha1($this->id . $requestUrl . 'name' . $nowTime . $randomHash);
+		$value = sha1($this->id . $requestUrl . 'value' . $nowTime . $randomHash);
+		$session = & $this->getSession();
+		$session->csrf = array($name, $value);
 		return array($name, $value);
-	}
-	/**
-	 * Get request path with protocol, domain, port, part but without any possible query string.
-	 * @return string
-	 */
-	protected function getRequestPath () {
-		$requestUri = $_SERVER['REQUEST_URI'];
-		$lastQuestionMark = mb_strpos($requestUri, '?');
-		if ($lastQuestionMark !== FALSE) $requestUri = mb_substr($requestUri, 0, $lastQuestionMark);
-		$protocol = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ? 'https:' : 'http:';
-		return $protocol . '//' . $_SERVER['HTTP_HOST'] . $requestUri;
 	}
 }

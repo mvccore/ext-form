@@ -13,10 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Text.php');
-
 class Email extends Text
 {
-	public $Type = 'email';
-	public $Validators = array('SafeString', 'Email'/*, 'Maxlength', 'Pattern'*/);
+	protected $type = 'email';
+
+	protected $validators = array('SafeString', 'Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
 }

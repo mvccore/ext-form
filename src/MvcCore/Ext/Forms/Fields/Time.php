@@ -17,8 +17,8 @@ require_once('Date.php');
 
 class Time extends Date
 {
-	public $Type = 'time';
-	public $Format = 'H:i';
-	public $Validators = array('Time');
+	protected $type = 'time';
+	protected $format = 'H:i';
+	protected $validators = array('Time');
 	// Min and Max shoud be set as strings in 24 hours format like 8:00, 22:00
 }

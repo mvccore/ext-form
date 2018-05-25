@@ -28,6 +28,21 @@ trait Session
 	private static $_toolClass = NULL;
 
 	/**
+	 * Clear all session records for this form by form id.
+	 * Data sended from last submit, any csrf tokens and any errors.
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & ClearSession () {
+		$this->values = array();
+		$this->errors = array();
+		$session = & $this->getSession();
+		$session->values = array();
+		$session->csrf = array();
+		$session->errors = array();
+		return $this;
+	}
+
+	/**
 	 * Get session namespace reference with configured expiration
 	 * and predefined fields `values`, `csrf` and `errors` as arrays.
 	 * @return \MvcCore\Interfaces\ISession
@@ -54,7 +69,7 @@ trait Session
 			// or zero value to browser close and after rendered
 			// errors just clear the errors.
 			//$sessionNamespace->SetExpirationHoops(1);
-			$sessionNamespace->SetExpirationSeconds($this->sessionExpirationSeconds);
+			$sessionNamespace->SetExpirationSeconds($this->sessionExpiration);
 			if (!isset($sessionNamespace->values)) $sessionNamespace->values = array();
 			if (!isset($sessionNamespace->csrf)) $sessionNamespace->csrf = array();
 			if (!isset($sessionNamespace->errors)) $sessionNamespace->errors = array();

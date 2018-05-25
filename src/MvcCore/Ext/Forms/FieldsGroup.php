@@ -13,8 +13,6 @@
 
 namespace MvcCore\Ext\Forms;
 
-include_once(__DIR__.'/../../Form.php');
-require_once('Field.php');
 //require_once('Exception.php');
 //require_once('View.php');
 
@@ -25,14 +23,14 @@ abstract class FieldsGroup extends Field
 	 * unique type accross all form field types.
 	 * @var string
 	 */
-	public $Type = '';
+	protected $type = '';
 	/**
 	 * Form control value,
 	 * always as array of string or
 	 * numbers for group of controls.
 	 * @var array
 	 */
-	public $Value = array();
+	protected $value = array();
 	/**
 	 * Form group control options to render
 	 * more subcontrol attributes for specified
@@ -74,23 +72,23 @@ abstract class FieldsGroup extends Field
 	 * @requires
 	 * @var array
 	 */
-	public $Options = array();
+	protected $options = array();
 	/**
 	 * Css class for group label.
 	 * @var string[]
 	 */
-	public $GroupCssClasses = array();
+	protected $groupCssClasses = array();
 	/**
 	 * Any additional attributes for group label, defined
 	 * as key (for attribute name) and value (for attribute value).
 	 * @var string[]
 	 */
-	public $GroupLabelAttrs = array();
+	protected $groupLabelAttrs = array();
 	/**
 	 * Internal common templates how to render field group elements naturaly.
 	 * @var array|\stdClass
 	 */
-	public static $Templates = array(
+	protected static $templates = array(
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
 		'control'			=> '<input id="{id}" name="{name}" type="{type}" value="{value}"{checked}{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
@@ -140,7 +138,7 @@ abstract class FieldsGroup extends Field
 	 * @param array $options
 	 */
 	public function SetOptions ($options) {
-		$this->Options = $options;
+		$this->options = $options;
 		return $this;
 	}
 	/**
@@ -151,9 +149,9 @@ abstract class FieldsGroup extends Field
 	 */
 	public function SetGroupCssClasses ($cssClasses) {
 		if (gettype($cssClasses) == 'array') {
-			$this->GroupCssClasses = $cssClasses;
+			$this->groupCssClasses = $cssClasses;
 		} else {
-			$this->GroupCssClasses = explode(' ', (string)$cssClasses);
+			$this->groupCssClasses = explode(' ', (string) $cssClasses);
 		}
 		return $this;
 	}
@@ -167,9 +165,9 @@ abstract class FieldsGroup extends Field
 		if (gettype($cssClasses) == 'array') {
 			$groupCssClasses = $cssClasses;
 		} else {
-			$groupCssClasses = explode(' ', (string)$cssClasses);
+			$groupCssClasses = explode(' ', (string) $cssClasses);
 		}
-		$this->GroupCssClasses = array_merge($this->GroupCssClasses, $groupCssClasses);
+		$this->groupCssClasses = array_merge($this->groupCssClasses, $groupCssClasses);
 		return $this;
 	}
 	/**
@@ -179,7 +177,7 @@ abstract class FieldsGroup extends Field
 	 * @var string[]
 	 */
 	public function SetGroupLabelAttrs ($attrs = array()) {
-		$this->GroupLabelAttrs = $attrs;
+		$this->groupLabelAttrs = $attrs;
 		return $this;
 	}
 	/**
@@ -190,7 +188,7 @@ abstract class FieldsGroup extends Field
 	 * @var string[]
 	 */
 	public function AddGroupLabelAttr ($attr = array()) {
-		$this->GroupLabelAttrs = array_merge($this->GroupLabelAttrs, $attr);
+		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $attr);
 		return $this;
 	}
 
@@ -218,13 +216,12 @@ abstract class FieldsGroup extends Field
 	 * @throws \MvcCore\Ext\Form\Core\Exception
 	 * @return void
 	 */
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if (!$this->Options) {
-			$clsName = get_class($this);
-			include_once('Exception.php');
-			throw new \MvcCore\Ext\Form\Core\Exception("No 'Options' defined for form field: '$clsName'.");
-		}
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		if (!$this->options) $this->thrownInvalidArgumentException(
+			'No `options` property defined.'
+		);
+		return $this;
 	}
 	/**
 	 * Set up field properties before rendering process.
@@ -235,22 +232,23 @@ abstract class FieldsGroup extends Field
 	 * - translate label if any
 	 * @return void
 	 */
-	public function SetUp () {
-		parent::SetUp();
-		if (!$this->Translate) return;
-		$lang = $this->Form->Lang;
-		$translator = $this->Form->Translator;
-		foreach ($this->Options as $key => $value) {
+	public function PreDispatch () {
+		parent::PreDispatch();
+		if (!$this->translate) return;
+		$form = & $this->form;
+		foreach ($this->options as $key => $value) {
 			if (gettype($value) == 'string') {
 				// most simple key/value array options configuration
-				if ($value) $this->Options[$key] = call_user_func($translator, (string)$value, $lang);
+				if ($value) 
+					$this->options[$key] = $form->Translate((string) $value);
 			} else if (gettype($value) == 'array') {
 				// advanced configuration with key, text, css class, and any other attributes for single option tag
 				$optObj = (object) $value;
-				$text = isset($optObj->text) ? $optObj->text : $key;
-				if ($text) {
-					$this->Options[$key]['text'] = call_user_func($translator, (string)$text, $lang);
-				}
+				$text = isset($optObj->text) 
+					? $optObj->text 
+					: $key;
+				if ($text)
+					$this->options[$key]['text'] = $form->Translate((string) $text);
 			}
 		}
 	}
@@ -269,18 +267,19 @@ abstract class FieldsGroup extends Field
 	public function RenderNaturally () {
 		$result = '';
 		if (
-			$this->Label && (
-				$this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL ||
-				$this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND
+			$this->label && (
+				$this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL ||
+				$this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND
 			)
 		) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL || !$this->Label) {
+		} else if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
-			if ($this->Form->ErrorsRenderMode == \MvcCore\Ext\Form::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+			if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 				$result = $errors . $result;
-			} else if ($this->Form->ErrorsRenderMode == \MvcCore\Ext\Form::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+			} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $errors;
 			}
 		}
@@ -292,53 +291,59 @@ abstract class FieldsGroup extends Field
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL) return $this->RenderControl();
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			array(), $this->GroupLabelAttrs, $this->GroupCssClasses, TRUE
+			array(), $this->groupLabelAttrs, $this->groupCssClasses, TRUE
 		);
-		$template = $this->LabelSide == 'left' ? static::$Templates->togetherLabelLeft : static::$Templates->togetherLabelRight;
-		include_once('View.php');
-		$result = View::Format($template, array(
-			'id'		=> $this->Id,
-			'label'		=> $this->Label,
+		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
+			? static::$templates->togetherLabelLeft 
+			: static::$templates->togetherLabelRight;
+		$result = \MvcCore\Ext\Forms\View::Format($template, array(
+			'id'		=> $this->id,
+			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 		$errors = $this->RenderErrors();
-		if ($this->Form->ErrorsRenderMode == \MvcCore\Ext\Form::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($this->Form->ErrorsRenderMode == \MvcCore\Ext\Form::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
 	}
+
 	/**
 	 * Render all subcontrols by multiple calls of $field->RenderControlItem();
 	 * @return string
 	 */
 	public function RenderControl () {
 		$result = '';
-		foreach ($this->Options as $key => $value) {
+		foreach ($this->options as $key => $value) {
 			$result .= $this->RenderControlItem($key, $value);
 		}
 		return $result;
 	}
+
 	/**
 	 * Render label tag only without control or specific errors.
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL) return '';
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			array(), $this->GroupLabelAttrs, $this->GroupCssClasses
+			array(), $this->groupLabelAttrs, $this->groupCssClasses
 		);
-		include_once('View.php');
-		return View::Format(static::$Templates->label, array(
-			'id'		=> $this->Id,
-			'label'		=> $this->Label,
+		return \MvcCore\Ext\Forms\View::Format(static::$templates->label, array(
+			'id'		=> $this->id,
+			'label'		=> $this->label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}
+
 	/**
 	 * Render subcontrols with each subcontrol label tag
 	 * and without group label or without group specific errors.
@@ -346,8 +351,8 @@ abstract class FieldsGroup extends Field
 	 */
 	public function RenderControlItem ($key, $option) {
 		$result = '';
-		$itemControlId = implode(\MvcCore\Ext\Form::HTML_IDS_DELIMITER, array(
-			$this->Form->Id, $this->Name, $key
+		$itemControlId = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
+			$this->form->GetId(), $this->name, $key
 		));
 		list(
 			$itemLabelText,
@@ -356,32 +361,38 @@ abstract class FieldsGroup extends Field
 		) = $this->renderControlItemCompleteAttrsClassesAndText($key, $option);
 		// render control, render label and put it together if necessary
 		$checked = FALSE;
-		if (gettype($this->Value) == 'array') {
-			$checked = in_array($key, $this->Value);
+		if (gettype($this->value) == 'array') {
+			$checked = in_array($key, $this->value);
 		} else {
-			$checked = $this->Value === $key;
+			$checked = $this->value === $key;
 		}
-		include_once('View.php');
-		$itemControl = View::Format(static::$Templates->control, array(
+		$itemControl = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
 			'id'		=> $itemControlId,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
 			'value'		=> $key,
 			'checked'	=> $checked ? ' checked="checked"' : '',
 			'attrs'		=> $controlAttrsStr ? " $controlAttrsStr" : '',
 		));
-		if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
+		if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 			// control and label
-			$itemLabel = View::Format(static::$Templates->label, array(
+			$itemLabel = \MvcCore\Ext\Forms\View::Format(static::$templates->label, array(
 				'id'		=> $itemControlId,
 				'label'		=> $itemLabelText,
 				'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '',
 			));
-			$result = ($this->LabelSide == 'left') ? $itemControl . $itemLabel : $itemLabel . $itemControl;
-		} else if ($this->RenderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND) {
+			$result = ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) 
+				? $itemControl . $itemLabel 
+				: $itemLabel . $itemControl;
+		} else if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND) {
 			// control inside label
-			$result = View::Format(
-				static::$Templates->{'togetherLabel' . (($this->LabelSide == 'left') ? 'Right' : 'Left')},
+			$templatesKey = 'togetherLabel' . (
+				($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) 
+					? 'Right' 
+					: 'Left'
+			);
+			$result = \MvcCore\Ext\Forms\View::Format(
+				static::$templates->$templatesKey,
 				array(
 					'id'		=> $itemControlId,
 					'label'		=> $itemLabelText,
@@ -410,18 +421,19 @@ abstract class FieldsGroup extends Field
 		$labelAttrsStr = '';
 		$controlAttrsStr = '';
 		$itemLabelText = '';
-		$originalRequired = $this->Required;
-		if ($this->Type == 'checkbox') $this->Required = FALSE;
+		$originalRequired = $this->required;
+		if ($this->type == 'checkbox') 
+			$this->required = FALSE;
 		if ($optionType == 'string') {
 			$itemLabelText = $option ? $option : $key;
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
 			$controlAttrsStr = $this->renderControlAttrsWithFieldVars();
 		} else if ($optionType == 'array') {
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
-			$attrsArr = $this->ControlAttrs;
-			$classArr = $this->CssClasses;
+			$attrsArr = $this->controlAttrs;
+			$classArr = $this->cssClasses;
 			if (isset($option['attrs']) && gettype($option['attrs']) == 'array') {
-				$attrsArr = array_merge($this->ControlAttrs, $option['attrs']);
+				$attrsArr = array_merge($this->controlAttrs, $option['attrs']);
 			}
 			if (isset($option['class'])) {
 				$classArrParam = array();
@@ -439,7 +451,8 @@ abstract class FieldsGroup extends Field
 				array(), $attrsArr, $classArr, TRUE
 			);
 		}
-		if ($this->Type == 'checkbox') $this->Required = $originalRequired;
+		if ($this->type == 'checkbox') 
+			$this->required = $originalRequired;
 		return array($itemLabelText, $labelAttrsStr, $controlAttrsStr);
 	}
 }

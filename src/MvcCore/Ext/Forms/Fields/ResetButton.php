@@ -13,37 +13,22 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once(__DIR__.'/../Form.php');
-require_once('Button.php');
-//require_once('Core/Exception.php');
-
 class ResetButton extends Button
 {
-	public $Type = 'reset';
-	public $Value = 'Reset';
-	public $Validators = array();
-	public $JsClass = 'MvcCoreForm.Reset';
-	public $Js = \MvcCore\Ext\Forms\IForm::FORM_DIR_REPLACEMENT . '/fields/reset.js';
+	protected $type = 'reset';
 
-	public function SetAccesskey ($accesskey) {
-		$this->Accesskey = $accesskey;
-		return $this;
-	}
+	protected $value = 'Reset';
 
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if (!$this->Value) {
-			$clsName = get_class($this);
-			include_once('Core/Exception.php');
-			throw new Core\Exception("No 'Value' defined for form field: '$clsName'.");
-		}
-	}
+	protected $validators = array();
 
-	public function SetUp () {
-		parent::SetUp();
-		$this->Form->AddJs($this->Js, $this->JsClass, array($this->Name));
-		if ($this->Translate && $this->Value) {
-			$this->Value = call_user_func($this->Form->Translator, $this->Value, $this->Form->Lang);
-		}
+	protected $jsClassName = 'MvcCoreForm.Reset';
+
+	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/reset.js';
+	
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->form->AddJsSupportFile(
+			$this->jsSupportingFile, $this->jsClassName, array($this->name)
+		);
 	}
 }

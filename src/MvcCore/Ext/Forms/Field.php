@@ -30,28 +30,31 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException
      */
     public function __construct ($cfg = array()) {
-		static::$Templates = (object) static::$Templates;
-		foreach ($cfg as $key => $value) {
-			$propertyName = ucfirst($key);
+		static::$templates = (object) static::$templates;
+		foreach ($cfg as $propertyName => $propertyValue) {
 			if (in_array($propertyName, static::$declaredProtectedProperties)) {
-				$clsName = get_class($this);
 				throw new \InvalidArgumentException(
-					"Property: '$propertyName' is protected, class: '$clsName'."
+					'Property `'.$propertyName.'` is not possible '
+					.'to configure by constructor `$config` param. '
+					.'(class: `'.get_class($this).'`).'
 				);
 			} else {
-				$this->$propertyName = $value;
+				$this->$propertyName = $propertyValue;
 			}
 		}
 	}
+
 	/**
 	 * Set any nondeclared property dynamicly
 	 * to get it in view by rendering process.
 	 * @param string $name
 	 * @param mixed $value
 	 */
-	public function __set ($name, $value) {
+	public function & __set ($name, $value) {
 		$this->$name = $value;
+		return $this;
 	}
+
 	/**
 	 * This method  is called internaly from \MvcCore\Ext\Form after field
 	 * is added into form by $form->AddField(); method. Do not use it
@@ -63,21 +66,23 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetForm (\MvcCore\Ext\Form & $form) {
-		if (!$this->Name) {
-			$clsName = get_class($this);
-			include_once('Exception.php');
-			throw new \InvalidArgumentException("No 'Name' defined for form field: '$clsName'.");
-		}
-		$this->Form = $form;
-		$this->Id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
-			$form->Id,
-			$this->Name
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		if (!$this->name) $this->thrownInvalidArgumentException(
+			'No `name` property defined.'
+		);
+		$this->form = & $form;
+		$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
+			$form->GetId(),
+			$this->name
 		));
 		// if there is no specific required boolean - set required boolean by form
-		$this->Required = is_null($this->Required) ? $form->Required : $this->Required ;
+		$this->required = $this->required === NULL 
+			? $form->GetDefaultRequired()
+			: $this->required ;
+		$this->translate = $form->GetTranslate();
 		return $this;
 	}
+
 	/**
 	 * Set up field properties before rendering process.
 	 * - set up field render mode
@@ -86,23 +91,96 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @return void
 	 */
 	public function PreDispatch () {
-		$form = $this->Form;
-		$translator = $form->Translator;
+		$form = & $this->form;
 		// if there is no specific render mode - set render mode by form
-		if (is_null($this->RenderMode)) {
-			$this->RenderMode = $form->GetDefaultFieldsRenderMode();
-		}
-		// translate only if Translate options is null or true and translator handler is defined
-		if (
-			(is_null($this->Translate) || $this->Translate === TRUE || $form->Translate) &&
-			!is_null($translator)
-		) {
-			$this->Translate = TRUE;
+		if ($this->renderMode === NULL)
+			$this->renderMode = $form->GetDefaultFieldsRenderMode();
+		if ($this->translate && $this->label)
+			$this->label = $form->Translate($this->label);
+	}
+
+	protected function thrownInvalidArgumentException ($errorMsg) {
+		throw new \InvalidArgumentException(
+			$errorMsg . ' ('
+				. 'form id: `'.$this->form->GetId() . '`, '
+				. 'form type: `'.get_class($this->form).'`, '
+				. 'field type: `'.get_class($this).'`'
+			.')'
+		);
+	}
+
+	/**
+	 * Submit field value - process raw request value with all
+	 * configured validators and add errors into form if necesary.
+	 * Then return safe value processed by all from validators.
+	 * @param array $rawRequestParams 
+	 * @return string|int|array|NULL
+	 */
+	public function Submit (array & $rawRequestParams = array()) {
+		$result = NULL;
+		$fieldName = $this->name;
+		if ($this->readOnly || $this->disabled) {
+			// get value previously assigned from session or 
+			// by developer when called: 
+			// `$form->SetValues(array(/* some predefined values from DB...*/))`
+			$result = $this->value;
 		} else {
-			$this->Translate = FALSE;
+			if (!$this->validators) {
+				$submitValue = isset($rawRequestParams[$fieldName]) 
+					? $rawRequestParams[$fieldName] 
+					: $this->value;
+				$result = $submitValue;
+			} else {
+				$safeValue = NULL;
+				foreach ($this->validators as $validatorKey => $validator) {
+					if ($validatorKey > 0) {
+						$submitValue = $result; // take previous
+					} else {
+						// take submitted or default by SetDefault(array()) call in first verification loop
+						$submitValue = isset($rawRequestParams[$fieldName]) 
+							? $rawRequestParams[$fieldName] 
+							: $this->value;
+					}
+					if ($validator instanceof \Closure) {
+						$safeValue = $validator(
+							$submitValue, $fieldName, $this, $this->form
+						);
+					} else /*if (gettype($validator) == 'string')*/ {
+						$validatorInstance = \MvcCore\Ext\Forms\Validator::Create($this->form, (string) $validator);
+						$safeValue = $validatorInstance->Validate(
+							$submitValue, $fieldName, $this
+						);
+					}
+					// set safe value as field submit result value
+					$result = $safeValue;
+				}
+				// add required error message if necessary
+				$this->submitAddRequiredErrorIfNecessary($result);
+			}
 		}
-		if ($this->Translate && $this->Label) {
-			$this->Label = call_user_func($translator, $this->Label, $form->Lang);
+		return $result;
+	}
+
+	protected function submitAddRequiredErrorIfNecessary ($safeSubmittedValue) {
+		if ($this->required) {
+			$safeSubmittedValueType = gettype($safeSubmittedValue);
+			if (
+				$safeSubmittedValue === NULL ||
+				($safeSubmittedValueType == 'string' && strlen($safeSubmittedValue) === 0) ||
+				($safeSubmittedValueType == 'array'  && count($safeSubmittedValue) === 0)
+			) {
+				$form = & $this->form;
+				$errorMsg = $form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED);
+				if ($this->translate)
+					$errorMsg = $form->Translate($errorMsg);
+				$errorMsg = \MvcCore\Ext\Forms\View::Format(
+					$errorMsg, array($this->label ? $this->label : $this->name)
+				);
+				$form->AddError(
+					$errorMsg, $this->name
+				);
+			}
 		}
+		return $this;
 	}
 }

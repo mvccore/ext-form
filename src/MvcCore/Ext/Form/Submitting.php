@@ -33,7 +33,7 @@ trait Submitting
 		$this->validateMaxPostSizeIfNecessary();
 		if (!$rawParams) $rawParams = $this->request->GetParams('.*');
 		$this->ValidateCsrf($rawParams);
-		$this->submitFields($rawParams);
+		$this->SubmitAllFields($rawParams);
 		return array(
 			$this->result,
 			$this->values,
@@ -49,18 +49,21 @@ trait Submitting
 	 */
 	public function SubmittedRedirect () {
 		if ($this->initialized < 1) $this->Init();
-		include_once('Form/Core/Helpers.php');
 		$url = '';
+		$errorMsg = '';
 		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
 			$url = $this->errorUrl;
-			if (!$url) $errorMsg = 'Specify `errorUrl` property.';
+			if (!$url) 
+				$errorMsg = 'Specify `errorUrl` property.';
 		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
 			$url = $this->successUrl;
-			if (!$url) $errorMsg = 'Specify `successUrl` property.';
+			if (!$url) 
+				$errorMsg = 'Specify `successUrl` property.';
 			$this->values = array();
 		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE) {
 			$url = $this->nextStepUrl;
-			if (!$url) $errorMsg = 'Specify `nextStepUrl` property.';
+			if (!$url) 
+				$errorMsg = 'Specify `nextStepUrl` property.';
 			$this->values = array();
 		}
 		$this
@@ -73,65 +76,16 @@ trait Submitting
 	}
 
 	/**
-	 * Process single field configured validators and add errors where necessary.
-	 * Clean client value to safe value by configured validator classes for this field.
-	 * Return safe value.
-	 * @param string				$fieldName
-	 * @param array					$rawRequestParams
-	 * @param \MvcCore\Ext\Form\Core\Field $field
-	 * @return string|array
+	 * Get error message string from
+	 * `\MvcCore\Ext\Form::$defaultErrorMessages`
+	 * by given integer index.
+	 * @param int $index
+	 * @return string
 	 */
-	protected function submitField ($fieldName, & $rawRequestParams, \MvcCore\Ext\Form\Core\Field & $field) {
-		$result = null;
-		if (!$field->Validators) {
-			$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
-			$result = $submitValue;
-		} else {
-			include_once('Validator.php');
-			include_once('Configuration.php');
-			include_once('View.php');
-			foreach ($field->Validators as $validatorKey => $validator) {
-				if ($validatorKey > 0) {
-					$submitValue = $result; // take previous
-				} else {
-					// take submitted or default by SetDefault(array()) call in first verification loop
-					$submitValue = isset($rawRequestParams[$fieldName]) ? $rawRequestParams[$fieldName] : $field->GetValue();
-				}
-				if ($validator instanceof \Closure) {
-					$safeValue = $validator(
-						$submitValue, $fieldName, $field, $this
-					);
-				} else /*if (gettype($validator) == 'string')*/ {
-					$validatorInstance = Validator::Create($this, $validator);
-					$safeValue = $validatorInstance->Validate(
-						$submitValue, $fieldName, $field
-					);
-				}
-				// set safe value as field submit result value
-				$result = $safeValue;
-			}
-			if (is_null($safeValue)) $safeValue = '';
-			// add required error message if necessary
-			if (
-				(
-					(gettype($safeValue) == 'string' && strlen($safeValue) === 0) ||
-					(gettype($safeValue) == 'array' && count($safeValue) === 0)
-				) && $field->Required
-			) {
-				$errorMsg = Configuration::$DefaultMessages[Configuration::REQUIRED];
-				if ($this->Translate) {
-					$errorMsg = call_user_func($this->Translator, $errorMsg);
-				}
-				$errorMsg = View::Format(
-					$errorMsg, array($field->Label ? $field->Label : $fieldName)
-				);
-				$this->AddError(
-					$errorMsg, $fieldName
-				);
-			}
-		}
-		return $result;
+	public function GetDefaultErrorMsg ($index) {
+		return static::$defaultErrorMessages[$index];
 	}
+	
 	/**
 	 * Process all fields configured validators and add errors where necessary.
 	 * Clean client values to safe values by configured validator classes for each field.
@@ -141,27 +95,20 @@ trait Submitting
 	 * @param array $rawRequestParams
 	 * @return void
 	 */
-	protected function submitFields ($rawRequestParams = array()) {
-		include_once(__DIR__.'/../Button.php');
-		include_once('Helpers.php');
-		include_once('Field.php');
-		foreach ($this->Fields as $fieldName => & $field) {
-			/** @var $field \MvcCore\Ext\Form\Core\Field */
-			if ($field->Readonly || $field->Disabled) {
-				$safeValue = $field->GetValue(); // get by SetValues(array()) call
-			} else {
-				$safeValue = $this->submitField($fieldName, $rawRequestParams, $field);
-			}
-			if (is_null($safeValue)) $safeValue = '';
-			$field->SetValue($safeValue);
-			if (!($field instanceof Form\Button)) {
-				$this->Data[$fieldName] = $safeValue;
+	public function SubmitAllFields ($rawRequestParams = array()) {
+		foreach ($this->fields as $fieldName => & $field) {
+			$safeValue = $field->Submit($rawRequestParams);
+			if ($safeValue !== NULL) {
+				$field->SetValue($safeValue);
+				if (!($field instanceof \MvcCore\Ext\Forms\Fields\Button))
+					$this->values[$fieldName] = $safeValue;
 			}
 		}
 		//x($rawRequestParams);
-		//xxx($this->Data);
-		Helpers::SetSessionErrors($this->Id, $this->Errors);
-		Helpers::SetSessionData($this->Id, $this->Data);
+		//xxx($this->values);
+		$session = & $this->getSession();
+		$session->errors = & $this->errors;
+		$session->values = & $this->values;
 	}
 
 	/**
@@ -176,7 +123,7 @@ trait Submitting
 		$rawMaxSize = ini_get('post_max_size');
 		if ($contentLength === NULL) {
 			$this->AddError(sprintf(
-				\MvcCore\Ext\Form::getError(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT),
+				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT),
 				$rawMaxSize
 			));
 			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_ERRORS;
@@ -195,21 +142,10 @@ trait Submitting
 		}
 		if ($maxSize > 0 && $maxSize < $contentLength) {
 			$this->AddError(sprintf(
-				\MvcCore\Ext\Form::getError(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE),
+				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE),
 				$maxSize
 			));
 			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_ERRORS;
 		}
-	}
-
-	/**
-	 * Get error message string from
-	 * `\MvcCore\Ext\Form::$defaultErrorMessages`
-	 * by given integer index.
-	 * @param int $index
-	 * @return string
-	 */
-	protected static function getError ($index) {
-		return static::$defaultErrorMessages[$index];
 	}
 }

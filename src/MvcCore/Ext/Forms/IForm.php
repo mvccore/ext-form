@@ -181,5 +181,5 @@ interface IForm
 	/**
 	 * MvcCore Form extension library directory replacement string.
 	 */
-	const FORM_DIR_REPLACEMENT = '__MVCCORE_FORM_DIR__';
+	const FORM_ASSETS_DIR_REPLACEMENT = '__MVCCORE_FORM_ASSETS_DIR__';
 }

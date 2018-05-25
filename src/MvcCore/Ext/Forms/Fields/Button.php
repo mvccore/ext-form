@@ -13,50 +13,48 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-//require_once('Core/View.php');
-//require_once('Core/Exception.php');
-
 class Button extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'button'; // submit | reset | button
-	public $Value = 'OK';
-	public $RenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
-	public $Accesskey = null;
-	public static $Templates = array(
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+
+	protected $type = 'button'; // submit | reset | button
+
+	protected $value = 'OK';
+
+	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
+
+	public static $templates = array(
 		'control'	=> '<button id="{id}" name="{name}" type="{type}"{attrs}>{value}</button>',
 	);
+
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
+		static::$templates = (object) array_merge(
+			(array) parent::$templates, 
+			(array) self::$templates
+		);
 	}
-	public function SetAccesskey ($accesskey) {
-		$this->Accesskey = $accesskey;
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		if (!$this->value) $this->thrownInvalidArgumentException(
+			'No button `value` defined.'
+		);
 		return $this;
 	}
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if (!$this->Value) {
-			$clsName = get_class($this);
-			include_once('Core/Exception.php');
-			throw new Core\Exception("No 'Value' defined for form field: '$clsName'.");
-		}
-	}
-	public function SetUp () {
-		parent::SetUp();
-		if ($this->Translate && $this->Value) {
-			$this->Value = call_user_func($this->Form->Translator, $this->Value, $this->Form->Lang);
-		}
+	public function PreDispatch () {
+		parent::PreDispatch();
+		if ($this->translate && $this->value)
+			$this->value = $this->form->Translate($this->value);
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Accesskey',)
+			array('accessKey',)
 		);
-		include_once('Core/View.php');
-		return Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		return \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}

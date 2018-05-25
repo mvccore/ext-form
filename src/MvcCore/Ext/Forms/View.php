@@ -20,15 +20,26 @@ namespace MvcCore\Ext\Forms;
 
 class View extends \MvcCore\View
 {
+
 	/**
 	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	protected $_form = null;
+	private $_form = null;
 
 	/**
 	 * @var \MvcCore\View|\MvcCore\Interfaces\IView
 	 */
-	protected $_view = null;
+	private $_view = null;
+
+	protected static $protectedProperties = array(
+		'_controller'		=> 1,
+		'_form'				=> 1,
+		'_view'				=> 1,
+		'_store'			=> 1,
+		'_helpers'			=> 1,
+		'_content'			=> 1,
+		'_renderedFullPaths'=> 1,
+	);
 
 	/**
 	 * Views forms directory placed by default
@@ -51,17 +62,6 @@ class View extends \MvcCore\View
 	}
 
 	/**
-	 * Set controller and it's view instance.
-	 * @param \MvcCore\Controller $controller
-	 * @return \MvcCore\View
-	 */
-	public function & SetController (\MvcCore\Interfaces\IController & $controller) {
-		$this->_controller = & $controller;
-		$this->_view = & $controller->GetView();
-		return $this;
-	}
-
-	/**
 	 * Set views forms directory placed by default
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
@@ -72,16 +72,40 @@ class View extends \MvcCore\View
 	public static function SetFormsDir ($formsDir = 'Forms') {
 		static::$formsDir = $formsDir;
 	}
+
+	/**
+	 * Set controller and it's view instance.
+	 * @param \MvcCore\Controller $controller
+	 * @return \MvcCore\View
+	 */
+	public function & SetView (\MvcCore\Interfaces\IView & $view) {
+		$this->_view = & $view;
+		return $this;
+	}
+
+	/**
+	 * Get controller instance as reference.
+	 * @return \MvcCore\Controller
+	 */
+	public function & GetView () {
+		return $this->_view;
+	}
 	
-
-
+	/**
+	 * Get form instance to render.
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & GetForm () {
+		return $this->_form;
+	}
+	
 	/**
 	 * Set form instance to render.
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
-		$this->_form = $form;
+		$this->_form = & $form;
 		return $this;
 	}
 
@@ -92,30 +116,37 @@ class View extends \MvcCore\View
 	 * @return mixed
 	 */
 	public function __call ($method, $arguments) {
-		if (isset($this->Field) && method_exists($this->Field, $method)) {
-			return call_user_func_array(array($this->Field, $method), $arguments);
+		if (isset($this->field) && method_exists($this->field, $method)) {
+			return call_user_func_array(array($this->field, $method), $arguments);
 		} else {
 			return parent::__call($method, $arguments);
 		}
 	}
+
 	/**
 	 * Render configured form template.
 	 * @return string
 	 */
 	public function RenderTemplate () {
-		$formViewScript = $this->form->GetViewScript();
+		$formViewScript = $this->_form->GetViewScript();
 		return $this->Render(
-			static::$formsDir, is_bool($formViewScript) ? $this->Form->GetId() : $formViewScript
+			static::$formsDir, 
+			is_bool($formViewScript) ? $this->_form->GetId() : $formViewScript
 		);
 	}
+
 	/**
 	 * Render form naturaly by cycles inside php scripts.
 	 * All form fields will be rendered inside empty <div> elements.
 	 * @return string
 	 */
 	public function RenderNaturally () {
-		return $this->RenderBegin() . $this->RenderErrors() . $this->RenderContent() . $this->RenderEnd();
+		return $this->RenderBegin() 
+			. $this->RenderErrors() 
+			. $this->RenderContent() 
+			. $this->RenderEnd();
 	}
+
 	/**
 	 * Render form begin.
 	 * Render opening <form> tag and hidden input with csrf tokens.
@@ -124,14 +155,20 @@ class View extends \MvcCore\View
 	public function RenderBegin () {
 		$result = "<form";
 		$attrs = array();
-		$form = & $this->Form;
-		$formProperties = array('Id', 'Action', 'Method', 'Enctype');
+		$form = & $this->_form;
+		$formProperties = array('id', 'action', 'method', 'enctype');
 		foreach ($formProperties as $property) {
-			if ($form->$property) $attrs[strtolower($property)] = $form->$property;
+			$getter = 'Get'.ucfirst($property);
+			$formPropertyValue = $form->$getter();
+			if ($formPropertyValue) 
+				$attrs[$property] = $formPropertyValue;
 		}
-		if ($form->CssClass) $attrs['class'] = $form->CssClass;
-		foreach ($form->Attributes as $key => $value) {
-			if (!in_array($key, $formProperties)) $attrs[$key] = $value;
+		$formCssClass = $form->GetCssClass();
+		if ($formCssClass) 
+			$attrs['class'] = $formCssClass;
+		foreach ($form->GetAttributes() as $key => $value) {
+			if (!in_array($key, $formProperties)) 
+				$attrs[$key] = $value;
 		}
 		$attrsStr = self::RenderAttrs($attrs);
 		if ($attrsStr) $result .= ' ' . $attrsStr;
@@ -139,6 +176,7 @@ class View extends \MvcCore\View
 		$result .= $this->RenderCsrf();
 		return $result;
 	}
+
 	/**
 	 * Render hidden input with CSRF tokens.
 	 * This method is not necessary to call, it's
@@ -146,9 +184,10 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderCsrf () {
-		list ($name, $value) = $this->Form->SetUpCsrf();
+		list ($name, $value) = $this->_form->SetUpCsrf();
 		return '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
 	}
+
 	/**
 	 * Return current cross site request forgery hidden
 	 * input name and it's value as stdClass.
@@ -156,8 +195,9 @@ class View extends \MvcCore\View
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
-		return $this->Form->GetCsrf();
+		return $this->_form->GetCsrf();
 	}
+
 	/**
 	 * Render form errors.
 	 * If form is configured to render all errors together at form beginning,
@@ -166,21 +206,19 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderErrors () {
-		$result = "";
-		include_once('Configuration.php');
-		if ($this->Form->Errors && $this->Form->ErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		$result = '';
+		$errors = & $this->_form->GetErrors();
+		if ($errors && $this->_form->GetErrorsRenderMode() == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 			$result .= '<div class="errors">';
-			foreach ($this->Form->Errors as & $errorMessageAndFieldName) {
-				$errorMessage = $errorMessageAndFieldName[0];
-				$fieldNames = isset($errorMessageAndFieldName[1]) ? $errorMessageAndFieldName[1] : NULL ;
-				/** @var int $fieldNameType 0 - NULL, 1 - string, 2 - array */
-				$fieldNames = $fieldNames === NULL ? array() : (gettype($fieldNames) == 'array' ? $fieldNames : array($fieldNames));
+			foreach ($errors as & $errorMessageAndFieldNames) {
+				list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
 				$result .= '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
 			}
 			$result .= '</div>';
 		}
 		return $result;
 	}
+
 	/**
 	 * Render form content.
 	 * Go through all $form->Fields and call $field->Render(); on every field
@@ -192,16 +230,16 @@ class View extends \MvcCore\View
 	public function RenderContent () {
 		$result = "";
 		$fieldRendered = "";
-		foreach ($this->Form->Fields as & $field) {
+		foreach ($this->_form->GetFields() as & $field) {
 			$fieldRendered = $field->Render();
-			include_once(__DIR__ . '/../Hidden.php');
-			if (!($field instanceof \MvcCore\Ext\Forms\Hidden)) {
+			if (!($field instanceof \MvcCore\Ext\Forms\fields\Hidden)) {
 				$fieldRendered = "<div>".$fieldRendered."</div>";
 			}
 			$result .= $fieldRendered;
 		}
 		return $result;
 	}
+
 	/**
 	 * Render form end.
 	 * Render html closing </form> tag and supporting javascript and css files
@@ -209,11 +247,11 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderEnd () {
-		$result = "</form>";
-		if ($this->Js) $result .= $this->Form->RenderJs();
-		if ($this->Css) $result .= $this->Form->RenderCss();
-		return $result;
+		return '</form>' 
+			. $this->_form->RenderSupportingJs() 
+			. $this->_form->RenderSupportingCss();
 	}
+
 	/**
 	 * Format string function.
 	 * @param string $str template with replacements like {0}, {1}, {anyStringKey}...
@@ -222,11 +260,11 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public static function Format ($str = '', array $args = array()) {
-		foreach ($args as $key => $value) {
+		foreach ($args as $key => $value)
 			$str = str_replace('{'.$key.'}', (string)$value, $str);
-		}
 		return $str;
 	}
+
 	/**
 	 * Render content of html tag attributes by key/value array.
 	 * @param array $atrributes
@@ -234,9 +272,8 @@ class View extends \MvcCore\View
 	 */
 	public static function RenderAttrs (array $atrributes = array()) {
 		$result = array();
-		foreach ($atrributes as $attrName => $attrValue) {
+		foreach ($atrributes as $attrName => $attrValue)
 			$result[] = $attrName.'="'.$attrValue.'"';
-		}
 		return implode(' ', $result);
 	}
 }

@@ -11,11 +11,18 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Fields;
+namespace MvcCore\Ext\Forms\Field\Attrs;
 
-class Hidden extends \MvcCore\Ext\Forms\Field
+trait Multiple
 {
-	protected $type = 'hidden';
+	protected $multiple = NULL;
 
-	protected $validators = array('SafeString');
+	public function GetMultiple () {
+		return $this->multiple;
+	}
+
+	public function & SetMultiple ($multiple) {
+		$this->multiple = $multiple;
+		return $this;
+	}
 }

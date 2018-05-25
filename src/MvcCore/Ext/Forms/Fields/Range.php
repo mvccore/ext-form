@@ -13,64 +13,44 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once(__DIR__.'/Core/Field.php');
-//require_once(__DIR__.'/Core/View.php');
-
-class Range extends Core\Field
+class Range extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'range';
-	public $Min = null;
-	public $Max = null;
-	public $Step = null;
-	public $Multiple = FALSE;
-	public $Wrapper = '{control}';
-	public $Validators = array('RangeField');
-	public $JsClass = 'MvcCoreForm.Range';
-	public $Js = \MvcCore\Ext\Forms\IForm::FORM_DIR_REPLACEMENT . '/fields/range.js';
-	public $Css = \MvcCore\Ext\Forms\IForm::FORM_DIR_REPLACEMENT . '/fields/range.css';
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumber;
+	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
-	public function SetMin ($min) {
-		$this->Min = $min;
-		return $this;
-	}
-	public function SetMax ($max) {
-		$this->Max = $max;
-		return $this;
-	}
-	public function SetStep ($step) {
-		$this->Step = $step;
-		return $this;
-	}
-	public function SetMultiple ($multiple) {
-		$this->Multiple = $multiple;
-		return $this;
-	}
-	public function SetWrapper ($wrapper) {
-		$this->Wrapper = $wrapper;
-		return $this;
-	}
-	public function SetUp () {
-		parent::SetUp();
-		$this->Form->AddJs($this->Js, $this->JsClass, array($this->Name));
-		$this->Form->AddCss($this->Css);
+	protected $type = 'range';
+
+	protected $validators = array('RangeField');
+
+	protected $jsClassName = 'MvcCoreForm.Range';
+
+	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/range.js';
+
+	protected $cssSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/range.css';
+
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->form
+			->AddJsSupportFile($this->jsSupportingFile, $this->jsClassName, array($this->name))
+			->AddCssSupportFile($this->cssSupportingFile);
 	}
 	public function RenderControl () {
-		if ($this->Multiple) $this->Multiple = 'multiple';
+		if ($this->multiple) 
+			$this->multiple = 'multiple';
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Min', 'Max', 'Step','Multiple')
+			array('min', 'max', 'step', 'multiple')
 		);
-		$this->Multiple = $this->Multiple ? TRUE : FALSE ;
-		$valueStr = $this->Multiple && gettype($this->Value) == 'array' ? implode(',', $this->Value) : (string)$this->Value;
-		include_once('Core/View.php');
-		$result = Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
+		$valueStr = $this->multiple && gettype($this->value) == 'array' 
+			? implode(',', (array) $this->value) 
+			: (string) $this->value;
+		$result = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
 			'value'		=> $valueStr . '" data-value="' . $valueStr,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
-		$wrapperReplacement = '{control}';
-		$wrapper = mb_strpos($wrapperReplacement, $this->Wrapper) !== FALSE ? $this->Wrapper : $wrapperReplacement;
-		return str_replace($wrapperReplacement, $result, $wrapper);
+		return $this->renderControlWrapper($result);
 	}
 }

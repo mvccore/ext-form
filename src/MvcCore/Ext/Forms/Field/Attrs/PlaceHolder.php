@@ -11,11 +11,18 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Fields;
+namespace MvcCore\Ext\Forms\Field\Attrs;
 
-class Hidden extends \MvcCore\Ext\Forms\Field
+trait PlaceHolder
 {
-	protected $type = 'hidden';
+	protected $placeHolder = NULL;
 
-	protected $validators = array('SafeString');
+	public function GetPlaceHolder () {
+		return $this->placeHolder;
+	}
+
+	public function & SetPlaceHolder ($placeHolder) {
+		$this->placeHolder = $placeHolder;
+		return $this;
+	}
 }

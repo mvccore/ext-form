@@ -13,57 +13,34 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Core/Field.php');
-//require_once('Core/View.php');
-
-class Number extends Core\Field
+class Number extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'number';
-	public $Size = null;
-	public $Min = null;
-	public $Max = null;
-	public $Step = null;
-	public $Pattern = null;
-	public $Wrapper = '{control}';
-	public $Validators = array('NumberField');
-	public function SetSize ($size) {
-		$this->Size = $size;
+	use \MvcCore\Ext\Forms\Field\Attrs\Size;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumber;
+	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
+	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+
+	protected $type = 'number';
+	
+	protected $validators = array('NumberField');
+
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		$this->checkValidatorsPattern();
 		return $this;
 	}
-	public function SetMin ($min) {
-		$this->Min = $min;
-		return $this;
-	}
-	public function SetMax ($max) {
-		$this->Max = $max;
-		return $this;
-	}
-	public function SetStep ($step) {
-		$this->Step = $step;
-		return $this;
-	}
-	public function SetPattern ($pattern) {
-		$this->Pattern = $pattern;
-		return $this;
-	}
-	public function SetWrapper ($wrapper) {
-		$this->Wrapper = $wrapper;
-		return $this;
-	}
+	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Size', 'Min', 'Max', 'Step', 'Pattern')
+			array('size', 'min', 'max', 'step', 'pattern')
 		);
-		include_once('Core/View.php');
-		$result = Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		$result = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
-		$wrapperReplacement = '{control}';
-		$wrapper = mb_strpos($wrapperReplacement, $this->Wrapper) !== FALSE ? $this->Wrapper : $wrapperReplacement;
-		return str_replace($wrapperReplacement, $result, $wrapper);
+		return $this->renderControlWrapper($result);
 	}
 }

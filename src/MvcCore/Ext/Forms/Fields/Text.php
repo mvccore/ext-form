@@ -17,59 +17,35 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Text extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'text';
-	public $Placeholder = null;
-	public $Size = null;
-	public $Maxlength = null;
-	public $Pattern = null;
-	public $Autocomplete = null;
-	public $Validators = array('SafeString'/*, 'Maxlength', 'Pattern'*/);
-	public function SetPlaceholder ($placeholder) {
-		$this->Placeholder = $placeholder;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxText;
+
+	protected $type = 'text';
+
+	protected $validators = array('SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		$this->checkValidatorsPattern();
+		$this->checkValidatorsMinMaxLength();
 		return $this;
 	}
-	public function SetSize ($size) {
-		$this->Size = $size;
-		return $this;
-	}
-	public function SetMaxlength ($maxlength) {
-		$this->Maxlength = $maxlength;
-		return $this;
-	}
-	public function SetPattern ($pattern) {
-		$this->Pattern = $pattern;
-		return $this;
-	}
-	public function SetAutocomplete ($autocomplete) {
-		$this->Autocomplete = $autocomplete;
-		return $this;
-	}
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if ($this->Pattern && !in_array('Pattern', $this->Validators)) {
-			$this->Validators[] = 'Pattern';
-		}
-		if ($this->Maxlength && !in_array('Maxlength', $this->Validators)) {
-			$this->Validators[] = 'Maxlength';
-		}
-	}
-	public function SetUp () {
-		parent::SetUp();
-		$form = $this->Form;
-		if ($this->Translate && $this->Placeholder) {
-			$this->Placeholder = call_user_func($form->Translator, $this->Placeholder, $form->Lang);
-		}
+	public function PreDispatch () {
+		parent::PreDispatch();
+		if ($this->translate && $this->placeholder)
+			$this->placeholder = $this->form->Translate($this->placeholder);
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Maxlength', 'Size', 'Placeholder', 'Pattern', 'Autocomplete')
+			array('minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete')
 		);
-		include_once('Core/View.php');
-		return Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		return \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}

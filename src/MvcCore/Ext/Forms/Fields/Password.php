@@ -13,9 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Text.php');
-
 class Password extends Text
 {
-	public $Type = 'password';
+	protected $type = 'password';
 }

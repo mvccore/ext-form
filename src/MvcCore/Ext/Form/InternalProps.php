@@ -54,10 +54,18 @@ trait InternalProps
 	protected static $allCssSupportFiles = array();
 
 	/**
-	 * Collection with `callable` handlers to process, if
-	 * any form submit CSRF checking (Cross Site Request Forgery)
-	 * triggers error.
-	 * @var array
+	 * Collection with arrays, where first record is `callable` handler to process, 
+	 * if any form submit CSRF checking (Cross Site Request Forgery) triggers error
+	 * and where second record is `boolean`, if handler is `closure` or not.
+	 * Params in `callable` should be two with following types:
+	 *	- `\MvcCore\Ext\Form`	- Form instance where error happend.
+	 *	- `\MvcCore\Request`	- Current request object.
+	 *	- `string`				- Translated error meessage string.
+	 * Example:
+	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
+	 *		// ... anything you want to do, for example to sign out user.
+	 * });`
+	 * @var \array[]
 	 */
 	protected static $csrfErrorHandlers = array();
 
@@ -68,7 +76,7 @@ trait InternalProps
 	 * the base supporting javascript is located.
 	 * @var string
 	 */
-	protected static $jsBaseSupportFile = \MvcCore\Ext\Forms\IForm::FORM_DIR_REPLACEMENT . '/mvccore-form.js';
+	protected static $jsBaseSupportFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/mvccore-form.js';
 
 	/**
 	 * Default (not translated) error messages with replacements
@@ -119,7 +127,7 @@ trait InternalProps
 
 	/**
 	 * Internal flag to quickly know if form fields will be translated or not.
-	 * automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
 	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
 	 * @var bool
 	 */

@@ -11,14 +11,11 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Core;
-
-require_once('Configuration.php');
-require_once('Field.php');
+namespace MvcCore\Ext\Forms;
 
 abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 {
-	/** @var \MvcCore\Ext\Form|\MvcCore\Ext\Form\Core\Base */
+	/** @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm */
 	protected $Form = NULL;
 
 	/** @var \MvcCore\Controller|mixed */
@@ -44,7 +41,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @throws Exception
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Validator[]|mixed
 	 */
-	public static function Create (\MvcCore\Ext\Form\Core\Configuration & $form, $validatorName = '') {
+	public static function Create (\MvcCore\Ext\Forms\IForm & $form, $validatorName = '') {
 		if (!isset(static::$instances[$validatorName])) {
 			$localValidatorClassName = strpos($validatorName, '_') === FALSE && strpos($validatorName, '\\') === FALSE;
 			if ($localValidatorClassName) {
@@ -61,7 +58,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * Create new validator instance.
 	 * @param \MvcCore\Ext\Form $form
 	 */
-	public function __construct (\MvcCore\Ext\Form\Core\Configuration & $form) {
+	public function __construct (\MvcCore\Ext\Forms\IForm & $form) {
 		$this->Form = & $form;
 		$this->Controller = & $form->Controller;
 		$this->Translate = $form->Translate;
@@ -82,7 +79,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 		return $submitValue;
 	}
 
-	protected function addError (\MvcCore\Ext\Form\Core\Field & $field, $msg = '', callable $replaceCall = NULL) {
+	protected function addError (\MvcCore\Ext\Forms\IField & $field, $msg = '', callable $replaceCall = NULL) {
 		$replacing = !is_null($replaceCall);
 		$label = '';
 		if ($replacing) $label = $field->Label ? $field->Label : $field->Name;
