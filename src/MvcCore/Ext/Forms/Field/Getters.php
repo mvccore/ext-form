@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Field;
 
-trait Setters
+trait Getters
 {
 	public function GetName () {
 		return $this->Name;
