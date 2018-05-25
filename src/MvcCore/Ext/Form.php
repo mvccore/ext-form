@@ -37,13 +37,12 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 		$this
 			->SetParentController($controller)
 			->SetApplication($controller->GetApplication())
+			// Method `SetRequest()` also sets `ajax`, `viewEnabled`, `controllerName` and `actionName`.
 			->SetRequest($controller->GetRequest())
 			->SetResponse($controller->GetResponse())
 			->SetRouter($controller->GetRouter())
 			->SetLayout($controller->GetLayout())
 			->SetUser($controller->GetUser());
-		$this->ajax = $controller->IsAjax();
-		$this->viewEnabled = $controller->IsViewEnabled();
 		$baseAssetsPath = str_replace('\\', '/', __DIR__) . '/Forms/assets';
 		if ($this->jsSupportFilesRootDir === NULL)
 			$this->jsSupportFilesRootDir = $baseAssetsPath;
