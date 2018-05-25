@@ -13,6 +13,8 @@
 
 namespace MvcCore\Ext\Form;
 
+use \MvcCore\Ext\Forms\IError;
+
 trait InternalProps
 {
 	/**

@@ -37,7 +37,7 @@ trait Rendering
 	 *   only once, only when it's used and it's now - in this rendering process.
 	 * @return string
 	 */
-	public function Render () {
+	public function Render ($controllerDashedName = '', $actionDashedName = '') {
 		$this->preDispatchIfNecessary();
 		if ($this->viewScript) {
 			$result = $this->View->RenderTemplate();
@@ -174,42 +174,29 @@ trait Rendering
 	 * - load any possible previously submitted or stored data
 	 *   from session and set up form with them.
 	 * - set initialized state to 2, which means - prepared for rendering
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm|\MvcCore\Ext\Form\Core\Base
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	protected function preDispatchIfNecessary () {
 		if ($this->dispatchState > 2) return $this;
-		if ($this->dispatchState < 1) $this->Init();
-		foreach ($this->Fields as & $field) {
+		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
+		xxx($this->fields);
+		foreach ($this->fields as & $field)
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->SetUp();
-		}
-		include_once('Helpers.php');
-		$errors = Helpers::GetSessionErrors($this->Id);
-		foreach ($errors as & $errorMsgAndFieldName) {
-			if (!isset($errorMsgAndFieldName[1])) $errorMsgAndFieldName[1] = '';
-			list($errorMsg, $fieldNames) = $errorMsgAndFieldName;
+		$session = & $this->getSession();
+		foreach ($session->errors as & $errorMsgAndFieldNames) {
+			list($errorMsg, $fieldNames) = array_merge(array(), $errorMsgAndFieldNames);
 			$this->AddError($errorMsg, $fieldNames);
-			/** @var int $fieldNameType 0 - NULL, 1 - string, 2 - array */
-			$fieldNameType = $fieldNames === NULL ? 0 : (gettype($fieldNames) == 'array' ? 2 : 1);
-			if ($fieldNameType > 0) {
-				if ($fieldNameType < 2) $fieldNames = array($fieldNames);
-				foreach ($fieldNames as $fieldName) {
-					if (isset($this->Fields[$fieldName])) {
-						// add error classes into settings config where necessary
-						$fieldInstance = & $this->Fields[$fieldName];
-						$fieldInstance->AddCssClass('error');
-						if (method_exists($fieldInstance, 'AddGroupCssClass')) {
-							$fieldInstance->AddGroupCssClass('error');
-						}
-					}
-				}
-			}
 		}
-		$data = Helpers::GetSessionData($this->Id);
-		if ($data) $this->SetValues($data);
-		include_once('View.php');
-		$this->View = new View($this);
-		//$this->View->SetValues($this);// todo - tohle vymyslet jak udělat nově
+		if ($session->values) 
+			$this->SetValues(array_merge(array(), $session->values));
+		$viewClass = $this->viewClass;
+		$this->view = $viewClass::CreateInstance()
+			->SetController($this->parentController)
+			->SetForm($this)
+			->SetUpValuesFromController($this->parentController, TRUE)
+			->SetUpValuesFromView($this->parentController->GetView(), TRUE)
+			->SetUpValuesFromController($this, TRUE);
 		$this->dispatchState = 2;
 		return $this;
 	}

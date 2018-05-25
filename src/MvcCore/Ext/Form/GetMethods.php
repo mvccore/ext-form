@@ -249,6 +249,15 @@ trait GetMethods
 	}
 
 	/**
+	 * Get form custom template full class name to create custom view object.
+	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
+	 * @return string
+	 */
+	public function GetViewClass () {
+		return $this->viewClass;
+	}
+
+	/**
 	 * Get supporting javascript files configuration.
 	 * Every record in returned array is an array with:
 	 *	 `0` - `string` - Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.

@@ -21,13 +21,14 @@ namespace MvcCore\Ext\Forms;
 class View extends \MvcCore\View
 {
 	/**
-	 * @var \MvcCore\Ext\Form
+	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public $Form = null;
+	protected $_form = null;
+
 	/**
-	 * @var \MvcCore\View|mixed
+	 * @var \MvcCore\View|\MvcCore\Interfaces\IView
 	 */
-	public $View = null;
+	protected $_view = null;
 
 	/**
 	 * Views forms directory placed by default
@@ -50,6 +51,17 @@ class View extends \MvcCore\View
 	}
 
 	/**
+	 * Set controller and it's view instance.
+	 * @param \MvcCore\Controller $controller
+	 * @return \MvcCore\View
+	 */
+	public function & SetController (\MvcCore\Interfaces\IController & $controller) {
+		$this->_controller = & $controller;
+		$this->_view = & $controller->GetView();
+		return $this;
+	}
+
+	/**
 	 * Set views forms directory placed by default
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
@@ -60,22 +72,19 @@ class View extends \MvcCore\View
 	public static function SetFormsDir ($formsDir = 'Forms') {
 		static::$formsDir = $formsDir;
 	}
+	
 
-    /**
-     * Form View Constructor, extending \MvcCore\View
-	 * @param \MvcCore\Ext\Form $form
-     */
-    public function __construct (\MvcCore\Ext\Form & $form) {
-		$ctrl = & $form->Controller;
-		if (class_exists('\MvcCore\Controller') && $ctrl instanceof \MvcCore\Controller) {
-			//parent::__construct();
-		} else {
-			$this->Controller = & $ctrl;
-		}
-		$this->Form = & $form;
-		include_once('Helpers.php');
-		$this->View = Helpers::GetControllerView($ctrl);
+
+	/**
+	 * Set form instance to render.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @return \MvcCore\Ext\Forms\View
+	 */
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		$this->_form = $form;
+		return $this;
 	}
+
 	/**
 	 * Call public field method if exists under called name or try to call any parent view helper.
 	 * @param string $method

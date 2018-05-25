@@ -39,21 +39,21 @@ trait AddMethods
 			"UTF-8",
 			$errorMsg
 		);
-		$newErrorRec = array(strip_tags($errorMsgUtf8));
-		/** @var int $fieldNameType 0 - NULL, 1 - string, 2 - array */
-		$fieldNameType = $fieldNames === NULL ? 0 : (gettype($fieldNames) == 'array' ? 2 : 1);
-		if ($fieldNameType > 0) {
-			$newErrorRec[] = $fieldNames;
-			if ($fieldNameType === 1) {
-				if (isset($this->fields[$fieldNames]))
-					$this->fields[$fieldNames]->AddError($errorMsgUtf8);
-			} else if ($fieldNameType === 2) {
-				foreach ($fieldNames as $fieldName)
-					if (isset($this->fields[$fieldName]))
-						$this->fields[$fieldName]->AddError($errorMsgUtf8);
+		$fieldNamesArr = $fieldNames === NULL ? array() : (gettype($fieldNames) == 'array' ? $fieldNames : array($fieldNames));
+		$newErrorRec = array(strip_tags($errorMsgUtf8), $fieldNamesArr);
+		if ($fieldNamesArr) {
+			foreach ($fieldNamesArr as $fieldName) {
+				if (isset($this->fields[$fieldName])) {
+					$field = & $this->fields[$fieldName];
+					$field
+						->AddError($errorMsgUtf8)
+						->AddCssClass('error');
+					if ($field instanceof \MvcCore\Ext\Forms\IFieldGroup)
+						$field->AddGroupCssClass('error');
+				}
 			}
-			$this->errors[] = $newErrorRec;
 		}
+		$this->errors[] = $newErrorRec;
 		$this->result = \MvcCore\Ext\Forms\IForm::RESULT_ERRORS;
 		return $this;
 	}
@@ -83,7 +83,11 @@ trait AddMethods
 	 * @param array  $constructorParams	Supporting javascript constructor params.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddJsSupportFile ($jsRelativePath = '/fields/custom-type.js', $jsClassName = 'MvcCoreForm.FieldType', $constructorParams = array()) {
+	public function & AddJsSupportFile (
+		$jsRelativePath = '/fields/custom-type.js', 
+		$jsClassName = 'MvcCoreForm.FieldType', 
+		$constructorParams = array()
+	) {
 		$this->jsSupportFiles[] = array($jsRelativePath, $jsClassName, $constructorParams);
 		return $this;
 	}
@@ -93,7 +97,9 @@ trait AddMethods
 	 * @param string $cssRelativePath Supporting css file relative path from protected `$form->cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddCssSupportFile ($cssRelativePath = '/fields/custom-type.css') {
+	public function & AddCssSupportFile (
+		$cssRelativePath = '/fields/custom-type.css'
+	) {
 		$this->cssSupportFile[] = array($cssRelativePath);
 		return $this;
 	}

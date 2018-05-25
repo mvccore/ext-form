@@ -20,34 +20,56 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	use \MvcCore\Ext\Form\GetMethods;
 	use \MvcCore\Ext\Form\SetMethods;
 	use \MvcCore\Ext\Form\AddMethods;
-	use \MvcCore\Ext\Form\Fields;
+	use \MvcCore\Ext\Form\FieldMethods;
 	use \MvcCore\Ext\Form\Session;
 	use \MvcCore\Ext\Form\Csrf;
 	use \MvcCore\Ext\Form\Rendering;
 	use \MvcCore\Ext\Form\Submitting;
+
 
 	/**
 	 * Create \MvcCore\Ext\Form instance.
 	 * Please don't forget to configure at least $form->Id, $form->Action,
 	 * any control to work with and finaly any button:submit/input:submit
 	 * to submit the form to any url defined in $form->Action.
-	 * @param \MvcCore\Interfaces\IController $controller
+	 * @param \MvcCore\Controller|\MvcCore\Interfaces\IController|NULL $controller
 	 */
 	public function __construct (\MvcCore\Interfaces\IController & $controller = NULL) {
-		$this
-			->SetParentController($controller)
-			->SetApplication($controller->GetApplication())
-			// Method `SetRequest()` also sets `ajax`, `viewEnabled`, `controllerName` and `actionName`.
-			->SetRequest($controller->GetRequest())
-			->SetResponse($controller->GetResponse())
-			->SetRouter($controller->GetRouter())
-			->SetLayout($controller->GetLayout())
-			->SetUser($controller->GetUser());
+		/** @var $controller \MvcCore\Controller */
+		if ($controller === NULL) {
+			$controller = & \MvcCore\Ext\Form::GetCallerControllerInstance();
+			if ($controller === NULL) 
+				$controller = & \MvcCore\Application::GetInstance()->GetController();
+			if ($controller === NULL) throw new \InvalidArgumentException(
+				'['.__CLASS__.'] There was not possible to determinate caller controller, '
+				.'where is form instance create. Provide `$controller` instance explicitly '
+				.'by first `\MvcCore\Ext\Form::__construct($controller);` argument.'
+			);
+		}
+		$controller->AddChildController($this, $this->id);
 		$baseAssetsPath = str_replace('\\', '/', __DIR__) . '/Forms/assets';
 		if ($this->jsSupportFilesRootDir === NULL)
 			$this->jsSupportFilesRootDir = $baseAssetsPath;
 		if ($this->cssSupportFilesRootDir === NULL)
 			$this->cssSupportFilesRootDir = $baseAssetsPath;
+	}
+
+	public static function & GetCallerControllerInstance () {
+		$result = NULL;
+		$backtraceItems = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 10);
+		if (count($backtraceItems) < 3) return $result;
+		foreach ($backtraceItems as $backtraceItem) {
+			if (!isset($backtraceItem['object']) || !$backtraceItem['object']) continue;
+			$object = & $backtraceItem['object'];
+			if (
+				$object instanceof \MvcCore\Interfaces\IController &&
+				!$object instanceof \MvcCore\Ext\Forms\IForm
+			) {
+				$result = & $object;
+				break;
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -96,8 +118,6 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	 * @return void
 	 */
 	public function PreDispatch () {
-		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
-		if ($this->dispatchState < 2) $this->preDispatchIfNecessary();
-		return $this;
+		return $this->preDispatchIfNecessary();
 	}
 }

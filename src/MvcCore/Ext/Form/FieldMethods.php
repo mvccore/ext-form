@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Form;
 
-trait Fields
+trait FieldMethods
 {
 	/**
 	 * Replace all previously configured fields with given fully configured fields array.
@@ -52,7 +52,7 @@ trait Fields
 	 */
 	public function & AddField (\MvcCore\Ext\Forms\IField $field) {
 		if ($this->dispatchState < 1) $this->Init();
-		$this->fields[$field->Name] = $field->OnAdded($this);
+		$this->fields[$field->getName()] = $field->OnAdded($this);
 		return $this;
 	}
 
@@ -153,7 +153,7 @@ trait Fields
 		$result = NULL;
 		foreach ($this->fields as & $field) {
 			if (is_a($field, $fieldClassName)) {
-				if ($directTypesOnly) {
+				if ($directTypesOnly)
 					if (is_subclass_of($field, $fieldClassName))
 						continue;
 				$result = $field;

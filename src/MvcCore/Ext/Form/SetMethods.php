@@ -329,6 +329,17 @@ trait SetMethods
 	}
 
 	/**
+	 * Set form custom template full class name to create custom view object.
+	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
+	 * @param string $viewClass
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetViewClass ($viewClass = '\\MvcCore\\Ext\\Forms\\View') {
+		$this->viewClass = $viewClass;
+		return $this;
+	}
+
+	/**
 	 * Set supporting javascript files configuration. This method is dangerous,
 	 * It removes all previously, automaticly configured javascript support files.
 	 * If you want only to add javascript support file, call method:

@@ -13,12 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once(__DIR__.'/../Form.php');
-require_once('Core/Field.php');
 //require_once('Core/View.php');
 //require_once('Core/Exception.php');
 
-class Button extends Core\Field
+class Button extends \MvcCore\Ext\Forms\Field
 {
 	public $Type = 'button'; // submit | reset | button
 	public $Value = 'OK';

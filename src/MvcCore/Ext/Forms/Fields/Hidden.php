@@ -13,9 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Core/Field.php');
-
-class Hidden extends Core\Field
+class Hidden extends \MvcCore\Ext\Forms\Field
 {
 	public $Type = 'hidden';
 	public $Validators = array('SafeString');

@@ -16,13 +16,17 @@ namespace MvcCore\Ext\Forms;
 //require_once('Exception.php');
 //require_once('View.php');
 
-abstract class Field implements \MvcCore\Ext\Forms\Interfaces\IField
+abstract class Field implements \MvcCore\Ext\Forms\IField
 {
+	use \MvcCore\Ext\Forms\Field\Props;
+	use \MvcCore\Ext\Forms\Field\Setters;
+	use \MvcCore\Ext\Forms\Field\Rendering;
+	
     /**
      * Create new form control instance.
      * @param array $cfg config array with camel case
 	 *					 public properties and its values which you want to configure.
-     * @throws \MvcCore\Ext\Form\Core\Exception
+	 * @throws \InvalidArgumentException
      */
     public function __construct ($cfg = array()) {
 		static::$Templates = (object) static::$Templates;
@@ -30,8 +34,7 @@ abstract class Field implements \MvcCore\Ext\Forms\Interfaces\IField
 			$propertyName = ucfirst($key);
 			if (in_array($propertyName, static::$declaredProtectedProperties)) {
 				$clsName = get_class($this);
-				include_once('Exception.php');
-				throw new \MvcCore\Ext\Form\Core\Exception(
+				throw new \InvalidArgumentException(
 					"Property: '$propertyName' is protected, class: '$clsName'."
 				);
 			} else {
@@ -56,17 +59,17 @@ abstract class Field implements \MvcCore\Ext\Forms\Interfaces\IField
 	 * - set up form and field id attribute by form id and field name
 	 * - set up required
 	 * @param \MvcCore\Ext\Form $form
-	 * @throws \MvcCore\Ext\Form\Core\Exception
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & OnAdded (\MvcCore\Ext\Form & $form) {
 		if (!$this->Name) {
 			$clsName = get_class($this);
 			include_once('Exception.php');
-			throw new \MvcCore\Ext\Form\Core\Exception("No 'Name' defined for form field: '$clsName'.");
+			throw new \InvalidArgumentException("No 'Name' defined for form field: '$clsName'.");
 		}
 		$this->Form = $form;
-		$this->Id = implode(Configuration::HTML_IDS_DELIMITER, array(
+		$this->Id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
 			$form->Id,
 			$this->Name
 		));

@@ -213,6 +213,13 @@ trait ConfigProps
 	protected $viewScript = NULL;
 
 	/**
+	 * Form custom template full class name to create custom view object.
+	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
+	 * @var string|NULL
+	 */
+	protected $viewClass = '\\MvcCore\\Ext\\Forms\\View';
+
+	/**
 	 * Supporting javascript files configuration.
 	 * Every record in `$jsSupportFiles` array has to be defined as array with:
 	 *	 `0` - `string` - Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.
