@@ -52,7 +52,7 @@ trait FieldMethods
 	 */
 	public function & AddField (\MvcCore\Ext\Forms\IField $field) {
 		if ($this->dispatchState < 1) $this->Init();
-		$this->fields[$field->getName()] = $field->OnAdded($this);
+		$this->fields[$field->GetName()] = $field->SetForm($this);
 		return $this;
 	}
 

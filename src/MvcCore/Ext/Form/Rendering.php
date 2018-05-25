@@ -182,7 +182,7 @@ trait Rendering
 		xxx($this->fields);
 		foreach ($this->fields as & $field)
 			// translate fields if necessary and do any rendering preparation stuff
-			$field->SetUp();
+			$field->PreDispatch();
 		$session = & $this->getSession();
 		foreach ($session->errors as & $errorMsgAndFieldNames) {
 			list($errorMsg, $fieldNames) = array_merge(array(), $errorMsgAndFieldNames);

@@ -19,6 +19,7 @@ namespace MvcCore\Ext\Forms;
 abstract class Field implements \MvcCore\Ext\Forms\IField
 {
 	use \MvcCore\Ext\Forms\Field\Props;
+	use \MvcCore\Ext\Forms\Field\Getters;
 	use \MvcCore\Ext\Forms\Field\Setters;
 	use \MvcCore\Ext\Forms\Field\Rendering;
 	
@@ -62,7 +63,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & OnAdded (\MvcCore\Ext\Form & $form) {
+	public function & SetForm (\MvcCore\Ext\Form & $form) {
 		if (!$this->Name) {
 			$clsName = get_class($this);
 			include_once('Exception.php');
@@ -84,7 +85,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * - translate label if any
 	 * @return void
 	 */
-	public function SetUp () {
+	public function PreDispatch () {
 		$form = $this->Form;
 		$translator = $form->Translator;
 		// if there is no specific render mode - set render mode by form
