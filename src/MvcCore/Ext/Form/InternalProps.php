@@ -16,6 +16,22 @@ namespace MvcCore\Ext\Form;
 trait InternalProps
 {
 	/**
+	 * Temporary collection with all created
+	 * form ids strings to determinate
+	 * if any id exist only once or not.
+	 * @var array
+	 */
+	protected static $allFormIds = array();
+
+	/**
+	 * Static cache with references to all created form session
+	 * namespace objects to not create them and configure them
+	 * every time they are used.
+	 * @var array
+	 */
+	protected static $allFormsSessions = array();
+
+	/**
 	 * Temporary collection with js support files to add into HTML output after rendered form(s).
 	 * It could be added directly after rendered form or by external renderer, doesn't metter.
 	 * This serves only for purpose - how to determinate to add every supporting javascript for all
@@ -98,4 +114,12 @@ trait InternalProps
 		IError::CHOOSE_MIN_OPTS_BUBBLE	=> "Please select at least {0} options as minimal.",
 		IError::CHOOSE_MAX_OPTS_BUBBLE	=> "Please select up to {0} options at maximum.",
 	);
+
+	/**
+	 * Internal flag to quickly know if form fields will be translated or not.
+	 * automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
+	 * @var bool
+	 */
+	protected $translate = FALSE;
 }

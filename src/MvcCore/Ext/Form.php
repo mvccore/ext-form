@@ -13,54 +13,42 @@
 
 namespace MvcCore\Ext;
 
-require_once('Form/Core/Configuration.php');
-//require_once('Form/Core/Exception.php');
-require_once('Form/Core/Field.php');
-//require_once('Form/Core/Helpers.php');
-//require_once('Form/Core/View.php');
-
 class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 {
-	use \MvcCore\Ext\Forms\Form\Traits\Form\InternalProps;
-	use \MvcCore\Ext\Forms\Core\Traits\Form\ConfigProps;
-	use \MvcCore\Ext\Forms\Core\Traits\Form\Getters;
-	use \MvcCore\Ext\Forms\Core\Traits\Form\Setters;
-	use \MvcCore\Ext\Forms\Core\Traits\Form\Assets;
+	use \MvcCore\Ext\Form\InternalProps;
+	use \MvcCore\Ext\Form\ConfigProps;
+	use \MvcCore\Ext\Form\GetMethods;
+	use \MvcCore\Ext\Form\SetMethods;
+	use \MvcCore\Ext\Form\AddMethods;
+	use \MvcCore\Ext\Form\Fields;
+	use \MvcCore\Ext\Form\Session;
+	use \MvcCore\Ext\Form\Csrf;
+	use \MvcCore\Ext\Form\Rendering;
+	use \MvcCore\Ext\Form\Submitting;
 
-	/* public methods ************************************************************************/
 	/**
 	 * Create \MvcCore\Ext\Form instance.
 	 * Please don't forget to configure at least $form->Id, $form->Action,
 	 * any control to work with and finaly any button:submit/input:submit
 	 * to submit the form to any url defined in $form->Action.
-	 * @param \MvcCore\Controller|mixed $controller
+	 * @param \MvcCore\Interfaces\IController $controller
 	 */
-	public function __construct (/*\MvcCore\Controller*/ & $controller) {
-		$this->application = \MvcCore\Application::GetInstance();
-		$this->Controller = $controller;
-		$baseLibPath = str_replace('\\', '/', __DIR__ . '/Form');
-		if (!$this->jsAssetsRootDir) $this->jsAssetsRootDir = $baseLibPath;
-		if (!$this->cssAssetsRootDir) $this->cssAssetsRootDir = $baseLibPath;
-	}
-
-
-	/**
-	 * Unset submitted $form->Data records wchid are empty string or empty array.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
-	 */
-	public function UnsetEmptyData () {
-		$dataKeys = array_keys($this->Data);
-		for ($i = 0, $l = count($dataKeys); $i < $l; $i += 1) {
-			$dataKey = $dataKeys[$i];
-			$dataValue = $this->Data[$dataKey];
-			$dataValueType = gettype($dataValue);
-			if ($dataValueType == 'array') {
-				if (!$dataValue) unset($this->Data[$dataKey]);
-			} else {
-				if ($dataValue === '') unset($this->Data[$dataKey]);
-			}
-		}
-		return $this;
+	public function __construct (\MvcCore\Interfaces\IController & $controller = NULL) {
+		$this
+			->SetParentController($controller)
+			->SetApplication($controller->GetApplication())
+			->SetRequest($controller->GetRequest())
+			->SetResponse($controller->GetResponse())
+			->SetRouter($controller->GetRouter())
+			->SetLayout($controller->GetLayout())
+			->SetUser($controller->GetUser());
+		$this->ajax = $controller->IsAjax();
+		$this->viewEnabled = $controller->IsViewEnabled();
+		$baseAssetsPath = str_replace('\\', '/', __DIR__) . '/Forms/assets';
+		if ($this->jsSupportFilesRootDir === NULL)
+			$this->jsSupportFilesRootDir = $baseAssetsPath;
+		if ($this->cssSupportFilesRootDir === NULL)
+			$this->cssSupportFilesRootDir = $baseAssetsPath;
 	}
 
 	/**
@@ -69,11 +57,12 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & ClearSession () {
-		$this->Data = array();
-		include_once('Form/Core/Helpers.php');
-		Form\Core\Helpers::SetSessionData($this->Id, array());
-		Form\Core\Helpers::SetSessionCsrf($this->Id, array());
-		Form\Core\Helpers::SetSessionErrors($this->Id, array());
+		$this->values = array();
+		$this->errors = array();
+		$session = & $this->getSession();
+		$session->values = array();
+		$session->csrf = array();
+		$session->errors = array();
 		return $this;
 	}
 
@@ -89,16 +78,14 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 		if ($this->dispatchState > 0) return $this;
 		parent::Init();
 		$this->dispatchState = 1;
-		if (!$this->Id) {
-			$clsName = get_class($this);
-			include_once('Form/Core/Exception.php');
-			throw new \RuntimeException("No form 'Id' property defined in: '$clsName'.");
-		}
-		if ((is_null($this->Translate) || $this->Translate === TRUE) && !is_null($this->Translator)) {
-			$this->Translate = TRUE;
+		if (!$this->id)
+			throw new \RuntimeException("No form `id` property defined in `".get_class($this)."`.");
+		if (isset(self::$allFormIds[$this->id])) {
+			throw new \RuntimeException("Form id `".$this->id."` already defined.");
 		} else {
-			$this->Translate = FALSE;
+			self::$allFormIds[$this->id] = TRUE;
 		}
+		$this->translate = $this->translator !== NULL && is_callable($this->translator);
 		return $this;
 	}
 	/**

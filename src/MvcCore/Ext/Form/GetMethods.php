@@ -203,6 +203,16 @@ trait GetMethods
 	}
 
 	/**
+	 * Get session expiration in seconds. Default value is zero seconds (`0`).
+	 * Zero value (`0`) means "until the browser is closed" if there is no more
+	 * higher namespace expirations in whole session.
+	 * @return int
+	 */
+	public function GetSessionExpiration () {
+		return $this->sessionExpiration;
+	}
+
+	/**
 	 * Get default control/label rendering mode for each form control/label.
 	 * Default values is string `normal`, it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
