@@ -196,16 +196,17 @@ trait Rendering
 		}
 		if ($session->values) 
 			$this->SetValues(array_merge(array(), $session->values));
-		if ($this->viewScript) {
-			$viewClass = $this->viewClass;
-			$this->view = $viewClass::CreateInstance()
+		
+		$viewClass = $this->viewClass;
+		$this->view = $viewClass::CreateInstance()
+			->SetForm($this);
+		if ($this->viewScript)
+			$this->view
 				->SetController($this->parentController)
 				->SetView($this->parentController->GetView())
-				->SetForm($this)
 				->SetUpValuesFromController($this->parentController, TRUE)
 				->SetUpValuesFromView($this->parentController->GetView(), TRUE)
 				->SetUpValuesFromController($this, TRUE);
-		}
 		$this->dispatchState = 2;
 		return $this;
 	}

@@ -31,7 +31,7 @@ class ResetInput extends \MvcCore\Ext\Forms\Field
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-		if (!$this->value) $this->thrownInvalidArgumentException(
+		if (!$this->value) $this->throwNewInvalidArgumentException(
 			'No button `value` defined.'
 		);
 		return $this;

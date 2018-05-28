@@ -18,6 +18,25 @@ use \MvcCore\Ext\Forms\IError;
 trait InternalProps
 {
 	/**
+	 * Validators instances keyed by validators ending 
+	 * class names, created durring `Submit()`.
+	 * @var \MvcCore\Ext\Forms\IValidator[]
+	 */
+	protected $validators = array();
+
+	/**
+	 * Cached value from `\MvcCore\Application::GetInstance()->GetSessionClass();`
+	 * @var string
+	 */
+	protected static $sessionClass = NULL;
+
+	/**
+	 * Cached value from `\MvcCore\Application::GetInstance()->GetToolClass();`
+	 * @var string
+	 */
+	protected static $toolClass = NULL;
+
+	/**
 	 * Temporary collection with all created
 	 * form ids strings to determinate
 	 * if any id exist only once or not.

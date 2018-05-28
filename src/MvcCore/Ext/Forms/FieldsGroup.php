@@ -218,7 +218,7 @@ abstract class FieldsGroup extends Field
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-		if (!$this->options) $this->thrownInvalidArgumentException(
+		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
 		);
 		return $this;

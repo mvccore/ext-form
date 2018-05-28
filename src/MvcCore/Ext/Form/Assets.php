@@ -16,28 +16,6 @@ namespace MvcCore\Ext\Form;
 trait Assets
 {
 	/**
-	 * Absolutize supporting JS/CSS relative file path. Every field has cofigured 
-	 * it's supporting css or js file with `absolute path replacement` inside supporting 
-	 * file path string by `__MVCCORE_FORM_ASSETS_DIR__` substring.
-	 * Replace now the replacement substring by prepared properties values 
-	 * `$form->jsAssetsRootDir` or `$form->cssAssetsRootDir` to set path into 
-	 * library assets folder by default or to set path into any other customized defined directory.
-	 * @param string $supportingFileRelPath Supporting file relative path with `__MVCCORE_FORM_ASSETS_DIR__` replacement substring.
-	 * @param string $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
-	 * @return string Return absolute path to suporting javascript.
-	 */
-	protected function absolutizeSupportingFilePath ($supportingFileRelPath = '', $javascriptFiles = TRUE) {
-		$assetsRootDir = $javascriptFiles 
-			? $this->jsAssetsRootDir 
-			: $this->cssAssetsRootDir;
-		return str_replace(
-			array(\MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'),
-			array($assetsRootDir, '/'),
-			$supportingFileRelPath
-		);
-	}
-
-	/**
 	 * Complete JS/CSS supporting file(s) to add them after rendered `<form>` element
 	 * or to add them into response by external renderer. This function processes all
 	 * assets necessary to and and filters them for asset files aready added into response.
@@ -53,8 +31,10 @@ trait Assets
 			$instanceCollection = & $this->cssSupportFiles;
 			$staticCollection = & self::$allCssSupportFiles;
 		}
-		foreach ($instanceCollection as $item)
-			$files[$this->absolutizeSupportingFilePath($item[0], $javascriptFiles)] = TRUE;
+		foreach ($instanceCollection as $item) {
+			$absoluteSupportingFilePath = static::absolutizeSupportingFilePath($item[0], $javascriptFiles);
+			$files[$absoluteSupportingFilePath] = TRUE;
+		}
 		$files = array_keys($files);
 		foreach ($files as $key => $file) {
 			if (isset($staticCollection[$file])) {
@@ -64,6 +44,28 @@ trait Assets
 			}
 		}
 		return array_values($files);
+	}
+
+	/**
+	 * Absolutize supporting JS/CSS relative file path. Every field has cofigured 
+	 * it's supporting css or js file with `absolute path replacement` inside supporting 
+	 * file path string by `__MVCCORE_FORM_ASSETS_DIR__` substring.
+	 * Replace now the replacement substring by prepared properties values 
+	 * `$form->jsAssetsRootDir` or `$form->cssAssetsRootDir` to set path into 
+	 * library assets folder by default or to set path into any other customized defined directory.
+	 * @param string $supportingFileRelPath Supporting file relative path with `__MVCCORE_FORM_ASSETS_DIR__` replacement substring.
+	 * @param string $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
+	 * @return string Return absolute path to suporting javascript.
+	 */
+	protected static function absolutizeSupportingFilePath ($supportingFileRelPath = '', $javascriptFiles = TRUE) {
+		$assetsRootDir = $javascriptFiles 
+			? static::$jsSupportFilesRootDir 
+			: static::$cssSupportFilesRootDir;
+		return str_replace(
+			array(\MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'),
+			array($assetsRootDir, '/'),
+			$supportingFileRelPath
+		);
 	}
 
 	/**

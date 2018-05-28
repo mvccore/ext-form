@@ -29,11 +29,16 @@ trait Submitting
 	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
 	 */
 	public function Submit ($rawParams = array()) {
-		if ($this->initialized < 1) $this->Init();
+		if ($this->dispatchState < 1) $this->Init();
+		
+		// TODO: podle submit buttonu se rozhodnout ktery status bude defaultní před řešením chyb
+		$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
+
 		$this->validateMaxPostSizeIfNecessary();
 		if (!$rawParams) $rawParams = $this->request->GetParams('.*');
 		$this->ValidateCsrf($rawParams);
 		$this->SubmitAllFields($rawParams);
+		
 		return array(
 			$this->result,
 			$this->values,
@@ -48,7 +53,7 @@ trait Submitting
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
-		if ($this->initialized < 1) $this->Init();
+		if ($this->dispatchState < 1) $this->Init();
 		$url = '';
 		$errorMsg = '';
 		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
@@ -66,9 +71,9 @@ trait Submitting
 				$errorMsg = 'Specify `nextStepUrl` property.';
 			$this->values = array();
 		}
-		$this
-			->setSessionErrors($this->errors)
-			->setSessionValues($this->values);
+		$session = & $this->getSession();
+		$session->errors = $this->errors;
+		$session->values = $this->values;
 		if (!$url) throw new \RuntimeException(
 			'['.__CLASS__.'] No url specified to redirect. ' . $errorMsg
 		);
@@ -97,18 +102,51 @@ trait Submitting
 	 */
 	public function SubmitAllFields ($rawRequestParams = array()) {
 		foreach ($this->fields as $fieldName => & $field) {
+			if ($field instanceof \MvcCore\Ext\Forms\Fields\Button) continue;
 			$safeValue = $field->Submit($rawRequestParams);
 			if ($safeValue !== NULL) {
 				$field->SetValue($safeValue);
-				if (!($field instanceof \MvcCore\Ext\Forms\Fields\Button))
-					$this->values[$fieldName] = $safeValue;
+				$this->values[$fieldName] = $safeValue;
 			}
 		}
 		//x($rawRequestParams);
 		//xxx($this->values);
 		$session = & $this->getSession();
-		$session->errors = & $this->errors;
-		$session->values = & $this->values;
+		$session->errors = $this->errors;
+		$session->values = $this->values;
+	}
+
+	/**
+	 * Get cached validator instance by name. If validator instance doesn't exists
+	 * in `$this->validators` array, create new validator instance.
+	 * @param string $validatorName 
+	 * @return \MvcCore\Ext\Forms\IValidator
+	 */
+	public function & GetValidator ($validatorName) {
+		if (isset($this->validators[$validatorName])) {
+			$validator = & $this->validators[$validatorName];
+		} else {
+			$validator = NULL;
+			$toolClass = self::$toolClass;
+			foreach (static::$validatorsNamespaces as $validatorsNamespace) {
+				$validatorFullClassName =  $validatorsNamespace . $validatorName;
+				if (
+					class_exists($validatorFullClassName) &&
+					$toolClass::CheckClassInterface(
+						$validatorFullClassName, \MvcCore\Ext\Forms\IValidator::class, TRUE, TRUE
+					)
+				) {
+					$validator = $validatorFullClassName::CreateInstance($this);
+					break;
+				}
+			}
+			if ($validator === NULL) $this->throwNewInvalidArgumentException(
+				'Validator `' . $validatorName . '` not found in any namespace: `' 
+				. implode('`, `', static::$validatorsNamespaces) . '`.'
+			);
+			$this->validators[$validatorName] = & $validator;
+		}
+		return $validator;
 	}
 
 	/**
@@ -121,13 +159,10 @@ trait Submitting
 		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return;
 		$contentLength = $this->request->GetContentLength();
 		$rawMaxSize = ini_get('post_max_size');
-		if ($contentLength === NULL) {
-			$this->AddError(sprintf(
-				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT),
-				$rawMaxSize
-			));
-			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_ERRORS;
-		}
+		if ($contentLength === NULL)
+			$this->AddError(
+				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
+			);
 		$units = array('k' => 1000, 'm' => 1048576, 'g' => 1073741824);
 		if (is_integer($rawMaxSize)) {
 			$maxSize = intval($rawMaxSize);
@@ -141,11 +176,11 @@ trait Submitting
 			}
 		}
 		if ($maxSize > 0 && $maxSize < $contentLength) {
-			$this->AddError(sprintf(
+			$viewClass = $this->viewClass;
+			$this->AddError($viewClass::Format(
 				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE),
-				$maxSize
+				array($maxSize)
 			));
-			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_ERRORS;
 		}
 	}
 }

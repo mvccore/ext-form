@@ -267,7 +267,7 @@ trait ConfigProps
 	 * for `\MvcCore\Ext\Form` fields will be loaded now from there.
 	 * @var string
 	 */
-	protected $jsSupportFilesRootDir = NULL;
+	protected static $jsSupportFilesRootDir = NULL;
 
 	/**
 	 * MvcCore Form css support files root directory.
@@ -279,5 +279,14 @@ trait ConfigProps
 	 * fields will be loaded now from there.
 	 * @var string
 	 */
-	protected $cssSupportFilesRootDir = NULL;
+	protected static $cssSupportFilesRootDir = NULL;
+
+	/**
+	 * Form validators base namespaces to create validator instance by it's class name.
+	 * Validator will be created by class existence in this namespaces order.
+	 * @var \string[]
+	 */
+	protected static $validatorsNamespaces = array(
+		'\\MvcCore\\Ext\\Forms\\Validators\\'
+	);
 }

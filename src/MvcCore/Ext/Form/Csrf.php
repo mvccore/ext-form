@@ -60,12 +60,14 @@ trait Csrf
 	public function ValidateCsrf ($rawRequestParams = array()) {
 		$result = FALSE;
 		$session = & $this->getSession();
-		list($name, $value) = $session->csrf ? $session->csrf : array(NULL, NULL);
+		list($name, $value) = $session->csrf 
+			? $session->csrf : 
+			array(NULL, NULL);
 		if ($name !== NULL && $value !== NULL)
 			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value)
 				$result = TRUE;
 		if (!$result) {
-			$errorMsg = self::getError(\MvcCore\Ext\Forms\IError::CSRF);
+			$errorMsg = $this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::CSRF);
 			if ($this->translate)
 				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($errorMsg);

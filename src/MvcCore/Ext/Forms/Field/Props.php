@@ -115,13 +115,15 @@ trait Props
 	protected $labelAttrs = array();
 	
 	/**
-	 * List of validator classes end-names or list of closure functions
-	 * accepting arguments: $submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field
-	 * and returning safe value as result. Closure function should call
-	 * $field->Form->AddError() internaly if necessary and submitted value is not correct.
-	 * All validator classes are located in directory: /Form/Validators/...
-	 * For validator class \MvcCore\Ext\Form\Validators\Numeric is necessary only tu set 'Numeric'.
-	 * @var string[]|\Closure[]
+	 * List of validator classes ending names.
+	 * Validator class must exist in default validators namespace:
+	 * - `\MvcCore\Ext\Forms\Validators\`
+	 * of it must exist in another configured validators namespaces by method(s):
+	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 * Every validator class has t implement interface `\MvcCore\Ext\Forms\IValidator`
+	 * or it could be extended from base abstract validator class `\MvcCore\Ext\Forms\Validator`.
+	 * @var \string[]
 	 */
 	protected $validators = array();
 	

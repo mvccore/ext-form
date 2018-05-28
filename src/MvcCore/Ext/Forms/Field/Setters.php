@@ -20,7 +20,7 @@ trait Setters
 	 * @param string $id
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetId ($id = NULL) {
+	public function & SetId ($id = NULL) {
 		$this->id = $id;
 		return $this;
 	}
@@ -30,7 +30,7 @@ trait Setters
 	 * @param string $name
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetName ($name = NULL) {
+	public function & SetName ($name = NULL) {
 		$this->name = $name;
 		return $this;
 	}
@@ -39,7 +39,7 @@ trait Setters
 	 * @param string $type
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetType ($type = NULL) {
+	public function & SetType ($type = NULL) {
 		$this->type = $type;
 		return $this;
 	}
@@ -50,7 +50,7 @@ trait Setters
 	 * @param string $label
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetLabel ($label = NULL) {
+	public function & SetLabel ($label = NULL) {
 		$this->label = $label;
 		return $this;
 	}
@@ -62,7 +62,7 @@ trait Setters
 	 * @param string $labelSide
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
+	public function & SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
 		$this->labelSide = $labelSide;
 		return $this;
 	}
@@ -72,7 +72,7 @@ trait Setters
 	 * @param bool $required
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetRequired ($required = TRUE) {
+	public function & SetRequired ($required = TRUE) {
 		$this->required = $required;
 		return $this;
 	}
@@ -83,7 +83,7 @@ trait Setters
 	 * @param bool $readonly
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetReadOnly ($readOnly = TRUE) {
+	public function & SetReadOnly ($readOnly = TRUE) {
 		$this->readOnly = $readOnly;
 		return $this;
 	}
@@ -99,7 +99,7 @@ trait Setters
 	 * @param string $renderMode
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+	public function & SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
 		$this->renderMode = $renderMode;
 		return $this;
 	}
@@ -108,7 +108,7 @@ trait Setters
 	 * @param string|array|mixed $value
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetValue ($value) {
+	public function & SetValue ($value) {
 		$this->value = $value;
 		return $this;
 	}
@@ -120,7 +120,7 @@ trait Setters
 	 * @param bool $readonly
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetDisabled ($disabled) {
+	public function & SetDisabled ($disabled) {
 		$this->disabled = $disabled;
 		return $this;
 	}
@@ -130,7 +130,7 @@ trait Setters
 	 * @param string $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetCssClasses ($cssClasses) {
+	public function & SetCssClasses ($cssClasses) {
 		if (gettype($cssClasses) == 'array') {
 			$this->cssClasses = $cssClasses;
 		} else {
@@ -144,7 +144,7 @@ trait Setters
 	 * @param string $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddCssClass ($cssClass) {
+	public function & AddCssClass ($cssClass) {
 		$this->cssClasses[] = $cssClass;
 		return $this;
 	}
@@ -154,7 +154,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetControlAttrs ($attrs = array()) {
+	public function & SetControlAttrs ($attrs = array()) {
 		$this->controlAttrs = $attrs;
 		return $this;
 	}
@@ -165,7 +165,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddControlAttr ($attr = array()) {
+	public function & AddControlAttr ($attr = array()) {
 		$this->controlAttrs[] = $attr;
 		return $this;
 	}
@@ -174,7 +174,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetLabelAttrs ($attrs = array()) {
+	public function & SetLabelAttrs ($attrs = array()) {
 		$this->labelAttrs = $attrs;
 		return $this;
 	}
@@ -183,40 +183,40 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddLabelAttr ($attr = array()) {
+	public function & AddLabelAttr ($attr = array()) {
 		$this->labelAttrs[] = $attr;
 		return $this;
 	}
 	/**
-	 * Set field validators collection, it shoud be validator class end-name in pascal
-	 * case or closure function. All validators are located in /Form/Validators/...
-	 * dir. So for validator class \MvcCore\Ext\Form\Validators\Numeric is necessary only to set
-	 * array('Numeric'). Or any validator shoud be defined as simple closure function
-	 * accepting arguments: $submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field
-	 * and returnning safe value as result. This closure function shoud call
-	 * $field->Form->AddError(); whenever is necessary and values is not correct.
-	 * @param string[]|\Closure[] $validators
+	 * Set list of validator classes ending names.
+	 * Validator class must exist in default validators namespace:
+	 * - `\MvcCore\Ext\Forms\Validators\`
+	 * of it must exist in another configured validators namespaces by method(s):
+	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 * Every validator class has t implement interface `\MvcCore\Ext\Forms\IValidator`
+	 * or it could be extended from base abstract validator class `\MvcCore\Ext\Forms\Validator`.
+	 * @param \string[] $validators
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetValidators ($validators = array()) {
-		$this->validators = $validators;
+	public function & SetValidators ($validators = array()) {
+		$this->validators = & $validators;
 		return $this;
 	}
 	/**
-	 * Add field validators, it shoud be validator class end-name in pascal
-	 * case or closure function. All validators are located in /Form/Validators/...
-	 * dir. So for validator class \MvcCore\Ext\Form\Validators\Numeric is necessary only to set
-	 * array('Numeric'). Or any validator shoud be defined as simple closure function
-	 * accepting arguments: $submitValue, $fieldName, \MvcCore\Ext\Form\Core\Field & $field
-	 * and returnning safe value as result. This closure function shoud call
-	 * $field->Form->AddError(); whenever is necessary and values is not correct.
-	 * @param string|Closure,... $validators
+	 * Add list of validator classes ending names.
+	 * Validator class must exist in default validators namespace:
+	 * - `\MvcCore\Ext\Forms\Validators\`
+	 * of it must exist in another configured validators namespaces by method(s):
+	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 * Every validator class has t implement interface `\MvcCore\Ext\Forms\IValidator`
+	 * or it could be extended from base abstract validator class `\MvcCore\Ext\Forms\Validator`.
+	 * @param \string[] $validators,...
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddValidators () {
-		$args = func_get_args();
-		foreach ($args as $arg) 
-			$this->validators[] = $arg;
+	public function & AddValidators (/* ...$validators */) {
+		$this->validators = array_unique(array_merge($this->validators, func_get_args()));
 		return $this;
 	}
 	/**
@@ -228,7 +228,7 @@ trait Setters
 	 * @param bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetViewScript ($boolOrViewScriptPath = NULL) {
+	public function & SetViewScript ($boolOrViewScriptPath = NULL) {
 		$this->viewScript = $boolOrViewScriptPath;
 		return $this;
 	}
@@ -240,7 +240,7 @@ trait Setters
 	 * @param string $jsFullFile
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetJsSupportingFile ($jsSupportingFilePath) {
+	public function & SetJsSupportingFile ($jsSupportingFilePath) {
 		$this->jsSupportingFile = $jsSupportingFilePath;
 		return $this;
 	}
@@ -249,7 +249,7 @@ trait Setters
 	 * @param string $jsClass
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetJsClassName ($jsClassName) {
+	public function & SetJsClassName ($jsClassName) {
 		$this->jsClassName = $jsClassName;
 		return $this;
 	}
@@ -261,7 +261,7 @@ trait Setters
 	 * @param string $cssFullFile
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetCssSupportingFile ($cssSupportingFilePath) {
+	public function & SetCssSupportingFile ($cssSupportingFilePath) {
 		$this->cssSupportingFile = $cssSupportingFilePath;
 		return $this;
 	}
@@ -274,7 +274,7 @@ trait Setters
 	 * @param string $errorText
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddError ($errorText) {
+	public function & AddError ($errorText) {
 		$this->errors[] = $errorText;
 		return $this;
 	}

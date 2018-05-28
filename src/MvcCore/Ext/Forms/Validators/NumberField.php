@@ -75,9 +75,9 @@ class NumberField extends Core\Validator
 			$this->addError(
 				$field,
 				Form::$DefaultMessages[$errorMsgKey],
-				function ($msg, $args) use (& $errorReplacements) {
+				function ($msg, $args, $viewClass) use (& $errorReplacements) {
 					$args = array_merge($args, $errorReplacements);
-					return Core\View::Format($msg, $args);
+					return $viewClass::Format($msg, $args);
 				}
 			);
 		}

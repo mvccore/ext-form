@@ -412,11 +412,12 @@ trait SetMethods
 	 * and change this property value to that javascripts directory. All supporting javascripts
 	 * for `\MvcCore\Ext\Form` fields will be loaded now from there.
 	 * @param string|NULL $jsSupportFilesRootDir
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return string
 	 */
-	public function & SetJsSupportFilesRootDir ($jsSupportFilesRootDir) {
-		$this->jsSupportFilesRootDir = $jsSupportFilesRootDir;
-		return $this;
+	public static function SetJsSupportFilesRootDir ($jsSupportFilesRootDir) {
+		if ($jsSupportFilesRootDir)
+			static::$jsSupportFilesRootDir = $jsSupportFilesRootDir;
+		return static::$jsSupportFilesRootDir;
 	}
 
 	/**
@@ -428,10 +429,25 @@ trait SetMethods
 	 * and by change this property value to that directory. All supporting css for `\MvcCore\Ext\Form`
 	 * fields will be loaded now from there.
 	 * @param string|NULL $cssSupportFilesRootDir
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return string
 	 */
-	public function & SetCssSupportFilesRootDir ($cssSupportFilesRootDir) {
-		$this->cssSupportFilesRootDir = $cssSupportFilesRootDir;
-		return $this;
+	public static function SetCssSupportFilesRootDir ($cssSupportFilesRootDir) {
+		if ($cssSupportFilesRootDir)
+			static::$cssSupportFilesRootDir = $cssSupportFilesRootDir;
+		return static::$cssSupportFilesRootDir;
+	}
+
+	/**
+	 * Set form validators base namespaces to create validator instance by it's class name.
+	 * Validator will be created by class existence in this namespaces order.
+	 * This method is dangerous, because it removes all previously configured
+	 * validators namespaces. If you only to add another validators namespace,
+	 * use method: `\MvcCore\Ext\Form::AddValidatorsNamespaces(...$namespaces);` instead.
+	 * @param \string[] $validatorsNamespaces
+	 * @return int New validators namespaces count.
+	 */
+	public static function & SetValidatorsNamespaces (array $validatorsNamespaces = array()) {
+		static::$validatorsNamespaces = array();
+		return static::AddValidatorsNamespaces($validatorsNamespaces);
 	}
 }

@@ -59,40 +59,6 @@ trait AddMethods
 	}
 
 	/**
-	 * Add CSRF (Cross Site Request Forgery) error handler.
-	 * If CSRF submit comparation fails, it's automaticly processed
-	 * queue with this handlers, you can put here for example handler
-	 * to deauthenticate your user or anything else to more secure your application.
-	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happend.
-	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `string`				- Translated error meessage string.
-	 * Example:
-	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
-	 *		// ... anything you want to do, for example to sign out user.
-	 * });`
-	 * @param callable $handler
-	 * @param int|NULL $priorityIndex
-	 * @return void
-	 */
-	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL) {
-		if (!is_callable($handler)) throw new \InvalidArgumentException(
-			'['.__CLASS__.'] Given argument is not callable: `'.serialize($handler).'`.'
-		);
-		$reflection = new \ReflectionFunction($handler);
-		$isClosure = $reflection->isClosure();
-		if ($priorityIndex === NULL) {
-			static::$csrfErrorHandlers[] = array($handler, $isClosure);
-		} else {
-			if (isset(static::$csrfErrorHandlers[$priorityIndex])) {
-				array_splice(static::$csrfErrorHandlers, $priorityIndex, 0, array($handler, $isClosure));
-			} else {
-				static::$csrfErrorHandlers[$priorityIndex] = array($handler, $isClosure);
-			}
-		}
-	}
-
-	/**
 	 * Add supporting javascript file.
 	 * @param string $jsRelativePath	Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.
 	 * @param string $jsClassName		Supporting javascript full class name inside supporting file.
@@ -118,5 +84,54 @@ trait AddMethods
 	) {
 		$this->cssSupportFile[] = array($cssRelativePath);
 		return $this;
+	}
+
+	/**
+	 * Add CSRF (Cross Site Request Forgery) error handler.
+	 * If CSRF submit comparation fails, it's automaticly processed
+	 * queue with this handlers, you can put here for example handler
+	 * to deauthenticate your user or anything else to more secure your application.
+	 * Params in `callable` should be two with following types:
+	 *	- `\MvcCore\Ext\Form`	- Form instance where error happend.
+	 *	- `\MvcCore\Request`	- Current request object.
+	 *	- `string`				- Translated error meessage string.
+	 * Example:
+	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
+	 *		// ... anything you want to do, for example to sign out user.
+	 * });`
+	 * @param callable $handler
+	 * @param int|NULL $priorityIndex
+	 * @return int New CSRF error handlers count.
+	 */
+	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL) {
+		if (!is_callable($handler)) throw new \InvalidArgumentException(
+			'['.__CLASS__.'] Given argument is not callable: `'.serialize($handler).'`.'
+		);
+		$reflection = new \ReflectionFunction($handler);
+		$isClosure = $reflection->isClosure();
+		if ($priorityIndex === NULL) {
+			static::$csrfErrorHandlers[] = array($handler, $isClosure);
+		} else {
+			if (isset(static::$csrfErrorHandlers[$priorityIndex])) {
+				array_splice(static::$csrfErrorHandlers, $priorityIndex, 0, array($handler, $isClosure));
+			} else {
+				static::$csrfErrorHandlers[$priorityIndex] = array($handler, $isClosure);
+			}
+		}
+		return count(static::$csrfErrorHandlers);
+	}
+
+	/**
+	 * Add form validators base namespaces to create validator instance by it's class name.
+	 * Validator will be created by class existence in this namespaces order.
+	 * Validators namespaces array configured by default: `array('\\MvcCore\\Ext\\Forms\\Validators\\');`.
+	 * @param \string[] $validatorsNamespaces,...
+	 * @return int New validators namespaces count.
+	 */
+	public static function AddValidatorsNamespaces (/* ...$validatorsNamespaces */) {
+		$validatorsNamespaces = func_get_args();
+		foreach ($validatorsNamespaces as $validatorsNamespace)
+			static::$validatorsNamespaces[] = '\\' . trim($validatorsNamespace, '\\') . '\\';
+		return count(static::$validatorsNamespaces);
 	}
 }

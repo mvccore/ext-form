@@ -13,33 +13,25 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Validator.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once(__DIR__.'/../Core/Exception.php');
-require_once(__DIR__.'/../Core/View.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
-class Url extends Core\Validator
+class Url extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
-		$submitValue = trim($submitValue);
-		while (mb_strpos($submitValue, '%') !== FALSE) 
+	public function Validate ($submitValue) {
+		$result = NULL;
+		if ($submitValue === NULL) 
+			return NULL;
+		$submitValue = trim((string) $submitValue);
+		if ($submitValue === '') 
+			return NULL;
+		while (mb_strpos($submitValue, '%') !== FALSE)
 			$submitValue = rawurldecode($submitValue);
-			$safeValue = filter_var($submitValue, FILTER_VALIDATE_URL);
-		$safeValue = $safeValue === FALSE ? '' : $safeValue ;
-		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {
-			$this->addError(
-				$field,
-				Form::$DefaultMessages[Form::URL],
-				function ($msg, $args) {
-					return Core\View::Format($msg, $args);
-				}
+		$safeValue = filter_var($submitValue, FILTER_VALIDATE_URL);
+		if ($safeValue !== FALSE) {
+			$result = $safeValue;
+		} else {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::URL)
 			);
 		}
-		return $safeValue;
+		return $result;
 	}
 }

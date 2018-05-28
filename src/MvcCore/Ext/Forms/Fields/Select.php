@@ -45,7 +45,7 @@ class Select extends \MvcCore\Ext\Forms\Field
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-		if (!$this->options) $this->thrownInvalidArgumentException(
+		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
 		);
 	}

@@ -15,85 +15,61 @@ namespace MvcCore\Ext\Forms;
 
 abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 {
-	/** @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm */
-	protected $Form = NULL;
-
-	/** @var \MvcCore\Controller|mixed */
-	protected $Controller = NULL;
-
-	/** @var bool */
-	protected $Translate = FALSE;
-
-	/** @var callable */
-	protected $Translator = NULL;
-
-	/** @var string */
-	protected static $validatorsClassNameTemplate = '\MvcCore\Ext\Form\Validators\{ValidatorName}';
-
-	/** @var \MvcCore\Ext\Form\Core\Validator[]|mixed */
-	protected static $instances = array();
+	/**
+	 * Form instance where was validator created.
+	 * Every validator instance belongs to only one form isntance.
+	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	protected $form = NULL;
 
 	/**
-	 * Create new validator instance by validator class name end if necessary,
-	 * if validator instance for this name exists, previous instance is returned.
-	 * @param \MvcCore\Ext\Form $form submitting simple form instance
-	 * @param string $validatorName validator class name end
-	 * @throws Exception
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Core\Validator[]|mixed
+	 * Currently validated form field instance.
+	 * Before every `Validate()` method call, there is called
+	 * `$validator->SetField($field);` to work with proper field 
+	 * instance durring validation.
+	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public static function Create (\MvcCore\Ext\Forms\IForm & $form, $validatorName = '') {
-		if (!isset(static::$instances[$validatorName])) {
-			$localValidatorClassName = strpos($validatorName, '_') === FALSE && strpos($validatorName, '\\') === FALSE;
-			if ($localValidatorClassName) {
-				// if not any full class name - it's built in validator
-				$className = str_replace('{ValidatorName}', $validatorName, static::$validatorsClassNameTemplate);
-			} else {
-				$className = $validatorName;
-			}
-			static::$instances[$validatorName] = new $className($form);
-		}
-		return static::$instances[$validatorName];
-	}
+	protected $field = NULL;
+
 	/**
-	 * Create new validator instance.
-	 * @param \MvcCore\Ext\Form $form
+	 * Create every time new validator instance with configured form instance. No singleton.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public function __construct (\MvcCore\Ext\Forms\IForm & $form) {
-		$this->Form = & $form;
-		$this->Controller = & $form->Controller;
-		$this->Translate = $form->Translate;
-		if ($this->Translate) $this->Translator = & $form->Translator;
-	}
-	/**
-	 * Validation template method.
-	 * In your validator implementation, check submitted value
-	 * by validator specific rules and if there is any error, call
-	 * $form->AddError with translated or not translated error message.
-	 * Return safe submitted value as result.
-	 * @param string|array					$submitValue
-	 * @param string						$fieldName
-	 * @param \MvcCore\Ext\Form\Core\Field	$field
-	 * @return string|array					safe submitted value
-	 */
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
-		return $submitValue;
+	public static function & CreateInstance (\MvcCore\Ext\Forms\IForm & $form) {
+		$validator = new static();
+		return $validator->SetForm($form);
 	}
 
-	protected function addError (\MvcCore\Ext\Forms\IField & $field, $msg = '', callable $replaceCall = NULL) {
-		$replacing = !is_null($replaceCall);
-		$label = '';
-		if ($replacing) $label = $field->Label ? $field->Label : $field->Name;
-		if ($this->Translate) {
-			$msg = call_user_func($this->Translator, $msg);
-			if ($replacing) {
-				$label = $field->Label ? call_user_func($this->Translator, $field->Label) : $field->Name;
-			}
-		}
-		if ($replacing) {
-			$msg = call_user_func($replaceCall, $msg, array($label));
-		}
-		$this->Form->AddError(
-			$msg, $field->Name
-		);
+	/**
+	 * Set up form instance, where is validator created durring submit.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		$this->form = & $form;
+		return $this;
 	}
+
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		$this->field = & $field;
+		return $this;
+	}
+
+	/**
+	 * Validation method.
+	 * Check submitted value by validator specific rules and 
+	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
+	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
+	 * is not possible to return safe valid value.
+	 * @param string|array|NULL		$submitValue
+	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 */
+	public abstract function Validate ($rawSubmittedValue);
 }

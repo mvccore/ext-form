@@ -40,18 +40,33 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 			$controller = & \MvcCore\Ext\Form::GetCallerControllerInstance();
 			if ($controller === NULL) 
 				$controller = & \MvcCore\Application::GetInstance()->GetController();
-			if ($controller === NULL) throw new \InvalidArgumentException(
-				'['.__CLASS__.'] There was not possible to determinate caller controller, '
+			if ($controller === NULL) $this->throwNewInvalidArgumentException(
+				'There was not possible to determinate caller controller, '
 				.'where is form instance create. Provide `$controller` instance explicitly '
 				.'by first `\MvcCore\Ext\Form::__construct($controller);` argument.'
 			);
 		}
 		$controller->AddChildController($this, $this->id);
-		$baseAssetsPath = str_replace('\\', '/', __DIR__) . '/Forms/assets';
-		if ($this->jsSupportFilesRootDir === NULL)
-			$this->jsSupportFilesRootDir = $baseAssetsPath;
-		if ($this->cssSupportFilesRootDir === NULL)
-			$this->cssSupportFilesRootDir = $baseAssetsPath;
+		if (static::$jsSupportFilesRootDir === NULL || static::$cssSupportFilesRootDir === NULL) {
+			$baseAssetsPath = str_replace('\\', '/', __DIR__) . '/Forms/assets';
+			if (static::$jsSupportFilesRootDir === NULL)
+				static::$jsSupportFilesRootDir = $baseAssetsPath;
+			if (static::$cssSupportFilesRootDir === NULL)
+				static::$cssSupportFilesRootDir = $baseAssetsPath;
+		}
+		if (self::$sessionClass === NULL)
+			self::$sessionClass = $this->application->GetSessionClass();
+		if (self::$toolClass === NULL)
+			self::$toolClass = $this->application->GetToolClass();
+	}
+
+	protected function throwNewInvalidArgumentException ($errorMsg) {
+		throw new \InvalidArgumentException(
+			'['.__CLASS__.'] ' . $errorMsg . ' ('
+				. 'form id: `'.$this->form->GetId() . '`, '
+				. 'form type: `'.get_class($this->form).'`'
+			.')'
+		);
 	}
 
 	/**
@@ -113,5 +128,14 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	 */
 	public function PreDispatch () {
 		return $this->preDispatchIfNecessary();
+	}
+
+	/**
+	 * Translate given string with configured translator and configured language code.
+	 * @param string $translationKey 
+	 * @return string
+	 */
+	public function Translate ($translationKey) {
+		return call_user_func_array($this->translator, array($translationKey, $this->lang));
 	}
 }

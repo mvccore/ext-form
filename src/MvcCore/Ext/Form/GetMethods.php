@@ -173,6 +173,16 @@ trait GetMethods
 	}
 
 	/**
+	 * Get internal flag to quickly know if form fields will be translated or not.
+	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
+	 * @return bool
+	 */
+	public function GetTranslate () {
+		return $this->translate;
+	}
+
+	/**
 	 * Get default switch how to set every form control to be required by default.
 	 * If you define directly any control to NOT be required, it will NOT be required.
 	 * This is only value used as DEFAULT VALUE for form fiels, not to strictly define
@@ -310,8 +320,8 @@ trait GetMethods
 	 * for `\MvcCore\Ext\Form` fields will be loaded now from there.
 	 * @return string|NULL
 	 */
-	public function GetJsSupportFilesRootDir () {
-		return $this->jsSupportFilesRootDir;
+	public static function GetJsSupportFilesRootDir () {
+		return static::$jsSupportFilesRootDir;
 	}
 
 	/**
@@ -324,26 +334,16 @@ trait GetMethods
 	 * fields will be loaded now from there.
 	 * @return string|NULL
 	 */
-	public function GetCssSupportFilesRootDir () {
-		return $this->cssSupportFilesRootDir;
+	public static function GetCssSupportFilesRootDir () {
+		return static::$cssSupportFilesRootDir;
 	}
 
 	/**
-	 * Get internal flag to quickly know if form fields will be translated or not.
-	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
-	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
-	 * @return bool
+	 * Get form validators base namespaces to create validator instance by it's class name.
+	 * Validator will be created by class existence in this namespaces order.
+	 * @return \string[]
 	 */
-	public function GetTranslate () {
-		return $this->translate;
-	}
-
-	/**
-	 * Translate given string with configured translator and configured language code.
-	 * @param string $translationKey 
-	 * @return string
-	 */
-	public function Translate ($translationKey) {
-		return call_user_func_array($this->translator, $translationKey, $this->lang);
+	public static function GetValidatorsNamespaces () {
+		return static::$validatorsNamespaces;
 	}
 }

@@ -16,18 +16,6 @@ namespace MvcCore\Ext\Form;
 trait Session
 {
 	/**
-	 * Cached value from `\MvcCore\Application::GetInstance()->GetSessionClass();`
-	 * @var string
-	 */
-	private static $_sessionClass = NULL;
-
-	/**
-	 * Cached value from `\MvcCore\Application::GetInstance()->GetToolClass();`
-	 * @var string
-	 */
-	private static $_toolClass = NULL;
-
-	/**
 	 * Clear all session records for this form by form id.
 	 * Data sended from last submit, any csrf tokens and any errors.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -51,18 +39,14 @@ trait Session
 		if (isset(self::$allFormsSessions[$this->id])) {
 			$sessionNamespace = & self::$allFormsSessions[$this->id];
 		} else {
-			if (self::$_sessionClass === NULL)
-				self::$_sessionClass = $this->application->GetSessionClass();
-			if (self::$_toolClass === NULL)
-				self::$_toolClass = $this->application->GetToolClass();
-			$sessionClass = self::$_sessionClass;
-			$toolClass = self::$_toolClass;
+			$sessionClass = self::$sessionClass;
+			$toolClass = self::$toolClass;
 			$formIdPc = $this->id;
 			if (strpos($formIdPc, '-') !== FALSE)
 				$formIdPc = $toolClass::GetPascalCaseFromDashed($formIdPc);
 			if (strpos($formIdPc, '_') !== FALSE)
 				$formIdPc = $toolClass::GetPascalCaseFromUnderscored($formIdPc);
-			$namespaceName = '\\MvcCore\\Ext\\Form\\' . $formIdPc;
+			$namespaceName = '\\MvcCore\\Ext\\Form\\' . ucfirst($formIdPc);
 			$sessionNamespace = $sessionClass::GetNamespace($namespaceName);
 			// Do not use hoops expiration, because there is better
 			// to set up any large value into session namespace
