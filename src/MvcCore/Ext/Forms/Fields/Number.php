@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms\Fields;
 class Number extends \MvcCore\Ext\Forms\Field
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Size;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumber;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
@@ -34,7 +34,8 @@ class Number extends \MvcCore\Ext\Forms\Field
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			array('size', 'min', 'max', 'step', 'pattern')
 		);
-		$result = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		$result = $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,

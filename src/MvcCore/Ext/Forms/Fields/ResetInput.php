@@ -13,52 +13,44 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once(__DIR__.'/../Form.php');
-require_once('Core/Field.php');
-//require_once('Core/Exception.php');
-//require_once('Core/View.php');
-
-class ResetInput extends Core\Field
+class ResetInput extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'reset';
-	public $Value = 'Reset';
-	public $RenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
-	public $Accesskey = null;
-	public $Validators = array();
-	public $JsClass = 'MvcCoreForm.Reset';
-	public $Js = '__MVCCORE_FORM_DIR__/assets/reset.js';
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 
-	public function SetAccesskey ($accesskey) {
-		$this->Accesskey = $accesskey;
+	protected $type = 'reset';
+	
+	protected $value = 'Reset';
+	
+	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
+	
+	protected $validators = array();
+
+	protected $jsClassName = 'MvcCoreForm.Reset';
+
+	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/assets/reset.js';
+
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		if (!$this->value) $this->thrownInvalidArgumentException(
+			'No button `value` defined.'
+		);
 		return $this;
 	}
-
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if (!$this->Value) {
-			$clsName = get_class($this);
-			include_once('Core/Exception.php');
-			throw new Core\Exception("No 'Value' defined for form field: '$clsName'.");
-		}
-	}
-
-	public function SetUp () {
-		parent::SetUp();
-		$this->Form->AddJs($this->Js, $this->JsClass, array($this->Name));
-		if ($this->Translate && $this->Value) {
-			$this->Value = call_user_func($this->Form->Translator, $this->Value, $this->Form->Lang);
-		}
+	public function PreDispatch () {
+		parent::PreDispatch();
+		if ($this->translate && $this->value)
+			$this->value = $this->form->Translate($this->value);
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Accesskey',)
+			array('accessKey',)
 		);
-		include_once('Core/View.php');
-		return Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}

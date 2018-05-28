@@ -13,26 +13,26 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
-trait Size
+trait Options
 {
 	/**
-	 * @var int
+	 * @var array
 	 */
-	protected $size = NULL;
+	protected $options = array();
 
 	/**
-	 * @return int
+	 * @param array $options 
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function GetSize () {
-		return $this->size;
+	public function & SetOptions (array $options = array()) {
+		$this->options = & $options;
+		return $this;
 	}
 
 	/**
-	 * @param int $size 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return array
 	 */
-	public function & SetSize ($size) {
-		$this->size = $size;
-		return $this;
+	public function GetOptions () {
+		return $this->options;
 	}
 }

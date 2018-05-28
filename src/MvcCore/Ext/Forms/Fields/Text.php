@@ -20,7 +20,7 @@ class Text extends \MvcCore\Ext\Forms\Field
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxText;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 
 	protected $type = 'text';
 
@@ -41,7 +41,8 @@ class Text extends \MvcCore\Ext\Forms\Field
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			array('minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete')
 		);
-		return \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,

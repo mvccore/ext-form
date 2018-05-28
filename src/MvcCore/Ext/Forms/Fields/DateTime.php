@@ -13,11 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Date.php');
-
 class DateTime extends Date
 {
-	public $Type = 'datetime-local';
-	public $Format = 'Y-m-d\TH:i';
-	public $Validators = array('Date');
+	protected $type = 'datetime-local';
+
+	protected $format = 'Y-m-d\TH:i';
+
+	protected $validators = array('Date');
 }

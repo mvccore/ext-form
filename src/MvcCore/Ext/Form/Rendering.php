@@ -196,13 +196,12 @@ trait Rendering
 		}
 		if ($session->values) 
 			$this->SetValues(array_merge(array(), $session->values));
-		$viewClass = $this->viewClass;
-		$this->view = $viewClass::CreateInstance()
-			->SetForm($this);
 		if ($this->viewScript) {
-			$this->view
+			$viewClass = $this->viewClass;
+			$this->view = $viewClass::CreateInstance()
 				->SetController($this->parentController)
 				->SetView($this->parentController->GetView())
+				->SetForm($this)
 				->SetUpValuesFromController($this->parentController, TRUE)
 				->SetUpValuesFromView($this->parentController->GetView(), TRUE)
 				->SetUpValuesFromController($this, TRUE);

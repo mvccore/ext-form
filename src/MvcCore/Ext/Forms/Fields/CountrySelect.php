@@ -13,15 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Select.php');
-
 class CountrySelect extends Select
 {
-	public $Type = 'select';
-	public $Translate = FALSE;
-	public $Multiple = FALSE;
-	public $Size = 3;
-	public $Options = array(
+	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Attrs\Size;
+
+	protected $type = 'select';
+	
+	protected $translate = FALSE;
+	
+	protected $options = array(
 		'AF' => 'Afghanistan',			'AX' => 'Åland Islands',		'AL' => 'Albania',
 		'DZ' => 'Algeria',				'AS' => 'American Samoa',		'AD' => 'Andorra',
 		'AO' => 'Angola',				'AI' => 'Anguilla',				'AQ' => 'Antarctica',
@@ -106,30 +107,46 @@ class CountrySelect extends Select
 		'VI' => 'Virgin Islands, U.S.',	'WF' => 'Wallis and Futuna',	'EH' => 'Western Sahara',
 		'YE' => 'Yemen',				'ZM' => 'Zambia',				'ZW' => 'Zimbabwe',
 	);
-	public function SetValue ($value) {
-		$this->SetValue = strtoupper($value);
+
+	/**
+	 * Return country code in upper case.
+	 * @return string
+	 */
+	public function GetValue () {
+		return $this->value;
+	}
+
+	/**
+	 * Set country code value. Given country code will be automaticly converted to uppercase.
+	 * @param string $countryCode 
+	 * @return \MvcCore\Ext\Forms\Fields\CountrySelect
+	 */
+	public function SetValue ($countryCode) {
+		$this->value = strtoupper($countryCode);
 		return $this;
 	}
+
 	public function RenderControlOptions () {
 		$result = '';
-		if ($this->FirstOptionText) {
+		$valueTypeIsArray = gettype($this->value) == 'array';
+		if ($this->nullOptionText !== NULL && strlen((string) $this->nullOptionText) > 0) {
 			// advanced configuration with key, text, cs class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced(
-				'all', array(
+				'', array(
 					'value'	=> '',
-					'text'	=> $this->FirstOptionText,
-					'class'	=> 'country-all',
+					'text'	=> $this->nullOptionText,
+					'class'	=> 'country-none',
 					'attrs'	=> array('disabled' => 'disabled')
-				)
+				), $valueTypeIsArray
 			);
 		}
-		foreach ($this->Options as $key => $value) {
+		foreach ($this->options as $key => & $value) {
 			// advanced configuration with key, text, cs class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced($key, array(
 				'class'	=> 'country-' . strtolower($key),
 				'text'	=> $value,
 				'value'	=> $key,
-			));
+			), $valueTypeIsArray);
 		}
 		return $result;
 	}

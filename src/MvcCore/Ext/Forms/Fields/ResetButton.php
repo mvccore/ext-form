@@ -18,6 +18,8 @@ class ResetButton extends Button
 	protected $type = 'reset';
 
 	protected $value = 'Reset';
+	
+	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 
 	protected $validators = array();
 

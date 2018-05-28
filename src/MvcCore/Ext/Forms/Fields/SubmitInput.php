@@ -13,45 +13,42 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once(__DIR__.'/../Form.php');
-require_once('Core/Field.php');
-//require_once('Core/View.php');
-
-class SubmitInput extends Core\Field
+class SubmitInput extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'submit';
-	public $Value = 'Submit';
-	public $RenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
-	public $Accesskey = null;
-	public $Validators = array();
-	public function SetAccesskey ($accesskey) {
-		$this->Accesskey = $accesskey;
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+
+	protected $type = 'submit';
+	
+	protected $value = 'Submit';
+	
+	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
+	
+	protected $validators = array();
+	
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		if (!$this->value) $this->thrownInvalidArgumentException(
+			'No button `value` defined.'
+		);
 		return $this;
 	}
-	public function OnAdded (\MvcCore\Ext\Form & $form) {
-		parent::OnAdded($form);
-		if (!$this->Value) {
-			$clsName = get_class($this);
-			include_once('Core/Exception.php');
-			throw new Core\Exception("No 'Value' defined for form field: '$clsName'.");
-		}
+
+	public function PreDispatch () {
+		parent::PreDispatch();
+		if ($this->translate && $this->value)
+			$this->value = $this->form->Translate($this->value);
 	}
-	public function SetUp () {
-		parent::SetUp();
-		if ($this->Translate && $this->Value) {
-			$this->Value = call_user_func($this->Form->Translator, $this->Value, $this->Form->Lang);
-		}
-	}
+	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('Accesskey',)
+			array('accessKey',)
 		);
-		include_once('Core/View.php');
-		return Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'type'		=> $this->Type,
-			'value'		=> $this->Value,
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}

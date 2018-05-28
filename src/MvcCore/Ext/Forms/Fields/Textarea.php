@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Textarea extends \MvcCore\Ext\Forms\Field
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxText;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 	use \MvcCore\Ext\Forms\Field\Attrs\RowsCols;
 
 	protected $type = 'textarea';
@@ -42,7 +42,8 @@ class Textarea extends \MvcCore\Ext\Forms\Field
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			array('MinLength', 'MaxLength', 'Rows', 'Cols')
 		);
-		return \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'value'		=> $this->value,

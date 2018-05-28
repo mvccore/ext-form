@@ -21,7 +21,7 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class MinSelectedOptions extends ValueInOptions
+class MinOptions extends ValueInOptions
 {
 	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
 		$safeValue = is_array($submitValue) ? $submitValue : array();

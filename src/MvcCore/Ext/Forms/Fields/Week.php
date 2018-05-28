@@ -13,15 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Date.php');
-
-class Time extends Date
+class Week extends Date
 {
-	protected $type = 'time';
+	protected $type = 'week';
 
-	protected $format = 'H:i';
+	protected $format = 'o-\WW'; // 2014-W30
 
-	protected $validators = array('Time');
-
-	// Min and Max shoud be set as strings in 24 hours format like 8:00, 22:00
+	protected $validators = array('Week');
 }

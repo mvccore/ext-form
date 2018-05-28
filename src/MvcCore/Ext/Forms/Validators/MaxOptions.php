@@ -21,7 +21,7 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class MaxSelectedOptions extends ValueInOptions
+class MaxOptions extends ValueInOptions
 {
 	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
 		$safeValue = is_array($submitValue) ? $submitValue : array();

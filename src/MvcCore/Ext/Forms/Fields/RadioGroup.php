@@ -13,15 +13,19 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Core/FieldGroup.php');
-
-class RadioGroup extends Core\FieldGroup
+class RadioGroup extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'radio';
-	public $Value = '';
-	public $Validators = array('ValueInOptions');
+	protected $type = 'radio';
+
+	protected $value = '';
+
+	protected $validators = array('ValueInOptions');
+
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
+		static::$templates = (object) array_merge(
+			(array) parent::$templates, 
+			(array) self::$templates
+		);
 	}
 }

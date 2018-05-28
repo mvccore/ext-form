@@ -13,126 +13,90 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-//require_once('Core/View.php');
-
-class Date extends Core\Field
+class Date extends \MvcCore\Ext\Forms\Field
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep;
+	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+
 	/**
-	 * date/time/datetime field, coud be defined in extended
-	 * control classes laso as week, year or day
 	 * @see http://www.html5tutorial.info/html5-date.php
 	 * @var string
 	 */
 	protected $type = 'date';
+
 	/**
-	 * Valid Datetime format to create PHP Datetime
-	 * by DateTime::createFromFormat($field->Format);.
+	 * String format mask to format given values in `Intl` extension `\DateTimeInterface` type
+	 * or string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `"Y-m-d" | "Y/m/d"`
 	 * @see http://php.net/manual/en/datetime.createfromformat.php
-	 * @example 'Y-m-d', 'Y/m/d' ...
+	 * @see http://php.net/manual/en/function.date.php
 	 * @var string
 	 */
 	protected $format = 'Y-m-d';
-	/**
-	 * Minimum date/time/datetime for current control,
-	 * by configured format asigned as string value.
-	 * @var string
-	 */
-	protected $min = null;
-	/**
-	 * Maximum date/time/datetime for current control,
-	 * by configured format asigned as string value.
-	 * @var string
-	 */
-	protected $max = null;
-	/**
-	 * HTML5 input:date, input:time and input:datetime control
-	 * step attribute in seconds.
-	 * @see input:date
-	 * @var string
-	 */
-	protected $step = null;
-	/**
-	 * Any html code containing substring '{control}'
-	 * to wrap any code around control itself.
-	 * @var string
-	 */
-	protected $wrapper = '{control}';
+	
+	
 	/**
 	 * Validators used for submitted value to check format, min, max and dangerous characters
 	 * @var string[]|\Closure[]
 	 */
 	protected $validators = array('Date');
+
 	/**
-	 * Set datetime value and hold it formated as string by:
-	 * http://php.net/manual/en/datetime.createfromformat.php
-	 * @param \DateTime|string $format
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
+	 * Get formated by configured `$field->format` property as string to render.
+	 * @return string
 	 */
-	public function SetValue ($value) {
-		if (gettype($value) == 'string') {
-			$this->value = $value;
+	public function GetValue () {
+		return $this->value;
+	}
+	
+	/**
+	 * 
+	 * Set value as `\Datetime`, int (UNIX timestamp) or formated string value 
+	 * and use it internaly as formated string.
+	 * For given `\Datetime` instance, format `$value` by 
+	 * `Intl` extension function `date_format()`,
+	 * for given `integer`, format `$value` by PHP function `date()`.
+	 * http://php.net/manual/en/datetime.createfromformat.php
+	 * @param \DateTimeInterface|int|string $value
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetValue ($value) {
+		if ($value instanceof \DateTimeInterface) {
+			$this->value = \date_format($value, $this->format);
+		} else if (is_int($value)) {
+			$this->value = \date($this->format, $value);
 		} else {
-			$this->value = $value->format($this->format);
+			$this->value = $value;
 		}
 		return $this;
 	}
+
 	/**
-	 * Set valid date format for:
-	 * http://php.net/manual/en/datetime.createfromformat.php
-	 * @param string $format
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
+	 * Get string format mask to format given values in `Intl` extension `\DateTimeInterface` type
+	 * or string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `"Y-m-d" | "Y/m/d"`
+	 * @see http://php.net/manual/en/datetime.createfromformat.php
+	 * @see http://php.net/manual/en/function.date.php
+	 * @return string
 	 */
-	public function SetFormat ($format) {
+	public function GetFormat () {
+		return $this->format;
+	}
+
+	/**
+	 * Set string format mask to format given values in `Intl` extension `\DateTimeInterface` type
+	 * or string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `$field->SetFormat("Y-m-d") | $field->SetFormat("Y/m/d");`
+	 * @see http://php.net/manual/en/datetime.createfromformat.php
+	 * @see http://php.net/manual/en/function.date.php
+	 * @param string $format
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetFormat ($format) {
 		$this->format = $format;
 		return $this;
 	}
-	/**
-	 * Set date/time/datetime minimum,
-	 * examples:
-	 *	- date		(with format 'Y-m-d')		: '2015-11-25'
-	 *	- time		(with format 'H:i')			: '11:30'
-	 *	- datetime	(with format 'Y-m-d H:i')	: '2015-11-25 11:30'
-	 * @param string $min
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
-	 */
-	public function SetMin ($min) {
-		$this->min = $min;
-		return $this;
-	}
-	/**
-	 * Set date/time/datetime minimum,
-	 * examples:
-	 *	- date		(with format 'Y-m-d')		: '2017-01-13'
-	 *	- time		(with format 'H:i')			: '18:25'
-	 *	- datetime	(with format 'Y-m-d H:i')	: '2017-01-13 18:25'
-	 * @param string $min
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
-	 */
-	public function SetMax ($max) {
-		$this->max = $max;
-		return $this;
-	}
-	/**
-	 * Set step in seconds.
-	 * @see http://www.wufoo.com/html5/types/4-date.html
-	 * @param int $step
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
-	 */
-	public function SetStep ($step) {
-		$this->step = $step;
-		return $this;
-	}
-	/**
-	 * Set html code wrapper, wrapper has to contain
-	 * replacement in form '{control}'. Around this
-	 * substring you can wrap any html code you want.
-	 * @param string $wrapper
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm\Date
-	 */
-	public function SetWrapper ($wrapper) {
-		$this->wrapper = $wrapper;
-		return $this;
-	}
+	
 	/**
 	 * Render control element, without label or possible error messages, only the element.
 	 * @return string
@@ -141,17 +105,14 @@ class Date extends Core\Field
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			array('min', 'max', 'step')
 		);
-		$result = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		$result = $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
-		$wrapperReplacement = '{control}';
-		$wrapper = mb_strpos($wrapperReplacement, $this->wrapper) !== FALSE 
-			? $this->wrapper 
-			: $wrapperReplacement;
-		return str_replace($wrapperReplacement, $result, $wrapper);
+		return $this->renderControlWrapper($result);
 	}
 }

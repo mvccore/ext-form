@@ -13,10 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Button.php');
-
 class SubmitButton extends Button
 {
-	public $Type = 'submit';
-	public $Value = 'Submit';
+	protected $type = 'submit';
+
+	protected $value = 'Submit';
 }

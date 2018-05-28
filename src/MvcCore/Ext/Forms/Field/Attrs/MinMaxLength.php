@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
-trait MinMaxText
+trait MinMaxLength
 {
 	protected $minLength = NULL;
 	protected $maxLength = NULL;

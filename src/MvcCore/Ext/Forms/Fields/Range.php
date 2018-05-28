@@ -44,7 +44,8 @@ class Range extends \MvcCore\Ext\Forms\Field
 		$valueStr = $this->multiple && gettype($this->value) == 'array' 
 			? implode(',', (array) $this->value) 
 			: (string) $this->value;
-		$result = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		$result = $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,

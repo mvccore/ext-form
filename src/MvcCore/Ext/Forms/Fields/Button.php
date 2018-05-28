@@ -34,6 +34,7 @@ class Button extends \MvcCore\Ext\Forms\Field
 			(array) self::$templates
 		);
 	}
+	
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		if (!$this->value) $this->thrownInvalidArgumentException(
@@ -41,16 +42,19 @@ class Button extends \MvcCore\Ext\Forms\Field
 		);
 		return $this;
 	}
+	
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if ($this->translate && $this->value)
 			$this->value = $this->form->Translate($this->value);
 	}
+	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			array('accessKey',)
 		);
-		return \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,

@@ -13,9 +13,6 @@
 
 namespace MvcCore\Ext\Forms;
 
-//require_once('Exception.php');
-//require_once('View.php');
-
 abstract class Field implements \MvcCore\Ext\Forms\IField
 {
 	use \MvcCore\Ext\Forms\Field\Props;
@@ -45,12 +42,46 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * Set any nondeclared property dynamicly
-	 * to get it in view by rendering process.
+	 * Sets any custom property `"propertyName"` by `\MvcCore\Ext\Forms\Field::SetPropertyName("value");`,
+	 * which is not necessary to define previously or gets previously defined
+	 * property `"propertyName"` by `\MvcCore\Ext\Forms\Field::GetPropertyName();`.
+	 * Throws exception if no property defined by get call or if virtual call
+	 * begins with anything different from `Set` or `Get`.
+	 * This method returns custom value for get and `\MvcCore\Request` instance for set.
 	 * @param string $name
-	 * @param mixed $value
+	 * @param array  $arguments
+	 * @throws \InvalidArgumentException
+	 * @return mixed|\MvcCore\Ext\Forms\Field
 	 */
-	public function & __set ($name, $value) {
+	public function __call ($name, $arguments = array()) {
+		$nameBegin = strtolower(substr($name, 0, 3));
+		$prop = lcfirst(substr($name, 3));
+		if ($nameBegin == 'get' && isset($this->$prop)) {
+			return $this->$prop;
+		} else if ($nameBegin == 'set') {
+			$this->$prop = isset($arguments[0]) ? $arguments[0] : NULL;
+			return $this;
+		} else {
+			throw new \InvalidArgumentException('['.__CLASS__."] No property with name '$prop' defined.");
+		}
+	}
+
+	/**
+	 * Universal getter, if property not defined, `NULL` is returned.
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get ($name) {
+		return isset($this->$name) ? $this->$name : NULL ;
+	}
+
+	/**
+	 * Universal setter, if property not defined, it's automaticly declarated.
+	 * @param string $name
+	 * @param mixed	 $value
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function __set ($name, $value) {
 		$this->$name = $value;
 		return $this;
 	}
@@ -98,6 +129,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		if ($this->translate && $this->label)
 			$this->label = $form->Translate($this->label);
 	}
+
 
 	protected function thrownInvalidArgumentException ($errorMsg) {
 		throw new \InvalidArgumentException(
@@ -166,14 +198,15 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 			$safeSubmittedValueType = gettype($safeSubmittedValue);
 			if (
 				$safeSubmittedValue === NULL ||
-				($safeSubmittedValueType == 'string' && strlen($safeSubmittedValue) === 0) ||
+				($safeSubmittedValueType == 'string' && mb_strlen($safeSubmittedValue) === 0) ||
 				($safeSubmittedValueType == 'array'  && count($safeSubmittedValue) === 0)
 			) {
 				$form = & $this->form;
 				$errorMsg = $form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED);
 				if ($this->translate)
 					$errorMsg = $form->Translate($errorMsg);
-				$errorMsg = \MvcCore\Ext\Forms\View::Format(
+				$viewClass = $this->form->GetViewClass();
+				$errorMsg = $viewClass::Format(
 					$errorMsg, array($this->label ? $this->label : $this->name)
 				);
 				$form->AddError(

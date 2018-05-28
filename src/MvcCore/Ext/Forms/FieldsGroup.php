@@ -213,7 +213,7 @@ abstract class FieldsGroup extends Field
 	 * - set up form and field id attribute by form id and field name
 	 * - set up required
 	 * @param \MvcCore\Ext\Form $form
-	 * @throws \MvcCore\Ext\Form\Core\Exception
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
@@ -236,19 +236,19 @@ abstract class FieldsGroup extends Field
 		parent::PreDispatch();
 		if (!$this->translate) return;
 		$form = & $this->form;
-		foreach ($this->options as $key => $value) {
-			if (gettype($value) == 'string') {
+		foreach ($this->options as $key => & $value) {
+			$valueType = gettype($value);
+			if ($valueType == 'string') {
 				// most simple key/value array options configuration
 				if ($value) 
 					$this->options[$key] = $form->Translate((string) $value);
-			} else if (gettype($value) == 'array') {
+			} else if ($valueType == 'array') {
 				// advanced configuration with key, text, css class, and any other attributes for single option tag
-				$optObj = (object) $value;
-				$text = isset($optObj->text) 
-					? $optObj->text 
+				$text = isset($value['text']) 
+					? $value['text']
 					: $key;
 				if ($text)
-					$this->options[$key]['text'] = $form->Translate((string) $text);
+					$value['text'] = $form->Translate((string) $text);
 			}
 		}
 	}
@@ -299,7 +299,8 @@ abstract class FieldsGroup extends Field
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
 			? static::$templates->togetherLabelLeft 
 			: static::$templates->togetherLabelRight;
-		$result = \MvcCore\Ext\Forms\View::Format($template, array(
+		$viewClass = $this->form->GetViewClass();
+		$result = $viewClass::Format($template, array(
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
@@ -337,7 +338,8 @@ abstract class FieldsGroup extends Field
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			array(), $this->groupLabelAttrs, $this->groupCssClasses
 		);
-		return \MvcCore\Ext\Forms\View::Format(static::$templates->label, array(
+		$viewClass = $this->form->GetViewClass();
+		return $viewClass::Format(static::$templates->label, array(
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
@@ -360,13 +362,11 @@ abstract class FieldsGroup extends Field
 			$controlAttrsStr
 		) = $this->renderControlItemCompleteAttrsClassesAndText($key, $option);
 		// render control, render label and put it together if necessary
-		$checked = FALSE;
-		if (gettype($this->value) == 'array') {
-			$checked = in_array($key, $this->value);
-		} else {
-			$checked = $this->value === $key;
-		}
-		$itemControl = \MvcCore\Ext\Forms\View::Format(static::$templates->control, array(
+		$checked = gettype($this->value) == 'array'
+			? in_array($key, $this->value)
+			: $this->value === $key;
+		$viewClass = $this->form->GetViewClass();
+		$itemControl = $viewClass::Format(static::$templates->control, array(
 			'id'		=> $itemControlId,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
@@ -376,7 +376,7 @@ abstract class FieldsGroup extends Field
 		));
 		if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 			// control and label
-			$itemLabel = \MvcCore\Ext\Forms\View::Format(static::$templates->label, array(
+			$itemLabel = $viewClass::Format(static::$templates->label, array(
 				'id'		=> $itemControlId,
 				'label'		=> $itemLabelText,
 				'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '',
@@ -391,7 +391,7 @@ abstract class FieldsGroup extends Field
 					? 'Right' 
 					: 'Left'
 			);
-			$result = \MvcCore\Ext\Forms\View::Format(
+			$result = $viewClass::Format(
 				static::$templates->$templatesKey,
 				array(
 					'id'		=> $itemControlId,

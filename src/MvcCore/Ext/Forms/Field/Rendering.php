@@ -33,13 +33,26 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderTemplate () {
-		$view = new View($this->Form);
-		
-		$view->SetUp($this);
-		$this->field = $this;
-
+		$viewClass = $this->form->GetViewClass();
+		$formParentController = $this->form->GetParentController();
+		$formParentControllerView = $formParentController->GetView();
+		$view = $viewClass::CreateInstance()
+			->SetController($formParentController)
+			->SetView($formParentControllerView)
+			->SetForm($this->form)
+			->SetUpValuesFromController($formParentController, TRUE)
+			->SetUpValuesFromView($formParentControllerView, TRUE)
+			->SetUpValuesFromController($this->form, TRUE);
+		$type = new \ReflectionClass($this);
+		/** @var $props \ReflectionProperty[] */
+		$props = $type->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
+		foreach ($props as $prop) {
+			if ($prop->isProtected()) $prop->setAccessible(TRUE);
+			$this->_store[$prop->name] = $prop->getValue($this);
+		}
+		$view->field = $this;
 		return $view->Render(
-			\MvcCore\Ext\Forms\View::GetFormsDir(),
+			$viewClass::GetFormsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
 		);
 	}
@@ -105,7 +118,8 @@ trait Rendering
 			? static::$templates->togetherLabelLeft 
 			: static::$templates->togetherLabelRight;
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
-		$result = $this->form->GetView()->Format($template, array(
+		$formViewClass = $this->form->GetViewClass();
+		$result = $formViewClass::Format($template, array(
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
@@ -127,7 +141,8 @@ trait Rendering
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
-		return $this->form->GetView()->Format(static::$templates->control, array(
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, array(
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
@@ -144,7 +159,8 @@ trait Rendering
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
-		return $this->form->GetView()->Format(static::$templates->label, array(
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->label, array(
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
@@ -253,7 +269,8 @@ trait Rendering
 		}
 		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
 		$attrs['class'] = implode(' ', $cssClasses);
-		return \MvcCore\Ext\Forms\View::RenderAttrs(
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::RenderAttrs(
 			array_merge($fieldAttrs, $attrs)
 		);
 	}

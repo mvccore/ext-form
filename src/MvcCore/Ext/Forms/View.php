@@ -13,28 +13,24 @@
 
 namespace MvcCore\Ext\Forms;
 
-//require_once('MvcCore/View.php');
-
-//require_once('Helpers.php');
-//require_once('Configuration.php');
-
 class View extends \MvcCore\View
 {
 
 	/**
 	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	private $_form = null;
+	protected $form = null;
 
 	/**
 	 * @var \MvcCore\View|\MvcCore\Interfaces\IView
 	 */
-	private $_view = null;
+	protected $view = null;
 
 	protected static $protectedProperties = array(
 		'_controller'		=> 1,
-		'_form'				=> 1,
-		'_view'				=> 1,
+		'form'				=> 1,
+		'field'				=> 1,
+		'view'				=> 1,
 		'_store'			=> 1,
 		'_helpers'			=> 1,
 		'_content'			=> 1,
@@ -73,13 +69,15 @@ class View extends \MvcCore\View
 		static::$formsDir = $formsDir;
 	}
 
+	
+
 	/**
 	 * Set controller and it's view instance.
 	 * @param \MvcCore\Controller $controller
 	 * @return \MvcCore\View
 	 */
 	public function & SetView (\MvcCore\Interfaces\IView & $view) {
-		$this->_view = & $view;
+		$this->view = & $view;
 		return $this;
 	}
 
@@ -88,7 +86,7 @@ class View extends \MvcCore\View
 	 * @return \MvcCore\Controller
 	 */
 	public function & GetView () {
-		return $this->_view;
+		return $this->view;
 	}
 	
 	/**
@@ -96,7 +94,7 @@ class View extends \MvcCore\View
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & GetForm () {
-		return $this->_form;
+		return $this->form;
 	}
 	
 	/**
@@ -105,7 +103,7 @@ class View extends \MvcCore\View
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
-		$this->_form = & $form;
+		$this->form = & $form;
 		return $this;
 	}
 
@@ -128,10 +126,10 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderTemplate () {
-		$formViewScript = $this->_form->GetViewScript();
+		$formViewScript = $this->form->GetViewScript();
 		return $this->Render(
 			static::$formsDir, 
-			is_bool($formViewScript) ? $this->_form->GetId() : $formViewScript
+			is_bool($formViewScript) ? $this->form->GetId() : $formViewScript
 		);
 	}
 
@@ -155,7 +153,7 @@ class View extends \MvcCore\View
 	public function RenderBegin () {
 		$result = "<form";
 		$attrs = array();
-		$form = & $this->_form;
+		$form = & $this->form;
 		$formProperties = array('id', 'action', 'method', 'enctype');
 		foreach ($formProperties as $property) {
 			$getter = 'Get'.ucfirst($property);
@@ -184,7 +182,7 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderCsrf () {
-		list ($name, $value) = $this->_form->SetUpCsrf();
+		list ($name, $value) = $this->form->SetUpCsrf();
 		return '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
 	}
 
@@ -195,7 +193,7 @@ class View extends \MvcCore\View
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
-		return $this->_form->GetCsrf();
+		return $this->form->GetCsrf();
 	}
 
 	/**
@@ -207,8 +205,8 @@ class View extends \MvcCore\View
 	 */
 	public function RenderErrors () {
 		$result = '';
-		$errors = & $this->_form->GetErrors();
-		if ($errors && $this->_form->GetErrorsRenderMode() == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		$errors = & $this->form->GetErrors();
+		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 			$result .= '<div class="errors">';
 			foreach ($errors as & $errorMessageAndFieldNames) {
 				list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
@@ -230,9 +228,9 @@ class View extends \MvcCore\View
 	public function RenderContent () {
 		$result = "";
 		$fieldRendered = "";
-		foreach ($this->_form->GetFields() as & $field) {
+		foreach ($this->form->GetFields() as & $field) {
 			$fieldRendered = $field->Render();
-			if (!($field instanceof \MvcCore\Ext\Forms\fields\Hidden)) {
+			if (!($field instanceof \MvcCore\Ext\Forms\Fields\Hidden)) {
 				$fieldRendered = "<div>".$fieldRendered."</div>";
 			}
 			$result .= $fieldRendered;
@@ -248,8 +246,8 @@ class View extends \MvcCore\View
 	 */
 	public function RenderEnd () {
 		return '</form>' 
-			. $this->_form->RenderSupportingJs() 
-			. $this->_form->RenderSupportingCss();
+			. $this->form->RenderSupportingJs() 
+			. $this->form->RenderSupportingCss();
 	}
 
 	/**
@@ -260,8 +258,10 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public static function Format ($str = '', array $args = array()) {
-		foreach ($args as $key => $value)
-			$str = str_replace('{'.$key.'}', (string)$value, $str);
+		foreach ($args as $key => $value) {
+			$pos = strpos($str, '{'.$key.'}');
+			$str = substr($str, 0, $pos) . $value . substr($str, $pos + strlen($key) + 2);
+		}
 		return $str;
 	}
 

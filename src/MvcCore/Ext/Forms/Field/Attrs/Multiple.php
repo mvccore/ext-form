@@ -15,12 +15,22 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 trait Multiple
 {
+	/**
+	 * @var bool|string|NULL
+	 */
 	protected $multiple = NULL;
 
+	/**
+	 * @return bool
+	 */
 	public function GetMultiple () {
 		return $this->multiple;
 	}
 
+	/**
+	 * @param bool $multiple 
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
 	public function & SetMultiple ($multiple) {
 		$this->multiple = $multiple;
 		return $this;

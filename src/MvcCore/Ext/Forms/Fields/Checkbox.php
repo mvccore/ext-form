@@ -13,30 +13,35 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Core/Field.php');
-//require_once('Core/View.php');
-
-class Checkbox extends Core\Field
+class Checkbox extends \MvcCore\Ext\Forms\Field
 {
-	public $Type = 'checkbox';
-	public $LabelSide = 'right';
-	public $Validators = array('SafeString');
-	public static $Templates = array(
+	protected $type = 'checkbox';
+	
+	protected $labelSide = 'right';
+
+	protected $validators = array('SafeString');
+	
+	protected static $templates = array(
 		'control'			=> '<input id="{id}" name="{name}" type="checkbox" value="true"{value}{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	);
+	
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
+		static::$templates = (object) array_merge(
+			(array) parent::$templates, 
+			(array) self::$templates
+		);
 	}
+	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
-		include_once('Core/View.php');
-		return Core\View::Format(static::$Templates->control, array(
-			'id'		=> $this->Id,
-			'name'		=> $this->Name,
-			'value'		=> $this->Value ? ' checked="checked"' : '',
+		$viewClass = $this->form->GetViewClass();
+		return $viewClass::Format(static::$templates->control, array(
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'value'		=> $this->value ? ' checked="checked"' : '',
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		));
 	}
