@@ -57,7 +57,7 @@ trait Csrf
 	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
 	 * @return bool
 	 */
-	public function ValidateCsrf ($rawRequestParams = array()) {
+	public function SubmitCsrfTokens (array & $rawRequestParams = array()) {
 		$result = FALSE;
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf 

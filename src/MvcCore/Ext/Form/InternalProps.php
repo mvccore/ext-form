@@ -18,6 +18,21 @@ use \MvcCore\Ext\Forms\IError;
 trait InternalProps
 {
 	/**
+	 * Internal array with all configured submit buttons to recognize starting 
+	 * result state in submit processing by presented button in params array.
+	 * @var \MvcCore\Ext\Forms\Fields\SubmitButton|\MvcCore\Ext\Forms\Fields\SubmitInput
+	 */
+	protected $submitFields = array();
+
+	/**
+	 * Internal array to store any configured custom result state values for
+	 * submit buttons or for submit inputs. Key in array are field names, values
+	 * are custom submit start result state values, if form is submitted by named button.
+	 * @var \int[]
+	 */
+	protected $customResultStates = array();
+
+	/**
 	 * Validators instances keyed by validators ending 
 	 * class names, created durring `Submit()`.
 	 * @var \MvcCore\Ext\Forms\IValidator[]

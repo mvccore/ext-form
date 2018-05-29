@@ -62,8 +62,19 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & AddField (\MvcCore\Ext\Forms\IField $field) {
+		/** @var $field \MvcCore\Ext\Forms\Field */
 		if ($this->dispatchState < 1) $this->Init();
-		$this->fields[$field->GetName()] = $field->SetForm($this);
+		$fieldName = $field->GetName();
+		$this->fields[$fieldName] = & $field->SetForm($this);
+		if (
+			$field instanceof \MvcCore\Ext\Forms\Fields\SubmitButton || 
+			$field instanceof \MvcCore\Ext\Forms\Fields\SubmitInput
+		) {
+			$this->submitFields[$fieldName] = & $field;
+			$fieldCustomResultState = $field->GetCustomResultState();
+			if ($fieldCustomResultState !== NULL)
+				$this->customResultStates[$fieldName] = $fieldCustomResultState;
+		}
 		return $this;
 	}
 

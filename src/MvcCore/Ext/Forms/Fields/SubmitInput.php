@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Forms\Fields;
 class SubmitInput extends \MvcCore\Ext\Forms\Field
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
 
 	protected $type = 'submit';
 	

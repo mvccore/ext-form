@@ -25,25 +25,40 @@ trait Submitting
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
 	 *	 `AddError()` method automaticly switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
-	 * @param array $rawParams optional
+	 * @param array $rawRequestParams optional
 	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
 	 */
-	public function Submit ($rawParams = array()) {
+	public function Submit (array & $rawRequestParams = array()) {
 		if ($this->dispatchState < 1) $this->Init();
-		
-		// TODO: podle submit buttonu se rozhodnout ktery status bude defaultní před řešením chyb
-		$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
-
+		if (!$rawRequestParams) $rawRequestParams = $this->request->GetParams('.*');
+		$this->submitSetStartResultState($rawRequestParams);
 		$this->validateMaxPostSizeIfNecessary();
-		if (!$rawParams) $rawParams = $this->request->GetParams('.*');
-		$this->ValidateCsrf($rawParams);
-		$this->SubmitAllFields($rawParams);
-		
+		$this->SubmitCsrfTokens($rawRequestParams);
+		$this->submitAllFields($rawRequestParams);
 		return array(
 			$this->result,
 			$this->values,
 			$this->errors,
 		);
+	}
+
+	protected function submitSetStartResultState (array & $rawRequestParams = array()) {
+		if (!$this->customResultStates) {
+			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
+		} else {
+			// try to find if there is any field name (button:submit or input:submit) 
+			// in raw request params with submit start custom result state:
+			$customResultStateDefined = FALSE;
+			foreach ($this->customResultStates as $fieldName => $customResultState) {
+				if (isset($rawRequestParams[$fieldName])) {
+					$customResultStateDefined = TRUE;
+					$this->result = $customResultState;
+					break;
+				}
+			}
+			if (!$customResultStateDefined) 
+				$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
+		}
 	}
 
 	/**
@@ -100,7 +115,7 @@ trait Submitting
 	 * @param array $rawRequestParams
 	 * @return void
 	 */
-	public function SubmitAllFields ($rawRequestParams = array()) {
+	protected function submitAllFields (array & $rawRequestParams = array()) {
 		foreach ($this->fields as $fieldName => & $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\Button) continue;
 			$safeValue = $field->Submit($rawRequestParams);
@@ -159,21 +174,18 @@ trait Submitting
 		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return;
 		$contentLength = $this->request->GetContentLength();
 		$rawMaxSize = ini_get('post_max_size');
-		if ($contentLength === NULL)
-			$this->AddError(
-				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
-			);
+		if ($contentLength === NULL) $this->AddError(
+			$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
+		);
 		$units = array('k' => 1000, 'm' => 1048576, 'g' => 1073741824);
 		if (is_integer($rawMaxSize)) {
 			$maxSize = intval($rawMaxSize);
 		} else {
 			$unit = strtolower(substr($rawMaxSize, -1));
 			$rawMaxSize = substr($rawMaxSize, 0, strlen($rawMaxSize) - 1);
-			if (isset($units[$unit])) {
-				$maxSize = intval($rawMaxSize) * $units[$unit];
-			} else {
-				$maxSize = intval($rawMaxSize);
-			}
+			$maxSize = isset($units[$unit])
+				? intval($rawMaxSize) * $units[$unit]
+				: intval($rawMaxSize);
 		}
 		if ($maxSize > 0 && $maxSize < $contentLength) {
 			$viewClass = $this->viewClass;

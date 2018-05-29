@@ -15,6 +15,8 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class SubmitButton extends Button
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
+
 	protected $type = 'submit';
 
 	protected $value = 'Submit';
