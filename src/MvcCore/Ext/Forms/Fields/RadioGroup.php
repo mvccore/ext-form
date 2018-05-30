@@ -13,13 +13,19 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class RadioGroup extends \MvcCore\Ext\Forms\Field
+class RadioGroup 
+	extends \MvcCore\Ext\Forms\Field 
+	implements \MvcCore\Ext\Forms\Fields\IOptions
 {
 	protected $type = 'radio';
 
 	protected $value = '';
 
 	protected $validators = array('ValueInOptions');
+	
+	public function GetMultiple () {
+		return FALSE;
+	}
 
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);

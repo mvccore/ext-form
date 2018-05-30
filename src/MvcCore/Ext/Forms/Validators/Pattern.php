@@ -22,9 +22,9 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class Pattern extends Core\Validator
+class Pattern extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$safeValue = '';
 		$submitValue = trim($submitValue);
 		if (isset($field->Pattern) && !is_null($field->Pattern)) {

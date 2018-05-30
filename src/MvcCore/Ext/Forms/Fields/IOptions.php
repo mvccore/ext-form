@@ -13,11 +13,20 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class SubmitButton extends Button implements \MvcCore\Ext\Forms\Fields\ISubmit
+interface IOptions
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
+    /**
+	 * @return array
+	 */
+	public function & GetOptions ();
 
-	protected $type = 'submit';
+	/**
+	 * @return array
+	 */
+	public function GetAllOptionsKeys ();
 
-	protected $value = 'Submit';
+	/**
+	 * @return bool
+	 */
+	public function GetMultiple ();
 }

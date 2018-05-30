@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class SubmitInput extends \MvcCore\Ext\Forms\Field
+class SubmitInput extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\ISubmit
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;

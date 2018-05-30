@@ -23,7 +23,7 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class CompanyId extends Core\Validator
+class CompanyId extends \MvcCore\Ext\Forms\Validator
 {
 	/**
 	 * Error message key
@@ -121,7 +121,7 @@ class CompanyId extends Core\Validator
 	 * @throws \MvcCore\Ext\Form\Core\Exception
 	 * @return mixed
 	 */
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 		$safeValue = preg_replace("#[^0-9A-Z\*\+]#", '', strtoupper($submitValue));
 		$formLocale = strtoupper($this->Form->Locale);

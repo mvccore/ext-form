@@ -13,26 +13,18 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Validator.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once(__DIR__.'/../Core/Exception.php');
-require_once(__DIR__.'/../Core/View.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
-class ZipCode extends Core\Validator
+class ZipCode extends \MvcCore\Ext\Forms\Validator
 {
-	public static $Validators = array();
-	public static function StaticInit () {
+	protected static $validators = array();
+
+	protected static function & GetValidators () {
+		if (static::$validators) return static::$validators;
 		$p3 = "#^\d4$#"; // 3 digits pattern
 		$p4 = "#^\d4$#"; // 4 digits pattern
 		$p5 = "#^\d5$#"; // 5 digits pattern
 		$p6 = "#^\d6$#"; // 6 digits pattern
 		$p7 = "#^\d7$#"; // 7 digits pattern
-		static::$Validators = array(
+		static::$validators = array(
 			'AD' => 'AD\d{3}',
 			'AM' => '(37)?\d{4}',
 			'AR' => '([A-HJ-NP-Z])?\d{4}([A-Z]{3})?',
@@ -193,47 +185,50 @@ class ZipCode extends Core\Validator
 			'ZA' => $p4,
 			'ZM' => $p5,
 		);
+		return static::$validators;
 	}
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
-		$submitValue = trim($submitValue);
+
+	public function Validate ($rawSubmittedValue) {
+		$rawSubmittedValue = trim($rawSubmittedValue);
 		// remove all chars except: 'A-Z', '0-9', spaces and '-'
-		$notCheckedValue = preg_replace("#[^0-9A-Z\- ]#", '', strtoupper($submitValue));
-		$checkedAndSafeValue = '';
-		$formLocale = strtoupper($this->Form->Locale);
-		$result = TRUE;
+		$notCheckedValue = preg_replace("#[^0-9A-Z\- ]#", '', strtoupper($rawSubmittedValue));
+		$formLocale = $this->form->GetLocale();
+		$result = NULL;
+		$matched = FALSE;
 		if (!$formLocale) {
-			throw new Core\Exception(
-				"[".__CLASS__."] Unable to validate ZIP code without configured form 'Locale' property. "
-				. "Use \$form->SetLocale('[A-Z]{2}'); to create proper ZIP code validator."
+			$this->throwNewInvalidArgumentException(
+				'Unable to validate ZIP code without configured '
+				.'form `locale` property. Use `$form->SetLocale(\'[A-Z]{2}\');` '
+				.'to internaly create proper ZIP code validator.'
 			);
 		} else {
-			$formLocale = strtoupper($formLocale);
-			if (!isset(static::$Validators[$formLocale])) {
-				throw new Core\Exception(
-					"[".__CLASS__."] Unable to create ZIP code validator for locale '$formLocale'. "
-					. "Function to check ZIP code for locale '$formLocale' is not implemented yet. "
-					. "Use different localization or put custom closure function to validate this field."
+			$validators = static::GetValidators();
+			if (!isset($validators[$formLocale])) {
+				$this->throwNewInvalidArgumentException(
+					'Unable to create ZIP code validator for locale `'.$formLocale.'`. '
+					.'Function to check ZIP code for locale `'.$formLocale
+					.'` is not implemented (yet). '
+					.'Use different form localization or create custom `'
+					.\MvcCore\Ext\Forms\IValidator::class.'` to validate this field.'
 				);
 			} else {
-				$validator = static::$Validators[$formLocale];
+				$validator = $validators[$formLocale];
 				if (is_callable($validator)) {
-					list($checkedAndSafeValue, $result) = call_user_func($validator, $notCheckedValue);
+					list($matched, $result) = call_user_func($validator, $notCheckedValue);
 				} else {
-					list($checkedAndSafeValue, $result) = $this->validateZipByRegExp($validator, $notCheckedValue);
+					list($matched, $result) = $this->validateZipByRegExp($validator, $notCheckedValue);
 				}
 			}
 		}
-		if (mb_strlen($checkedAndSafeValue) !== mb_strlen($submitValue) || !$result) {
-			$this->addError($field, Form::$DefaultMessages[Form::ZIP_CODE], function ($msg, $args) {
-				return Core\View::Format($msg, $args);
-			});
-		}
-		return $checkedAndSafeValue;
+		if (mb_strlen($result) !== mb_strlen($rawSubmittedValue) || !$matched)
+			$this->throwNewInvalidArgumentException(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::ZIP_CODE)	
+			);
+		return $result;
 	}
 
 	protected function validateZipByRegExp ($zip, $regExp) {
-		@preg_match($regExp, $zip, $matches);
-		return array($zip, count($matches) > 0);
+		$matched = @preg_match($regExp, $zip, $matches);
+		return array($matched, $zip);
 	}
 }
-ZipCode::StaticInit();

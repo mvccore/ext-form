@@ -13,7 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class CheckboxGroup extends \MvcCore\Ext\Forms\FieldsGroup
+class CheckboxGroup 
+	extends \MvcCore\Ext\Forms\FieldsGroup 
+	implements \MvcCore\Ext\Forms\Fields\IOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
 
@@ -28,6 +30,10 @@ class CheckboxGroup extends \MvcCore\Ext\Forms\FieldsGroup
 	protected static $templates = array(
 		'control'	=> '<input id="{id}" name="{name}[]" type="{type}" value="{value}"{checked}{attrs} />',
 	);
+
+	public function GetMultiple () {
+		return TRUE;
+	}
 
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);

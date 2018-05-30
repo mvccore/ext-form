@@ -31,10 +31,12 @@ trait Submitting
 	public function Submit (array & $rawRequestParams = array()) {
 		if ($this->dispatchState < 1) $this->Init();
 		if (!$rawRequestParams) $rawRequestParams = $this->request->GetParams('.*');
-		$this->submitSetStartResultState($rawRequestParams);
-		$this->validateMaxPostSizeIfNecessary();
-		$this->SubmitCsrfTokens($rawRequestParams);
-		$this->submitAllFields($rawRequestParams);
+		$this
+			->SubmitSetStartResultState($rawRequestParams)
+			->SubmitValidateMaxPostSizeIfNecessary()
+			->SubmitCsrfTokens($rawRequestParams)
+			->SubmitAllFields($rawRequestParams)
+			->SaveSession();
 		return array(
 			$this->result,
 			$this->values,
@@ -42,7 +44,16 @@ trait Submitting
 		);
 	}
 
-	protected function submitSetStartResultState (array & $rawRequestParams = array()) {
+	/**
+	 * Try to set up form submit result state into any special positive
+	 * value by presented submit button name in `$rawRequestParams` array
+	 * if there is any special submit result value configured by button names
+	 * in `$form->customResultStates` array. If no special button submit result 
+	 * value configured, submit result state is set to `1` by default.
+	 * @param array $rawRequestParams 
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function SubmitSetStartResultState (array & $rawRequestParams = array()) {
 		if (!$this->customResultStates) {
 			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
 		} else {
@@ -59,119 +70,17 @@ trait Submitting
 			if (!$customResultStateDefined) 
 				$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
 		}
+		return $this;
 	}
 
 	/**
-	 * Call this function in custom `\MvcCore\Ext\Form::Submit();` method implementation
-	 * at the end of custom `Submit()` method to redirect user by configured success/error/next
-	 * step url address into final place and store everything into session.
-	 * @return void
-	 */
-	public function SubmittedRedirect () {
-		if ($this->dispatchState < 1) $this->Init();
-		$url = '';
-		$errorMsg = '';
-		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
-			$url = $this->errorUrl;
-			if (!$url) 
-				$errorMsg = 'Specify `errorUrl` property.';
-		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
-			$url = $this->successUrl;
-			if (!$url) 
-				$errorMsg = 'Specify `successUrl` property.';
-			$this->values = array();
-		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE) {
-			$url = $this->nextStepUrl;
-			if (!$url) 
-				$errorMsg = 'Specify `nextStepUrl` property.';
-			$this->values = array();
-		}
-		$session = & $this->getSession();
-		$session->errors = $this->errors;
-		$session->values = $this->values;
-		if (!$url) throw new \RuntimeException(
-			'['.__CLASS__.'] No url specified to redirect. ' . $errorMsg
-		);
-		self::Redirect($url, \MvcCore\Interfaces\IResponse::SEE_OTHER);
-	}
-
-	/**
-	 * Get error message string from
-	 * `\MvcCore\Ext\Form::$defaultErrorMessages`
-	 * by given integer index.
-	 * @param int $index
-	 * @return string
-	 */
-	public function GetDefaultErrorMsg ($index) {
-		return static::$defaultErrorMessages[$index];
-	}
-	
-	/**
-	 * Process all fields configured validators and add errors where necessary.
-	 * Clean client values to safe values by configured validator classes for each field.
-	 * After all fields are processed, store clean values and error messages into session
-	 * to use them in any possible future request, where is necessary to fill and submit
-	 * the form again, for example by any error and redirecting to form error url.
-	 * @param array $rawRequestParams
-	 * @return void
-	 */
-	protected function submitAllFields (array & $rawRequestParams = array()) {
-		foreach ($this->fields as $fieldName => & $field) {
-			if ($field instanceof \MvcCore\Ext\Forms\Fields\Button) continue;
-			$safeValue = $field->Submit($rawRequestParams);
-			if ($safeValue !== NULL) {
-				$field->SetValue($safeValue);
-				$this->values[$fieldName] = $safeValue;
-			}
-		}
-		//x($rawRequestParams);
-		//xxx($this->values);
-		$session = & $this->getSession();
-		$session->errors = $this->errors;
-		$session->values = $this->values;
-	}
-
-	/**
-	 * Get cached validator instance by name. If validator instance doesn't exists
-	 * in `$this->validators` array, create new validator instance.
-	 * @param string $validatorName 
-	 * @return \MvcCore\Ext\Forms\IValidator
-	 */
-	public function & GetValidator ($validatorName) {
-		if (isset($this->validators[$validatorName])) {
-			$validator = & $this->validators[$validatorName];
-		} else {
-			$validator = NULL;
-			$toolClass = self::$toolClass;
-			foreach (static::$validatorsNamespaces as $validatorsNamespace) {
-				$validatorFullClassName =  $validatorsNamespace . $validatorName;
-				if (
-					class_exists($validatorFullClassName) &&
-					$toolClass::CheckClassInterface(
-						$validatorFullClassName, \MvcCore\Ext\Forms\IValidator::class, TRUE, TRUE
-					)
-				) {
-					$validator = $validatorFullClassName::CreateInstance($this);
-					break;
-				}
-			}
-			if ($validator === NULL) $this->throwNewInvalidArgumentException(
-				'Validator `' . $validatorName . '` not found in any namespace: `' 
-				. implode('`, `', static::$validatorsNamespaces) . '`.'
-			);
-			$this->validators[$validatorName] = & $validator;
-		}
-		return $validator;
-	}
-
-	/**
-	 * Validate max. posted size in POST request body.
+	 * Validate max. posted size in POST request body by `Content-Length` HTTP header.
 	 * If there is no `Content-Length` request header, add error.
-	 * If `Content-Length` value is bigger than `post_max_size` from PHP ini, add error.
-	 * @return void
+	 * If `Content-Length` value is bigger than `post_max_size` from PHP ini, add form error.
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	protected function validateMaxPostSizeIfNecessary () {
-		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return;
+	public function & SubmitValidateMaxPostSizeIfNecessary () {
+		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return $this;
 		$contentLength = $this->request->GetContentLength();
 		$rawMaxSize = ini_get('post_max_size');
 		if ($contentLength === NULL) $this->AddError(
@@ -194,5 +103,100 @@ trait Submitting
 				array($maxSize)
 			));
 		}
+		return $this;
+	}
+	
+	/**
+	 * Go throught all fields, which are not `button:submit` or `input:submit` types
+	 * and call on every `$field->Submit()` method to process all configured field validators.
+	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automaticly
+	 * assigned under field name into form result values and into form field value.
+	 * @param array $rawRequestParams
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function SubmitAllFields (array & $rawRequestParams = array()) {
+		foreach ($this->fields as $fieldName => & $field) {
+			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
+			$safeValue = $field->Submit($rawRequestParams);
+			if ($safeValue !== NULL) {
+				$field->SetValue($safeValue);
+				$this->values[$fieldName] = $safeValue;
+			}
+		}
+		return $this;
+	}
+
+
+	/**
+	 * Call this function in custom `\MvcCore\Ext\Form::Submit();` method implementation
+	 * at the end of custom `Submit()` method to redirect user by configured success/error/prev/next
+	 * step url address into final place and store everything into session.
+	 * You can also to redirect form after submit by yourself.
+	 * @return void
+	 */
+	public function SubmittedRedirect () {
+		if ($this->dispatchState < 1) $this->Init();
+		$urlPropertyName = '';
+		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
+			$urlPropertyName = 'errorUrl';
+		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
+			$urlPropertyName = 'successUrl';
+		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_PREV_PAGE) {
+			$urlPropertyName = 'prevStepUrl';
+		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE) {
+			$urlPropertyName = 'nextStepUrl';
+		}
+		$url = isset($this->{$urlPropertyName}) ? $this->{$urlPropertyName} : NULL;
+		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
+		if ($this->result) $this->values = array();
+		$this->SaveSession();
+		if (!$url) throw new \RuntimeException(
+			'['.__CLASS__.'] No url specified to redirect. ' . $errorMsg
+		);
+		self::Redirect($url, \MvcCore\Interfaces\IResponse::SEE_OTHER);
+	}
+
+	/**
+	 * Get cached validator instance by name. If validator instance doesn't exist
+	 * in `$this->validators` array, create new validator instance, cache it and return it.
+	 * @param string $validatorName 
+	 * @return \MvcCore\Ext\Forms\IValidator
+	 */
+	public function & GetValidator ($validatorName) {
+		if (isset($this->validators[$validatorName])) {
+			$validator = & $this->validators[$validatorName];
+		} else {
+			$validator = NULL;
+			$toolClass = self::$toolClass;
+			foreach (static::$validatorsNamespaces as $validatorsNamespace) {
+				$validatorFullClassName =  $validatorsNamespace . $validatorName;
+				if (
+					class_exists($validatorFullClassName) &&
+					$toolClass::CheckClassInterface(
+						$validatorFullClassName, \MvcCore\Ext\Forms\IValidator::class, TRUE, TRUE
+					)
+				) {
+					$validator = $validatorFullClassName::CreateInstance()
+						->SetForm($this);
+					break;
+				}
+			}
+			if ($validator === NULL) $this->throwNewInvalidArgumentException(
+				'Validator `' . $validatorName . '` not found in any namespace: `' 
+				. implode('`, `', static::$validatorsNamespaces) . '`.'
+			);
+			$this->validators[$validatorName] = & $validator;
+		}
+		return $validator;
+	}
+
+	/**
+	 * Get error message string from internal protected static property
+	 * `\MvcCore\Ext\Form::$defaultErrorMessages` by given integer index.
+	 * @param int $index
+	 * @return string
+	 */
+	public function GetDefaultErrorMsg ($index) {
+		return static::$defaultErrorMessages[$index];
 	}
 }

@@ -23,7 +23,7 @@ use
 
 class MinOptions extends ValueInOptions
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$safeValue = is_array($submitValue) ? $submitValue : array();
 		$safeValueCount = count($safeValue);
 		// check if there is enough options checked

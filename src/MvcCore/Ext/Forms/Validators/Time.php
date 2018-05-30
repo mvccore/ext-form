@@ -24,7 +24,7 @@ use
 
 class Time extends Date
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 		$safeValue = preg_replace("#[^0-9\:]#", '', $submitValue);
 		// http://stackoverflow.com/questions/11296536/regex-for-time-validation

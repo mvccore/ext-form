@@ -48,19 +48,19 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		'='  => "&#61;",
 	);
 
-	public function Validate ($submitValue) {
+	public function Validate ($rawSubmittedValue) {
 		$result = NULL;
 
 		// remove whitespaces from both sides: `SPACE \t \n \r \0 \x0B`:
-		$submitValue = trim($submitValue);
+		$rawSubmittedValue = trim($rawSubmittedValue);
 
 		// Remove base ASCII characters from 0 to 31 incl. (first column):
-		$cleanedValue = strtr($submitValue, static::$baseAsciiChars);
+		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
 
 		// Replace characters to entities: ' " ` < > \ = ^ | & ~
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
 
-		if (mb_strlen($cleanedValue) === mb_strlen($submitValue)) {
+		if (mb_strlen($cleanedValue) === mb_strlen($rawSubmittedValue)) {
 			$result = $cleanedValue;
 		} else {
 			$this->field->AddValidationError(

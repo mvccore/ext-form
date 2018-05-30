@@ -95,16 +95,30 @@ trait ConfigProps
 	 * @var string|NULL
 	 */
 	protected $successUrl = NULL;
+	
+	/**
+	 * Form success submit previous step url string, relative or absolute, to specify,
+	 * where to redirect user after form has been submitted successfully and submit button
+	 * will be recognized to switch form result property `$form->result` to value `2`.
+	 * Which means "previous step" redirection after successfull submit. This functionality
+	 * to switch result value to `2` is up to you. This field is designed only for you as empty.
+	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
+	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
+	 * and you want to go to "previous step" by one submit button or stay in the same page by
+	 * another submit button, this is very good and comfortable pattern.
+	 * @var string|NULL
+	 */
+	protected $prevStepUrl = NULL;
 
 	/**
 	 * Form success submit next step url string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
-	 * will be recognized to switch form result property `$form->result` to value `2`.
+	 * will be recognized to switch form result property `$form->result` to value `3`.
 	 * Which means "next step" redirection after successfull submit. This functionality
-	 * to switch result value to `2` is up to you. This field is designed only for you as empty.
+	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
-	 * and you want to go to "next step" by one non-submit button or stay in the same page by
+	 * and you want to go to "next step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
 	 * @var string|NULL
 	 */

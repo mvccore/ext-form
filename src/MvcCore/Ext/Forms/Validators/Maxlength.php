@@ -22,9 +22,9 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class MaxLength extends Core\Validator
+class MaxLength extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 		if (isset($field->Maxlength) && !is_null($field->Maxlength) && $field->Maxlength > 0) {
 			$safeValue = mb_substr($submitValue, 0, $field->Maxlength);

@@ -22,9 +22,9 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class NumberField extends Core\Validator
+class NumberField extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim((string) $submitValue);
 		$intValueStr = preg_replace("#[^0-9]#", '', $submitValue);
 		$floatValueStr = preg_replace("#[^0-9\.]#", '', str_replace(',','.',$submitValue));

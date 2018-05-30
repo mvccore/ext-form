@@ -60,6 +60,13 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 			self::$toolClass = $this->application->GetToolClass();
 	}
 
+	/**
+	 * Throw new `\InvalidArgumentException` with given
+	 * error message and append automaticly current class name,
+	 * current form id and form class type.
+	 * @param string $errorMsg 
+	 * @throws \InvalidArgumentException 
+	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
 		throw new \InvalidArgumentException(
 			'['.__CLASS__.'] ' . $errorMsg . ' ('

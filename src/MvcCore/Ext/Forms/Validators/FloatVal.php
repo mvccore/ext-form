@@ -22,9 +22,9 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class FloatVal extends Core\Validator
+class FloatVal extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 		$floatValStr = preg_replace("#[^0-9\.,]#", '', $submitValue);
 		$safeValue = (float) str_replace(",", '.', $floatValStr);

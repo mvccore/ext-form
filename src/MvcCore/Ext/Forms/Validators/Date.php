@@ -22,7 +22,7 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class Date extends Core\Validator
+class Date extends \MvcCore\Ext\Forms\Validator
 {
 	public static $ErrorMessagesformatReplacements = array(
 		'd' => 'dd',
@@ -45,7 +45,7 @@ class Date extends Core\Validator
 		's' => '00-59',
 		'u' => '0-999999',
 	);
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 
 		$safeValue = preg_replace("#[^a-zA-Z0-9\:\.\-\,/ ]#", '', $submitValue);

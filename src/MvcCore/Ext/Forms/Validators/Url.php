@@ -15,16 +15,16 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Url extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue) {
+	public function Validate ($rawSubmittedValue) {
 		$result = NULL;
-		if ($submitValue === NULL) 
+		if ($rawSubmittedValue === NULL) 
 			return NULL;
-		$submitValue = trim((string) $submitValue);
-		if ($submitValue === '') 
+		$rawSubmittedValue = trim((string) $rawSubmittedValue);
+		if ($rawSubmittedValue === '') 
 			return NULL;
-		while (mb_strpos($submitValue, '%') !== FALSE)
-			$submitValue = rawurldecode($submitValue);
-		$safeValue = filter_var($submitValue, FILTER_VALIDATE_URL);
+		while (mb_strpos($rawSubmittedValue, '%') !== FALSE)
+			$rawSubmittedValue = rawurldecode($rawSubmittedValue);
+		$safeValue = filter_var($rawSubmittedValue, FILTER_VALIDATE_URL);
 		if ($safeValue !== FALSE) {
 			$result = $safeValue;
 		} else {

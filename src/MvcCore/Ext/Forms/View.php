@@ -15,22 +15,30 @@ namespace MvcCore\Ext\Forms;
 
 class View extends \MvcCore\View
 {
+	/**
+	 * Rendered form instance reference, which view belongs to.
+	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm|NULL
+	 */
+	protected $form = NULL;
 
 	/**
-	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * Controller view instance reference, which form belongs to.
+	 * Every form is usually created inside MvcCore controller instance,
+	 * and mostly every controller instance has it's own view.
+	 * @var \MvcCore\View|\MvcCore\Interfaces\IView|NULL
 	 */
-	protected $form = null;
+	protected $view = NULL;
 
 	/**
-	 * @var \MvcCore\View|\MvcCore\Interfaces\IView
+	 * Originaly declared internal view properties to protect their
+	 * possible overwriting by `__set()` or `__get()` magic methods.
+	 * @var array
 	 */
-	protected $view = null;
-
 	protected static $protectedProperties = array(
-		'_controller'		=> 1,
 		'form'				=> 1,
 		'field'				=> 1,
 		'view'				=> 1,
+		'_controller'		=> 1,
 		'_store'			=> 1,
 		'_helpers'			=> 1,
 		'_content'			=> 1,
@@ -69,24 +77,22 @@ class View extends \MvcCore\View
 		static::$formsDir = $formsDir;
 	}
 
-	
+	/**
+	 * Get controller instance as reference.
+	 * @return \MvcCore\View|\MvcCore\Interfaces\IView
+	 */
+	public function & GetView () {
+		return $this->view;
+	}
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\Controller $controller
-	 * @return \MvcCore\View
+	 * @param \MvcCore\View|\MvcCore\Interfaces\IView $view
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function & SetView (\MvcCore\Interfaces\IView & $view) {
 		$this->view = & $view;
 		return $this;
-	}
-
-	/**
-	 * Get controller instance as reference.
-	 * @return \MvcCore\Controller
-	 */
-	public function & GetView () {
-		return $this->view;
 	}
 	
 	/**
@@ -187,9 +193,9 @@ class View extends \MvcCore\View
 	}
 
 	/**
-	 * Return current cross site request forgery hidden
-	 * input name and it's value as stdClass.
-	 * Result stdClass elements has keys 'name' and 'value'.
+	 * Return current CSRF (Cross Site Request Forgery) hidden
+	 * input name and it's value as `\stdClass`.
+	 * Result `\stdClass` has keys: `name` and `value`.
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
@@ -199,7 +205,7 @@ class View extends \MvcCore\View
 	/**
 	 * Render form errors.
 	 * If form is configured to render all errors together at form beginning,
-	 * this function completes all form errors into div.errors with div.error elements
+	 * this function completes all form errors into `div.errors` with `div.error` elements
 	 * inside containing each single errors message.
 	 * @return string
 	 */
@@ -218,9 +224,9 @@ class View extends \MvcCore\View
 	}
 
 	/**
-	 * Render form content.
-	 * Go through all $form->Fields and call $field->Render(); on every field
-	 * and put it into an empty <div> element. Render each field in full possible
+	 * Render form content - form fields.
+	 * Go through all `$form->fields` and call `$field->Render();` on every field
+	 * and put it into an empty `<div>` element. Render each field in full possible
 	 * way - naturaly by label configuration with possible errors configured beside
 	 * or with custom field template.
 	 * @return string
@@ -240,7 +246,7 @@ class View extends \MvcCore\View
 
 	/**
 	 * Render form end.
-	 * Render html closing </form> tag and supporting javascript and css files
+	 * Render html closing `</form>` tag and supporting javascript and css files
 	 * if is form not using external js/css renderers.
 	 * @return string
 	 */
@@ -252,9 +258,9 @@ class View extends \MvcCore\View
 
 	/**
 	 * Format string function.
-	 * @param string $str template with replacements like {0}, {1}, {anyStringKey}...
-	 * @param array $args each value under it's index is replaced as
-	 *					  string representation by replacement in form {arrayKey}
+	 * @param string $str Template with replacements like `{0}`, `{1}`, `{anyStringKey}`...
+	 * @param array $args Each value under it's index is replaced as
+	 *					  string representation by replacement in form `{arrayKey}`
 	 * @return string
 	 */
 	public static function Format ($str = '', array $args = array()) {

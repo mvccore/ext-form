@@ -13,7 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Select extends \MvcCore\Ext\Forms\Field
+class Select 
+	extends \MvcCore\Ext\Forms\Field 
+	implements \MvcCore\Ext\Forms\Fields\IOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Size;
@@ -49,6 +51,7 @@ class Select extends \MvcCore\Ext\Forms\Field
 			'No `options` property defined.'
 		);
 	}
+
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if (!$this->translate) return;

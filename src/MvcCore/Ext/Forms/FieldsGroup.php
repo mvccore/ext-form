@@ -18,12 +18,17 @@ namespace MvcCore\Ext\Forms;
 
 abstract class FieldsGroup extends Field
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\Options;
+	use \MvcCore\Ext\Forms\Field\Attrs\GroupCssClasses;
+	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelAttrs;
+	
 	/**
 	 * Form group pseudo control type,
 	 * unique type accross all form field types.
-	 * @var string
+	 * @var string|NULL
 	 */
-	protected $type = '';
+	protected $type = NULL;
+
 	/**
 	 * Form control value,
 	 * always as array of string or
@@ -31,59 +36,7 @@ abstract class FieldsGroup extends Field
 	 * @var array
 	 */
 	protected $value = array();
-	/**
-	 * Form group control options to render
-	 * more subcontrol attributes for specified
-	 * submitted values (array keys).
-	 * This property configuration is required.
-	 * Examples:
-	 *
-	 *  To configure radio buttons named: 'gender' for 'Female' and 'Male':
-	 *     <label for="gender-f">Female:</label>
-	 *     <input id="gender-f" type="radio" name="gender" value="f" />
-	 *     <label for="gender-m">Male:</label>
-	 *     <input id="gender-m" type="radio" name="gender" value="m" />
-	 *  use configuration:
-	 *     $field->Id = 'gender';
-	 *     $field->Options = array(
-	 *        'f' => 'Female',
-	 *        'm' => 'Male',
-	 *     );
-	 *
-	 *  To configure radio buttons named: 'gender' for 'Female' and 'Male':
-	 *     <label for="gender-f" class="female">Female:</label>
-	 *     <input id="gender-f" type="radio" name="gender" value="f" class="female" data-any="female-values" />
-	 *     <label for="gender-m" class="male">Male:</label>
-	 *     <input id="gender-m" type="radio" name="gender" value="m" class="male" data-any="male-values" />
-	 *  use configuration:
-	 *     $field->Id = 'gender';
-	 *     $field->Options = array(
-	 *        'f' => array(
-	 *           'text'  => 'Female',
-	 *           'class' => 'female',
-	 *           'attrs' => array('data-any' => 'female-values'),
-	 *        ),
-	 *        'm' => array(
-	 *           'text'  => 'Male',
-	 *           'class' => 'male',
-	 *           'attrs' => array('data-any' => 'male-values'),
-	 *        ),
-	 *     );
-	 * @requires
-	 * @var array
-	 */
-	protected $options = array();
-	/**
-	 * Css class for group label.
-	 * @var string[]
-	 */
-	protected $groupCssClasses = array();
-	/**
-	 * Any additional attributes for group label, defined
-	 * as key (for attribute name) and value (for attribute value).
-	 * @var string[]
-	 */
-	protected $groupLabelAttrs = array();
+
 	/**
 	 * Internal common templates how to render field group elements naturaly.
 	 * @var array|\stdClass
@@ -95,123 +48,29 @@ abstract class FieldsGroup extends Field
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	);
 
-
-	/* setters *******************************************************************************/
-
-	/**
-	 * Set form group control options to render
-	 * more values for more specified submitted keys.
-	 * Examples:
-	 *
-	 *  To configure radio buttons named: 'gender' for 'Female' and 'Male':
-	 *     <label for="gender-f">Female:</label>
-	 *     <input id="gender-f" type="radio" name="gender" value="f" />
-	 *     <label for="gender-m">Male:</label>
-	 *     <input id="gender-m" type="radio" name="gender" value="m" />
-	 *  use configuration:
-	 *     $field->SetId('gender')
-	 *           ->SetOptions(array(
-	 *              // field values will be translated if configured
-	 *              'f' => 'Female',
-	 *              'm' => 'Male',
-	 *           ));
-	 *
-	 *  To configure radio buttons named: 'gender' for 'Female' and 'Male':
-	 *     <label for="gender-f" class="female">Female:</label>
-	 *     <input id="gender-f" type="radio" name="gender" value="f" class="female" data-any="female-values" />
-	 *     <label for="gender-m" class="male">Male:</label>
-	 *     <input id="gender-m" type="radio" name="gender" value="m" class="male" data-any="male-values" />
-	 *  use configuration:
-	 *     $field->SetId('gender')
-	 *           ->SetOptions(array(
-	 *              'f' => array(
-	 *                 'text'  => 'Female',	// text keys will be translated if configured
-	 *                 'class' => 'female',
-	 *                 'attrs' => array('data-any' => 'female-values'),
-	 *              ),
-	 *              'm' => array(
-	 *                 'text'  => 'Male',	// text keys will be translated if configured
-	 *                 'class' => 'male',
-	 *                 'attrs' => array('data-any' => 'male-values'),
-	 *              ),
-	 *           ));
-	 * @param array $options
-	 */
-	public function SetOptions ($options) {
-		$this->options = $options;
-		return $this;
-	}
-	/**
-	 * Set css class(es) for group label,
-	 * as array of strings or string with classes
-	 * separated by space.
-	 * @var string|string[]
-	 */
-	public function SetGroupCssClasses ($cssClasses) {
-		if (gettype($cssClasses) == 'array') {
-			$this->groupCssClasses = $cssClasses;
-		} else {
-			$this->groupCssClasses = explode(' ', (string) $cssClasses);
-		}
-		return $this;
-	}
-	/**
-	 * Add css class(es) for group label,
-	 * as array of strings or string with classes
-	 * separated by space.
-	 * @var string|string[]
-	 */
-	public function AddGroupCssClass ($cssClasses) {
-		if (gettype($cssClasses) == 'array') {
-			$groupCssClasses = $cssClasses;
-		} else {
-			$groupCssClasses = explode(' ', (string) $cssClasses);
-		}
-		$this->groupCssClasses = array_merge($this->groupCssClasses, $groupCssClasses);
-		return $this;
-	}
-	/**
-	 * Set any additional attributes for group label, defined
-	 * as key (for attribute name) and value (for attribute value).
-	 * Any previously defined attributes will be replaced.
-	 * @var string[]
-	 */
-	public function SetGroupLabelAttrs ($attrs = array()) {
-		$this->groupLabelAttrs = $attrs;
-		return $this;
-	}
-	/**
-	 * Add any additional attributes for group label, defined
-	 * as key (for attribute name) and value (for attribute value).
-	 * All additional attributes will be completed as array merge
-	 * with previous values and new values.
-	 * @var string[]
-	 */
-	public function AddGroupLabelAttr ($attr = array()) {
-		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $attr);
-		return $this;
-	}
-
-
 	/* core methods **************************************************************************/
 
 	/*
 	// use this constructor in extended class to merge control or label automatic templates
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
-		static::$Templates = (object) array_merge((array)parent::$Templates, (array)self::$Templates);
+		static::$templates = (object) array_merge(
+			(array) parent::$templates, 
+			(array) self::$templates
+		);
 	}
 	*/
 
 	/**
-	 * This method  is called internaly from \MvcCore\Ext\Form after field
-	 * is added into form by $form->AddField(); method. Do not use it
-	 * if you are only user of this library.
-	 * - check if there are any options for current controls group
-	 * Parent method:
-	 * - check if field has any name, which is required
-	 * - set up form and field id attribute by form id and field name
-	 * - set up required
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form by `$form->AddField();` method. 
+	 * Do not use it if you don't know what to do.
+	 * Method does:
+	 * - Check if there are any options for current controls group.
+	 * Parent method does:
+	 * - Check if field has any name, which is required.
+	 * - Set up form and field id attribute by form id and field name.
+	 * - Set up required.
 	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return void
@@ -223,13 +82,14 @@ abstract class FieldsGroup extends Field
 		);
 		return $this;
 	}
+
 	/**
 	 * Set up field properties before rendering process.
-	 * - translate all option texts
+	 * - Translate all option texts
 	 * Parent method:
-	 * - set up field render mode
-	 * - set up translation boolean
-	 * - translate label if any
+	 * - Set up field render mode.
+	 * - Set up translation boolean.
+	 * - Translate label property if any.
 	 * @return void
 	 */
 	public function PreDispatch () {
@@ -252,9 +112,6 @@ abstract class FieldsGroup extends Field
 			}
 		}
 	}
-
-
-	/* rendering ******************************************************************************/
 
 	/**
 	 * Render field naturaly by render mode.
@@ -285,6 +142,7 @@ abstract class FieldsGroup extends Field
 		}
 		return $result;
 	}
+
 	/**
 	 * Render field control inside label by local configuration, render field
 	 * errors beside if form is configured to render specific errors beside controls.
@@ -349,9 +207,11 @@ abstract class FieldsGroup extends Field
 	/**
 	 * Render subcontrols with each subcontrol label tag
 	 * and without group label or without group specific errors.
+	 * @param string $key
+	 * @param string|array $option
 	 * @return string
 	 */
-	public function RenderControlItem ($key, $option) {
+	public function RenderControlItem ($key, & $option) {
 		$result = '';
 		$itemControlId = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
 			$this->form->GetId(), $this->name, $key
@@ -404,19 +264,16 @@ abstract class FieldsGroup extends Field
 		return $result;
 	}
 
-
-	/* protected renderers *******************************************************************/
-
 	/**
-	 * Complete by $field->Options key and option value:
-	 * - label text
-	 * - label attributes string
-	 * - control attributes string
+	 * Complete and return semifinished strings for rendering by field key and option:
+	 * - Label text string.
+	 * - Label attributes string string.
+	 * - Control attributes string.
 	 * @param string       $key
 	 * @param string|array $option
 	 * @return array
 	 */
-	protected function renderControlItemCompleteAttrsClassesAndText ($key, $option) {
+	protected function renderControlItemCompleteAttrsClassesAndText ($key, & $option) {
 		$optionType = gettype($option);
 		$labelAttrsStr = '';
 		$controlAttrsStr = '';
@@ -453,6 +310,10 @@ abstract class FieldsGroup extends Field
 		}
 		if ($this->type == 'checkbox') 
 			$this->required = $originalRequired;
-		return array($itemLabelText, $labelAttrsStr, $controlAttrsStr);
+		return array(
+			$itemLabelText, 
+			$labelAttrsStr, 
+			$controlAttrsStr
+		);
 	}
 }

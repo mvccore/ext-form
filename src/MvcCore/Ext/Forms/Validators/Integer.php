@@ -23,9 +23,9 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class Integer extends Core\Validator
+class Integer extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 		$safeValue = preg_replace("#[^0-9]#", '', $submitValue);
 		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {

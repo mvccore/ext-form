@@ -114,12 +114,20 @@ interface IForm
 	const RESULT_SUCCESS	= 1;
 
 	/**
-	 * Form submit result state (`2` - everything ok, redirect user to next step url).
+	 * Form submit result state (`2` - everything ok, redirect user to previous step url).
+	 * Submit was successful, no error happend and one of submitting
+	 * button is control to indicate that user could be redirected
+	 * to previous step url in multiple forms wizzard (typicly eshop ordering).
+	 */
+	const RESULT_PREV_PAGE	= 2;
+
+	/**
+	 * Form submit result state (`3` - everything ok, redirect user to next step url).
 	 * Submit was successful, no error happend and one of submitting
 	 * button is control to indicate that user could be redirected
 	 * to next step url in multiple forms wizzard (typicly eshop ordering).
 	 */
-	const RESULT_NEXT_PAGE	= 2;
+	const RESULT_NEXT_PAGE	= 3;
 
 
 	/**

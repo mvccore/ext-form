@@ -33,12 +33,11 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 
 	/**
 	 * Create every time new validator instance with configured form instance. No singleton.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public static function & CreateInstance (\MvcCore\Ext\Forms\IForm & $form) {
+	public static function & CreateInstance () {
 		$validator = new static();
-		return $validator->SetForm($form);
+		return $validator;
 	}
 
 	/**
@@ -54,7 +53,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	/**
 	 * Set up field instance, where is validated value by this 
 	 * validator durring submit before every `Validate()` method call.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
@@ -72,4 +71,22 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public abstract function Validate ($rawSubmittedValue);
+
+	/**
+	 * Throw new `\InvalidArgumentException` with given
+	 * error message and append automaticly current class, 
+	 * field name, form id, field class name and form class name.
+	 * @param string $errorMsg 
+	 * @throws \InvalidArgumentException 
+	 */
+	protected function throwNewInvalidArgumentException ($errorMsg) {
+		throw new \InvalidArgumentException(
+			'['.__CLASS__.'] ' . $errorMsg . ' ('
+				. 'field name: `'.$this->field->GetName() . '`, '
+				. 'form id: `'.$this->form->GetId() . '`, '
+				. 'field type: `'.get_class($this->field).'`, '
+				. 'form type: `'.get_class($this->form).'`'
+			.')'
+		);
+	}
 }

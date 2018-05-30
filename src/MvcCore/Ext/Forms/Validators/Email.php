@@ -22,9 +22,9 @@ use
 	MvcCore\Ext\Form,
 	MvcCore\Ext\Form\Core;
 
-class Email extends Core\Validator
+class Email extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($submitValue, $fieldName, \MvcCore\Ext\Forms\IField & $field) {
+	public function Validate ($rawSubmittedValue) {
 		$submitValue = trim($submitValue);
 		$safeValue = filter_var($submitValue, FILTER_VALIDATE_EMAIL);
 		$safeValue = $safeValue === FALSE ? '' : $safeValue ;

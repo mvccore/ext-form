@@ -55,7 +55,7 @@ trait Csrf
 	 * If there is any exception catched in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
 	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
-	 * @return bool
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = array()) {
 		$result = FALSE;
@@ -73,13 +73,13 @@ trait Csrf
 			$this->AddError($errorMsg);
 			static::ProcessCsrfErrorHandlersQueue($this, $errorMsg);
 		}
-		return $result;
+		return $this;
 	}
 
 	/**
 	 * Create new fresh CSRF (Cross Site Request Forgery) tokens,
 	 * store them in current form session namespace and return them.
-	 * @return string[]
+	 * @return \string[]
 	 */
 	public function SetUpCsrf () {
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();

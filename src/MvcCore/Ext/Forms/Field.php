@@ -25,6 +25,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
      * @param array $cfg config array with camel case
 	 *					 public properties and its values which you want to configure.
 	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Field
      */
     public function __construct ($cfg = array()) {
 		static::$templates = (object) static::$templates;
@@ -128,8 +129,14 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		if ($this->translate && $this->label)
 			$this->label = $form->Translate($this->label);
 	}
-
-
+	
+	/**
+	 * Throw new `\InvalidArgumentException` with given
+	 * error message and append automaticly current class name,
+	 * current form id, form class type and current field class type.
+	 * @param string $errorMsg 
+	 * @throws \InvalidArgumentException 
+	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
 		throw new \InvalidArgumentException(
 			'['.__CLASS__.'] ' . $errorMsg . ' ('
@@ -143,7 +150,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	/**
 	 * Submit field value - process raw request value with all
 	 * configured validators and add errors into form if necesary.
-	 * Then return safe value processed by all from validators.
+	 * Then return safe value processed by all from validators or `NULL`.
 	 * @param array $rawRequestParams 
 	 * @return string|int|array|NULL
 	 */
@@ -192,6 +199,31 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		return $result;
 	}
 
+	/**
+	 * Add form error with given error message containing 
+	 * possible replacements for array values. 
+	 * 
+	 * If there is necessary to translate form elements 
+	 * (form has configured translator `callable`)
+	 * than given error message is translated first before replacing.
+	 * 
+	 * Before error message processing for replacements,
+	 * there is automaticly assigned into first position into `$errorMsgArgs`
+	 * array (translated) field label or field name and than 
+	 * error message is processed for replacements.
+	 * 
+	 * If there is given some custom `$replacingCallable` param,
+	 * error message is processed for replacements by custom `$replacingCallable`.
+	 * 
+	 * If there is not given any custom `$replacingCallable` param,
+	 * error message is processed for replacements by static `Format()`
+	 * method by configured form view class.
+	 * 
+	 * @param string $errorMsg 
+	 * @param array $errorMsgArgs 
+	 * @param callable $replacingCallable 
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
 	public function AddValidationError (
 		$errorMsg = '', array 
 		$errorMsgArgs = array(), 
