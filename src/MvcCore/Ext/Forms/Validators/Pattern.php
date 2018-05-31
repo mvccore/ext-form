@@ -13,42 +13,61 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Validator.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once(__DIR__.'/../Core/View.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
 class Pattern extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($rawSubmittedValue) {
-		$safeValue = '';
-		$submitValue = trim($submitValue);
-		if (isset($field->Pattern) && !is_null($field->Pattern)) {
-			$pattern = $field->Pattern;
-			if (mb_strpos($pattern, "#") !== 0) {
-				$pattern = "#" . $pattern . "#";
-			}
-			preg_match($pattern, $submitValue, $matches);
-			if ($matches) {
-				$safeValue = $submitValue;
-			}
+	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
+
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * This method is also called once, when validator instance is separately 
+	 * added into already created field instance to process any field checking.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		parent::SetField($field);
+		$fieldImplementsPattern = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\Pattern;
+		if ($this->pattern && $fieldImplementsPattern && !$field->GetPattern()) {
+			// if this validator is added into field as instance - check field if it has pattern attribute defined:
+			$field->SetPattern($this->pattern);
+		} else if (!$this->pattern && $fieldImplementsPattern && $field->GetPattern()) {
+			// if validator is added as string - get pattern property from field:
+			$this->pattern = $field->GetPattern();
 		} else {
-			$safeValue = $submitValue;
-		}
-		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {
-			$this->addError(
-				$field,
-				Form::$DefaultMessages[Form::INVALID_FORMAT],
-				function ($msg, $args) use (& $field) {
-					$args[] = $field->Pattern;
-					return Core\View::Format($msg, $args);
-				}
+			$this->throwNewInvalidArgumentException(
+				'No RegExp `pattern` property defined in current validator or in field.'	
 			);
 		}
-		return $safeValue;
+		return $this;
+	}
+
+	/**
+	 * Validate raw user input by configured regexp match pattern.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
+	public function Validate ($rawSubmittedValue) {
+		$result = NULL;
+		$rawSubmittedValue = trim($rawSubmittedValue);
+		if ($this->pattern !== NULL) {
+			$pattern = $this->pattern;
+			$beginBorderChar = mb_strpos($pattern, "#") === 0;
+			$endBorderChar = mb_substr($pattern, mb_strlen($pattern) - 2, 1) === '#';
+			if (!$beginBorderChar && !$endBorderChar)
+				$pattern = "#" . $pattern . "#";
+			$matched = @preg_match($pattern, $rawSubmittedValue, $matches);
+			if ($matched) 
+				$result = $rawSubmittedValue;
+		} else {
+			$result = $rawSubmittedValue;
+		}
+		if ($result === NULL) {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INVALID_FORMAT),
+				array($this->pattern)
+			);
+		}
+		return $result;
 	}
 }

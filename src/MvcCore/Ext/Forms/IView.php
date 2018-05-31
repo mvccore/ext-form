@@ -11,11 +11,9 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Fields;
+namespace MvcCore\Ext\Forms;
 
-class Email extends Text
+interface IView
 {
-	protected $type = 'email';
-
-	protected $validators = array('Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+    
 }

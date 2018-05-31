@@ -13,26 +13,26 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Validator.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once(__DIR__.'/../Core/View.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
 class Email extends \MvcCore\Ext\Forms\Validator
 {
+	/**
+	 * Validate URI string by PHP `filter_var($rawSubmittedValue, FILTER_VALIDATE_URL);`.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
 	public function Validate ($rawSubmittedValue) {
-		$submitValue = trim($submitValue);
-		$safeValue = filter_var($submitValue, FILTER_VALIDATE_EMAIL);
-		$safeValue = $safeValue === FALSE ? '' : $safeValue ;
-		if (mb_strlen($submitValue) !== mb_strlen($safeValue)) {
-			$this->addError($field, Form::$DefaultMessages[Form::EMAIL], function ($msg, $args) {
-				return Core\View::Format($msg, $args);
-			});
+		$result = NULL;
+		$rawSubmittedValue = trim((string) $rawSubmittedValue);
+		if ($rawSubmittedValue === '') 
+			return NULL;
+		$safeValue = filter_var($rawSubmittedValue, FILTER_VALIDATE_EMAIL);
+		if ($safeValue !== FALSE) {
+			$result = $safeValue;
+		} else {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMAIL)
+			);
 		}
-		return $safeValue;
+		return $result;
 	}
 }

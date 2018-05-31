@@ -52,7 +52,7 @@ trait Rendering
 		}
 		$view->field = $this;
 		return $view->Render(
-			$viewClass::GetFormsDir(),
+			$viewClass::GetFieldsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
 		);
 	}

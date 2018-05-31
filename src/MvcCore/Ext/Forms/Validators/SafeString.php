@@ -37,17 +37,24 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	);
 	/**
 	 * Characters to prevent XSS atack and some other special chars
-	 * what is definitly not in standard user input.
+	 * what could be dangerous user input.
+	 * @see http://php.net/manual/en/function.htmlspecialchars.php
 	 * @var \string[]
 	 */
 	protected static $specialMeaningChars = array(
-		'<'  => "&lt;",
-		'>'  => "&gt;",
-		'\\' => "&#92;",
-		'&'  => "&amp;",
-		'='  => "&#61;",
+		'|'	=> "&#124;",
+		'='	=> "&#61;",
+		'\\'=> "&#92;",
+		'%'	=> "&#37;",
 	);
 
+	/**
+	 * Validate raw user input, if there are any XSS characters 
+	 * or base ASCII characters or characters in this list: | = \ %,
+	 * add submit error and return `NULL`.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
 	public function Validate ($rawSubmittedValue) {
 		$result = NULL;
 
@@ -57,14 +64,19 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		// Remove base ASCII characters from 0 to 31 incl. (first column):
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
 
-		// Replace characters to entities: ' " ` < > \ = ^ | & ~
+		// Replace characters to entities: & " ' < >
+		// http://php.net/manual/en/function.htmlspecialchars.php
+		$cleanedValue = htmlspecialchars($cleanedValue, ENT_QUOTES);
+
+		// Replace characters to entities: | = \ %
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
 
 		if (mb_strlen($cleanedValue) === mb_strlen($rawSubmittedValue)) {
 			$result = $cleanedValue;
 		} else {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INVALID_CHARS)	
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INVALID_CHARS),
+				array('&amp; &quot; &apos; &lt; &gt; &#124; &#61; &#92; &#37;')
 			);
 		}
 

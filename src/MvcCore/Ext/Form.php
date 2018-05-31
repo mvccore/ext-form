@@ -68,12 +68,12 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		throw new \InvalidArgumentException(
-			'['.__CLASS__.'] ' . $errorMsg . ' ('
-				. 'form id: `'.$this->form->GetId() . '`, '
-				. 'form type: `'.get_class($this->form).'`'
-			.')'
-		);
+		$str = '['.__CLASS__.'] ' . $errorMsg;
+		if ($this->form) $str .= ' ('
+			. 'form id: `'.$this->form->GetId() . '`, '
+			. 'form type: `'.get_class($this->form).'`'
+		.')';
+		throw new \InvalidArgumentException($str);
 	}
 
 	/**
@@ -127,14 +127,48 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 
 	/**
 	 * Prepare form and it's fields for rendering.
+	 * 
 	 * This function is called automaticly by rendering process if necessary.
 	 * But if you need to operate with fields in your controller before rendering
 	 * with real session values and initialized session errors, you can call this
 	 * method anytime to prepare form for rendering and operate with anything inside.
+	 * 
+	 * - Process all defined fields and call `$field->PreDispatch();`
+	 *   to prepare all fields for rendering process.
+	 * - Load any possible error from session and set up
+	 *   errors into fields and into form object to render them properly.
+	 * - Load any possible previously submitted and/or stored values
+	 *   from session and set up form fields with them.
+	 * - Set initialized state to 2, which means - prepared, pre-dispatched for rendering.
+	 * 
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function PreDispatch () {
-		return $this->preDispatchIfNecessary();
+		if ($this->dispatchState > 1) return $this;
+		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
+		foreach ($this->fields as & $field)
+			// translate fields if necessary and do any rendering preparation stuff
+			$field->PreDispatch();
+		$session = & $this->getSession();
+		foreach ($session->errors as $errorMsgAndFieldNames) {
+			list($errorMsg, $fieldNames) = array_merge(array(), $errorMsgAndFieldNames);
+			$this->AddError($errorMsg, $fieldNames);
+		}
+		if ($session->values) 
+			$this->SetValues(array_merge(array(), $session->values));
+		
+		$viewClass = $this->viewClass;
+		$this->view = $viewClass::CreateInstance()
+			->SetForm($this);
+		if ($this->viewScript)
+			$this->view
+				->SetController($this->parentController)
+				->SetView($this->parentController->GetView())
+				->SetUpValuesFromController($this->parentController, TRUE)
+				->SetUpValuesFromView($this->parentController->GetView(), TRUE)
+				->SetUpValuesFromController($this, TRUE);
+		$this->dispatchState = 2;
+		return $this;
 	}
 
 	/**

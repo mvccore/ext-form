@@ -38,7 +38,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = '', $actionDashedName = '') {
-		$this->preDispatchIfNecessary();
+		$this->PreDispatch();
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
 		} else {
@@ -57,7 +57,8 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderContent () {
-		return $this->preDispatchIfNecessary()->view->RenderContent();
+		$this->PreDispatch();
+		return $this->view->RenderContent();
 	}
 
 	/**
@@ -68,7 +69,8 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderErrors () {
-		return $this->preDispatchIfNecessary()->view->RenderErrors();
+		$this->PreDispatch();
+		return $this->view->RenderErrors();
 	}
 
 	/**
@@ -77,7 +79,8 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderBegin () {
-		return $this->preDispatchIfNecessary()->view->RenderBegin();
+		$this->PreDispatch();
+		return $this->view->RenderBegin();
 	}
 
 	/**
@@ -87,7 +90,8 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderEnd () {
-		$result = $this->preDispatchIfNecessary()->view->RenderEnd();
+		$this->PreDispatch();
+		$result = $this->view->RenderEnd();
 		$this->cleanSessionErrorsAfterRender();
 		return $result;
 	}
@@ -170,45 +174,6 @@ trait Rendering
 			strpos($viewDocType, \MvcCore\View::DOCTYPE_XML) !== FALSE
 		) $result = '/*<![CDATA[*/' . $result . '/*]]>*/';
 		return '<script type="text/javascript">' . $result . '</script>';
-	}
-
-	/**
-	 * Form rendering preparing (pre-dispatching).
-	 * - Process all defined fields and call `$field->PreDispatch();`
-	 *   to prepare all fields for rendering process.
-	 * - Load any possible error from session and set up
-	 *   errors into fields and into form object to render them properly.
-	 * - Load any possible previously submitted and/or stored values
-	 *   from session and set up form fields with them.
-	 * - Set initialized state to 2, which means - prepared, pre-dispatched for rendering.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
-	 */
-	protected function preDispatchIfNecessary () {
-		if ($this->dispatchState > 1) return $this;
-		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
-		foreach ($this->fields as & $field)
-			// translate fields if necessary and do any rendering preparation stuff
-			$field->PreDispatch();
-		$session = & $this->getSession();
-		foreach ($session->errors as $errorMsgAndFieldNames) {
-			list($errorMsg, $fieldNames) = array_merge(array(), $errorMsgAndFieldNames);
-			$this->AddError($errorMsg, $fieldNames);
-		}
-		if ($session->values) 
-			$this->SetValues(array_merge(array(), $session->values));
-		
-		$viewClass = $this->viewClass;
-		$this->view = $viewClass::CreateInstance()
-			->SetForm($this);
-		if ($this->viewScript)
-			$this->view
-				->SetController($this->parentController)
-				->SetView($this->parentController->GetView())
-				->SetUpValuesFromController($this->parentController, TRUE)
-				->SetUpValuesFromView($this->parentController->GetView(), TRUE)
-				->SetUpValuesFromController($this, TRUE);
-		$this->dispatchState = 2;
-		return $this;
 	}
 
 	/**

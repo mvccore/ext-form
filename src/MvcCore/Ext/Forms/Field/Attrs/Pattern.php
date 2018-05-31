@@ -15,20 +15,47 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 trait Pattern
 {
+	/**
+	 * RegExp match pattern for HTML attribute `pattern` and
+	 * RegExp match pattern for build in `Pattern` validator
+	 * added automaticly after field is added into form, if any 
+	 * RegExp pattern value defined.
+	 * @var string|NULL
+	 */
 	protected $pattern = NULL;
 
+	/**
+	 * Get RegExp match pattern for HTML attribute `pattern`
+	 * and RegExp match pattern for build in `Pattern` validator
+	 * added automaticly after field is added into form, if any 
+	 * RegExp pattern value defined.
+	 * @return string RegExp pattern without border characters for javascript and PHP.
+	 */
 	public function GetPattern () {
 		return $this->pattern;
 	}
 
+	/**
+	 * Set RegExp match pattern for HTML attribute `pattern`
+	 * and RegExp match pattern for build in `Pattern` validator
+	 * added automaticly after field is added into form, if any 
+	 * RegExp pattern value defined.
+	 * @param string $pattern RegExp pattern without border characters for javascript and PHP.
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetPattern ($pattern) {
 		$this->pattern = $pattern;
 		return $this;
 	}
 
-	
+	/**
+	 * Check after field is added into form, if field 
+	 * has defined any value for pattern property and if it does,
+	 * add automaticly build in pattern validator.
+	 * @return void
+	 */
 	protected function checkValidatorsPattern () {
-		if ($this->pattern && !in_array('Pattern', $this->validators))
-			$this->validators[] = 'Pattern';
+		if ($this->pattern && !isset($this->validators['Pattern']))
+			$this->validators['Pattern'] = 'Pattern';
 	}
 }

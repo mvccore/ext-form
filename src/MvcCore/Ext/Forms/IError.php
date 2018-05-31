@@ -50,15 +50,16 @@ interface IError
 			GREATER = 26,
 			LOWER = 27,
 			RANGE = 28,
+			DIVISIBLE = 29,
 			// file upload
-			MAX_FILE_SIZE = 29,
-			MAX_POST_SIZE = 30,
-			IMAGE = 31,
-			MIME_TYPE = 32,
+			MAX_FILE_SIZE = 30,
+			MAX_POST_SIZE = 31,
+			IMAGE = 32,
+			MIME_TYPE = 33,
 			// other
-			VALID = 33,
-			CHOOSE_MIN_OPTS = 34,
-			CHOOSE_MAX_OPTS = 35,
-			CHOOSE_MIN_OPTS_BUBBLE = 36,
-			CHOOSE_MAX_OPTS_BUBBLE = 37;
+			VALID = 34,
+			CHOOSE_MIN_OPTS = 35,
+			CHOOSE_MAX_OPTS = 36,
+			CHOOSE_MIN_OPTS_BUBBLE = 37,
+			CHOOSE_MAX_OPTS_BUBBLE = 38;
 }

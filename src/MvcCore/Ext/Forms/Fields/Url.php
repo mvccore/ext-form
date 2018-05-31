@@ -13,9 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Email extends Text
+class Url extends Text
 {
-	protected $type = 'email';
+	protected $type = 'url';
 
-	protected $validators = array('Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+	protected $validators = array('Url'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/);
 }

@@ -36,11 +36,16 @@ class ResetInput extends \MvcCore\Ext\Forms\Field
 		);
 		return $this;
 	}
+
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if ($this->translate && $this->value)
 			$this->value = $this->form->Translate($this->value);
+		$this->form->AddJsSupportFile(
+			$this->jsSupportingFile, $this->jsClassName, array($this->name)
+		);
 	}
+
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			array('accessKey',)

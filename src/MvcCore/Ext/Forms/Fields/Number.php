@@ -15,14 +15,13 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Number extends \MvcCore\Ext\Forms\Field
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Size;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
 	protected $type = 'number';
 	
-	protected $validators = array('NumberField');
+	protected $validators = array('Number');
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);

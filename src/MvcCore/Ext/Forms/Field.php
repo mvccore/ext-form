@@ -35,8 +35,15 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 					'Property `'.$propertyName.'` is not possible '
 					.'to configure by constructor `$config` param.'
 				);
+			} else if ($propertyName == 'validators') {
+				$this->validators = array();
+				if (is_string($propertyValue)) {
+					$this->AddValidators($propertyValue);
+				} else {
+					call_user_func_array(array($this, 'AddValidators'), $propertyValue);
+				}
 			} else {
-				$this->$propertyName = $propertyValue;
+				$this->{$propertyName} = $propertyValue;
 			}
 		}
 	}
@@ -102,10 +109,11 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 			'No `name` property defined.'
 		);
 		$this->form = & $form;
-		$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
-			$form->GetId(),
-			$this->name
-		));
+		if ($this->id === NULL)
+			$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
+				$form->GetId(),
+				$this->name
+			));
 		// if there is no specific required boolean - set required boolean by form
 		$this->required = $this->required === NULL 
 			? $form->GetDefaultRequired()
@@ -138,13 +146,13 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		throw new \InvalidArgumentException(
-			'['.__CLASS__.'] ' . $errorMsg . ' ('
-				. 'form id: `'.$this->form->GetId() . '`, '
-				. 'form type: `'.get_class($this->form).'`, '
-				. 'field type: `'.get_class($this).'`'
-			.')'
-		);
+		$str = '['.__CLASS__.'] ' . $errorMsg . ' (';
+		if ($this->form) {
+			$str .= 'form id: `'.$this->form->GetId() . '`, '
+				. 'form type: `'.get_class($this->form).'`, ';
+		}
+		$str .= 'field type: `'.get_class($this) . '`)';
+		throw new \InvalidArgumentException($str);
 	}
 
 	/**
@@ -162,32 +170,35 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 			// `$form->SetValues(array(/* some predefined values from DB...*/))`
 			$result = $this->value;
 		} else {
-			if (!$this->validators) {
-				$submitValue = isset($rawRequestParams[$fieldName]) 
-					? $rawRequestParams[$fieldName] 
-					: $this->value;
-				$result = $submitValue;
-			} else {
-				foreach ($this->validators as $key => $validatorName) {
-					if ($key > 0) {
-						$submitValue = $result; // take previous
-					} else {
-						// take submitted or default by SetDefault(array()) call in first verification loop
-						$submitValue = isset($rawRequestParams[$fieldName]) 
-							? $rawRequestParams[$fieldName] 
-							: $this->value;
-					}
+			$result = NULL;
+			if (isset($rawRequestParams[$fieldName]))
+				$result = $rawRequestParams[$fieldName];
+			$processValidators = TRUE;
+			if ($result === NULL) {
+				$result = $this->value;
+				$processValidators = FALSE;
+			}
+			if ($processValidators && $this->validators) {
+				foreach ($this->validators as $validatorName => $validatorNameOrInstance) {
 					// set safe value as field submit result value
-					$result = $this->form
-						->GetValidator($validatorName)
-						->SetField($this)
-						->Validate($submitValue);
+					$validator = NULL;
+					if (is_string($validatorNameOrInstance)) {
+						$validator = $this->form->GetValidator($validatorName);
+					} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
+						$validator = $validatorNameOrInstance->SetForm($this->form)->SetField($this);
+					} else {
+						return $this->throwNewInvalidArgumentException(
+							'Unknown validator type configured: `' . $validatorNameOrInstance 
+							. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
+						);
+					}
+					$result = $validator->SetField($this)->Validate($result);	
 				}
 				// add required error message if necessary
 				if ($this->required) {
 					$safeSubmittedValueType = gettype($result);
 					if (
-						$result === NULL ||
+						!$processValidators || $result === NULL ||
 						($safeSubmittedValueType == 'string' && mb_strlen($result) === 0) ||
 						($safeSubmittedValueType == 'array'  && count($result) === 0)
 					) $this->AddValidationError(
@@ -229,22 +240,22 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		$errorMsgArgs = array(), 
 		callable $replacingCallable = NULL
 	) {
-		$replacing = $replacingCallable !== NULL;
+		$customReplacing = $replacingCallable !== NULL;
 		$fieldLabelOrName = '';
 		if ($this->translate) {
 			$errorMsg = $this->form->Translate($errorMsg);
-			if ($replacing)
+			if ($customReplacing)
 				$fieldLabelOrName = $this->label
 					? $this->form->Translate($this->label) 
 					: $this->name;
-		} else if ($replacing) {
+		} else {
 			$fieldLabelOrName = $this->label
 				? $this->label 
 				: $this->name;
 		}
 		array_unshift($errorMsgArgs, $fieldLabelOrName);
 		$formViewClass = $this->form->GetViewClass();
-		if ($replacing) {
+		if ($customReplacing) {
 			$errorMsg = call_user_func(
 				$replacingCallable, 
 				$errorMsg, $errorMsgArgs, $formViewClass

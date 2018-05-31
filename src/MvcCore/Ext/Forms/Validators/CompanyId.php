@@ -30,6 +30,7 @@ class CompanyId extends \MvcCore\Ext\Forms\Validator
 	 * @var string
 	 */
 	protected static $errorMessageKey = \MvcCore\Ext\Form::TAX_ID;
+
 	/**
 	 * EU validators
 	 * Array of regexp bases to check company id.
@@ -42,13 +43,14 @@ class CompanyId extends \MvcCore\Ext\Forms\Validator
 	 * @see https://en.wikipedia.org/wiki/VAT_identification_number
 	 * @var array
 	 */
-	public static $Validators = array();
+	public static $validators = array();
+
 	/**
 	 * Static initialization for this class to init validators.
 	 * @return void
 	 */
 	public function StaticInit () {
-		self::$Validators = array(
+		self::$validators = array(
 			'AT'=> 'U(\d{8})',						// Austria
 			'BE'=> '(0?\d{9})',					// Belgium
 			'BG'=> '(\d{9,10})',					// Bulgaria

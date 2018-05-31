@@ -13,11 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class Integer extends \MvcCore\Ext\Forms\Validators\Number
+class Float extends \MvcCore\Ext\Forms\Validators\Number
 {
 	/**
 	 * Validate numeric raw user input. Parse numeric value by locale conventions
-	 * and check if number is integer.
+	 * and check if number is float.
 	 * @param string|array			$submitValue Raw user input.
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
@@ -25,20 +25,11 @@ class Integer extends \MvcCore\Ext\Forms\Validators\Number
 		$result = $this->getNumericValue($rawSubmittedValue);
 		if ($result === NULL) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INTEGER)	
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::FLOAT)	
 			);
 			return NULL;
 		} else {
-			$resultFloat = floatval($result);
-			$resultIntFloat = floatval(intval($result));
-			if ($resultFloat !== $resultIntFloat) {
-				$this->field->AddValidationError(
-					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INTEGER)	
-				);
-				return NULL;
-			} else {
-				$result = intval($result);
-			}
+			$result = floatval($result);
 		}
 		return $result;
 	}

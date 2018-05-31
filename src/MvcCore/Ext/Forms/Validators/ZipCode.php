@@ -15,9 +15,33 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class ZipCode extends \MvcCore\Ext\Forms\Validator
 {
+	/**
+	 * All configured validators as key/value array.
+	 * Keys are locale codes and values are regexp match pattern strings or `callable`s.
+	 * @var array
+	 */
 	protected static $validators = array();
 
-	protected static function & GetValidators () {
+	/**
+	 * Set specific locale validator for ZIP code.
+	 * It could be regexp match pattern string with or without border characters 
+	 * or `callable` accepting first argument to be raw submitted value and 
+	 * returning array with success and with safe ZIP code value.
+	 * @param string $localeCode Locale code, automaticly converted to upper case.
+	 * @param string|callable $regExpMatchOrCallable Reg exp match pattern string with or without border characters or `callable`.
+	 * @return string|callable
+	 */
+	public static function SetValidator ($localeCode, $regExpMatchOrCallable) {
+		if (!static::$validators) static::GetValidators();
+		return static::$validators[strtoupper($localeCode)] = $regExpMatchOrCallable;
+	}
+
+	/**
+	 * Get all preconfigured validators as key/value array.
+	 * Keys are locale codes and values are regexp match pattern strings or `callable`s.
+	 * @return array
+	 */
+	public static function & GetValidators () {
 		if (static::$validators) return static::$validators;
 		$p3 = "#^\d4$#"; // 3 digits pattern
 		$p4 = "#^\d4$#"; // 4 digits pattern
@@ -188,15 +212,20 @@ class ZipCode extends \MvcCore\Ext\Forms\Validator
 		return static::$validators;
 	}
 
+	/**
+	 * Validate ZIP code by form internal localization property `$form->GetLocale()`.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
 	public function Validate ($rawSubmittedValue) {
-		$rawSubmittedValue = trim($rawSubmittedValue);
+		$rawSubmittedValue = trim((string) $rawSubmittedValue);
 		// remove all chars except: 'A-Z', '0-9', spaces and '-'
 		$notCheckedValue = preg_replace("#[^0-9A-Z\- ]#", '', strtoupper($rawSubmittedValue));
 		$formLocale = $this->form->GetLocale();
 		$result = NULL;
 		$matched = FALSE;
 		if (!$formLocale) {
-			$this->throwNewInvalidArgumentException(
+			return $this->throwNewInvalidArgumentException(
 				'Unable to validate ZIP code without configured '
 				.'form `locale` property. Use `$form->SetLocale(\'[A-Z]{2}\');` '
 				.'to internaly create proper ZIP code validator.'
@@ -204,31 +233,50 @@ class ZipCode extends \MvcCore\Ext\Forms\Validator
 		} else {
 			$validators = static::GetValidators();
 			if (!isset($validators[$formLocale])) {
-				$this->throwNewInvalidArgumentException(
-					'Unable to create ZIP code validator for locale `'.$formLocale.'`. '
-					.'Function to check ZIP code for locale `'.$formLocale
-					.'` is not implemented (yet). '
-					.'Use different form localization or create custom `'
-					.\MvcCore\Ext\Forms\IValidator::class.'` to validate this field.'
+				$this->field->AddValidationError(
+					'ZIP code validation not supported (field `{0}`, locale: `{1}`).',
+					array($formLocale)
 				);
 			} else {
 				$validator = $validators[$formLocale];
 				if (is_callable($validator)) {
 					list($matched, $result) = call_user_func($validator, $notCheckedValue);
+				} else if (is_string($validator)) {
+					list($matched, $result) = $this->validateZipByRegExp($notCheckedValue, $validator);
 				} else {
-					list($matched, $result) = $this->validateZipByRegExp($validator, $notCheckedValue);
+					$this->field->AddValidationError(
+						'ZIP code validator has wrong format (field `{0}`, locale: `{1}`).',
+						array($formLocale)
+					);
 				}
 			}
 		}
-		if (mb_strlen($result) !== mb_strlen($rawSubmittedValue) || !$matched)
-			$this->throwNewInvalidArgumentException(
+		if (!$matched || $result === NULL)
+			$this->field->AddValidationError(
 				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::ZIP_CODE)	
 			);
 		return $result;
 	}
 
-	protected function validateZipByRegExp ($zip, $regExp) {
-		$matched = @preg_match($regExp, $zip, $matches);
-		return array($matched, $zip);
+	/**
+	 * Validate ZIP code by regexp match pattern.
+	 * @param string $zip Raw submitted value.
+	 * @param string $regExpMatch Regep match pattern with or without brder characters.
+	 * @return array Array with success and safe ZIP code value.
+	 */
+	protected function validateZipByRegExp ($zip, $regExpMatch) {
+		$beginBorderChar = mb_strpos($regExpMatch, "#") === 0;
+		$endBorderChar = mb_substr($regExpMatch, mb_strlen($regExpMatch) - 2, 1) === '#';
+		if (!$beginBorderChar && !$endBorderChar)
+			$regExpMatch = "#" . $regExpMatch . "#";
+		$matched = @preg_match($regExpMatch, $zip, $matches);
+		if ($matched === FALSE) {
+			$this->field->AddValidationError(
+				'ZIP code validation pattern for field `{0}` is wrong: `{1}`.',
+				array($regExpMatch)
+			);
+		}
+		if ($matched) return array($matched, $zip);
+		return array(FALSE, NULL);
 	}
 }

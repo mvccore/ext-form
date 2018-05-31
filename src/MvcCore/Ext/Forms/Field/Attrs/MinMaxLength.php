@@ -37,9 +37,9 @@ trait MinMaxLength
 	}
 
 	protected function checkValidatorsMinMaxLength () {
-		if ($this->minLength && !in_array('MinLength', $this->validators))
-			$this->validators[] = 'MinLength';
-		if ($this->maxLength && !in_array('MaxLength', $this->validators))
-			$this->validators[] = 'MaxLength';
+		if ($this->minLength && !isset($this->validators['MinLength']))
+			$this->validators['MinLength'] = 'MinLength';
+		if ($this->maxLength && !isset($this->validators['MaxLength']))
+			$this->validators['MaxLength'] = 'MaxLength';
 	}
 }

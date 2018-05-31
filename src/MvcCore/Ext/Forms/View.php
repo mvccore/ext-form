@@ -46,7 +46,7 @@ class View extends \MvcCore\View
 	);
 
 	/**
-	 * Views forms directory placed by default
+	 * Global views forms directory placed by default
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
 	 * is `"/App/Views/Forms"`.
@@ -55,7 +55,16 @@ class View extends \MvcCore\View
 	protected static $formsDir = 'Forms';
 
 	/**
-	 * Get views forms directory placed by default
+	 * Global views fields directory placed by default
+	 * inside `"/App/Views"` directory.
+	 * Default value is `"Forms/Fields"`, so 
+	 * scripts app path is `"/App/Views/Forms/Fields"`.
+	 * @var string
+	 */
+	protected static $fieldsDir = 'Forms/Fields';
+
+	/**
+	 * Get global views forms directory placed by default
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
 	 * is `"/App/Views/Forms"`.
@@ -66,15 +75,38 @@ class View extends \MvcCore\View
 	}
 
 	/**
-	 * Set views forms directory placed by default
+	 * Set global views forms directory placed by default
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
 	 * is `"/App/Views/Forms"`.
 	 * @param string $formsDir
-	 * @return void
+	 * @return string
 	 */
 	public static function SetFormsDir ($formsDir = 'Forms') {
-		static::$formsDir = $formsDir;
+		return static::$formsDir = $formsDir;
+	}
+
+	/**
+	 * Get global views fields directory placed by default
+	 * inside `"/App/Views"` directory.
+	 * Default value is `"Forms/Fields"`, so 
+	 * scripts app path is `"/App/Views/Forms/Fields"`.
+	 * @return string
+	 */
+	public static function GetFieldsDir () {
+		return static::$fieldsDir;
+	}
+
+	/**
+	 * Set global views fields directory placed by default
+	 * inside `"/App/Views"` directory.
+	 * Default value is `"Forms/Fields"`, so 
+	 * scripts app path is `"/App/Views/Forms/Fields"`.
+	 * @param string $fieldsDir
+	 * @return string
+	 */
+	public static function SetFieldsDir ($fieldsDir = 'Forms/Fields') {
+		return static::$fieldsDir = $fieldsDir;
 	}
 
 	/**

@@ -15,13 +15,13 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Range extends \MvcCore\Ext\Forms\Field
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumber;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
 	protected $type = 'range';
 
-	protected $validators = array('RangeField');
+	protected $validators = array('Range');
 
 	protected $jsClassName = 'MvcCoreForm.Range';
 

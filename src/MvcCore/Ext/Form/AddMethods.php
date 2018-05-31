@@ -47,7 +47,7 @@ trait AddMethods
 					$field = & $this->fields[$fieldName];
 					$field
 						->AddError($errorMsgUtf8)
-						->AddCssClass('error');
+						->AddCssClasses('error');
 					if ($field instanceof \MvcCore\Ext\Forms\IFieldGroup)
 						$field->AddGroupCssClass('error');
 				}

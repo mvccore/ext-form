@@ -13,35 +13,48 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Validator.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once(__DIR__.'/../Core/View.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
-// TODO: hodně
 class MinLength extends \MvcCore\Ext\Forms\Validator
 {
-	public function Validate ($rawSubmittedValue) {
-		$submitValue = trim($submitValue);
-		if (isset($field->Maxlength) && !is_null($field->Maxlength) && $field->Maxlength > 0) {
-			$safeValue = mb_substr($submitValue, 0, $field->Maxlength);
-		} else {
-			$safeValue = $submitValue;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * This method is also called once, when validator instance is separately 
+	 * added into already created field instance to process any field checking.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		parent::SetField($field);
+		$fieldImplementsMinMax = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+		if ($this->minLength == NULL && $field->GetMinLength() !== NULL && $fieldImplementsMinMax) {
+			// if this validator is added into field as instance - check field if it has min attribute defined:
+			$field->SetMinLength($this->minLength);
 		}
-		if (mb_strlen($safeValue) !== mb_strlen($submitValue)) {
-			$this->addError(
-				$field, 
-				Form::$DefaultMessages[Form::MIN_LENGTH], 
-				function ($msg, $args) use (& $field) {
-					$args[] = $field->Maxlength;
-					return Core\View::Format($msg, $args);
-				}
+		if (!$this->minLength && $fieldImplementsMinMax && $field->GetMinLength() !== NULL) {
+			// if validator is added as string - get min property from field:
+			$this->minLength = $field->GetMinLength();
+		}
+		return $this;
+	}
+
+	/**
+	 * Validate raw user input with minimal string length check.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
+	public function Validate ($rawSubmittedValue) {
+		$result = trim((string) $rawSubmittedValue);
+		if (
+			$this->minLength !== NULL && 
+			$this->minLength > 0 && 
+			mb_strlen($rawSubmittedValue) < $this->minLength
+		) {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MIN_LENGTH)
 			);
 		}
-		return $safeValue;
+		return $result;
 	}
 }

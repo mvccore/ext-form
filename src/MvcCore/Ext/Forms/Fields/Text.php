@@ -12,9 +12,6 @@
  */
 
 namespace MvcCore\Ext\Forms\Fields;
-
-//require_once('Core/View.php');
-
 class Text extends \MvcCore\Ext\Forms\Field
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;

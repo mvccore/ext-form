@@ -15,10 +15,13 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Url extends \MvcCore\Ext\Forms\Validator
 {
+	/**
+	 * Validate URI string by PHP `filter_var($rawSubmittedValue, FILTER_VALIDATE_URL);`.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
 	public function Validate ($rawSubmittedValue) {
 		$result = NULL;
-		if ($rawSubmittedValue === NULL) 
-			return NULL;
 		$rawSubmittedValue = trim((string) $rawSubmittedValue);
 		if ($rawSubmittedValue === '') 
 			return NULL;

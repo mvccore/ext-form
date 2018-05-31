@@ -13,30 +13,52 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once('ValueInOptions.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
 class MaxOptions extends ValueInOptions
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
+
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * This method is also called once, when validator instance is separately 
+	 * added into already created field instance to process any field checking.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		parent::SetField($field);
+		$fieldImplementsMinMax = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+		if ($this->maxOptions == NULL && $field->GetMaxOptions() !== NULL && $fieldImplementsMinMax) {
+			// if this validator is added into field as instance - check field if it has min attribute defined:
+			$field->SetMaxOptions($this->maxOptions);
+		}
+		if (!$this->maxOptions && $fieldImplementsMinMax && $field->GetMaxOptions() !== NULL) {
+			// if validator is added as string - get min property from field:
+			$this->maxOptions = $field->GetMaxOptions();
+		}
+		return $this;
+	}
+	
+	/**
+	 * Validate raw user input with maximum options count check.
+	 * @param string|array $submitValue Raw submitted value from user.
+	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 */
 	public function Validate ($rawSubmittedValue) {
-		$safeValue = is_array($submitValue) ? $submitValue : array();
-		$safeValueCount = count($safeValue);
-		// check if there is enough options checked
-		if ($field->MaxSelectedOptionsCount > 0 && $safeValueCount > $field->MaxSelectedOptionsCount) {
-			$this->addError(
-				$field,
-				Form::$DefaultMessages[Form::CHOOSE_MAX_OPTS],
-				function ($msg, $args) use (& $field) {
-					$args[] = $field->MaxSelectedOptionsCount;
-					return Core\View::Format($msg, $args);
-				}
+		$rawSubmittedArr = array();
+		if (is_array($rawSubmittedValue)) {
+			$rawSubmittedArr = $rawSubmittedValue;
+		} else if (is_string($rawSubmittedValue) && mb_strlen($rawSubmittedValue) > 0) {
+			$rawSubmittedArr = array($rawSubmittedValue);
+		}
+		$submittedArrCount = count($rawSubmittedArr);
+		// check if there is not more options checked
+		if ($this->maxOptions !== NULL && $this->maxOptions > 0 && $submittedArrCount > $this->maxOptions) {
+			$rawSubmittedArr = array_slice($rawSubmittedArr, 0, $this->maxOptions);
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::CHOOSE_MAX_OPTS)
 			);
 		}
-		return $safeValue;
+		return $rawSubmittedArr;
 	}
 }

@@ -20,7 +20,7 @@ interface IValidator
 	 * @param \MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
-	public static function & CreateInstance (\MvcCore\Ext\Forms\IForm & $form);
+	public static function & CreateInstance ();
 
 	/**
 	 * Set up form instance, where is validator created durring submit.

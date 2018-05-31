@@ -44,52 +44,52 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 	 * or return string which exists as key in options or `NULL` 
 	 * if submitted value is `NULL`. Add error if submitted value 
 	 * is not the same as value after existence check.
-	 * @param string|array|NULL		$submitValue
+	 * @param string|array			$submitValue
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		list($safeValue, $arrayType) = $this->completeSafeValueByOptions($rawSubmittedValue);
+		list($result, $multiple) = $this->completeSafeValueByOptions($rawSubmittedValue);
 		if (
-			($arrayType && count($safeValue) !== count($rawSubmittedValue)) ||
-			(!$arrayType && mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue))
+			($multiple && count($result) !== count($rawSubmittedValue)) ||
+			(!$multiple && $result === NULL)
 		) {
 			$this->field->AddValidationError(
 				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::VALID)
 			);
 		}
-		return $safeValue;
+		return $result;
 	}
 
 	/**
 	 * Return safe value(s), which exist(s) in field options 
 	 * and return boolean (`TRUE`) if result is array or not.
-	 * Example: `list($safeValue, $arrayType) = $this->completeSafeValueByOptions($rawSubmittedValue);`;
-	 * @param string|array|NULL $rawSubmittedValue 
+	 * Example: `list($safeValue, $multiple) = $this->completeSafeValueByOptions($rawSubmittedValue);`;
+	 * @param string|array $rawSubmittedValue 
 	 * @return array
 	 */
 	protected function completeSafeValueByOptions ($rawSubmittedValue) {
-		$result = array();
-		$arrayResult = TRUE;
+		$multiple = $this->field->GetMultiple();
+		$result = $multiple ? array() : NULL;
 		$rawSubmittedValueArrayType = gettype($rawSubmittedValue) == 'array';
 		if ($rawSubmittedValueArrayType) {
-			$rawSubmittedValues = $rawSubmittedValue;
+			if ($multiple) {
+				$rawSubmittedValues = $rawSubmittedValue;
+			} else {
+				$rawSubmittedValue = (string) $rawSubmittedValue;
+				$rawSubmittedValues = mb_strlen($rawSubmittedValue) > 0 
+					? array($rawSubmittedValue) 
+					: array();
+			}
 		} else {
 			$rawSubmittedValue = (string) $rawSubmittedValue;
 			$rawSubmittedValues = mb_strlen($rawSubmittedValue) > 0 
 				? array($rawSubmittedValue) 
 				: array();
-			$result = '';
-			$arrayResult = FALSE;
-		}
-		$multiple = $this->field->GetMultiple();
-		if ($multiple || $rawSubmittedValueArrayType) {
-			$result = array();
-			$arrayResult = TRUE;
 		}
 		$allOptionKeys = $this->field->GetAllOptionsKeys();
 		foreach ($rawSubmittedValues as & $rawSubmittedValueItem) {
 			if (in_array($rawSubmittedValueItem, $allOptionKeys)) {
-				if ($arrayResult) {
+				if ($multiple) {
 					$result[] = $rawSubmittedValueItem;
 				} else {
 					$result = $rawSubmittedValueItem;
@@ -99,7 +99,7 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 		}
 		return array(
 			$result, 
-			$arrayResult
+			$multiple
 		);
 	}
 }

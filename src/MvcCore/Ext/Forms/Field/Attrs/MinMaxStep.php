@@ -30,7 +30,7 @@ trait MinMaxStep
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @var float|int|string|NULL
+	 * @var float|NULL
 	 */
 	protected $min = NULL;
 
@@ -42,7 +42,7 @@ trait MinMaxStep
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @var float|int|string|NULL
+	 * @var float|NULL
 	 */
 	protected $max = NULL;
 
@@ -53,7 +53,7 @@ trait MinMaxStep
 	 * For `Time` fields, step is `int`, number of seconds.
 	 * For `Week` fields, step is `int`, number of weeks...
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @var float|int|NULL
+	 * @var float|NULL
 	 */
 	protected $step = NULL;
 
@@ -65,7 +65,7 @@ trait MinMaxStep
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return float|int|string|NULL
+	 * @return float|NULL
 	 */
 	public function GetMin () {
 		return $this->min;
@@ -83,7 +83,7 @@ trait MinMaxStep
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMin ($min) {
-		$this->min = $min;
+		$this->min = floatval($min);
 		return $this;
 	}
 
@@ -95,7 +95,7 @@ trait MinMaxStep
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return float|int|string|NULL
+	 * @return float|NULL
 	 */
 	public function GetMax () {
 		return $this->max;
@@ -113,7 +113,7 @@ trait MinMaxStep
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMax ($max) {
-		$this->max = $max;
+		$this->max = floatval($max);
 		return $this;
 	}
 
@@ -124,7 +124,7 @@ trait MinMaxStep
 	 * For `Time` fields, step is `int`, number of seconds.
 	 * For `Week` fields, step is `int`, number of weeks...
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return float|int|NULL
+	 * @return float|NULL
 	 */
 	public function GetStep () {
 		return $this->step;
@@ -137,11 +137,11 @@ trait MinMaxStep
 	 * For `Time` fields, step is `int`, number of seconds.
 	 * For `Week` fields, step is `int`, number of weeks...
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @param float|int|NULL $step
+	 * @param float|int|string|NULL $step
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetStep ($step) {
-		$this->step = $step;
+		$this->step = floatval($step);
 		return $this;
 	}
 }
