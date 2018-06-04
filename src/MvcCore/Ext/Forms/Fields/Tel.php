@@ -17,5 +17,5 @@ class Time extends Text
 {
 	protected $type = 'tel';
 
-	protected $validators = array('Tel'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/);
+	protected $validators = ['Tel'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
 }

@@ -16,8 +16,22 @@ namespace MvcCore\Ext\Forms\Validators;
 class Url extends \MvcCore\Ext\Forms\Validator
 {
 	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_URL = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_URL	=> "Field '{0}' requires a valid URL.",
+	];
+
+	/**
 	 * Validate URI string by PHP `filter_var($rawSubmittedValue, FILTER_VALIDATE_URL);`.
-	 * @param string|array $submitValue Raw submitted value from user.
+	 * @param string|array $rawSubmittedValue Raw submitted value from user.
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
@@ -32,7 +46,7 @@ class Url extends \MvcCore\Ext\Forms\Validator
 			$result = $safeValue;
 		} else {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::URL)
+				static::GetErrorMessage(self::ERROR_URL)
 			);
 		}
 		return $result;

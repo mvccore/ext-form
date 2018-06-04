@@ -16,6 +16,20 @@ namespace MvcCore\Ext\Forms\Validators;
 class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 {
 	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_VALID_OPTION = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_VALID_OPTION	=> "Field '{0}' requires a valid option.",
+	];
+
+	/**
 	 * Field has to implement for this validator two methods:
 	 * - `GetAllOptionsKeys()` - To get all keys from options array as `\string[]`
 	 * - `GetMultiple()` - To get boolean flag if there could be more submitted options or not.
@@ -54,7 +68,7 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 			(!$multiple && $result === NULL)
 		) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::VALID)
+				static::GetErrorMessage(self::ERROR_VALID_OPTION)
 			);
 		}
 		return $result;
@@ -69,7 +83,7 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 	 */
 	protected function completeSafeValueByOptions ($rawSubmittedValue) {
 		$multiple = $this->field->GetMultiple();
-		$result = $multiple ? array() : NULL;
+		$result = $multiple ? [] : NULL;
 		$rawSubmittedValueArrayType = gettype($rawSubmittedValue) == 'array';
 		if ($rawSubmittedValueArrayType) {
 			if ($multiple) {
@@ -77,14 +91,14 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 			} else {
 				$rawSubmittedValue = (string) $rawSubmittedValue;
 				$rawSubmittedValues = mb_strlen($rawSubmittedValue) > 0 
-					? array($rawSubmittedValue) 
-					: array();
+					? [$rawSubmittedValue] 
+					: [];
 			}
 		} else {
 			$rawSubmittedValue = (string) $rawSubmittedValue;
 			$rawSubmittedValues = mb_strlen($rawSubmittedValue) > 0 
-				? array($rawSubmittedValue) 
-				: array();
+				? [$rawSubmittedValue] 
+				: [];
 		}
 		$allOptionKeys = $this->field->GetAllOptionsKeys();
 		foreach ($rawSubmittedValues as & $rawSubmittedValueItem) {
@@ -97,9 +111,9 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 				if (!$multiple) break;
 			}
 		}
-		return array(
+		return [
 			$result, 
 			$multiple
-		);
+		];
 	}
 }

@@ -16,6 +16,20 @@ namespace MvcCore\Ext\Forms\Validators;
 class MinLength extends \MvcCore\Ext\Forms\Validator
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+	
+	/**
+	 * Valid email address error message index.
+	 * @var int
+	 */
+	const ERROR_MIN_LENGTH = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_MIN_LENGTH	=> "Field '{0}' requires at least {1} characters.",
+	];
 
 	/**
 	 * Set up field instance, where is validated value by this 
@@ -41,7 +55,7 @@ class MinLength extends \MvcCore\Ext\Forms\Validator
 
 	/**
 	 * Validate raw user input with minimal string length check.
-	 * @param string|array $submitValue Raw submitted value from user.
+  * @param string|array $rawSubmittedValue Raw submitted value from user.
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
@@ -52,7 +66,7 @@ class MinLength extends \MvcCore\Ext\Forms\Validator
 			mb_strlen($rawSubmittedValue) < $this->minLength
 		) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MIN_LENGTH)
+				static::GetErrorMessage(self::ERROR_MIN_LENGTH)
 			);
 		}
 		return $result;

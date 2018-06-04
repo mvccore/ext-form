@@ -24,7 +24,7 @@ class SubmitInput extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms
 	
 	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 	
-	protected $validators = array();
+	protected $validators = [];
 	
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
@@ -42,15 +42,15 @@ class SubmitInput extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('accessKey',)
+			['accessKey',]
 		);
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 }

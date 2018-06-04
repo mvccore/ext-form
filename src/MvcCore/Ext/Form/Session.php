@@ -22,12 +22,12 @@ trait Session
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & ClearSession () {
-		$this->values = array();
-		$this->errors = array();
+		$this->values = [];
+		$this->errors = [];
 		$session = & $this->getSession();
-		$session->values = array();
-		$session->csrf = array();
-		$session->errors = array();
+		$session->values = [];
+		$session->csrf = [];
+		$session->errors = [];
 		return $this;
 	}
 
@@ -67,9 +67,9 @@ trait Session
 			// errors just clear the errors.
 			//$sessionNamespace->SetExpirationHoops(1);
 			$sessionNamespace->SetExpirationSeconds($this->sessionExpiration);
-			if (!isset($sessionNamespace->values)) $sessionNamespace->values = array();
-			if (!isset($sessionNamespace->csrf)) $sessionNamespace->csrf = array();
-			if (!isset($sessionNamespace->errors)) $sessionNamespace->errors = array();
+			if (!isset($sessionNamespace->values)) $sessionNamespace->values = [];
+			if (!isset($sessionNamespace->csrf)) $sessionNamespace->csrf = [];
+			if (!isset($sessionNamespace->errors)) $sessionNamespace->errors = [];
 			self::$allFormsSessions[$this->id] = & $sessionNamespace;
 		}
 		return $sessionNamespace;

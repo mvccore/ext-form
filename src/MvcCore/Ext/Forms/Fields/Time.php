@@ -21,7 +21,7 @@ class Time extends Date
 
 	protected $format = 'H:i';
 
-	protected $validators = array('Time');
+	protected $validators = ['Time'];
 
 	// Min and Max shoud be set as strings in 24 hours format like 8:00, 22:00
 }

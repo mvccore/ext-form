@@ -21,7 +21,7 @@ class Text extends \MvcCore\Ext\Forms\Field
 
 	protected $type = 'text';
 
-	protected $validators = array('SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+	protected $validators = ['SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/];
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
@@ -36,15 +36,15 @@ class Text extends \MvcCore\Ext\Forms\Field
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete')
+			['minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete']
 		);
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 }

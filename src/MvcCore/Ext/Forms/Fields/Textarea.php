@@ -20,13 +20,13 @@ class Textarea extends \MvcCore\Ext\Forms\Field
 
 	protected $type = 'textarea';
 
-	protected $validators = array('SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+	protected $validators = ['SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/];
 
-	protected static $templates = array(
+	protected static $templates = [
 		'control'	=> '<textarea id="{id}" name="{name}"{attrs}>{value}</textarea>',
-	);
+	];
 
-	public function __construct (array $cfg = array()) {
+	public function __construct (array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
 			(array) parent::$templates, 
@@ -40,14 +40,14 @@ class Textarea extends \MvcCore\Ext\Forms\Field
 	}
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('MinLength', 'MaxLength', 'Rows', 'Cols')
+			['MinLength', 'MaxLength', 'Rows', 'Cols']
 		);
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 }

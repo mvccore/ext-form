@@ -17,5 +17,5 @@ class Url extends Text
 {
 	protected $type = 'url';
 
-	protected $validators = array('Url'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/);
+	protected $validators = ['Url'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
 }

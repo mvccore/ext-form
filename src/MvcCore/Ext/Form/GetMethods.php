@@ -163,12 +163,12 @@ trait GetMethods
 	/**
 	 * Get form submit result state. Submit could have two basic values (or three values - for next step):
 	 * `NULL` - No `Submit()` method has been called yet. Call `$form->Submit();` before.
-	 * `0`    - Submit has errors. User will be redirected after submit to error url.
-	 *          `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1`    - Submit was successfull. User will be redirected after submit to success url.
-	 *          `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2`    - Submit was successfull. User will be redirected after submit to next step url.
-	 *          `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
+	 * `0`	- Submit has errors. User will be redirected after submit to error url.
+	 *		  `\MvcCore\Ext\Form::RESULT_ERRORS`
+	 * `1`	- Submit was successfull. User will be redirected after submit to success url.
+	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
+	 * `2`	- Submit was successfull. User will be redirected after submit to next step url.
+	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
 	 * @return int|NULL
 	 */
 	public function GetResult () {

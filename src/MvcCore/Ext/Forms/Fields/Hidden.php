@@ -17,5 +17,5 @@ class Hidden extends \MvcCore\Ext\Forms\Field
 {
 	protected $type = 'hidden';
 
-	protected $validators = array('SafeString');
+	protected $validators = ['SafeString'];
 }

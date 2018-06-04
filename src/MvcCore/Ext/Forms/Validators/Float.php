@@ -13,24 +13,38 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility - Validate raw user input. Parse float value if possible by `Intl` extension 
+					or try to determinate floating point automaticly and return `float` or `NULL`.
+ */
 class Float extends \MvcCore\Ext\Forms\Validators\Number
 {
 	/**
-	 * Validate numeric raw user input. Parse numeric value by locale conventions
-	 * and check if number is float.
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_FLOAT = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_FLOAT	=> "Field '{0}' requires a valid float number.",
+	];
+
+	/**
+	 * Validate raw user input. Parse float value if possible by `Intl` extension 
+	 * or try to determinate floating point automaticly and return `float` or `NULL`.
 	 * @param string|array			$submitValue Raw user input.
-	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 * @return float|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$result = $this->getNumericValue($rawSubmittedValue);
-		if ($result === NULL) {
+		$result = $this->parseFloat((string)$rawSubmittedValue);
+		if ($result === NULL) 
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::FLOAT)	
+				static::GetErrorMessage(self::ERROR_FLOAT)
 			);
-			return NULL;
-		} else {
-			$result = floatval($result);
-		}
 		return $result;
 	}
 }

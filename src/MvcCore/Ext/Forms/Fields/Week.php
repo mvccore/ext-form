@@ -19,5 +19,5 @@ class Week extends Date
 
 	protected $format = 'o-\WW'; // 2014-W30
 
-	protected $validators = array('Week');
+	protected $validators = ['Week'];
 }

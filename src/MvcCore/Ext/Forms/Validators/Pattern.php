@@ -16,6 +16,20 @@ namespace MvcCore\Ext\Forms\Validators;
 class Pattern extends \MvcCore\Ext\Forms\Validator
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
+	
+	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_INVALID_FORMAT = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_INVALID_FORMAT	=> "Field '{0}' has invalid format ('{1}').",
+	];
 
 	/**
 	 * Set up field instance, where is validated value by this 
@@ -44,7 +58,7 @@ class Pattern extends \MvcCore\Ext\Forms\Validator
 
 	/**
 	 * Validate raw user input by configured regexp match pattern.
-	 * @param string|array $submitValue Raw submitted value from user.
+  * @param string|array $rawSubmittedValue Raw submitted value from user.
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
@@ -52,10 +66,10 @@ class Pattern extends \MvcCore\Ext\Forms\Validator
 		$rawSubmittedValue = trim($rawSubmittedValue);
 		if ($this->pattern !== NULL) {
 			$pattern = $this->pattern;
-			$beginBorderChar = mb_strpos($pattern, "#") === 0;
+			$beginBorderChar = mb_strpos($pattern, '#') === 0;
 			$endBorderChar = mb_substr($pattern, mb_strlen($pattern) - 2, 1) === '#';
 			if (!$beginBorderChar && !$endBorderChar)
-				$pattern = "#" . $pattern . "#";
+				$pattern = '#' . $pattern . '#';
 			$matched = @preg_match($pattern, $rawSubmittedValue, $matches);
 			if ($matched) 
 				$result = $rawSubmittedValue;
@@ -64,8 +78,8 @@ class Pattern extends \MvcCore\Ext\Forms\Validator
 		}
 		if ($result === NULL) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INVALID_FORMAT),
-				array($this->pattern)
+				static::GetErrorMessage(self::ERROR_INVALID_FORMAT),
+				[$this->pattern]
 			);
 		}
 		return $result;

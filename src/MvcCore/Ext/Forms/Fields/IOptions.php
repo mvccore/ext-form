@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 interface IOptions
 {
-    /**
+	/**
 	 * @return array
 	 */
 	public function & GetOptions ();

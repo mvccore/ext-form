@@ -39,8 +39,8 @@ trait AddMethods
 			"UTF-8",
 			$errorMsg
 		);
-		$fieldNamesArr = $fieldNames === NULL ? array() : (gettype($fieldNames) == 'array' ? $fieldNames : array($fieldNames));
-		$newErrorRec = array(strip_tags($errorMsgUtf8), $fieldNamesArr);
+		$fieldNamesArr = $fieldNames === NULL ? [] : (gettype($fieldNames) == 'array' ? $fieldNames : [$fieldNames]);
+		$newErrorRec = [strip_tags($errorMsgUtf8), $fieldNamesArr];
 		if ($fieldNamesArr) {
 			foreach ($fieldNamesArr as $fieldName) {
 				if (isset($this->fields[$fieldName])) {
@@ -68,9 +68,9 @@ trait AddMethods
 	public function & AddJsSupportFile (
 		$jsRelativePath = '/fields/custom-type.js', 
 		$jsClassName = 'MvcCoreForm.FieldType', 
-		$constructorParams = array()
+		$constructorParams = []
 	) {
-		$this->jsSupportFiles[] = array($jsRelativePath, $jsClassName, $constructorParams);
+		$this->jsSupportFiles[] = [$jsRelativePath, $jsClassName, $constructorParams];
 		return $this;
 	}
 
@@ -82,7 +82,7 @@ trait AddMethods
 	public function & AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
-		$this->cssSupportFile[] = array($cssRelativePath);
+		$this->cssSupportFile[] = [$cssRelativePath];
 		return $this;
 	}
 
@@ -110,12 +110,12 @@ trait AddMethods
 		$reflection = new \ReflectionFunction($handler);
 		$isClosure = $reflection->isClosure();
 		if ($priorityIndex === NULL) {
-			static::$csrfErrorHandlers[] = array($handler, $isClosure);
+			static::$csrfErrorHandlers[] = [$handler, $isClosure];
 		} else {
 			if (isset(static::$csrfErrorHandlers[$priorityIndex])) {
-				array_splice(static::$csrfErrorHandlers, $priorityIndex, 0, array($handler, $isClosure));
+				array_splice(static::$csrfErrorHandlers, $priorityIndex, 0, [$handler, $isClosure]);
 			} else {
-				static::$csrfErrorHandlers[$priorityIndex] = array($handler, $isClosure);
+				static::$csrfErrorHandlers[$priorityIndex] = [$handler, $isClosure];
 			}
 		}
 		return count(static::$csrfErrorHandlers);

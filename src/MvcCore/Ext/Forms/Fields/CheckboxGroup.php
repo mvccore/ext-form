@@ -21,21 +21,21 @@ class CheckboxGroup
 
 	protected $type = 'checkbox';
 
-	protected $validators = array("ValueInOptions");
+	protected $validators = ["ValueInOptions"];
 
 	protected $jsClassName = 'MvcCoreForm.CheckboxGroup';
 
 	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/checkbox-group.js';
 
-	protected static $templates = array(
+	protected static $templates = [
 		'control'	=> '<input id="{id}" name="{name}[]" type="{type}" value="{value}"{checked}{attrs} />',
-	);
+	];
 
 	public function GetMultiple () {
 		return TRUE;
 	}
 
-	public function __construct(array $cfg = array()) {
+	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
 			(array) parent::$templates, 
@@ -78,16 +78,16 @@ class CheckboxGroup
 			}
 		}
 		if ($minOptsDefined) $this->minOptionsBubbleMessage = $viewClass::Format(
-			$this->minOptionsBubbleMessage, array($this->minOptionsCount)
+			$this->minOptionsBubbleMessage, [$this->minOptionsCount]
 		);
 		if ($maxOptsDefined) $this->maxOptionsBubbleMessage = $viewClass::Format(
-			$this->maxOptionsBubbleMessage, array($this->maxOptionsCount)
+			$this->maxOptionsBubbleMessage, [$this->maxOptionsCount]
 		);
 		if ($this->required || $minOptsDefined || $maxOptsDefined)
 			$form->AddJsSupportFile(
 				$this->jsSupportingFile, 
 				$this->jsClassName, 
-				array(
+				[
 					$this->name . '[]', 
 					$this->required,
 					$this->minOptionsCount,
@@ -95,7 +95,7 @@ class CheckboxGroup
 					$this->minOptionsBubbleMessage,
 					$this->maxOptionsBubbleMessage,
 					$this->maxOptionsClassName
-				)
+				]
 			);
 	}
 
@@ -111,10 +111,10 @@ class CheckboxGroup
 			$itemLabelText = $option ? $option : $key;
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				array(), array_merge($this->controlAttrs, array(
+				[], array_merge($this->controlAttrs, [
 					'data-min-selected-options' => $this->minOptionsCount,
 					'data-max-selected-options' => $this->maxOptionsCount,
-				)), $this->cssClasses, TRUE
+				]), $this->cssClasses, TRUE
 			);
 		} else if ($optionType == 'array') {
 			$itemLabelText = isset($option['text']) ? $option['text'] : $key;
@@ -123,12 +123,12 @@ class CheckboxGroup
 			if (isset($option['attrs']) && gettype($option['attrs']) == 'array') {
 				$attrsArr = array_merge($this->controlAttrs, $option['attrs']);
 			}
-			$attrsArr = array_merge($attrsArr, array(
+			$attrsArr = array_merge($attrsArr, [
 				'data-min-selected-options' => $this->minOptionsCount,
 				'data-max-selected-options' => $this->maxOptionsCount,
-			));
+			]);
 			if (isset($option['class'])) {
-				$classArrParam = array();
+				$classArrParam = [];
 				$cssClassType = gettype($option['class']);
 				if ($cssClassType == 'array') {
 					$classArrParam = $option['class'];
@@ -139,14 +139,14 @@ class CheckboxGroup
 					if ($clsValue) $classArr[] = $clsValue;
 			}
 			$labelAttrsStr = $this->renderAttrsWithFieldVars(
-				array(), $attrsArr, $classArr
+				[], $attrsArr, $classArr
 			);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				array(), $attrsArr, $classArr, TRUE
+				[], $attrsArr, $classArr, TRUE
 			);
 		}
 		if ($this->type == 'checkbox') 
 			$this->required = $originalRequired;
-		return array($itemLabelText, $labelAttrsStr, $controlAttrsStr);
+		return [$itemLabelText, $labelAttrsStr, $controlAttrsStr];
 	}
 }

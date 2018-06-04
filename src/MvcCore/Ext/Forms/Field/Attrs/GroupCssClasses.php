@@ -19,7 +19,7 @@ trait GroupCssClasses
 	 * Css class for group label.
 	 * @var string[]
 	 */
-	protected $groupCssClasses = array();
+	protected $groupCssClasses = [];
 
 	/**
 	 * Get css class(es) for group label as array of strings.

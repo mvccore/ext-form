@@ -16,6 +16,20 @@ namespace MvcCore\Ext\Forms\Validators;
 class MaxLength extends \MvcCore\Ext\Forms\Validator
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+	
+	/**
+	 * Valid email address error message index.
+	 * @var int
+	 */
+	const ERROR_MAX_LENGTH = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_MAX_LENGTH	=> "Field '{0}' requires no more than {1} characters.",
+	];
 
 	/**
 	 * Set up field instance, where is validated value by this 
@@ -53,7 +67,7 @@ class MaxLength extends \MvcCore\Ext\Forms\Validator
 		}
 		if (mb_strlen($result) !== mb_strlen($rawSubmittedValue))
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MIN_LENGTH)
+				static::GetErrorMessage(self::ERROR_MAX_LENGTH)
 			);
 		return $result;
 	}

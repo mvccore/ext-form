@@ -84,7 +84,7 @@ trait ConfigProps
 	 * values as attribute values, simple.
 	 * @var array
 	 */
-	protected $attributes = array();
+	protected $attributes = [];
 
 	/**
 	 * Form success submit url string to redirect after, relative or absolute,
@@ -137,11 +137,11 @@ trait ConfigProps
 	/**
 	 * Form submit result state. Submit could have two basic values (or three values for next step):
 	 * `0` - Submit has errors. User will be redirected after submit to error url.
-	 *       `\MvcCore\Ext\Form::RESULT_ERRORS`
+	 *	   `\MvcCore\Ext\Form::RESULT_ERRORS`
 	 * `1` - Submit was successfull. User will be redirected after submit to success url.
-	 *       `\MvcCore\Ext\Form::RESULT_SUCCESS`
+	 *	   `\MvcCore\Ext\Form::RESULT_SUCCESS`
 	 * `2` - Submit was successfull. User will be redirected after submit to next step url.
-	 *       `\MvcCore\Ext\Form::RESULT_NEXT_PAGE`
+	 *	   `\MvcCore\Ext\Form::RESULT_NEXT_PAGE`
 	 * @var int|NULL
 	 */
 	protected $result = NULL;
@@ -173,14 +173,14 @@ trait ConfigProps
 	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
 	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]
 	 */
-	protected $fields = array();
+	protected $fields = [];
 
 	/**
 	 * Form submited values from client. After `$form->Submit()` has been called,
 	 * values are cleaned by validators and ready to use if `$form->result` is in success state.
 	 * @var array
 	 */
-	protected $values = array();
+	protected $values = [];
 
 	/**
 	 * If any configured error happends by executing `$form->Submit()`, it's stored in this array.
@@ -189,7 +189,7 @@ trait ConfigProps
 	 * Errors array has normal numeric keys.
 	 * @var array
 	 */
-	protected $errors = array();
+	protected $errors = [];
 
 	/**
 	 * Session expiration in seconds. Default value is zero seconds (`0`).
@@ -242,7 +242,7 @@ trait ConfigProps
 	 *	 `2` - `array`  - Supporting javascript constructor params.
 	 * @var array
 	 */
-	protected $jsSupportFiles = array();
+	protected $jsSupportFiles = [];
 
 	/**
 	 * Supporting css files configuration.
@@ -251,7 +251,7 @@ trait ConfigProps
 	 * into HTML response after form is rendered.
 	 * @var \string[]
 	 */
-	protected $cssSupportFiles = array();
+	protected $cssSupportFiles = [];
 
 	/**
 	 * Javascript support files external renderer. Given callable has
@@ -300,7 +300,7 @@ trait ConfigProps
 	 * Validator will be created by class existence in this namespaces order.
 	 * @var \string[]
 	 */
-	protected static $validatorsNamespaces = array(
+	protected static $validatorsNamespaces = [
 		'\\MvcCore\\Ext\\Forms\\Validators\\'
-	);
+	];
 }

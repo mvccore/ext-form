@@ -32,6 +32,14 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	protected $field = NULL;
 
 	/**
+	 * Validator custom error message strings (not translated) 
+	 * with replacements for field names and more specific info 
+	 * to tell the user what happend or what to do more.
+	 * @var \string[]
+	 */
+	protected static $errorMessages = [];
+
+	/**
 	 * Create every time new validator instance with configured form instance. No singleton.
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
@@ -62,6 +70,17 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 		$this->field = & $field;
 		return $this;
 	}
+	
+	/**
+	 * Return predefined validator custom error message strings (not translated) 
+	 * with replacements for field names and more specific info 
+	 * to tell the user what happend or what to do more.
+	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
+	 * @return string
+	 */
+	public static function GetErrorMessage ($errorMsgIndex) {
+		return static::$errorMessages[$errorMsgIndex];;
+	}
 
 	/**
 	 * Validation method.
@@ -69,7 +88,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
 	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
 	 * is not possible to return safe valid value.
-	 * @param string|array			$submitValue
+	 * @param string|array			$submitValue	Raw submitted value, string or array of strings.
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public abstract function Validate ($rawSubmittedValue);

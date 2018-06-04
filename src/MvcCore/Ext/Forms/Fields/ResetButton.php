@@ -21,7 +21,7 @@ class ResetButton extends Button
 	
 	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 
-	protected $validators = array();
+	protected $validators = [];
 
 	protected $jsClassName = 'MvcCoreForm.Reset';
 
@@ -30,7 +30,7 @@ class ResetButton extends Button
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->form->AddJsSupportFile(
-			$this->jsSupportingFile, $this->jsClassName, array($this->name)
+			$this->jsSupportingFile, $this->jsClassName, [$this->name]
 		);
 	}
 }

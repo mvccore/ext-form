@@ -21,7 +21,7 @@ class Number extends \MvcCore\Ext\Forms\Field
 
 	protected $type = 'number';
 	
-	protected $validators = array('Number');
+	protected $validators = ['Number'];
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
@@ -31,16 +31,16 @@ class Number extends \MvcCore\Ext\Forms\Field
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('size', 'min', 'max', 'step', 'pattern')
+			['size', 'min', 'max', 'step', 'pattern']
 		);
 		$formViewClass = $this->form->GetViewClass();
-		$result = $formViewClass::Format(static::$templates->control, array(
+		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 		return $this->renderControlWrapper($result);
 	}
 }

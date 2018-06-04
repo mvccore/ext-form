@@ -13,19 +13,63 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility - Validate raw user input. Parse float value if possible by `Intl` extension 
+					or try to determinate floating point automaticly and return `float` or `NULL`.
+ */
 class Number extends \MvcCore\Ext\Forms\Validator
 {
 	/**
-	 * Validate numeric raw user input. Parse numeric value by locale conventions
-	 * and check minimum, maximum, step and pattern if necessary.
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_NUMBER = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_NUMBER	=> "Field '{0}' requires a valid number.",
+	];
+
+	/**
+	 * Boolean flag to prefer `Intl` extension parsing if `Intl` installed.
+	 * Default is `FALSE`.
+	 * @var bool
+	 */
+	protected $preferIntlParsing = FALSE;
+
+	/**
+	 * Set `TRUE` to prefer `Intl` extension parsing if `Intl` installed.
+	 * @param bool $preferIntlParsing 
+	 * @return \MvcCore\Ext\Forms\Validators\Number
+	 */
+	public function & SetPreferIntlParsing ($preferIntlParsing = TRUE) {
+		$this->preferIntlParsing = $preferIntlParsing;
+		return $this;
+	}
+
+	/**
+	 * Get boolean flag about to prefer `Intl` extension parsing if `Intl` installed.
+	 * Default is `FALSE`.
+	 * @return bool
+	 */
+	public function GetPreferIntlParsing () {
+		return $this->preferIntlParsing;
+	}
+	
+	/**
+	 * Validate raw user input. Parse float value if possible by `Intl` extension 
+	 * or try to determinate floating point automaticly and return `float` or `NULL`.
 	 * @param string|array			$submitValue Raw user input.
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$result = $this->getNumericValue($rawSubmittedValue);
+		$result = $this->parseFloat((string)$rawSubmittedValue);
 		if ($result === NULL) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::NUMBER)	
+				static::GetErrorMessage(self::ERROR_NUMBER)	
 			);
 			return NULL;
 		}
@@ -36,17 +80,17 @@ class Number extends \MvcCore\Ext\Forms\Validator
 			if ($min !== NULL && $max !== 0 && ($result < $min || $result > $max)) {
 				$this->field->AddValidationError(
 					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::RANGE),
-					array($min, $max)
+					[$min, $max]
 				);
 			} else if ($min !== NULL && $result < $min) {
 				$this->field->AddValidationError(
 					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::GREATER),
-					array($min)
+					[$min]
 				);
 			} else if ($max !== NULL && $result > $max) {
 				$this->field->AddValidationError(
 					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::LOWER),
-					array($max)
+					[$max]
 				);
 			}
 			if ($step !== NULL && $step !== 0) {
@@ -55,7 +99,7 @@ class Number extends \MvcCore\Ext\Forms\Validator
 				if ($dividingResultFloat !== $dividingResultInt) 
 					$this->field->AddValidationError(
 						$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::DIVISIBLE),
-						array($step)
+						[$step]
 					);
 			}
 		}
@@ -72,50 +116,160 @@ class Number extends \MvcCore\Ext\Forms\Validator
 	}
 
 	/**
-	 * @param string|array $rawSubmittedValue
-	 * @return Integer|float|NULL
+	 * Try to parse floating point number from raw user input string.
+	 * If `Intl` extension installed and if `Intl` extension parsing prefered, 
+	 * try to parse by `Intl` extension integer first, than floating point number.
+	 * If not prefered or not installed, try to determinate floating point in 
+	 * user input string automaticly and use PHP `floatval()` to parse the result.
+	 * If parsing by floatval returns `NULL` and `Intl` extension is installed
+	 * but not prefered, try to parse user input by `Intl` extension after it.
+	 * @param string $rawSubmittedValue 
+	 * @return float|NULL
 	 */
-	protected function getNumericValue ($rawSubmittedValue) {
+	protected function parseFloat ($rawSubmittedValue) {
+		if (!(is_scalar($rawSubmittedValue) && !is_bool($rawSubmittedValue))) 
+			return NULL;
+		if (is_float($rawSubmittedValue) || is_int($rawSubmittedValue))
+			return floatval($rawSubmittedValue);
+		$intlExtLoaded = extension_loaded('intl');
+		$result = NULL;
+		if ($this->preferIntlParsing && $intlExtLoaded) {
+			if ($intlExtLoaded) 
+				$result = $this->parseByIntl($rawSubmittedValue);
+			if ($result !== NULL) return $result;
+			return $this->parseByFloatVal($rawSubmittedValue);
+		} else {
+			$result = $this->parseByFloatVal($rawSubmittedValue);
+			if ($result !== NULL) return $result;
+			if ($intlExtLoaded) 
+				$result = $this->parseByIntl($rawSubmittedValue);
+			return $result;
+		}
+	}
+	
+	/**
+	 * Parse user input by `Intl` extension and try to return `int` or `float`.
+	 * @param string $rawSubmittedValue 
+	 * @return float|NULL
+	 */
+	protected function parseByIntl ($rawSubmittedValue) {
+		list($formLang, $formLocale) = [$this->form->GetLang(), $this->form->GetLocale()];
+		// set default english int parsing behaviour if not configured
+		$langAndLocale = $formLang && $formLocale
+			? $formLang.'_'.$formLocale
+			: 'en_US';
+		$intVal = $this->parseIntegerByIntl($rawSubmittedValue, $langAndLocale);
+		if ($intVal !== NULL) 
+			return floatval($intVal);
+		$floatVal = $this->parseFloatByIntl($rawSubmittedValue, $langAndLocale);
+		if ($floatVal !== NULL) 
+			return $floatVal;
+		return NULL;
+	}
+	
+	/**
+	 * Parse user input by `Intl` extension and try to return `int`.
+	 * @param string $rawSubmittedValue 
+	 * @return int|NULL
+	 */
+	protected function parseIntegerByIntl ($rawSubmittedValue, $langAndLocale) {
+		$formatter = NULL;
+		try {
+			$formatter = new \NumberFormatter($langAndLocale, \NumberFormatter::DECIMAL);
+			if (intl_is_failure($formatter->getErrorCode())) 
+				return NULL;
+		} catch (\IntlException $intlException) {
+			return NULL;
+		}
+		try {
+			$parsedInt = $formatter->parse($rawSubmittedValue, \NumberFormatter::TYPE_INT64);
+			if (intl_is_failure($formatter->getErrorCode())) 
+				return NULL;
+		} catch (\IntlException $intlException) {
+			return NULL;
+		}
+		$decimalSep  = $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+		$groupingSep = $formatter->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
+		$valueFiltered = str_replace($groupingSep, '', $rawSubmittedValue);
+		$valueFiltered = str_replace($decimalSep, '.', $valueFiltered);
+		if (strval($parsedInt) !== $valueFiltered) return NULL;
+		return $parsedInt;
+	}
+	
+	/**
+	 * Parse user input by `Intl` extension and try to return `float`.
+	 * @param string $rawSubmittedValue 
+	 * @return float|NULL
+	 */
+	protected function parseFloatByIntl ($rawSubmittedValue, $langAndLocale) {
+		// Need to check if this is scientific formatted string. If not, switch to decimal.
+		$formatter = new \NumberFormatter($langAndLocale, \NumberFormatter::SCIENTIFIC);
+		try {
+			$parsedScient = $formatter->parse($rawSubmittedValue, \NumberFormatter::TYPE_DOUBLE);
+			if (intl_is_failure($formatter->getErrorCode())) 
+				$parsedScient = NULL;
+		} catch (\IntlException $intlException) {
+			$parsedScient = NULL;
+		}
+		$decimalSep  = $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+		$groupingSep = $formatter->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);
+		$valueFiltered = str_replace($groupingSep, '', $rawSubmittedValue);
+		$valueFiltered = str_replace($decimalSep, '.', $valueFiltered);
+		if ($parsedScient !== NULL && $valueFiltered == strval($parsedScient)) 
+			return $parsedScient;
+		$formatter = new \NumberFormatter($langAndLocale, \NumberFormatter::DECIMAL);
+		try {
+			$parsedDecimal = $formatter->parse($rawSubmittedValue, \NumberFormatter::TYPE_DOUBLE);
+			if (intl_is_failure($formatter->getErrorCode())) 
+				$parsedDecimal = NULL;
+		} catch (\IntlException $intlException) {
+			$parsedDecimal = NULL;
+		}
+		return $parsedDecimal;
+	}
+
+	/**
+	 * Try to determinate floating point separator if any automaticly
+	 * and try to parse user input by `floatval()` PHP function.
+	 * @param string $rawSubmittedValue 
+	 * @return float|NULL
+	 */
+	protected function parseByFloatVal ($rawSubmittedValue) {
 		$result = NULL;
 		$rawSubmittedValue = trim((string) $rawSubmittedValue);
-		$submittedValueToParse = preg_replace("#[^0-9,\.]#", '', $rawSubmittedValue);
-		$noSeparatorsValue = str_replace(array(',', '.'), '', $submittedValueToParse);
-		if (strlen($noSeparatorsValue) === 0) return NULL;
-		$dot = strpos($submittedValueToParse, '.') !== FALSE;
-		$comma = strpos($submittedValueToParse, ',') !== FALSE;
-		$lc = (object) localeconv();
-		$thousandsSeparator = $lc->thousands_sep;
-		$decimalPoint = $lc->decimal_point;
+		$valueToParse = preg_replace("#[^Ee0-9,\.\-]#", '', $rawSubmittedValue);
+		if (strlen($valueToParse) === 0) return NULL;
+		$dot = strpos($valueToParse, '.') !== FALSE;
+		$comma = strpos($valueToParse, ',') !== FALSE;
 		if ($dot && !$comma) {
-			if ($thousandsSeparator == '.') {
-				$result = intval(str_replace('.','',$submittedValueToParse));
-			} else if ($decimalPoint == '.') {
-				$result = floatval($submittedValueToParse);
+			$cnt = substr_count($valueToParse, '.');
+			if ($cnt == 1) {
+				$result = floatval($valueToParse);
+			} else {
+				$result = floatval(str_replace('.','',$valueToParse));
 			}
 		} else if (!$dot && $comma) {
-			if ($thousandsSeparator == ',') {
-				$result = intval(str_replace(',','',$submittedValueToParse));
-			} else if ($decimalPoint == ',') {
-				$result = floatval(str_replace(',','.',$submittedValueToParse));
+			$cnt = substr_count($valueToParse, ',');
+			if ($cnt == 1) {
+				$result = floatval(str_replace(',','.',$valueToParse));
+			} else {
+				$result = floatval(str_replace(',','',$valueToParse));
 			}
 		} else if ($dot && $comma) {
-			if ($thousandsSeparator == ',' && $decimalPoint == '.') {
-				$result = floatval(str_replace(',','',$submittedValueToParse));
-			} else if ($thousandsSeparator == '.' && $decimalPoint == ',') {
-				$result = floatval(str_replace(array('.',','), array('','.'),$submittedValueToParse));
-			} else if ($thousandsSeparator == '.' && $decimalPoint == '.') {
-				$lastDotPos = strrpos($submittedValueToParse, '.');
-				$result = floatval(str_replace('.','',substr($submittedValueToParse,0,$lastDotPos)).'.'.substr($submittedValueToParse,$lastDotPos+1));
-			} else if ($thousandsSeparator == ',' && $decimalPoint == ',') {
-				$lastCommaPos = strrpos($submittedValueToParse, ',');
-				$result = floatval(str_replace('.','',substr($submittedValueToParse,0,$lastCommaPos)).'.'.substr($submittedValueToParse,$lastCommaPos+1));
+			$dotLastPos = mb_strrpos($valueToParse, '.');
+			$commaLastPos = mb_strrpos($valueToParse, ',');
+			$dotCount = substr_count($valueToParse, '.');
+			$commaCount = substr_count($valueToParse, ',');
+			if ($dotLastPos > $commaLastPos && $dotCount == 1) {
+				// dot is decimal point separator
+				$result = floatval(str_replace(',','',$valueToParse));
+			} else if ($commaLastPos > $dotLastPos && $commaCount == 1) {
+				// comma is decimal point separator
+				$result = floatval(str_replace(['.',','],['','.'],$valueToParse));
 			}
 		} else if (!$dot && !$comma) {
-			$result = intval($submittedValueToParse);
+			$result = floatval($valueToParse);
 		}
-		$firstRawChar = mb_substr($rawSubmittedValue, 0, 1);
-		if ($firstRawChar === '-' || $firstRawChar === $lc->negative_sign)
-			$result *= -1;
 		return $result;
 	}
 }

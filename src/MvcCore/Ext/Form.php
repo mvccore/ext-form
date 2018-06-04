@@ -151,11 +151,11 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 			$field->PreDispatch();
 		$session = & $this->getSession();
 		foreach ($session->errors as $errorMsgAndFieldNames) {
-			list($errorMsg, $fieldNames) = array_merge(array(), $errorMsgAndFieldNames);
+			list($errorMsg, $fieldNames) = array_merge([], $errorMsgAndFieldNames);
 			$this->AddError($errorMsg, $fieldNames);
 		}
 		if ($session->values) 
-			$this->SetValues(array_merge(array(), $session->values));
+			$this->SetValues(array_merge([], $session->values));
 		
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
@@ -177,6 +177,6 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	 * @return string
 	 */
 	public function Translate ($translationKey) {
-		return call_user_func_array($this->translator, array($translationKey, $this->lang));
+		return call_user_func_array($this->translator, [$translationKey, $this->lang]);
 	}
 }

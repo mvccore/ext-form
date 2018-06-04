@@ -21,11 +21,25 @@ namespace MvcCore\Ext\Forms\Validators;
 class SafeString extends \MvcCore\Ext\Forms\Validator
 {
 	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_INVALID_CHARS = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_INVALID_CHARS	=> "Field '{0}' contains invalid characters (it can not contain: {1}).",
+	];
+
+	/**
 	 * Base ASCII characters from 0 to 31 incl. (first column).
 	 * @see http://www.asciitable.com/index/asciifull.gif
 	 * @var \string[]
 	 */
-	protected static $baseAsciiChars = array(
+	protected static $baseAsciiChars = [
 		"\x00"	=> '',	"\x08"	=> '',	"\x10"	=> '',	"\x18"	=> '',
 		"\x01"	=> '',	"\x09"	=> '',	"\x11"	=> '',	"\x19"	=> '',
 		"\x02"	=> '',	"\x0A"	=> '',	"\x12"	=> '',	"\x1A"	=> '',
@@ -34,25 +48,25 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		"\x05"	=> '',	"\x0D"	=> '',	"\x15"	=> '',	"\x1D"	=> '',
 		"\x06"	=> '',	"\x0E"	=> '',	"\x16"	=> '',	"\x1E"	=> '',
 		"\x07"	=> '',	"\x0F"	=> '',	"\x17"	=> '',	"\x1F"	=> '',
-	);
+	];
 	/**
 	 * Characters to prevent XSS atack and some other special chars
 	 * what could be dangerous user input.
 	 * @see http://php.net/manual/en/function.htmlspecialchars.php
 	 * @var \string[]
 	 */
-	protected static $specialMeaningChars = array(
+	protected static $specialMeaningChars = [
 		'|'	=> "&#124;",
 		'='	=> "&#61;",
 		'\\'=> "&#92;",
 		'%'	=> "&#37;",
-	);
+	];
 
 	/**
 	 * Validate raw user input, if there are any XSS characters 
 	 * or base ASCII characters or characters in this list: | = \ %,
 	 * add submit error and return `NULL`.
-	 * @param string|array $submitValue Raw submitted value from user.
+  * @param string|array $rawSubmittedValue Raw submitted value from user.
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
@@ -75,8 +89,8 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 			$result = $cleanedValue;
 		} else {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INVALID_CHARS),
-				array('&amp; &quot; &apos; &lt; &gt; &#124; &#61; &#92; &#37;')
+				static::GetErrorMessage(self::ERROR_INVALID_CHARS),
+				['&amp; &quot; &apos; &lt; &gt; &#124; &#61; &#92; &#37;']
 			);
 		}
 

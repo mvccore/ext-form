@@ -28,7 +28,7 @@ trait Submitting
 	 * @param array $rawRequestParams optional
 	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
 	 */
-	public function Submit (array & $rawRequestParams = array()) {
+	public function Submit (array & $rawRequestParams = []) {
 		if ($this->dispatchState < 1) $this->Init();
 		if (!$rawRequestParams) $rawRequestParams = $this->request->GetParams('.*');
 		$this
@@ -37,11 +37,11 @@ trait Submitting
 			->SubmitCsrfTokens($rawRequestParams)
 			->SubmitAllFields($rawRequestParams)
 			->SaveSession();
-		return array(
+		return [
 			$this->result,
 			$this->values,
 			$this->errors,
-		);
+		];
 	}
 
 	/**
@@ -53,7 +53,7 @@ trait Submitting
 	 * @param array $rawRequestParams 
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function SubmitSetStartResultState (array & $rawRequestParams = array()) {
+	public function SubmitSetStartResultState (array & $rawRequestParams = []) {
 		if (!$this->customResultStates) {
 			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
 		} else {
@@ -86,7 +86,7 @@ trait Submitting
 		if ($contentLength === NULL) $this->AddError(
 			$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
 		);
-		$units = array('k' => 1000, 'm' => 1048576, 'g' => 1073741824);
+		$units = ['k' => 1000, 'm' => 1048576, 'g' => 1073741824];
 		if (is_integer($rawMaxSize)) {
 			$maxSize = intval($rawMaxSize);
 		} else {
@@ -100,7 +100,7 @@ trait Submitting
 			$viewClass = $this->viewClass;
 			$this->AddError($viewClass::Format(
 				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE),
-				array($maxSize)
+				[$maxSize]
 			));
 		}
 		return $this;
@@ -114,7 +114,7 @@ trait Submitting
 	 * @param array $rawRequestParams
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function SubmitAllFields (array & $rawRequestParams = array()) {
+	public function SubmitAllFields (array & $rawRequestParams = []) {
 		foreach ($this->fields as $fieldName => & $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
 			$safeValue = $field->Submit($rawRequestParams);
@@ -148,7 +148,7 @@ trait Submitting
 		}
 		$url = isset($this->{$urlPropertyName}) ? $this->{$urlPropertyName} : NULL;
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
-		if ($this->result) $this->values = array();
+		if ($this->result) $this->values = [];
 		$this->SaveSession();
 		if (!$url) throw new \RuntimeException(
 			'['.__CLASS__.'] No url specified to redirect. ' . $errorMsg

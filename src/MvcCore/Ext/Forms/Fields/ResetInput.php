@@ -23,7 +23,7 @@ class ResetInput extends \MvcCore\Ext\Forms\Field
 	
 	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 	
-	protected $validators = array();
+	protected $validators = [];
 
 	protected $jsClassName = 'MvcCoreForm.Reset';
 
@@ -42,21 +42,21 @@ class ResetInput extends \MvcCore\Ext\Forms\Field
 		if ($this->translate && $this->value)
 			$this->value = $this->form->Translate($this->value);
 		$this->form->AddJsSupportFile(
-			$this->jsSupportingFile, $this->jsClassName, array($this->name)
+			$this->jsSupportingFile, $this->jsClassName, [$this->name]
 		);
 	}
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('accessKey',)
+			['accessKey',]
 		);
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 }

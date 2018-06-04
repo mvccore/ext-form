@@ -34,7 +34,7 @@ class View extends \MvcCore\View
 	 * possible overwriting by `__set()` or `__get()` magic methods.
 	 * @var array
 	 */
-	protected static $protectedProperties = array(
+	protected static $protectedProperties = [
 		'form'				=> 1,
 		'field'				=> 1,
 		'view'				=> 1,
@@ -43,7 +43,7 @@ class View extends \MvcCore\View
 		'_helpers'			=> 1,
 		'_content'			=> 1,
 		'_renderedFullPaths'=> 1,
-	);
+	];
 
 	/**
 	 * Global views forms directory placed by default
@@ -153,7 +153,7 @@ class View extends \MvcCore\View
 	 */
 	public function __call ($method, $arguments) {
 		if (isset($this->field) && method_exists($this->field, $method)) {
-			return call_user_func_array(array($this->field, $method), $arguments);
+			return call_user_func_array([$this->field, $method], $arguments);
 		} else {
 			return parent::__call($method, $arguments);
 		}
@@ -190,9 +190,9 @@ class View extends \MvcCore\View
 	 */
 	public function RenderBegin () {
 		$result = "<form";
-		$attrs = array();
+		$attrs = [];
 		$form = & $this->form;
-		$formProperties = array('id', 'action', 'method', 'enctype');
+		$formProperties = ['id', 'action', 'method', 'enctype'];
 		foreach ($formProperties as $property) {
 			$getter = 'Get'.ucfirst($property);
 			$formPropertyValue = $form->$getter();
@@ -295,7 +295,7 @@ class View extends \MvcCore\View
 	 *					  string representation by replacement in form `{arrayKey}`
 	 * @return string
 	 */
-	public static function Format ($str = '', array $args = array()) {
+	public static function Format ($str = '', array $args = []) {
 		foreach ($args as $key => $value) {
 			$pos = strpos($str, '{'.$key.'}');
 			$str = substr($str, 0, $pos) . $value . substr($str, $pos + strlen($key) + 2);
@@ -308,8 +308,8 @@ class View extends \MvcCore\View
 	 * @param array $atrributes
 	 * @return string
 	 */
-	public static function RenderAttrs (array $atrributes = array()) {
-		$result = array();
+	public static function RenderAttrs (array $atrributes = []) {
+		$result = [];
 		foreach ($atrributes as $attrName => $attrValue)
 			$result[] = $attrName.'="'.$attrValue.'"';
 		return implode(' ', $result);

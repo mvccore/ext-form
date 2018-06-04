@@ -41,15 +41,15 @@ class MinOptions extends ValueInOptions
 	
 	/**
 	 * Validate raw user input with minimal options count check.
-	 * @param string|array $submitValue Raw submitted value from user.
+  * @param string|array $rawSubmittedValue Raw submitted value from user.
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$rawSubmittedArr = array();
+		$rawSubmittedArr = [];
 		if (is_array($rawSubmittedValue)) {
 			$rawSubmittedArr = $rawSubmittedValue;
 		} else if (is_string($rawSubmittedValue) && mb_strlen($rawSubmittedValue) > 0) {
-			$rawSubmittedArr = array($rawSubmittedValue);
+			$rawSubmittedArr = [$rawSubmittedValue];
 		}
 		$submittedArrCount = count($rawSubmittedArr);
 		// check if there is enough options checked

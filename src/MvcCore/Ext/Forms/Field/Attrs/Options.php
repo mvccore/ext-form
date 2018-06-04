@@ -31,8 +31,8 @@ trait Options
 	 * // use this configuration:
 	 * $field->name = 'gender';
 	 * $field->options = array(
-	 *     'f' => 'Female',
-	 *     'm' => 'Male',
+	 *	 'f' => 'Female',
+	 *	 'm' => 'Male',
 	 * );
 	 *
 	 * // Or you can use more adwanced configuration with css class names 
@@ -44,22 +44,22 @@ trait Options
 	 * // For that use this configuration:
 	 * $field->name = 'gender';
 	 * $field->options = array(
-	 *     'f' => array(
-	 *         'text'  => 'Female',	// text key will be also automaticly translated
-	 *         'class' => 'female',
-	 *         'attrs' => array('data-any' => 'something-for-females'),
-	 *     ),
-	 *     'm' => array(
-	 *         'text'  => 'Male', // text key will be also automaticly translated
-	 *         'class' => 'male',
-	 *         'attrs' => array('data-any' => 'something-for-males'),
-	 *     ),
+	 *	 'f' => array(
+	 *		 'text'  => 'Female',	// text key will be also automaticly translated
+	 *		 'class' => 'female',
+	 *		 'attrs' => array('data-any' => 'something-for-females'),
+	 *	 ),
+	 *	 'm' => array(
+	 *		 'text'  => 'Male', // text key will be also automaticly translated
+	 *		 'class' => 'male',
+	 *		 'attrs' => array('data-any' => 'something-for-males'),
+	 *	 ),
 	 * ));
 	 * ```
 	 * @requires
 	 * @var array
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * Set form group control options to render
@@ -74,10 +74,10 @@ trait Options
 	 * //   <input id="gender-m" type="radio" name="gender" value="m" />
 	 * // use this configuration:
 	 * $field->SetName('gender')->SetOptions(array(
-	 *     // field values will be automaticly translated, 
-	 *     // if form has configured translator `callable`
-	 *     'f' => 'Female',
-	 *     'm' => 'Male',
+	 *	 // field values will be automaticly translated, 
+	 *	 // if form has configured translator `callable`
+	 *	 'f' => 'Female',
+	 *	 'm' => 'Male',
 	 * ));
 	 * 
 	 * // Or you can use more adwanced configuration with css class names 
@@ -88,22 +88,22 @@ trait Options
 	 * //   <input id="gender-m" type="radio" name="gender" value="m" class="male" data-any="something-for-males" />
 	 * // For that use this configuration:
 	 * $field->SetName('gender')->SetOptions(array(
-	 *     'f' => array(
-	 *         'text'  => 'Female',	// text key will be also automaticly translated
-	 *         'class' => 'female',
-	 *         'attrs' => array('data-any' => 'something-for-females'),
-	 *     ),
-	 *     'm' => array(
-	 *         'text'  => 'Male', // text key will be also automaticly translated
-	 *         'class' => 'male',
-	 *         'attrs' => array('data-any' => 'something-for-males'),
-	 *     ),
+	 *	 'f' => array(
+	 *		 'text'  => 'Female',	// text key will be also automaticly translated
+	 *		 'class' => 'female',
+	 *		 'attrs' => array('data-any' => 'something-for-females'),
+	 *	 ),
+	 *	 'm' => array(
+	 *		 'text'  => 'Male', // text key will be also automaticly translated
+	 *		 'class' => 'male',
+	 *		 'attrs' => array('data-any' => 'something-for-males'),
+	 *	 ),
 	 * ));
 	 * ```
 	 * @param array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function & SetOptions (array $options = array()) {
+	public function & SetOptions (array $options = []) {
 		$this->options = & $options;
 		return $this;
 	}
@@ -121,7 +121,7 @@ trait Options
 	 * @return \string[]
 	 */
 	public function & GetAllOptionsKeys () {
-		$allOptionsKeys = array();
+		$allOptionsKeys = [];
 		foreach ($this->options as $firstLevelKey => & $firstLevelOption) {
 			if (isset($firstLevelOption['options']) && gettype($firstLevelOption['options']) == 'array') {
 				foreach ($firstLevelOption['options'] as $secondLevelKey => & $secondLevelOption) {

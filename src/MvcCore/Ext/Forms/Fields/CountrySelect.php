@@ -22,7 +22,7 @@ class CountrySelect extends Select
 	
 	protected $translate = FALSE;
 	
-	protected $options = array(
+	protected $options = [
 		'AF' => 'Afghanistan',			'AX' => 'Åland Islands',		'AL' => 'Albania',
 		'DZ' => 'Algeria',				'AS' => 'American Samoa',		'AD' => 'Andorra',
 		'AO' => 'Angola',				'AI' => 'Anguilla',				'AQ' => 'Antarctica',
@@ -106,7 +106,7 @@ class CountrySelect extends Select
 		'VE' => 'Venezuela, Bolivarian Republic of','VN' => 'Viet Nam',	'VG' => 'Virgin Islands, British',
 		'VI' => 'Virgin Islands, U.S.',	'WF' => 'Wallis and Futuna',	'EH' => 'Western Sahara',
 		'YE' => 'Yemen',				'ZM' => 'Zambia',				'ZW' => 'Zimbabwe',
-	);
+	];
 
 	/**
 	 * Return country code in upper case.
@@ -132,21 +132,21 @@ class CountrySelect extends Select
 		if ($this->nullOptionText !== NULL && strlen((string) $this->nullOptionText) > 0) {
 			// advanced configuration with key, text, cs class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced(
-				'', array(
+				'', [
 					'value'	=> '',
 					'text'	=> $this->nullOptionText,
 					'class'	=> 'country-none',
-					'attrs'	=> array('disabled' => 'disabled')
-				), $valueTypeIsArray
+					'attrs'	=> ['disabled' => 'disabled']
+				], $valueTypeIsArray
 			);
 		}
 		foreach ($this->options as $key => & $value) {
 			// advanced configuration with key, text, cs class, and any other attributes for single option tag
-			$result .= $this->renderControlOptionsAdvanced($key, array(
+			$result .= $this->renderControlOptionsAdvanced($key, [
 				'class'	=> 'country-' . strtolower($key),
 				'text'	=> $value,
 				'value'	=> $key,
-			), $valueTypeIsArray);
+			], $valueTypeIsArray);
 		}
 		return $result;
 	}

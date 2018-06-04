@@ -21,7 +21,7 @@ class Range extends \MvcCore\Ext\Forms\Field
 
 	protected $type = 'range';
 
-	protected $validators = array('Range');
+	protected $validators = ['Range'];
 
 	protected $jsClassName = 'MvcCoreForm.Range';
 
@@ -32,26 +32,26 @@ class Range extends \MvcCore\Ext\Forms\Field
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->form
-			->AddJsSupportFile($this->jsSupportingFile, $this->jsClassName, array($this->name))
+			->AddJsSupportFile($this->jsSupportingFile, $this->jsClassName, [$this->name])
 			->AddCssSupportFile($this->cssSupportingFile);
 	}
 	public function RenderControl () {
 		if ($this->multiple) 
 			$this->multiple = 'multiple';
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('min', 'max', 'step', 'multiple')
+			['min', 'max', 'step', 'multiple']
 		);
 		$valueStr = $this->multiple && gettype($this->value) == 'array' 
 			? implode(',', (array) $this->value) 
 			: (string) $this->value;
 		$formViewClass = $this->form->GetViewClass();
-		$result = $formViewClass::Format(static::$templates->control, array(
+		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $valueStr . '" data-value="' . $valueStr,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 		return $this->renderControlWrapper($result);
 	}
 }

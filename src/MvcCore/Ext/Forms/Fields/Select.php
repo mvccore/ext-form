@@ -29,15 +29,15 @@ class Select
 	 */
 	protected $value = NULL;
 	
-	protected $validators = array('ValueInOptions');
+	protected $validators = ['ValueInOptions'];
 
-	protected static $templates = array(
+	protected static $templates = [
 		'control'		=> '<select id="{id}" name="{name}"{multiple}{size}{attrs}>{options}</select>',
 		'option'		=> '<option value="{value}"{selected}{class}{attrs}>{text}</option>',
 		'optionsGroup'	=> '<optgroup{label}{class}{attrs}>{options}</optgroup>',
-	);
+	];
 	
-	public function __construct(array $cfg = array()) {
+	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
 			(array) parent::$templates, 
@@ -85,7 +85,7 @@ class Select
 			$optionsGroup['label'] = $form->Translate((string) $groupLabel);
 		$groupOptions = $optionsGroup['options'] 
 			? $optionsGroup['options'] 
-			: array();
+			: [];
 		foreach ($groupOptions as $key => & $groupOption) {
 			$groupOptionType = gettype($groupOption);
 			if ($groupOptionType == 'string') {
@@ -104,14 +104,14 @@ class Select
 		$optionsStr = $this->RenderControlOptions();
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->multiple ? $this->name . '[]' : $this->name ,
 			'multiple'	=> $this->multiple ? ' multiple="multiple"' : '',
 			'size'		=> $this->multiple ? ' size="' . $this->size . '"' : '',
 			'options'	=> $optionsStr,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 
 	public function RenderControlOptions () {
@@ -120,11 +120,11 @@ class Select
 		if ($this->nullOptionText !== NULL && strlen((string) $this->nullOptionText) > 0) {
 			// advanced configuration with key, text, css class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced(
-				'', array(
+				'', [
 					'value' => '',
 					'text' => $this->nullOptionText,
-					'attrs' => array('disabled' => 'disabled')
-				), $valueTypeIsArray
+					'attrs' => ['disabled' => 'disabled']
+				], $valueTypeIsArray
 			);
 		}
 		foreach ($this->options as $key => & $value) {
@@ -150,13 +150,13 @@ class Select
 			? in_array($key, $this->value)
 			: $this->value === $key ;
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->option, array(
+		return $formViewClass::Format(static::$templates->option, [
 			'value'		=> $key,
 			'selected'	=> $selected ? ' selected="selected"' : '',
 			'text'		=> $value,
 			'class'		=> '', // to fill prepared template control place for attribute class with empty string
 			'attrs'		=> '', // to fill prepared template control place for other attributes with empty string
-		));
+		]);
 	}
 
 	protected function renderControlOptionsGroup (& $optionsGroup, $valueTypeIsArray) {
@@ -182,12 +182,12 @@ class Select
 		$attrsStr = isset($optionsGroup['attrs']) 
 			? ' ' . $formViewClass::RenderAttrs($optionsGroup['attrs']) 
 			: '';
-		return $formViewClass::Format(static::$templates->optionsGroup, array(
+		return $formViewClass::Format(static::$templates->optionsGroup, [
 			'options'	=> $optionsStr,
 			'label'		=> ' label="' . $label. '"',
 			'class'		=> $classStr,
 			'attrs'		=> $attrsStr
-		));
+		]);
 	}
 
 	protected function renderControlOptionsAdvanced ($key, $option, $valueTypeIsArray) {
@@ -204,12 +204,12 @@ class Select
 		$attrsStr = isset($option['attrs']) 
 			? ' ' . $formViewClass::RenderAttrs($option['attrs']) 
 			: '';
-		return $formViewClass::Format(static::$templates->option, array(
+		return $formViewClass::Format(static::$templates->option, [
 			'value'		=> $value,
 			'selected'	=> $selected ? ' selected="selected"' : '',
 			'class'		=> $classStr,
 			'attrs'		=> $attrsStr,
 			'text'		=> $option['text'],
-		));
+		]);
 	}
 }

@@ -114,7 +114,7 @@ trait SetMethods
 	 * @param array $attributes
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetAttributes (array $attributes = array()) {
+	public function & SetAttributes (array $attributes = []) {
 		$this->attributes = $attributes;
 		return $this;
 	}
@@ -186,12 +186,12 @@ trait SetMethods
 	/**
 	 * Set form submit result state. Submit could have two basic values (or three values - for next step):
 	 * `NULL` - No `Submit()` method has been called yet.
-	 * `0`    - Submit has errors. User will be redirected after submit to error url.
-	 *          `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1`    - Submit was successfull. User will be redirected after submit to success url.
-	 *          `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2`    - Submit was successfull. User will be redirected after submit to next step url.
-	 *          `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
+	 * `0`	- Submit has errors. User will be redirected after submit to error url.
+	 *		  `\MvcCore\Ext\Form::RESULT_ERRORS`
+	 * `1`	- Submit was successfull. User will be redirected after submit to success url.
+	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
+	 * `2`	- Submit was successfull. User will be redirected after submit to next step url.
+	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
 	 * @param int|NULL $result
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -239,7 +239,7 @@ trait SetMethods
 	 * @param bool  $clearPreviousSessionValues If `TRUE`, clear all previous data records for this form from session.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetValues (array $values = array(), $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
+	public function & SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
 		if ($this->dispatchState < 1) $this->Init();
 		if ($clearPreviousSessionValues) $this->ClearSession();
 		$defaultsKeys = $caseInsensitive
@@ -281,12 +281,12 @@ trait SetMethods
 	 * @param array $errorsCollection
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetErrors ($errorsCollection = array()) {
-		$this->errors = array();
+	public function & SetErrors ($errorsCollection = []) {
+		$this->errors = [];
 		foreach ($errorsCollection as $errorMsgAndFieldNames) {
 			list ($errorMsg, $fieldNames) = $errorMsgAndFieldNames;
 			$this->AddError(
-				$errorMsg, is_array($fieldNames) ? $fieldNames : array($fieldNames)
+				$errorMsg, is_array($fieldNames) ? $fieldNames : [$fieldNames]
 			);
 		}
 		return $this;
@@ -369,8 +369,8 @@ trait SetMethods
 	 * @param array $jsFilesClassesAndConstructorParams
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = array()) {
-		$this->jsSupportFiles = array();
+	public function & SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = []) {
+		$this->jsSupportFiles = [];
 		foreach ($jsRelPathsClassNamesAndParams as $jsRelPathClassNameAndParams) {
 			list ($jsRelativePath, $jsClassName, $constructorParams) = $jsRelPathClassNameAndParams;
 			$this->AddJsSupportFile($jsRelativePath, $jsClassName, $constructorParams);
@@ -388,8 +388,8 @@ trait SetMethods
 	 * @param array $cssRelativePaths
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetCssSupportFiles (array $cssRelativePaths = array()) {
-		$this->cssSupportFiles = array();
+	public function & SetCssSupportFiles (array $cssRelativePaths = []) {
+		$this->cssSupportFiles = [];
 		foreach ($cssRelativePaths as $cssRelativePath)
 			$this->AddCssSupportFile($cssRelativePath);
 		return $this;
@@ -464,8 +464,8 @@ trait SetMethods
 	 * @param \string[] $validatorsNamespaces
 	 * @return int New validators namespaces count.
 	 */
-	public static function & SetValidatorsNamespaces (array $validatorsNamespaces = array()) {
-		static::$validatorsNamespaces = array();
+	public static function & SetValidatorsNamespaces (array $validatorsNamespaces = []) {
+		static::$validatorsNamespaces = [];
 		return static::AddValidatorsNamespaces($validatorsNamespaces);
 	}
 }

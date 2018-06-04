@@ -213,7 +213,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetControlAttrs (array $attrs = array()) {
+	public function & SetControlAttrs (array $attrs = []) {
 		$this->controlAttrs = & $attrs;
 		return $this;
 	}
@@ -253,7 +253,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & AddControlAttrs (array $attrs = array()) {
+	public function & AddControlAttrs (array $attrs = []) {
 		$this->controlAttrs = array_merge($this->controlAttrs, $attrs);
 		return $this;
 	}
@@ -273,7 +273,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelAttrs (array $attrs = array()) {
+	public function & SetLabelAttrs (array $attrs = []) {
 		$this->labelAttrs = & $attrs;
 		return $this;
 	}
@@ -312,7 +312,7 @@ trait Setters
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & AddLabelAttrs (array $attrs = array()) {
+	public function & AddLabelAttrs (array $attrs = []) {
 		$this->labelAttrs = array_merge($this->labelAttrs, $attrs);
 		return $this;
 	}
@@ -332,9 +332,9 @@ trait Setters
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetValidators (array $validatorsNamesOrInstances = array()) {
-		$this->validators = array();
-		return call_user_func_array(array($this, 'AddValidators'), $validatorsNamesOrInstances);
+	public function & SetValidators (array $validatorsNamesOrInstances = []) {
+		$this->validators = [];
+		return call_user_func_array([$this, 'AddValidators'], $validatorsNamesOrInstances);
 	}
 
 	/**
@@ -530,7 +530,7 @@ trait Setters
 	 * @param array|\stdClass $templates 
 	 * @return array
 	 */
-	public static function SetTemplates ($templates = array()) {
+	public static function SetTemplates ($templates = []) {
 		return static::$templates = (array) $templates;
 	}
 }

@@ -36,8 +36,8 @@ trait FieldMethods
 	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetFields ($fields = array()) {
-		$this->fields = array();
+	public function & SetFields ($fields = []) {
+		$this->fields = [];
 		foreach ($fields as & $field)
 			$this->AddField($field);
 		return $this;
@@ -130,7 +130,7 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]|array
 	 */
 	public function & GetFieldsByType ($fieldType = '') {
-		$result = array();
+		$result = [];
 		foreach ($this->fields as & $field) {
 			if ($field->GetType() == $fieldType)
 				$result[$field->GetName()] = $field;
@@ -148,7 +148,7 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]|array
 	 */
 	public function & GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
-		$result = array();
+		$result = [];
 		foreach ($this->fields as & $field) {
 			if (is_a($field, $fieldClassName)) {
 				if ($directTypesOnly)

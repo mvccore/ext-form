@@ -16,12 +16,26 @@ namespace MvcCore\Ext\Forms\Validators;
 class Tel extends \MvcCore\Ext\Forms\Validator
 {
 	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_PHONE = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_PHONE	=> "Field '{0}' requires a valid phone number.",
+	];
+
+	/**
 	 * Validate phone number only by removing all other characters than digits and plus.
 	 * To validate phone number realy deeply - use zend validator instead:
 	 * @see https://github.com/zendframework/zend-i18n
 	 * @see https://github.com/zendframework/zend-i18n/blob/master/src/Validator/PhoneNumber.php
 	 * @see https://olegkrivtsov.github.io/using-zend-framework-3-book/html/en/Checking_Input_Data_with_Validators/Validator_Usage_Examples.html#Example
-	 * @param string|array			$submitValue
+	 * @param string|array			$rawSubmittedValue
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
@@ -34,7 +48,7 @@ class Tel extends \MvcCore\Ext\Forms\Validator
 		// add error if result is an emptry string or if there was any other characters than numbers and plus.
 		if (!$resultLength || ($resultLength && $resultLength !== mb_strlen($rawSubmittedValue))) {
 			$this->field->AddValidationError(
-				 $this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::PHONE)	
+				 static::GetErrorMessage(self::ERROR_PHONE)	
 			);
 		}
 		return $result;

@@ -119,12 +119,12 @@ trait Rendering
 			: static::$templates->togetherLabelRight;
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
-		$result = $formViewClass::Format($template, array(
+		$result = $formViewClass::Format($template, [
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
@@ -142,13 +142,13 @@ trait Rendering
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 
 	/**
@@ -160,11 +160,11 @@ trait Rendering
 			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->label, array(
+		return $formViewClass::Format(static::$templates->label, [
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 
 	/**
@@ -205,7 +205,7 @@ trait Rendering
 	 * @param string[] $fieldVars
 	 * @return string
 	 */
-	protected function renderLabelAttrsWithFieldVars ($fieldVars = array()) {
+	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->labelAttrs, $this->cssClasses
 		);
@@ -223,7 +223,7 @@ trait Rendering
 	 * @param string[] $fieldVars
 	 * @return string
 	 */
-	protected function renderControlAttrsWithFieldVars ($fieldVars = array()) {
+	protected function renderControlAttrsWithFieldVars ($fieldVars = []) {
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
 		);
@@ -247,19 +247,19 @@ trait Rendering
 	 * @return string
 	 */
 	protected function renderAttrsWithFieldVars (
-		$fieldVars = array(), 
-		$fieldAttrs = array(), 
-		$cssClasses = array(), 
+		$fieldVars = [], 
+		$fieldAttrs = [], 
+		$cssClasses = [], 
 		$controlRendering = FALSE
 	) {
-		$attrs = array();
+		$attrs = [];
 		foreach ($fieldVars as $fieldName) {
 			if ($this->$fieldName !== NULL) {
 				$attrName = strtolower($fieldName);
 				$attrs[$attrName] = $this->$fieldName;
 			}
 		}
-		$boolFieldVars = array('disabled', 'readOnly', 'required');
+		$boolFieldVars = ['disabled', 'readOnly', 'required'];
 		foreach ($boolFieldVars as $fieldName) {
 			if ($this->$fieldName) {
 				$attrName = strtolower($fieldName);

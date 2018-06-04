@@ -18,5 +18,5 @@ interface ISubmit
 	/**
 	 * @var int|NULL
 	 */
-    public function GetCustomResultState ();
+	public function GetCustomResultState ();
 }

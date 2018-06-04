@@ -13,18 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-require_once(__DIR__.'/../../Form.php');
-require_once(__DIR__.'/../Core/Validator.php');
-require_once(__DIR__.'/../Core/Field.php');
-require_once(__DIR__.'/../Core/View.php');
-
-use
-	MvcCore\Ext\Form,
-	MvcCore\Ext\Form\Core;
-
 class Date extends \MvcCore\Ext\Forms\Validator
 {
-	public static $ErrorMessagesformatReplacements = array(
+	use \MvcCore\Ext\Forms\Field\Attrs\Format;
+
+	protected static $errorMessagesFormatReplacements = [
 		'd' => 'dd',
 		'j' => 'd',
 		'D' => 'Mon-Sun',
@@ -44,18 +37,44 @@ class Date extends \MvcCore\Ext\Forms\Validator
 		'i' => '00-59',
 		's' => '00-59',
 		'u' => '0-999999',
-	);
+	];
+
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * This method is also called once, when validator instance is separately 
+	 * added into already created field instance to process any field checking.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		parent::SetField($field);
+		$fieldImplementsFormat = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\Format;
+		if ($this->format && $fieldImplementsFormat && !$field->GetFormat()) {
+			// if this validator is added into field as instance - check field if it has format attribute defined:
+			$field->SetPattern($this->pattern);
+		} else if (!$this->format && $fieldImplementsFormat && $field->GetFormat()) {
+			// if validator is added as string - get format property from field:
+			$this->format = $field->GetFormat();
+		} else {
+			$this->throwNewInvalidArgumentException(
+				'No `format` property defined in current validator or in field.'	
+			);
+		}
+		return $this;
+	}
+
+
 	public function Validate ($rawSubmittedValue) {
-		$submitValue = trim($submitValue);
+		$rawSubmittedValue = trim($rawSubmittedValue);
+		$safeValue = preg_replace('#[^a-zA-Z0-9\:\.\-\,/ ]#', '', $rawSubmittedValue);
 
-		$safeValue = preg_replace("#[^a-zA-Z0-9\:\.\-\,/ ]#", '', $submitValue);
+		$dateObj = @\DateTime::createFromFormat($this->format, $safeValue);
 
-		$dateObj = @\DateTime::createFromFormat($field->Format, $safeValue);
-
-		if ($dateObj === FALSE || mb_strlen($safeValue) !== mb_strlen($submitValue)) {
+		if ($dateObj === FALSE || mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue)) {
 			$this->addError($field, Form::$DefaultMessages[Form::DATE], function ($msg, $args) use (& $field) {
 				$format = $args->Format;
-				foreach (Date::$ErrorMessagesformatReplacements as $key => $value) {
+				foreach (static::$errorMessagesFormatReplacements as $key => $value) {
 					$format = str_replace($key, $value, $format);
 				}
 				$args[] = $format;

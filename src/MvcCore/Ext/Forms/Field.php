@@ -20,14 +20,14 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	use \MvcCore\Ext\Forms\Field\Setters;
 	use \MvcCore\Ext\Forms\Field\Rendering;
 	
-    /**
-     * Create new form control instance.
-     * @param array $cfg config array with camel case
+	/**
+	 * Create new form control instance.
+	 * @param array $cfg config array with camel case
 	 *					 public properties and its values which you want to configure.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
-     */
-    public function __construct ($cfg = array()) {
+	 */
+	public function __construct ($cfg = []) {
 		static::$templates = (object) static::$templates;
 		foreach ($cfg as $propertyName => $propertyValue) {
 			if (in_array($propertyName, static::$declaredProtectedProperties)) {
@@ -36,11 +36,11 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 					.'to configure by constructor `$config` param.'
 				);
 			} else if ($propertyName == 'validators') {
-				$this->validators = array();
+				$this->validators = [];
 				if (is_string($propertyValue)) {
 					$this->AddValidators($propertyValue);
 				} else {
-					call_user_func_array(array($this, 'AddValidators'), $propertyValue);
+					call_user_func_array([$this, 'AddValidators'], $propertyValue);
 				}
 			} else {
 				$this->{$propertyName} = $propertyValue;
@@ -60,7 +60,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException
 	 * @return mixed|\MvcCore\Ext\Forms\Field
 	 */
-	public function __call ($name, $arguments = array()) {
+	public function __call ($name, $arguments = []) {
 		$nameBegin = strtolower(substr($name, 0, 3));
 		$prop = lcfirst(substr($name, 3));
 		if ($nameBegin == 'get' && isset($this->$prop)) {
@@ -110,10 +110,10 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		);
 		$this->form = & $form;
 		if ($this->id === NULL)
-			$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, array(
+			$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, [
 				$form->GetId(),
 				$this->name
-			));
+			]);
 		// if there is no specific required boolean - set required boolean by form
 		$this->required = $this->required === NULL 
 			? $form->GetDefaultRequired()
@@ -162,7 +162,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @param array $rawRequestParams 
 	 * @return string|int|array|NULL
 	 */
-	public function Submit (array & $rawRequestParams = array()) {
+	public function Submit (array & $rawRequestParams = []) {
 		$result = NULL;
 		$fieldName = $this->name;
 		if ($this->readOnly || $this->disabled) {
@@ -237,7 +237,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 */
 	public function AddValidationError (
 		$errorMsg = '', array 
-		$errorMsgArgs = array(), 
+		$errorMsgArgs = [], 
 		callable $replacingCallable = NULL
 	) {
 		$customReplacing = $replacingCallable !== NULL;

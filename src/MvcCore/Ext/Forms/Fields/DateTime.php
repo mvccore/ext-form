@@ -19,5 +19,5 @@ class DateTime extends Date
 
 	protected $format = 'Y-m-d\TH:i';
 
-	protected $validators = array('Date');
+	protected $validators = ['Date'];
 }

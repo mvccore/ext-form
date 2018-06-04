@@ -13,33 +13,50 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility - Validate raw user input. Parse integer value if possible by `Intl` extension 
+					or try to determinate floating point automaticly ant then parse to int and 
+					return `int` or `NULL`.
+ */
 class Integer extends \MvcCore\Ext\Forms\Validators\Number
 {
 	/**
-	 * Validate numeric raw user input. Parse numeric value by locale conventions
-	 * and check if number is integer.
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_INT = 0;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_INT	=> "Field '{0}' requires a valid integer.",
+	];
+
+	/**
+	 * Validate raw user input. Parse integer value if possible by `Intl` extension 
+	 * or try to determinate floating point automaticly ant then parse to int and return `int` or `NULL`.
 	 * @param string|array			$submitValue Raw user input.
-	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 * @return int|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$result = $this->getNumericValue($rawSubmittedValue);
+		$result = $this->parseFloat((string)$rawSubmittedValue);
 		if ($result === NULL) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INTEGER)	
+				static::GetErrorMessage(self::ERROR_INT)
 			);
 			return NULL;
 		} else {
-			$resultFloat = floatval($result);
-			$resultIntFloat = floatval(intval($result));
-			if ($resultFloat !== $resultIntFloat) {
+			$resultInt = intval($result);
+			if ($result !== floatval($resultInt)) {
 				$this->field->AddValidationError(
-					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::INTEGER)	
+					static::GetErrorMessage(self::ERROR_INT)
 				);
 				return NULL;
 			} else {
-				$result = intval($result);
+				return $resultInt;
 			}
 		}
-		return $result;
 	}
 }

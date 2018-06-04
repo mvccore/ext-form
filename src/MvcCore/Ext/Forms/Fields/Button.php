@@ -23,11 +23,11 @@ class Button extends \MvcCore\Ext\Forms\Field
 
 	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 
-	public static $templates = array(
+	public static $templates = [
 		'control'	=> '<button id="{id}" name="{name}" type="{type}"{attrs}>{value}</button>',
-	);
+	];
 
-	public function __construct(array $cfg = array()) {
+	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
 			(array) parent::$templates, 
@@ -51,15 +51,15 @@ class Button extends \MvcCore\Ext\Forms\Field
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			array('accessKey',)
+			['accessKey',]
 		);
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, array(
+		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
-		));
+		]);
 	}
 }

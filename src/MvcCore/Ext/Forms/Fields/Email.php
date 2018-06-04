@@ -17,5 +17,5 @@ class Email extends Text
 {
 	protected $type = 'email';
 
-	protected $validators = array('Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/);
+	protected $validators = ['Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/];
 }

@@ -28,7 +28,7 @@ class Range extends \MvcCore\Ext\Forms\Validators\Number
 			$rawSubmitValues = is_array($rawSubmittedValue) 
 				? $rawSubmittedValue 
 				: explode(',', (string) $rawSubmittedValue);
-			$result = array();
+			$result = [];
 			foreach ($rawSubmitValues as $rawSubmitValue) 
 				$result[] = parent::Validate($rawSubmitValue);
 			return $result;

@@ -139,7 +139,7 @@ trait Rendering
 		$jsFiles = $this->completeSupportingFilesToRender(TRUE);
 		if (!$jsFiles) return '';
 		$jsFilesContent = '';
-		$fieldsConstructors = array();
+		$fieldsConstructors = [];
 		$useExternalRenderer = is_callable($this->jsSupportFilesRenderer);
 		if (!isset(self::$allJsSupportFiles[$this->jsBaseSupportFile])) {
 			$this->jsBaseSupportFile = $this->absolutizeAssetPath($this->jsBaseSupportFile, 'js');
@@ -184,9 +184,9 @@ trait Rendering
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	protected function cleanSessionErrorsAfterRender () {
-		$this->errors = array();
+		$this->errors = [];
 		$session = & $this->getSession();
-		$session->errors = array();
+		$session->errors = [];
 		return $this;
 	}
 }

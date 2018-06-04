@@ -21,13 +21,13 @@ class RadioGroup
 
 	protected $value = '';
 
-	protected $validators = array('ValueInOptions');
+	protected $validators = ['ValueInOptions'];
 	
 	public function GetMultiple () {
 		return FALSE;
 	}
 
-	public function __construct(array $cfg = array()) {
+	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
 			(array) parent::$templates, 

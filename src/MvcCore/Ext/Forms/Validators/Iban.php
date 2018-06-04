@@ -25,17 +25,17 @@ class Iban extends \MvcCore\Ext\Forms\Validator
 	 * The SEPA country codes.
 	 * @var array<ISO 3166-1>
 	 */
-	protected static $sepaCountries = array(
+	protected static $sepaCountries = [
 		'AT', 'BE', 'BG', 'CY', 'CZ', 'DK', 'FO', 'GL', 'EE', 'FI', 'FR', 'DE',
 		'GI', 'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC',
 		'NL', 'NO', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'CH', 'GB', 'SM',
 		'HR',
-	);
+	];
 	/**
 	 * IBAN regexes by country code.
 	 * @var array
 	 */
-	protected static $ibanRegex = array(
+	protected static $ibanRegex = [
 		'AD' => 'AD[0-9]{2}[0-9]{4}[0-9]{4}[A-Z0-9]{12}',
 		'AE' => 'AE[0-9]{2}[0-9]{3}[0-9]{16}',
 		'AL' => 'AL[0-9]{2}[0-9]{8}[A-Z0-9]{16}',
@@ -101,7 +101,7 @@ class Iban extends \MvcCore\Ext\Forms\Validator
 		'TN' => 'TN59[0-9]{2}[0-9]{3}[0-9]{13}[0-9]{2}',
 		'TR' => 'TR[0-9]{2}[0-9]{5}[A-Z0-9]{1}[A-Z0-9]{16}',
 		'VG' => 'VG[0-9]{2}[A-Z]{4}[0-9]{16}',
-	);
+	];
 
 	/**
 	 * Returns the optional allow non-sepa countries setting.
@@ -135,25 +135,25 @@ class Iban extends \MvcCore\Ext\Forms\Validator
 		if (!isset(static::$ibanRegex[$localeCode])) {
 			$this->field->AddValidationError(
 				'IBAN number validation not supported (field `{0}`, locale: `{1}`).',
-				array($localeCode)
+				[$localeCode]
 			);
 		} else if (!$this->allowNonSepa && !in_array($localeCode, static::$sepaCountries)) {
 			$this->field->AddValidationError(
 				'Non SEPA countries not allowed for IBAN number validation (field `{0}`, locale: `{1}`).',
-				array($localeCode)
+				[$localeCode]
 			);
 		} else if (!@preg_match('#^' . static::$ibanRegex[$localeCode] . '$#', $rawSubmittedValue)) {
 			$this->field->AddValidationError(
 				'IBAN number validator has wrong format (field `{0}`, locale: `{1}`).',
-				array($localeCode)
+				[$localeCode]
 			);
 		} else {
 			$format = substr($rawSubmittedValue, 4) . substr($rawSubmittedValue, 0, 4);
 			$format = str_replace(
-				array('A',  'B',  'C',  'D',  'E',  'F',  'G',  'H',  'I',  'J',  'K',  'L',  'M',
-					  'N',  'O',  'P',  'Q',  'R',  'S',  'T',  'U',  'V',  'W',  'X',  'Y',  'Z'),
-				array('10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
-					  '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35'),
+				['A',  'B',  'C',  'D',  'E',  'F',  'G',  'H',  'I',  'J',  'K',  'L',  'M',
+					  'N',  'O',  'P',  'Q',  'R',  'S',  'T',  'U',  'V',  'W',  'X',  'Y',  'Z'],
+				['10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
+					  '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35'],
 				$format
 			);
 			$temp = intval(substr($format, 0, 1));
@@ -166,7 +166,7 @@ class Iban extends \MvcCore\Ext\Forms\Validator
 			if ($temp != 1) {
 				$this->field->AddValidationError(
 					'IBAN number validator failed (field `{0}`, locale: `{1}`).',
-					array($localeCode)
+					[$localeCode]
 				);
 			} else {
 				$result = $rawSubmittedValue;

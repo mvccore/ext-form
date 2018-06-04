@@ -23,7 +23,7 @@ trait Assets
 	 * @return array
 	 */
 	protected function completeSupportingFilesToRender ($javascriptFiles = TRUE) {
-		$files = array();
+		$files = [];
 		if ($javascriptFiles) {
 			$instanceCollection = & $this->jsSupportFiles;
 			$staticCollection = & self::$allJsSupportFiles;
@@ -62,8 +62,8 @@ trait Assets
 			? static::$jsSupportFilesRootDir 
 			: static::$cssSupportFilesRootDir;
 		return str_replace(
-			array(\MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'),
-			array($assetsRootDir, '/'),
+			[\MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'],
+			[$assetsRootDir, '/'],
 			$supportingFileRelPath
 		);
 	}

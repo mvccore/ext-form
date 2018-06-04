@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Props
 {
 	/************************************************************************************************
-	*                                    Configurable Properties                                    *
+	*									Configurable Properties									*
 	************************************************************************************************/
 
 	/**
@@ -132,7 +132,7 @@ trait Props
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * @var array
 	 */
-	protected $cssClasses = array();
+	protected $cssClasses = [];
 	
 	/**
 	 * Collection with field HTML element 
@@ -147,7 +147,7 @@ trait Props
 	 * render any additional attributes.
 	 * @var array
 	 */
-	protected $controlAttrs = array();
+	protected $controlAttrs = [];
 	
 	/**
 	 * Collection with `<label>` HTML element 
@@ -161,7 +161,7 @@ trait Props
 	 * array to not render any additional attributes.
 	 * @var array
 	 */
-	protected $labelAttrs = array();
+	protected $labelAttrs = [];
 	
 	/**
 	 * List of predefined validator classes ending names or validator instances.
@@ -178,7 +178,7 @@ trait Props
 	 * validator you want and replace them.
 	 * @var \string[]|\MvcCore\Ext\Forms\IValidator[]
 	 */
-	protected $validators = array();
+	protected $validators = [];
 	
 	/**
 	 * Boolean `TRUE` or string with template relative path 
@@ -269,16 +269,16 @@ trait Props
 	 * for natural (not customized) field rendering.
 	 * @var \stdClass
 	 */
-	protected static $templates = array(
+	protected static $templates = [
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
 		'control'			=> '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
-	);
+	];
 
 
 	/************************************************************************************************
-	*                                      Internal Properties                                      *
+	*									  Internal Properties									  *
 	************************************************************************************************/
 
 	/**
@@ -286,7 +286,7 @@ trait Props
 	 * Main errors collection is stored inside form instance.
 	 * @var \string[]
 	 */
-	protected $errors = array();
+	protected $errors = [];
 
 	/**
 	 * Internal boolean flag about field visible texts and error messages translation.
@@ -314,7 +314,7 @@ trait Props
 	 * to configure throught field constructor config array.
 	 * @var \string[]
 	 */
-	protected static $declaredProtectedProperties = array(
+	protected static $declaredProtectedProperties = [
 		'view', 'form', 'translate', 'errors'
-	);
+	];
 }

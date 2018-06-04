@@ -46,7 +46,7 @@ trait Csrf
 	public function GetCsrf () {
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf;
-		return (object) array('name' => $name, 'value' => $value);
+		return (object) ['name' => $name, 'value' => $value];
 	}
 
 	/**
@@ -57,12 +57,12 @@ trait Csrf
 	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function SubmitCsrfTokens (array & $rawRequestParams = array()) {
+	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
 		$result = FALSE;
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf 
 			? $session->csrf : 
-			array(NULL, NULL);
+			[NULL, NULL];
 		if ($name !== NULL && $value !== NULL)
 			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value)
 				$result = TRUE;
@@ -88,7 +88,7 @@ trait Csrf
 		$name = '____'.sha1($this->id . $requestUrl . 'name' . $nowTime . $randomHash);
 		$value = sha1($this->id . $requestUrl . 'value' . $nowTime . $randomHash);
 		$session = & $this->getSession();
-		$session->csrf = array($name, $value);
-		return array($name, $value);
+		$session->csrf = [$name, $value];
+		return [$name, $value];
 	}
 }

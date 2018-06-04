@@ -20,7 +20,7 @@ trait GroupLabelAttrs
 	 * as key (for attribute name) and value (for attribute value).
 	 * @var string[]
 	 */
-	protected $groupLabelAttrs = array();
+	protected $groupLabelAttrs = [];
 
 	/**
 	 * Get any additional attributes for group label, defined
@@ -38,7 +38,7 @@ trait GroupLabelAttrs
 	 * @param $groupLabelAttrs string[]
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function & SetGroupLabelAttrs ($groupLabelAttrs = array()) {
+	public function & SetGroupLabelAttrs ($groupLabelAttrs = []) {
 		$this->groupLabelAttrs = $groupLabelAttrs;
 		return $this;
 	}
@@ -50,7 +50,7 @@ trait GroupLabelAttrs
 	 * with previous values and new values.
 	 * @var string[]
 	 */
-	public function AddGroupLabelAttr ($attr = array()) {
+	public function AddGroupLabelAttr ($attr = []) {
 		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $attr);
 		return $this;
 	}
