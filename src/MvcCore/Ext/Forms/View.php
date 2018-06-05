@@ -20,6 +20,11 @@ class View extends \MvcCore\View
 	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm|NULL
 	 */
 	protected $form = NULL;
+	/**
+	 * Rendered form field reference if view is not form's view.
+	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
+	 */
+	protected $field = NULL;
 
 	/**
 	 * Controller view instance reference, which form belongs to.
@@ -144,6 +149,24 @@ class View extends \MvcCore\View
 		$this->form = & $form;
 		return $this;
 	}
+	
+	/**
+	 * Get rendered field.
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & GetField () {
+		return $this->field;
+	}
+	
+	/**
+	 * Set rendered field.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
+	 * @return \MvcCore\Ext\Forms\View
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		$this->field = & $field;
+		return $this;
+	}
 
 	/**
 	 * Call public field method if exists under called name or try to call any parent view helper.
@@ -199,9 +222,11 @@ class View extends \MvcCore\View
 			if ($formPropertyValue) 
 				$attrs[$property] = $formPropertyValue;
 		}
-		$formCssClass = $form->GetCssClass();
-		if ($formCssClass) 
-			$attrs['class'] = $formCssClass;
+		$formCssClasses = $form->GetCssClasses();
+		if ($formCssClasses) 
+			$attrs['class'] = gettype($formCssClasses) == 'array'
+				? implode(' ', $formCssClasses)
+				: $formCssClasses;
 		foreach ($form->GetAttributes() as $key => $value) {
 			if (!in_array($key, $formProperties)) 
 				$attrs[$key] = $value;
@@ -310,8 +335,10 @@ class View extends \MvcCore\View
 	 */
 	public static function RenderAttrs (array $atrributes = []) {
 		$result = [];
-		foreach ($atrributes as $attrName => $attrValue)
+		foreach ($atrributes as $attrName => $attrValue) {
+			if (gettype($attrValue) == 'array') $stop();
 			$result[] = $attrName.'="'.$attrValue.'"';
+		}
 		return implode(' ', $result);
 	}
 }

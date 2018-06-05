@@ -23,7 +23,7 @@ trait Format
 	 * @see http://php.net/manual/en/function.date.php
 	 * @var string
 	 */
-	protected $format = NULL;
+	#protected $format = NULL;
 	
 	/**
 	 * Get string format mask to format given values in `Intl` extension `\DateTimeInterface` type

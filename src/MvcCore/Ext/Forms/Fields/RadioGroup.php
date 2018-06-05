@@ -17,6 +17,8 @@ class RadioGroup
 	extends \MvcCore\Ext\Forms\Field 
 	implements \MvcCore\Ext\Forms\Fields\IOptions
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\Options;
+
 	protected $type = 'radio';
 
 	protected $value = '';

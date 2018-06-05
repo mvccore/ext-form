@@ -93,15 +93,19 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form html element css class(es) attribute value.
-	 * To specify more css classes - add more strings separated by space
-	 * and overwrite any previous css class attribute value. Value is used for
-	 * standard css class attribute for HTML `<form>` tag.
-	 * @param string $cssClass
+	 * Set form HTML element css classes strings.
+	 * All previously defined css classes will be removed.
+	 * Default value is an empty array to not render HTML `class` attribute.
+	 * You can define css classes as single string, more classes separated 
+	 * by space or you can define css classes as array with strings.
+	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetCssClass ($cssClass = '') {
-		$this->cssClass = $cssClass;
+	public function & SetCssClasses ($cssClasses) {
+		$cssClassesArr = gettype($cssClasses) == 'array'
+			? $cssClasses
+			: explode(' ', (string) $cssClasses);
+		$this->cssClasses = $cssClassesArr;
 		return $this;
 	}
 
@@ -363,7 +367,7 @@ trait SetMethods
 	 * If you want only to add javascript support file, call method:
 	 * `$form->AddJsSupportFile($jsRelativePath, $jsClassName, $constructorParams);` instead.
 	 * Every record in given `$jsPathsClassNamesAndParams` array has to be defined as array with:
-	 *	 `0` - `string` - Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.
+	 *	 `0` - `string` - Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 *	 `1` - `string` - Supporting javascript full class name inside supporting file.
 	 *	 `2` - `array`  - Supporting javascript constructor params.
 	 * @param array $jsFilesClassesAndConstructorParams
@@ -384,7 +388,7 @@ trait SetMethods
 	 * If you want only to add css support file, call method:
 	 * `$form->AddCssSupportFile($cssRelativePath);` instead.
 	 * Given `$cssRelativePaths` has to be array with supporting css file relative
-	 * paths from protected `$form->cssAssetsRootDir`.
+	 * paths from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @param array $cssRelativePaths
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */

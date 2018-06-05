@@ -51,6 +51,7 @@ class CheckboxGroup
 			// add minimal chosen options count validator
 		if ($this->maxOptionsCount > 0)
 			$this->validators[] = 'MaxOptions';
+		return $this;
 	}
 
 	public function PreDispatch () {
@@ -97,9 +98,10 @@ class CheckboxGroup
 					$this->maxOptionsClassName
 				]
 			);
+		return $this;
 	}
 
-	protected function renderControlItemCompleteAttrsClassesAndText ($key, $option) {
+	protected function renderControlItemCompleteAttrsClassesAndText ($key, & $option) {
 		$optionType = gettype($option);
 		$labelAttrsStr = '';
 		$controlAttrsStr = '';

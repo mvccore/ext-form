@@ -16,14 +16,19 @@ namespace MvcCore\Ext\Form;
 trait AddMethods
 {
 	/**
-	 * Add css class (or classes separated by space) and add new value(s)
-	 * after previous css class(es) attribute values. Value is used for
-	 * standard css class attribute for HTML `<form>` tag.
-	 * @param string $cssClass
+	 * Add css classes strings for HTML element attribute `class`.
+	 * Given css classes will be added after previously defined css classes.
+	 * Default value is an empty array to not render HTML `class` attribute.
+	 * You can define css classes as single string, more classes separated 
+	 * by space or you can define css classes as array with strings.
+	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddCssClass ($cssClass = '') {
-		$this->cssClass .= (strlen($this->cssClass) > 0 ? ' ' : '') . $cssClass;
+	public function & AddCssClasses ($cssClasses) {
+		$cssClassesArr = gettype($cssClasses) == 'array'
+			? $cssClasses
+			: explode(' ', (string) $cssClasses);
+		$this->cssClasses = array_merge($this->cssClasses, $cssClassesArr);
 		return $this;
 	}
 
@@ -60,7 +65,7 @@ trait AddMethods
 
 	/**
 	 * Add supporting javascript file.
-	 * @param string $jsRelativePath	Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.
+	 * @param string $jsRelativePath	Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 * @param string $jsClassName		Supporting javascript full class name inside supporting file.
 	 * @param array  $constructorParams	Supporting javascript constructor params.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -76,7 +81,7 @@ trait AddMethods
 
 	/**
 	 * Add supporting css file.
-	 * @param string $cssRelativePath Supporting css file relative path from protected `$form->cssAssetsRootDir`.
+	 * @param string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & AddCssSupportFile (

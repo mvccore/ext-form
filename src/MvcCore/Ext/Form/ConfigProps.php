@@ -73,9 +73,9 @@ trait ConfigProps
 	 * Form html element css class attribute value.
 	 * To specify more css classes - add more strings separated by space.
 	 * Value is used for standard css class attribute for HTML `<form>` tag.
-	 * @var string
+	 * @var \string[]
 	 */
-	protected $cssClass = '';
+	protected $cssClasses = [];
 
 	/**
 	 * Form html element additional attributes.
@@ -237,7 +237,7 @@ trait ConfigProps
 	/**
 	 * Supporting javascript files configuration.
 	 * Every record in `$jsSupportFiles` array has to be defined as array with:
-	 *	 `0` - `string` - Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.
+	 *	 `0` - `string` - Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 *	 `1` - `string` - Supporting javascript full class name inside supporting file.
 	 *	 `2` - `array`  - Supporting javascript constructor params.
 	 * @var array
@@ -247,7 +247,7 @@ trait ConfigProps
 	/**
 	 * Supporting css files configuration.
 	 * Array with supporting css relative paths from
-	 * protected `$form->cssAssetsRootDir` to add
+	 * protected `\MvcCore\Ext\Form::$cssAssetsRootDir` to add
 	 * into HTML response after form is rendered.
 	 * @var \string[]
 	 */

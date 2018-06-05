@@ -51,7 +51,7 @@ trait Assets
 	 * it's supporting css or js file with `absolute path replacement` inside supporting 
 	 * file path string by `__MVCCORE_FORM_ASSETS_DIR__` substring.
 	 * Replace now the replacement substring by prepared properties values 
-	 * `$form->jsAssetsRootDir` or `$form->cssAssetsRootDir` to set path into 
+	 * `\MvcCore\Ext\Form::$jsAssetsRootDir` or `\MvcCore\Ext\Form::$cssAssetsRootDir` to set path into 
 	 * library assets folder by default or to set path into any other customized defined directory.
 	 * @param string $supportingFileRelPath Supporting file relative path with `__MVCCORE_FORM_ASSETS_DIR__` replacement substring.
 	 * @param string $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.

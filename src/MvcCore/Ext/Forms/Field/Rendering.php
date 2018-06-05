@@ -50,7 +50,7 @@ trait Rendering
 			if ($prop->isProtected()) $prop->setAccessible(TRUE);
 			$this->_store[$prop->name] = $prop->getValue($this);
 		}
-		$view->field = $this;
+		$view->SetField($this);
 		return $view->Render(
 			$viewClass::GetFieldsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript

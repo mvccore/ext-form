@@ -144,7 +144,7 @@ trait Getters
 	}
 
 	/**
-	 * Get form field HTML element css classes strings.
+	 * Get form field HTML element css classes strings as array.
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * @return \string[]
 	 */

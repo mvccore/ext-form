@@ -24,6 +24,7 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	use \MvcCore\Ext\Form\Session;
 	use \MvcCore\Ext\Form\Csrf;
 	use \MvcCore\Ext\Form\Rendering;
+	use \MvcCore\Ext\Form\Assets;
 	use \MvcCore\Ext\Form\Submitting;
 
 

@@ -17,6 +17,8 @@ class Date extends \MvcCore\Ext\Forms\Validator
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Format;
 
+	protected $format = NULL;
+
 	protected static $errorMessagesFormatReplacements = [
 		'd' => 'dd',
 		'j' => 'd',
@@ -69,6 +71,7 @@ class Date extends \MvcCore\Ext\Forms\Validator
 		$rawSubmittedValue = trim($rawSubmittedValue);
 		$safeValue = preg_replace('#[^a-zA-Z0-9\:\.\-\,/ ]#', '', $rawSubmittedValue);
 
+		xxx($this);
 		$dateObj = @\DateTime::createFromFormat($this->format, $safeValue);
 
 		if ($dateObj === FALSE || mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue)) {

@@ -130,7 +130,7 @@ trait Props
 	/**
 	 * Form field HTML element css classes strings.
 	 * Default value is an empty array to not render HTML `class` attribute.
-	 * @var array
+	 * @var \string[]
 	 */
 	protected $cssClasses = [];
 	

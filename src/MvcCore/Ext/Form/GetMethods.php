@@ -82,14 +82,12 @@ trait GetMethods
 	}
 
 	/**
-	 * Get form html element css class(es) attribute value.
-	 * If form has defined more css classes, it's returned string with css classes
-	 * separated by space character. Value is used for
-	 * standard css class attribute for HTML `<form>` tag.
+	 * Get form field HTML element css classes strings as array.
+	 * Default value is an empty array to not render HTML `class` attribute.
 	 * @return string
 	 */
-	public function GetCssClass () {
-		return $this->cssClass;
+	public function & GetCssClasses () {
+		return $this->cssClasses;
 	}
 
 	/**
@@ -286,7 +284,7 @@ trait GetMethods
 	/**
 	 * Get supporting javascript files configuration.
 	 * Every record in returned array is an array with:
-	 *	 `0` - `string` - Supporting javascript file relative path from protected `$form->jsAssetsRootDir`.
+	 *	 `0` - `string` - Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 *	 `1` - `string` - Supporting javascript full class name inside supporting file.
 	 *	 `2` - `array`  - Supporting javascript constructor params.
 	 * @return array
@@ -297,7 +295,7 @@ trait GetMethods
 
 	/**
 	 * Get supporting css files configuration, an array with supporting
-	 * css file relative paths from protected `$form->cssAssetsRootDir`.
+	 * css file relative paths from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return array
 	 */
 	public function & GetCssSupportFiles () {

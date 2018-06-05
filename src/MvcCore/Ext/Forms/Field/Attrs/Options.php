@@ -128,7 +128,7 @@ trait Options
 					$allOptionsKeys[(string) $secondLevelKey] = TRUE;
 				}
 			} else {
-				$allOptionsKeys[(string) $firstLevelKey] = TRUE
+				$allOptionsKeys[(string) $firstLevelKey] = TRUE;
 			}
 		}
 		return array_keys($allOptionsKeys);

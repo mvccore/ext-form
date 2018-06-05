@@ -363,8 +363,10 @@ trait Setters
 				$validatorClassName = get_class($validatorNameOrInstance);
 			} else  {
 				return $this->throwNewInvalidArgumentException(
-				'Unknown validator type given: `' . $validatorNameOrInstance 
-					. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
+					$validatorNameOrInstance instanceof \Closure
+						? 'Unknown validator type given.'
+						: 'Unknown validator type given: `' . $validatorNameOrInstance
+						  .'`, type: `' . gettype($validatorNameOrInstance) . '`.'
 				);
 			}
 			$slashPos = strrpos($validatorClassName, '\\');
@@ -525,12 +527,33 @@ trait Setters
 	}
 
 	/**
-	 * Set fields (and labels) default templates 
-	 * for natural (not customized) field rendering.
+	 * Set field (or label) default template for natural
+	 * (not customized with `*.phtml` view) field rendering.
+	 * @param string $templateName Template name in array `static::$templates`.
+	 * @param string $templateCode Template HTML code with prepared replacements.
+	 * @return string Newly configured template value.
+	 */
+	public static function SetTemplate ($templateName = 'control', $templateCode = '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />') {
+		if (gettype(static::$templates) == 'array') {
+			static::$templates[$templateName] = $templateCode;
+		} else {
+			static::$templates->{$templateName} = $templateCode;
+		}
+		return $templateCode;
+	}
+
+	/**
+	 * Set fields (and labels) default templates for natural
+	 * (not customized with `*.phtml` view) field rendering.
 	 * @param array|\stdClass $templates 
 	 * @return array
 	 */
 	public static function SetTemplates ($templates = []) {
-		return static::$templates = (array) $templates;
+		if (gettype(static::$templates) == 'array') {
+			static::$templates = (array) $templates;
+		} else {
+			static::$templates = (object) $templates;
+		}
+		return static::$templates;
 	}
 }

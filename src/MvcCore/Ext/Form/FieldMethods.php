@@ -65,7 +65,8 @@ trait FieldMethods
 		/** @var $field \MvcCore\Ext\Forms\Field */
 		if ($this->dispatchState < 1) $this->Init();
 		$fieldName = $field->GetName();
-		$this->fields[$fieldName] = & $field->SetForm($this);
+		$field->SetForm($this);
+		$this->fields[$fieldName] = & $field;
 		if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
 			$this->submitFields[$fieldName] = & $field;
 			$fieldCustomResultState = $field->GetCustomResultState();

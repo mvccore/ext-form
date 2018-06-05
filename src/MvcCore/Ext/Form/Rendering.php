@@ -141,11 +141,11 @@ trait Rendering
 		$jsFilesContent = '';
 		$fieldsConstructors = [];
 		$useExternalRenderer = is_callable($this->jsSupportFilesRenderer);
-		if (!isset(self::$allJsSupportFiles[$this->jsBaseSupportFile])) {
-			$this->jsBaseSupportFile = $this->absolutizeAssetPath($this->jsBaseSupportFile, 'js');
-			self::$allJsSupportFiles[$this->jsBaseSupportFile] = TRUE;
+		if (!isset(self::$allJsSupportFiles[static::$jsBaseSupportFile])) {
+			$jsBaseSupportFile = $this->absolutizeSupportingFilePath(static::$jsBaseSupportFile, 'js');
+			self::$allJsSupportFiles[static::$jsBaseSupportFile] = TRUE;
 			$this->renderSupportingFile(
-				$jsFilesContent, $this->jsBaseSupportFile, 
+				$jsFilesContent, $jsBaseSupportFile, 
 				$useExternalRenderer, $this->jsSupportFilesRenderer 
 			);
 		}
