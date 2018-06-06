@@ -161,13 +161,20 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
 			->SetForm($this);
-		if ($this->viewScript)
+		if ($this->viewScript) {
 			$this->view
 				->SetController($this->parentController)
-				->SetView($this->parentController->GetView())
-				->SetUpValuesFromController($this->parentController, TRUE)
-				->SetUpValuesFromView($this->parentController->GetView(), TRUE)
-				->SetUpValuesFromController($this, TRUE);
+				->SetView($this->parentController->GetView());
+			if ($this->autoInitPropsInView > 0) 
+				$this->view->SetUpValuesFromController(
+					$this->parentController, TRUE, $this->autoInitPropsInView
+				);
+			$this->view->SetUpValuesFromView($this->parentController->GetView(), TRUE);
+			if ($this->autoInitPropsInView > 0) 
+				$this->view->SetUpValuesFromController(
+					$this, TRUE, $this->autoInitPropsInView
+				);
+		}
 		$this->dispatchState = 2;
 		return $this;
 	}

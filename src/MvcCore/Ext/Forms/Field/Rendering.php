@@ -39,16 +39,22 @@ trait Rendering
 		$view = $viewClass::CreateInstance()
 			->SetController($formParentController)
 			->SetView($formParentControllerView)
-			->SetForm($this->form)
-			->SetUpValuesFromController($formParentController, TRUE)
-			->SetUpValuesFromView($formParentControllerView, TRUE)
-			->SetUpValuesFromController($this->form, TRUE);
-		$type = new \ReflectionClass($this);
-		/** @var $props \ReflectionProperty[] */
-		$props = $type->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PROTECTED);
-		foreach ($props as $prop) {
-			if ($prop->isProtected()) $prop->setAccessible(TRUE);
-			$this->_store[$prop->name] = $prop->getValue($this);
+			->SetForm($this->form);
+		$autoInitPropsInView = $this->form->GetAutoInitPropsInView();
+		if ($autoInitPropsInView > 0) 
+			$view->SetUpValuesFromController($formParentController, TRUE, $autoInitPropsInView);
+		$view->SetUpValuesFromView($formParentControllerView, TRUE);
+		if ($autoInitPropsInView> 0) {
+			$view->SetUpValuesFromController($this->form, TRUE, $autoInitPropsInView);
+			$type = new \ReflectionClass($this);
+			/** @var $props \ReflectionProperty[] */
+			$props = $type->getProperties($autoInitPropsInView);
+			$viewProtectedProps = $viewClass::GetProtectedProperties();
+			foreach ($props as $prop) {
+				if (isset($viewProtectedProps[$prop->name])) continue;
+				if ($prop->isProtected() || $prop->isPrivate()) $prop->setAccessible(TRUE);
+				$view->{$prop->name} = $prop->getValue($this);
+			}
 		}
 		$view->SetField($this);
 		return $view->Render(
