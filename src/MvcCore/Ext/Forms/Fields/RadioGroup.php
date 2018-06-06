@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 class RadioGroup 
-	extends \MvcCore\Ext\Forms\Field 
+	extends \MvcCore\Ext\Forms\FieldsGroup 
 	implements \MvcCore\Ext\Forms\Fields\IOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;

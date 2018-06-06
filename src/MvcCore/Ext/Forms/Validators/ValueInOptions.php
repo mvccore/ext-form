@@ -48,7 +48,7 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IOptions) 
 			$this->throwNewInvalidArgumentException(
 				'If field has configured `ValueInOptions` validator, it has to implement '
-				.'interface `'.\MvcCore\Ext\Forms\Fields\IOptions::class.'`.'
+				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IOptions`.'
 			);
 		return parent::SetField($field);
 	}

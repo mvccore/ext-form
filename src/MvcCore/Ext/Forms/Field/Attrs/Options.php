@@ -59,7 +59,7 @@ trait Options
 	 * @requires
 	 * @var array
 	 */
-	protected $options = [];
+	#protected $options = [];
 
 	/**
 	 * Set form group control options to render
