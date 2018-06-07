@@ -35,17 +35,16 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 					'Property `'.$propertyName.'` is not possible '
 					.'to configure by constructor `$config` param.'
 				);
-			} else if ($propertyName == 'validators') {
-				$this->validators = [];
-				if (is_string($propertyValue)) {
-					$this->AddValidators($propertyValue);
-				} else {
-					call_user_func_array([$this, 'AddValidators'], $propertyValue);
-				}
 			} else {
 				$this->{$propertyName} = $propertyValue;
 			}
 		}
+		$validators = is_string($this->validators)
+			? [$this->validators]
+			: (is_array($this->validators)
+				? $this->validators
+				: [$this->validators]);
+		call_user_func([$this, 'SetValidators'], $validators);
 	}
 
 	/**

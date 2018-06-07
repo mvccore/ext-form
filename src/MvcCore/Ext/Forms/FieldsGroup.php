@@ -257,7 +257,7 @@ abstract class FieldsGroup extends Field
 	 * @param string|array $option
 	 * @return string
 	 */
-	public function RenderControlItem ($key, & $option) {
+	public function RenderControlItem ($key, $option) {
 		$result = '';
 		$itemControlId = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, [
 			$this->form->GetId(), $this->name, $key

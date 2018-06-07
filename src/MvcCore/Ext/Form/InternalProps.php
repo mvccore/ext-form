@@ -123,14 +123,6 @@ trait InternalProps
 		IError::EMPTY_CONTENT			=> "Sent data are empty.",
 		IError::CSRF					=> "Form hash expired, please submit the form again.",
 		
-		IError::DATE					=> "Field '{0}' requires a valid date format: '{1}'.",
-		IError::DATE_TO_LOW				=> "Field '{0}' requires date higher or equal to '{1}'.",
-		IError::DATE_TO_HIGH			=> "Field '{0}' requires date lower or equal to '{1}'.",
-		IError::TIME					=> "Field '{0}' requires a valid time format: '00:00 - 23:59'.",
-		IError::TIME_TO_LOW				=> "Field '{0}' requires time higher or equal to '{1}'.",
-		IError::TIME_TO_HIGH			=> "Field '{0}' requires time lower or equal to '{1}'.",
-		IError::DATETIME				=> "Field '{0}' requires a valid date time format: '{1}'.",
-		
 		IError::GREATER					=> "Field '{0}' requires a value equal or greater than {1}.",
 		IError::LOWER					=> "Field '{0}' requires a value equal or lower than {1}.",
 		IError::RANGE					=> "Field '{0}' requires a value of {1} to {2} inclusive.",
@@ -139,12 +131,7 @@ trait InternalProps
 		IError::MAX_FILE_SIZE			=> "The size of the uploaded file can be up to {0} bytes.",
 		IError::MAX_POST_SIZE			=> "The uploaded data exceeds the limit of {0} bytes.",
 		IError::IMAGE					=> "The uploaded file has to be image in format JPEG, GIF or PNG.",
-		IError::MIME_TYPE				=> "The uploaded file is not in the expected file format.",
-
-		IError::CHOOSE_MIN_OPTS			=> "Field '{0}' requires at least {1} chosen option(s) at minimal.",
-		IError::CHOOSE_MAX_OPTS			=> "Field '{0}' requires {1} of the selected option(s) at maximum.",
-		IError::CHOOSE_MIN_OPTS_BUBBLE	=> "Please select at least {0} options as minimal.",
-		IError::CHOOSE_MAX_OPTS_BUBBLE	=> "Please select up to {0} options at maximum.",
+		IError::MIME_TYPE				=> "The uploaded file is not in the expected file format."
 	];
 
 	/**

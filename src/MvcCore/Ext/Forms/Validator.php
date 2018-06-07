@@ -17,7 +17,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 {
 	/**
 	 * Form instance where was validator created.
-	 * Every validator instance belongs to only one form isntance.
+	 * Every validator instance belongs to only one form instance.
 	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	protected $form = NULL;
@@ -26,7 +26,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * Currently validated form field instance.
 	 * Before every `Validate()` method call, there is called
 	 * `$validator->SetField($field);` to work with proper field 
-	 * instance durring validation.
+	 * instance during validation.
 	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	protected $field = NULL;
@@ -40,11 +40,18 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	protected static $errorMessages = [];
 
 	/**
+	 * Remembered value from `\MvcCore\Application::GetInstance()->GetToolClass();`
+	 * @var string
+	 */
+	protected static $toolClass = '';
+
+	/**
 	 * Create every time new validator instance with configured form instance. No singleton.
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
 	public static function & CreateInstance () {
 		$validator = new static();
+		$validator::$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
 		return $validator;
 	}
 
@@ -60,7 +67,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 
 	/**
 	 * Set up field instance, where is validated value by this 
-	 * validator durring submit before every `Validate()` method call.
+	 * validator during submit before every `Validate()` method call.
 	 * This method is also called once, when validator instance is separately 
 	 * added into already created field instance to process any field checking.
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
@@ -101,13 +108,15 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
+		if ($this->field) 
+			$msgs[] = 'Field name: `'.$this->field->GetName() . '`, Field type: `'.get_class($this->field).'`';
+		if ($this->form) 
+			$msgs[] = 'Form id: `'.$this->form->GetId() . '`, Form type: `'.get_class($this->form).'`';
+		
 		throw new \InvalidArgumentException(
-			'['.__CLASS__.'] ' . $errorMsg . ' ('
-				. 'field name: `'.$this->field->GetName() . '`, '
-				. 'form id: `'.$this->form->GetId() . '`, '
-				. 'field type: `'.get_class($this->field).'`, '
-				. 'form type: `'.get_class($this->form).'`'
-			.')'
+			'['.__CLASS__.'] ' . $errorMsg . ($msgs ? ' '.implode(', ', $msgs) : '')
 		);
 	}
+
+
 }

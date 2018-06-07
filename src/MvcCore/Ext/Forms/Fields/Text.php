@@ -12,7 +12,7 @@
  */
 
 namespace MvcCore\Ext\Forms\Fields;
-class Text extends \MvcCore\Ext\Forms\Field
+class Text extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\IPattern, \MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;

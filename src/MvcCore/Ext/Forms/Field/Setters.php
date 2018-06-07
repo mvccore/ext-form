@@ -334,7 +334,8 @@ trait Setters
 	 */
 	public function & SetValidators (array $validatorsNamesOrInstances = []) {
 		$this->validators = [];
-		return call_user_func_array([$this, 'AddValidators'], $validatorsNamesOrInstances);
+		$validators = call_user_func_array([$this, 'AddValidators'], $validatorsNamesOrInstances);
+		return $validators;
 	}
 
 	/**

@@ -120,7 +120,7 @@ trait Options
 	 * Return all options keys as array of strings.
 	 * @return \string[]
 	 */
-	public function & GetAllOptionsKeys () {
+	public function GetAllOptionsKeys () {
 		$allOptionsKeys = [];
 		foreach ($this->options as $firstLevelKey => & $firstLevelOption) {
 			if (isset($firstLevelOption['options']) && gettype($firstLevelOption['options']) == 'array') {

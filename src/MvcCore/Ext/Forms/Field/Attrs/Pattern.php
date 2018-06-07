@@ -18,7 +18,7 @@ trait Pattern
 	/**
 	 * RegExp match pattern for HTML attribute `pattern` and
 	 * RegExp match pattern for build in `Pattern` validator
-	 * added automaticly after field is added into form, if any 
+	 * added automatically after field is added into form, if any 
 	 * RegExp pattern value defined.
 	 * @var string|NULL
 	 */
@@ -27,7 +27,7 @@ trait Pattern
 	/**
 	 * Get RegExp match pattern for HTML attribute `pattern`
 	 * and RegExp match pattern for build in `Pattern` validator
-	 * added automaticly after field is added into form, if any 
+	 * added automatically after field is added into form, if any 
 	 * RegExp pattern value defined.
 	 * @return string RegExp pattern without border characters for javascript and PHP.
 	 */
@@ -38,7 +38,7 @@ trait Pattern
 	/**
 	 * Set RegExp match pattern for HTML attribute `pattern`
 	 * and RegExp match pattern for build in `Pattern` validator
-	 * added automaticly after field is added into form, if any 
+	 * added automatically after field is added into form, if any 
 	 * RegExp pattern value defined.
 	 * @param string $pattern RegExp pattern without border characters for javascript and PHP.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
@@ -51,7 +51,7 @@ trait Pattern
 	/**
 	 * Check after field is added into form, if field 
 	 * has defined any value for pattern property and if it does,
-	 * add automaticly build in pattern validator.
+	 * add automaticaly build in pattern validator.
 	 * @return void
 	 */
 	protected function checkValidatorsPattern () {

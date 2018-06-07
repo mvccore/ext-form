@@ -13,9 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Number extends \MvcCore\Ext\Forms\Field
+class Number extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\IPattern
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 

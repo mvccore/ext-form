@@ -20,6 +20,7 @@ class View extends \MvcCore\View
 	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm|NULL
 	 */
 	protected $form = NULL;
+
 	/**
 	 * Rendered form field reference if view is not form's view.
 	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
@@ -35,22 +36,6 @@ class View extends \MvcCore\View
 	protected $view = NULL;
 
 	/**
-	 * Originaly declared internal view properties to protect their
-	 * possible overwriting by `__set()` or `__get()` magic methods.
-	 * @var array
-	 */
-	protected static $protectedProperties = [
-		'form'				=> 1,
-		'field'				=> 1,
-		'view'				=> 1,
-		'_controller'		=> 1,
-		'_store'			=> 1,
-		'_helpers'			=> 1,
-		'_content'			=> 1,
-		'_renderedFullPaths'=> 1,
-	];
-
-	/**
 	 * Global views forms directory placed by default
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
@@ -62,7 +47,7 @@ class View extends \MvcCore\View
 	/**
 	 * Global views fields directory placed by default
 	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so 
+	 * Default value is `"Forms/Fields"`, so
 	 * scripts app path is `"/App/Views/Forms/Fields"`.
 	 * @var string
 	 */
@@ -94,7 +79,7 @@ class View extends \MvcCore\View
 	/**
 	 * Get global views fields directory placed by default
 	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so 
+	 * Default value is `"Forms/Fields"`, so
 	 * scripts app path is `"/App/Views/Forms/Fields"`.
 	 * @return string
 	 */
@@ -105,13 +90,21 @@ class View extends \MvcCore\View
 	/**
 	 * Set global views fields directory placed by default
 	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so 
+	 * Default value is `"Forms/Fields"`, so
 	 * scripts app path is `"/App/Views/Forms/Fields"`.
 	 * @param string $fieldsDir
 	 * @return string
 	 */
 	public static function SetFieldsDir ($fieldsDir = 'Forms/Fields') {
 		return static::$fieldsDir = $fieldsDir;
+	}
+
+	public function __construct () {
+		/**
+		 * Default flag if view is used for field rendering or only for form
+		 * rendering. Default value is for form rendering - `FALSE`.
+		 */
+		$this->__protected['fieldRendering'] = FALSE;
 	}
 
 	/**
@@ -131,7 +124,7 @@ class View extends \MvcCore\View
 		$this->view = & $view;
 		return $this;
 	}
-	
+
 	/**
 	 * Get form instance to render.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -139,7 +132,7 @@ class View extends \MvcCore\View
 	public function & GetForm () {
 		return $this->form;
 	}
-	
+
 	/**
 	 * Set form instance to render.
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
@@ -149,7 +142,7 @@ class View extends \MvcCore\View
 		$this->form = & $form;
 		return $this;
 	}
-	
+
 	/**
 	 * Get rendered field.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
@@ -157,26 +150,155 @@ class View extends \MvcCore\View
 	public function & GetField () {
 		return $this->field;
 	}
-	
+
 	/**
 	 * Set rendered field.
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		$this->__protected['fieldRendering'] = TRUE;
 		$this->field = & $field;
 		return $this;
 	}
 
 	/**
-	 * Call public field method if exists under called name or try to call any parent view helper.
+	 * Get any value by given name existing in local store. If there is no value
+	 * in local store by given name, try to get result value into store by
+	 * field reflection class from field instance property if view is used for
+	 * field rendering. If there is still no value found, try to get result value
+	 * into store by form reflection class from form instance property and if
+	 * still no value found, try to get result value from local view instance
+	 * `__get()` method.
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get ($name) {
+		$store = & $this->__protected['store'];
+		// if property is in view store - return it
+		if (array_key_exists($name, $store))
+			return $store[$name];
+		/** @var $property \ReflectionProperty */
+		// if property is not in store and this view is used for field rendering,
+		// try to complete result with property by `$name` in `$this->field` instance:
+		if (
+			$this->__protected['fieldRendering'] &&
+			$this->field instanceof \MvcCore\Ext\Forms\IField &&
+			$fieldType = $this->getReflectionClass('field')
+		) {
+			if ($fieldType->hasProperty($name)) {
+				$property = $fieldType->getProperty($name);
+				if (!$property->isStatic()) {
+					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
+					$value = $property->getValue($this->field);
+					$store[$name] = & $value;
+					return $value;
+				}
+			}
+		}
+		// if property is still not in store, try to complete result with property by
+		// `$name` in `$this->form` instance:
+		if (
+			$this->form instanceof \MvcCore\Ext\IForm &&
+			$formType = $this->getReflectionClass('form')
+		) {
+			if ($formType->hasProperty($name)) {
+				$property = $formType->getProperty($name);
+				if (!$property->isStatic()) {
+					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
+					$value = $property->getValue($this->form);
+					$store[$name] = & $value;
+					return $value;
+				}
+			}
+		}
+		// if property is still not in store, try to complete result by given view
+		// instance, which search in it's store and in it's controller instance:
+		if ($this->view instanceof \MvcCore\Interfaces\IView)
+			return $this->view->__get($name);
+		// return NULL, if property is not in local store an even anywhere else
+		return NULL;
+	}
+
+	/**
+	 * Get `TRUE` by given name existing in local store. If there is no value
+	 * in local store by given name, try to get result value into store by
+	 * field reflection class from field instance property if view is used for
+	 * field rendering. If there is still no value found, try to get result value
+	 * into store by form reflection class from form instance property and if
+	 * still no value found, try to get result value from local view instance
+	 * `__get()` method.
+	 * @param string $name
+	 * @return bool
+	 */
+	public function __isset ($name) {
+		$store = & $this->__protected['store'];
+		// if property is in view store - return TRUE
+		if (array_key_exists($name, $store)) return TRUE;
+		/** @var $property \ReflectionProperty */
+		// if property is not in store and this view is used for field rendering,
+		// try to complete result with property by `$name` in `$this->field` instance:
+		if (
+			$this->__protected['fieldRendering'] &&
+			$this->field instanceof \MvcCore\Ext\Forms\IField &&
+			$fieldType = $this->getReflectionClass('field')
+		) {
+			if ($fieldType->hasProperty($name)) {
+				$property = $fieldType->getProperty($name);
+				if (!$property->isStatic()) {
+					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
+					$value = $property->getValue($this->field);
+					$store[$name] = & $value;
+					return TRUE;
+				}
+			}
+		}
+		// if property is still not in store, try to complete result with property by
+		// `$name` in `$this->form` instance:
+		if (
+			$this->form instanceof \MvcCore\Ext\IForm &&
+			$formType = $this->getReflectionClass('form')
+		) {
+			if ($formType->hasProperty($name)) {
+				$property = $formType->getProperty($name);
+				if (!$property->isStatic()) {
+					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
+					$value = $property->getValue($this->form);
+					$store[$name] = & $value;
+					return TRUE;
+				}
+			}
+		}
+		// if property is still not in store, try to complete result by given view
+		// instance, which search in it's store and in it's controller instance:
+		if ($this->view instanceof \MvcCore\Interfaces\IView)
+			return $this->view->__isset($name);
+		// return FALSE, if property is not in local store an even anywhere else
+		return FALSE;
+	}
+
+	/**
+	 * Call public field method if exists in field instance and view is used for
+	 * field rendering or call public form method if exists in form instance or
+	 * try to call view helper by parent `__call()` method.
 	 * @param string $method
 	 * @param mixed  $arguments
 	 * @return mixed
 	 */
 	public function __call ($method, $arguments) {
-		if (isset($this->field) && method_exists($this->field, $method)) {
-			return call_user_func_array([$this->field, $method], $arguments);
+		if (
+			$this->__protected['fieldRendering'] &&
+			$this->field instanceof \MvcCore\Ext\Forms\IField &&
+			method_exists($this->field, $method)
+		) {
+			$field = & $this->field;
+			return call_user_func_array([$field, $method], $arguments);
+		} else if (
+			$this->form instanceof \MvcCore\Ext\Forms\IForm &&
+			method_exists($this->form, $method)
+		) {
+			$form = & $this->form;
+			return call_user_func_array([$form, $method], $arguments);
 		} else {
 			return parent::__call($method, $arguments);
 		}
@@ -189,7 +311,7 @@ class View extends \MvcCore\View
 	public function RenderTemplate () {
 		$formViewScript = $this->form->GetViewScript();
 		return $this->Render(
-			static::$formsDir, 
+			static::$formsDir,
 			is_bool($formViewScript) ? $this->form->GetId() : $formViewScript
 		);
 	}
@@ -200,9 +322,9 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderNaturally () {
-		return $this->RenderBegin() 
-			. $this->RenderErrors() 
-			. $this->RenderContent() 
+		return $this->RenderBegin()
+			. $this->RenderErrors()
+			. $this->RenderContent()
 			. $this->RenderEnd();
 	}
 
@@ -219,16 +341,16 @@ class View extends \MvcCore\View
 		foreach ($formProperties as $property) {
 			$getter = 'Get'.ucfirst($property);
 			$formPropertyValue = $form->$getter();
-			if ($formPropertyValue) 
+			if ($formPropertyValue)
 				$attrs[$property] = $formPropertyValue;
 		}
 		$formCssClasses = $form->GetCssClasses();
-		if ($formCssClasses) 
+		if ($formCssClasses)
 			$attrs['class'] = gettype($formCssClasses) == 'array'
 				? implode(' ', $formCssClasses)
 				: $formCssClasses;
 		foreach ($form->GetAttributes() as $key => $value) {
-			if (!in_array($key, $formProperties)) 
+			if (!in_array($key, $formProperties))
 				$attrs[$key] = $value;
 		}
 		$attrsStr = self::RenderAttrs($attrs);
@@ -308,8 +430,8 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderEnd () {
-		return '</form>' 
-			. $this->form->RenderSupportingJs() 
+		return '</form>'
+			. $this->form->RenderSupportingJs()
 			. $this->form->RenderSupportingCss();
 	}
 

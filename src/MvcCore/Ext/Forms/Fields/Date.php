@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms\Fields;
 class Date extends \MvcCore\Ext\Forms\Field
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Format;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
 	/**
@@ -26,9 +26,9 @@ class Date extends \MvcCore\Ext\Forms\Field
 	protected $type = 'date';
 	
 	/**
-	 * String format mask to format given values in `Intl` extension `\DateTimeInterface` type
-	 * or string format mask to format given values in `integer` type by PHP `date()` function.
-	 * Example: `"Y-m-d" | "Y/m/d"`
+	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
+	 * string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `"Y-m-d"`
 	 * @see http://php.net/manual/en/datetime.createfromformat.php
 	 * @see http://php.net/manual/en/function.date.php
 	 * @var string
@@ -36,13 +36,13 @@ class Date extends \MvcCore\Ext\Forms\Field
 	protected $format = 'Y-m-d';
 
 	/**
-	 * Validators used for submitted value to check format, min, max and dangerous characters
+	 * Validators used for submitted value to check format, min., max. and dangerous characters.
 	 * @var string[]|\Closure[]
 	 */
 	protected $validators = ['Date'];
 
 	/**
-	 * Get formated by configured `$field->format` property as string to render.
+	 * Get formatted value by configured `$field->format` property as string to render.
 	 * @return string
 	 */
 	public function GetValue () {
@@ -51,12 +51,13 @@ class Date extends \MvcCore\Ext\Forms\Field
 	
 	/**
 	 * 
-	 * Set value as `\Datetime`, int (UNIX timestamp) or formated string value 
-	 * and use it internaly as formated string.
-	 * For given `\Datetime` instance, format `$value` by 
-	 * `Intl` extension function `date_format()`,
-	 * for given `integer`, format `$value` by PHP function `date()`.
-	 * http://php.net/manual/en/datetime.createfromformat.php
+	 * Set value as `\DateTimeInterface`, `int` (UNIX timestamp) or 
+	 * formatted string value and use it internally as formatted string.
+	 * For given `\DateTimeInterface` instance, format `$value` by 
+	 * PHP function `date_format()`, for given `integer`, format 
+	 * `$value` by PHP function `date()`.
+	 * @see http://php.net/manual/en/datetime.format.php
+	 * @see http://php.net/manual/en/function.date.php
 	 * @param \DateTimeInterface|int|string $value
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */

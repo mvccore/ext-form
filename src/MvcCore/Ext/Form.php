@@ -69,9 +69,8 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		$str = '['.__CLASS__.'] ' . $errorMsg;
-		if ($this->form) $str .= ' ('
-			. 'form id: `'.$this->form->GetId() . '`, '
+		$str = '['.__CLASS__.'] ' . $errorMsg . ' ('
+			. 'form id: `'.$this->id . '`, '
 			. 'form type: `'.get_class($this->form).'`'
 		.')';
 		throw new \InvalidArgumentException($str);
@@ -161,20 +160,10 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
 			->SetForm($this);
-		if ($this->viewScript) {
+		if ($this->viewScript) 
 			$this->view
 				->SetController($this->parentController)
 				->SetView($this->parentController->GetView());
-			if ($this->autoInitPropsInView > 0) 
-				$this->view->SetUpValuesFromController(
-					$this->parentController, TRUE, $this->autoInitPropsInView
-				);
-			$this->view->SetUpValuesFromView($this->parentController->GetView(), TRUE);
-			if ($this->autoInitPropsInView > 0) 
-				$this->view->SetUpValuesFromController(
-					$this, TRUE, $this->autoInitPropsInView
-				);
-		}
 		$this->dispatchState = 2;
 		return $this;
 	}

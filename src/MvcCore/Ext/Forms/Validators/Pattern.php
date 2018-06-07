@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class Pattern extends \MvcCore\Ext\Forms\Validator
+class Pattern extends \MvcCore\Ext\Forms\Validator implements \MvcCore\Ext\Forms\Fields\IPattern
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	
@@ -41,18 +41,17 @@ class Pattern extends \MvcCore\Ext\Forms\Validator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
-		$fieldImplementsPattern = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\Pattern;
-		if ($this->pattern && $fieldImplementsPattern && !$field->GetPattern()) {
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IPattern) 
+			$this->throwNewInvalidArgumentException(
+				"Field doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IPattern`."
+			);
+		if ($this->pattern !== NULL && $field->GetPattern() === NULL) {
 			// if this validator is added into field as instance - check field if it has pattern attribute defined:
 			$field->SetPattern($this->pattern);
-		} else if (!$this->pattern && $fieldImplementsPattern && $field->GetPattern()) {
+		} else if ($this->pattern === NULL && $field->GetPattern() !== NULL) {
 			// if validator is added as string - get pattern property from field:
 			$this->pattern = $field->GetPattern();
-		} else {
-			$this->throwNewInvalidArgumentException(
-				'No RegExp `pattern` property defined in current validator or in field.'	
-			);
-		}
+		} 
 		return $this;
 	}
 

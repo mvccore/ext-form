@@ -15,31 +15,64 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 trait MinMaxLength
 {
+	/**
+	 * Minimum characters length. Default value is `NULL`.
+	 * @var int|NULL
+	 */
 	protected $minLength = NULL;
-	protected $maxLength = NULL;
 
+	/**
+	 * Maximum characters length. Default value is `NULL`.
+	 * @var int|NULL
+	 */
+	protected $maxLength = NULL;
+	
+	/**
+	 * Get minimum characters length. Default value is `NULL`.
+	 * @return int|NULL
+	 */
 	public function GetMinLength () {
 		return $this->minLength;
 	}
 
+	/**
+	 * Set minimum characters length. Default value is `NULL`.
+	 * @param int $minLength 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetMinLength ($minLength) {
 		$this->minLength = $minLength;
 		return $this;
 	}
-
+	
+	/**
+	 * Get maximum characters length. Default value is `NULL`.
+	 * @return int|NULL
+	 */
 	public function GetMaxLength () {
 		return $this->maxLength;
 	}
 
+	/**
+	 * Set maximum characters length. Default value is `NULL`.
+	 * @param int $minLength 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetMaxLength ($maxLength) {
 		$this->maxLength = $maxLength;
 		return $this;
 	}
 
+	/**
+	 * Check if field has proper validators if any value for minimum 
+	 * or maximum characters count is set.
+	 * @return void
+	 */
 	protected function checkValidatorsMinMaxLength () {
-		if ($this->minLength && !isset($this->validators['MinLength']))
-			$this->validators['MinLength'] = 'MinLength';
-		if ($this->maxLength && !isset($this->validators['MaxLength']))
-			$this->validators['MaxLength'] = 'MaxLength';
+		if (
+			($this->minLength !== NULL || $this->maxLength !== NULL) && 
+			!isset($this->validators['MinMaxLength'])
+		)
+			$this->validators['MinMaxLength'] = 'MinMaxLength';
 	}
 }

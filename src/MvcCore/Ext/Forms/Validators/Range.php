@@ -22,8 +22,9 @@ class Range extends \MvcCore\Ext\Forms\Validators\Number
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$multiple = $this->field instanceof \MvcCore\Ext\Forms\Field\Attrs\Multiple &&
-			$this->field->GetMultiple();
+		$multiple = method_exists($this->field, 'GetMultiple')
+			? $this->field->GetMultiple()
+			: FALSE;
 		if ($multiple) {
 			$rawSubmitValues = is_array($rawSubmittedValue) 
 				? $rawSubmittedValue 

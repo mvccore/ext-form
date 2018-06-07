@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Textarea extends \MvcCore\Ext\Forms\Field
+class Textarea extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 	use \MvcCore\Ext\Forms\Field\Attrs\RowsCols;

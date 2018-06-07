@@ -19,6 +19,14 @@ class Time extends Date
 {
 	protected $type = 'time';
 
+	/**
+	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
+	 * string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `"H:i"`
+	 * @see http://php.net/manual/en/datetime.createfromformat.php
+	 * @see http://php.net/manual/en/function.date.php
+	 * @var string
+	 */
 	protected $format = 'H:i';
 
 	protected $validators = ['Time'];

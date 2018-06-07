@@ -17,8 +17,13 @@ namespace MvcCore\Ext\Forms\Validators;
  * Responsibility - Validate raw user input. Parse float value if possible by `Intl` extension 
 					or try to determinate floating point automaticly and return `float` or `NULL`.
  */
-class Number extends \MvcCore\Ext\Forms\Validator
+class Number 
+	extends		\MvcCore\Ext\Forms\Validator
+	implements	\MvcCore\Ext\Forms\Fields\IMinMaxStep,
+				\MvcCore\Ext\Forms\Fields\IPattern
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
+
 	/**
 	 * Error message index(es).
 	 * @var int
@@ -58,6 +63,41 @@ class Number extends \MvcCore\Ext\Forms\Validator
 	public function GetPreferIntlParsing () {
 		return $this->preferIntlParsing;
 	}
+
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * This method is also called once, when validator instance is separately 
+	 * added into already created field instance to process any field checking.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		parent::SetField($field);
+		
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxStep)
+			$this->throwNewInvalidArgumentException(
+				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxStep`."
+			);
+
+		if ($this->min !== NULL && $field->GetMin() === NULL) {
+			$field->SetMin($this->min);
+		} else if ($this->min === NULL && $field->GetMin() !== NULL) {
+			$this->min = $field->GetMin();
+		}
+		if ($this->max !== NULL && $field->GetMax() === NULL) {
+			$field->SetMax($this->max);
+		} else if ($this->max === NULL && $field->GetMax() !== NULL) {
+			$this->max = $field->GetMax();
+		}
+		if ($this->step !== NULL && $field->GetStep() === NULL) {
+			$field->SetStep($this->step);
+		} else if ($this->step === NULL && $field->GetStep() !== NULL) {
+			$this->step = $field->GetStep();
+		}
+
+		return $this;
+	}
 	
 	/**
 	 * Validate raw user input. Parse float value if possible by `Intl` extension 
@@ -73,44 +113,34 @@ class Number extends \MvcCore\Ext\Forms\Validator
 			);
 			return NULL;
 		}
-		if ($this->field instanceof \MvcCore\Ext\Forms\Field\Attrs\MinMaxStep) {
-			$min = $this->field->GetMin();
-			$max = $this->field->GetMax();
-			$step = $this->field->GetStep();
-			if ($min !== NULL && $max !== 0 && ($result < $min || $result > $max)) {
-				$this->field->AddValidationError(
-					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::RANGE),
-					[$min, $max]
-				);
-			} else if ($min !== NULL && $result < $min) {
-				$this->field->AddValidationError(
-					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::GREATER),
-					[$min]
-				);
-			} else if ($max !== NULL && $result > $max) {
-				$this->field->AddValidationError(
-					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::LOWER),
-					[$max]
-				);
-			}
-			if ($step !== NULL && $step !== 0) {
-				$dividingResultFloat = floatval($result) / $step;
-				$dividingResultInt = floatval(intval($dividingResultFloat));
-				if ($dividingResultFloat !== $dividingResultInt) 
-					$this->field->AddValidationError(
-						$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::DIVISIBLE),
-						[$step]
-					);
-			}
+		if (
+			$this->min !== NULL && $this->max !== NULL &&
+			$this->min > 0 && $this->max > 0 &&
+			($result < $this->min || $result > $this->max)
+		) {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::RANGE),
+				[$this->min, $this->max]
+			);
+		} else if ($this->min !== NULL && $this->min > 0 && $result < $this->min) {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::GREATER),
+				[$this->min]
+			);
+		} else if ($this->max !== NULL && $this->max > 0 && $result > $this->max) {
+			$this->field->AddValidationError(
+				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::LOWER),
+				[$this->max]
+			);
 		}
-		if ($this->field instanceof \MvcCore\Ext\Forms\Field\Attrs\Pattern) {
-			$pattern = $this->field->GetPattern();
-			if ($pattern && !$this->field->HasValidator('Pattern')) {
-				$patternValidator = $this->form->GetValidator('Pattern');
-				$patternValidator->SetField($this->field);
-				$patternResult = $patternValidator->Validate($rawSubmittedValue);
-				if ($patternResult === NULL) $result = NULL;
-			}
+		if ($this->step !== NULL && $this->step !== 0) {
+			$dividingResultFloat = floatval($result) / $this->step;
+			$dividingResultInt = floatval(intval($dividingResultFloat));
+			if ($dividingResultFloat !== $dividingResultInt) 
+				$this->field->AddValidationError(
+					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::DIVISIBLE),
+					[$this->step]
+				);
 		}
 		return $result;
 	}

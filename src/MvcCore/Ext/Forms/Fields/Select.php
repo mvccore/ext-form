@@ -14,11 +14,13 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 class Select 
-	extends \MvcCore\Ext\Forms\Field 
-	implements \MvcCore\Ext\Forms\Fields\IOptions
+	extends		\MvcCore\Ext\Forms\Field 
+	implements	\MvcCore\Ext\Forms\Fields\IOptions, 
+				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Size;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 	use \MvcCore\Ext\Forms\Field\Attrs\NullOptionText;
 
@@ -50,6 +52,8 @@ class Select
 		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
 		);
+		// add minimum/maximum options count validator if necessary
+		$this->checkValidatorsMinMaxOptions();
 	}
 
 	public function PreDispatch () {

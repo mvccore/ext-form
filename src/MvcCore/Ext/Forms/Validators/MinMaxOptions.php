@@ -13,9 +13,25 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class MaxOptions extends ValueInOptions
+class MinMaxOptions extends ValueInOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
+	
+	/**
+	 * Valid email address error message index.
+	 * @var int
+	 */
+	const ERROR_MIN_OPTIONS = 0;
+	const ERROR_MAX_OPTIONS = 1;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_MIN_OPTIONS	=> "Field '{0}' requires at least {1} chosen option(s) at minimum.",
+		self::ERROR_MAX_OPTIONS	=> "Field '{0}' requires {1} of the selected option(s) at maximum.",
+	];
 
 	/**
 	 * Set up field instance, where is validated value by this 
@@ -27,15 +43,27 @@ class MaxOptions extends ValueInOptions
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
-		$fieldImplementsMinMax = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-		if ($this->maxOptions == NULL && $field->GetMaxOptions() !== NULL && $fieldImplementsMinMax) {
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxOptions) 
+			$this->throwNewInvalidArgumentException(
+				"Field doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxOptions`."
+			);
+		
+		if ($this->minOptions === NULL && $field->GetMinOptions() !== NULL) {
 			// if this validator is added into field as instance - check field if it has min attribute defined:
-			$field->SetMaxOptions($this->maxOptions);
-		}
-		if (!$this->maxOptions && $fieldImplementsMinMax && $field->GetMaxOptions() !== NULL) {
+			$field->SetMinOptions($this->minOptions);
+		} else if ($this->minOptions === NULL && $field->GetMinOptions() !== NULL) {
 			// if validator is added as string - get min property from field:
+			$this->minOptions = $field->GetMinOptions();
+		}
+
+		if ($this->maxOptions === NULL && $field->GetMaxOptions() !== NULL) {
+			// if this validator is added into field as instance - check field if it has max attribute defined:
+			$field->SetMaxOptions($this->maxOptions);
+		} else if ($this->maxOptions === NULL && $field->GetMaxOptions() !== NULL) {
+			// if validator is added as string - get max property from field:
 			$this->maxOptions = $field->GetMaxOptions();
 		}
+
 		return $this;
 	}
 	
@@ -52,13 +80,23 @@ class MaxOptions extends ValueInOptions
 			$rawSubmittedArr = [$rawSubmittedValue];
 		}
 		$submittedArrCount = count($rawSubmittedArr);
+
+		// check if there is enough options checked
+		if ($this->minOptions !== NULL && $this->minOptions > 0 && $submittedArrCount < $this->minOptions) 
+			$this->field->AddValidationError(
+				static::GetErrorMessage(static::ERROR_MIN_OPTIONS),
+				[$this->minOptions]
+			);
+		
 		// check if there is not more options checked
 		if ($this->maxOptions !== NULL && $this->maxOptions > 0 && $submittedArrCount > $this->maxOptions) {
 			$rawSubmittedArr = array_slice($rawSubmittedArr, 0, $this->maxOptions);
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::CHOOSE_MAX_OPTS)
+				static::GetErrorMessage(static::ERROR_MAX_OPTIONS),
+				[$this->maxOptions]
 			);
 		}
+
 		return $rawSubmittedArr;
 	}
 }

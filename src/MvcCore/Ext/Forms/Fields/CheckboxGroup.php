@@ -14,10 +14,27 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 class CheckboxGroup 
-	extends \MvcCore\Ext\Forms\FieldsGroup 
-	implements \MvcCore\Ext\Forms\Fields\IOptions
+	extends		\MvcCore\Ext\Forms\FieldsGroup 
+	implements	\MvcCore\Ext\Forms\Fields\IOptions,
+				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
+	
+	/**
+	 * Valid email address error message index.
+	 * @var int
+	 */
+	const ERROR_MIN_OPTIONS_BUBBLE = 0;
+	const ERROR_MAX_OPTIONS_BUBBLE = 1;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_MIN_OPTIONS_BUBBLE	=> "Please select at least {0} options as minimum.",
+		self::ERROR_MAX_OPTIONS_BUBBLE	=> "Please select up to {0} options at maximum.",
+	];
 
 	protected $type = 'checkbox';
 
@@ -26,6 +43,12 @@ class CheckboxGroup
 	protected $jsClassName = 'MvcCoreForm.CheckboxGroup';
 
 	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/checkbox-group.js';
+
+	/**
+	 * Maximum options css class for javascript.
+	 * @var string
+	 */
+	protected $maxOptionsClassName = 'max-selected-options';
 
 	protected static $templates = [
 		'control'	=> '<input id="{id}" name="{name}[]" type="{type}" value="{value}"{checked}{attrs} />',
@@ -45,19 +68,15 @@ class CheckboxGroup
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-			// add minimal chosen options count validator
-		if ($this->minOptionsCount > 0)
-			$this->validators[] = 'MinOptions';
-			// add minimal chosen options count validator
-		if ($this->maxOptionsCount > 0)
-			$this->validators[] = 'MaxOptions';
+		// add minimum/maximum options count validator if necessary
+		$this->checkValidatorsMinMaxOptions();
 		return $this;
 	}
 
 	public function PreDispatch () {
 		parent::PreDispatch();
-		$minOptsDefined = $this->minOptionsCount > 0;
-		$maxOptsDefined = $this->maxOptionsCount > 0;
+		$minOptsDefined = $this->minOptions !== NULL;
+		$maxOptsDefined = $this->maxOptions !== NULL;
 		$form = & $this->form;
 		$viewClass = $form->GetViewClass();
 		if ($this->translate) {
@@ -65,7 +84,7 @@ class CheckboxGroup
 				// add necessary error messages if there are empty strings
 				if (!$this->minOptionsBubbleMessage)
 					$this->minOptionsBubbleMessage = $form->GetDefaultErrorMsg(
-						\MvcCore\Ext\Forms\IError::CHOOSE_MIN_OPTS_BUBBLE
+						static::$errorMessages[static::ERROR_MIN_OPTIONS_BUBBLE]
 					);
 				$this->minOptionsBubbleMessage = $form->Translate($this->minOptionsBubbleMessage);
 			}
@@ -73,16 +92,16 @@ class CheckboxGroup
 				// add necessary error messages if there are empty strings
 				if (!$this->maxOptionsBubbleMessage)
 					$this->maxOptionsBubbleMessage = $form->GetDefaultErrorMsg(
-						\MvcCore\Ext\Forms\IError::CHOOSE_MAX_OPTS_BUBBLE
+						static::$errorMessages[static::ERROR_MAX_OPTIONS_BUBBLE]
 					);
 				$this->maxOptionsBubbleMessage = $form->Translate($this->maxOptionsBubbleMessage);
 			}
 		}
 		if ($minOptsDefined) $this->minOptionsBubbleMessage = $viewClass::Format(
-			$this->minOptionsBubbleMessage, [$this->minOptionsCount]
+			$this->minOptionsBubbleMessage, [$this->minOptions]
 		);
 		if ($maxOptsDefined) $this->maxOptionsBubbleMessage = $viewClass::Format(
-			$this->maxOptionsBubbleMessage, [$this->maxOptionsCount]
+			$this->maxOptionsBubbleMessage, [$this->maxOptions]
 		);
 		if ($this->required || $minOptsDefined || $maxOptsDefined)
 			$form->AddJsSupportFile(
@@ -91,8 +110,8 @@ class CheckboxGroup
 				[
 					$this->name . '[]', 
 					$this->required,
-					$this->minOptionsCount,
-					$this->maxOptionsCount,
+					$this->minOptions,
+					$this->maxOptions,
 					$this->minOptionsBubbleMessage,
 					$this->maxOptionsBubbleMessage,
 					$this->maxOptionsClassName
@@ -114,8 +133,8 @@ class CheckboxGroup
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
 				[], array_merge($this->controlAttrs, [
-					'data-min-selected-options' => $this->minOptionsCount,
-					'data-max-selected-options' => $this->maxOptionsCount,
+					'data-min-selected-options' => $this->minOptions,
+					'data-max-selected-options' => $this->maxOptions,
 				]), $this->cssClasses, TRUE
 			);
 		} else if ($optionType == 'array') {
@@ -126,8 +145,8 @@ class CheckboxGroup
 				$attrsArr = array_merge($this->controlAttrs, $option['attrs']);
 			}
 			$attrsArr = array_merge($attrsArr, [
-				'data-min-selected-options' => $this->minOptionsCount,
-				'data-max-selected-options' => $this->maxOptionsCount,
+				'data-min-selected-options' => $this->minOptions,
+				'data-max-selected-options' => $this->maxOptions,
 			]);
 			if (isset($option['class'])) {
 				$classArrParam = [];

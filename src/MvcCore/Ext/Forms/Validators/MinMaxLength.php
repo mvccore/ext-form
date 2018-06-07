@@ -13,7 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class MaxLength extends \MvcCore\Ext\Forms\Validator
+class MinMaxLength 
+	extends		\MvcCore\Ext\Forms\Validator 
+	implements	\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 	
@@ -21,13 +23,15 @@ class MaxLength extends \MvcCore\Ext\Forms\Validator
 	 * Valid email address error message index.
 	 * @var int
 	 */
-	const ERROR_MAX_LENGTH = 0;
+	const ERROR_MIN_LENGTH = 0;
+	const ERROR_MAX_LENGTH = 1;
 
 	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
+		self::ERROR_MIN_LENGTH	=> "Field '{0}' requires at least {1} characters.",
 		self::ERROR_MAX_LENGTH	=> "Field '{0}' requires no more than {1} characters.",
 	];
 
@@ -41,15 +45,27 @@ class MaxLength extends \MvcCore\Ext\Forms\Validator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
-		$fieldImplementsMinMax = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-		if ($this->maxLength == NULL && $field->GetMaxLength() !== NULL && $fieldImplementsMinMax) {
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxLength) 
+			$this->throwNewInvalidArgumentException(
+				"Field doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxLength`."
+			);
+		
+		if ($this->minLength === NULL && $field->GetMinLength() !== NULL) {
 			// if this validator is added into field as instance - check field if it has min attribute defined:
-			$field->SetMaxLength($this->maxLength);
-		}
-		if (!$this->maxLength && $fieldImplementsMinMax && $field->GetMaxLength() !== NULL) {
+			$field->SetMinLength($this->minLength);
+		} else if ($this->minLength === NULL && $field->GetMinLength() !== NULL) {
 			// if validator is added as string - get min property from field:
+			$this->minLength = $field->GetMinLength();
+		}
+
+		if ($this->maxLength === NULL && $field->GetMaxLength() !== NULL) {
+			// if this validator is added into field as instance - check field if it has max attribute defined:
+			$field->SetMaxLength($this->maxLength);
+		} else if ($this->maxLength === NULL && $field->GetMaxLength() !== NULL) {
+			// if validator is added as string - get max property from field:
 			$this->maxLength = $field->GetMaxLength();
 		}
+
 		return $this;
 	}
 
@@ -59,16 +75,26 @@ class MaxLength extends \MvcCore\Ext\Forms\Validator
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$rawSubmittedValue = trim((string) $rawSubmittedValue);
-		if ($this->maxLength !== NULL && $this->maxLength > 0) {
-			$result = mb_substr($rawSubmittedValue, 0, $this->maxLength);
-		} else {
-			$result = $rawSubmittedValue;
+		$result = trim((string) $rawSubmittedValue);
+		$resultLength = mb_strlen($result);
+		if (
+			$this->minLength !== NULL && 
+			$this->minLength > 0 && 
+			$resultLength < $this->minLength
+		) {
+			$this->field->AddValidationError(
+				static::GetErrorMessage(self::ERROR_MIN_LENGTH)
+			);
 		}
-		if (mb_strlen($result) !== mb_strlen($rawSubmittedValue))
+		if (
+			$this->maxLength !== NULL && 
+			$this->maxLength > 0 &&
+			$resultLength > $this->maxLength
+		) {
 			$this->field->AddValidationError(
 				static::GetErrorMessage(self::ERROR_MAX_LENGTH)
 			);
+		}
 		return $result;
 	}
 }

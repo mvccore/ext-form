@@ -15,27 +15,118 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 trait MinMaxOptions
 {
-	protected $minOptionsCount = 0;
-	protected $maxOptionsCount = 0;
+	/**
+	 * Minimum options count to select. 
+	 * Default value is `NULL` to not limit anything.
+	 * @var int|NULL
+	 */
+	protected $minOptions = NULL;
+
+	/**
+	 * Maximum options count to select. 
+	 * Default value is `NULL` to not limit anything.
+	 * @var int|NULL
+	 */
+	protected $maxOptions = NULL;
+
+	/**
+	 * Minimum options bubble message for javascript.
+	 * @var string|NULL
+	 */
 	protected $minOptionsBubbleMessage = NULL;
+
+	/**
+	 * Maximum options bubble message for javascript.
+	 * @var string|NULL
+	 */
 	protected $maxOptionsBubbleMessage = NULL;
-	protected $maxOptionsClassName = 'max-selected-options';
-
-	public function SetMinOptionsCount ($minOptionsCount) {
-		$this->minOptionsCount = $minOptionsCount;
+	
+	/**
+	 * Get minimum options count to select. 
+	 * Default value is `NULL` to not limit anything.
+	 * @return int|NULL
+	 */
+	public function GetMinOptions () {
+		return $this->minOptions;
+	}
+	
+	/**
+	 * Set minimum options count to select. 
+	 * Default value is `NULL` to not limit anything.
+	 * @param int $minOptions
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetMinOptions ($minOptions) {
+		$this->minOptions = $minOptions;
 		return $this;
 	}
-	public function SetMaxOptionsCount ($maxOptionsCount) {
-		$this->maxOptionsCount = $maxOptionsCount;
+
+	/**
+	 * Get maximum options count to select. 
+	 * Default value is `NULL` to not limit anything.
+	 * @return int|NULL
+	 */
+	public function GetMaxOptions () {
+		return $this->maxOptions;
+	}
+	
+	/**
+	 * Set maximum options count to select. 
+	 * Default value is `NULL` to not limit anything.
+	 * @param int $maxOptions
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetMaxOptions ($maxOptions) {
+		$this->maxOptions = $maxOptions;
 		return $this;
 	}
 
-	public function SetMinOptionsBubbleMessage ($minOptionsBubbleMessage) {
+	/**
+	 * Get minimum options bubble message for javascript.
+	 * @return string
+	 */
+	public function GetMinOptionsBubbleMessage () {
+		return $this->minOptionsBubbleMessage;
+	}
+
+	/**
+	 * Set minimum options bubble message for javascript.
+	 * @param string $minOptionsBubbleMessage 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetMinOptionsBubbleMessage ($minOptionsBubbleMessage) {
 		$this->minOptionsBubbleMessage = $minOptionsBubbleMessage;
 		return $this;
 	}
-	public function SetMaxOptionsBubbleMessage ($maxOptionsBubbleMessage) {
+
+	/**
+	 * Get maximum options bubble message for javascript.
+	 * @return string
+	 */
+	public function GetMaxOptionsBubbleMessage () {
+		return $this->maxOptionsBubbleMessage;
+	}
+
+	/**
+	 * Set maximum options bubble message for javascript.
+	 * @param string $minOptionsBubbleMessage 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetMaxOptionsBubbleMessage ($maxOptionsBubbleMessage) {
 		$this->maxOptionsBubbleMessage = $maxOptionsBubbleMessage;
 		return $this;
+	}
+	
+	/**
+	 * Check if field has proper validators if any value for minimum 
+	 * or maximum options count is set.
+	 * @return void
+	 */
+	protected function checkValidatorsMinMaxOptions () {
+		if (
+			($this->minOptions !== NULL || $this->maxOptions !== NULL) &&
+			!isset($this->validators['MinMaxOptions'])
+		)
+			$this->validators['MinMaxOptions'] = 'MinMaxOptions';
 	}
 }

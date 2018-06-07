@@ -13,8 +13,6 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-use Traversable;
-
 class CreditCard extends \MvcCore\Ext\Forms\Validator
 {
 	/**

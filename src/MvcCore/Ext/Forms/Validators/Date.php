@@ -16,6 +16,33 @@ namespace MvcCore\Ext\Forms\Validators;
 class Date extends \MvcCore\Ext\Forms\Validator
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Format;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
+
+	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_DATE			= 0;
+	const ERROR_DATE_TO_LOW		= 1;
+	const ERROR_DATE_TO_HIGH	= 2;
+	const ERROR_TIME			= 3;
+	const ERROR_TIME_TO_LOW		= 4;
+	const ERROR_TIME_TO_HIGH	= 5;
+	const ERROR_DATETIME		= 6;
+
+	/**
+	 * Validation failure message template definitions.
+	 * @var array
+	 */
+	protected static $errorMessages = [
+		self::ERROR_DATE			=> "Field '{0}' requires a valid date format: '{1}'.",
+		self::ERROR_DATE_TO_LOW		=> "Field '{0}' requires date higher or equal to '{1}'.",
+		self::ERROR_DATE_TO_HIGH	=> "Field '{0}' requires date lower or equal to '{1}'.",
+		self::ERROR_TIME			=> "Field '{0}' requires a valid time format: '00:00 - 23:59'.",
+		self::ERROR_TIME_TO_LOW		=> "Field '{0}' requires time higher or equal to '{1}'.",
+		self::ERROR_TIME_TO_HIGH	=> "Field '{0}' requires time lower or equal to '{1}'.",
+		self::ERROR_DATETIME		=> "Field '{0}' requires a valid date time format: '{1}'.",
+	];
 
 	protected $format = NULL;
 
@@ -51,11 +78,21 @@ class Date extends \MvcCore\Ext\Forms\Validator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
-		$fieldImplementsFormat = $field instanceof \MvcCore\Ext\Forms\Field\Attrs\Format;
-		if ($this->format && $fieldImplementsFormat && !$field->GetFormat()) {
+		
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IFormat)
+			$this->throwNewInvalidArgumentException(
+				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IFormat`."
+			);
+		
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxStep)
+			$this->throwNewInvalidArgumentException(
+				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxStep`."
+			);
+
+		if ($this->format !== NULL && $field->GetFormat() === NULL) {
 			// if this validator is added into field as instance - check field if it has format attribute defined:
-			$field->SetPattern($this->pattern);
-		} else if (!$this->format && $fieldImplementsFormat && $field->GetFormat()) {
+			$field->SetFormat($this->format);
+		} else if ($this->format === NULL && $field->GetFormat() !== NULL) {
 			// if validator is added as string - get format property from field:
 			$this->format = $field->GetFormat();
 		} else {
@@ -63,63 +100,71 @@ class Date extends \MvcCore\Ext\Forms\Validator
 				'No `format` property defined in current validator or in field.'	
 			);
 		}
+
+		if ($this->min !== NULL && $field->GetMin() === NULL) {
+			$field->SetMin($this->min);
+		} else if ($this->min === NULL && $field->GetMin() !== NULL) {
+			$this->min = $field->GetMin();
+		}
+		if ($this->max !== NULL && $field->GetMax() === NULL) {
+			$field->SetMax($this->max);
+		} else if ($this->max === NULL && $field->GetMax() !== NULL) {
+			$this->max = $field->GetMax();
+		}
+		if ($this->step !== NULL && $field->GetStep() === NULL) {
+			$field->SetStep($this->step);
+		} else if ($this->step === NULL && $field->GetStep() !== NULL) {
+			$this->step = $field->GetStep();
+		}
+
 		return $this;
 	}
 
-
 	public function Validate ($rawSubmittedValue) {
-		$rawSubmittedValue = trim($rawSubmittedValue);
+		$rawSubmittedValue = trim((string) $rawSubmittedValue);
 		$safeValue = preg_replace('#[^a-zA-Z0-9\:\.\-\,/ ]#', '', $rawSubmittedValue);
-
-		xxx($this);
-		$dateObj = @\DateTime::createFromFormat($this->format, $safeValue);
-
+		$dateObj = @date_create_from_format($this->format, $safeValue);
 		if ($dateObj === FALSE || mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue)) {
-			$this->addError($field, Form::$DefaultMessages[Form::DATE], function ($msg, $args) use (& $field) {
-				$format = $args->Format;
-				foreach (static::$errorMessagesFormatReplacements as $key => $value) {
-					$format = str_replace($key, $value, $format);
-				}
-				$args[] = $format;
-				return Core\View::Format($msg, $args);
-			});
+			$this->field->AddValidationError(
+				static::GetErrorMessage(static::ERROR_DATE),
+				[$this->format]
+			);
 		} else {
-			$this->checkMinMax($field, $safeValue, Form::DATE_TO_LOW, Form::DATE_TO_HIGH);
+			$this->checkMinMax($safeValue, $dateObj);
+			$this->checkStep($safeValue, $dateObj);
 		}
 		return $safeValue;
 	}
 
-	protected function checkMinMax (\MvcCore\Ext\Form\Core\Field & $field, $safeValue, $minErrorMsgKey, $maxErrorMsgKey) {
-		$minSet = !is_null($field->Min);
-		$maxSet = !is_null($field->Max);
-		if ($minSet || $maxSet) {
-			$date = \DateTime::createFromFormat($field->Format, $safeValue);
-			if ($minSet) {
-				$minDate = \DateTime::createFromFormat($field->Format, $field->Min);
-				if ($date < $minDate) {
-					$this->addError(
-						$field,
-						Form::$DefaultMessages[$minErrorMsgKey],
-						function ($msg, $args) use (& $field) {
-							$args[] = $field->Min;
-							return Core\View::Format($msg, $args);
-						}
-					);
-				}
-			}
-			if ($maxSet) {
-				$maxDate = \DateTime::createFromFormat($field->Format, $field->Max);
-				if ($date > $maxDate) {
-					$this->addError(
-						$field,
-						Form::$DefaultMessages[$maxErrorMsgKey],
-						function ($msg, $args) use (& $field) {
-							$args[] = $field->Max;
-							return Core\View::Format($msg, $args);
-						}
-					);
-				}
+	protected function checkMinMax ($safeValue, \DateTimeInterface & $date) {
+		if ($this->min !== NULL) {
+			$minDate = \DateTime::createFromFormat($field->Format, $field->Min);
+			if ($date < $minDate) {
+				$this->addError(
+					$field,
+					Form::$DefaultMessages[Form::DATE_TO_LOW],
+					function ($msg, $args) use (& $field) {
+						$args[] = $field->Min;
+						return Core\View::Format($msg, $args);
+					}
+				);
 			}
 		}
+		if ($this->max !== NULL) {
+			$maxDate = \DateTime::createFromFormat($field->Format, $field->Max);
+			if ($date > $maxDate) {
+				$this->addError(
+					$field,
+					Form::$DefaultMessages[Form::DATE_TO_HIGH],
+					function ($msg, $args) use (& $field) {
+						$args[] = $field->Max;
+						return Core\View::Format($msg, $args);
+					}
+				);
+			}
+		}
+	}
+	protected function checkStep ($safeValue) {
+		$stepSet = $this->step !== NULL;
 	}
 }
