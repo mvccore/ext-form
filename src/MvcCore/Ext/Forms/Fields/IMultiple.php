@@ -13,21 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-interface IOptions
+interface IMultiple
 {
 	/**
-	 * @return array
+	 * @return bool
 	 */
-	public function & GetOptions ();
+	public function GetMultiple ();
 
 	/**
-	 * @param array $options
+	 * @param bool $multiple Default value is `TRUE`.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetOptions (array $options = []);
-
-	/**
-	 * @return array
-	 */
-	public function GetAllOptionsKeys ();
+	public function SetMultiple ($multiple = TRUE);
 }

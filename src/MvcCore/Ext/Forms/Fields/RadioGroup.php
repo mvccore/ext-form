@@ -14,8 +14,9 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 class RadioGroup 
-	extends \MvcCore\Ext\Forms\FieldsGroup 
-	implements \MvcCore\Ext\Forms\Fields\IOptions
+	extends		\MvcCore\Ext\Forms\FieldsGroup 
+	implements	\MvcCore\Ext\Forms\Fields\IOptions, 
+				\MvcCore\Ext\Forms\Fields\IMultiple
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 
@@ -27,6 +28,9 @@ class RadioGroup
 	
 	public function GetMultiple () {
 		return FALSE;
+	}
+	public function SetMultiple ($multiple = TRUE) {
+		return $this;
 	}
 
 	public function __construct(array $cfg = []) {

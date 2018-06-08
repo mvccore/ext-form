@@ -13,7 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Number extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\IPattern
+class Number 
+	extends		\MvcCore\Ext\Forms\Field 
+	implements	\MvcCore\Ext\Forms\Fields\INumber,
+				\MvcCore\Ext\Forms\Fields\IMinMaxStep,
+				\MvcCore\Ext\Forms\Fields\IPattern
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
@@ -21,7 +25,7 @@ class Number extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fiel
 
 	protected $type = 'number';
 	
-	protected $validators = ['Number'];
+	protected $validators = ['Number' /*,'Pattern'*/];
 
 	/**
 	 * Numeric field value is always  stored as float value.

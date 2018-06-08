@@ -15,6 +15,16 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Range extends \MvcCore\Ext\Forms\Validators\Number
 {
+	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		parent::SetField($field);
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMultiple) 
+			$this->throwNewInvalidArgumentException(
+				'If field has configured `Range` validator, it has to implement '
+				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IMultiple`.'
+			);
+		return $this;
+	}
+		
 	/**
 	 * Validate numeric raw user input. Parse numeric value or values by locale conventions
 	 * and check minimum, maximum and step if necessary.
@@ -22,14 +32,14 @@ class Range extends \MvcCore\Ext\Forms\Validators\Number
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$multiple = method_exists($this->field, 'GetMultiple')
-			? $this->field->GetMultiple()
-			: FALSE;
+		$multiple = $this->field->GetMultiple();
+		x($multiple);
 		if ($multiple) {
 			$rawSubmitValues = is_array($rawSubmittedValue) 
 				? $rawSubmittedValue 
 				: explode(',', (string) $rawSubmittedValue);
 			$result = [];
+			x($rawSubmitValues);
 			foreach ($rawSubmitValues as $rawSubmitValue) 
 				$result[] = parent::Validate($rawSubmitValue);
 			return $result;

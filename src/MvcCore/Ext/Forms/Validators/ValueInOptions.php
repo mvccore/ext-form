@@ -50,6 +50,11 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 				'If field has configured `ValueInOptions` validator, it has to implement '
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IOptions`.'
 			);
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMultiple) 
+			$this->throwNewInvalidArgumentException(
+				'If field has configured `ValueInOptions` validator, it has to implement '
+				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IMultiple`.'
+			);
 		return parent::SetField($field);
 	}
 

@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Forms\Fields;
 class CheckboxGroup 
 	extends		\MvcCore\Ext\Forms\FieldsGroup 
 	implements	\MvcCore\Ext\Forms\Fields\IOptions,
+				\MvcCore\Ext\Forms\Fields\IMultiple, 
 				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
@@ -56,6 +57,9 @@ class CheckboxGroup
 
 	public function GetMultiple () {
 		return TRUE;
+	}
+	public function SetMultiple ($multiple = TRUE) {
+		return $this;
 	}
 
 	public function __construct(array $cfg = []) {

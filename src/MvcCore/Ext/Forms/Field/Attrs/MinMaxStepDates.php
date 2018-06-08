@@ -60,10 +60,13 @@ trait MinMaxStepDates
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return \DateTimeInterface|NULL
+	 * @param bool $getFormatedString Get value as formated string by `$this->format`.
+	 * @return \DateTimeInterface|string|NULL
 	 */
-	public function GetMin () {
-		return $this->min;
+	public function GetMin ($getFormatedString = FALSE) {
+		return $getFormatedString 
+			? $this->min->format($this->format) 
+			: $this->min;
 	}
 
 	/**
@@ -91,10 +94,13 @@ trait MinMaxStepDates
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return \DateTimeInterface|NULL
+	 * @param bool $getFormatedString Get value as formated string by `$this->format`.
+	 * @return \DateTimeInterface|string|NULL
 	 */
-	public function GetMax () {
-		return $this->max;
+	public function GetMax ($getFormatedString = FALSE) {
+		return $getFormatedString 
+			? $this->max->format($this->format) 
+			: $this->max;
 	}
 
 	/**

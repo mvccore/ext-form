@@ -243,10 +243,9 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		$fieldLabelOrName = '';
 		if ($this->translate) {
 			$errorMsg = $this->form->Translate($errorMsg);
-			if ($customReplacing)
-				$fieldLabelOrName = $this->label
-					? $this->form->Translate($this->label) 
-					: $this->name;
+			$fieldLabelOrName = $this->label
+				? $this->form->Translate($this->label) 
+				: $this->name;
 		} else {
 			$fieldLabelOrName = $this->label
 				? $this->label 

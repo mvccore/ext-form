@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Forms\Fields;
 class Select 
 	extends		\MvcCore\Ext\Forms\Field 
 	implements	\MvcCore\Ext\Forms\Fields\IOptions, 
+				\MvcCore\Ext\Forms\Fields\IMultiple, 
 				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;

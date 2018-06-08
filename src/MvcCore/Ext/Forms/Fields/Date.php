@@ -13,7 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Date extends \MvcCore\Ext\Forms\Field
+class Date 
+	extends		\MvcCore\Ext\Forms\Field
+	implements	\MvcCore\Ext\Forms\Fields\IFormat,
+				\MvcCore\Ext\Forms\Fields\IMinMaxStep
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Format;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
@@ -79,15 +82,25 @@ class Date extends \MvcCore\Ext\Forms\Field
 	 * @return string
 	 */
 	public function RenderControl () {
+		$min = $this->min;
+		$max = $this->max;
+		if ($this->min instanceof \DateTimeInterface) 
+			$this->min = $this->min->format($this->format);
+		if ($this->max instanceof \DateTimeInterface) 
+			$this->max = $this->max->format($this->format);
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			['min', 'max', 'step']
 		);
+		$this->min = $min;
+		$this->max = $max;
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value,
+			'value'		=> $this->value instanceof \DateTimeInterface 
+				? $this->value->format($this->format)
+				: $this->value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 		return $this->renderControlWrapper($result);

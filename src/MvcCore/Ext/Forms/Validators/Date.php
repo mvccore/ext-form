@@ -95,7 +95,8 @@ class Date extends \MvcCore\Ext\Forms\Validator
 		} else if ($this->format === NULL && $field->GetFormat() !== NULL) {
 			// if validator is added as string - get format property from field:
 			$this->format = $field->GetFormat();
-		} else {
+		}
+		if ($this->format === NULL) {
 			$this->throwNewInvalidArgumentException(
 				'No `format` property defined in current validator or in field.'	
 			);

@@ -19,8 +19,7 @@ namespace MvcCore\Ext\Forms\Validators;
  */
 class Number 
 	extends		\MvcCore\Ext\Forms\Validator
-	implements	\MvcCore\Ext\Forms\Fields\IMinMaxStep,
-				\MvcCore\Ext\Forms\Fields\IPattern
+	implements	\MvcCore\Ext\Forms\Fields\IMinMaxStep
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
 
@@ -88,7 +87,7 @@ class Number
 		$result = $this->field->ParseFloat((string)$rawSubmittedValue);
 		if ($result === NULL) {
 			$this->field->AddValidationError(
-				static::GetErrorMessage(self::ERROR_NUMBER)	
+				static::GetErrorMessage(static::ERROR_NUMBER)
 			);
 			return NULL;
 		}
