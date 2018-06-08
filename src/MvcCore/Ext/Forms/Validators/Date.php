@@ -22,7 +22,7 @@ class Date extends \MvcCore\Ext\Forms\Validator
 	 * Error message index(es).
 	 * @var int
 	 */
-	const ERROR_DATE			= 0;
+	const ERROR_DATE_INVALID	= 0;
 	const ERROR_DATE_TO_LOW		= 1;
 	const ERROR_DATE_TO_HIGH	= 2;
 	const ERROR_TIME			= 3;
@@ -35,7 +35,7 @@ class Date extends \MvcCore\Ext\Forms\Validator
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_DATE			=> "Field '{0}' requires a valid date format: '{1}'.",
+		self::ERROR_DATE_INVALID	=> "Field '{0}' requires a valid date format: '{1}'.",
 		self::ERROR_DATE_TO_LOW		=> "Field '{0}' requires date higher or equal to '{1}'.",
 		self::ERROR_DATE_TO_HIGH	=> "Field '{0}' requires date lower or equal to '{1}'.",
 		self::ERROR_TIME			=> "Field '{0}' requires a valid time format: '00:00 - 23:59'.",
@@ -123,48 +123,41 @@ class Date extends \MvcCore\Ext\Forms\Validator
 	public function Validate ($rawSubmittedValue) {
 		$rawSubmittedValue = trim((string) $rawSubmittedValue);
 		$safeValue = preg_replace('#[^a-zA-Z0-9\:\.\-\,/ ]#', '', $rawSubmittedValue);
-		$dateObj = @date_create_from_format($this->format, $safeValue);
-		if ($dateObj === FALSE || mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue)) {
+		$date = @date_create_from_format($this->format, $safeValue);
+		if ($date === FALSE || mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue)) {
 			$this->field->AddValidationError(
-				static::GetErrorMessage(static::ERROR_DATE),
+				static::GetErrorMessage(static::ERROR_DATE_INVALID),
 				[$this->format]
 			);
+			$date = NULL;
 		} else {
-			$this->checkMinMax($safeValue, $dateObj);
-			$this->checkStep($safeValue, $dateObj);
+			$fieldType = $this->field->GetType();
+			if ($fieldType == 'date' || $fieldType == 'week' || $fieldType == 'month') 
+				$date->setTime(0, 0, 0, 0);
+			x($date);
+			$this->checkMinMax($date);
+			$this->checkStep($date);
 		}
-		return $safeValue;
+		return $date;
 	}
 
-	protected function checkMinMax ($safeValue, \DateTimeInterface & $date) {
-		if ($this->min !== NULL) {
-			$minDate = \DateTime::createFromFormat($field->Format, $field->Min);
-			if ($date < $minDate) {
-				$this->addError(
-					$field,
-					Form::$DefaultMessages[Form::DATE_TO_LOW],
-					function ($msg, $args) use (& $field) {
-						$args[] = $field->Min;
-						return Core\View::Format($msg, $args);
-					}
-				);
-			}
+	protected function checkMinMax (\DateTimeInterface & $date) {
+		if ($this->min !== NULL && $date < $this->min) {
+			$this->field->AddValidationError(
+				static::GetErrorMessage(static::ERROR_DATE_TO_LOW),
+				[$this->min->format($this->format)]
+			);
 		}
-		if ($this->max !== NULL) {
-			$maxDate = \DateTime::createFromFormat($field->Format, $field->Max);
-			if ($date > $maxDate) {
-				$this->addError(
-					$field,
-					Form::$DefaultMessages[Form::DATE_TO_HIGH],
-					function ($msg, $args) use (& $field) {
-						$args[] = $field->Max;
-						return Core\View::Format($msg, $args);
-					}
-				);
-			}
+		if ($this->max !== NULL && $date > $this->max) {
+			$this->field->AddValidationError(
+				static::GetErrorMessage(static::ERROR_DATE_TO_HIGH),
+				[$this->max->format($this->format)]
+			);
 		}
 	}
 	protected function checkStep ($safeValue) {
-		$stepSet = $this->step !== NULL;
+		if ($this->step !== NULL) {
+
+		}
 	}
 }

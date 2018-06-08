@@ -24,6 +24,14 @@ class Date extends \MvcCore\Ext\Forms\Field
 	 * @var string
 	 */
 	protected $type = 'date';
+
+	/**
+	 * Value is used as `\DateTimeInterface`,
+	 * but it could be set into field as formated `string`
+	 * by `$this->format` or as `int` (Unix epoch).
+	 * @var \DateTimeInterface|NULL
+	 */
+	protected $value = NULL;
 	
 	/**
 	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
@@ -42,33 +50,27 @@ class Date extends \MvcCore\Ext\Forms\Field
 	protected $validators = ['Date'];
 
 	/**
-	 * Get formatted value by configured `$field->format` property as string to render.
-	 * @return string
+	 * Get value as `\DateTimeInterface`.
+	 * @see http://php.net/manual/en/class.datetime.php
+	 * @param bool $getFormatedString Get value as formated string by `$this->format`.
+	 * @return \DateTimeInterface|string|NULL
 	 */
-	public function GetValue () {
-		return $this->value;
+	public function GetValue ($getFormatedString = FALSE) {
+		return $getFormatedString
+			? $this->value->format($this->format)
+			: $this->value;
 	}
 	
 	/**
-	 * 
-	 * Set value as `\DateTimeInterface`, `int` (UNIX timestamp) or 
-	 * formatted string value and use it internally as formatted string.
-	 * For given `\DateTimeInterface` instance, format `$value` by 
-	 * PHP function `date_format()`, for given `integer`, format 
-	 * `$value` by PHP function `date()`.
-	 * @see http://php.net/manual/en/datetime.format.php
-	 * @see http://php.net/manual/en/function.date.php
+	 * Set value as `\DateTimeInterface` or `int` (UNIX timestamp) or 
+	 * formatted `string` value by `date()` by `$this->format` 
+	 * and use it internally as `\DateTimeInterface`.
+	 * @see http://php.net/manual/en/class.datetime.php
 	 * @param \DateTimeInterface|int|string $value
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetValue ($value) {
-		if ($value instanceof \DateTimeInterface) {
-			$this->value = \date_format($value, $this->format);
-		} else if (is_int($value)) {
-			$this->value = \date($this->format, $value);
-		} else {
-			$this->value = $value;
-		}
+		$this->value = $this->createDateTimeFromInput($value, TRUE);
 		return $this;
 	}
 

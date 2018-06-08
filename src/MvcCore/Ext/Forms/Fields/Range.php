@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Range extends \MvcCore\Ext\Forms\Field
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumber;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
@@ -29,12 +29,37 @@ class Range extends \MvcCore\Ext\Forms\Field
 
 	protected $cssSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/range.css';
 
+	/**
+	 * If range has multiple attribute, this function
+	 * returns `array` of floats. If select has not multiple
+	 * attribute, this function returns `float`.
+	 * If there is no value, function returns `NULL`.
+	 * @return array|float|NULL
+	 */
+	public function GetValue () {
+		return $this->value;
+	}
+	
+	/**
+	 * If range has multiple attribute, set to this function
+	 * `array` of floats. If range has not multiple
+	 * attribute, set to this function `float`.
+	 * If you don't want any pre initialized value, set `NULL`.
+	 * @param array|float|NULL $value
+	 * @return \MvcCore\Ext\Forms\Fields\Select
+	 */
+	public function & SetValue ($value) {
+		$this->value = $value;
+		return $this;
+	}
+
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->form
 			->AddJsSupportFile($this->jsSupportingFile, $this->jsClassName, [$this->name])
 			->AddCssSupportFile($this->cssSupportingFile);
 	}
+
 	public function RenderControl () {
 		if ($this->multiple) 
 			$this->multiple = 'multiple';

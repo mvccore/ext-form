@@ -18,6 +18,7 @@ class Text extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+	use \MvcCore\Ext\Forms\Field\Attrs\Size;
 
 	protected $type = 'text';
 
@@ -29,11 +30,13 @@ class Text extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields
 		$this->checkValidatorsMinMaxLength();
 		return $this;
 	}
+
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if ($this->translate && $this->placeholder)
 			$this->placeholder = $this->form->Translate($this->placeholder);
 	}
+
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
 			['minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete']

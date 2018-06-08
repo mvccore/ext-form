@@ -93,12 +93,12 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * This method  is called internaly from \MvcCore\Ext\Form after field
-	 * is added into form by $form->AddField(); method. Do not use it
-	 * if you are only user of this library.
-	 * - check if field has any name, which is required
-	 * - set up form and field id attribute by form id and field name
-	 * - set up required
+	 * This method is called internally from `\MvcCore\Ext\Form` after field
+	 * is added into form by `$form->AddField();` method. Do not use it
+	 * if you don't develop any library component.
+	 * - Check if field has any name, which is required.
+	 * - Set up form and field id attribute by form id and field name.
+	 * - Set up required.
 	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField

@@ -38,6 +38,30 @@ class Select
 		'option'		=> '<option value="{value}"{selected}{class}{attrs}>{text}</option>',
 		'optionsGroup'	=> '<optgroup{label}{class}{attrs}>{options}</optgroup>',
 	];
+
+	/**
+	 * If select has multiple attribute, this function
+	 * returns `array` of strings. If select has not multiple
+	 * attribute, this function returns `string`.
+	 * If there is no value, function return `NULL`.
+	 * @return array|string|NULL
+	 */
+	public function GetValue () {
+		return $this->value;
+	}
+	
+	/**
+	 * If select has multiple attribute, set to this function
+	 * `array` of strings. If select has not multiple
+	 * attribute, set to this function `string`.
+	 * If you don't want any selected value, set `NULL`.
+	 * @param array|string|NULL $value
+	 * @return \MvcCore\Ext\Forms\Fields\Select
+	 */
+	public function & SetValue ($value) {
+		$this->value = $value;
+		return $this;
+	}
 	
 	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);

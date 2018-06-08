@@ -15,12 +15,25 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 trait AutoComplete
 {
+	/**
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
+	 * @var string|NULL
+	 */
 	protected $autoComplete = NULL;
 
+	/**
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
+	 * @return string|NULL
+	 */
 	public function GetAutoComplete () {
 		return $this->autoComplete;
 	}
 
+	/**
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
+	 * @param string $autoComplete 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetAutoComplete ($autoComplete) {
 		$this->autoComplete = $autoComplete;
 		return $this;

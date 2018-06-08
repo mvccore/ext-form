@@ -28,7 +28,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @var string|NULL
+	 * @var \DateTimeInterface|NULL
 	 */
 	protected $min = NULL;
 
@@ -39,7 +39,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @var string|NULL
+	 * @var \DateTimeInterface|NULL
 	 */
 	protected $max = NULL;
 
@@ -60,7 +60,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return string|NULL
+	 * @return \DateTimeInterface|NULL
 	 */
 	public function GetMin () {
 		return $this->min;
@@ -79,7 +79,7 @@ trait MinMaxStepDates
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMin ($min) {
-		$this->min = $min;
+		$this->min = $this->createDateTimeFromInput($min, TRUE);
 		return $this;
 	}
 
@@ -91,7 +91,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
-	 * @return string|NULL
+	 * @return \DateTimeInterface|NULL
 	 */
 	public function GetMax () {
 		return $this->max;
@@ -110,7 +110,7 @@ trait MinMaxStepDates
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMax ($max) {
-		$this->max = $max;
+		$this->max = $this->createDateTimeFromInput($max, TRUE);
 		return $this;
 	}
 
@@ -138,5 +138,37 @@ trait MinMaxStepDates
 	public function & SetStep ($step) {
 		$this->step = $step;
 		return $this;
+	}
+
+	/**
+	 * Create `\DateTimeInterface` value from given `\DateTimeInterface`
+	 * or from given `int` (UNIX timestamp) or from `string` value 
+	 * (formated by `date()` with `$this->format`) and return it.
+	 * @see http://php.net/manual/en/class.datetime.php
+	 * @param \DateTimeInterface|int|string $inputValue
+	 * @return \DateTimeInterface|NULL
+	 */
+	protected function & createDateTimeFromInput ($inputValue, $throwException = FALSE) {
+		$newValue = NULL;
+		if ($inputValue instanceof \DateTimeInterface) {
+			$newValue = $inputValue;
+		} else if (is_int($inputValue)) {
+			$newValue = new \DateTime();
+			$newValue->setTimestamp($inputValue);
+		} else if (is_string($inputValue)) {
+			$parsedValue = @date_create_from_format($this->format, $inputValue);
+			if ($parsedValue === FALSE) {
+				if ($throwException) $this->throwNewInvalidArgumentException(
+					"Value is not possible to parse into `\DateTimeInterface`: `$inputValue` by format: `$this->format`."
+				);
+			} else {
+				$newValue = $parsedValue;
+			}
+		} else if ($throwException) {
+			$this->throwNewInvalidArgumentException(
+				"Value is not possible to convert into `\DateTimeInterface`: `$inputValue`. Value has to be formated date string or UNIX epoch integer."
+			);
+		}
+		return $newValue;
 	}
 }
