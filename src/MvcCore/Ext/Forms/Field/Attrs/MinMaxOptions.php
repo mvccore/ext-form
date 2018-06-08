@@ -122,7 +122,7 @@ trait MinMaxOptions
 	 * or maximum options count is set.
 	 * @return void
 	 */
-	protected function checkValidatorsMinMaxOptions () {
+	protected function setFormMinMaxOptions () {
 		if (
 			($this->minOptions !== NULL || $this->maxOptions !== NULL) &&
 			!isset($this->validators['MinMaxOptions'])

@@ -22,6 +22,7 @@ class Number
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
 
 	protected $type = 'number';
 	
@@ -84,20 +85,20 @@ class Number
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-		$this->checkValidatorsPattern();
+		$this->setFormPattern();
 		return $this;
 	}
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['size', 'min', 'max', 'step', 'pattern']
+			['size', 'min', 'max', 'step', 'pattern', 'list']
 		);
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value,
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 		return $this->renderControlWrapper($result);

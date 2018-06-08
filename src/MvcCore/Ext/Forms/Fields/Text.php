@@ -12,13 +12,17 @@
  */
 
 namespace MvcCore\Ext\Forms\Fields;
-class Text extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\IPattern, \MvcCore\Ext\Forms\Fields\IMinMaxLength
+class Text 
+	extends		\MvcCore\Ext\Forms\Field 
+	implements	\MvcCore\Ext\Forms\Fields\IPattern, 
+				\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 	use \MvcCore\Ext\Forms\Field\Attrs\Size;
+	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
 
 	protected $type = 'text';
 
@@ -26,8 +30,8 @@ class Text extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields
 
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-		$this->checkValidatorsPattern();
-		$this->checkValidatorsMinMaxLength();
+		$this->setFormPattern();
+		$this->setFormMinMaxLength();
 		return $this;
 	}
 
@@ -39,14 +43,14 @@ class Text extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete']
+			['minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete', 'list']
 		);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value,
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

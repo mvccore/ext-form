@@ -35,7 +35,7 @@ class Textarea extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fi
 	}
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
-		$this->checkValidatorsMinMaxLength();
+		$this->setFormMinMaxLength();
 		return $this;
 	}
 	public function RenderControl () {
@@ -46,7 +46,7 @@ class Textarea extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fi
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
-			'value'		=> $this->value,
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

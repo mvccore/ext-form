@@ -134,7 +134,7 @@ class CountrySelect extends Select
 			$result .= $this->renderControlOptionsAdvanced(
 				'', [
 					'value'	=> '',
-					'text'	=> $this->nullOptionText,
+					'text'	=> htmlspecialchars($this->nullOptionText, ENT_QUOTES),
 					'class'	=> 'country-none',
 					'attrs'	=> ['disabled' => 'disabled']
 				], $valueTypeIsArray
@@ -144,8 +144,8 @@ class CountrySelect extends Select
 			// advanced configuration with key, text, cs class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced($key, [
 				'class'	=> 'country-' . strtolower($key),
-				'text'	=> $value,
-				'value'	=> $key,
+				'text'	=> htmlspecialchars($value, ENT_QUOTES),
+				'value'	=> htmlspecialchars($key, ENT_QUOTES),
 			], $valueTypeIsArray);
 		}
 		return $result;

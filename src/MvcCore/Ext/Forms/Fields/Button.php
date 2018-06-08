@@ -58,7 +58,7 @@ class Button extends \MvcCore\Ext\Forms\Field
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value,
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

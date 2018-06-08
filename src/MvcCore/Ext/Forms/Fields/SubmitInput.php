@@ -49,7 +49,7 @@ class SubmitInput extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value,
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

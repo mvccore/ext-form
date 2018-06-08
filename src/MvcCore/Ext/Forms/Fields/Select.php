@@ -78,7 +78,7 @@ class Select
 			'No `options` property defined.'
 		);
 		// add minimum/maximum options count validator if necessary
-		$this->checkValidatorsMinMaxOptions();
+		$this->setFormMinMaxOptions();
 	}
 
 	public function PreDispatch () {
@@ -150,9 +150,9 @@ class Select
 			// advanced configuration with key, text, css class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced(
 				'', [
-					'value' => '',
-					'text' => $this->nullOptionText,
-					'attrs' => ['disabled' => 'disabled']
+					'value'	=> '',
+					'text'	=> htmlspecialchars($this->nullOptionText, ENT_QUOTES),
+					'attrs'	=> ['disabled' => 'disabled']
 				], $valueTypeIsArray
 			);
 		}
@@ -180,9 +180,9 @@ class Select
 			: $this->value === $key ;
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->option, [
-			'value'		=> $key,
+			'value'		=> htmlspecialchars($key, ENT_QUOTES),
 			'selected'	=> $selected ? ' selected="selected"' : '',
-			'text'		=> $value,
+			'text'		=> htmlspecialchars($value, ENT_QUOTES),
 			'class'		=> '', // to fill prepared template control place for attribute class with empty string
 			'attrs'		=> '', // to fill prepared template control place for other attributes with empty string
 		]);
@@ -234,11 +234,11 @@ class Select
 			? ' ' . $formViewClass::RenderAttrs($option['attrs']) 
 			: '';
 		return $formViewClass::Format(static::$templates->option, [
-			'value'		=> $value,
+			'value'		=> htmlspecialchars($value, ENT_QUOTES),
 			'selected'	=> $selected ? ' selected="selected"' : '',
 			'class'		=> $classStr,
 			'attrs'		=> $attrsStr,
-			'text'		=> $option['text'],
+			'text'		=> htmlspecialchars($option['text'], ENT_QUOTES),
 		]);
 	}
 }

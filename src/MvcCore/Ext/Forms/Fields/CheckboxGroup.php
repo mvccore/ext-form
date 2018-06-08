@@ -73,7 +73,7 @@ class CheckboxGroup
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		// add minimum/maximum options count validator if necessary
-		$this->checkValidatorsMinMaxOptions();
+		$this->setFormMinMaxOptions();
 		return $this;
 	}
 

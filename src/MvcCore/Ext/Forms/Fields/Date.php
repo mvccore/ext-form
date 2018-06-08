@@ -21,6 +21,7 @@ class Date
 	use \MvcCore\Ext\Forms\Field\Attrs\Format;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
 
 	/**
 	 * @see http://www.html5tutorial.info/html5-date.php
@@ -89,7 +90,7 @@ class Date
 		if ($this->max instanceof \DateTimeInterface) 
 			$this->max = $this->max->format($this->format);
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['min', 'max', 'step']
+			['min', 'max', 'step', 'list']
 		);
 		$this->min = $min;
 		$this->max = $max;
@@ -98,9 +99,12 @@ class Date
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value instanceof \DateTimeInterface 
-				? $this->value->format($this->format)
-				: $this->value,
+			'value'		=> htmlspecialchars(
+				($this->value instanceof \DateTimeInterface 
+					? $this->value->format($this->format)
+					: $this->value), 
+				ENT_QUOTES
+			),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 		return $this->renderControlWrapper($result);

@@ -68,7 +68,7 @@ trait MinMaxLength
 	 * or maximum characters count is set.
 	 * @return void
 	 */
-	protected function checkValidatorsMinMaxLength () {
+	protected function setFormMinMaxLength () {
 		if (
 			($this->minLength !== NULL || $this->maxLength !== NULL) && 
 			!isset($this->validators['MinMaxLength'])

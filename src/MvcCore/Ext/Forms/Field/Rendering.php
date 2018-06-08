@@ -135,7 +135,7 @@ trait Rendering
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $this->value,
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}
@@ -243,14 +243,14 @@ trait Rendering
 	) {
 		$attrs = [];
 		foreach ($fieldVars as $fieldName) {
-			if ($this->$fieldName !== NULL) {
+			if ($this->{$fieldName} !== NULL) {
 				$attrName = strtolower($fieldName);
-				$attrs[$attrName] = $this->$fieldName;
+				$attrs[$attrName] = $this->{$fieldName};
 			}
 		}
 		$boolFieldVars = ['disabled', 'readOnly', 'required'];
 		foreach ($boolFieldVars as $fieldName) {
-			if ($this->$fieldName) {
+			if ($this->{$fieldName}) {
 				$attrName = strtolower($fieldName);
 				if ($controlRendering) $attrs[$attrName] = $attrName;
 				$cssClasses[] = $attrName;

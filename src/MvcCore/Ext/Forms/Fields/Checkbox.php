@@ -20,9 +20,9 @@ class Checkbox extends \MvcCore\Ext\Forms\Field
 	protected $labelSide = 'right';
 
 	protected $validators = ['SafeString'];
-	
+
 	protected static $templates = [
-		'control'			=> '<input id="{id}" name="{name}" type="checkbox" value="true"{value}{attrs} />',
+		'control'			=> '<input id="{id}" name="{name}" type="checkbox" value="{value}"{attrs} />',
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	];
@@ -38,10 +38,12 @@ class Checkbox extends \MvcCore\Ext\Forms\Field
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		$viewClass = $this->form->GetViewClass();
+		$value = htmlspecialchars($this->value, ENT_QUOTES);
+		if ($this->value) $value .= '" checked="checked';
 		return $viewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
-			'value'		=> $this->value ? ' checked="checked"' : '',
+			'value'		=> $value,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

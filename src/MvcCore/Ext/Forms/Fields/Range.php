@@ -18,6 +18,7 @@ class Range
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
 
 	protected $type = 'range';
 
@@ -64,11 +65,12 @@ class Range
 		if ($this->multiple) 
 			$this->multiple = 'multiple';
 		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['min', 'max', 'step', 'multiple']
+			['min', 'max', 'step', 'multiple', 'list']
 		);
 		$valueStr = $this->multiple && gettype($this->value) == 'array' 
 			? implode(',', (array) $this->value) 
 			: (string) $this->value;
+		$valueStr = htmlspecialchars($valueStr, ENT_QUOTES);
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

@@ -54,7 +54,7 @@ trait Pattern
 	 * add automaticaly build in pattern validator.
 	 * @return void
 	 */
-	protected function checkValidatorsPattern () {
+	protected function setFormPattern () {
 		if ($this->pattern && !isset($this->validators['Pattern']))
 			$this->validators['Pattern'] = 'Pattern';
 	}

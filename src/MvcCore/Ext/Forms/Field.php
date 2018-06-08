@@ -123,9 +123,9 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 
 	/**
 	 * Set up field properties before rendering process.
-	 * - set up field render mode
-	 * - set up translation boolean
-	 * - translate label if any
+	 * - Set up field render mode if not defined.
+	 * - Set up translation boolean.
+	 * - Translate label if any.
 	 * @return void
 	 */
 	public function PreDispatch () {
