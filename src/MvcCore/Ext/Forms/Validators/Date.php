@@ -167,7 +167,8 @@ class Date extends \MvcCore\Ext\Forms\Validator
 					// date, datetime, datetime-local - days
 					$interval = new \DateInterval('P' . $this->step . 'D');
 				}
-				$datePeriod = new \DatePeriod($fieldValue, $interval);
+				$formatedDate = $date->format($this->format);
+				$datePeriod = new \DatePeriod($fieldValue, $interval, 2147483646);
 				$previousValue = $fieldValue;
 				$dateToCheckFrom = $fieldValue;
 				foreach ($datePeriod as $datePoint) {
@@ -178,14 +179,11 @@ class Date extends \MvcCore\Ext\Forms\Validator
 						$previousValue = $datePoint;
 					}
 				}
-				$datePeriod = new \DatePeriod($dateToCheckFrom, $interval);
-				$formatedDate = $date->format($this->format);
+				$datePeriod = new \DatePeriod($dateToCheckFrom, $interval, 2147483646);
 				$counter = 0;
-				x([$datePeriod, $date, $formatedDate, $dateToCheckFrom]);
 				foreach ($datePeriod as $datePoint) {
 					if ($counter > 3) break;
 					$formatedDatePoint = $datePoint->format($this->format);
-					x($formatedDatePoint);
 					if ($formatedDate === $formatedDatePoint) {
 						$stepMatched = TRUE;
 						break;
@@ -193,7 +191,6 @@ class Date extends \MvcCore\Ext\Forms\Validator
 						$counter++;
 					}
 				}
-				xxx($stepMatched);
 				if (!$stepMatched) {
 					$this->field->AddValidationError(
 						static::GetErrorMessage(static::ERROR_DATE_STEP),
