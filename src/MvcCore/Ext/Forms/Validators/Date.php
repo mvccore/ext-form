@@ -25,10 +25,7 @@ class Date extends \MvcCore\Ext\Forms\Validator
 	const ERROR_DATE_INVALID	= 0;
 	const ERROR_DATE_TO_LOW		= 1;
 	const ERROR_DATE_TO_HIGH	= 2;
-	const ERROR_TIME			= 3;
-	const ERROR_TIME_TO_LOW		= 4;
-	const ERROR_TIME_TO_HIGH	= 5;
-	const ERROR_DATETIME		= 6;
+	const ERROR_DATE_STEP		= 3;
 
 	/**
 	 * Validation failure message template definitions.
@@ -38,27 +35,24 @@ class Date extends \MvcCore\Ext\Forms\Validator
 		self::ERROR_DATE_INVALID	=> "Field '{0}' requires a valid date format: '{1}'.",
 		self::ERROR_DATE_TO_LOW		=> "Field '{0}' requires date higher or equal to '{1}'.",
 		self::ERROR_DATE_TO_HIGH	=> "Field '{0}' requires date lower or equal to '{1}'.",
-		self::ERROR_TIME			=> "Field '{0}' requires a valid time format: '00:00 - 23:59'.",
-		self::ERROR_TIME_TO_LOW		=> "Field '{0}' requires time higher or equal to '{1}'.",
-		self::ERROR_TIME_TO_HIGH	=> "Field '{0}' requires time lower or equal to '{1}'.",
-		self::ERROR_DATETIME		=> "Field '{0}' requires a valid date time format: '{1}'.",
+		self::ERROR_DATE_STEP		=> "Field '{0}' requires date in predefined days interval '{1}' from start point '{2}'.",
 	];
 
 	protected $format = NULL;
 
 	protected static $errorMessagesFormatReplacements = [
-		'd' => 'dd',
-		'j' => 'd',
+		'd' => 'DD',
+		'j' => 'D',
 		'D' => 'Mon-Sun',
 		'l' => 'Monday-Sunday',
-		'm' => 'mm',
-		'n' => 'm',
+		'm' => 'MM',
+		'n' => 'M',
 		'M' => 'Jan-Dec',
 		'F' => 'January-December',
-		'Y' => 'yyyy',
-		'y' => 'yy',
-		'a' => 'am',
-		'A' => 'pm',
+		'Y' => 'YYYY',
+		'y' => 'YY',
+		'a' => 'am/pm',
+		'A' => 'AM/PM',
 		'g' => '1-12',
 		'h' => '01-12',
 		'G' => '01-12',
@@ -128,21 +122,17 @@ class Date extends \MvcCore\Ext\Forms\Validator
 		if ($date === FALSE || mb_strlen($safeValue) !== mb_strlen($rawSubmittedValue)) {
 			$this->field->AddValidationError(
 				static::GetErrorMessage(static::ERROR_DATE_INVALID),
-				[$this->format]
+				[strtr($this->format, static::$errorMessagesFormatReplacements)]
 			);
 			$date = NULL;
 		} else {
-			$fieldType = $this->field->GetType();
-			if ($fieldType == 'date' || $fieldType == 'week' || $fieldType == 'month') 
-				$date->setTime(0, 0, 0, 0);
-			x($date);
-			$this->checkMinMax($date);
-			$this->checkStep($date);
+			$date = $this->checkMinMax($date);
+			$date = $this->checkStep($date);
 		}
 		return $date;
 	}
 
-	protected function checkMinMax (\DateTimeInterface & $date) {
+	protected function & checkMinMax (\DateTimeInterface & $date) {
 		if ($this->min !== NULL && $date < $this->min) {
 			$this->field->AddValidationError(
 				static::GetErrorMessage(static::ERROR_DATE_TO_LOW),
@@ -155,10 +145,64 @@ class Date extends \MvcCore\Ext\Forms\Validator
 				[$this->max->format($this->format)]
 			);
 		}
+		return $date;
 	}
-	protected function checkStep ($safeValue) {
-		if ($this->step !== NULL) {
 
+	protected function & checkStep ($date) {
+		if ($this->step !== NULL) {
+			$fieldValue = $this->field->GetValue();
+			if ($fieldValue instanceof \DateTimeInterface) {
+				$fieldType = $this->field->GetType();
+				$stepMatched = FALSE;
+				if ($fieldType == 'month') {
+					// months
+					$interval = new \DateInterval('P' . $this->step . 'M');
+				} else if ($fieldType == 'week') {
+					// weeks
+					$interval = new \DateInterval('P' . $this->step . 'W');
+				} else if ($fieldType == 'time') {
+					// seconds
+					$interval = new \DateInterval('P' . $this->step . 'S');
+				} else {
+					// date, datetime, datetime-local - days
+					$interval = new \DateInterval('P' . $this->step . 'D');
+				}
+				$datePeriod = new \DatePeriod($fieldValue, $interval);
+				$previousValue = $fieldValue;
+				$dateToCheckFrom = $fieldValue;
+				foreach ($datePeriod as $datePoint) {
+					if ($datePoint > $date) {
+						$dateToCheckFrom = $previousValue;
+						break;
+					} else {
+						$previousValue = $datePoint;
+					}
+				}
+				$datePeriod = new \DatePeriod($dateToCheckFrom, $interval);
+				$formatedDate = $date->format($this->format);
+				$counter = 0;
+				x([$datePeriod, $date, $formatedDate, $dateToCheckFrom]);
+				foreach ($datePeriod as $datePoint) {
+					if ($counter > 3) break;
+					$formatedDatePoint = $datePoint->format($this->format);
+					x($formatedDatePoint);
+					if ($formatedDate === $formatedDatePoint) {
+						$stepMatched = TRUE;
+						break;
+					} else {
+						$counter++;
+					}
+				}
+				xxx($stepMatched);
+				if (!$stepMatched) {
+					$this->field->AddValidationError(
+						static::GetErrorMessage(static::ERROR_DATE_STEP),
+						[$this->step, $fieldValue->format($this->format)]
+					);
+					$date = $fieldValue;
+				}
+			}
 		}
+		return $date;
 	}
 }

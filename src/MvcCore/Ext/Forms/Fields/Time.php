@@ -13,23 +13,15 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-require_once('Date.php');
-
-class Time extends Date
+class Time extends \MvcCore\Ext\Forms\Fields\Date
 {
 	protected $type = 'time';
 
 	/**
-	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
-	 * string format mask to format given values in `integer` type by PHP `date()` function.
 	 * Example: `"H:i"`
-	 * @see http://php.net/manual/en/datetime.createfromformat.php
-	 * @see http://php.net/manual/en/function.date.php
 	 * @var string
 	 */
-	protected $format = 'H:i';
+	protected $format = 'H:i'; // 22:15
 
 	protected $validators = ['Time'];
-
-	// Min and Max shoud be set as strings in 24 hours format like 8:00, 22:00
 }

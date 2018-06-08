@@ -15,13 +15,25 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Range extends \MvcCore\Ext\Forms\Validators\Number
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
+		
 		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMultiple) 
 			$this->throwNewInvalidArgumentException(
 				'If field has configured `Range` validator, it has to implement '
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IMultiple`.'
 			);
+
+		if ($this->multiple !== NULL && $field->GetMultiple() === NULL) {
+			// if this validator is added into field as instance - check field if it has multiple attribute defined:
+			$field->SetMultiple($this->multiple);
+		} else if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
+			// if validator is added as string - get multiple property from field:
+			$this->multiple = $field->GetMultiple();
+		}
+
 		return $this;
 	}
 		
@@ -33,13 +45,11 @@ class Range extends \MvcCore\Ext\Forms\Validators\Number
 	 */
 	public function Validate ($rawSubmittedValue) {
 		$multiple = $this->field->GetMultiple();
-		x($multiple);
 		if ($multiple) {
 			$rawSubmitValues = is_array($rawSubmittedValue) 
 				? $rawSubmittedValue 
 				: explode(',', (string) $rawSubmittedValue);
 			$result = [];
-			x($rawSubmitValues);
 			foreach ($rawSubmitValues as $rawSubmitValue) 
 				$result[] = parent::Validate($rawSubmitValue);
 			return $result;

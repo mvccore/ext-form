@@ -13,8 +13,12 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Range extends	\MvcCore\Ext\Forms\Fields\Number
+class Range 
+	extends		\MvcCore\Ext\Forms\Fields\Number
+	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+
 	protected $type = 'range';
 
 	protected $validators = ['Range'];

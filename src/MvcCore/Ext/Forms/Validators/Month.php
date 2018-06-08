@@ -13,16 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class Week extends \MvcCore\Ext\Forms\Validators\Date
+class Month extends \MvcCore\Ext\Forms\Validators\Date
 {
 	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_DATE_INVALID	=> "Field '{0}' requires a valid week format: '{1}'.",
-		self::ERROR_DATE_TO_LOW		=> "Field '{0}' requires week higher or equal to '{1}'.",
-		self::ERROR_DATE_TO_HIGH	=> "Field '{0}' requires week lower or equal to '{1}'.",
-		self::ERROR_DATE_STEP		=> "Field '{0}' requires week in predefined weeks interval '{1}' from start point '{2}'.",
+		self::ERROR_DATE_INVALID	=> "Field '{0}' requires a valid month format: '{1}'.",
+		self::ERROR_DATE_TO_LOW		=> "Field '{0}' requires month higher or equal to '{1}'.",
+		self::ERROR_DATE_TO_HIGH	=> "Field '{0}' requires month lower or equal to '{1}'.",
+		self::ERROR_DATE_STEP		=> "Field '{0}' requires month in predefined months interval '{1}' from start point '{2}'.",
 	];
 }

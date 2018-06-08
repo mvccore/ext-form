@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class DateTime extends Date
+class DateTime extends \MvcCore\Ext\Forms\Fields\Date
 {
 	protected $type = 'datetime-local';
 
@@ -25,7 +25,7 @@ class DateTime extends Date
 	 * @see http://php.net/manual/en/function.date.php
 	 * @var string
 	 */
-	protected $format = 'Y-m-d\TH:i';
+	protected $format = 'Y-m-d\TH:i'; // 2014-03-17 22:15
 
-	protected $validators = ['Date'];
+	protected $validators = ['DateTime'];
 }

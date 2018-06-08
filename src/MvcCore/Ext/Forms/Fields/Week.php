@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Week extends Date
+class Week extends \MvcCore\Ext\Forms\Fields\Date
 {
 	protected $type = 'week';
 
