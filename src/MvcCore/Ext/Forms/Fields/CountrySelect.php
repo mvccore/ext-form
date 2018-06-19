@@ -13,11 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class CountrySelect extends Select
+class CountrySelect 
+	extends \MvcCore\Ext\Forms\Fields\Select
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
-	use \MvcCore\Ext\Forms\Field\Attrs\Size;
-
 	protected $type = 'select';
 	
 	protected $translate = FALSE;

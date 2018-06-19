@@ -13,10 +13,18 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Textarea extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fields\IMinMaxLength
+class Textarea 
+	extends		\MvcCore\Ext\Forms\Field 
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
+				\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-	use \MvcCore\Ext\Forms\Field\Attrs\RowsCols;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Attrs\RowsColsWrap;
 
 	protected $type = 'textarea';
 
@@ -39,9 +47,14 @@ class Textarea extends \MvcCore\Ext\Forms\Field implements \MvcCore\Ext\Forms\Fi
 		return $this;
 	}
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['MinLength', 'MaxLength', 'Rows', 'Cols']
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex', 
+			'minLength', 'maxLength', 
+			'autoComplete',
+			'placeHolder',
+			'rows', 'cols', 'wrap',
+		]);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

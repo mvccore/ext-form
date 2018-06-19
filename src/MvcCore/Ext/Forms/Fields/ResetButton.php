@@ -13,7 +13,7 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class ResetButton extends Button
+class ResetButton extends \MvcCore\Ext\Forms\Fields\Button
 {
 	protected $type = 'reset';
 

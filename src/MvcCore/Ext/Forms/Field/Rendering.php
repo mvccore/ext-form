@@ -245,7 +245,7 @@ trait Rendering
 		foreach ($fieldVars as $fieldName) {
 			if ($this->{$fieldName} !== NULL) {
 				$attrName = strtolower($fieldName);
-				$attrs[$attrName] = $this->{$fieldName};
+				$attrs[$attrName] = (string) $this->{$fieldName};
 			}
 		}
 		$boolFieldVars = ['disabled', 'readOnly', 'required'];

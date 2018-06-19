@@ -13,10 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Color extends \MvcCore\Ext\Forms\Field
+class Color 
+	extends		\MvcCore\Ext\Forms\Field
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
+				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 
 	protected $type = 'color';
 
@@ -25,9 +31,12 @@ class Color extends \MvcCore\Ext\Forms\Field
 	protected $validators = ['Color'];
 
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['autoComplete', 'list']
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+			'list',
+			'autoComplete',
+		]);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

@@ -14,15 +14,20 @@
 namespace MvcCore\Ext\Forms\Fields;
 class Text 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\IPattern, 
-				\MvcCore\Ext\Forms\Fields\IMinMaxLength
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
+				\MvcCore\Ext\Forms\Fields\IPattern, 
+				\MvcCore\Ext\Forms\Fields\IMinMaxLength,
+				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
-	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-	use \MvcCore\Ext\Forms\Field\Attrs\Size;
 	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Attrs\Size;
 
 	protected $type = 'text';
 
@@ -42,9 +47,16 @@ class Text
 	}
 
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['minLength', 'maxLength', 'size', 'placeHolder', 'pattern', 'autoComplete', 'list']
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+			'pattern',
+			'minLength', 'maxLength',
+			'list',
+			'autoComplete',
+			'placeHolder',
+			'size',
+		]);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

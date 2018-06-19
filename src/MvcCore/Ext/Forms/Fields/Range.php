@@ -18,7 +18,6 @@ class Range
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
-	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
 
 	protected $type = 'range';
 
@@ -57,16 +56,27 @@ class Range
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->form
-			->AddJsSupportFile($this->jsSupportingFile, $this->jsClassName, [$this->name])
+			->AddJsSupportFile(
+				$this->jsSupportingFile, 
+				$this->jsClassName, 
+				[$this->name . ($this->multiple ? '[]' : '')]
+			)
 			->AddCssSupportFile($this->cssSupportingFile);
 	}
 
 	public function RenderControl () {
 		if ($this->multiple) 
 			$this->multiple = 'multiple';
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['min', 'max', 'step', 'multiple', 'list']
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+			'pattern',
+			'min', 'max', 'step',
+			'list',
+			'autoComplete',
+			'placeHolder',
+			'multiple',
+		]);
 		$valueStr = $this->multiple && gettype($this->value) == 'array' 
 			? implode(',', (array) $this->value) 
 			: (string) $this->value;
@@ -74,7 +84,7 @@ class Range
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
-			'name'		=> $this->name,
+			'name'		=> $this->name . ($this->multiple ? '[]' : ''),
 			'type'		=> $this->type,
 			'value'		=> $valueStr . '" data-value="' . $valueStr,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',

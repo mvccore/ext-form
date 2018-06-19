@@ -62,7 +62,7 @@ trait Options
 	#protected $options = [];
 
 	/**
-	 * Set form group control options to render
+	 * Set form control or group control options to render
 	 * more values for more specified submitted keys.
 	 * 
 	 * Example:
@@ -101,10 +101,22 @@ trait Options
 	 * ));
 	 * ```
 	 * @param array $options
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetOptions (array $options = []) {
 		$this->options = & $options;
+		return $this;
+	}
+
+	/**
+	 * Add form control or group control options to render
+	 * more values for more specified submitted keys.
+	 * Previous options will be merged with given options,
+	 * @param array $options
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & AddOptions (array $options = []) {
+		$this->options = array_merge($this->options, $options);
 		return $this;
 	}
 

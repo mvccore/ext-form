@@ -11,31 +11,20 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Field\Attrs;
+namespace MvcCore\Ext\Forms\Fields;
 
-trait AccessKey
+interface IAccessKey
 {
-	/**
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @var string|NULL
-	 */
-	protected $accessKey = NULL;
-
 	/**
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
 	 * @return string|NULL
 	 */
-	public function GetAccessKey () {
-		return $this->accessKey;
-	}
+	public function GetAccessKey ();
 
 	/**
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
 	 * @param string $accessKey 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAccessKey ($accessKey) {
-		$this->accessKey = $accessKey;
-		return $this;
-	}
+	public function & SetAccessKey ($accessKey);
 }

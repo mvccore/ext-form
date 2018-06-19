@@ -16,8 +16,16 @@ namespace MvcCore\Ext\Forms;
 //require_once('Exception.php');
 //require_once('View.php');
 
-abstract class FieldsGroup extends Field
+abstract class FieldsGroup 
+	extends		\MvcCore\Ext\Forms\Field
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
+				\MvcCore\Ext\Forms\Fields\IOptions,
+				\MvcCore\Ext\Forms\Fields\IMultiple,
+				\MvcCore\Ext\Forms\IFieldGroup
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 	use \MvcCore\Ext\Forms\Field\Attrs\GroupCssClasses;
 	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelAttrs;
@@ -93,6 +101,14 @@ abstract class FieldsGroup extends Field
 		'togetherLabelLeft'	=> '<label for="{id}"{attrs}><span>{label}</span>{control}</label>',
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	];
+
+	public function GetMultiple () {
+		return TRUE;
+	}
+
+	public function SetMultiple ($multiple = TRUE) {
+		return $this;
+	}
 
 	/* core methods **************************************************************************/
 
@@ -198,7 +214,7 @@ abstract class FieldsGroup extends Field
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			[], $this->groupLabelAttrs, $this->groupCssClasses, TRUE
+			['accessKey', 'tabIndex', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses, TRUE
 		);
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
 			? static::$templates->togetherLabelLeft 
@@ -240,7 +256,7 @@ abstract class FieldsGroup extends Field
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			[], $this->groupLabelAttrs, $this->groupCssClasses
+			['accessKey', 'tabIndex', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses
 		);
 		$viewClass = $this->form->GetViewClass();
 		return $viewClass::Format(static::$templates->label, [
@@ -330,7 +346,7 @@ abstract class FieldsGroup extends Field
 		if ($optionType == 'string') {
 			$itemLabelText = $option ? $option : $key;
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
-			$controlAttrsStr = $this->renderControlAttrsWithFieldVars();
+			$controlAttrsStr = $this->renderControlAttrsWithFieldVars(['accessKey', 'tabIndex', 'multiple']);
 		} else if ($optionType == 'array') {
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
 			$attrsArr = $this->controlAttrs;
@@ -348,10 +364,10 @@ abstract class FieldsGroup extends Field
 				foreach ($classArrParam as $clsValue) if ($clsValue) $classArr[] = $clsValue;
 			}
 			$labelAttrsStr = $this->renderAttrsWithFieldVars(
-				[], $attrsArr, $classArr
+				['accessKey', 'tabIndex', 'multiple'], $attrsArr, $classArr
 			);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				[], $attrsArr, $classArr, TRUE
+				['accessKey', 'tabIndex', 'multiple'], $attrsArr, $classArr, TRUE
 			);
 		}
 		if ($this->type == 'checkbox') 

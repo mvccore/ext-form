@@ -50,6 +50,27 @@ trait ConfigProps
 	protected $enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED;
 
 	/**
+	 * Form target attribute - where to display the response that is 
+	 * received after submitting the form. This is a name of, or keyword for, 
+	 * a browsing context (e.g. tab, window, or inline frame). Default value 
+	 * is `NULL` to not render any `<form>` element `target` attribute.
+	 * The following keywords have special meanings:
+	 * - `_self`:	Load the response into the same browsing context as the 
+	 *				current one. This value is the default if the attribute 
+	 *				is not specified.
+	 * - `_blank`:	Load the response into a new unnamed browsing context.
+	 * - `_parent`:	Load the response into the parent browsing context of 
+	 *				the current one. If there is no parent, this option 
+	 *				behaves the same way as `_self`.
+	 * - `_top`:	Load the response into the top-level browsing context 
+	 *				(i.e. the browsing context that is an ancestor of the 
+	 *				current one, and has no parent). If there is no parent, 
+	 *				this option behaves the same way as `_self`.
+	 * @var string|NULL
+	 */
+	protected $target = NULL;
+
+	/**
 	 * Property to complete optional translator language argument automaticly.
 	 * If you are operating in multilanguage project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to desired language code

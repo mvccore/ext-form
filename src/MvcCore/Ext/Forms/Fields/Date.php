@@ -15,13 +15,18 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Date 
 	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IFormat,
-				\MvcCore\Ext\Forms\Fields\IMinMaxStep
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
+				\MvcCore\Ext\Forms\Fields\IMinMaxStep,
+				\MvcCore\Ext\Forms\Fields\IFormat,
+				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Format;
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
-	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+	use \MvcCore\Ext\Forms\Field\Attrs\Format;
 	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
+	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
 	/**
 	 * @see http://www.html5tutorial.info/html5-date.php
@@ -89,9 +94,12 @@ class Date
 			$this->min = $this->min->format($this->format);
 		if ($this->max instanceof \DateTimeInterface) 
 			$this->max = $this->max->format($this->format);
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['min', 'max', 'step', 'list']
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey',
+			'tabIndex',
+			'min', 'max', 'step', 
+			'list',
+		]);
 		$this->min = $min;
 		$this->max = $max;
 		$formViewClass = $this->form->GetViewClass();

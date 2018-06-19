@@ -13,9 +13,13 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Button extends \MvcCore\Ext\Forms\Field
+class Button 
+	extends		\MvcCore\Ext\Forms\Field
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 
 	protected $type = 'button'; // submit | reset | button
 
@@ -50,9 +54,10 @@ class Button extends \MvcCore\Ext\Forms\Field
 	}
 	
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['accessKey',]
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+		]);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

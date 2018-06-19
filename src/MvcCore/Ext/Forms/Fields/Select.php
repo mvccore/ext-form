@@ -15,15 +15,19 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Select 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\IOptions, 
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
 				\MvcCore\Ext\Forms\Fields\IMultiple, 
+				\MvcCore\Ext\Forms\Fields\IOptions, 
 				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
-	use \MvcCore\Ext\Forms\Field\Attrs\Size;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
+	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
 	use \MvcCore\Ext\Forms\Field\Attrs\NullOptionText;
+	use \MvcCore\Ext\Forms\Field\Attrs\Size;
 
 	protected $type = 'select';
 
@@ -35,7 +39,7 @@ class Select
 	protected $validators = ['ValueInOptions'];
 
 	protected static $templates = [
-		'control'		=> '<select id="{id}" name="{name}"{multiple}{size}{attrs}>{options}</select>',
+		'control'		=> '<select id="{id}" name="{name}"{size}{attrs}>{options}</select>',
 		'option'		=> '<option value="{value}"{selected}{class}{attrs}>{text}</option>',
 		'optionsGroup'	=> '<optgroup{label}{class}{attrs}>{options}</optgroup>',
 	];
@@ -62,8 +66,7 @@ class Select
 	public function & SetValue ($value) {
 		$this->value = $value;
 		return $this;
-	}
-	
+	}	
 	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
@@ -71,7 +74,6 @@ class Select
 			(array) self::$templates
 		);
 	}
-
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		if (!$this->options) $this->throwNewInvalidArgumentException(
@@ -80,7 +82,6 @@ class Select
 		// add minimum/maximum options count validator if necessary
 		$this->setFormMinMaxOptions();
 	}
-
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if (!$this->translate) return;
@@ -131,13 +132,24 @@ class Select
 
 	public function RenderControl () {
 		$optionsStr = $this->RenderControlOptions();
-		$attrsStr = $this->renderControlAttrsWithFieldVars();
+		if ($this->multiple) {
+			$this->multiple = 'multiple';
+			$name = $this->name . '[]';
+			$size = $this->size !== NULL ? ' size="' . $this->size . '"' : '';
+		} else {
+			$name = $this->name;
+			$size = '';
+		}
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+			'multiple',
+		]);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
-			'name'		=> $this->multiple ? $this->name . '[]' : $this->name ,
-			'multiple'	=> $this->multiple ? ' multiple="multiple"' : '',
-			'size'		=> $this->multiple ? ' size="' . $this->size . '"' : '',
+			'name'		=> $name,
+			'size'		=> $size,
 			'options'	=> $optionsStr,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);

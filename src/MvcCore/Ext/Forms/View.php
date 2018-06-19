@@ -199,7 +199,7 @@ class View extends \MvcCore\View
 		// if property is still not in store, try to complete result with property by
 		// `$name` in `$this->form` instance:
 		if (
-			$this->form instanceof \MvcCore\Ext\IForm &&
+			$this->form instanceof \MvcCore\Ext\Forms\IForm &&
 			$formType = $this->getReflectionClass('form')
 		) {
 			if ($formType->hasProperty($name)) {
@@ -256,7 +256,7 @@ class View extends \MvcCore\View
 		// if property is still not in store, try to complete result with property by
 		// `$name` in `$this->form` instance:
 		if (
-			$this->form instanceof \MvcCore\Ext\IForm &&
+			$this->form instanceof \MvcCore\Ext\Forms\IForm &&
 			$formType = $this->getReflectionClass('form')
 		) {
 			if ($formType->hasProperty($name)) {
@@ -337,17 +337,17 @@ class View extends \MvcCore\View
 		$result = "<form";
 		$attrs = [];
 		$form = & $this->form;
-		$formProperties = ['id', 'action', 'method', 'enctype'];
+		$formProperties = ['id', 'action', 'method', 'enctype', 'target'];
 		foreach ($formProperties as $property) {
 			$getter = 'Get'.ucfirst($property);
 			$formPropertyValue = $form->$getter();
-			if ($formPropertyValue)
+			if ($formPropertyValue !== NULL)
 				$attrs[$property] = $formPropertyValue;
 		}
 		$formCssClasses = $form->GetCssClasses();
 		if ($formCssClasses)
 			$attrs['class'] = gettype($formCssClasses) == 'array'
-				? implode(' ', $formCssClasses)
+				? implode(' ', (array) $formCssClasses)
 				: $formCssClasses;
 		foreach ($form->GetAttributes() as $key => $value) {
 			if (!in_array($key, $formProperties))
@@ -458,7 +458,7 @@ class View extends \MvcCore\View
 	public static function RenderAttrs (array $atrributes = []) {
 		$result = [];
 		foreach ($atrributes as $attrName => $attrValue) {
-			if (gettype($attrValue) == 'array') $stop();
+			//if (gettype($attrValue) == 'array') $stop();
 			$result[] = $attrName.'="'.$attrValue.'"';
 		}
 		return implode(' ', $result);

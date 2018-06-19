@@ -13,8 +13,14 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Checkbox extends \MvcCore\Ext\Forms\Field
+class Checkbox 
+	extends		\MvcCore\Ext\Forms\Field
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+
 	protected $type = 'checkbox';
 	
 	protected $labelSide = 'right';
@@ -36,10 +42,16 @@ class Checkbox extends \MvcCore\Ext\Forms\Field
 	}
 	
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars();
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+		]);
 		$viewClass = $this->form->GetViewClass();
-		$value = htmlspecialchars($this->value, ENT_QUOTES);
-		if ($this->value) $value .= '" checked="checked';
+		if ($this->value) {
+			$value = htmlspecialchars($this->value, ENT_QUOTES) . '" checked="checked';
+		} else {
+			$value = 'true';
+		}
 		return $viewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,

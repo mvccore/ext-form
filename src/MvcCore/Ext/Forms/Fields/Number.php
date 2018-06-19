@@ -15,14 +15,21 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Number 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\INumber,
+	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
+				\MvcCore\Ext\Forms\Fields\ITabIndex,
+				\MvcCore\Ext\Forms\Fields\INumber,
 				\MvcCore\Ext\Forms\Fields\IMinMaxStep,
-				\MvcCore\Ext\Forms\Fields\IPattern
+				\MvcCore\Ext\Forms\Fields\IPattern,
+				\MvcCore\Ext\Forms\Fields\IDataList
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
-	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
 	protected $type = 'number';
 	
@@ -90,9 +97,15 @@ class Number
 	}
 	
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars(
-			['size', 'min', 'max', 'step', 'pattern', 'list']
-		);
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'accessKey', 
+			'tabIndex',
+			'pattern',
+			'min', 'max', 'step',
+			'list',
+			'autoComplete',
+			'placeHolder',
+		]);
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

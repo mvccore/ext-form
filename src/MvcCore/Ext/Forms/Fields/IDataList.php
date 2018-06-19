@@ -11,31 +11,20 @@
  * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
  */
 
-namespace MvcCore\Ext\Forms\Field\Attrs;
+namespace MvcCore\Ext\Forms\Fields;
 
-trait DataList
+interface IDataList
 {
-	/**
-	 * Element `list` attribute value - the `<list>` element `id` attribute value.
-	 * @var string|NULL
-	 */
-	protected $list = NULL;
-
 	/**
 	 * Get element `list` attribute value - the `<list>` element `id` attribute value.
 	 * @return string|NULL
 	 */
-	public function & GetList () {
-		return $this->list;
-	}
+	public function & GetList ();
 
 	/**
 	 * Set element `list` attribute value - the `<list>` element `id` attribute value.
 	 * @param string $dataListId 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetList ($dataListId) {
-		$this->list = $dataListId;
-		return $this;
-	}
+	public function & SetList ($dataListId);
 }

@@ -13,7 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class DataList extends \MvcCore\Ext\Forms\Field
+class DataList 
+	extends		\MvcCore\Ext\Forms\Field 
+	implements	\MvcCore\Ext\Forms\Fields\IOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 
