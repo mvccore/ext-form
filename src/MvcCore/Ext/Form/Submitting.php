@@ -86,7 +86,7 @@ trait Submitting
 		if ($contentLength === NULL) $this->AddError(
 			$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
 		);
-		$units = ['k' => 1000, 'm' => 1048576, 'g' => 1073741824];
+		$units = ['k' => 1024, 'm' => 1048576, 'g' => 1073741824];
 		if (is_integer($rawMaxSize)) {
 			$maxSize = intval($rawMaxSize);
 		} else {

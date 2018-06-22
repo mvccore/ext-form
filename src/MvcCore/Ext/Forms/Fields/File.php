@@ -17,7 +17,8 @@ class File
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
 				\MvcCore\Ext\Forms\Fields\ITabIndex,
-				\MvcCore\Ext\Forms\Fields\IMultiple
+				\MvcCore\Ext\Forms\Fields\IMultiple,
+				\MvcCore\Ext\Forms\Fields\IAccept
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
@@ -27,6 +28,19 @@ class File
 	protected $type = 'field';
 
 	protected $validators = ['Files'];
+
+	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+		parent::SetForm($form);
+		if ($this->accept === NULL) $this->throwNewInvalidArgumentException(
+			'No `accept` property defined.'
+		);
+		if ($form->GetEnctype() !== \MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART) 
+			$this->throwNewInvalidArgumentException(
+				'Form needs to define `enctype` attribute as `' 
+				. \MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART . '`.'
+			);
+		return $this;
+	}
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
@@ -38,9 +52,9 @@ class File
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
-			'name'		=> $this->name,
+			'name'		=> $this->name . ($this->multiple ? '[]' : ''),
 			'type'		=> $this->type,
-			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
+			'value'		=> "",
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

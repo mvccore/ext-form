@@ -16,16 +16,20 @@ namespace MvcCore\Ext\Forms\Fields;
 class Checkbox 
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex
+				\MvcCore\Ext\Forms\Fields\ITabIndex, 
+				\MvcCore\Ext\Forms\Fields\IChecked
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\Checked;
 
 	protected $type = 'checkbox';
 	
 	protected $labelSide = 'right';
 
 	protected $validators = ['SafeString'];
+
+	
 
 	protected static $templates = [
 		'control'			=> '<input id="{id}" name="{name}" type="checkbox" value="{value}"{attrs} />',
@@ -47,15 +51,17 @@ class Checkbox
 			'tabIndex',
 		]);
 		$viewClass = $this->form->GetViewClass();
-		if ($this->value) {
-			$value = htmlspecialchars($this->value, ENT_QUOTES) . '" checked="checked';
-		} else {
-			$value = 'true';
-		}
+		if ($this->checked === NULL) 
+			$this->checked = static::GetCheckedByValue($this->value);
+		$valueStr = htmlspecialchars($this->value, ENT_QUOTES);
+		if (!$valueStr) 
+			$valueStr = 'true';
+		if ($this->checked) 
+			$valueStr .= '" checked="checked';
 		return $viewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
-			'value'		=> $value,
+			'value'		=> $valueStr,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
 		]);
 	}

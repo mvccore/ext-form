@@ -13,8 +13,12 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class ValueInOptions extends \MvcCore\Ext\Forms\Validator
+class ValueInOptions 
+	extends		\MvcCore\Ext\Forms\Validator
+	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+
 	/**
 	 * Error message index(es).
 	 * @var int
@@ -40,7 +44,8 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 	/**
 	 * Set up field instance, where is validated value by this 
 	 * validator durring submit before every `Validate()` method call.
-	 * Check if given field implements `\MvcCore\Ext\Forms\Fields\IOptions`.
+	 * Check if given field implements `\MvcCore\Ext\Forms\Fields\IOptions`
+	 * and `\MvcCore\Ext\Forms\Fields\IMultiple`.
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
@@ -55,6 +60,15 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 				'If field has configured `ValueInOptions` validator, it has to implement '
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IMultiple`.'
 			);
+
+		if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
+			// if this validator is added into field as instance - check field if it has multiple attribute defined:
+			$field->SetMultiple($this->multiple);
+		} else if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
+			// if validator is added as string - get multiple property from field:
+			$this->multiple = $field->GetMultiple();
+		}
+
 		return parent::SetField($field);
 	}
 
@@ -87,11 +101,10 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 	 * @return array
 	 */
 	protected function completeSafeValueByOptions ($rawSubmittedValue) {
-		$multiple = $this->field->GetMultiple();
-		$result = $multiple ? [] : NULL;
+		$result = $this->multiple ? [] : NULL;
 		$rawSubmittedValueArrayType = gettype($rawSubmittedValue) == 'array';
 		if ($rawSubmittedValueArrayType) {
-			if ($multiple) {
+			if ($this->multiple) {
 				$rawSubmittedValues = $rawSubmittedValue;
 			} else {
 				$rawSubmittedValue = (string) $rawSubmittedValue;
@@ -108,17 +121,17 @@ class ValueInOptions extends \MvcCore\Ext\Forms\Validator
 		$allOptionKeys = $this->field->GetAllOptionsKeys();
 		foreach ($rawSubmittedValues as & $rawSubmittedValueItem) {
 			if (in_array($rawSubmittedValueItem, $allOptionKeys)) {
-				if ($multiple) {
+				if ($this->multiple) {
 					$result[] = $rawSubmittedValueItem;
 				} else {
 					$result = $rawSubmittedValueItem;
 				}
-				if (!$multiple) break;
+				if (!$this->multiple) break;
 			}
 		}
 		return [
 			$result, 
-			$multiple
+			$this->multiple
 		];
 	}
 }
