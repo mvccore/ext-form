@@ -119,19 +119,10 @@ trait InternalProps
 	 * @var array
 	 */
 	protected static $defaultErrorMessages = [
-		IError::REQUIRED				=> "Field '{0}' is required.",
+		IError::REQUIRED				=> "Field `{0}` is required.",
 		IError::EMPTY_CONTENT			=> "Sent data are empty.",
+		IError::MAX_POST_SIZE			=> "Sent data exceeds the limit of `{1}` bytes.",
 		IError::CSRF					=> "Form hash expired, please submit the form again.",
-		
-		IError::GREATER					=> "Field '{0}' requires a value equal or greater than {1}.",
-		IError::LOWER					=> "Field '{0}' requires a value equal or lower than {1}.",
-		IError::RANGE					=> "Field '{0}' requires a value of {1} to {2} inclusive.",
-		IError::DIVISIBLE				=> "Field '{0}' requires a divisible value of {1}.",
-
-		IError::MAX_FILE_SIZE			=> "The size of the uploaded file can be up to {0} bytes.",
-		IError::MAX_POST_SIZE			=> "The uploaded data exceeds the limit of {0} bytes.",
-		IError::IMAGE					=> "The uploaded file has to be image in format JPEG, GIF or PNG.",
-		IError::MIME_TYPE				=> "The uploaded file is not in the expected file format."
 	];
 
 	/**

@@ -23,14 +23,14 @@ class Float extends \MvcCore\Ext\Forms\Validators\Number
 	 * Error message index(es).
 	 * @var int
 	 */
-	const ERROR_FLOAT = 0;
+	const ERROR_FLOAT = 5;
 
 	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_FLOAT	=> "Field '{0}' requires a valid float number.",
+		self::ERROR_FLOAT	=> "Field `{0}` requires a valid float number.",
 	];
 
 	/**

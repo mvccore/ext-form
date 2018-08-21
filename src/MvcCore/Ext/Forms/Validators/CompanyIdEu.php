@@ -35,8 +35,8 @@ class CompanyIdEu extends \MvcCore\Ext\Forms\Validator
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		IError::ERROR_SUBJECT_ID				=> "Field '{0}' requires a valid subject ID.",
-		IError::ERROR_COMPANY_ID				=> "Field '{0}' requires a valid company ID.",
+		self::ERROR_SUBJECT_ID				=> "Field '{0}' requires a valid subject ID.",
+		self::ERROR_COMPANY_ID				=> "Field '{0}' requires a valid company ID.",
 	];
 
 	/**

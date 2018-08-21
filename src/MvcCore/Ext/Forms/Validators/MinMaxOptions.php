@@ -21,8 +21,8 @@ class MinMaxOptions extends ValueInOptions
 	 * Valid email address error message index.
 	 * @var int
 	 */
-	const ERROR_MIN_OPTIONS = 0;
-	const ERROR_MAX_OPTIONS = 1;
+	const ERROR_MIN_OPTIONS = 1;
+	const ERROR_MAX_OPTIONS = 2;
 
 	/**
 	 * Validation failure message template definitions.

@@ -22,28 +22,6 @@ interface IError
 	 */
 	const	REQUIRED = 0,
 			EMPTY_CONTENT = 1,
-			CSRF = 2,
-			// dates
-			DATE = 3,
-			DATE_TO_LOW = 4,
-			DATE_TO_HIGH = 5,
-			TIME = 6,
-			TIME_TO_LOW = 7,
-			TIME_TO_HIGH = 8,
-			DATETIME = 9,
-			// number, range...
-			GREATER = 10,
-			LOWER = 11,
-			RANGE = 12,
-			DIVISIBLE = 13,
-			// file upload
-			MAX_FILE_SIZE = 14,
-			MAX_POST_SIZE = 15,
-			IMAGE = 16,
-			MIME_TYPE = 17,
-			// other
-			CHOOSE_MIN_OPTS = 18,
-			CHOOSE_MAX_OPTS = 19,
-			CHOOSE_MIN_OPTS_BUBBLE = 20,
-			CHOOSE_MAX_OPTS_BUBBLE = 21;
+			MAX_POST_SIZE = 2,
+			CSRF = 3;
 }

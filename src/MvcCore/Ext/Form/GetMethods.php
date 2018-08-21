@@ -383,4 +383,28 @@ trait GetMethods
 	public static function GetValidatorsNamespaces () {
 		return static::$validatorsNamespaces;
 	}
+
+	/**
+	 * Get PHP data limit as integer value by given ini variable name.
+	 * @param string $iniVarName 
+	 * @return int|NULL
+	 */
+	public static function GetPhpIniSizeLimit ($iniVarName) {
+		$rawIniValue = ini_get($iniVarName);
+		if ($rawIniValue === FALSE) {
+			return 0;
+		} else if ($rawIniValue === NULL) {
+			return NULL;
+		}
+		$unit = strtoupper(substr($rawIniValue, -1));
+		$multiplier = (
+			$unit == 'M' 
+				? 1048576 
+				: ($unit == 'K' 
+					? 1024 
+					: ($unit == 'G' 
+						? 1073741824 
+						: 1)));
+		return intval($multiplier * floatval($rawIniValue));
+	}
 }

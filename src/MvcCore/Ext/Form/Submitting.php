@@ -82,20 +82,10 @@ trait Submitting
 	public function & SubmitValidateMaxPostSizeIfNecessary () {
 		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return $this;
 		$contentLength = $this->request->GetContentLength();
-		$rawMaxSize = ini_get('post_max_size');
 		if ($contentLength === NULL) $this->AddError(
 			$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
 		);
-		$units = ['k' => 1024, 'm' => 1048576, 'g' => 1073741824];
-		if (is_integer($rawMaxSize)) {
-			$maxSize = intval($rawMaxSize);
-		} else {
-			$unit = strtolower(substr($rawMaxSize, -1));
-			$rawMaxSize = substr($rawMaxSize, 0, strlen($rawMaxSize) - 1);
-			$maxSize = isset($units[$unit])
-				? intval($rawMaxSize) * $units[$unit]
-				: intval($rawMaxSize);
-		}
+		$maxSize = static::GetPhpIniSizeLimit('post_max_size');
 		if ($maxSize > 0 && $maxSize < $contentLength) {
 			$viewClass = $this->viewClass;
 			$this->AddError($viewClass::Format(

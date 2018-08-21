@@ -31,8 +31,8 @@ class CheckboxGroup
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_MIN_OPTIONS_BUBBLE	=> "Please select at least {0} options as minimum.",
-		self::ERROR_MAX_OPTIONS_BUBBLE	=> "Please select up to {0} options at maximum.",
+		self::ERROR_MIN_OPTIONS_BUBBLE	=> "Please select at least `{0}` options as minimum.",
+		self::ERROR_MAX_OPTIONS_BUBBLE	=> "Please select up to `{0}` options at maximum.",
 	];
 
 	protected $type = 'checkbox';

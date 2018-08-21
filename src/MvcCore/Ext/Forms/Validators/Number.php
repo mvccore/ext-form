@@ -28,13 +28,21 @@ class Number
 	 * @var int
 	 */
 	const ERROR_NUMBER = 0;
+	const ERROR_GREATER = 1;
+	const ERROR_LOWER = 2;
+	const ERROR_RANGE = 3;
+	const ERROR_DIVISIBLE = 4;
 
 	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_NUMBER	=> "Field '{0}' requires a valid number.",
+		self::ERROR_NUMBER		=> "Field `{0}` requires a valid number.",
+		self::ERROR_GREATER		=> "Field `{0}` requires a value equal or greater than `{1}`.",
+		self::ERROR_LOWER		=> "Field `{0}` requires a value equal or lower than `{1}`.",
+		self::ERROR_RANGE		=> "Field `{0}` requires a value of `{1}` to `{2}` inclusive.",
+		self::ERROR_DIVISIBLE	=> "Field `{0}` requires a divisible value of `{1}`.",
 	];
 
 	/**
@@ -97,17 +105,17 @@ class Number
 			($result < $this->min || $result > $this->max)
 		) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::RANGE),
+				$this->form->GetDefaultErrorMsg(static::ERROR_RANGE),
 				[$this->min, $this->max]
 			);
 		} else if ($this->min !== NULL && $this->min > 0 && $result < $this->min) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::GREATER),
+				$this->form->GetDefaultErrorMsg(static::ERROR_GREATER),
 				[$this->min]
 			);
 		} else if ($this->max !== NULL && $this->max > 0 && $result > $this->max) {
 			$this->field->AddValidationError(
-				$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::LOWER),
+				$this->form->GetDefaultErrorMsg(static::ERROR_LOWER),
 				[$this->max]
 			);
 		}
@@ -116,7 +124,7 @@ class Number
 			$dividingResultInt = floatval(intval($dividingResultFloat));
 			if ($dividingResultFloat !== $dividingResultInt) 
 				$this->field->AddValidationError(
-					$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::DIVISIBLE),
+					$this->form->GetDefaultErrorMsg(static::ERROR_DIVISIBLE),
 					[$this->step]
 				);
 		}

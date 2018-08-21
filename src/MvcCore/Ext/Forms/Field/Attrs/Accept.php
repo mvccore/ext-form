@@ -16,6 +16,9 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 trait Accept
 {
 	/**
+	 * List of allowed file extensions or file mime types.
+	 * If you are using file extensions to allow file to upload,
+	 * you need to install extension `mvccore/ext-form-field-file-exts-and-mimes`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @var \string[]
 	 */

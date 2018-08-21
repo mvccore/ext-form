@@ -13,9 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Tel extends Text
+interface IAllowedFileNameChars
 {
-	protected $type = 'tel';
+    /**
+	 * @return string|NULL
+	 */
+	public function GetAllowedFileNameChars ();
 
-	protected $validators = ['Tel'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
+	/**
+	 * @param string $allowedFileNameChars
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetAllowedFileNameChars ($allowedFileNameChars);
 }

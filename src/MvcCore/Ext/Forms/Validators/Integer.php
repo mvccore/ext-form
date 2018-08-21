@@ -24,14 +24,14 @@ class Integer extends \MvcCore\Ext\Forms\Validators\Number
 	 * Error message index(es).
 	 * @var int
 	 */
-	const ERROR_INT = 0;
+	const ERROR_INT = 5;
 
 	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_INT	=> "Field '{0}' requires a valid integer.",
+		self::ERROR_INT	=> "Field `{0}` requires a valid integer.",
 	];
 
 	/**
