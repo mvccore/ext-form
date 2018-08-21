@@ -21,12 +21,10 @@ namespace MvcCore\Ext\Forms\Validators;
 class Files 
 	extends		\MvcCore\Ext\Forms\Validator
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple,
-				\MvcCore\Ext\Forms\Fields\IAccept,
-				\MvcCore\Ext\Forms\Fields\IAllowedFileNameChars
+				\MvcCore\Ext\Forms\Fields\IFiles
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
-	use \MvcCore\Ext\Forms\Field\Attrs\Accept;
-	use \MvcCore\Ext\Forms\Field\Attrs\AllowedFileNameChars;
+	use \MvcCore\Ext\Forms\Field\Attrs\Files;
 
 	const UPLOAD_ERR_NOT_POSTED = 9;
 	const UPLOAD_ERR_NOT_FILE = 10;
@@ -83,20 +81,15 @@ class Files
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
-		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IAccept) 
-			$this->throwNewInvalidArgumentException(
-				'If field has configured `Files` validator, it has to implement '
-				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IAccept`.'
-			);
 		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMultiple) 
 			$this->throwNewInvalidArgumentException(
 				'If field has configured `Files` validator, it has to implement '
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IMultiple`.'
 			);
-		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IAllowedFileNameChars) 
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IFiles) 
 			$this->throwNewInvalidArgumentException(
 				'If field has configured `Files` validator, it has to implement '
-				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IAllowedFileNameChars`.'
+				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IFiles`.'
 			);
 		
 		if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {

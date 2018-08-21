@@ -18,12 +18,12 @@ class File
 	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
 				\MvcCore\Ext\Forms\Fields\ITabIndex,
 				\MvcCore\Ext\Forms\Fields\IMultiple,
-				\MvcCore\Ext\Forms\Fields\IAccept
+				\MvcCore\Ext\Forms\Fields\IFiles
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
-	use \MvcCore\Ext\Forms\Field\Attrs\Accept;
+	use \MvcCore\Ext\Forms\Field\Attrs\Files;
 
 	protected $type = 'field';
 
@@ -48,6 +48,7 @@ class File
 			'tabIndex',
 			'multiple',
 			'accept',
+			'capture',
 		]);
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
