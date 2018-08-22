@@ -334,6 +334,7 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderBegin () {
+		$this->form->PreDispatch();
 		$result = "<form";
 		$attrs = [];
 		$form = & $this->form;
@@ -356,6 +357,7 @@ class View extends \MvcCore\View
 		$attrsStr = self::RenderAttrs($attrs);
 		if ($attrsStr) $result .= ' ' . $attrsStr;
 		$result .= '>';
+		$this->form->SetFormTagRenderingStatus(TRUE);
 		$result .= $this->RenderCsrf();
 		return $result;
 	}
@@ -389,6 +391,7 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderErrors () {
+		$this->form->PreDispatch();
 		$result = '';
 		$errors = & $this->form->GetErrors();
 		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
@@ -411,6 +414,7 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderContent () {
+		$this->form->PreDispatch();
 		$result = "";
 		$fieldRendered = "";
 		foreach ($this->form->GetFields() as & $field) {
@@ -430,9 +434,7 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderEnd () {
-		return '</form>'
-			. $this->form->RenderSupportingJs()
-			. $this->form->RenderSupportingCss();
+		return $this->form->RenderEnd();
 	}
 
 	/**

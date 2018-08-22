@@ -57,7 +57,6 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderContent () {
-		$this->PreDispatch();
 		return $this->view->RenderContent();
 	}
 
@@ -69,7 +68,6 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderErrors () {
-		$this->PreDispatch();
 		return $this->view->RenderErrors();
 	}
 
@@ -79,7 +77,6 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderBegin () {
-		$this->PreDispatch();
 		return $this->view->RenderBegin();
 	}
 
@@ -91,7 +88,10 @@ trait Rendering
 	 */
 	public function RenderEnd () {
 		$this->PreDispatch();
-		$result = $this->view->RenderEnd();
+		$this->form->SetFormTagRenderingStatus(FALSE);
+		$result = '</form>'
+			. $this->RenderSupportingJs()
+			. $this->RenderSupportingCss();
 		$this->cleanSessionErrorsAfterRender();
 		return $result;
 	}

@@ -77,6 +77,9 @@ class Range
 			'placeHolder',
 			'multiple',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$valueStr = $this->multiple && gettype($this->value) == 'array' 
 			? implode(',', (array) $this->value) 
 			: (string) $this->value;
@@ -87,7 +90,7 @@ class Range
 			'name'		=> $this->name . ($this->multiple ? '[]' : ''),
 			'type'		=> $this->type,
 			'value'		=> $valueStr . '" data-value="' . $valueStr,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 		return $this->renderControlWrapper($result);
 	}

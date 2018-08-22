@@ -283,6 +283,9 @@ abstract class FieldsGroup
 			$labelAttrsStr,
 			$controlAttrsStr
 		) = $this->renderControlItemCompleteAttrsClassesAndText($key, $option);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$controlAttrsStr .= (strlen($controlAttrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		// render control, render label and put it together if necessary
 		$checked = gettype($this->value) == 'array'
 			? in_array($key, $this->value)
@@ -294,7 +297,7 @@ abstract class FieldsGroup
 			'type'		=> $this->type,
 			'value'		=> $key,
 			'checked'	=> $checked ? ' checked="checked"' : '',
-			'attrs'		=> $controlAttrsStr ? " $controlAttrsStr" : '',
+			'attrs'		=> strlen($controlAttrsStr) > 0 ? ' ' . $controlAttrsStr : '',
 		]);
 		if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 			// control and label

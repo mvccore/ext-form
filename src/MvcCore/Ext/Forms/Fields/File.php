@@ -50,13 +50,16 @@ class File
 			'accept',
 			'capture',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name . ($this->multiple ? '[]' : ''),
 			'type'		=> $this->type,
 			'value'		=> "",
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
 }

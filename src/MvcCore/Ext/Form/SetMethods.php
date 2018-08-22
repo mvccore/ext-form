@@ -450,6 +450,17 @@ trait SetMethods
 	}
 
 	/**
+	 * This is INTERNAL method for rendering fields. 
+	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
+	 * @param bool $formTagRenderingStatus 
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function SetFormTagRenderingStatus ($formTagRenderingStatus = TRUE) {
+		$this->formTagRendergingStatus = $formTagRenderingStatus;
+		return $this;
+	}
+
+	/**
 	 * Set MvcCore Form javascript support files root directory.
 	 * After `\MvcCore\Ext\Form` instance is created, this value is completed to library internal
 	 * assets directory. If you want to create any custom field with custom javascript file(s),

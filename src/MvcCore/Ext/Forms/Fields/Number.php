@@ -30,6 +30,7 @@ class Number
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+	use \MvcCore\Ext\Forms\Field\Attrs\InputMode;
 
 	protected $type = 'number';
 	
@@ -93,6 +94,7 @@ class Number
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		$this->setFormPattern();
+		$this->setFormInputMode();
 		return $this;
 	}
 	
@@ -105,14 +107,18 @@ class Number
 			'list',
 			'autoComplete',
 			'placeHolder',
+			'inputMode',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 		return $this->renderControlWrapper($result);
 	}

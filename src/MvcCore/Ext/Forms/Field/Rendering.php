@@ -130,13 +130,16 @@ trait Rendering
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
 
@@ -157,7 +160,6 @@ trait Rendering
 	}
 
 	/**
-	 * TODO: co je v této metodě: $this->fields? to jako $form->fields???
 	 * Render field specific errors only without control or label.
 	 * @return string
 	 */
@@ -169,8 +171,7 @@ trait Rendering
 		) {
 			$result .= '<span class="errors">';
 			foreach ($this->errors as $key => $errorMessage) {
-				$errorCssClass = 'error';
-				if (isset($this->fields[$key])) $errorCssClass .= " $key";
+				$errorCssClass = 'error error-' . $this->name . ' error-' . $key;
 				$result .= "<span class=\"$errorCssClass\">$errorMessage</span>";
 			}
 			$result .= '</span>';

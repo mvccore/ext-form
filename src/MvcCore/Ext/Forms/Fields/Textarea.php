@@ -19,12 +19,13 @@ class Textarea
 				\MvcCore\Ext\Forms\Fields\ITabIndex,
 				\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\RowsColsWrap;
+	use \MvcCore\Ext\Forms\Field\Attrs\SpellCheck;
 
 	protected $type = 'textarea';
 
@@ -54,13 +55,17 @@ class Textarea
 			'autoComplete',
 			'placeHolder',
 			'rows', 'cols', 'wrap',
+			'spellCheck',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
 }

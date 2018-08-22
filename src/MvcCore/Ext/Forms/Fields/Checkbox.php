@@ -50,6 +50,9 @@ class Checkbox
 			'accessKey', 
 			'tabIndex',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$viewClass = $this->form->GetViewClass();
 		if ($this->checked === NULL) 
 			$this->checked = static::GetCheckedByValue($this->value);
@@ -62,7 +65,7 @@ class Checkbox
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'value'		=> $valueStr,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
 }

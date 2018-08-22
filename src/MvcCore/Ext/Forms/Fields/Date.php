@@ -100,6 +100,9 @@ class Date
 			'min', 'max', 'step', 
 			'list',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$this->min = $min;
 		$this->max = $max;
 		$formViewClass = $this->form->GetViewClass();
@@ -113,7 +116,7 @@ class Date
 					: $this->value), 
 				ENT_QUOTES
 			),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 		return $this->renderControlWrapper($result);
 	}

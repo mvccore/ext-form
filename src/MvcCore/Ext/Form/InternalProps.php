@@ -33,6 +33,13 @@ trait InternalProps
 	protected $customResultStates = [];
 
 	/**
+	 * This is INTERNAL property for rendering fields. 
+	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
+	 * @var bool
+	 */
+	protected $formTagRendergingStatus = FALSE;
+
+	/**
 	 * Validators instances keyed by validators ending 
 	 * class names, created durring `Submit()`.
 	 * @var \MvcCore\Ext\Forms\IValidator[]

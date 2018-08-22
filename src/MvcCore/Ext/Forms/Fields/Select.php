@@ -22,6 +22,7 @@ class Select
 				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
@@ -142,16 +143,20 @@ class Select
 		}
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
+			'autoComplete',
 			'tabIndex',
 			'multiple',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $name,
 			'size'		=> $size,
 			'options'	=> $optionsStr,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
 

@@ -28,6 +28,8 @@ class Text
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\Size;
+	use \MvcCore\Ext\Forms\Field\Attrs\SpellCheck;
+	use \MvcCore\Ext\Forms\Field\Attrs\InputMode;
 
 	protected $type = 'text';
 
@@ -37,6 +39,7 @@ class Text
 		parent::SetForm($form);
 		$this->setFormPattern();
 		$this->setFormMinMaxLength();
+		$this->setFormInputMode();
 		return $this;
 	}
 
@@ -56,14 +59,19 @@ class Text
 			'autoComplete',
 			'placeHolder',
 			'size',
+			'spellCheck',
+			'inputMode',
 		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
 }

@@ -348,6 +348,15 @@ trait GetMethods
 	}
 
 	/**
+	 * This is INTERNAL method for rendering fields. 
+	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
+	 * @return bool
+	 */
+	public function GetFormTagRenderingStatus () {
+		return $this->formTagRendergingStatus;
+	}
+
+	/**
 	 * Get MvcCore Form javascript support files root directory.
 	 * After `\MvcCore\Ext\Form` instance is created, this value is completed to library internal
 	 * assets directory. If you want to create any custom field with custom javascript file(s),
