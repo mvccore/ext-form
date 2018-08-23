@@ -92,7 +92,7 @@ class Files
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IFiles`.'
 			);
 		
-		if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
+		if ($this->multiple !== NULL && $field->GetMultiple() === NULL) {
 			// if this validator is added into field as instance - check field if it has multiple attribute defined:
 			$field->SetMultiple($this->multiple);
 		} else if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
@@ -100,7 +100,7 @@ class Files
 			$this->multiple = $field->GetMultiple();
 		}
 		
-		if ($this->accept === NULL && $field->GetAccept() !== NULL) {
+		if ($this->accept !== NULL && $field->GetAccept() === NULL) {
 			// if this validator is added into field as instance - check field if it has accept attribute defined:
 			$field->SetAccept($this->accept);
 		} else if ($this->accept === NULL && $field->GetAccept() !== NULL) {
@@ -108,12 +108,14 @@ class Files
 			$this->accept = $field->GetAccept();
 		}
 		
-		if ($this->allowedFileNameChars === NULL && $field->GetAllowedFileNameChars() !== NULL) {
+		if ($this->allowedFileNameChars !== NULL && $field->GetAllowedFileNameChars() === NULL) {
 			// if this validator is added into field as instance - check field if it has allowedFileNameChars field defined:
 			$field->SetAllowedFileNameChars($this->allowedFileNameChars);
 		} else if ($this->allowedFileNameChars === NULL && $field->GetAllowedFileNameChars() !== NULL) {
 			// if validator is added as string - get allowedFileNameChars property from field:
 			$this->allowedFileNameChars = $field->GetAllowedFileNameChars();
+		} else if ($this->allowedFileNameChars === NULL && $field->GetAllowedFileNameChars() === NULL) {
+			$this->allowedFileNameChars = static::ALLOWED_FILE_NAME_CHARS_DEFAULT;
 		}
 		
 		return parent::SetField($field);

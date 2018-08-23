@@ -13,14 +13,30 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\Fields\File
+ * - \MvcCore\Ext\Forms\Validators\Files
+ */
 trait Files
 {
+	/**
+	 * Default allowed file name characters and characters groups for submit regular expression.
+	 * All regular expression special characters will be escaped by `addcslashes()` 
+	 * function to create proper regular expression pattern to keep only characters 
+	 * and characters groups presented in this constant. This constant is used only
+	 * if there is not specified any custom characters and characters groups by method(s): 
+	 * `$field->SetAllowedFileNameChars('...');` or  `$validator->SetAllowedFileNameChars('...');`.
+	 */
 	const ALLOWED_FILE_NAME_CHARS_DEFAULT = '-a-zA-Z0-9@%&,~`._ !#$^()+={}[]<>\'';
 
 	/**
-	 * List of allowed file extensions or file mime types.
-	 * If you are using file extensions to allow file to upload,
-	 * you need to install extension `mvccore/ext-form-field-file-exts-and-mimes`.
+	 * List of allowed file mimetypes or file extensions.
+	 * If you are using accepting files by any file extension(s), you need to translate file 
+	 * extension to it's usual mimetype. To do it, you need to install MvcCore extension: 
+	 * `mvccore/ext-form-field-file-exts-and-mimes`. Please - do not use file extensions, 
+	 * it doesn't mean - it's strictly said less secure - but it's better. You don't need any extra code.
+	 * Example: `$this->accept = ['image/*', 'audio/mp3', '.docx'];`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @var \string[]
 	 */
@@ -29,7 +45,7 @@ trait Files
 	/**
 	 * Boolean attribute indicates that capture of media directly from the 
 	 * device's sensors using a media capture mechanism is preferred, 
-	 * such as a webcam or microphone.
+	 * such as a webcam or microphone. This HTML attribute is used on mobile devices.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-capture
 	 * @see https://www.w3.org/TR/html-media-capture/#dfn-media-capture-mechanism
 	 * @var string|NULL
@@ -37,19 +53,37 @@ trait Files
 	protected $capture = NULL;
 
 	/**
+	 * Allowed file name characters and characters groups for submit regular expression.
+	 * All regular expression special characters will be escaped by `addcslashes()` 
+	 * function to create proper regular expression pattern to keep only characters 
+	 * and characters groups presented in this variable. If there are not defined any 
+	 * characters, there is used in submit filename sanitization PHP constant: 
+	 * `self::ALLOWED_FILE_NAME_CHARS_DEFAULT`;
 	 * @var string|NULL
 	 */
 	protected $allowedFileNameChars = NULL;
 
 	/**
+	 * Get list of allowed file mimetypes or file extensions.
+	 * If you are using accepting files by any file extension(s), you need to translate file 
+	 * extension to it's usual mimetype. To do it, you need to install MvcCore extension: 
+	 * `mvccore/ext-form-field-file-exts-and-mimes`. Please - do not use file extensions, 
+	 * it doesn't mean - it's strictly said less secure - but it's better. You don't need any extra code.
+	 * Example: `['image/*', 'audio/mp3', '.docx']`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @return \string[]
 	 */
-	public function & GetAccept () {
+	public function GetAccept () {
 		return $this->accept;
 	}
 
 	/**
+	 * Set list of allowed file mimetypes or file extensions.
+	 * If you are using accepting files by any file extension(s), you need to translate file 
+	 * extension to it's usual mimetype. To do it, you need to install MvcCore extension: 
+	 * `mvccore/ext-form-field-file-exts-and-mimes`. Please - do not use file extensions, 
+	 * it doesn't mean - it's strictly said less secure - but it's better. You don't need any extra code.
+	 * Example: `$this->SetAccept(['image/*', 'audio/mp3', '.docx']);`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @param \string[] $accept 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
@@ -60,16 +94,22 @@ trait Files
 	}
 
 	/**
+	 * Get boolean attribute indicates that capture of media directly from the 
+	 * device's sensors using a media capture mechanism is preferred, 
+	 * such as a webcam or microphone. This HTML attribute is used on mobile devices.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-capture
-	 * @return \string[]
+	 * @return string|NULL
 	 */
-	public function & GetCapture () {
+	public function GetCapture () {
 		return $this->capture;
 	}
 
 	/**
+	 * Set bolean attribute indicates that capture of media directly from the 
+	 * device's sensors using a media capture mechanism is preferred, 
+	 * such as a webcam or microphone. This HTML attribute is used on mobile devices.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-capture
-	 * @param \string[] $capture 
+	 * @param string|NULL $capture 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetCapture ($capture = 'camera') {
@@ -78,6 +118,12 @@ trait Files
 	}
 
 	/**
+	 * Get allowed file name characters and characters groups for submit regular expression.
+	 * All regular expression special characters will be escaped by `addcslashes()` 
+	 * function to create proper regular expression pattern to keep only characters 
+	 * and characters groups presented in this variable. If there are not defined any 
+	 * characters, there is used in submit filename sanitization PHP constant: 
+	 * `\MvcCore\Ext\Forms\Validators\Files::ALLOWED_FILE_NAME_CHARS_DEFAULT`;
 	 * @return string|NULL
 	 */
 	public function GetAllowedFileNameChars () {
@@ -85,7 +131,13 @@ trait Files
 	}
 
 	/**
-	 * @param string $allowedFileNameChars
+	 * Set allowed file name characters and characters groups for submit regular expression.
+	 * All regular expression special characters will be escaped by `addcslashes()` 
+	 * function to create proper regular expression pattern to keep only characters 
+	 * and characters groups presented in this variable. If there are not defined any 
+	 * characters, there is used in submit filename sanitization PHP constant: 
+	 * `\MvcCore\Ext\Forms\Validators\Files::ALLOWED_FILE_NAME_CHARS_DEFAULT`;
+	 * @param string|NULL $allowedFileNameChars
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetAllowedFileNameChars ($allowedFileNameChars) {

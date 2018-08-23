@@ -13,21 +13,59 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\Fields\Image
+ * - \MvcCore\Ext\Forms\Fields\SubmitButton
+ * - \MvcCore\Ext\Forms\Fields\SubmitInput
+ */
 trait CustomResultState
 {
 	/**
-	 * `TRUE` to consider this button for "next step submit result state".
-	 * `FALSE` or `NULL` otherwise.
+	 * Submit button custom result state to move submit request to custom specific target url.
+	 * There are already build in result states:
+	 * - `0` (`\MvcCore\Ext\Forms\IForm::RESULT_ERRORS`)		- to move submit request to configured error url.
+	 * - `1` (`\MvcCore\Ext\Forms\IForm::RESULT_SUCCESS`)		- to move submit request to configured success url.
+	 * - `2` (`\MvcCore\Ext\Forms\IForm::RESULT_PREV_PAGE`)		- to move submit request to configured previous step url.
+	 * - `3` (`\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`)		- to move submit request to configured next step url.
+	 * If you define any new custom result state for your submit button (`4`, `5` ...), 
+	 * you have to implement `$form->SubmittedRedirect();` method by your own to redirect
+	 * user submit request by this state to your own specific target url.
 	 * @var int|NULL
 	 */
 	protected $customResultState = NULL;
 
+	/**
+	 * Get submit button custom result state to move submit request to custom specific target url.
+	 * There are already build in result states:
+	 * - `0` (`\MvcCore\Ext\Forms\IForm::RESULT_ERRORS`)		- to move submit request to configured error url.
+	 * - `1` (`\MvcCore\Ext\Forms\IForm::RESULT_SUCCESS`)		- to move submit request to configured success url.
+	 * - `2` (`\MvcCore\Ext\Forms\IForm::RESULT_PREV_PAGE`)		- to move submit request to configured previous step url.
+	 * - `3` (`\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`)		- to move submit request to configured next step url.
+	 * If you define any new custom result state for your submit button (`4`, `5` ...), 
+	 * you have to implement `$form->SubmittedRedirect();` method by your own to redirect
+	 * user submit request by this state to your own specific target url.
+	 * @return int|NULL
+	 */
+	public function GetCustomResultState () {
+		return $this->customResultState;
+	}
+
+	/**
+	 * Set submit button custom result state to move submit request to custom specific target url.
+	 * There are already build in result states:
+	 * - `0` (`\MvcCore\Ext\Forms\IForm::RESULT_ERRORS`)		- to move submit request to configured error url.
+	 * - `1` (`\MvcCore\Ext\Forms\IForm::RESULT_SUCCESS`)		- to move submit request to configured success url.
+	 * - `2` (`\MvcCore\Ext\Forms\IForm::RESULT_PREV_PAGE`)		- to move submit request to configured previous step url.
+	 * - `3` (`\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`)		- to move submit request to configured next step url.
+	 * If you define any new custom result state for your submit button (`4`, `5` ...), 
+	 * you have to implement `$form->SubmittedRedirect();` method by your own to redirect
+	 * user submit request by this state to your own specific target url.
+	 * @param int|NULL $customResultState 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetCustomResultState ($customResultState = \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE) {
 		$this->customResultState = $customResultState;
 		return $this;
-	}
-
-	public function GetCustomResultState () {
-		return $this->customResultState;
 	}
 }

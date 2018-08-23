@@ -13,6 +13,24 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\Fields\Color
+ * - \MvcCore\Ext\Forms\Fields\Date
+ *    - \MvcCore\Ext\Forms\Fields\DateTime
+ *    - \MvcCore\Ext\Forms\Fields\Month
+ *    - \MvcCore\Ext\Forms\Fields\Time
+ *    - \MvcCore\Ext\Forms\Fields\Week
+ * - \MvcCore\Ext\Forms\Fields\Number
+ *    - \MvcCore\Ext\Forms\Fields\Range
+ * - \MvcCore\Ext\Forms\Fields\ResetInput
+ * - \MvcCore\Ext\Forms\Fields\Text
+ *    - \MvcCore\Ext\Forms\Fields\Email
+ *    - \MvcCore\Ext\Forms\Fields\Password
+ *    - \MvcCore\Ext\Forms\Fields\Search
+ *    - \MvcCore\Ext\Forms\Fields\Tel
+ *    - \MvcCore\Ext\Forms\Fields\Url
+ */
 trait DataList
 {
 	/**
@@ -25,7 +43,7 @@ trait DataList
 	 * Get element `list` attribute value - the `<list>` element `id` attribute value.
 	 * @return string|NULL
 	 */
-	public function & GetList () {
+	public function GetList () {
 		return $this->list;
 	}
 

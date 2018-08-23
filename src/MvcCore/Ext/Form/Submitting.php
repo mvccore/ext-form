@@ -140,10 +140,10 @@ trait Submitting
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
 		if ($this->result) $this->values = [];
 		$this->SaveSession();
-		if (!$url) throw new \RuntimeException(
+		if (!$url && $this->result > -1 && $this->result < 4) throw new \RuntimeException(
 			'['.__CLASS__.'] No url specified to redirect. ' . $errorMsg
 		);
-		self::Redirect($url, \MvcCore\Interfaces\IResponse::SEE_OTHER);
+		if ($url) self::Redirect($url, \MvcCore\Interfaces\IResponse::SEE_OTHER);
 	}
 
 	/**
