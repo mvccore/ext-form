@@ -48,12 +48,12 @@ class ResetInput
 		$this->form->AddJsSupportFile(
 			$this->jsSupportingFile, $this->jsClassName, [$this->name]
 		);
+		$this->preDispatchTabIndex();
 	}
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')

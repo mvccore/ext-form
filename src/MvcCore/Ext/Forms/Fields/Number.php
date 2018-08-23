@@ -94,14 +94,18 @@ class Number
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		$this->setFormPattern();
-		$this->setFormInputMode();
 		return $this;
+	}
+
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchInputMode();
+		$this->preDispatchTabIndex();
 	}
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'pattern',
 			'min', 'max', 'step',
 			'list',

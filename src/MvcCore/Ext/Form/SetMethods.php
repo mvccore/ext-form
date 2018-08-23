@@ -333,6 +333,18 @@ trait SetMethods
 	}
 
 	/**
+	 * Set base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
+	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * where is form currently rendered.
+	 * @param $baseTabIndex int
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetBaseTabIndex ($baseTabIndex = 0) {
+		$this->baseTabIndex = $baseTabIndex;
+		return $this;
+	}
+
+	/**
 	 * Set default control/label rendering mode for each form control/label.
 	 * Default values is string `normal`, it means label will be rendered
 	 * before control, only label for checkbox and radio button will be

@@ -79,7 +79,7 @@ trait InputMode
 	 * Automaticly set up `inputmode` attribute (if it is still `NULL`) by field type.
 	 * @return void
 	 */
-	protected function setFormInputMode () {
+	protected function preDispatchInputMode () {
 		if ($this->inputMode !== NULL) return;
 		if ($this->type === 'number') {
 			if (

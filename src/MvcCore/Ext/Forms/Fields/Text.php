@@ -39,7 +39,6 @@ class Text
 		parent::SetForm($form);
 		$this->setFormPattern();
 		$this->setFormMinMaxLength();
-		$this->setFormInputMode();
 		return $this;
 	}
 
@@ -47,12 +46,13 @@ class Text
 		parent::PreDispatch();
 		if ($this->translate && $this->placeholder)
 			$this->placeholder = $this->form->Translate($this->placeholder);
+		$this->preDispatchInputMode();
+		$this->preDispatchTabIndex();
 	}
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'pattern',
 			'minLength', 'maxLength',
 			'list',

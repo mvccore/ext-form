@@ -156,6 +156,7 @@ abstract class FieldsGroup
 	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
+		$this->preDispatchTabIndex();
 		if (!$this->translate) return;
 		$form = & $this->form;
 		foreach ($this->options as $key => & $value) {
@@ -214,7 +215,7 @@ abstract class FieldsGroup
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			['accessKey', 'tabIndex', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses, TRUE
+			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses, TRUE
 		);
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
 			? static::$templates->togetherLabelLeft 
@@ -256,7 +257,7 @@ abstract class FieldsGroup
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			['accessKey', 'tabIndex', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses
+			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses
 		);
 		$viewClass = $this->form->GetViewClass();
 		return $viewClass::Format(static::$templates->label, [
@@ -349,7 +350,7 @@ abstract class FieldsGroup
 		if ($optionType == 'string') {
 			$itemLabelText = $option ? $option : $key;
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
-			$controlAttrsStr = $this->renderControlAttrsWithFieldVars(['accessKey', 'tabIndex', 'multiple']);
+			$controlAttrsStr = $this->renderControlAttrsWithFieldVars(['accessKey', 'multiple']);
 		} else if ($optionType == 'array') {
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
 			$attrsArr = $this->controlAttrs;
@@ -367,10 +368,10 @@ abstract class FieldsGroup
 				foreach ($classArrParam as $clsValue) if ($clsValue) $classArr[] = $clsValue;
 			}
 			$labelAttrsStr = $this->renderAttrsWithFieldVars(
-				['accessKey', 'tabIndex', 'multiple'], $attrsArr, $classArr
+				['accessKey', 'multiple'], $attrsArr, $classArr
 			);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				['accessKey', 'tabIndex', 'multiple'], $attrsArr, $classArr, TRUE
+				['accessKey', 'multiple'], $attrsArr, $classArr, TRUE
 			);
 		}
 		if ($this->type == 'checkbox') 

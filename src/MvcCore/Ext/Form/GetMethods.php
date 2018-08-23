@@ -260,6 +260,26 @@ trait GetMethods
 	}
 
 	/**
+	 * Get base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
+	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * where is form currently rendered.
+	 * @return int
+	 */
+	public function GetBaseTabIndex () {
+		return $this->baseTabIndex;
+	}
+
+	/**
+	 * This method is INTERNAL, used by fields in predispatch rendering moment.
+	 * This method returns next automatic tabindex value for field.
+	 * @return int
+	 */
+	public function GetFieldNextAutoTabIndex () {
+		$this->fieldsAutoTabIndex += 1;
+		return $this->fieldsAutoTabIndex;
+	}
+
+	/**
 	 * Get default control/label rendering mode for each form control/label.
 	 * Default values is string `normal`, it means label will be rendered
 	 * before control, only label for checkbox and radio button will be

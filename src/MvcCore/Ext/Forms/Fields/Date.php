@@ -83,6 +83,11 @@ class Date
 		return $this;
 	}
 
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchTabIndex();
+	}
+
 	/**
 	 * Render control element, without label or possible error messages, only the element.
 	 * @return string
@@ -96,7 +101,6 @@ class Date
 			$this->max = $this->max->format($this->format);
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey',
-			'tabIndex',
 			'min', 'max', 'step', 
 			'list',
 		]);

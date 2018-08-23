@@ -42,10 +42,14 @@ class File
 		return $this;
 	}
 
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchTabIndex();
+	}
+
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'multiple',
 			'accept',
 			'capture',

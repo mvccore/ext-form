@@ -69,7 +69,6 @@ class Range
 			$this->multiple = 'multiple';
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'pattern',
 			'min', 'max', 'step',
 			'list',

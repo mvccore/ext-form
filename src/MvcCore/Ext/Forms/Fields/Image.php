@@ -72,10 +72,14 @@ class Image
 		return $this;
 	}
 
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchTabIndex();
+	}
+
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget',
 			'width', 'height',
 		]);

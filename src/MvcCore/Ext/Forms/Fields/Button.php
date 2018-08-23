@@ -51,12 +51,12 @@ class Button
 		parent::PreDispatch();
 		if ($this->translate && $this->value)
 			$this->value = $this->form->Translate($this->value);
+		$this->preDispatchTabIndex();
 	}
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')

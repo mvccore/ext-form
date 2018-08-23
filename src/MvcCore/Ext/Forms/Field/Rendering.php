@@ -262,6 +262,9 @@ trait Rendering
 				$cssClasses[] = $attrName;
 			}
 		}
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\ITabIndex && $this->tabIndex !== NULL) {
+			$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
+		}
 		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
 		$attrs['class'] = implode(' ', $cssClasses);
 		$formViewClass = $this->form->GetViewClass();

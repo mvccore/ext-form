@@ -42,15 +42,21 @@ class Textarea
 			(array) self::$templates
 		);
 	}
+
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		$this->setFormMinMaxLength();
 		return $this;
 	}
+
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchTabIndex();
+	}
+
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex', 
 			'minLength', 'maxLength', 
 			'autoComplete',
 			'placeHolder',

@@ -43,12 +43,12 @@ class SubmitInput
 		parent::PreDispatch();
 		if ($this->translate && $this->value)
 			$this->value = $this->form->Translate($this->value);
+		$this->preDispatchTabIndex();
 	}
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget'
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 

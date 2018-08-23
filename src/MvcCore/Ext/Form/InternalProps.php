@@ -47,6 +47,12 @@ trait InternalProps
 	protected $validators = [];
 
 	/**
+	 * Automaticly growing tabindex value for fields with tabindex in `auto` value.
+	 * @var int
+	 */
+	protected $fieldsAutoTabIndex = 0;
+
+	/**
 	 * Cached value from `\MvcCore\Application::GetInstance()->GetSessionClass();`
 	 * @var string
 	 */

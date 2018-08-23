@@ -85,6 +85,7 @@ class Select
 	}
 	public function PreDispatch () {
 		parent::PreDispatch();
+		$this->preDispatchTabIndex();
 		if (!$this->translate) return;
 		$form = & $this->form;
 		if ($this->nullOptionText !== NULL && $this->nullOptionText !== '')
@@ -144,7 +145,6 @@ class Select
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
 			'autoComplete',
-			'tabIndex',
 			'multiple',
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 

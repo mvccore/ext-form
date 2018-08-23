@@ -18,7 +18,10 @@ interface ITabIndex
 	/**
 	 * Get an integer attribute indicating if the element can take input focus (is focusable), 
 	 * if it should participate to sequential keyboard navigation, and if so, at what 
-	 * position. It can takes several values:
+	 * position. Tabindex for every field in form could be indexed as yu wish or it could
+	 * be indexed from value `1` and moved to specific higher value by place, where form is 
+	 * currently rendered by form instance method `$form->SetBaseTabIndex()` to move tabindex 
+	 * for each field into final values. Tabindex can takes several values:
 	 * - a negative value means that the element should be focusable, but should not be 
 	 *   reachable via sequential keyboard navigation;
 	 * - 0 means that the element should be focusable and reachable via sequential 
@@ -35,7 +38,10 @@ interface ITabIndex
 	/**
 	 * Set an integer attribute indicating if the element can take input focus (is focusable), 
 	 * if it should participate to sequential keyboard navigation, and if so, at what 
-	 * position. It can takes several values:
+	 * position. Tabindex for every field in form could be indexed as yu wish or it could
+	 * be indexed from value `1` and moved to specific higher value by place, where form is 
+	 * currently rendered by form instance method `$form->SetBaseTabIndex()` to move tabindex 
+	 * for each field into final values. Tabindex can takes several values:
 	 * - a negative value means that the element should be focusable, but should not be 
 	 *   reachable via sequential keyboard navigation;
 	 * - 0 means that the element should be focusable and reachable via sequential 

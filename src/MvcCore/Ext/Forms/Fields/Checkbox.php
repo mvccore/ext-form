@@ -44,11 +44,15 @@ class Checkbox
 			(array) self::$templates
 		);
 	}
+
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchTabIndex();
+	}
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')

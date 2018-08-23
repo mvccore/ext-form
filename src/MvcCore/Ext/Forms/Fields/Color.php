@@ -30,10 +30,14 @@ class Color
 
 	protected $validators = ['Color'];
 
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchTabIndex();
+	}
+
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'accessKey', 
-			'tabIndex',
 			'list',
 			'autoComplete',
 		]);

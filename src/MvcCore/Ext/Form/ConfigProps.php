@@ -221,6 +221,14 @@ trait ConfigProps
 	protected $sessionExpiration = 0;
 
 	/**
+	 * Base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
+	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * where is form currently rendered.
+	 * @var int|NULL
+	 */
+	protected $baseTabIndex = 0;
+
+	/**
 	 * Default control/label rendering mode for each form control/label.
 	 * Default values is string `normal`, it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
