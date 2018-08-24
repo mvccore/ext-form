@@ -13,15 +13,28 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\Fields\Image
+ * - \MvcCore\Ext\Forms\Fields\SubmitButton
+ * - \MvcCore\Ext\Forms\Fields\SubmitInput
+ */
 trait FormAttrs
 {
 	/**
+	 * The URL that processes the data submitted by the input element,
+	 * if it is a submit button or image. This attribute overrides the
+	 * `action` attribute of the element's form owner.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formaction
 	 * @var string|NULL
 	 */
 	protected $formAction = NULL;
 
 	/**
+	 * If the input element is a submit button or image, this attribute
+	 * specifies the content encoding that is used to submit the form 
+	 * data to the server. Possible values:
+	 * 
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formenctype
 	 * @var string|NULL
 	 */
@@ -46,6 +59,9 @@ trait FormAttrs
 	protected $formTarget = NULL;
 	
 	/**
+	 * Get the URL that processes the data submitted by the input element,
+	 * if it is a submit button or image. This attribute overrides the
+	 * `action` attribute of the element's form owner.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formaction
 	 * @return string|NULL
 	 */
@@ -54,6 +70,9 @@ trait FormAttrs
 	}
 
 	/**
+	 * Set the URL that processes the data submitted by the input element,
+	 * if it is a submit button or image. This attribute overrides the
+	 * `action` attribute of the element's form owner.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formaction
 	 * @param string $formAction 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField

@@ -31,11 +31,12 @@ trait Files
 	const ALLOWED_FILE_NAME_CHARS_DEFAULT = '-a-zA-Z0-9@%&,~`._ !#$^()+={}[]<>\'';
 
 	/**
-	 * List of allowed file mimetypes or file extensions.
-	 * If you are using accepting files by any file extension(s), you need to translate file 
-	 * extension to it's usual mimetype. To do it, you need to install MvcCore extension: 
-	 * `mvccore/ext-form-field-file-exts-and-mimes`. Please - do not use file extensions, 
-	 * it doesn't mean - it's strictly said less secure - but it's better. You don't need any extra code.
+	 * List of allowed file mimetypes or file extensions. 
+	 * All defined file mimetypes are checked with `finfo` PHP extension and checked by
+	 * allowed file extensions for defined mimetype.
+	 * All defined file extensions are translated internaly on server side into mimetypes,
+	 * then checked with `finfo` PHP extension and checked by
+	 * allowed file extensions for defined mimetype.
 	 * Example: `$this->accept = ['image/*', 'audio/mp3', '.docx'];`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @var \string[]
@@ -64,12 +65,13 @@ trait Files
 	protected $allowedFileNameChars = NULL;
 
 	/**
-	 * Get list of allowed file mimetypes or file extensions.
-	 * If you are using accepting files by any file extension(s), you need to translate file 
-	 * extension to it's usual mimetype. To do it, you need to install MvcCore extension: 
-	 * `mvccore/ext-form-field-file-exts-and-mimes`. Please - do not use file extensions, 
-	 * it doesn't mean - it's strictly said less secure - but it's better. You don't need any extra code.
-	 * Example: `['image/*', 'audio/mp3', '.docx']`
+	 * Get list of allowed file mimetypes or file extensions. 
+	 * All defined file mimetypes are checked with `finfo` PHP extension and checked by
+	 * allowed file extensions for defined mimetype.
+	 * All defined file extensions are translated internaly on server side into mimetypes,
+	 * then checked with `finfo` PHP extension and checked by
+	 * allowed file extensions for defined mimetype.
+	 * Example: `$this->accept = ['image/*', 'audio/mp3', '.docx'];`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @return \string[]
 	 */
@@ -78,12 +80,13 @@ trait Files
 	}
 
 	/**
-	 * Set list of allowed file mimetypes or file extensions.
-	 * If you are using accepting files by any file extension(s), you need to translate file 
-	 * extension to it's usual mimetype. To do it, you need to install MvcCore extension: 
-	 * `mvccore/ext-form-field-file-exts-and-mimes`. Please - do not use file extensions, 
-	 * it doesn't mean - it's strictly said less secure - but it's better. You don't need any extra code.
-	 * Example: `$this->SetAccept(['image/*', 'audio/mp3', '.docx']);`
+	 * Set list of allowed file mimetypes or file extensions. 
+	 * All defined file mimetypes are checked with `finfo` PHP extension and checked by
+	 * allowed file extensions for defined mimetype.
+	 * All defined file extensions are translated internaly on server side into mimetypes,
+	 * then checked with `finfo` PHP extension and checked by
+	 * allowed file extensions for defined mimetype.
+	 * Example: `$this->accept = ['image/*', 'audio/mp3', '.docx'];`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-accept
 	 * @param \string[] $accept 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField

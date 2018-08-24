@@ -41,8 +41,10 @@ trait ConfigProps
 	protected $method = \MvcCore\Ext\Forms\IForm::METHOD_POST;
 
 	/**
-	 * Form enctype attribute - how the form values
-	 * should be encoded when submitting it to the server.
+	 * Form enctype attribute - how the form values will be encoded 
+	 * when submitting it to the server. Possible values are:
+	 * 
+	 * 
 	 * `application/x-www-form-urlencoded` by default, it means
 	 * all form values will be encoded to `key1=value1&key2=value2...` string.
 	 * @var string

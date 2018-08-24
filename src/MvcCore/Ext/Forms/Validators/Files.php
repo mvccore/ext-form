@@ -26,14 +26,16 @@ class Files
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Files;
 
-	const UPLOAD_ERR_NOT_POSTED = 9;
-	const UPLOAD_ERR_NOT_FILE = 10;
-	const UPLOAD_ERR_EMPTY_FILE = 11;
-	const UPLOAD_ERR_TOO_LARGE_FILE = 12;
-	const UPLOAD_ERR_UNKNOWN_ACCEPT = 13;
-	const UPLOAD_ERR_NO_FILEINFO = 14;
-	const UPLOAD_ERR_NO_MIMES_EXTS = 15;
-	const UPLOAD_ERR_NOT_ACCEPTED = 16;
+	const UPLOAD_ERR_NOT_POSTED		=  9; 
+	const UPLOAD_ERR_NOT_FILE		= 10;
+	const UPLOAD_ERR_EMPTY_FILE		= 11;
+	const UPLOAD_ERR_TOO_LARGE_FILE	= 12;
+	const UPLOAD_ERR_NO_FILEINFO	= 13;						
+	const UPLOAD_ERR_NO_MIMES_EXTS	= 14;
+	const UPLOAD_ERR_UNKNOWN_ACCEPT	= 15;
+	const UPLOAD_ERR_UNKNOWN_EXT	= 16;
+	const UPLOAD_ERR_UNKNOWN_MIME	= 17;
+	const UPLOAD_ERR_NOT_ACCEPTED	= 18;
 
 	/**
 	 * Validation failure message template definitions.
@@ -51,26 +53,38 @@ class Files
 		UPLOAD_ERR_EXTENSION			=> "A PHP extension stopped the file upload.",							// 8
 		self::UPLOAD_ERR_NOT_POSTED		=> "The file wasn't uploaded via HTTP POST.",							// 9
 		self::UPLOAD_ERR_NOT_FILE		=> "The uploaded file is not valid file.",								// 10
-		self::UPLOAD_ERR_NOT_FILE		=> "The uploaded file is empty.",										// 11
-		self::UPLOAD_ERR_EMPTY_FILE		=> "The uploaded file is too large.",									// 12
-		self::UPLOAD_ERR_UNKNOWN_ACCEPT	=> "Unknown accept atribute value found: `{1}`.",						// 13
+		self::UPLOAD_ERR_EMPTY_FILE		=> "The uploaded file is empty.",										// 11
+		self::UPLOAD_ERR_TOO_LARGE_FILE	=> "The uploaded file is too large.",									// 12
 		self::UPLOAD_ERR_NO_FILEINFO	=> "A PHP function for magic bytes "
-											. "recognition is missing (`finfo`).",								// 14
-		self::UPLOAD_ERR_NO_MIMES_EXTS	=> "MvcCore extension library to complete accepting mime "
-											. "type(s) by file extension(s) not installed "
-											. "(`mvccore/ext-form-validator-file-mimes-exts`).",				// 15
-		self::UPLOAD_ERR_NOT_ACCEPTED	=> "The uploaded file is not in the expected file format (`{1}`)."
+											. "recognition is missing (`finfo`).",								// 13
+		self::UPLOAD_ERR_NO_MIMES_EXTS	=> "MvcCore extension library to get mimetype(s) by "
+											. "file extension and backwards is not "
+											. "installed (`mvccore/ext-tool-mimetype-extension`).",				// 14
+		self::UPLOAD_ERR_UNKNOWN_ACCEPT	=> "Unknown accept atribute value found: `{1}`.",						// 15
+		self::UPLOAD_ERR_UNKNOWN_EXT	=> "Unknown file mimetype found for accept file extension: `{1}`.",		// 16
+		self::UPLOAD_ERR_UNKNOWN_MIME	=> "Unknown file extension found for accept file mimetype: `{1}`.",		// 17
+		self::UPLOAD_ERR_NOT_ACCEPTED	=> "The uploaded file is not in the expected file format (`{1}`).",		// 18
+
 	];
 
 	/**
+	 * Uploaded files collection completed from request object from global `$_FILES` array.
+	 * Every item in array is `\stdClass` object with following records:
+	 * - `name`			- string from `$_FILES['name']`, sanitized by `basename()`, by max. length and by allowed characters.
+	 * - `type`			- string from `$_FILES['type']`, checked by `finfo` PHP extension and allowed file extensions for mime type.
+	 * - `tmpFullPath`	- string from `$_FILES['tmp_name']`, checked by `is_uploaded_file()`.
+	 * - `error`		- int from `$_FILES['error']`, always `0` in success upload.
+	 * - `size`			- int from `$_FILES['size']`, checked by `filesize()`,
+	 * - `extension`	- lowercase file extension parsed by `pathinfo()` from sanitized `name` record.
 	 * @var \stdClass[]
 	 */
 	protected $files = [];
 
 	/**
-	 * @var \string[]|NULL
+	 * Array with string mimetypes keys and values as arrays with string extensions.
+	 * @var array
 	 */
-	protected $mimeTypes = [];
+	protected $mimeTypesAndExts = [];
 
 	/**
 	 * Set up field instance, where is validated value by this 
@@ -142,9 +156,9 @@ class Files
 			// 5. Check file by `is_uploaded_file()`, `is_file()` and by `filesize()`:
 			if (!$this->validateValidFileAndFilesSize($file)) return NULL;
 			// 6. Sanitize safe file name and sanitize max. file name length:
-			$this->validateSanitizeFileName($file);
+			$this->validateSanitizeFileNameAndAddFileExt($file);
 			// 7. Validate file by allowed mime type if any mime type defined by `finfo_file()`:
-			if (!$this->validateAllowedMimeType($file)) return NULL;
+			if (!$this->validateAllowedMimeTypeAndExtension($file)) return NULL;
 			
 		}
 		return $this->files;
@@ -166,6 +180,7 @@ class Files
 					'tmpFullPath'	=> $filesFieldItems['tmp_name'][$index],
 					'error'			=> $filesFieldItems['error'][$index],
 					'size'			=> $filesFieldItems['size'][$index],
+					//'extension' is completed later in `$this->validateSanitizeFileNameAndAddFileExt();`
 				];
 			}
 		} else {
@@ -175,6 +190,7 @@ class Files
 				'tmpFullPath'	=> $filesFieldItems['tmp_name'],
 				'error'			=> $filesFieldItems['error'],
 				'size'			=> $filesFieldItems['size'],
+				//'extension' is completed later in `$this->validateSanitizeFileNameAndAddFileExt();`
 			];
 		}
 		if ($this->files) return TRUE;
@@ -188,6 +204,11 @@ class Files
 	protected function readAccept () {
 		$extensions = [];
 		$mimeTypes = [];
+		// Check if mimetypes and extensions validator class
+		$extToolsMimesExtsClass = '\\MvcCore\\Ext\\Tools\\MimeTypesExtensions';
+		if (!class_exists($extToolsMimesExtsClass)) 
+			return $this->handlePhpUploadError(self::UPLOAD_ERR_NO_MIMES_EXTS);
+
 		foreach ($this->accept as $rawAccept) {
 			$accept = trim($rawAccept);
 			if (substr($accept, 0, 1) === '.' && strlen($accept) > 1) {
@@ -195,29 +216,37 @@ class Files
 				$extensions[$ext] = 1;
 			} else if (preg_match("#^([a-z-]+)/(.*)#", $accept)) {
 				// mimes from accept could have strange values like: audio/*;capture=microphone
-				$mimeTypeRegExp = $this->readAcceptPrepareMimeTypeRegExp($accept);
-				$mimeTypes[$mimeTypeRegExp] = 1;
+				$semiColonPos = strpos($accept, ';');
+				if ($semiColonPos !== FALSE) 
+					$accept = substr($accept, 0, $semiColonPos);
+				$mimeTypes[$accept] = 1;
 			} else {
 				return $this->handlePhpError(self::UPLOAD_ERR_UNKNOWN_ACCEPT, [$rawAccept]);
 			}
 		}
-		// Get possible mime types for extensions defined by developer 
-		// and determinate if file is allowed by mimetype assigned by extension(s):
-		if ($mimeTypes && !$extensions) {
-			$this->mimeTypes = array_keys($mimeTypes);
-			return TRUE;
-		}
-		$extFormValidatorFileMimesExtsClass = '\\MvcCore\\Ext\\Forms\\Validators\\FilesMimesAndExts';
-		if (!class_exists($extFormValidatorFileMimesExtsClass)) 
-			return $this->handlePhpUploadError(self::UPLOAD_ERR_NO_MIMES_EXTS);
-		foreach ($this->extensions as $extension) {
-			$mimeTypesByExt = $extFormValidatorFileMimesExtsClass::GetMimeTypesByExtension($extension);
-			foreach ($mimeTypesByExt as $mimeTypeByExt) {
-				$mimeTypeRegExp = $this->readAcceptPrepareMimeTypeRegExp($mimeTypeByExt);
-				$mimeTypes[$mimeTypeRegExp] = 1;
+		// Get possible mimetype(s) for extension(s) defined by mvccore validators library:
+		if ($extensions) {
+			foreach ($extensions as $extension) {
+				$mimeTypesByExt = $extToolsMimesExtsClass::GetMimeTypesByExtension($extension);
+				if ($mimeTypesByExt === NULL) {
+					return $this->handlePhpError(self::UPLOAD_ERR_UNKNOWN_EXT, [$extension]);
+				} else {
+					foreach ($mimeTypesByExt as $mimeTypeByExt) 
+						$mimeTypes[$mimeTypeByExt] = 1;
+				}
 			}
 		}
-		$this->mimeTypes = array_keys($mimeTypes);
+		// Get for all mimetype(s) allowed file extensions:
+		$mimeTypes = array_keys($mimeTypes);
+		foreach ($mimeTypes as $mimeType) {
+			$allowedExtensions = $extToolsMimesExtsClass::GetExtensionsByMimeType($mimeType);
+			if ($allowedExtensions === NULL) {
+				return $this->handlePhpError(self::UPLOAD_ERR_UNKNOWN_MIME, [$mimeType]);
+			} else {
+				$mimeTypeRegExp = $this->readAcceptPrepareMimeTypeRegExp($mimeType);
+				$this->mimeTypesAndExts[$mimeType] = [$mimeTypeRegExp, $allowedExtensions];
+			}
+		}
 		return TRUE;
 	}
 
@@ -227,8 +256,6 @@ class Files
 	 * @return string
 	 */
 	protected function readAcceptPrepareMimeTypeRegExp ($mimeType) {
-		$semiColonPos = strpos($mimeType, ';');
-		if ($semiColonPos !== FALSE) $mimeType = substr($mimeType, 0, $semiColonPos);
 		// escape all regular expression special characters, 
 		// which could be inside correct mimetype string except `*`:
 		$mimeType = addcslashes(trim($mimeType), "-.+");
@@ -250,15 +277,17 @@ class Files
 			return $this->handlePhpUploadError(self::UPLOAD_ERR_EMPTY_FILE);
 		if ($fileSize === FALSE)
 			return $this->handlePhpUploadError(self::UPLOAD_ERR_TOO_LARGE_FILE);
+		$file->size = $fileSize;
 		return TRUE;
 	}
 
 	/**
-	 * Sanitize safe file name and sanitize max. file name length.
+	 * Sanitize safe file name and sanitize max. file name length
+	 * and add file extension info `$file` `\stdClass` collection.
 	 * @param \stdClass & $file
 	 * @return void
 	 */
-	protected function validateSanitizeFileName (& $file) {
+	protected function validateSanitizeFileNameAndAddFileExt (& $file) {
 		// Sanitize safe file name:
 		$allowedFileNameCharsPattern = '#[^' 
 			. addcslashes($$this->allowedFileNameChars, "#[](){}<>?!=^$.+|:\\") 
@@ -266,8 +295,9 @@ class Files
 		$file->name = preg_replace($allowedFileNameCharsPattern, '', $file->name);
 		// Sanitize max. file name length:
 		$pathInfo = pathinfo($file->name);
+		$extension = mb_strtolower($pathInfo['extension']);
+		$file->extension = $extension;
 		if (mb_strlen($file->name) > 255) {
-			$extension = mb_strtolower($pathInfo['extension']);
 			$extensionLength = mb_strlen($extension);
 			if ($extensionLength > 0) {
 				$fileName = basename($file->name, '.' . $extension);
@@ -283,16 +313,20 @@ class Files
 	 * @param \stdClass & $file
 	 * @return bool|NULL
 	 */
-	protected function validateAllowedMimeType (& $file) {
+	protected function validateAllowedMimeTypeAndExtension (& $file) {
 		$allowed = FALSE;
 		$finfo = finfo_open(FILEINFO_MIME);
 		$fileMimeType = @finfo_file($finfo, $file->tmpFullPath);
 		finfo_close($finfo);
 		if ($this->mimeTypes) {
-			foreach ($this->mimeTypes as $mimeTypePattern) {
-				if (preg_match($mimeTypePattern, $fileMimeType)) {
-					$allowed = TRUE;
-					break;
+			foreach ($this->mimeTypes as $mimeType => $mimeTypeAndExtensions) {
+				list($mimeTypeRegExpPattern, $allowedFileExtensions) = $mimeTypeAndExtensions;
+				if (preg_match($mimeTypeRegExpPattern, $fileMimeType)) {
+					if (in_array($file->extension, $allowedFileExtensions)) {
+						$file->type = $mimeType;
+						$allowed = TRUE;
+						break;
+					}
 				}
 			}
 		}
