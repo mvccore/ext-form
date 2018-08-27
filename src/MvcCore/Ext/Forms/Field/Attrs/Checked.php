@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 /**
  * Trait for classes:
  * - `\MvcCore\Ext\Forms\Fields\Checkbox`
- * Trait contains protected property `checked` with its getter and setter
+ * Trait contains protected property `checked` with it's getter and setter
  * and public static method to recognize `checked` boolean automaticly from 
  * given field `$value`.
  */

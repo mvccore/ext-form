@@ -13,6 +13,17 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\Fields\Number
+ *    - \MvcCore\Ext\Forms\Fields\Range
+ * - \MvcCore\Ext\Forms\Fields\Text
+ *    - \MvcCore\Ext\Forms\Fields\Email
+ *    - \MvcCore\Ext\Forms\Fields\Password
+ *    - \MvcCore\Ext\Forms\Fields\Search
+ *    - \MvcCore\Ext\Forms\Fields\Tel
+ *    - \MvcCore\Ext\Forms\Fields\Url
+ */
 trait InputMode
 {
 	protected static $fieldTypesAndInputModes = [
@@ -76,7 +87,8 @@ trait InputMode
 	}
 
 	/**
-	 * Automaticly set up `inputmode` attribute (if it is still `NULL`) by field type.
+	 * Automaticly set up `inputmode` attribute (if it is still `NULL`) 
+	 * by field type in `PreDispatch()` field rendering moment.
 	 * @return void
 	 */
 	protected function preDispatchInputMode () {
