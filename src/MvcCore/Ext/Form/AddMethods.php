@@ -16,6 +16,19 @@ namespace MvcCore\Ext\Form;
 trait AddMethods
 {
 	/**
+	 * Add into list of character encodings that the server accepts. The 
+	 * browser uses them in the order in which they are listed. The default 
+	 * value,the reserved string `'UNKNOWN'`, indicates the same encoding 
+	 * as that of the document containing the form element.
+	 * @param string $charset 
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function AddAcceptCharset ($charset) {
+		$this->acceptCharsets[] = $charset;
+		return $this;
+	}
+
+	/**
 	 * Add css classes strings for HTML element attribute `class`.
 	 * Given css classes will be added after previously defined css classes.
 	 * Default value is an empty array to not render HTML `class` attribute.

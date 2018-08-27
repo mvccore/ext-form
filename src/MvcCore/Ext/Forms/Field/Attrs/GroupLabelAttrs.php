@@ -13,19 +13,25 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\FieldsGroup
+ *    - \MvcCore\Ext\Forms\CheckboxGroup
+ *    - \MvcCore\Ext\Forms\RadioGroup
+ */
 trait GroupLabelAttrs
 {
 	/**
 	 * Any additional attributes for group label, defined
 	 * as key (for attribute name) and value (for attribute value).
-	 * @var string[]
+	 * @var array
 	 */
 	protected $groupLabelAttrs = [];
 
 	/**
 	 * Get any additional attributes for group label, defined
 	 * as key (for attribute name) and value (for attribute value).
-	 * @var \string[]
+	 * @return array
 	 */
 	public function & GetGroupLabelAttrs () {
 		return $this->groupLabelAttrs;
@@ -35,8 +41,8 @@ trait GroupLabelAttrs
 	 * Set any additional attributes for group label, defined
 	 * as key (for attribute name) and value (for attribute value).
 	 * Any previously defined attributes will be replaced.
-	 * @param $groupLabelAttrs string[]
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @param array $groupLabelAttrs
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetGroupLabelAttrs ($groupLabelAttrs = []) {
 		$this->groupLabelAttrs = $groupLabelAttrs;
@@ -48,10 +54,11 @@ trait GroupLabelAttrs
 	 * as key (for attribute name) and value (for attribute value).
 	 * All additional attributes will be completed as array merge
 	 * with previous values and new values.
-	 * @var string[]
+	 * @param array $groupLabelAttrs
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddGroupLabelAttr ($attr = []) {
-		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $attr);
+	public function AddGroupLabelAttr ($groupLabelAttrs = []) {
+		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $groupLabelAttrs);
 		return $this;
 	}
 }

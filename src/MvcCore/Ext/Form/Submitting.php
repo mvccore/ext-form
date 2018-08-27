@@ -105,6 +105,7 @@ trait Submitting
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []) {
+		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
 		foreach ($this->fields as $fieldName => & $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
 			$safeValue = $field->Submit($rawRequestParams);
@@ -188,5 +189,125 @@ trait Submitting
 	 */
 	public function GetDefaultErrorMsg ($index) {
 		return static::$defaultErrorMessages[$index];
+	}
+
+	/**
+	 * If form has defined any `accept-charset` attribute values,
+	 * go throught all accept charsets and try to transcode all raw values 
+	 * and collect translation statistics from this process. Then decode 
+	 * best translation charset and return by given param `$rawRequestParams`
+	 * new translated raw values by first best charset in `accept-charset` attribute.
+	 * @param array & $rawRequestParams 
+	 * @return array
+	 */
+	protected function & submitAllFieldsEncodeAcceptCharsets (array & $rawRequestParams = []) {
+		if (count($this->acceptCharsets) === 0) return $rawRequestParams;
+		$toEncoding = strtoupper($this->GetResponse()->GetEncoding());
+		if (!static::$toolClass) static::$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
+		// try to translate one accepting charset by one and colect success statistics
+		$bestCharset = NULL;
+		$translatedStats = [];
+		$translatedRawRequestParams = [];
+		foreach ($this->acceptCharsets as $acceptCharset) {
+			if ($acceptCharset === 'UNKNOWN') $acceptCharset = $toEncoding;
+			list($stats, $total, $rawTranslatedValues) = $this->encodeAcceptCharsetsArrayOrString(
+				$rawRequestParams, $acceptCharset, $toEncoding
+			);
+			$translatedRawRequestParams[$acceptCharset] = $rawTranslatedValues;
+			if ($total === $stats) {
+				$bestCharset = $acceptCharset;
+				break;
+			} else {
+				$translatedStats[$acceptCharset] = $stats;	
+			}
+		}
+		if (!$bestCharset) {
+			// decide which charset is the best
+			asort($translatedStats);
+			$translatedStats = array_reverse($translatedStats);
+			reset($translatedStats);
+			$firstCharset = current(array_keys($translatedStats));
+			$bestScore = $translatedStats[$firstCharset];
+			foreach ($this->acceptCharsets as $acceptCharset) {
+				if ($acceptCharset === 'UNKNOWN') $acceptCharset = $toEncoding;
+				if ($translatedStats[$acceptCharset] === $bestScore) {
+					$bestCharset = $acceptCharset;
+					break;
+				}
+			}
+		}
+		return $translatedRawRequestParams[$bestCharset];
+	}
+
+	/**
+	 * Try to encode raw input `array` or `string` by `iconv()` 
+	 * from given `$fromEncoding` charset to given `$toEncoding` 
+	 * charset. Return array with records:
+	 * - `0` - Wow many items has been transcoded without error.
+	 * - `1` - How many items has been transcoded.
+	 * - `2` - Transcoded raw input string by `iconv()`.
+	 * @param string|\string[] $rawValue 
+	 * @param string $fromEncoding 
+	 * @param string $toEncoding 
+	 * @return array
+	 */
+	protected function encodeAcceptCharsetsArrayOrString (& $rawValue, $fromEncoding, $toEncoding) {
+		if (gettype($rawValue) == 'array') {
+			$stats = 0;
+			$totalCount = 0;
+			$rawTranslatedValues = [];
+			foreach ($rawValue as $rawKey => & $rawValueItem) {
+				if (gettype($rawValueItem) == 'array') {
+					list ($rawItemStats, $rawItemsTotal, $rawTranslatedValue) = $this->encodeAcceptCharsetsArrayOrString(
+						$rawValueItem, $fromEncoding, $toEncoding
+					);
+				} else {
+					list ($rawItemStats, $rawItemsTotal, $rawTranslatedValue) = $this->encodeAcceptCharsetsString(
+						$rawValueItem, $fromEncoding, $toEncoding
+					);
+				}
+				$totalCount += $rawItemsTotal;
+				if ($rawItemStats) {
+					$stats += $rawItemStats;
+					$rawTranslatedValues[$rawKey] = $rawTranslatedValue;
+				} else {
+					$rawTranslatedValues[$rawKey] = $rawValue;
+				}
+			}
+			return [$stats, $totalCount, $rawTranslatedValues];
+		} else {
+			return $this->encodeAcceptCharsetsString(
+				$rawValue, $fromEncoding, $toEncoding
+			);
+		}
+	}
+
+	/**
+	 * Try to encode raw input `string` by `iconv()` 
+	 * from given `$fromEncoding` charset to given `$toEncoding` 
+	 * charset. Return array with records:
+	 * - `0` - Wow many items has been transcoded without error.
+	 * - `1` - How many items has been transcoded.
+	 * - `2` - Transcoded raw input string by `iconv()`.
+	 * @param string|\string[] $rawValue 
+	 * @param string $fromEncoding 
+	 * @param string $toEncoding 
+	 * @return array
+	 */
+	protected function encodeAcceptCharsetsString (& $rawValue, $fromEncoding, $toEncoding) {
+		$errors = [];
+		$toolClass = static::$toolClass;
+		$translatedValue = $toolClass::Invoke(
+			'iconv', 
+			[$fromEncoding, $toEncoding . '//TRANSLIT', $rawValue], 
+			function () use (& $errors) {
+				$errors[] = func_get_args();
+			}
+		);
+		if ($errors || $translatedValue === FALSE) {
+			return [0, 1, NULL];
+		} else {
+			return [1, 1, $translatedValue];
+		}
 	}
 }

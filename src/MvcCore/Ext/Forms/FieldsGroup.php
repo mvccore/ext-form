@@ -13,9 +13,6 @@
 
 namespace MvcCore\Ext\Forms;
 
-//require_once('Exception.php');
-//require_once('View.php');
-
 abstract class FieldsGroup 
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
@@ -27,7 +24,7 @@ abstract class FieldsGroup
 	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
-	use \MvcCore\Ext\Forms\Field\Attrs\GroupCssClasses;
+	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelCssClasses;
 	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelAttrs;
 	
 	/**
@@ -215,7 +212,7 @@ abstract class FieldsGroup
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses, TRUE
+			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, TRUE
 		);
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
 			? static::$templates->togetherLabelLeft 
@@ -257,7 +254,7 @@ abstract class FieldsGroup
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupCssClasses
+			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses
 		);
 		$viewClass = $this->form->GetViewClass();
 		return $viewClass::Format(static::$templates->label, [

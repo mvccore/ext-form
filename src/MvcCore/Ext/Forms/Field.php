@@ -170,13 +170,11 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 			$result = $this->value;
 		} else {
 			$result = NULL;
-			if (isset($rawRequestParams[$fieldName]))
+			if (isset($rawRequestParams[$fieldName])) 
 				$result = $rawRequestParams[$fieldName];
-			$processValidators = TRUE;
-			if ($result === NULL) {
+			if ($result === NULL) 
 				$result = $this->value;
-				$processValidators = FALSE;
-			}
+			$processValidators = $result === NULL ? FALSE : TRUE;
 			if ($processValidators && $this->validators) {
 				foreach ($this->validators as $validatorName => $validatorNameOrInstance) {
 					// set safe value as field submit result value

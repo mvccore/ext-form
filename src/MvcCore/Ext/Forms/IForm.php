@@ -33,41 +33,6 @@ interface IForm
 	 */
 	const METHOD_POST		= 'POST';
 
-	/**
-	 * Form http submitting method (`HEAD`).
-	 */
-	const METHOD_HEAD		= 'HEAD';
-
-	/**
-	 * Form http submitting method (`PUT`).
-	 */
-	const METHOD_PUT		= 'PUT';
-
-	/**
-	 * Form http submitting method (`PATCH`).
-	 */
-	const METHOD_PATCH		= 'PATCH';
-
-	/**
-	 * Form http submitting method (`TRACE`).
-	 */
-	const METHOD_TRACE		= 'TRACE';
-
-	/**
-	 * Form http submitting method (`OPTIONS`).
-	 */
-	const METHOD_OPTIONS	= 'OPTIONS';
-
-	/**
-	 * Form http submitting method (`CONNECT`).
-	 */
-	const METHOD_CONNECT	= 'CONNECT';
-
-	/**
-	 * Form http submitting method (`DELETE`).
-	 */
-	const METHOD_DELETE		= 'DELETE';
-
 
 	/**
 	 * Form enctype attribute value `application/x-www-form-urlencoded`,
@@ -79,7 +44,7 @@ interface IForm
 
 	/**
 	 * Form enctype attribute value `multipart/form-data`,
-	 * By submitting - no characters will be encoded.
+	 * By submitting - data will not be encoded to url string form.
 	 * This value is required when you are using forms that have a file upload control.
 	 */
 	const ENCTYPE_MULTIPART  = 'multipart/form-data';
@@ -87,7 +52,7 @@ interface IForm
 	/**
 	 * Form enctype attribute value `application/x-www-form-urlencoded`,
 	 * By submitting - spaces will be converted to `+` symbols,
-	 * but no special characters will be encoded.
+	 * but no other special characters will be encoded.
 	 */
 	const ENCTYPE_PLAINTEXT  = 'text/plain';
 

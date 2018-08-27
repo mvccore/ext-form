@@ -338,6 +338,7 @@ class View extends \MvcCore\View
 		$result = "<form";
 		$attrs = [];
 		$form = & $this->form;
+		// standard attributes
 		$formProperties = ['id', 'action', 'method', 'enctype', 'target'];
 		foreach ($formProperties as $property) {
 			$getter = 'Get'.ucfirst($property);
@@ -345,15 +346,28 @@ class View extends \MvcCore\View
 			if ($formPropertyValue !== NULL)
 				$attrs[$property] = $formPropertyValue;
 		}
+		// css classes
 		$formCssClasses = $form->GetCssClasses();
 		if ($formCssClasses)
 			$attrs['class'] = gettype($formCssClasses) == 'array'
 				? implode(' ', (array) $formCssClasses)
 				: $formCssClasses;
+		// additional custom attributes completing
 		foreach ($form->GetAttributes() as $key => $value) {
 			if (!in_array($key, $formProperties))
 				$attrs[$key] = $value;
 		}
+		// presudo-boolean attributes completing
+		$formAutoComplete = $form->GetAutoComplete();
+		if ($formAutoComplete !== NULL) 
+			$attrs['autocomplete'] = $formAutoComplete ? 'on' : 'off';
+		$formNoValidate = $form->GetNoValidate();
+		if ($formNoValidate === TRUE)
+			$attrs['novalidate'] = 'novalidate';
+		$formAcceptCharsets = $form->GetAcceptCharsets();
+		if (count($formAcceptCharsets) > 0) 
+			$attrs['accept-charset'] = implode(' ', $formAcceptCharsets);
+		// boolean and additional attributes
 		$attrsStr = self::RenderAttrs($attrs);
 		if ($attrsStr) $result .= ' ' . $attrsStr;
 		$result .= '>';

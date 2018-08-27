@@ -13,52 +13,58 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
-trait GroupCssClasses
+/**
+ * Trait for classes:
+ * - \MvcCore\Ext\Forms\FieldsGroup
+ *    - \MvcCore\Ext\Forms\CheckboxGroup
+ *    - \MvcCore\Ext\Forms\RadioGroup
+ */
+trait GroupLabelCssClasses
 {
 	/**
-	 * Css class for group label.
-	 * @var string[]
+	 * Css class(es) for group label as array of strings.
+	 * @var \string[]
 	 */
-	protected $groupCssClasses = [];
+	protected $groupLabelCssClasses = [];
 
 	/**
 	 * Get css class(es) for group label as array of strings.
 	 * @return \string[]
 	 */
-	public function & GetGroupCssClass () {
-		return $this->groupCssClasses;
+	public function & GetGroupLabelCssClasses () {
+		return $this->groupLabelCssClasses;
 	}
 
 	/**
 	 * Set css class(es) for group label,
 	 * as array of strings or string with classes
-	 * separated by space.
-	 * Any previously defined group css classes will be replaced.
-	 * @var string|string[]
+	 * separated by space. Any previously defined 
+	 * group css classes will be replaced.
+	 * @param string|\string[] $groupLabelCssClasses
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetGroupCssClasses ($cssClasses) {
-		if (gettype($cssClasses) == 'array') {
-			$this->groupCssClasses = $cssClasses;
+	public function & SetGroupLabelCssClasses ($groupLabelCssClasses) {
+		if (gettype($groupLabelCssClasses) == 'array') {
+			$this->groupLabelCssClasses = $groupLabelCssClasses;
 		} else {
-			$this->groupCssClasses = explode(' ', (string) $cssClasses);
+			$this->groupLabelCssClasses = explode(' ', (string) $groupLabelCssClasses);
 		}
 		return $this;
 	}
 
 	/**
-	 * Add css class(es) for group label,
-	 * as array of strings or string with classes
-	 * separated by space.
-	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Forms\Field
+	 * Add css class(es) for group label as array of 
+	 * strings or string with classes separated by space.
+	 * @param string|\string[] $groupLabelCssClasses
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function AddGroupCssClass ($cssClasses) {
-		if (gettype($cssClasses) == 'array') {
-			$groupCssClasses = $cssClasses;
+	public function AddGroupLabelCssClasses ($groupLabelCssClasses) {
+		if (gettype($groupLabelCssClasses) == 'array') {
+			$groupCssClasses = $groupLabelCssClasses;
 		} else {
-			$groupCssClasses = explode(' ', (string) $cssClasses);
+			$groupCssClasses = explode(' ', (string) $groupLabelCssClasses);
 		}
-		$this->groupCssClasses = array_merge($this->groupCssClasses, $groupCssClasses);
+		$this->groupLabelCssClasses = array_merge($this->groupLabelCssClasses, $groupCssClasses);
 		return $this;
 	}
 }

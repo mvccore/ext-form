@@ -317,4 +317,10 @@ trait Props
 	protected static $declaredProtectedProperties = [
 		'view', 'form', 'translate', 'errors'
 	];
+
+	/**
+	 * Cached value from `\MvcCore\Application::GetInstance()->GetToolClass();`
+	 * @var string
+	 */
+	protected static $toolClass = NULL;
 }

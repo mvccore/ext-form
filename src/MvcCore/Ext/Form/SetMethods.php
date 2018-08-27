@@ -41,8 +41,12 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form http submitting method.
-	 * `POST` by default.
+	 * Set form http submitting method.`POST` by default. 
+	 * Use `GET` only if form data contains only ASCII characters.
+	 * Possible values: `'POST' | 'GET'`
+	 * You can use constants:
+	 * - `\MvcCore\Ext\Forms\IForm::METHOD_POST`
+	 * - `\MvcCore\Ext\Forms\IForm::METHOD_GET`
 	 * @param string $method
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -52,10 +56,20 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form enctype attribute - how the form values
-	 * should be encoded when submitting it to the server.
-	 * `application/x-www-form-urlencoded` by default, it means
-	 * all form values will be encoded to `key1=value1&key2=value2...` string.
+	 * Set form enctype attribute - how the form values will be encoded 
+	 * to send them to the server. Possible values are:
+	 * - `application/x-www-form-urlencoded`
+	 *   By default, it means all form values will be encoded to 
+	 *   `key1=value1&key2=value2...` string.
+	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
+	 * - `multipart/form-data`
+	 *   Data will not be encoded to url string form, this value is required,
+	 *   when you are using forms that have a file upload control. 
+	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
+	 * - `text/plain`
+	 *   Spaces will be converted to `+` symbols, but no other special 
+	 *   characters will be encoded.
+	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
 	 * @param string $enctype
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -69,22 +83,84 @@ trait SetMethods
 	 * received after submitting the form. This is a name of, or keyword for, 
 	 * a browsing context (e.g. tab, window, or inline frame). Default value 
 	 * is `NULL` to not render any `<form>` element `target` attribute.
-	 * @var string $target The following keywords have special meanings:
-	 * - `_self`:	Load the response into the same browsing context as the 
-	 *				current one. This value is the default if the attribute 
-	 *				is not specified.
-	 * - `_blank`:	Load the response into a new unnamed browsing context.
-	 * - `_parent`:	Load the response into the parent browsing context of 
-	 *				the current one. If there is no parent, this option 
-	 *				behaves the same way as `_self`.
-	 * - `_top`:	Load the response into the top-level browsing context 
-	 *				(i.e. the browsing context that is an ancestor of the 
-	 *				current one, and has no parent). If there is no parent, 
-	 *				this option behaves the same way as `_self`.
+	 * The following keywords have special meanings:
+	 * - `_self`:		Load the response into the same browsing context as the 
+	 *					current one. This value is the default if the attribute 
+	 *					is not specified.
+	 * - `_blank`:		Load the response into a new unnamed browsing context.
+	 * - `_parent`:		Load the response into the parent browsing context of 
+	 *					the current one. If there is no parent, this option 
+	 *					behaves the same way as `_self`.
+	 * - `_top`:		Load the response into the top-level browsing context 
+	 *					(i.e. the browsing context that is an ancestor of the 
+	 *					current one, and has no parent). If there is no parent, 
+	 *					this option behaves the same way as `_self`.
+	 * - `iframename`:	The response is displayed in a named `<iframe>`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & SetTarget ($target = '_self') {
 		$this->target = $target;
+		return $this;
+	}
+
+	/**
+	 * Indicates whether input elements can by default have their values automatically 
+	 * completed by the browser. This setting can be overridden by an `autocomplete` 
+	 * attribute on an element belonging to the form. Possible values are:
+	 * - `'off' | FALSE`:The user must explicitly enter a value into each field for 
+	 * 					 every use, or the document provides its own auto-completion 
+	 * 					 method; the browser does not automatically complete entries.
+	 * - `'on'` | TRUE`: The browser can automatically complete values based on 
+	 * 					 values that the user has previously entered in the form.
+	 * - `NULL`			 Do not render the attribute.
+	 * For most modern browsers setting the autocomplete attribute will not prevent 
+	 * a browser's password manager from asking the user if they want to store login 
+	 * fields (username and password), if the user permits the storage the browser will
+	 * autofill the login the next time the user visits the page. See The autocomplete 
+	 * attribute and login fields.
+	 * @param bool|string $autoComplete Posible values are `'on' | TRUE | 'off' | FALSE | NULL`.
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetAutoComplete ($autoComplete = FALSE) {
+		if ($autoComplete === 'on' || $autoComplete === TRUE) {
+			$this->autoComplete = TRUE;
+		} else if ($autoComplete === 'off' || $autoComplete === FALSE) {
+			$this->autoComplete = FALSE;
+		} else {
+			$this->autoComplete = NULL;
+		}
+		return $this;
+	}
+
+	/**
+	 * This Boolean attribute indicates that the form is not to be validated when 
+	 * submitted. If this attribute is not specified (and therefore the form is 
+	 * validated), this default setting can be overridden by a `formnovalidate` 
+	 * attribute on a `<button>` or `<input>` element belonging to the form.
+	 * @param bool|NULL $noValidate Only `TRUE` renders the form attribute.
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetNoValidate ($noValidate = TRUE) {
+		if ($noValidate === TRUE) {
+			$this->noValidate = TRUE;
+		} else {
+			$this->noValidate = NULL;	
+		}
+		return $this;
+	}
+
+	/**
+	 * A list of character encodings that the server accepts. The browser 
+	 * uses them in the order in which they are listed. The default value,
+	 * the reserved string `'UNKNOWN'`, indicates the same encoding as that 
+	 * of the document containing the form element. Any previously configured
+	 * accept charsets will be replaced by given array. If you want only to
+	 * add another charset, use method: `$form->AddAcceptCharset()` instead.
+	 * @param \string[] $acceptCharsets 
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetAcceptCharsets ($acceptCharsets = []) {
+		$this->acceptCharsets = $acceptCharsets;
 		return $this;
 	}
 
