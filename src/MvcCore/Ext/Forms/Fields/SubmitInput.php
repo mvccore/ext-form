@@ -26,8 +26,6 @@ class SubmitInput
 	
 	protected $value = 'Submit';
 	
-	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
-	
 	protected $validators = [];
 	
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {

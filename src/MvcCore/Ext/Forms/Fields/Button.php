@@ -21,9 +21,11 @@ class Button
 
 	protected $type = 'button'; // submit | reset | button
 
+	/**
+	 * Default visible button text - `OK`.
+	 * @var string
+	 */
 	protected $value = 'OK';
-
-	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 
 	public static $templates = [
 		'control'	=> '<button id="{id}" name="{name}" type="{type}"{attrs}>{value}</button>',

@@ -26,6 +26,11 @@ class Color
 
 	protected $type = 'color';
 
+	/**
+	 * Hexadecimal color value with no transparency including leading hash char `#`.
+	 * Default value - a black color - `#000000`.
+	 * @var string
+	 */
 	protected $vale = '#000000';
 
 	protected $validators = ['Color'];

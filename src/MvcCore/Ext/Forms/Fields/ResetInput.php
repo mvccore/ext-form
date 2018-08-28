@@ -15,17 +15,13 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class ResetInput 
 	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
 
 	protected $type = 'reset';
 	
 	protected $value = 'Reset';
-	
-	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
 	
 	protected $validators = [];
 
