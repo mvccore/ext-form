@@ -15,7 +15,14 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Email extends Text
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+
 	protected $type = 'email';
 
 	protected $validators = ['Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/];
+	
+	public function RenderControl () {
+		if ($this->multiple) $this->SetControlAttr('multiple', 'multiple');
+		return parent::RenderControl();
+	}
 }

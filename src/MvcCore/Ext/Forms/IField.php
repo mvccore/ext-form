@@ -17,4 +17,8 @@ interface IField
 {
 	const LABEL_SIDE_LEFT = 'left';
 	const LABEL_SIDE_RIGHT = 'right';
+	
+	const AUTOFOCUS_DUPLICITY_EXCEPTION = 0;
+	const AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW = 1;
+	const AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW = -1;
 }

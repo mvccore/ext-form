@@ -44,44 +44,45 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
-trait AccessKey
+trait Required
 {
 	/**
-	 * The accesskey global attribute provides a hint for generating
-	 * a keyboard shortcut for the current element. The attribute 
-	 * value must consist of a single printable character (which 
-	 * includes accented and other characters that can be generated 
-	 * by the keyboard).
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @var string|NULL
+	 * Form field attribute `required`, determinating
+	 * if controll will be required to complete any value by user.
+	 * This flag is also used for submit checking. Default value is `NULL`
+	 * to not require any field value. If form has configured it's property
+	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
+	 * will be automaticly required by default form configuration.
+	 * @var bool|NULL
 	 */
-	protected $accessKey = NULL;
+	protected $required = NULL;
 
 	/**
-	 * The accesskey global attribute provides a hint for generating
-	 * a keyboard shortcut for the current element. The attribute 
-	 * value must consist of a single printable character (which 
-	 * includes accented and other characters that can be generated 
-	 * by the keyboard).
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @return string|NULL
+	 * Get form field attribute required, determinating
+	 * if field will be required to complete any value by user.
+	 * This flag is also used for submit checking. Default value is `NULL`
+	 * to not require any field value. If form has configured it's property
+	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
+	 * will be automaticly considered as required by default form configuration.
+	 * But this method return only value stored inside this field instance.
+	 * @return bool|NULL
 	 */
-	public function GetAccessKey () {
-		return $this->accessKey;
+	public function GetRequired () {
+		return $this->required;
 	}
 
 	/**
-	 * The accesskey global attribute provides a hint for generating
-	 * a keyboard shortcut for the current element. The attribute 
-	 * value must consist of a single printable character (which 
-	 * includes accented and other characters that can be generated 
-	 * by the keyboard).
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @param string $accessKey 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * Set form field attribute required, determinating
+	 * if field will be required to complete any value by user.
+	 * This flag is also used for submit checking. Default value is `NULL`
+	 * to not require any field value. If form has configured it's property
+	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
+	 * will be automaticly considered required by default form configuration.
+	 * @param bool|NULL $required
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAccessKey ($accessKey) {
-		$this->accessKey = $accessKey;
+	public function & SetRequired ($required = TRUE) {
+		$this->required = $required;
 		return $this;
 	}
 }

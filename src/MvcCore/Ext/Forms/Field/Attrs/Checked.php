@@ -26,6 +26,7 @@ trait Checked
 	 * If `TRUE`, field will be rendered as checked, `FALSE` otherwise.
 	 * If not set, checked flag will be automaticly resolved by field value
 	 * with method `static::GetCheckedByValue($checkbox->GetValue());`
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-checked
 	 * @var bool|NULL
 	 */
 	protected $checked = NULL;
@@ -34,6 +35,7 @@ trait Checked
 	 * Set `TRUE` to rendered field as checked, `FALSE` otherwise.
 	 * If not set, checked flag will be automaticly resolved by field value
 	 * with method `static::GetCheckedByValue($checkbox->GetValue());`
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-checked
 	 * @param bool $checked 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
@@ -46,6 +48,7 @@ trait Checked
 	 * Get `TRUE` if field is rendered as checked, `FALSE` otherwise.
 	 * If not set, checked flag will be automaticly resolved by field value
 	 * with method `static::GetCheckedByValue($checkbox->GetValue());`
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-checked
 	 * @return bool|NULL
 	 */
 	public function GetChecked () {

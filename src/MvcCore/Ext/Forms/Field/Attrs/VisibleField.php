@@ -44,44 +44,12 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
-trait AccessKey
+trait VisibleField
 {
-	/**
-	 * The accesskey global attribute provides a hint for generating
-	 * a keyboard shortcut for the current element. The attribute 
-	 * value must consist of a single printable character (which 
-	 * includes accented and other characters that can be generated 
-	 * by the keyboard).
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @var string|NULL
-	 */
-	protected $accessKey = NULL;
-
-	/**
-	 * The accesskey global attribute provides a hint for generating
-	 * a keyboard shortcut for the current element. The attribute 
-	 * value must consist of a single printable character (which 
-	 * includes accented and other characters that can be generated 
-	 * by the keyboard).
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @return string|NULL
-	 */
-	public function GetAccessKey () {
-		return $this->accessKey;
-	}
-
-	/**
-	 * The accesskey global attribute provides a hint for generating
-	 * a keyboard shortcut for the current element. The attribute 
-	 * value must consist of a single printable character (which 
-	 * includes accented and other characters that can be generated 
-	 * by the keyboard).
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @param string $accessKey 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
-	 */
-	public function & SetAccessKey ($accessKey) {
-		$this->accessKey = $accessKey;
-		return $this;
-	}
+	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoFocus;
+	use \MvcCore\Ext\Forms\Field\Attrs\Disabled;
+	use \MvcCore\Ext\Forms\Field\Attrs\ReadOnly;
+	use \MvcCore\Ext\Forms\Field\Attrs\Required;
+	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 }

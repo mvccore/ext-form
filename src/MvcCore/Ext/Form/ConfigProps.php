@@ -392,4 +392,11 @@ trait ConfigProps
 	protected static $validatorsNamespaces = [
 		'\\MvcCore\\Ext\\Forms\\Validators\\'
 	];
+
+	/**
+	 * Form field with `autofocus` boolean attribute defined. Form field 
+	 * with `autofocus` atribute defined could be only one in whole rendered document.
+	 * @var \string[]
+	 */
+	protected static $autoFocusedFormField = [];
 }

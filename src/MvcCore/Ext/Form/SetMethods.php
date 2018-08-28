@@ -25,6 +25,7 @@ trait SetMethods
 	 */
 	public function & SetId ($id) {
 		$this->id = $id;
+		self::$instances[$id] = & $this;
 		return $this;
 	}
 
@@ -594,5 +595,61 @@ trait SetMethods
 	public static function & SetValidatorsNamespaces (array $validatorsNamespaces = []) {
 		static::$validatorsNamespaces = [];
 		return static::AddValidatorsNamespaces($validatorsNamespaces);
+	}
+
+	/**
+	 * Set `autofocus` boolean attribute to target form field by form id and field name.
+	 * If there is already defined any previously autofocused field, defined third argument
+	 * to not thrown an exception but to solve the duplicity. Third argument possible values:
+	 * - `0` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION`)
+	 *   Default value, an exception is thrown when there is already defined other autofocused form element.
+	 * - `1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW`)
+	 *   There will be removed previously defined autofocused element and configured new given one.
+	 * - `-1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW`)
+	 *   There will be quietly configured another field autofocused. Be carefull!!! This is not standard behaviour!
+	 * If there is `$formId` and also `$fieldName` with `NULL` value, any previously defined
+	 * autofocused form field is changed and `autofocus` boolean attribute is removed.
+	 * @param string $formId 
+	 * @param string $fieldName 
+	 * @param int $duplicateBehaviour 
+	 * @throws \RuntimeException 
+	 * @return bool
+	 */
+	public static function SetAutoFocusedFormField ($formId = NULL, $fieldName = NULL, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
+		if (self::$autoFocusedFormField) {
+			// if any global autofocus record is already defined
+			if ($formId === NULL && $fieldName === NULL) {
+				// unset old everytime form id and field name is both `NULL`
+				list ($oldFormId, $oldFieldName) = self::$autoFocusedFormField;
+				self::GetById($oldFormId)->GetField($oldFieldName)->SetAutoFocus(FALSE);
+				self::$autoFocusedFormField = [];
+			} else if ($duplicateBehaviour === \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
+				// thrwn an runtime exception
+				list ($currentFormId, $currentFieldName) = self::$autoFocusedFormField;
+				throw new \RuntimeException(
+					'Another form field has already defined `autofocus` attribute.'
+					. ' Form id: `' . $currentFormId . '`, field name: `' . $currentFieldName . '`.'
+				);
+			} else if ($duplicateBehaviour === \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW) {
+				// quietly set (could be usefull to render something in the background)
+				self::GetById($formId)->GetField($fieldName)->SetAutoFocus(
+					TRUE, \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW
+				);
+			} else if ($duplicateBehaviour === \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW) {
+				// unset previous and set new
+				list ($oldFormId, $oldFieldName) = self::$autoFocusedFormField;
+				self::GetById($oldFormId)->GetField($oldFieldName)->SetAutoFocus(FALSE);
+				self::GetById($formId)->GetField($fieldName)->SetAutoFocus(
+					TRUE, \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW
+				);
+			}
+		} else {
+			// if no global autofocus record is defined
+			self::$autoFocusedFormField = [$formId, $fieldName];
+			self::GetById($formId)->GetField($fieldName)->SetAutoFocus(
+				TRUE, \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW
+			);
+		}
+		return TRUE;
 	}
 }

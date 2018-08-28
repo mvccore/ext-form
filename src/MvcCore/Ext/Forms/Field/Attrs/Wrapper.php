@@ -13,12 +13,23 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Date`
+ *    - `\MvcCore\Ext\Forms\Fields\DateTime`
+ *    - `\MvcCore\Ext\Forms\Fields\Month`
+ *    - `\MvcCore\Ext\Forms\Fields\Time`
+ *    - `\MvcCore\Ext\Forms\Fields\Week`
+ * - `\MvcCore\Ext\Forms\Fields\File`
+ * - `\MvcCore\Ext\Forms\Fields\Number`
+ *    - `\MvcCore\Ext\Forms\Fields\Range`
+ */
 trait Wrapper
 {
 	/**
 	 * Html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
-	 * substring you can wrap any html code you want.
+	 * substring you can wrap any HTML code you want.
 	 * Defaul wrapper values is: `{control}`.
 	 * @var string
 	 */
@@ -27,7 +38,7 @@ trait Wrapper
 	/**
 	 * Get html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
-	 * substring you can wrap any html code you want.
+	 * substring you can wrap any HTML code you want.
 	 * Defaul wrapper values is: `{control}`.
 	 * @return string
 	 */
@@ -38,7 +49,7 @@ trait Wrapper
 	/**
 	 * Set html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
-	 * substring you can wrap any html code you want.
+	 * substring you can wrap any HTML code you want.
 	 * @param string $wrapper Defaul wrapper values is: `{control}`.
 	 * @return \MvcCore\Ext\Forms\IField
 	 */

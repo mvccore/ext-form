@@ -20,12 +20,6 @@ class DataList
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 
 	/**
-	 * Return datalist element always without any label.
-	 * @var mixed
-	 */
-	protected $renderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL;
-
-	/**
 	 * Translate given options or not.
 	 * @var bool|NULL
 	 */

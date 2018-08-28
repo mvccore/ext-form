@@ -15,13 +15,13 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Textarea 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex,
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Attrs\Label;
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
 	use \MvcCore\Ext\Forms\Field\Attrs\RowsColsWrap;
@@ -56,7 +56,6 @@ class Textarea
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
 			'minLength', 'maxLength', 
 			'autoComplete',
 			'placeHolder',

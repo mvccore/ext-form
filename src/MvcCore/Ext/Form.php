@@ -116,10 +116,12 @@ class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
 		$this->dispatchState = 1;
 		if (!$this->id)
 			throw new \RuntimeException("No form `id` property defined in `".get_class($this)."`.");
-		if (isset(self::$allFormIds[$this->id])) {
-			throw new \RuntimeException("Form id `".$this->id."` already defined.");
+		if (isset(self::$instances[$this->id])) {
+			$storedInstance = & self::$instances[$this->id];
+			if ($storedInstance !== $this) 
+				throw new \RuntimeException("Form id `".$this->id."` already defined.");
 		} else {
-			self::$allFormIds[$this->id] = TRUE;
+			self::$instances[$this->id] = & $this;
 		}
 		$this->translate = $this->translator !== NULL && is_callable($this->translator);
 		return $this;

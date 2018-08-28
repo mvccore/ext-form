@@ -15,18 +15,19 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 /**
  * Trait for classes:
- * - \MvcCore\Ext\Forms\Fields\Color
- * - \MvcCore\Ext\Forms\Fields\Number
- *    - \MvcCore\Ext\Forms\Fields\Range
- * - \MvcCore\Ext\Forms\Fields\Select
- *    - \MvcCore\Ext\Forms\Fields\CountrySelect
- * - \MvcCore\Ext\Forms\Fields\Text
- *    - \MvcCore\Ext\Forms\Fields\Email
- *    - \MvcCore\Ext\Forms\Fields\Password
- *    - \MvcCore\Ext\Forms\Fields\Search
- *    - \MvcCore\Ext\Forms\Fields\Tel
- *    - \MvcCore\Ext\Forms\Fields\Url
- * - \MvcCore\Ext\Forms\Fields\Textarea
+ * - `\MvcCore\Ext\Forms\Fields\Color`
+ * - `\MvcCore\Ext\Forms\Fields\Number`
+ *    - `\MvcCore\Ext\Forms\Fields\Range`
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ * - `\MvcCore\Ext\Forms\Fields\Text`
+ *    - `\MvcCore\Ext\Forms\Fields\Email`
+ *    - `\MvcCore\Ext\Forms\Fields\Password`
+ *    - `\MvcCore\Ext\Forms\Fields\Search`
+ *    - `\MvcCore\Ext\Forms\Fields\Tel`
+ *    - `\MvcCore\Ext\Forms\Fields\Url`
+ * - `\MvcCore\Ext\Forms\Fields\Textarea`
+ * - `\MvcCore\Ext\Forms\Fields\Hidden`
  */
 trait AutoComplete
 {

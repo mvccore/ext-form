@@ -155,7 +155,7 @@ class CheckboxGroup
 					if ($clsValue) $classArr[] = $clsValue;
 			}
 			$labelAttrsStr = $this->renderAttrsWithFieldVars(
-				[], $attrsArr, $classArr
+				[], $attrsArr, $classArr, FALSE
 			);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
 				[], $attrsArr, $classArr, TRUE

@@ -15,9 +15,9 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 /**
  * Trait for classes:
- * - \MvcCore\Ext\Forms\Fields\Image
- * - \MvcCore\Ext\Forms\Fields\SubmitButton
- * - \MvcCore\Ext\Forms\Fields\SubmitInput
+ * - `\MvcCore\Ext\Forms\Fields\Image`
+ * - `\MvcCore\Ext\Forms\Fields\SubmitButton`
+ * - `\MvcCore\Ext\Forms\Fields\SubmitInput`
  */
 trait FormAttrs
 {

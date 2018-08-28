@@ -495,4 +495,38 @@ trait GetMethods
 						: 1)));
 		return intval($multiplier * floatval($rawIniValue));
 	}
+
+	/**
+	 * Get form instance by form id string.
+	 * If no form instance found, thrown an `RuntimeException`.
+	 * @param string $formId 
+	 * @throws \RuntimeException 
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public static function & GetById ($formId) {
+		if (isset(self::$instances[$formId])) {
+			return self::$instances[$formId];
+		} else {
+			throw new \RuntimeException(
+				'No form instance exists under form id `'.$formId.'`.'
+				. ' Check if searched form instance has been already initialized'
+				. ' or if form id has been already set.'
+			);
+		}
+	}
+
+	/**
+	 * Get form field instance with defined `autofocus` boolean attribute.
+	 * If there is no field in any form with this attribute, return `NULL`.
+	 * @param string $formId 
+	 * @param string $fieldName 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public static function & GetAutoFocusedFormField ($formId, $fieldName) {
+		if (self::$autoFocusedFormField) {
+			list ($currentFormId, $currentFieldName) = self::$autoFocusedFormField;
+			return self::GetById($currentFormId)->GetField($currentFieldName);
+		}
+		return NULL;
+	}
 }

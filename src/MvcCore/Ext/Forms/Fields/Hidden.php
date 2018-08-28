@@ -13,9 +13,29 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Hidden extends \MvcCore\Ext\Forms\Field
+class	Hidden 
+extends	\MvcCore\Ext\Forms\Field
 {
+	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+
 	protected $type = 'hidden';
 
 	protected $validators = ['SafeString'];
+
+	public function RenderControl () {
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'autoComplete',
+		]);
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format(static::$templates->control, [
+			'id'		=> $this->id,
+			'name'		=> $this->name,
+			'type'		=> $this->type,
+			'value'		=> "",
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
+		]);
+	}
 }

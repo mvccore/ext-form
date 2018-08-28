@@ -50,21 +50,4 @@ class ResetInput
 		);
 		$this->preDispatchTabIndex();
 	}
-
-	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
-		]);
-		if (!$this->form->GetFormTagRenderingStatus()) 
-			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
-				. 'form="' . $this->form->GetId() . '"';
-		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, [
-			'id'		=> $this->id,
-			'name'		=> $this->name,
-			'type'		=> $this->type,
-			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
-			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
-		]);
-	}
 }

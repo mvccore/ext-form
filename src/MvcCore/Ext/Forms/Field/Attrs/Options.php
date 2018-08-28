@@ -13,6 +13,15 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - `\MvcCore\Ext\Forms\Fields\DataList`
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ * - `\MvcCore\Ext\Forms\FieldsGroup`
+ *    - `\MvcCore\Ext\Forms\CheckboxGroup`
+ *    - `\MvcCore\Ext\Forms\RadioGroup`
+ */
 trait Options
 {
 	/**
@@ -35,7 +44,7 @@ trait Options
 	 *	 'm' => 'Male',
 	 * );
 	 *
-	 * // Or you can use more adwanced configuration with css class names 
+	 * // Or you can use more advanced configuration with css class names 
 	 * // and html element attributes, let's consider html code like this:
 	 * //   <label for="gender-f" class="female">Female:</label>
 	 * //   <input id="gender-f" type="radio" name="gender" value="f" class="female" data-any="something-for-females" />
@@ -80,7 +89,7 @@ trait Options
 	 *	 'm' => 'Male',
 	 * ));
 	 * 
-	 * // Or you can use more adwanced configuration with css class names 
+	 * // Or you can use more advanced configuration with css class names 
 	 * // and html element attributes, let's consider html code like this:
 	 * //   <label for="gender-f" class="female">Female:</label>
 	 * //   <input id="gender-f" type="radio" name="gender" value="f" class="female" data-any="something-for-females" />
@@ -111,7 +120,7 @@ trait Options
 	/**
 	 * Add form control or group control options to render
 	 * more values for more specified submitted keys.
-	 * Previous options will be merged with given options,
+	 * Previous options will be merged with given options.
 	 * @param array $options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */

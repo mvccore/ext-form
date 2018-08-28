@@ -13,6 +13,17 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Text`
+ *    - `\MvcCore\Ext\Forms\Fields\Email`
+ *    - `\MvcCore\Ext\Forms\Fields\Password`
+ *    - `\MvcCore\Ext\Forms\Fields\Search`
+ *    - `\MvcCore\Ext\Forms\Fields\Tel`
+ *    - `\MvcCore\Ext\Forms\Fields\Url`
+ * - `\MvcCore\Ext\Forms\Fields\Textarea`
+ * - `\MvcCore\Ext\Forms\Validators\MinMaxLength`
+ */
 trait MinMaxLength
 {
 	/**
@@ -37,7 +48,7 @@ trait MinMaxLength
 
 	/**
 	 * Set minimum characters length. Default value is `NULL`.
-	 * @param int $minLength 
+	 * @param int|NULL $minLength 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMinLength ($minLength) {
@@ -55,7 +66,7 @@ trait MinMaxLength
 
 	/**
 	 * Set maximum characters length. Default value is `NULL`.
-	 * @param int $minLength 
+	 * @param int|NULL $minLength 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMaxLength ($maxLength) {
@@ -64,8 +75,9 @@ trait MinMaxLength
 	}
 
 	/**
-	 * Check if field has proper validators if any value for minimum 
-	 * or maximum characters count is set.
+	 * Check if field has proper min/max validator if any value for minimum 
+	 * or maximum characters count is set. Process this check immediately
+	 * when field is added into form instance.
 	 * @return void
 	 */
 	protected function setFormMinMaxLength () {

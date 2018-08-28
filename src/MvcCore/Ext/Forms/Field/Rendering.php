@@ -56,11 +56,17 @@ trait Rendering
 	 */
 	public function RenderNaturally () {
 		$result = '';
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL && $this->label) {
+		$renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL;
+		$label = NULL;
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel) {
+			$renderMode = $this->GetRenderMode();
+			$label = $this->GetLabel();
+		}
+		if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL && $label) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $this->label) {
+		} else if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
 			$result = $this->RenderControlInsideLabel();
-		} else if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
+		} else if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
@@ -148,7 +154,10 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+		$renderMode = $this instanceof \MvcCore\Ext\Forms\Fields\ILabel
+			? $this->GetRenderMode()
+			: \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL;
+		if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
@@ -197,7 +206,7 @@ trait Rendering
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
 		return $this->renderAttrsWithFieldVars(
-			$fieldVars, $this->labelAttrs, $this->cssClasses
+			$fieldVars, $this->labelAttrs, $this->cssClasses, FALSE
 		);
 	}
 	/**
@@ -233,7 +242,7 @@ trait Rendering
 	 * @param string[] $fieldVars
 	 * @param array $fieldAttrs
 	 * @param array $cssClasses
-	 * @param bool $controlRendering
+	 * @param bool $controlRendering `TRUE` value means control rendering, `FALSE` means label rendering.
 	 * @return string
 	 */
 	protected function renderAttrsWithFieldVars (
@@ -254,16 +263,23 @@ trait Rendering
 				}
 			}
 		}
-		$boolFieldVars = ['disabled', 'readOnly', 'required'];
-		foreach ($boolFieldVars as $fieldName) {
-			if ($this->{$fieldName}) {
-				$attrName = strtolower($fieldName);
-				if ($controlRendering) $attrs[$attrName] = $attrName;
-				$cssClasses[] = $attrName;
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField) {
+			$boolFieldVars = [
+				'accessKey'	=> FALSE, 
+				'autoFocus' => TRUE, 
+				'disabled'	=> TRUE, 
+				'readOnly'	=> TRUE, 
+				'required'	=> TRUE,
+			];
+			foreach ($boolFieldVars as $fieldName => $addAlsoAsCssClass) {
+				if (isset($this->{$fieldName}) && $this->{$fieldName} !== NULL && $this->{$fieldName} !== FALSE) {
+					$attrName = strtolower($fieldName);
+					if ($controlRendering) $attrs[$attrName] = $attrName;
+					if ($addAlsoAsCssClass) $cssClasses[] = $attrName;
+				}
 			}
-		}
-		if ($this instanceof \MvcCore\Ext\Forms\Fields\ITabIndex && $this->tabIndex !== NULL) {
-			$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
+			if ($this->tabIndex !== NULL)
+				$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
 		}
 		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
 		$attrs['class'] = implode(' ', $cssClasses);

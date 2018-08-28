@@ -15,11 +15,9 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Button 
 	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
 
 	protected $type = 'button'; // submit | reset | button
 
@@ -52,22 +50,5 @@ class Button
 		if ($this->translate && $this->value)
 			$this->value = $this->form->Translate($this->value);
 		$this->preDispatchTabIndex();
-	}
-	
-	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
-		]);
-		if (!$this->form->GetFormTagRenderingStatus()) 
-			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
-				. 'form="' . $this->form->GetId() . '"';
-		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, [
-			'id'		=> $this->id,
-			'name'		=> $this->name,
-			'type'		=> $this->type,
-			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
-			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
-		]);
 	}
 }

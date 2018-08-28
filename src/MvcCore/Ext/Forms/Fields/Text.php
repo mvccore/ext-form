@@ -14,14 +14,14 @@
 namespace MvcCore\Ext\Forms\Fields;
 class Text 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex,
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IPattern, 
 				\MvcCore\Ext\Forms\Fields\IMinMaxLength,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Attrs\Label;
 	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
 	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
@@ -52,7 +52,6 @@ class Text
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
 			'pattern',
 			'minLength', 'maxLength',
 			'list',

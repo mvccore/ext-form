@@ -53,97 +53,6 @@ trait Getters
 	}
 
 	/**
-	 * Get control label visible text.
-	 * If field form has configured any translator,
-	 * translation will be processed automaticly
-	 * before rendering process. Default value is `NULL`.
-	 * @return string|NULL
-	 */
-	public function GetLabel () {
-		return $this->label;
-	}
-
-	/**
-	 * Get label side from rendered field - location where label will be rendered.
-	 * By default `$this->labelSide` is configured to `left`.
-	 * If you want to reconfigure it to different side,
-	 * the only possible value is `right`.
-	 * You can use constants:
-	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
-	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
-	 * @return string
-	 */
-	public function GetLabelSide () {
-		return $this->labelSide;
-	}
-
-	/**
-	 * Get rendering mode flag how to render field and it's label.
-	 * Default value is `normal` to render label and field, label 
-	 * first or field first by another property `$field->SetLabelSide('left' | 'right');`.
-	 * But if you want to render label around field or if you don't want
-	 * to render any label, you can change this with constants (values):
-	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL` - `<label /><input />`
-	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
-	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
-	 * @return string
-	 */
-	public function GetRenderMode () {
-		return $this->renderMode;
-	}
-
-	/**
-	 * Get form field attribute required, determinating
-	 * if field will be required to complete any value by user.
-	 * This flag is also used for submit checking. Default value is `NULL`
-	 * to not require any field value. If form has configured it's property
-	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
-	 * will be automaticly considered as required by default form configuration.
-	 * But this method return only value stored inside this field instance.
-	 * @return bool|NULL
-	 */
-	public function GetRequired () {
-		return $this->required;
-	}
-
-	/**
-	 * Get form field attribute `readonly`, determinating if field value will be 
-	 * possible to read only or if value will be possible to change by user. 
-	 * Default value is `FALSE`. This flag is also used for submit checking. 
-	 * If any field is marked as read only, browsers always send value in submit.
-	 * If field is configured as read only, no value sended under field name 
-	 * from user will be accepted in submit process and value for this field 
-	 * will be used by server side form initialization. 
-	 * Readonly attribute has more power than required. If readonly is true and
-	 * required is true and if there is invalid submitted value, there is no required 
-	 * error and it's used value from server side assigned by 
-	 * `$form->SetValues();` or from session.
-	 * @return bool|NULL
-	 */
-	public function GetReadOnly () {
-		return $this->readOnly;
-	}
-
-	/**
-	 * Get form field attribute `disabled`, determinating if field value will be 
-	 * possible to change by user and if user will be graphicly informed about it 
-	 * by default browser behaviour or not. Default value is `FALSE`. 
-	 * This flag is also used for sure for submit checking. But if any field is 
-	 * marked as disabled, browsers always don't send any value under this field name
-	 * in submit. If field is configured as disabled, no value sended under field name 
-	 * from user will be accepted in submit process and value for this field will 
-	 * be used by server side form initialization. 
-	 * Disabled attribute has more power than required. If disabled is true and
-	 * required is true and if there is no or invalid submitted value, there is no 
-	 * required error and it's used value from server side assigned by 
-	 * `$form->SetValues();` or from session.
-	 * @return bool|NULL
-	 */
-	public function GetDisabled () {
-		return $this->disabled;
-	}
-
-	/**
 	 * Get form field HTML element css classes strings as array.
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * @return \string[]
@@ -185,39 +94,6 @@ trait Getters
 	public function GetControlAttr ($name = 'data-*') {
 		return isset($this->controlAttrs[$name])
 			? $this->controlAttrs[$name]
-			: NULL;
-	}
-
-	/**
-	 * Get collection with `<label>` HTML element 
-	 * additional attributes by array keys/values.
-	 * There are no system attributes as: `id`,`for` or
-	 * `class` attributes, those attributes have it's own 
-	 * configurable properties with it's own getters. 
-	 * Label `class` attribute has always the same css 
-	 * classes as it's field automaticly. 
-	 * Default value is an empty array to not render 
-	 * any additional attributes.
-	 * @return array
-	 */
-	public function & GetLabelAttrs () {
-		return $this->labelAttrs;
-	}
-
-	/**
-	 * Get `<label>` HTML element additional attribute 
-	 * by name and with it's value. Do not use system 
-	 * attributes as: `id`,`for` or `class`, those 
-	 * attributes has it's own configurable properties 
-	 * with it's own getters. Label `class` attribute 
-	 * has always the same css classes as it's field automaticly. 
-	 * If attribute doesn't exist, `NULL` is returned.
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function GetLabelAttr ($name = 'data-*') {
-		return isset($this->labelAttrs[$name])
-			? $this->labelAttrs[$name]
 			: NULL;
 	}
 

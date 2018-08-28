@@ -13,6 +13,13 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ * - `\MvcCore\Ext\Forms\CheckboxGroup`
+ * - `\MvcCore\Ext\Forms\Validators\MinMaxOptions`
+ */
 trait MinMaxOptions
 {
 	/**
@@ -53,7 +60,7 @@ trait MinMaxOptions
 	/**
 	 * Set minimum options count to select. 
 	 * Default value is `NULL` to not limit anything.
-	 * @param int $minOptions
+	 * @param int|NULL $minOptions
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMinOptions ($minOptions) {
@@ -73,7 +80,7 @@ trait MinMaxOptions
 	/**
 	 * Set maximum options count to select. 
 	 * Default value is `NULL` to not limit anything.
-	 * @param int $maxOptions
+	 * @param int|NULL $maxOptions
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMaxOptions ($maxOptions) {
@@ -118,8 +125,9 @@ trait MinMaxOptions
 	}
 	
 	/**
-	 * Check if field has proper validators if any value for minimum 
-	 * or maximum options count is set.
+	 * Check if field has proper min/max validator if any value for minimum 
+	 * or maximum options count is set. Process this check immediately
+	 * when field is added into form instance.
 	 * @return void
 	 */
 	protected function setFormMinMaxOptions () {

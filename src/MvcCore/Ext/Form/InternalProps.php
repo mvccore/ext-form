@@ -53,6 +53,14 @@ trait InternalProps
 	protected $fieldsAutoTabIndex = 0;
 
 	/**
+	 * Internal flag to quickly know if form fields will be translated or not.
+	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
+	 * @var bool
+	 */
+	protected $translate = FALSE;
+
+	/**
 	 * Cached value from `\MvcCore\Application::GetInstance()->GetSessionClass();`
 	 * @var string
 	 */
@@ -63,14 +71,6 @@ trait InternalProps
 	 * @var string
 	 */
 	protected static $toolClass = NULL;
-
-	/**
-	 * Temporary collection with all created
-	 * form ids strings to determinate
-	 * if any id exist only once or not.
-	 * @var array
-	 */
-	protected static $allFormIds = [];
 
 	/**
 	 * Static cache with references to all created form session
@@ -139,10 +139,9 @@ trait InternalProps
 	];
 
 	/**
-	 * Internal flag to quickly know if form fields will be translated or not.
-	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
-	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
-	 * @var bool
+	 * Form instances storrage under it's form id strings.
+	 * Key is form id, value is form instance.
+	 * @var \MvcCore\Ext\Form[]|\MvcCore\Ext\Forms\IForm[]
 	 */
-	protected $translate = FALSE;
+	protected static $instances = [];
 }

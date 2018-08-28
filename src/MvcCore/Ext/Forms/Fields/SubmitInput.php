@@ -15,11 +15,10 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class SubmitInput 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\ISubmit, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+				\MvcCore\Ext\Forms\Fields\ISubmit
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
 	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
 	use \MvcCore\Ext\Forms\Field\Attrs\FormAttrs;
 
@@ -48,7 +47,6 @@ class SubmitInput
 	
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget'
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 

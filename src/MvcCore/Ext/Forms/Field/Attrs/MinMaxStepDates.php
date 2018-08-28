@@ -15,7 +15,11 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 /**
  * Trait for classes:
- * - `\MvcCore\Ext\Forms\Fields\Date` (`.\Time`, `.\DateTime`, `.\Week` ...)
+ * - `\MvcCore\Ext\Forms\Fields\Date`
+ *    - `\MvcCore\Ext\Forms\Fields\DateTime`
+ *    - `\MvcCore\Ext\Forms\Fields\Month`
+ *    - `\MvcCore\Ext\Forms\Fields\Time`
+ *    - `\MvcCore\Ext\Forms\Fields\Week`
  * Trait contains properties, getters and setters for 
  * protected properties `min`, `max` and `step`.
  */
@@ -28,6 +32,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-min
 	 * @var \DateTimeInterface|NULL
 	 */
 	protected $min = NULL;
@@ -39,6 +44,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-max
 	 * @var \DateTimeInterface|NULL
 	 */
 	protected $max = NULL;
@@ -49,6 +55,7 @@ trait MinMaxStepDates
 	 * For `Time` fields, step is `int`, number of seconds.
 	 * For `Week` fields, step is `int`, number of weeks...
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-step
 	 * @var int|NULL
 	 */
 	protected $step = NULL;
@@ -60,6 +67,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-min
 	 * @param bool $getFormatedString Get value as formated string by `$this->format`.
 	 * @return \DateTimeInterface|string|NULL
 	 */
@@ -78,6 +86,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "14:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2017-01-01 14:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-min
 	 * @param \DateTimeInterface|string|int $min
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
@@ -94,6 +103,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-max
 	 * @param bool $getFormatedString Get value as formated string by `$this->format`.
 	 * @return \DateTimeInterface|string|NULL
 	 */
@@ -112,6 +122,7 @@ trait MinMaxStepDates
 	 * - `Time		=> "20:00"`				(with `$field->format` = "H:i";`)
 	 * - `DateTime	=> "2018-06-24 20:00"`	(with `$field->format` = "Y-m-d H:i";`)
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-max
 	 * @param \DateTimeInterface|string|int $max
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
@@ -126,6 +137,7 @@ trait MinMaxStepDates
 	 * For `Time` fields, step is `int`, number of seconds.
 	 * For `Week` fields, step is `int`, number of weeks...
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-step
 	 * @return int|NULL
 	 */
 	public function GetStep () {
@@ -138,6 +150,7 @@ trait MinMaxStepDates
 	 * For `Time` fields, step is `int`, number of seconds.
 	 * For `Week` fields, step is `int`, number of weeks...
 	 * @see https://www.wufoo.com/html5/date-type/
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-step
 	 * @param int $step
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */

@@ -15,9 +15,9 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 /**
  * Trait for classes:
- * - \MvcCore\Ext\Forms\FieldsGroup
- *    - \MvcCore\Ext\Forms\CheckboxGroup
- *    - \MvcCore\Ext\Forms\RadioGroup
+ * - `\MvcCore\Ext\Forms\FieldsGroup`
+ *    - `\MvcCore\Ext\Forms\CheckboxGroup`
+ *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
 trait GroupLabelCssClasses
 {

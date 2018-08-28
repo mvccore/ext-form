@@ -65,17 +65,16 @@ class Range
 	}
 
 	public function RenderControl () {
-		if ($this->multiple) 
-			$this->multiple = 'multiple';
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
 			'pattern',
 			'min', 'max', 'step',
 			'list',
 			'autoComplete',
 			'placeHolder',
-			'multiple',
 		]);
+		if ($this->multiple) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'multiple="multiple"';
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';

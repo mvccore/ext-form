@@ -15,15 +15,16 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class File 
 	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex,
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IMultiple,
 				\MvcCore\Ext\Forms\Fields\IFiles
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Attrs\Label;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Files;
+	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
 
 	protected $type = 'field';
 
@@ -49,21 +50,23 @@ class File
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
-			'multiple',
 			'accept',
 			'capture',
 		]);
+		if ($this->multiple) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'multiple="multiple"';
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format(static::$templates->control, [
+		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name . ($this->multiple ? '[]' : ''),
 			'type'		=> $this->type,
 			'value'		=> "",
 			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
+		return $this->renderControlWrapper($result);
 	}
 }

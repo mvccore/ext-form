@@ -13,14 +13,49 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Email`
+ * - `\MvcCore\Ext\Forms\Fields\File`
+ * - `\MvcCore\Ext\Forms\Fields\Range`
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ * - `\MvcCore\Ext\Forms\Validators\Files`
+ * - `\MvcCore\Ext\Forms\Validators\Range`
+ * - `\MvcCore\Ext\Forms\Validators\ValueInOptions`
+ */
 trait Multiple
 {
 	/**
-	 * @var bool|string|NULL
+	 * If control is `<input>` with `type` as `file` or `email`,
+	 * this Boolean attribute indicates whether the user can enter 
+	 * more than one value.
+	 * If control is `<input>` with `type` as `range`, there are 
+	 * rendered two connected sliders (range controls) as one control
+	 * to simulate range from and range to. Result value will be array.
+	 * If control is `<select>`, this Boolean attribute indicates 
+	 * that multiple options can be selected in the list. When 
+	 * multiple is specified, most browsers will show a scrolling 
+	 * list box instead of a single line dropdown.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
+	 * @var bool|NULL
 	 */
 	protected $multiple = NULL;
 
 	/**
+	 * If control is `<input>` with `type` as `file` or `email`,
+	 * this Boolean attribute indicates whether the user can enter 
+	 * more than one value.
+	 * If control is `<input>` with `type` as `range`, there are 
+	 * rendered two connected sliders (range controls) as one control
+	 * to simulate range from and range to. Result value will be array.
+	 * If control is `<select>`, this Boolean attribute indicates 
+	 * that multiple options can be selected in the list. When 
+	 * multiple is specified, most browsers will show a scrolling 
+	 * list box instead of a single line dropdown.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
 	 * @return bool
 	 */
 	public function GetMultiple () {
@@ -28,8 +63,20 @@ trait Multiple
 	}
 
 	/**
+	 * If control is `<input>` with `type` as `file` or `email`,
+	 * this Boolean attribute indicates whether the user can enter 
+	 * more than one value.
+	 * If control is `<input>` with `type` as `range`, there are 
+	 * rendered two connected sliders (range controls) as one control
+	 * to simulate range from and range to. Result value will be array.
+	 * If control is `<select>`, this Boolean attribute indicates 
+	 * that multiple options can be selected in the list. When 
+	 * multiple is specified, most browsers will show a scrolling 
+	 * list box instead of a single line dropdown.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
 	 * @param bool $multiple 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMultiple ($multiple = TRUE) {
 		$this->multiple = $multiple;

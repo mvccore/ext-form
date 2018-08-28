@@ -15,15 +15,15 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Select 
 	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex,
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IMultiple, 
 				\MvcCore\Ext\Forms\Fields\IOptions, 
 				\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Attrs\Label;
 	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
 	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
@@ -134,19 +134,18 @@ class Select
 
 	public function RenderControl () {
 		$optionsStr = $this->RenderControlOptions();
+		$attrsStr = $this->renderControlAttrsWithFieldVars([
+			'autoComplete',
+		]);
 		if ($this->multiple) {
-			$this->multiple = 'multiple';
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'multiple="multiple"';
 			$name = $this->name . '[]';
 			$size = $this->size !== NULL ? ' size="' . $this->size . '"' : '';
 		} else {
 			$name = $this->name;
 			$size = '';
 		}
-		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
-			'autoComplete',
-			'multiple',
-		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
@@ -163,10 +162,10 @@ class Select
 	public function RenderControlOptions () {
 		$result = '';
 		$valueTypeIsArray = gettype($this->value) == 'array';
-		if ($this->nullOptionText !== NULL && strlen((string) $this->nullOptionText) > 0) {
+		if ($this->nullOptionText !== NULL && mb_strlen((string) $this->nullOptionText) > 0) {
 			// advanced configuration with key, text, css class, and any other attributes for single option tag
 			$result .= $this->renderControlOptionsAdvanced(
-				'', [
+				NULL, [
 					'value'	=> '',
 					'text'	=> htmlspecialchars($this->nullOptionText, ENT_QUOTES),
 					'attrs'	=> ['disabled' => 'disabled']
@@ -239,10 +238,16 @@ class Select
 	protected function renderControlOptionsAdvanced ($key, $option, $valueTypeIsArray) {
 		$value = isset($option['value']) 
 			? $option['value'] 
-			: $key;
-		$selected = $valueTypeIsArray
-			? in_array($key, $this->value)
-			: $this->value === $key;
+			: ($key === NULL ? '' : $key);
+		if ($valueTypeIsArray) {
+			if (count($this->value) > 0) {
+				$selected = in_array($key, $this->value);
+			} else {
+				$selected = $key === NULL;
+			}
+		} else {
+			$selected = $this->value === $key;
+		}
 		$formViewClass = $this->form->GetViewClass();
 		$classStr = isset($option['class']) && strlen((string) $option['class'])
 			? ' class="' . $option['class'] . '"'

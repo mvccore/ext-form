@@ -15,8 +15,8 @@ namespace MvcCore\Ext\Forms\Field\Attrs;
 
 /**
  * Trait for classes:
- * - \MvcCore\Ext\Forms\Fields\File
- * - \MvcCore\Ext\Forms\Validators\Files
+ * - `\MvcCore\Ext\Forms\Fields\File`
+ * - `\MvcCore\Ext\Forms\Validators\Files`
  */
 trait Files
 {

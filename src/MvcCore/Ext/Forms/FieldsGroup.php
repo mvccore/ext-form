@@ -15,14 +15,14 @@ namespace MvcCore\Ext\Forms;
 
 abstract class FieldsGroup 
 	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IAccessKey, 
-				\MvcCore\Ext\Forms\Fields\ITabIndex,
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IOptions,
 				\MvcCore\Ext\Forms\Fields\IMultiple,
 				\MvcCore\Ext\Forms\IFieldGroup
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AccessKey;
-	use \MvcCore\Ext\Forms\Field\Attrs\TabIndex;
+	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Attrs\Label;
 	use \MvcCore\Ext\Forms\Field\Attrs\Options;
 	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelCssClasses;
 	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelAttrs;
@@ -212,7 +212,7 @@ abstract class FieldsGroup
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, TRUE
+			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
 		);
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
 			? static::$templates->togetherLabelLeft 
@@ -254,7 +254,7 @@ abstract class FieldsGroup
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
-			['accessKey', 'multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses
+			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
 		);
 		$viewClass = $this->form->GetViewClass();
 		return $viewClass::Format(static::$templates->label, [
@@ -365,10 +365,10 @@ abstract class FieldsGroup
 				foreach ($classArrParam as $clsValue) if ($clsValue) $classArr[] = $clsValue;
 			}
 			$labelAttrsStr = $this->renderAttrsWithFieldVars(
-				['accessKey', 'multiple'], $attrsArr, $classArr
+				['multiple'], $attrsArr, $classArr, FALSE
 			);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				['accessKey', 'multiple'], $attrsArr, $classArr, TRUE
+				['multiple'], $attrsArr, $classArr, TRUE
 			);
 		}
 		if ($this->type == 'checkbox') 

@@ -13,14 +13,31 @@
 
 namespace MvcCore\Ext\Forms\Field\Attrs;
 
+/**
+ * Trait for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ */
 trait NullOptionText
 {
 	/**
+	 * This attribute is a text placeholder for `<select>` controls,
+	 * when no option is selected yet. Typically: `--- please select an option ---`.
+	 * It's rendered every time this placeholder has any text value, doesn't matter,
+	 * if `<select>` tag has already any value selected or not yet . It's rendered usually 
+	 * as first `<option>` sublemlement with an empty value, as `disabled` and `selected` 
+	 * `<option>` tag. `NULL` value means no placeholder `<option>` tag will be rendered.
 	 * @var string|NULL
 	 */
 	protected $nullOptionText = NULL;
 
 	/**
+	 * This attribute is a text placeholder for `<select>` controls,
+	 * when no option is selected yet. Typically: `--- please select an option ---`.
+	 * It's rendered every time this placeholder has any text value, doesn't matter,
+	 * if `<select>` tag has already any value selected or not yet . It's rendered usually 
+	 * as first `<option>` sublemlement with an empty value, as `disabled` and `selected` 
+	 * `<option>` tag. `NULL` value means no placeholder `<option>` tag will be rendered.
 	 * @param string $nullOptionText 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -30,6 +47,12 @@ trait NullOptionText
 	}
 
 	/**
+	 * This attribute is a text placeholder for `<select>` controls,
+	 * when no option is selected yet. Typically: `--- please select an option ---`.
+	 * It's rendered every time this placeholder has any text value, doesn't matter,
+	 * if `<select>` tag has already any value selected or not yet . It's rendered usually 
+	 * as first `<option>` sublemlement with an empty value, as `disabled` and `selected` 
+	 * `<option>` tag. `NULL` value means no placeholder `<option>` tag will be rendered.
 	 * @return string|NULL
 	 */
 	public function GetNullOptionText () {

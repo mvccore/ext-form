@@ -26,7 +26,6 @@ class SubmitButton
 
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'accessKey', 
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget'
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 
