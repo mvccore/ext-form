@@ -17,11 +17,15 @@ class SubmitButton
 	extends		\MvcCore\Ext\Forms\Fields\Button 
 	implements	\MvcCore\Ext\Forms\Fields\ISubmit
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
-	use \MvcCore\Ext\Forms\Field\Attrs\FormAttrs;
+	use \MvcCore\Ext\Forms\Field\Props\CustomResultState;
+	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 
 	protected $type = 'submit';
-
+	
+	/**
+	 * Default visible button text - `Submit`.
+	 * @var string
+	 */
 	protected $value = 'Submit';
 
 	public function RenderControl () {

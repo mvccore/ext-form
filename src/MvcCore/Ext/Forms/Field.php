@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms;
 
+/**
+ * Responsibility - init, predispatch and render common form control, it could be `input`, `select` or textarea.
+ *					This class is not possible to instantiate, you need to extend this class to create own specific form control.
+ */
 abstract class Field implements \MvcCore\Ext\Forms\IField
 {
 	use \MvcCore\Ext\Forms\Field\Props;
@@ -22,10 +26,11 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	
 	/**
 	 * Create new form control instance.
-	 * @param array $cfg config array with camel case
-	 *					 public properties and its values which you want to configure.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function __construct ($cfg = []) {
 		static::$templates = (object) static::$templates;
@@ -57,7 +62,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	 * @param string $name
 	 * @param array  $arguments
 	 * @throws \InvalidArgumentException
-	 * @return mixed|\MvcCore\Ext\Forms\Field
+	 * @return mixed|\MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function __call ($name, $arguments = []) {
 		$nameBegin = strtolower(substr($name, 0, 3));
@@ -73,7 +78,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * Universal getter, if property not defined, `NULL` is returned.
+	 * Universal getter, if property not defined - `NULL` is returned.
 	 * @param string $name
 	 * @return mixed
 	 */
@@ -82,10 +87,10 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * Universal setter, if property not defined, it's automaticly declarated.
+	 * Universal setter, if property not defined - it's automaticly declarated.
 	 * @param string $name
 	 * @param mixed	 $value
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function __set ($name, $value) {
 		$this->$name = $value;
@@ -93,13 +98,14 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * This method is called internally from `\MvcCore\Ext\Form` after field
-	 * is added into form by `$form->AddField();` method. Do not use it
-	 * if you don't develop any library component.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form instance by `$form->AddField();` method. Do not 
+	 * use this method even if you don't develop any form field.
 	 * - Check if field has any name, which is required.
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
-	 * @param \MvcCore\Ext\Form $form
+	 * - Set up translate boolean property.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
@@ -114,57 +120,49 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 				$this->name
 			]);
 		// if there is no specific required boolean - set required boolean by form
-		$this->required = $this->required === NULL 
-			? $form->GetDefaultRequired()
-			: $this->required ;
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField)
+			$this->required = $this->required === NULL 
+				? $form->GetDefaultRequired()
+				: $this->required ;
 		$this->translate = $form->GetTranslate();
 		return $this;
 	}
 
 	/**
-	 * Set up field properties before rendering process.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
 	 * - Set up field render mode if not defined.
-	 * - Set up translation boolean.
-	 * - Translate label if any.
+	 * - Translate label text if necessary.
 	 * @return void
 	 */
 	public function PreDispatch () {
 		$form = & $this->form;
 		// if there is no specific render mode - set render mode by form
-		if ($this->renderMode === NULL)
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField && $this->renderMode === NULL)
 			$this->renderMode = $form->GetDefaultFieldsRenderMode();
-		if ($this->translate && $this->label)
+		if ($this->translate && $this instanceof \MvcCore\Ext\Forms\Fields\ILabel && $this->label)
 			$this->label = $form->Translate($this->label);
-	}
-	
-	/**
-	 * Throw new `\InvalidArgumentException` with given
-	 * error message and append automaticly current class name,
-	 * current form id, form class type and current field class type.
-	 * @param string $errorMsg 
-	 * @throws \InvalidArgumentException 
-	 */
-	protected function throwNewInvalidArgumentException ($errorMsg) {
-		$str = '['.__CLASS__.'] ' . $errorMsg . ' (';
-		if ($this->form) {
-			$str .= 'form id: `'.$this->form->GetId() . '`, '
-				. 'form type: `'.get_class($this->form).'`, ';
-		}
-		$str .= 'field type: `'.get_class($this) . '`)';
-		throw new \InvalidArgumentException($str);
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` 
+	 * in submit processing. Do not use this method even if you 
+	 * don't develop form library or any form field.
+	 * 
 	 * Submit field value - process raw request value with all
 	 * configured validators and add errors into form if necesary.
-	 * Then return safe value processed by all from validators or `NULL`.
-	 * @param array $rawRequestParams 
+	 * Then return safe processed value by all from validators or `NULL`.
+	 * 
+	 * @param array $rawRequestParams Raw request params from MvcCore 
+	 *								  request object based on raw app 
+	 *								  input, `$_GET` or `$_POST`.
 	 * @return string|int|array|NULL
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		$result = NULL;
 		$fieldName = $this->name;
-		if ($this->readOnly || $this->disabled) {
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField && ($this->readOnly || $this->disabled)) {
 			// get value previously assigned from session or by developer when called: 
 			// `$form->SetValues(array(/* some predefined values from DB...*/))`
 			$result = $this->value;
@@ -172,9 +170,12 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 			$result = NULL;
 			if (isset($rawRequestParams[$fieldName])) 
 				$result = $rawRequestParams[$fieldName];
-			if ($result === NULL) 
+			if ($result === NULL) {
 				$result = $this->value;
-			$processValidators = $result === NULL ? FALSE : TRUE;
+				$processValidators = FALSE;
+			} else {
+				$processValidators = TRUE;
+			}
 			if ($processValidators && $this->validators) {
 				foreach ($this->validators as $validatorName => $validatorNameOrInstance) {
 					// set safe value as field submit result value
@@ -195,7 +196,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 				if ($this->required) {
 					$safeSubmittedValueType = gettype($result);
 					if (
-						!$processValidators || $result === NULL ||
+						$result === NULL ||
 						($safeSubmittedValueType == 'string' && mb_strlen($result) === 0) ||
 						($safeSubmittedValueType == 'array'  && count($result) === 0)
 					) $this->AddValidationError(
@@ -208,11 +209,15 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field` 
+	 * in submit processing. Do not use this method even if you 
+	 * don't develop any form field or field validator.
+	 * 
 	 * Add form error with given error message containing 
 	 * possible replacements for array values. 
 	 * 
 	 * If there is necessary to translate form elements 
-	 * (form has configured translator `callable`)
+	 * (form has configured property `translator` as `callable`)
 	 * than given error message is translated first before replacing.
 	 * 
 	 * Before error message processing for replacements,
@@ -261,5 +266,22 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 		}
 		$this->form->AddError($errorMsg, $this->name);
 		return $this;
+	}
+	
+	/**
+	 * Throw new `\InvalidArgumentException` with given
+	 * error message and append automaticly current class name,
+	 * current form id, form class type and current field class type.
+	 * @param string $errorMsg 
+	 * @throws \InvalidArgumentException 
+	 */
+	protected function throwNewInvalidArgumentException ($errorMsg) {
+		$str = '['.__CLASS__.'] ' . $errorMsg . ' (';
+		if ($this->form) {
+			$str .= 'form id: `'.$this->form->GetId() . '`, '
+				. 'form type: `'.get_class($this->form).'`, ';
+		}
+		$str .= 'field type: `'.get_class($this) . '`)';
+		throw new \InvalidArgumentException($str);
 	}
 }

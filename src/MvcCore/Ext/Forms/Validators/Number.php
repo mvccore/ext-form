@@ -21,7 +21,7 @@ class Number
 	extends		\MvcCore\Ext\Forms\Validator
 	implements	\MvcCore\Ext\Forms\Fields\IMinMaxStep
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepNumbers;
 
 	/**
 	 * Error message index(es).

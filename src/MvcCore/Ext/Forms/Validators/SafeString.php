@@ -14,10 +14,11 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
+ * Responsibility - remove from submitted value base ASCII characters 
+ * from 0 to 31 incl. (first column) and special characters: `& " ' < > | = \ %`.
  * THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS!
  * To prevent sql injects - use `\PDO::prepare();` and `\PDO::execute()`.
  */
-
 class SafeString extends \MvcCore\Ext\Forms\Validator
 {
 	/**
@@ -56,6 +57,12 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	 * @var \string[]
 	 */
 	protected static $specialMeaningChars = [
+		// commented characters are cleaned bellow by `htmlspecialchars()`
+		//'&'	=> "&amp;",
+		//'"'	=> "&quot;",
+		//"'"	=> "&apos;",
+		//'<'	=> "&lt;",
+		//'>'	=> "&gt;",
 		'|'	=> "&#124;",
 		'='	=> "&#61;",
 		'\\'=> "&#92;",
@@ -81,7 +88,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		// Replace characters to entities: & " ' < >
 		// http://php.net/manual/en/function.htmlspecialchars.php
 		$cleanedValue = htmlspecialchars($cleanedValue, ENT_QUOTES);
-
+		
 		// Replace characters to entities: | = \ %
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
 

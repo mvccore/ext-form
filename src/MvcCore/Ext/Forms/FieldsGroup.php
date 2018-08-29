@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms;
 
+/**
+ * Responsibility - init, predispatch and render group of common form controls, mostly `input` controls.
+ *					This class is not possible to instantiate, you need to extend this class to create own specific form control.
+ */
 abstract class FieldsGroup 
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
@@ -21,11 +25,11 @@ abstract class FieldsGroup
 				\MvcCore\Ext\Forms\Fields\IMultiple,
 				\MvcCore\Ext\Forms\IFieldGroup
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\Label;
-	use \MvcCore\Ext\Forms\Field\Attrs\Options;
-	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelCssClasses;
-	use \MvcCore\Ext\Forms\Field\Attrs\GroupLabelAttrs;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\Label;
+	use \MvcCore\Ext\Forms\Field\Props\Options;
+	use \MvcCore\Ext\Forms\Field\Props\GroupLabelCssClasses;
+	use \MvcCore\Ext\Forms\Field\Props\GroupLabelAttrs;
 	
 	/**
 	 * Form group pseudo control type,
@@ -44,7 +48,7 @@ abstract class FieldsGroup
 	
 	/**
 	 * Form group control options to render
-	 * more subcontrol attributes for specified
+	 * more sub-control attributes for specified
 	 * submitted values (array keys).
 	 * This property configuration is required.
 	 * 
@@ -89,8 +93,9 @@ abstract class FieldsGroup
 	protected $options = [];
 
 	/**
-	 * Internal common templates how to render field group elements naturaly.
-	 * @var array|\stdClass
+	 * Standard field template strings for natural 
+	 * rendering - `label`, `control`, `togetherLabelLeft` and `togetherLabelRight`.
+	 * @var string
 	 */
 	protected static $templates = [
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
@@ -99,10 +104,23 @@ abstract class FieldsGroup
 		'togetherLabelRight'=> '<label for="{id}"{attrs}>{control}<span>{label}</span></label>',
 	];
 
+	/**
+	 * Field group is always multiple value control. This function 
+	 * always return `TRUE` for field group instance.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @return bool
+	 */
 	public function GetMultiple () {
 		return TRUE;
 	}
 
+	/**
+	 * Field group is always multiple value control. This function 
+	 * does nothing, because multiple option has to be always `TRUE` 
+	 * for field group instance.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @return bool
+	 */
 	public function SetMultiple ($multiple = TRUE) {
 		return $this;
 	}
@@ -123,16 +141,14 @@ abstract class FieldsGroup
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
 	 * is added into form by `$form->AddField();` method. 
-	 * Do not use it if you don't know what to do.
-	 * Method does:
-	 * - Check if there are any options for current controls group.
-	 * Parent method does:
+	 * Do not use this method even if you don't develop any form field group.
 	 * - Check if field has any name, which is required.
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
-	 * @param \MvcCore\Ext\Form $form
+	 * - Check if there are any options for current controls group.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
-	 * @return void
+	 * @return \MvcCore\Ext\Forms\Fields\Select|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
@@ -143,12 +159,14 @@ abstract class FieldsGroup
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
 	 * Set up field properties before rendering process.
-	 * - Translate all option texts
-	 * Parent method:
 	 * - Set up field render mode.
 	 * - Set up translation boolean.
 	 * - Translate label property if any.
+	 * - Translate all option texts if necessary.
 	 * @return void
 	 */
 	public function PreDispatch () {
@@ -174,6 +192,9 @@ abstract class FieldsGroup
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render field naturaly by render mode.
 	 * Field shoud be rendered with label beside, label around
 	 * or without label by local field configuration. Also there
@@ -204,8 +225,14 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * Render field control inside label by local configuration, render field
-	 * errors beside if form is configured to render specific errors beside controls.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render field naturally by configured property `$field->renderMode` if any 
+	 * or by default render mode without any label. Field shoud be rendered with 
+	 * label beside, label around or without label by local field configuration. 
+	 * Also there could be rendered specific field errors before or after field
+	 * if field form is configured in that way.
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
@@ -235,7 +262,10 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * Render all subcontrols by multiple calls of $field->RenderControlItem();
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render all sub-controls by multiple calls of `$field->RenderControlItem();`.
 	 * @return string
 	 */
 	public function RenderControl () {
@@ -247,6 +277,9 @@ abstract class FieldsGroup
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render label tag only without control or specific errors.
 	 * @return string
 	 */
@@ -265,6 +298,9 @@ abstract class FieldsGroup
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render subcontrols with each subcontrol label tag
 	 * and without group label or without group specific errors.
 	 * @param string $key
@@ -328,7 +364,7 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * Complete and return semifinished strings for rendering by field key and option:
+	 * Complete and return semi-finished strings for rendering by field key and option:
 	 * - Label text string.
 	 * - Label attributes string string.
 	 * - Control attributes string.

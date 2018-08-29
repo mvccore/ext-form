@@ -13,14 +13,37 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - init, predispatch and render `<select>` HTML element 
+ * as rollout menu for single option select or as options list for multiple selection
+ * with options as all existing world states or only filtered world states.
+ */
 class CountrySelect 
 	extends \MvcCore\Ext\Forms\Fields\Select
 {
-	protected $type = 'select';
+	/**
+	 * Possible value: `country-select`, not used in HTML code for this field.
+	 * @var string
+	 */
+	protected $type = 'country-select';
 	
+	/**
+	 * Translate english state names. Default value is `FALSE`.
+	 * @var bool
+	 */
 	protected $translate = FALSE;
 	
-	protected $options = [
+	/**
+	 * All existing country codes and english state names.
+	 * Keys are country codes in upper case, values are english state names.
+	 * this array is automaticly used to render all select options. If there 
+	 * is configured any filtering to filter displayed countries, only selected
+	 * states are rendered. Use method `$field->FilterOptions();` or constructor
+	 * `$cfg` array with record `filter` as array with upper case country codes 
+	 * array to render only.
+	 * @var array
+	 */
+	protected static $allOptions = [
 		'AF' => 'Afghanistan',			'AX' => 'Åland Islands',		'AL' => 'Albania',
 		'DZ' => 'Algeria',				'AS' => 'American Samoa',		'AD' => 'Andorra',
 		'AO' => 'Angola',				'AI' => 'Anguilla',				'AQ' => 'Antarctica',
@@ -117,13 +140,78 @@ class CountrySelect
 	/**
 	 * Set country code value. Given country code will be automaticly converted to uppercase.
 	 * @param string $countryCode 
-	 * @return \MvcCore\Ext\Forms\Fields\CountrySelect
+	 * @return \MvcCore\Ext\Forms\Fields\CountrySelect|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetValue ($countryCode) {
 		$this->value = strtoupper($countryCode);
 		return $this;
 	}
 
+	/**
+	 * Get all existing country codes as array with keys as upper cased 
+	 * country codes and values as not translated english state names.
+	 * @return array
+	 */
+	public static function & GetAllOptions () {
+		return static::$allOptions;
+	}
+
+	/**
+	 * Set all existing country codes as array with keys as upper cased 
+	 * country codes and values as not translated english state names.
+	 * Given value will be automaticly used as select options, if there 
+	 * will not be configured any filtering to filter displayed countries.
+	 * @param array $allOptions 
+	 */
+	public static function SetAllOptions ($allOptions = []) {
+		static::$allOptions = $allOptions;
+	}
+
+	/**
+	 * Filter displayed countries to not show everytime all eisting 
+	 * countries in the world. Given country codes will be automaticly
+	 * converted to upper case.
+	 * @param \string[] $countryCodes Array of country codes strings to rendere only, not to render all existing states.
+	 * @return \MvcCore\Ext\Forms\Fields\CountrySelect|\MvcCore\Ext\Forms\IField
+	 */
+	public function & FilterOptions ($countryCodes = []) {
+		$options = [];
+		foreach ($countryCodes as $countryCode) {
+			$countryCode = strtoupper($countryCode);
+			if (isset(static::$allOptions[$countryCode])) {
+				$options[$countryCode] = static::$allOptions[$countryCode];
+			} else {
+				$options[$countryCode] = $countryCode;
+			}
+		}
+		$this->options = & $options;
+		return $this;
+	}
+	
+	/**
+	 * Create new form country `<select>` control instance.
+	 * If there is record under `filter` key in `$cfg` array argument,
+	 * it's used for method $field->FilterOptions();` method.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fields\CountrySelect|\MvcCore\Ext\Forms\IField
+	 */
+	public function __construct(array $cfg = []) {
+		parent::__construct($cfg);
+		if (isset($cfg['filter'])) 
+			$this->FilterOptions($cfg['filter']);
+	}
+
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render inner select control `<option>` tags or `<optgroup>` 
+	 * tags if there are options configured for.
+	 * @return string
+	 */
 	public function RenderControlOptions () {
 		$result = '';
 		$valueTypeIsArray = gettype($this->value) == 'array';

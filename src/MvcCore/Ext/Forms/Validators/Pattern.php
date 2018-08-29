@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Pattern extends \MvcCore\Ext\Forms\Validator implements \MvcCore\Ext\Forms\Fields\IPattern
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
+	use \MvcCore\Ext\Forms\Field\Props\Pattern;
 	
 	/**
 	 * Error message index(es).

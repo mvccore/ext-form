@@ -13,14 +13,36 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
-class Email extends Text
+/**
+ * Responsibility - init, predispatch and render `<input>` HTML element with type `email`.
+ * Email field has it's own validator to check submitted email/emails format by default.
+ */
+class		Email
+extends		Text
+implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
+	/**
+	 * Possible values: `email`
+	 * @var string
+	 */
 	protected $type = 'email';
 
+	/**
+	 * Validators: 
+	 * - `Email` - to check email format or emails format, if field ha sdefined `multiple` boolean attribute.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/];
 	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		if ($this->multiple) $this->SetControlAttr('multiple', 'multiple');
 		return parent::RenderControl();

@@ -17,6 +17,10 @@ class ResetButton extends \MvcCore\Ext\Forms\Fields\Button
 {
 	protected $type = 'reset';
 
+	/**
+	 * Default visible button text - `Reset`.
+	 * @var string
+	 */
 	protected $value = 'Reset';
 
 	protected $validators = [];

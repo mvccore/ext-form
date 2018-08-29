@@ -17,10 +17,14 @@ class ResetInput
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
 
 	protected $type = 'reset';
 	
+	/**
+	 * Default visible button text - `Reset`.
+	 * @var string
+	 */
 	protected $value = 'Reset';
 	
 	protected $validators = [];

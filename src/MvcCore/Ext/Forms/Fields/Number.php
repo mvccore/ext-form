@@ -22,22 +22,22 @@ class Number
 				\MvcCore\Ext\Forms\Fields\IPattern,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\Label;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepNumbers;
-	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
-	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
-	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
-	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
-	use \MvcCore\Ext\Forms\Field\Attrs\InputMode;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\Label;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepNumbers;
+	use \MvcCore\Ext\Forms\Field\Props\Pattern;
+	use \MvcCore\Ext\Forms\Field\Props\DataList;
+	use \MvcCore\Ext\Forms\Field\Props\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Props\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Props\Wrapper;
+	use \MvcCore\Ext\Forms\Field\Props\InputMode;
 
 	protected $type = 'number';
 	
 	protected $validators = ['Number' /*,'Pattern'*/];
 
 	/**
-	 * Numeric field value is always  stored as float value.
+	 * Numeric field value is always stored as float value.
 	 * @var float|NULL
 	 */
 	protected $value = NULL;

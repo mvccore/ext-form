@@ -13,11 +13,21 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - init, predispatch and render `<datalist>` HTML element 
+ * with given options optionally translated. This field has no possible value to submit.
+ */
 class DataList 
 	extends		\MvcCore\Ext\Forms\Field 
 	implements	\MvcCore\Ext\Forms\Fields\IOptions
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Options;
+	use \MvcCore\Ext\Forms\Field\Props\Options;
+	
+	/**
+	 * Possible value: `data-list`, not used in HTML code for this field.
+	 * @var string
+	 */
+	protected $type = 'data-list';
 
 	/**
 	 * Translate given options or not.
@@ -50,15 +60,16 @@ class DataList
 	}
 
 	/**
-	 * This method is called internally from `\MvcCore\Ext\Form` after field
-	 * is added into form by `$form->AddField();` method. Do not use it
-	 * if you don't develop any library component.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form instance by `$form->AddField();` method. Do not 
+	 * use this method even if you don't develop any form field.
 	 * - Check if field has any name, which is required.
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
-	 * @param \MvcCore\Ext\Form $form
+	 * - Set up translate options boolean property.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
@@ -67,8 +78,10 @@ class DataList
 	}
 
 	/**
-	 * Set up field properties before rendering process.
-	 * - Set up translation boolean.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * - Set up field render mode if not defined.
 	 * - Translate options if necessary.
 	 * @return void
 	 */
@@ -82,8 +95,15 @@ class DataList
 	}
 
 	/**
-	 * Return allways `NULL` for this pseudofield.
-	 * @param array $rawRequestParams 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` 
+	 * in submit processing. Do not use this method even if you 
+	 * don't develop form library or any form field.
+	 * 
+	 * Return allways `NULL` for this `<datalist>` pseudo-field.
+	 * 
+	 * @param array $rawRequestParams Raw request params from MvcCore 
+	 *								  request object based on raw app 
+	 *								  input, `$_GET` or `$_POST`.
 	 * @return NULL
 	 */
 	public function Submit (array & $rawRequestParams = []) {
@@ -91,6 +111,11 @@ class DataList
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * 
 	 * Render `<datalist>` element, it has not allowed any additional attributes. 
 	 * There is allowed only attribute `id` and `<option>` sub tags.
 	 * @return string

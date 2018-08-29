@@ -19,13 +19,13 @@ class Textarea
 				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\Label;
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
-	use \MvcCore\Ext\Forms\Field\Attrs\RowsColsWrap;
-	use \MvcCore\Ext\Forms\Field\Attrs\SpellCheck;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\Label;
+	use \MvcCore\Ext\Forms\Field\Props\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxLength;
+	use \MvcCore\Ext\Forms\Field\Props\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Props\RowsColsWrap;
+	use \MvcCore\Ext\Forms\Field\Props\SpellCheck;
 
 	protected $type = 'textarea';
 

@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class MinMaxOptions extends ValueInOptions
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxOptions;
 	
 	/**
 	 * Valid email address error message index.

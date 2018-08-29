@@ -18,12 +18,16 @@ class SubmitInput
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
 				\MvcCore\Ext\Forms\Fields\ISubmit
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
-	use \MvcCore\Ext\Forms\Field\Attrs\FormAttrs;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\CustomResultState;
+	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 
 	protected $type = 'submit';
 	
+	/**
+	 * Default visible button text - `Submit`.
+	 * @var string
+	 */
 	protected $value = 'Submit';
 	
 	protected $validators = [];

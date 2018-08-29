@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - define getters and setters for field property `format`.
+ */
 interface IFormat
 {
     /**
@@ -32,7 +35,7 @@ interface IFormat
 	 * @see http://php.net/manual/en/datetime.createfromformat.php
 	 * @see http://php.net/manual/en/function.date.php
 	 * @param string $format
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetFormat ($format = 'Y-m-d');
 }

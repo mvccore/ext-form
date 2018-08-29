@@ -17,7 +17,7 @@ class RadioGroup extends \MvcCore\Ext\Forms\FieldsGroup
 {
 	protected $type = 'radio';
 
-	protected $value = '';
+	protected $value = NULL;
 
 	protected $validators = ['ValueInOptions'];
 	

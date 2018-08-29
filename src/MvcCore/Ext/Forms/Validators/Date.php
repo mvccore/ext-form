@@ -15,8 +15,8 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Date extends \MvcCore\Ext\Forms\Validator
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Format;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
+	use \MvcCore\Ext\Forms\Field\Props\Format;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepDates;
 
 	/**
 	 * Error message index(es).

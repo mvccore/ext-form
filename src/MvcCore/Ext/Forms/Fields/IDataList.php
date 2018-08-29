@@ -13,18 +13,25 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - define getters and setters for HTML attribute `list`, 
+ * where has to be string targeting to `<datalist>` `id` attribute value.
+ */
 interface IDataList
 {
 	/**
 	 * Get element `list` attribute value - the `<list>` element `id` attribute value.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @return string|NULL
 	 */
 	public function & GetList ();
 
 	/**
-	 * Set element `list` attribute value - the `<list>` element `id` attribute value.
-	 * @param string $dataListId 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * Set element `list` attribute value - the `<list>` 
+	 * element `id` attribute value or `DataList` object instance.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
+	 * @param string|\MvcCore\Ext\Forms\IField $dataListIdOrInstance
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetList ($dataListId);
+	public function & SetList ($dataListIdOrInstance);
 }

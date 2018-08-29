@@ -18,10 +18,10 @@ class Image
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField,
 				\MvcCore\Ext\Forms\Fields\ISubmit
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\CustomResultState;
-	use \MvcCore\Ext\Forms\Field\Attrs\FormAttrs;
-	use \MvcCore\Ext\Forms\Field\Attrs\WidthHeight;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\CustomResultState;
+	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
+	use \MvcCore\Ext\Forms\Field\Props\WidthHeight;
 
 	protected $type = 'image';
 

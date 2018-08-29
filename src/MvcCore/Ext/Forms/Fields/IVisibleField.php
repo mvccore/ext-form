@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - define getters and setters for attributes: `accessKey`, 
+ * `autoFocus`, `disabled`, `readOnly`, `required` and `tabIndex`.
+ */
 interface IVisibleField
 {
 	/**

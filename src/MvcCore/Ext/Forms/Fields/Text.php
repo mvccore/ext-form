@@ -20,16 +20,16 @@ class Text
 				\MvcCore\Ext\Forms\Fields\IMinMaxLength,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\Label;
-	use \MvcCore\Ext\Forms\Field\Attrs\Pattern;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
-	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
-	use \MvcCore\Ext\Forms\Field\Attrs\PlaceHolder;
-	use \MvcCore\Ext\Forms\Field\Attrs\Size;
-	use \MvcCore\Ext\Forms\Field\Attrs\SpellCheck;
-	use \MvcCore\Ext\Forms\Field\Attrs\InputMode;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\Label;
+	use \MvcCore\Ext\Forms\Field\Props\Pattern;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxLength;
+	use \MvcCore\Ext\Forms\Field\Props\DataList;
+	use \MvcCore\Ext\Forms\Field\Props\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Props\PlaceHolder;
+	use \MvcCore\Ext\Forms\Field\Props\Size;
+	use \MvcCore\Ext\Forms\Field\Props\SpellCheck;
+	use \MvcCore\Ext\Forms\Field\Props\InputMode;
 
 	protected $type = 'text';
 

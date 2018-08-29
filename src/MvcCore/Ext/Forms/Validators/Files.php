@@ -23,8 +23,8 @@ class Files
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple,
 				\MvcCore\Ext\Forms\Fields\IFiles
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
-	use \MvcCore\Ext\Forms\Field\Attrs\Files;
+	use \MvcCore\Ext\Forms\Field\Props\Multiple;
+	use \MvcCore\Ext\Forms\Field\Props\Files;
 
 	const UPLOAD_ERR_NOT_POSTED		=  9; 
 	const UPLOAD_ERR_NOT_FILE		= 10;

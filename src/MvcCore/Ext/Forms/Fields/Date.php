@@ -13,6 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - init, predispatch and render `<input>` HTML element 
+ * with types `date` and types `datetime-local`, `time`, `week` and `month` in extended classes.
+ * Date field has it's own validator to check submitted value format/min/max/step by default.
+ */
 class Date 
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
@@ -21,14 +26,16 @@ class Date
 				\MvcCore\Ext\Forms\Fields\IFormat,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Attrs\Label;
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxStepDates;
-	use \MvcCore\Ext\Forms\Field\Attrs\Format;
-	use \MvcCore\Ext\Forms\Field\Attrs\DataList;
-	use \MvcCore\Ext\Forms\Field\Attrs\Wrapper;
+	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
+	use \MvcCore\Ext\Forms\Field\Props\Label;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepDates;
+	use \MvcCore\Ext\Forms\Field\Props\Format;
+	use \MvcCore\Ext\Forms\Field\Props\DataList;
+	use \MvcCore\Ext\Forms\Field\Props\Wrapper;
 
 	/**
+	 * Possible values: `date` and types `datetime-local`, 
+	 * `time`, `week` and `month` in extended classes.
 	 * @see http://www.html5tutorial.info/html5-date.php
 	 * @var string
 	 */
@@ -53,7 +60,8 @@ class Date
 	protected $format = 'Y-m-d';
 
 	/**
-	 * Validators used for submitted value to check format, min., max. and dangerous characters.
+	 * Validators: 
+	 * - `Date` - to check format, min., max., step and dangerous characters in submitted date value.
 	 * @var string[]|\Closure[]
 	 */
 	protected $validators = ['Date'];
@@ -83,31 +91,49 @@ class Date
 		return $this;
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method event if you don't develop any form field.
+	 * - Set up field render mode if not defined.
+	 * - Translate label text if necessary.
+	 * - Set up tabindex if necessary.
+	 * @return void
+	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->preDispatchTabIndex();
 	}
 
 	/**
-	 * Render control element, without label or possible error messages, only the element.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
 	 * @return string
 	 */
 	public function RenderControl () {
-		$min = $this->min;
-		$max = $this->max;
-		if ($this->min instanceof \DateTimeInterface) 
-			$this->min = $this->min->format($this->format);
-		if ($this->max instanceof \DateTimeInterface) 
-			$this->max = $this->max->format($this->format);
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'min', 'max', 'step', 
 			'list',
 		]);
+		$dateProps = [
+			'min'	=> $this->min,
+			'max'	=> $this->max, 
+			'step'	=> $this->step,
+		];
+		if ($dateProps['min'] instanceof \DateTimeInterface) 
+			$dateProps['min'] = $this->min->format($this->format);
+		if ($dateProps['max'] instanceof \DateTimeInterface) 
+			$dateProps['max'] = $this->max->format($this->format);
+		$attrsStrSep = strlen($attrsStr) > 0 ? ' ' : '';
+		foreach ($dateProps as $propName => $propValue) {
+			if ($propValue !== NULL) {
+				$attrsStr .= $attrsStrSep . $propName . '="' . $propValue . '"';
+				$attrsStrSep = ' ';
+			}
+		}
 		if (!$this->form->GetFormTagRenderingStatus()) 
-			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
-				. 'form="' . $this->form->GetId() . '"';
-		$this->min = $min;
-		$this->max = $max;
+			$attrsStr .= $attrsStrSep . 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		$result = $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,

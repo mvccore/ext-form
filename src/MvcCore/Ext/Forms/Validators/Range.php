@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Validators;
 
 class Range extends \MvcCore\Ext\Forms\Validators\Number
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);

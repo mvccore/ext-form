@@ -17,7 +17,7 @@ class ValueInOptions
 	extends		\MvcCore\Ext\Forms\Validator
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
 	/**
 	 * Error message index(es).

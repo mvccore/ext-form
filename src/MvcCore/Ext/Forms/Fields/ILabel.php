@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - define getters and setters for field 
+ * label properties: `label`, `labelSide` and `labelAttrs`.
+ */
 interface ILabel
 {
     /**

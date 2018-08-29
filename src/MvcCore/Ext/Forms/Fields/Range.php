@@ -17,7 +17,7 @@ class Range
 	extends		\MvcCore\Ext\Forms\Fields\Number
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\Multiple;
+	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
 	protected $type = 'range';
 

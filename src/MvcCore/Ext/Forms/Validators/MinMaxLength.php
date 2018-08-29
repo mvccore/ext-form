@@ -17,7 +17,7 @@ class MinMaxLength
 	extends		\MvcCore\Ext\Forms\Validator 
 	implements	\MvcCore\Ext\Forms\Fields\IMinMaxLength
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxLength;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxLength;
 	
 	/**
 	 * Valid email address error message index.

@@ -13,11 +13,18 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - init, predispatch and render group of `input`s with `type` as `checkbox`,
+ *					with configuration to select minimum and maximum count of values and required option.
+ *					Checkbox group has it's own validator to check if submitted values are presented in 
+ *					configured by default and it's own validator to check minimum or maximum count of 
+ *					selected options.
+ */
 class CheckboxGroup 
 	extends		\MvcCore\Ext\Forms\FieldsGroup 
 	implements	\MvcCore\Ext\Forms\Fields\IMinMaxOptions
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\MinMaxOptions;
+	use \MvcCore\Ext\Forms\Field\Props\MinMaxOptions;
 	
 	/**
 	 * Valid email address error message index.
@@ -35,24 +42,76 @@ class CheckboxGroup
 		self::ERROR_MAX_OPTIONS_BUBBLE	=> "Please select up to `{0}` options at maximum.",
 	];
 
+	/**
+	 * Possible value: `checkbox`, used in HTML code for this fields.
+	 * @var string
+	 */
 	protected $type = 'checkbox';
-
+	
+	/**
+	 * Validators: 
+	 * - `ValueInOptions` - to validate if submitted string(s) 
+	 *						are presented in select options keys.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ["ValueInOptions"];
 
+	/**
+	 * Supporting javascript full javascript class name.
+	 * If you want to use any custom supporting javascript prototyped class
+	 * for any additional purposes for your custom field, you need to use
+	 * `$field->jsSupportingFile` property to define path to your javascript file
+	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
+	 * value. Than you have to add supporting javascript file path into field form 
+	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * (once) or by any external custom assets renderer configured by:
+	 * `$form->SetJsSupportFilesRenderer(...);` method.
+	 * Or you can add your custom supporting javascript files into response by your 
+	 * own and also you can run your helper javascripts also by your own. Is up to you.
+	 * `NULL` by default.
+	 * @var string
+	 */
 	protected $jsClassName = 'MvcCoreForm.CheckboxGroup';
 
+	/**
+	 * Field supporting javascript file relative path.
+	 * If you want to use any custom supporting javascript file (with prototyped 
+	 * class) for any additional purposes for your custom field, you need to 
+	 * define path to your javascript file relatively from configured 
+	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
+	 * Than you have to add supporting javascript file path into field form 
+	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * (once) or by any external custom assets renderer configured by:
+	 * `$form->SetJsSupportFilesRenderer(...);` method.
+	 * Or you can add your custom supporting javascript files into response by your 
+	 * own and also you can run your helper javascripts also by your own. Is up to you.
+	 * `NULL` by default.
+	 * @var string
+	 */
 	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/checkbox-group.js';
 
 	/**
-	 * Maximum options css class for javascript.
+	 * Maximum options specific css class for supporting javascript code.
 	 * @var string
 	 */
 	protected $maxOptionsClassName = 'max-selected-options';
 
+	/**
+	 * Standard field template strings for natural rendering a `control`.
+	 * @var string
+	 */
 	protected static $templates = [
 		'control'	=> '<input id="{id}" name="{name}[]" type="{type}" value="{value}"{checked}{attrs} />',
 	];
 
+	/**
+	 * Create new form `<input type="checkbx" />` group control instance.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fields\Select|\MvcCore\Ext\Forms\IField
+	 */
 	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
@@ -61,6 +120,19 @@ class CheckboxGroup
 		);
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form by `$form->AddField();` method. 
+	 * Do not use this method even if you don't develop any form field group.
+	 * - Check if field has any name, which is required.
+	 * - Set up form and field id attribute by form id and field name.
+	 * - Set up required.
+	 * - Check if there are any options for current controls group.
+	 * - Check if there are defined validators if there are defined minimum or maximum selected options.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fields\Select|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		// add minimum/maximum options count validator if necessary
@@ -68,6 +140,19 @@ class CheckboxGroup
 		return $this;
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * Set up field properties before rendering process.
+	 * - Set up field render mode.
+	 * - Set up translation boolean.
+	 * - Translate label property if any.
+	 * - Translate all option texts if necessary.
+	 * - Translate browser bubble messages if necessary.
+	 * - Add supporting javascripts if necessary.
+	 * @return void
+	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$minOptsDefined = $this->minOptions !== NULL;
@@ -115,6 +200,15 @@ class CheckboxGroup
 		return $this;
 	}
 
+	/**
+	 * Complete and return semi-finished strings for rendering by field key and option:
+	 * - Label text string.
+	 * - Label attributes string string.
+	 * - Control attributes string.
+	 * @param string	   $key
+	 * @param string|array $option
+	 * @return array
+	 */
 	protected function renderControlItemCompleteAttrsClassesAndText ($key, & $option) {
 		$optionType = gettype($option);
 		$labelAttrsStr = '';

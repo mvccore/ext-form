@@ -13,8 +13,15 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - init, predispatch and render `<input>` HTML element with type `datetime-local`.
+ */
 class DateTime extends \MvcCore\Ext\Forms\Fields\Date
 {
+	/**
+	 * Possible values: `datetime-local`
+	 * @var string
+	 */
 	protected $type = 'datetime-local';
 
 	/**
@@ -26,6 +33,11 @@ class DateTime extends \MvcCore\Ext\Forms\Fields\Date
 	 * @var string
 	 */
 	protected $format = 'Y-m-d\TH:i'; // 2014-03-17 22:15
-
+	
+	/**
+	 * Validators: 
+	 * - `DateTime` - to check format, min., max., step and dangerous characters in submitted date value.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['DateTime'];
 }

@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Rendering
 {
 	/**
-	 * Render field in full mode, naturaly or by custom template.
+	 * Render field in full mode (with configured label), naturally or by custom template.
 	 * @return string
 	 */
 	public function Render () {
@@ -26,10 +26,15 @@ trait Rendering
 			return $this->RenderNaturally();
 		}
 	}
+
 	/**
-	 * Render field by configured template.
-	 * This method creates $view = new \MvcCore\Ext\Form\Core\View
-	 * sets all local context variables into it and renders it into string.
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Renders field by configured custom template property `$field->viewScript`.
+	 * This method creates `$view = new \MvcCore\Ext\Form\Core\View();`,
+	 * sets all local context variables into view instance and renders 
+	 * configured view instance into result string.
 	 * @return string
 	 */
 	public function RenderTemplate () {
@@ -47,10 +52,13 @@ trait Rendering
 	}
 
 	/**
-	 * Render field naturaly by render mode.
-	 * Field shoud be rendered with label beside, label around
-	 * or without label by local field configuration. Also there
-	 * could be rendered specific field errors before or after field
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render field naturally by configured property `$field->renderMode` if any 
+	 * or by default render mode without any label. Field shoud be rendered with 
+	 * label beside, label around or without label by local field configuration. 
+	 * Also there could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
 	 * @return string
 	 */
@@ -80,6 +88,9 @@ trait Rendering
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render field control and label by local configuration in left or in right side,
 	 * errors beside if form is configured to render specific errors beside controls.
 	 * @return string
@@ -102,6 +113,9 @@ trait Rendering
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render field control inside label by local configuration, render field
 	 * errors beside if form is configured to render specific errors beside controls.
 	 * @return string
@@ -131,6 +145,9 @@ trait Rendering
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render control tag only without label or specific errors.
 	 * @return string
 	 */
@@ -150,6 +167,9 @@ trait Rendering
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render label tag only without control or specific errors.
 	 * @return string
 	 */
@@ -169,6 +189,9 @@ trait Rendering
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Render field specific errors only without control or label.
 	 * @return string
 	 */

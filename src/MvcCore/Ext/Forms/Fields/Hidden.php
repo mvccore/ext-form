@@ -13,15 +13,38 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - init, predispatch and render `<input>` HTML element with type `hidden`.
+ * Email field has it's own validator `SafeString` to clean string from base ASCII chars 
+ * and some control chars by default. But validator `SafeString` doesn't prevent SQL injects.
+ */
 class	Hidden 
 extends	\MvcCore\Ext\Forms\Field
 {
-	use \MvcCore\Ext\Forms\Field\Attrs\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Props\AutoComplete;
 
+	/**
+	 * Possible values: `hidden`.
+	 * @var string
+	 */
 	protected $type = 'hidden';
 
+	/**
+	 * Validators: 
+	 * - `SafeString` - remove from submitted value base ASCII characters from 0 to 31 incl. 
+	 *					(first column) and special characters: `& " ' < > | = \ %`.
+	 *					This validator is not prevent SQL inject attacks!
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['SafeString'];
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'autoComplete',
