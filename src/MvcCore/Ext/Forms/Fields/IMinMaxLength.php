@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - define getters and setters for field properties: `minLength` and `maxLength`.
+ */
 interface IMinMaxLength
 {
     /**
@@ -23,8 +26,8 @@ interface IMinMaxLength
 
 	/**
 	 * Set minimum characters length. Default value is `NULL`.
-	 * @param int $minLength 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @param int|NULL $minLength 
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMinLength ($minLength);
 	
@@ -36,8 +39,8 @@ interface IMinMaxLength
 
 	/**
 	 * Set maximum characters length. Default value is `NULL`.
-	 * @param int $minLength 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @param int|NULL $minLength 
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMaxLength ($maxLength);
 }

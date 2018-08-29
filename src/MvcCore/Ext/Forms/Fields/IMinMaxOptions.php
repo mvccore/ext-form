@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility - define getters and setters for field properties: `minOptions`, 
+ *					`maxOptions`, `minOptionsBubbleMessage` and `maxOptionsBubbleMessage`.
+ */
 interface IMinMaxOptions
 {
     /**
@@ -25,8 +29,8 @@ interface IMinMaxOptions
 	/**
 	 * Set minimum options count to select. 
 	 * Default value is `NULL` to not limit anything.
-	 * @param int $minOptions
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @param int|NULL $minOptions
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMinOptions ($minOptions);
 
@@ -40,8 +44,8 @@ interface IMinMaxOptions
 	/**
 	 * Set maximum options count to select. 
 	 * Default value is `NULL` to not limit anything.
-	 * @param int $maxOptions
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @param int|NULL $maxOptions
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMaxOptions ($maxOptions);
 
@@ -54,7 +58,7 @@ interface IMinMaxOptions
 	/**
 	 * Set minimum options bubble message for javascript.
 	 * @param string $minOptionsBubbleMessage 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMinOptionsBubbleMessage ($minOptionsBubbleMessage);
 
@@ -67,7 +71,7 @@ interface IMinMaxOptions
 	/**
 	 * Set maximum options bubble message for javascript.
 	 * @param string $minOptionsBubbleMessage 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetMaxOptionsBubbleMessage ($maxOptionsBubbleMessage);
 }

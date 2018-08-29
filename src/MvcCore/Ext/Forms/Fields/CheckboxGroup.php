@@ -110,7 +110,7 @@ class CheckboxGroup
 	 *					 values which you want to configure, presented 
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Fields\Select|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Fields\CheckboxGroup|\MvcCore\Ext\Forms\IField
 	 */
 	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
