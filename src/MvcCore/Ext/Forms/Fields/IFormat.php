@@ -14,7 +14,14 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - define getters and setters for field property `format`.
+ * Responsibility: define getters and setters for field property `format`.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Date`
+ *    - `\MvcCore\Ext\Forms\Fields\DateTime`
+ *    - `\MvcCore\Ext\Forms\Fields\Month`
+ *    - `\MvcCore\Ext\Forms\Fields\Time`
+ *    - `\MvcCore\Ext\Forms\Fields\Week`
+ * - `\MvcCore\Ext\Forms\Validators\Date`
  */
 interface IFormat
 {

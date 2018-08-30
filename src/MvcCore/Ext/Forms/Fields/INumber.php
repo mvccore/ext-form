@@ -13,6 +13,14 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: define single public function `ParseFloat($rawInput):float`
+ *				   to parse raw user input into float value by locale configuration.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Number`
+ *    - `\MvcCore\Ext\Forms\Fields\Range`
+ * - `\MvcCore\Ext\Forms\Validators\Number`
+ */
 interface INumber
 {
 	/**
@@ -26,5 +34,5 @@ interface INumber
 	 * @param string $rawInput 
 	 * @return float|NULL
 	 */
-    public function ParseFloat ($rawInput);
+	public function ParseFloat ($rawInput);
 }

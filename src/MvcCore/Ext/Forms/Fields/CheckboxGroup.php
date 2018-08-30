@@ -14,11 +14,14 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render group of `input`s with `type` as `checkbox`,
- *					with configuration to select minimum and maximum count of values and required option.
- *					Checkbox group has it's own validator to check if submitted values are presented in 
- *					configured by default and it's own validator to check minimum or maximum count of 
- *					selected options.
+ * Responsibility: init, predispatch and render group of `input`s 
+ *				   with `type` as `checkbox`, with configuration to 
+ *				   select minimum and maximum count of values and 
+ *				   required option. 
+ *				   Checkbox group has it's own validator to check if 
+ *				   submitted values are presented in configured by 
+ *				   default and it's own validator to check minimum or 
+ *				   maximum count of selected options.
  */
 class CheckboxGroup 
 	extends		\MvcCore\Ext\Forms\FieldsGroup 

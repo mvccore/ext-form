@@ -17,7 +17,7 @@ class SubmitButton
 	extends		\MvcCore\Ext\Forms\Fields\Button 
 	implements	\MvcCore\Ext\Forms\Fields\ISubmit
 {
-	use \MvcCore\Ext\Forms\Field\Props\CustomResultState;
+	use \MvcCore\Ext\Forms\Field\Props\Submit;
 	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 
 	protected $type = 'submit';

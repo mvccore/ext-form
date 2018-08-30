@@ -13,15 +13,33 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with type `time` to select time in day. Time 
+ *				   field has it's own validator to check submitted value 
+ *				   format/min/max/step and dangerous characters in 
+ *				   submitted time value.
+ */
 class Time extends \MvcCore\Ext\Forms\Fields\Date
 {
+	/**
+	 * Possible values: `time`.
+	 * @var string
+	 */
 	protected $type = 'time';
 
 	/**
-	 * Example: `"H:i"`
+	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
+	 * string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `"H:i"` for value like: `"22:15"`.
 	 * @var string
 	 */
 	protected $format = 'H:i'; // 22:15
-
+	
+	/**
+	 * Validators: 
+	 * - `Time` - to check format, min., max., step and dangerous characters in submitted date value.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Time'];
 }

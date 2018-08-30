@@ -13,7 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class Date extends \MvcCore\Ext\Forms\Validator
+class		Date
+extends		\MvcCore\Ext\Forms\Validator
+implements	\MvcCore\Ext\Forms\Fields\IMinMaxStepDates
 {
 	use \MvcCore\Ext\Forms\Field\Props\Format;
 	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepDates;
@@ -78,9 +80,9 @@ class Date extends \MvcCore\Ext\Forms\Validator
 				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IFormat`."
 			);
 		
-		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxStep)
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxStepDates)
 			$this->throwNewInvalidArgumentException(
-				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxStep`."
+				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxStepDates`."
 			);
 
 		if ($this->format !== NULL && $field->GetFormat() === NULL) {

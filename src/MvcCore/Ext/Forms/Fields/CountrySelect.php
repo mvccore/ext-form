@@ -14,9 +14,13 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render `<select>` HTML element 
- * as rollout menu for single option select or as options list for multiple selection
- * with options as all existing world states or only filtered world states.
+ * Responsibility: init, predispatch and render `<select>` HTML element 
+ *				   as rollout menu for single option select or as options 
+ *				   list for multiple selection with options as all existing 
+ *				   world states or only filtered world states.
+ *				   CountrySelect field has it's own validator to check if 
+ *				   submitted value is presented in configured options by default.
+ *				   
  */
 class CountrySelect 
 	extends \MvcCore\Ext\Forms\Fields\Select

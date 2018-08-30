@@ -15,6 +15,10 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Search extends Text
 {
+	/**
+	 * Possible values: `search`.
+	 * @var string
+	 */
 	protected $type = 'search';
 
 	protected $label = 'Search';

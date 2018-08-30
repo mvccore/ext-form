@@ -14,12 +14,12 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * Responsibility - Validate raw user input. Parse float value if possible by `Intl` extension 
-					or try to determinate floating point automaticly and return `float` or `NULL`.
+ * Responsibility: Validate raw user input. Parse float value if possible by `Intl` extension 
+				   or try to determinate floating point automaticly and return `float` or `NULL`.
  */
 class Number 
 	extends		\MvcCore\Ext\Forms\Validator
-	implements	\MvcCore\Ext\Forms\Fields\IMinMaxStep
+	implements	\MvcCore\Ext\Forms\Fields\IMinMaxStepNumbers
 {
 	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepNumbers;
 
@@ -56,9 +56,9 @@ class Number
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
 		
-		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxStep)
+		if (!$field instanceof \MvcCore\Ext\Forms\Fields\IMinMaxStepNumbers)
 			$this->throwNewInvalidArgumentException(
-				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxStep`."
+				"Field `".$field->GetName()."` doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxStepNumbers`."
 			);
 		
 		if (!$field instanceof \MvcCore\Ext\Forms\Fields\INumber)

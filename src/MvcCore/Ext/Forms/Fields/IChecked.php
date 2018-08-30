@@ -14,9 +14,11 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - define getters and setters for field property `checked`
- *					and method `GetCheckedByValue()` to automaticly get 
- *					`checked` boolean from any field value.
+ * Responsibility: define getters and setters for field property `checked`
+ *				   and method `GetCheckedByValue()` to automaticly get 
+ *				   `checked` boolean from any field value.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Checkbox`
  */
 interface IChecked
 {

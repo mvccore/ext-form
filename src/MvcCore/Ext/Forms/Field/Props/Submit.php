@@ -19,7 +19,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Fields\SubmitButton`
  * - `\MvcCore\Ext\Forms\Fields\SubmitInput`
  */
-trait CustomResultState
+trait Submit
 {
 	/**
 	 * Submit button custom result state to move submit request to custom specific target url.

@@ -15,5 +15,16 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Password extends Text
 {
+	/**
+	 * Possible values: `password`.
+	 * @var string
+	 */
 	protected $type = 'password';
+
+	/**
+	 * Validators: 
+	 * - `Password` - 
+	 * @var string[]|\Closure[]
+	 */
+	protected $validators = ['Password'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
 }

@@ -13,13 +13,27 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: define getters and setters for field property `pattern`.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Number`
+ *    - `\MvcCore\Ext\Forms\Fields\Range`
+ * - `\MvcCore\Ext\Forms\Fields\Text`
+ *    - `\MvcCore\Ext\Forms\Fields\Email`
+ *    - `\MvcCore\Ext\Forms\Fields\Password`
+ *    - `\MvcCore\Ext\Forms\Fields\Search`
+ *    - `\MvcCore\Ext\Forms\Fields\Tel`
+ *    - `\MvcCore\Ext\Forms\Fields\Url`
+ * - `\MvcCore\Ext\Forms\Validators\Pattern`
+ */
 interface IPattern
 {
     /**
 	 * Get RegExp match pattern for HTML attribute `pattern`
 	 * and RegExp match pattern for build in `Pattern` validator
-	 * added automaticaly after field is added into form, if any 
+	 * added automatically after field is added into form, if any 
 	 * RegExp pattern value defined.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-pattern
 	 * @return string RegExp pattern without border characters for javascript and PHP.
 	 */
 	public function GetPattern ();
@@ -27,10 +41,11 @@ interface IPattern
 	/**
 	 * Set RegExp match pattern for HTML attribute `pattern`
 	 * and RegExp match pattern for build in `Pattern` validator
-	 * added automaticaly after field is added into form, if any 
+	 * added automatically after field is added into form, if any 
 	 * RegExp pattern value defined.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-pattern
 	 * @param string $pattern RegExp pattern without border characters for javascript and PHP.
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetPattern ($pattern);
 }

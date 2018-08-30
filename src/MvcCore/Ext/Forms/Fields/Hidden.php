@@ -14,9 +14,11 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render `<input>` HTML element with type `hidden`.
- * Email field has it's own validator `SafeString` to clean string from base ASCII chars 
- * and some control chars by default. But validator `SafeString` doesn't prevent SQL injects.
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with type `hidden`. Email field has it's own validator 
+ *				   `SafeString` to clean string from base ASCII chars and 
+ *				   some control chars by default. But validator `SafeString` 
+ *				   doesn't prevent SQL injects.
  */
 class	Hidden 
 extends	\MvcCore\Ext\Forms\Field

@@ -14,15 +14,18 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render `<input>` HTML element 
- * with types `date` and types `datetime-local`, `time`, `week` and `month` in extended classes.
- * Date field has it's own validator to check submitted value format/min/max/step by default.
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with types `date` and types `datetime-local`, `time`, 
+ *				   `week` and `month` in extended classes. Date field and
+ *				   it's extended fields have their own validator(s) to 
+ *				   check submitted value format/min/max/step and dangerous 
+ *				   characters in submitted date/time value(s).
  */
 class Date 
 	extends		\MvcCore\Ext\Forms\Field
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
 				\MvcCore\Ext\Forms\Fields\ILabel,
-				\MvcCore\Ext\Forms\Fields\IMinMaxStep,
+				\MvcCore\Ext\Forms\Fields\IMinMaxStepDates,
 				\MvcCore\Ext\Forms\Fields\IFormat,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
@@ -52,7 +55,7 @@ class Date
 	/**
 	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
 	 * string format mask to format given values in `integer` type by PHP `date()` function.
-	 * Example: `"Y-m-d"`
+	 * Example: `"Y-m-d"` for value like: `"2014-03-17"`.
 	 * @see http://php.net/manual/en/datetime.createfromformat.php
 	 * @see http://php.net/manual/en/function.date.php
 	 * @var string

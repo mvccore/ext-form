@@ -12,6 +12,17 @@
  */
 
 namespace MvcCore\Ext\Forms\Fields;
+
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with types `text` and types `email`, `password`, 
+ *				   `search`, `tel` and `url` in extended class. Text 
+ *				   field and it's extended fields have their own 
+ *				   validator(s) to check submitted value for 
+ *				   min length/max length/pattern and dangerous characters 
+ *				   in submitted text value(s). But it don't prevent SQL
+ *				   inject attacks.
+ */
 class Text 
 	extends		\MvcCore\Ext\Forms\Field 
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
@@ -31,6 +42,10 @@ class Text
 	use \MvcCore\Ext\Forms\Field\Props\SpellCheck;
 	use \MvcCore\Ext\Forms\Field\Props\InputMode;
 
+	/**
+	 * Possible values: `text` and `email`, `password`, `search`, `tel` and `url` in extended class.
+	 * @var string
+	 */
 	protected $type = 'text';
 
 	protected $validators = ['SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/];

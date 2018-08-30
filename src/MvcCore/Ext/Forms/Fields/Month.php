@@ -13,15 +13,33 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with type `month` to select month number in year. Month 
+ *				   field has it's own validator to check submitted value 
+ *				   format/min/max/step and dangerous characters in 
+ *				   submitted month value.
+ */
 class Month extends \MvcCore\Ext\Forms\Fields\Date
 {
+	/**
+	 * Possible values: `month`.
+	 * @var string
+	 */
 	protected $type = 'month';
 
 	/**
-	 * Example: `"Y-m"`
+	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
+	 * string format mask to format given values in `integer` type by PHP `date()` function.
+	 * Example: `"Y-m"` for value like: `"2014-18"`.
 	 * @var string
 	 */
-	protected $format = 'Y-m'; // 2014-18
+	protected $format = 'Y-m';
 
+	/**
+	 * Validators: 
+	 * - `Month` - to check format, min., max., step and dangerous characters in submitted date value.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Month'];
 }

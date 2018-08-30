@@ -14,8 +14,8 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render submit button based on `<input>` 
- *					HTML element with type `image`.
+ * Responsibility: init, predispatch and render submit button  
+ *				   based on `<input>` HTML element with type `image`.
  */
 class Image 
 	extends		\MvcCore\Ext\Forms\Field 
@@ -23,7 +23,7 @@ class Image
 				\MvcCore\Ext\Forms\Fields\ISubmit
 {
 	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Props\CustomResultState;
+	use \MvcCore\Ext\Forms\Field\Props\Submit;
 	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 	use \MvcCore\Ext\Forms\Field\Props\WidthHeight;
 

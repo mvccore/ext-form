@@ -14,7 +14,17 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - define getters and setters for field properties: `minLength` and `maxLength`.
+ * Responsibility: define getters and setters for field 
+ *				   properties: `minLength` and `maxLength`.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Text`
+ *    - `\MvcCore\Ext\Forms\Fields\Email`
+ *    - `\MvcCore\Ext\Forms\Fields\Password`
+ *    - `\MvcCore\Ext\Forms\Fields\Search`
+ *    - `\MvcCore\Ext\Forms\Fields\Tel`
+ *    - `\MvcCore\Ext\Forms\Fields\Url`
+ * - `\MvcCore\Ext\Forms\Fields\Textarea`
+ * - `\MvcCore\Ext\Forms\Validators\MinMaxLength`
  */
 interface IMinMaxLength
 {

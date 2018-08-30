@@ -15,7 +15,16 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Url extends Text
 {
+	/**
+	 * Possible values: `url`.
+	 * @var string
+	 */
 	protected $type = 'url';
 
+	/**
+	 * Validators: 
+	 * - `Url` - to check url format by PHP `filter_var($url, FILTER_VALIDATE_URL)`.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Url'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
 }

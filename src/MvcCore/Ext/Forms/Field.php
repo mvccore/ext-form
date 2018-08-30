@@ -14,10 +14,13 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility - init, predispatch and render common form control, it could be `input`, `select` or textarea.
- *					This class is not possible to instantiate, you need to extend this class to create own specific form control.
+ * Responsibility: init, predispatch and render common form control, 
+ *				   it could be `input`, `select` or textarea. This 
+ *				   class is not possible to instantiate, you need to 
+ *				   extend this class to create own specific form control.
  */
-abstract class Field implements \MvcCore\Ext\Forms\IField
+abstract class	Field 
+implements		\MvcCore\Ext\Forms\IField
 {
 	use \MvcCore\Ext\Forms\Field\Props;
 	use \MvcCore\Ext\Forms\Field\Getters;
@@ -38,7 +41,7 @@ abstract class Field implements \MvcCore\Ext\Forms\IField
 			if (in_array($propertyName, static::$declaredProtectedProperties)) {
 				$this->throwNewInvalidArgumentException(
 					'Property `'.$propertyName.'` is not possible '
-					.'to configure by constructor `$config` param.'
+					.'to configure by constructor `$cfg` param.'
 				);
 			} else {
 				$this->{$propertyName} = $propertyValue;

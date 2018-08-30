@@ -14,9 +14,11 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render `<input>` HTML element 
- * with `type` attribute `color` to select hexadecimal color with no transparency.
- * Color field has it's own validator for hexadecimal color by default.
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with `type` attribute `color` to select hexadecimal 
+ *				   color with no transparency. Color field has it's own 
+ *				   validator for hexadecimal color without transparency 
+ *				   and leading slash char `#` by default.
  */
 class Color 
 	extends		\MvcCore\Ext\Forms\Field

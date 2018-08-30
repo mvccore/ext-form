@@ -14,8 +14,34 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - define getters and setters for field 
- * label properties: `label`, `labelSide` and `labelAttrs`.
+ * Responsibility: define getters and setters for field label 
+ *				   properties: `label`, `labelSide` and `labelAttrs`.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Field`
+ *    - `\MvcCore\Ext\Forms\Field\Rendering`
+ * - `\MvcCore\Ext\Forms\Fields\Color`
+ * - `\MvcCore\Ext\Forms\Fields\Date`
+ *    - `\MvcCore\Ext\Forms\Fields\DateTime`
+ *    - `\MvcCore\Ext\Forms\Fields\Month`
+ *    - `\MvcCore\Ext\Forms\Fields\Time`
+ *    - `\MvcCore\Ext\Forms\Fields\Week`
+ * - `\MvcCore\Ext\Forms\Fields\File`
+ * - `\MvcCore\Ext\Forms\Fields\Checkbox`
+ * - `\MvcCore\Ext\Forms\Fields\Number`
+ *    - `\MvcCore\Ext\Forms\Fields\Range`
+ * - `\MvcCore\Ext\Forms\Fields\ResetInput`
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ * - `\MvcCore\Ext\Forms\Fields\Text`
+ *    - `\MvcCore\Ext\Forms\Fields\Email`
+ *    - `\MvcCore\Ext\Forms\Fields\Password`
+ *    - `\MvcCore\Ext\Forms\Fields\Search`
+ *    - `\MvcCore\Ext\Forms\Fields\Tel`
+ *    - `\MvcCore\Ext\Forms\Fields\Url`
+ * - `\MvcCore\Ext\Forms\Fields\Textarea`
+ * - `\MvcCore\Ext\Forms\FieldsGroup`
+ *    - `\MvcCore\Ext\Forms\CheckboxGroup`
+ *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
 interface ILabel
 {

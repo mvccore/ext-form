@@ -14,8 +14,14 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - define getters and setters for field properties: `minOptions`, 
- *					`maxOptions`, `minOptionsBubbleMessage` and `maxOptionsBubbleMessage`.
+ * Responsibility: define getters and setters for field properties: 
+ *				   `minOptions`, `maxOptions`, `minOptionsBubbleMessage` 
+ *				   and `maxOptionsBubbleMessage`.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\Select`
+ *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ * - `\MvcCore\Ext\Forms\CheckboxGroup`
+ * - `\MvcCore\Ext\Forms\Validators\MinMaxOptions`
  */
 interface IMinMaxOptions
 {

@@ -14,8 +14,9 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render `<input>` HTML element with type `email`.
- * Email field has it's own validator to check submitted email/emails format by default.
+ * Responsibility: init, predispatch and render `<input>` HTML element with 
+ *				   type `email`. Email field has it's own validator to check 
+ *				   submitted email/emails format by default.
  */
 class		Email
 extends		Text

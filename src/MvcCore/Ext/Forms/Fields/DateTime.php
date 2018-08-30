@@ -14,7 +14,10 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render `<input>` HTML element with type `datetime-local`.
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with type `datetime-local`. DateTime field has it's 
+ *				   own validator to check format, min., max., step and 
+ *				   dangerous characters in submitted date value.
  */
 class DateTime extends \MvcCore\Ext\Forms\Fields\Date
 {
@@ -27,12 +30,12 @@ class DateTime extends \MvcCore\Ext\Forms\Fields\Date
 	/**
 	 * String format mask to format given values in `\DateTimeInterface` type for PHP `date_format()` function or 
 	 * string format mask to format given values in `integer` type by PHP `date()` function.
-	 * Example: `"Y-m-d\TH:i"`
+	 * Example: `"Y-m-d\TH:i"` for value like: `"2014-03-17 22:15"`.
 	 * @see http://php.net/manual/en/datetime.createfromformat.php
 	 * @see http://php.net/manual/en/function.date.php
 	 * @var string
 	 */
-	protected $format = 'Y-m-d\TH:i'; // 2014-03-17 22:15
+	protected $format = 'Y-m-d\TH:i';
 	
 	/**
 	 * Validators: 

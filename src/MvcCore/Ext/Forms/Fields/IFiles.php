@@ -14,8 +14,12 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - define getters and setters for field 
- * properties: `accept`, `capture` and `allowedFileNameChars`.
+ * Responsibility: define getters and setters for field 
+ *				   properties: `accept`, `capture` and 
+ *				   `allowedFileNameChars`.
+ * Interface for classes:
+ * - `\MvcCore\Ext\Forms\Fields\File`
+ * - `\MvcCore\Ext\Forms\Validators\Files`
  */
 interface IFiles
 {

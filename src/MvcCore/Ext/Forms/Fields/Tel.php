@@ -15,7 +15,16 @@ namespace MvcCore\Ext\Forms\Fields;
 
 class Tel extends Text
 {
+	/**
+	 * Possible values: `tel`.
+	 * @var string
+	 */
 	protected $type = 'tel';
 
+	/**
+	 * Validators: 
+	 * - `Tel` - to simply check phone by PHP `preg_match("#[^0-9\+]#", '', $tel);`.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Tel'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
 }

@@ -13,12 +13,21 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with types `number` and type `range` in extended class. 
+ *				   Number field and it's extended fields have their own 
+ *				   validator(s) to parse and check submitted value 
+ *				   format/min/max/pattern and dangerous characters in 
+ *				   submitted date/time value(s). This field always 
+ *				   return parsed `float` or `NULL`.
+ */
 class Number 
 	extends		\MvcCore\Ext\Forms\Field 
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
 				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\INumber,
-				\MvcCore\Ext\Forms\Fields\IMinMaxStep,
+				\MvcCore\Ext\Forms\Fields\IMinMaxStepNumbers,
 				\MvcCore\Ext\Forms\Fields\IPattern,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
@@ -32,8 +41,19 @@ class Number
 	use \MvcCore\Ext\Forms\Field\Props\Wrapper;
 	use \MvcCore\Ext\Forms\Field\Props\InputMode;
 
+	/**
+	 * Possible values: `number` and `range` in extended class.
+	 * @var string
+	 */
 	protected $type = 'number';
 	
+	/**
+	 * Validators: 
+	 * - `Number` - to parse and check raw user input. Parse float value if possible 
+	 *				by `Intl` extension or try to determinate floating point automaticly 
+	 *				and return `float` or `NULL`.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Number' /*,'Pattern'*/];
 
 	/**
@@ -43,7 +63,8 @@ class Number
 	protected $value = NULL;
 
 	/**
-	 * Boolean flag to prefer `Intl` extension parsing if `Intl` installed.
+	 * Boolean flag to prefer `Intl` extension parsing if `Intl` extension installed.
+	 * `Intl` extension is bundled with PHP as of PHP version 5.3.0.
 	 * Default is `FALSE`.
 	 * @var bool
 	 */
@@ -69,6 +90,7 @@ class Number
 
 	/**
 	 * Get boolean flag about to prefer `Intl` extension parsing if `Intl` installed.
+	 * `Intl` extension is bundled with PHP as of PHP version 5.3.0.
 	 * Default is `FALSE`.
 	 * @return bool
 	 */
@@ -78,6 +100,7 @@ class Number
 
 	/**
 	 * Set `TRUE` to prefer `Intl` extension parsing if `Intl` installed.
+	 * `Intl` extension is bundled with PHP as of PHP version 5.3.0.
 	 * @param bool $preferIntlParsing 
 	 * @return \MvcCore\Ext\Forms\Validators\Number
 	 */
@@ -87,9 +110,17 @@ class Number
 	}
 
 	/**
-	 * @param \MvcCore\Ext\Form $form
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form instance by `$form->AddField();` method. Do not 
+	 * use this method even if you don't develop any form field.
+	 * - Check if field has any name, which is required.
+	 * - Set up form and field id attribute by form id and field name.
+	 * - Set up required.
+	 * - Set up translate boolean property.
+	 * - Set up pattern validator uatomaticly if any `pattern` property defined.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Fields\Number|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
@@ -97,12 +128,30 @@ class Number
 		return $this;
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * - Set up field render mode if not defined.
+	 * - Translate label text if necessary.
+	 * - Translate value text if necessary.
+	 * - Set up `inputmode` field attribute if necessary.
+	 * - Set up tabindex if necessary.
+	 * @return void
+	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->preDispatchInputMode();
 		$this->preDispatchTabIndex();
 	}
 	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'pattern',
@@ -127,7 +176,11 @@ class Number
 	}
 
 	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Validators\Number` 
+	 * in submitting process. Do not use this method even if you don't develop any form field.
+	 * 
 	 * Try to parse floating point number from raw user input string.
+	 * 
 	 * If `Intl` extension installed and if `Intl` extension parsing prefered, 
 	 * try to parse by `Intl` extension integer first, than floating point number.
 	 * If not prefered or not installed, try to determinate floating point in 
@@ -142,6 +195,7 @@ class Number
 			return NULL;
 		if (is_float($rawInput) || is_int($rawInput))
 			return floatval($rawInput);
+		// `Intl` extension is bundled with PHP as of PHP version 5.3.0.
 		$intlExtLoaded = extension_loaded('intl');
 		$result = NULL;
 		if ($this->preferIntlParsing && $intlExtLoaded) {

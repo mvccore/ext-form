@@ -19,7 +19,7 @@ class SubmitInput
 				\MvcCore\Ext\Forms\Fields\ISubmit
 {
 	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
-	use \MvcCore\Ext\Forms\Field\Props\CustomResultState;
+	use \MvcCore\Ext\Forms\Field\Props\Submit;
 	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 
 	protected $type = 'submit';
