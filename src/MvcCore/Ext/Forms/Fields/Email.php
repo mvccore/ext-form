@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element with 
- *				   type `email`. Email field has it's own validator to check 
+ *				   type `email`. `Email` field has it's own validator to check 
  *				   submitted email/emails format by default.
  */
 class		Email
@@ -29,6 +29,11 @@ implements	\MvcCore\Ext\Forms\Fields\IMultiple
 	 * @var string
 	 */
 	protected $type = 'email';
+
+	/**
+	 * Default placeholder text - `your.name@domain.com`.
+	 */
+	protected $placeHolder = 'your.name@domain.com';
 
 	/**
 	 * Validators: 

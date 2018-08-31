@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element 
- *				   with type `datetime-local`. DateTime field has it's 
+ *				   with type `datetime-local`. `DateTime` field has it's 
  *				   own validator to check format, min., max., step and 
  *				   dangerous characters in submitted date value.
  */

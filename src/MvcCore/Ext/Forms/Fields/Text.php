@@ -16,12 +16,13 @@ namespace MvcCore\Ext\Forms\Fields;
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element 
  *				   with types `text` and types `email`, `password`, 
- *				   `search`, `tel` and `url` in extended class. Text 
- *				   field and it's extended fields have their own 
+ *				   `search`, `tel` and `url` in extended class. `Text` 
+ *				   field and it's extended fields could have their own 
  *				   validator(s) to check submitted value for 
- *				   min length/max length/pattern and dangerous characters 
- *				   in submitted text value(s). But it don't prevent SQL
- *				   inject attacks.
+ *				   min length/max length/pattern and some of extended 
+ *				   classes also dangerous characters in submitted 
+ *				   text value(s). But it don't prevent SQL inject attacks
+ *				   and more.
  */
 class Text 
 	extends		\MvcCore\Ext\Forms\Field 
@@ -48,8 +49,29 @@ class Text
 	 */
 	protected $type = 'text';
 
+	/**
+	 * Validators: 
+	 * - `SafeString` - remove from submitted value base ASCII characters from 0 to 31 incl. 
+	 *					(first column) and escape special characters: `& " ' < > | = \ %`.
+	 *					This validator is not prevent SQL inject attacks!
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['SafeString'/*, 'MinLength', 'MaxLength', 'Pattern'*/];
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form instance by `$form->AddField();` method. Do not 
+	 * use this method even if you don't develop any form field.
+	 * - Check if field has any name, which is required.
+	 * - Set up form and field id attribute by form id and field name.
+	 * - Set up required.
+	 * - Set up translate boolean property.
+	 * - Set up `Pattern` validator, if any `pattern` property value defined.
+	 * - Set up min/max length validator if necessary.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fields\Text|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		$this->setFormPattern();
@@ -57,14 +79,32 @@ class Text
 		return $this;
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * - Set up field render mode if not defined.
+	 * - Translate label text if necessary.
+	 * - Translate placeholder text if necessary.
+	 * - Set up `inputmode` field attribute if necessary.
+	 * - Set up tabindex if necessary.
+	 * @return void
+	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
-		if ($this->translate && $this->placeholder)
-			$this->placeholder = $this->form->Translate($this->placeholder);
+		if ($this->translate && $this->placeHolder)
+			$this->placeHolder = $this->form->Translate($this->placeHolder);
 		$this->preDispatchInputMode();
 		$this->preDispatchTabIndex();
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'pattern',

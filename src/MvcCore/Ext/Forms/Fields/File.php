@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element 
- *				   with type `file`. File field has it's own validator 
+ *				   with type `file`. `File` field has it's own validator 
  *				   `Files` to check everithing necessary for uploaded 
  *				   files and check files by `accept` attribute rules by 
  *				   magic bytes.

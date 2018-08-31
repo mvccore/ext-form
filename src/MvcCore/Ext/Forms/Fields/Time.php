@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element 
- *				   with type `time` to select time in day. Time 
+ *				   with type `time` to select time in day. `Time` 
  *				   field has it's own validator to check submitted value 
  *				   format/min/max/step and dangerous characters in 
  *				   submitted time value.

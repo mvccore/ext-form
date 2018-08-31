@@ -16,10 +16,9 @@ namespace MvcCore\Ext\Forms\Fields;
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element 
  *				   with types `number` and type `range` in extended class. 
- *				   Number field and it's extended fields have their own 
- *				   validator(s) to parse and check submitted value 
- *				   format/min/max/pattern and dangerous characters in 
- *				   submitted date/time value(s). This field always 
+ *				   `Number` field and it's extended fields have their own 
+ *				   validator(s) to parse and check submitted value by
+ *				   min/max/step/pattern. This field always 
  *				   return parsed `float` or `NULL`.
  */
 class Number 
@@ -134,7 +133,6 @@ class Number
 	 * Do not use this method even if you don't develop any form field.
 	 * - Set up field render mode if not defined.
 	 * - Translate label text if necessary.
-	 * - Translate value text if necessary.
 	 * - Set up `inputmode` field attribute if necessary.
 	 * - Set up tabindex if necessary.
 	 * @return void

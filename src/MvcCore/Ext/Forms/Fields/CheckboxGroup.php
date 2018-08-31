@@ -18,7 +18,7 @@ namespace MvcCore\Ext\Forms\Fields;
  *				   with `type` as `checkbox`, with configuration to 
  *				   select minimum and maximum count of values and 
  *				   required option. 
- *				   Checkbox group has it's own validator to check if 
+ *				   `CheckboxGroup` has it's own validator to check if 
  *				   submitted values are presented in configured by 
  *				   default and it's own validator to check minimum or 
  *				   maximum count of selected options.

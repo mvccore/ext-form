@@ -15,7 +15,7 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, predispatch and render `<input>` HTML element 
- *				   with type `week` to select week number in year. Week 
+ *				   with type `week` to select week number in year. `Week` 
  *				   field has it's own validator to check submitted value 
  *				   format/min/max/step and dangerous characters in 
  *				   submitted week value.

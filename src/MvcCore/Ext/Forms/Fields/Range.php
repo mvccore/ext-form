@@ -13,25 +13,88 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with type `range`. `Range` field has it's own 
+ *				   validator(s) to parse and check submitted value by
+ *				   min/max/step/pattern. This field always 
+ *				   return parsed `float` or `NULL` or for `multiple`
+ *				   field it always return array of `float`s or empty array.
+ */
 class Range 
 	extends		\MvcCore\Ext\Forms\Fields\Number
 	implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
 	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
+	/**
+	 * Possible value: `range`.
+	 * @var string
+	 */
 	protected $type = 'range';
 
+	/**
+	 * Validators: 
+	 * - `Range` -  validate numeric raw user input. Parse numeric value (or two values) by locale conventions
+	 *				and check minimum, maximum and step if necessary.
+	 * @var string[]|\Closure[]
+	 */
 	protected $validators = ['Range'];
 
+	/**
+	 * Supporting javascript full javascript class name.
+	 * If you want to use any custom supporting javascript prototyped class
+	 * for any additional purposes for your custom field, you need to use
+	 * `$field->jsSupportingFile` property to define path to your javascript file
+	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
+	 * value. Than you have to add supporting javascript file path into field form 
+	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * (once) or by any external custom assets renderer configured by:
+	 * `$form->SetJsSupportFilesRenderer(...);` method.
+	 * Or you can add your custom supporting javascript files into response by your 
+	 * own and also you can run your helper javascripts also by your own. Is up to you.
+	 * `NULL` by default.
+	 * @var string
+	 */
 	protected $jsClassName = 'MvcCoreForm.Range';
 
+	/**
+	 * Field supporting javascript file relative path.
+	 * If you want to use any custom supporting javascript file (with prototyped 
+	 * class) for any additional purposes for your custom field, you need to 
+	 * define path to your javascript file relatively from configured 
+	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
+	 * Than you have to add supporting javascript file path into field form 
+	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * (once) or by any external custom assets renderer configured by:
+	 * `$form->SetJsSupportFilesRenderer(...);` method.
+	 * Or you can add your custom supporting javascript files into response by your 
+	 * own and also you can run your helper javascripts also by your own. Is up to you.
+	 * `NULL` by default.
+	 * @var string
+	 */
 	protected $jsSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/range.js';
-
+	
+	/**
+	 * Field supporting css file relative path.
+	 * If you want to use any custom supporting css file 
+	 * for any additional purposes for your custom field, you need to 
+	 * define path to your css file relatively from configured 
+	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
+	 * Than you have to add supporting css file path into field form 
+	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * (once) or by any external custom assets renderer configured by:
+	 * `$form->SetCssSupportFilesRenderer(...);` method.
+	 * Or you can add your custom supporting css files into response by your 
+	 * own and also you can run your helper css also by your own. Is up to you.
+	 * `NULL` by default.
+	 * @var string
+	 */
 	protected $cssSupportingFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/fields/range.css';
 
 	/**
 	 * If range has multiple attribute, this function
-	 * returns `array` of floats. If select has not multiple
+	 * returns `array` of `float`s. If `Range` field has not `multiple` 
 	 * attribute, this function returns `float`.
 	 * If there is no value, function returns `NULL`.
 	 * @return array|float|NULL
@@ -42,7 +105,7 @@ class Range
 	
 	/**
 	 * If range has multiple attribute, set to this function
-	 * `array` of floats. If range has not multiple
+	 * `array` of `float`s. If `Range` field has not `multiple` 
 	 * attribute, set to this function `float`.
 	 * If you don't want any pre initialized value, set `NULL`.
 	 * @param array|float|NULL $value
@@ -53,6 +116,17 @@ class Range
 		return $this;
 	}
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * - Set up field render mode if not defined.
+	 * - Translate label text if necessary.
+	 * - Translate placeholder text if necessary.
+	 * - Set up tabindex if necessary.
+	 * - Add supporting javascript and css file.
+	 * @return void
+	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->form
@@ -63,7 +137,14 @@ class Range
 			)
 			->AddCssSupportFile($this->cssSupportingFile);
 	}
-
+	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'pattern',

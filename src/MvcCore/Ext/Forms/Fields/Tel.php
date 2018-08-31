@@ -13,6 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element with 
+ *				   type `email`. `Tel` field has it's own validator to check 
+ *				   raw submitted value only by `preg_match("#[^0-9\+]#", '', $tel);`.
+ */
 class Tel extends Text
 {
 	/**

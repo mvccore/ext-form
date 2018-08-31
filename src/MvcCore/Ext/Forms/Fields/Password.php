@@ -13,6 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element 
+ *				   with type `password`. `Password` could have a `Password`
+ *				   validator define (not defined by default) to check 
+ *				   subbmited value for password strength rules. 
+ *				   But raw user password still could contain very dangerous 
+ *				   characters for XSS, SQL or any other attacks. Be carefull!!! 
+ *				   It doesn't escape enything. It only check if configured 
+ *				   character groups are presented and how much and that's all.
+ */
 class Password extends Text
 {
 	/**
@@ -23,8 +33,12 @@ class Password extends Text
 
 	/**
 	 * Validators: 
-	 * - `Password` - 
+	 * - `Password` - Validate raw user password by configured password strength rules.
+	 * 				  Password still could contain very dangerous characters for XSS, 
+	 * 				  SQL or any other attacks. Be carefull!!! This doesn't escape enything.
+	 * 				  It only check if configured character groups are presented and how much
+	 * 				  and that's all.
 	 * @var string[]|\Closure[]
 	 */
-	protected $validators = ['Password'/*, 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
+	protected $validators = [/*'Password', 'SafeString', 'MinLength', 'MaxLength', 'Pattern'*/];
 }

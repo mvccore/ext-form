@@ -13,6 +13,11 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element with type 
+ *				   `url`. `Url` field has it's own validator to check raw submitted 
+ *				   value only by `filter_var($rawSubmittedValue, FILTER_VALIDATE_URL);`.
+ */
 class Url extends Text
 {
 	/**
@@ -20,6 +25,11 @@ class Url extends Text
 	 * @var string
 	 */
 	protected $type = 'url';
+
+	/**
+	 * Default placeholder text - `http(s)://domain.com`.
+	 */
+	protected $placeHolder = 'http(s)://domain.com';
 
 	/**
 	 * Validators: 

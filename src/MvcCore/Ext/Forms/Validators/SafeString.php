@@ -85,7 +85,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		// Remove base ASCII characters from 0 to 31 incl. (first column):
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
 
-		// Replace characters to entities: & " ' < >
+		// Replace characters to entities: & " ' < > to &amp; &quot; &#039; &lt; &gt;
 		// http://php.net/manual/en/function.htmlspecialchars.php
 		$cleanedValue = htmlspecialchars($cleanedValue, ENT_QUOTES);
 		

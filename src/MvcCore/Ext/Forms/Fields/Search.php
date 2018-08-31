@@ -13,6 +13,16 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input>` HTML element with 
+ *				   type `search`. `Search` field has no default validator, only
+ *				   validator `SafeString` from parent class `Text`. It replace 
+ *				   characters & " \' < > to &amp; &quot; &#039; &lt; &gt;
+ *				   Se be carefull if you want to search in database with 
+ *				   apostrophe quots, you need to remove `SafeString` validator
+ *				   or you need to replace back `&#035;` to `'`, but 
+ *				   everytime - you have to use database escaping by `\PDO::prepare()`!
+ */
 class Search extends Text
 {
 	/**
@@ -21,5 +31,9 @@ class Search extends Text
 	 */
 	protected $type = 'search';
 
-	protected $label = 'Search';
+	/**
+	 * Default placeholder text - `Search`.
+	 * @var string
+	 */
+	protected $placeHolder = 'Search';
 }
