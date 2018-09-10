@@ -14,8 +14,9 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * Responsibility: Validate raw user input. Parse float value if possible by `Intl` extension 
- *				   or try to determinate floating point automaticly and return `float` or `NULL`.
+ * Responsibility: Validate raw user input. Parse float value if possible by 
+ *				   `Intl` extension or try to determinate floating point 
+ *				   automaticly and return `float` or `NULL`.
  */
 class Number 
 	extends		\MvcCore\Ext\Forms\Validator

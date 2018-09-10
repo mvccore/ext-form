@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext\Forms\Field;
 
+/**
+ * Trait for class `\MvcCore\Ext\Forms\Field` containing field rendering methods.
+ */
 trait Rendering
 {
 	/**

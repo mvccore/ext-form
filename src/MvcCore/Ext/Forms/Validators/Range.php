@@ -13,10 +13,23 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate numeric raw user input. Parse numeric value or 
+ *				   values by locale conventions and check minimum, maximum and 
+ *				   step if necessary.
+ */
 class Range extends \MvcCore\Ext\Forms\Validators\Number
 {
 	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
+	/**
+	 * Set up field instance, where is validated value by this 
+	 * validator durring submit before every `Validate()` method call.
+	 * This method is also called once, when validator instance is separately 
+	 * added into already created field instance to process any field checking.
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		parent::SetField($field);
 		

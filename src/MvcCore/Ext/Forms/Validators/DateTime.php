@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate submitted datetime format, min., max., step and 
+ *				   remove dangerous characters.
+ */
 class DateTime extends \MvcCore\Ext\Forms\Validators\Date
 {
 	/**

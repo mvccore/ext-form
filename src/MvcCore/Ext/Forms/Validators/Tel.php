@@ -13,6 +13,14 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate phone number only by removing all other characters 
+ *				   than digits and plus. To validate phone number realy deeply
+ *				   by local conventions, use zend validator instead.
+ * @see https://github.com/zendframework/zend-i18n
+ * @see https://github.com/zendframework/zend-i18n/blob/master/src/Validator/PhoneNumber.php
+ * @see https://olegkrivtsov.github.io/using-zend-framework-3-book/html/en/Checking_Input_Data_with_Validators/Validator_Usage_Examples.html#Example
+ */
 class Tel extends \MvcCore\Ext\Forms\Validator
 {
 	/**

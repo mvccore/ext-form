@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Field;
 
+/**
+ * Trait for class `\MvcCore\Ext\Forms\Field` containing field configurable 
+ * and internal properties.
+ */
 trait Props
 {
 	/************************************************************************************************

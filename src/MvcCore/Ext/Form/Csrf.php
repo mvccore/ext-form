@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing methods to create, get and 
+ * verify CSRF tokens and to process CSRF error handlers if tokens are not valid.
+ */
 trait Csrf
 {
 	/**

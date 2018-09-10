@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate submitted month format, min., max., step and 
+ *				   remove dangerous characters.
+ */
 class Month extends \MvcCore\Ext\Forms\Validators\Date
 {
 	/**

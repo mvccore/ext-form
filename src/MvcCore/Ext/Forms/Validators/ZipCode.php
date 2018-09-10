@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * Responsibility - Validate ZIP code by specific locale rules.
+ * Responsibility: Validate ZIP code by specific locale rules.
  * @see https://github.com/zendframework/zend-i18n
  * @see https://github.com/zendframework/zend-i18n/blob/master/src/Validator/PostCode.php
  */

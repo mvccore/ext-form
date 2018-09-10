@@ -14,11 +14,11 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * Responsibility: Validate raw user password by configured password strength rules.
- *				   Password still could contain very dangerous characters for XSS, 
- *				   SQL or any other attacks. Be carefull!!! This doesn't escape enything.
- *				   It only check if configured character groups are presented and how much 
- *				   and that's all.
+ * Responsibility: Validate raw user password by configured password strength 
+ *				   rules.  Password still could contain very dangerous 
+ *				   characters for XSS, SQL or any other attacks. Be carefull!!! 
+ *				   This doesn't escape enything. It only check if configured 
+ *				   character groups are presented and how much and that's all.
  */
 class Password extends \MvcCore\Ext\Forms\Validator
 {

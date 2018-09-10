@@ -13,9 +13,11 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing rendering logic and methods.
+ */
 trait Rendering
 {
-
 	/**
 	 * Rendering process alias for `\MvcCore\Ext\Form::Render();`.
 	 * @return string

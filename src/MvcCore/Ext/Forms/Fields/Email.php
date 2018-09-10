@@ -37,7 +37,8 @@ implements	\MvcCore\Ext\Forms\Fields\IMultiple
 
 	/**
 	 * Validators: 
-	 * - `Email` - to check email format or emails format, if field ha sdefined `multiple` boolean attribute.
+	 * - `Email` - to check single email format or multiple emails formats, 
+	 *			   if field has defined `multiple` boolean attribute.
 	 * @var string[]|\Closure[]
 	 */
 	protected $validators = ['Email'/*, 'MinLength', 'MaxLength', 'Pattern'*/];

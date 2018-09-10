@@ -14,10 +14,12 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * Responsibility - remove from submitted value base ASCII characters 
- * from 0 to 31 incl. (first column) and special characters: `& " ' < > | = \ %`.
- * THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS!
- * To prevent sql injects - use `\PDO::prepare();` and `\PDO::execute()`.
+ * Responsibility: Validate raw user input as "safe string" to display it in 
+ *				   response. Remove from submitted value base ASCII characters 
+ *				   from 0 to 31 incl. (first column) and special characters: 
+ *				   `& " ' < > | = \ %`. 
+ *				   THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS! 
+ *				   To prevent sql injects - use `\PDO::prepare();` and `\PDO::execute()`.
  */
 class SafeString extends \MvcCore\Ext\Forms\Validator
 {

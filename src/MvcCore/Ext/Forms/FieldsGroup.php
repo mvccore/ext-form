@@ -14,8 +14,10 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility - init, predispatch and render group of common form controls, mostly `input` controls.
- *					This class is not possible to instantiate, you need to extend this class to create own specific form control.
+ * Responsibility: init, predispatch and render group of common form controls, 
+ *				   mostly `input` controls. This class is not possible to 
+ *				   instantiate, you need to extend this class to create own 
+ *				   specific form control.
  */
 abstract class FieldsGroup 
 	extends		\MvcCore\Ext\Forms\Field
@@ -23,7 +25,7 @@ abstract class FieldsGroup
 				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IOptions,
 				\MvcCore\Ext\Forms\Fields\IMultiple,
-				\MvcCore\Ext\Forms\IFieldGroup
+				\MvcCore\Ext\Forms\IFieldsGroup
 {
 	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
 	use \MvcCore\Ext\Forms\Field\Props\Label;
@@ -39,10 +41,9 @@ abstract class FieldsGroup
 	protected $type = NULL;
 
 	/**
-	 * Form control value,
-	 * always as array of string or
-	 * numbers for group of controls.
-	 * @var array
+	 * Form group controls value, in most cases it's an array of strings.
+	 * For extended class `RadioGroup` - the type is only a `string` or `NULL`.
+	 * @var \string[]|NULL
 	 */
 	protected $value = [];
 	
@@ -105,7 +106,29 @@ abstract class FieldsGroup
 	];
 
 	/**
-	 * Field group is always multiple value control. This function 
+	 * Get form group controls value, in most cases it's an array of strings.
+	 * For extended class `RadioGroup` - the type is only a `string` or `NULL`.
+	 * @return \string[]|string|NULL
+	 */
+	public function GetValue () {
+		return $this->value;
+	}
+	
+	/**
+	 * Set form group controls value, in most cases - it could be an array with types,
+	 * which are possible simply to convert into array of strings. `NULL` value is then 
+	 * an empty array. For extended class `RadioGroup` - the value type is only a `string` 
+	 * or `NULL`.
+	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
+	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 */
+	public function & SetValue ($value) {
+		$this->value = $value;
+		return $this;
+	}
+
+	/**
+	 * Field group is always marked as multiple value control. This function 
 	 * always return `TRUE` for field group instance.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return bool
@@ -115,13 +138,12 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * Field group is always multiple value control. This function 
-	 * does nothing, because multiple option has to be always `TRUE` 
-	 * for field group instance.
+	 * Field group is always marked as multiple value control. This function 
+	 * does nothing, because multiple option has to be `TRUE` for field group instance all time.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
-	 * @return bool
+	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function SetMultiple ($multiple = TRUE) {
+	public function & SetMultiple ($multiple = TRUE) {
 		return $this;
 	}
 
@@ -148,7 +170,7 @@ abstract class FieldsGroup
 	 * - Check if there are any options for current controls group.
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Fields\Select|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);

@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Field;
 
+/**
+ * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly 
+ * configurable) properties setter methods.
+ */
 trait Setters
 {
 	/**
@@ -373,7 +377,7 @@ trait Setters
 	 * @param string $templateCode Template HTML code with prepared replacements.
 	 * @return string Newly configured template value.
 	 */
-	public static function SetTemplate ($templateName = 'control', $templateCode = '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />') {
+	public static function SetTemplate ($templateName = 'control', $templateCode = '' /* '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />' */) {
 		if (gettype(static::$templates) == 'array') {
 			static::$templates[$templateName] = $templateCode;
 		} else {

@@ -13,7 +13,13 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class Pattern extends \MvcCore\Ext\Forms\Validator implements \MvcCore\Ext\Forms\Fields\IPattern
+/**
+ * Responsibility: Validate submitted value by regular expression from 
+ *				   configured `pattern` HTML attribute.
+ */
+class		Pattern 
+extends		\MvcCore\Ext\Forms\Validator
+implements	\MvcCore\Ext\Forms\Fields\IPattern
 {
 	use \MvcCore\Ext\Forms\Field\Props\Pattern;
 	

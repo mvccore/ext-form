@@ -13,6 +13,11 @@
 
 namespace MvcCore\Ext\Forms;
 
+/**
+ * Responsibility: Base validator class with base methods implementations.
+ *				   This class is not possible to instantiate, you need to extend 
+ *				   this class and define custom validation rules.
+ */
 abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 {
 	/**
@@ -108,6 +113,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
+		$msgs = [];
 		if ($this->field) 
 			$msgs[] = 'Field name: `'.$this->field->GetName() . '`, Field type: `'.get_class($this->field).'`';
 		if ($this->form) 
@@ -117,6 +123,4 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 			'['.__CLASS__.'] ' . $errorMsg . ($msgs ? ' '.implode(', ', $msgs) : '')
 		);
 	}
-
-
 }

@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing methods to complete 
+ * configured field's supporting js and css files to render them properly.
+ */
 trait Assets
 {
 	/**

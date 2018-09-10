@@ -14,8 +14,10 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility - init, predispatch and render button based on `<button>` 
- * HTML element with types `button` and types `submit` and `reset` in extended classes.
+ * Responsibility: init, predispatch and render button based 
+ *				   on `<button>` HTML element with types `button` 
+ *				   and types `submit` and `reset` in extended classes.
+ *				   Button has text `OK` by default and no validators.
  */
 class Button 
 	extends		\MvcCore\Ext\Forms\Field
@@ -30,7 +32,10 @@ class Button
 	protected $type = 'button';
 
 	/**
-	 * Default visible button text - `OK`.
+	 * Default visible button text - `OK`. In extended classes - `Reset` and `Submit`.
+	 * This button text is automaticly checked, if there is at least any 
+	 * visible text and automaticly translated, if any translator `callable` 
+	 * defined in form instance.
 	 * @var string
 	 */
 	protected $value = 'OK';
@@ -44,7 +49,7 @@ class Button
 	];
 
 	/**
-	 * Create new form control instance.
+	 * Create new form `<button>` instance.
 	 * @param array $cfg Config array with public properties and it's 
 	 *					 values which you want to configure, presented 
 	 *					 in camel case properties names syntax.

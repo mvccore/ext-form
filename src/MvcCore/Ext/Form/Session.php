@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing logic and methods to work with 
+ * values necessary store in session. It use configured core class `\MvcCore\Session`.
+ */
 trait Session
 {
 	/**

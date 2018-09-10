@@ -13,6 +13,12 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input type="submit">`
+ *				   with default text `Submit` and it's supporting JS code.
+ *				   Button has it's custom result state configuration and
+ *				   button has no validator.
+ */
 class SubmitButton 
 	extends		\MvcCore\Ext\Forms\Fields\Button 
 	implements	\MvcCore\Ext\Forms\Fields\ISubmit
@@ -20,14 +26,28 @@ class SubmitButton
 	use \MvcCore\Ext\Forms\Field\Props\Submit;
 	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 
+	/**
+	 * Possible values: `submit`.
+	 * @var string
+	 */
 	protected $type = 'submit';
 	
 	/**
 	 * Default visible button text - `Submit`.
+	 * This button text is automaticly checked, if there is at least any 
+	 * visible text and automaticly translated, if any translator `callable` 
+	 * defined in form instance.
 	 * @var string
 	 */
 	protected $value = 'Submit';
 
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget'

@@ -13,6 +13,12 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate URI string by PHP: 
+ *				   `filter_var($rawSubmittedValue, FILTER_VALIDATE_URL);
+ *				   THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS! 
+ *				   To prevent sql injects - use `\PDO::prepare();` and `\PDO::execute()`.
+ */
 class Url extends \MvcCore\Ext\Forms\Validator
 {
 	/**

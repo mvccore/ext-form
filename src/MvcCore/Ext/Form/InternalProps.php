@@ -15,6 +15,9 @@ namespace MvcCore\Ext\Form;
 
 use \MvcCore\Ext\Forms\IError;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing all internal properties.
+ */
 trait InternalProps
 {
 	/**

@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing setter methods for configurable properties.
+ */
 trait SetMethods
 {
 	/**

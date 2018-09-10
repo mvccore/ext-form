@@ -13,6 +13,23 @@
 
 namespace MvcCore\Ext\Forms;
 
+/**
+ * Responsibility: create and extended MvcCore view instance to render form or 
+ * form field with custom view template. This view contains buildin properties:
+ * - `view` - Containing parent controller view.
+ * - `form` - Containing rendered form instance when form or field is rendered.
+ * - `field` - Containing rendered field instance when field is rendered.
+ * This view also contains many buildin methods to render specific form parts:
+ * - `RenderBegin()`	- Renders opening `<form>` tag with all configured 
+ *						  attributes.
+ * - `RenderErrors()`	- Renders translated form errors.
+ * - `RenderContent()`	- Render all configured form fields from 
+ *						  `$this->form->GetFields()` array by calling `Render()`
+ *						  method on every field instance.
+ * - `RenderEnd()`		- Renders opening `<form>` tag and configured form 
+ *						  field's supporting js/css files.
+ * - `static Format()`
+ */
 class View extends \MvcCore\View
 {
 	/**

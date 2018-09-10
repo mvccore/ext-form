@@ -41,7 +41,8 @@ class File
 
 	/**
 	 * Validators: 
-	 * - `Files` - to check everithing necessary for uploaded files and check files by `accept` attribute rules by magic bytes.
+	 * - `Files` - to check everithing necessary for uploaded files and check 
+	 *			   files by `accept` attribute rules by magic bytes.
 	 * @var string[]|\Closure[]
 	 */
 	protected $validators = ['Files'];

@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Field;
 
+/**
+ * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly 
+ * configurable) properties getter methods.
+ */
 trait Getters
 {
 	/**

@@ -13,9 +13,12 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
-class ValueInOptions 
-	extends		\MvcCore\Ext\Forms\Validator
-	implements	\MvcCore\Ext\Forms\Fields\IMultiple
+/**
+ * Responsibility: Validate if submitted string(s) are presented in options keys.
+ */
+class		ValueInOptions 
+extends		\MvcCore\Ext\Forms\Validator
+implements	\MvcCore\Ext\Forms\Fields\IMultiple
 {
 	use \MvcCore\Ext\Forms\Field\Props\Multiple;
 
@@ -78,7 +81,7 @@ class ValueInOptions
 	 * if submitted value is `NULL`. Add error if submitted value 
 	 * is not the same as value after existence check.
 	 * @param string|array			$submitValue
-	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 * @return string|\string[]|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
 		list($result, $multiple) = $this->completeSafeValueByOptions($rawSubmittedValue);
@@ -120,11 +123,12 @@ class ValueInOptions
 		}
 		$allOptionKeys = $this->field->GetAllOptionsKeys();
 		foreach ($rawSubmittedValues as & $rawSubmittedValueItem) {
+			$rawSubmittedValueItemStr = (string) $rawSubmittedValueItem;
 			if (in_array($rawSubmittedValueItem, $allOptionKeys)) {
 				if ($this->multiple) {
-					$result[] = $rawSubmittedValueItem;
+					$result[] = $rawSubmittedValueItemStr;
 				} else {
-					$result = $rawSubmittedValueItem;
+					$result = $rawSubmittedValueItemStr;
 				}
 				if (!$this->multiple) break;
 			}

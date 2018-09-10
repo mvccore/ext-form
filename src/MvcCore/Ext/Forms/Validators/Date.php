@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate submitted date format, min., max., step and 
+ *				   remove dangerous characters.
+ */
 class		Date
 extends		\MvcCore\Ext\Forms\Validator
 implements	\MvcCore\Ext\Forms\Fields\IMinMaxStepDates

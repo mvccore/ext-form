@@ -14,9 +14,12 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * Responsibility - Validate company ID for EU states by regular expression(s) or by closure function(s).
- * - DO NOT USE ANY ADVANCED CONSTRUCTIONS for validations, because there are lot of checking exceptions.
- * - Return from `Validate()` function safe submitted value or `NULL` if there is not possible to return safe value.
+ * Responsibility: Validate company ID for EU states by regular expression(s)  
+ *				   or by closure function(s).
+ *				    - DO NOT USE ANY ADVANCED CONSTRUCTIONS for validations, 
+ *				      because there are lot of checking exceptions!
+ *					- Return from `Validate()` function safe submitted value or 
+ *					  `NULL` if there is not possible to return safe value.
  * @see https://en.wikipedia.org/wiki/VAT_identification_number
  * @see http://studylib.net/doc/7254793/vat-number-construction-rules
  * @see http://85.81.229.78/systems/DKVIES/-%20Arkiv/Algoritme%E6ndringer/VIES-VAT%20Validation%20Routines-v15.0.doc

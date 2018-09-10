@@ -13,6 +13,12 @@
 
 namespace MvcCore\Ext\Forms\Fields;
 
+/**
+ * Responsibility: init, predispatch and render `<input type="submit">`
+ *				   with default text `Submit` and it's supporting JS code.
+ *				   Input has it's custom result state configuration and
+ *				   input has no validator.
+ */
 class SubmitInput 
 	extends		\MvcCore\Ext\Forms\Field 
 	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
@@ -22,16 +28,35 @@ class SubmitInput
 	use \MvcCore\Ext\Forms\Field\Props\Submit;
 	use \MvcCore\Ext\Forms\Field\Props\FormAttrs;
 
+	/**
+	 * Possible values: `submit`.
+	 * @var string
+	 */
 	protected $type = 'submit';
 	
 	/**
 	 * Default visible button text - `Submit`.
+	 * This button text is automaticly checked, if there is at least any 
+	 * visible text and automaticly translated, if any translator `callable` 
+	 * defined in form instance.
 	 * @var string
 	 */
 	protected $value = 'Submit';
 	
-	protected $validators = [];
-	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
+	 * is added into form instance by `$form->AddField();` method. Do not 
+	 * use this method even if you don't develop any form field.
+	 * - Check if field has any name, which is required.
+	 * - Set up form and field id attribute by form id and field name.
+	 * - Set up required.
+	 * - Set up translate boolean property.
+	 * - Check if exists button `value` string.
+	 * - Translate button value if necessary.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fields\SubmitInput|\MvcCore\Ext\Forms\IField
+	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		parent::SetForm($form);
 		if (!$this->value) $this->throwNewInvalidArgumentException(
@@ -39,7 +64,17 @@ class SubmitInput
 		);
 		return $this;
 	}
-
+	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * - Set up field render mode if not defined.
+	 * - Translate label text if necessary.
+	 * - Translate value text if necessary.
+	 * - Set up tabindex if necessary.
+	 * @return void
+	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if ($this->translate && $this->value)
@@ -47,6 +82,13 @@ class SubmitInput
 		$this->preDispatchTabIndex();
 	}
 	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * in rendering process. Do not use this method even if you don't develop any form field.
+	 * 
+	 * Render control tag only without label or specific errors.
+	 * @return string
+	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget'

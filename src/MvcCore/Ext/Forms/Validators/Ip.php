@@ -14,7 +14,8 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * @see https://github.com/zendframework/zend-validator/blob/master/src/Ip.php
+ * Responsibility: Validate if a submitted value is an IP address. It supports 
+ *				   the IPv4, IPv6 and IPvFeature definitions.
  */
 class Ip extends \MvcCore\Ext\Forms\Validator
 {
@@ -206,7 +207,7 @@ class Ip extends \MvcCore\Ext\Forms\Validator
 				
 			}
 			$this->field->AddValidationError(
-				static::GetErrorMessage(self::ERROR_IP),
+				static::GetErrorMessage(static::ERROR_IP),
 				[implode(', ', $errorMsgAllowedTypes)]
 			);
 		}

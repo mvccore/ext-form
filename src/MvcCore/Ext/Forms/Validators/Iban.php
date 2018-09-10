@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate if a submitted value is an IBAN number. IBAN is the 
+ *				   abbreviation for "International Bank Account Number".
+ */
 class Iban extends \MvcCore\Ext\Forms\Validator
 {
 	/**

@@ -13,6 +13,10 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate minimum or maximum selected options count in 
+ *				   submitted value by configured field setters.
+ */
 class MinMaxOptions extends ValueInOptions
 {
 	use \MvcCore\Ext\Forms\Field\Props\MinMaxOptions;

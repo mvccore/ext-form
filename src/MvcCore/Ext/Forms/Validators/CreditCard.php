@@ -13,6 +13,18 @@
 
 namespace MvcCore\Ext\Forms\Validators;
 
+/**
+ * Responsibility: Validate well-formed credit card number from American Express, 
+ *				   Unionpay, Diners Club, Diners Club US, Discover, JCB, Laser, 
+ *				   Maestro, Mastercard, Solo, Visa and Mir. 
+ *				   Credit card contains several items of metadata, including 
+ *				   a hologram, account number, logo, expiration date, security 
+ *				   code and the card holder name. The algorithms for verifying 
+ *				   the combination of metadata are only known to the issuing 
+ *				   company, this validator is only for well-formed credit card 
+ *				   number. It also provides an ability to attach callbacks with 
+ *				   custom validations.
+ */
 class CreditCard extends \MvcCore\Ext\Forms\Validator
 {
 	/**
@@ -31,18 +43,6 @@ class CreditCard extends \MvcCore\Ext\Forms\Validator
 	const SOLO				= 'Solo';
 	const VISA				= 'Visa';
 	const MIR				= 'Mir';
-
-	/**
-	 * Error message index(es).
-	 * @var int
-	 */
-	const ERROR_CHECKSUM			= 0;
-	const ERROR_CONTENT			= 1;
-	const ERROR_INVALID			= 2;
-	const ERROR_LENGTH			= 3;
-	const ERROR_PREFIX			= 4;
-	const ERROR_SERVICE			= 5;
-	const ERROR_SERVICEFAILURE	= 6;
 
 	/**
 	 * List of CCV names.
@@ -102,16 +102,28 @@ class CreditCard extends \MvcCore\Ext\Forms\Validator
 	];
 
 	/**
+	 * Error message index(es).
+	 * @var int
+	 */
+	const ERROR_CHECKSUM		= 0;
+	const ERROR_CONTENT			= 1;
+	const ERROR_INVALID			= 2;
+	const ERROR_LENGTH			= 3;
+	const ERROR_PREFIX			= 4;
+	const ERROR_SERVICE			= 5;
+	const ERROR_SERVICEFAILURE	= 6;
+
+	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
 		self::ERROR_CHECKSUM		=> "Field '{0}' contains an invalid checksum.",
-		self::ERROR_CONTENT		=> "Field '{0}' must contain only digits.",
-		self::ERROR_LENGTH		=> "Field '{0}' contains an invalid amount of digits.",
-		self::ERROR_PREFIX		=> "Field '{0}' is not from an allowed institute.",
-		self::ERROR_SERVICE		=> "Field '{0}' seems to be an invalid credit card number.",
-		self::ERROR_SERVICEFAILURE=> "Field '{0}' throws an exception while validating the input.",
+		self::ERROR_CONTENT			=> "Field '{0}' must contain only digits.",
+		self::ERROR_LENGTH			=> "Field '{0}' contains an invalid amount of digits.",
+		self::ERROR_PREFIX			=> "Field '{0}' is not from an allowed institute.",
+		self::ERROR_SERVICE			=> "Field '{0}' seems to be an invalid credit card number.",
+		self::ERROR_SERVICEFAILURE	=> "Field '{0}' throws an exception while validating the input.",
 	];
 
 	/**

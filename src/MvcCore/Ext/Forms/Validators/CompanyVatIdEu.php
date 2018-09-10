@@ -15,8 +15,10 @@ namespace MvcCore\Ext\Forms\Validators;
 
 
 /**
- * Responsibility - Validate company VAT ID for EU states by requesting VEIS EU system by SOAP (or by GET if SOAP not implemented).
- * - This class adds dependence on your application to be online to submit your forms!
+ * Responsibility: Validate company VAT ID for EU states by requesting VEIS EU 
+ *				   system by SOAP (or by GET if SOAP not implemented).
+ *					- This class adds dependence on your application - 
+ *					  APPLICATION HAS TO BE ONLINE when submitting your forms!
  * @see http://ec.europa.eu/taxation_customs/vies/
  */
 class CompanyVatIdEu extends \MvcCore\Ext\Forms\Validator

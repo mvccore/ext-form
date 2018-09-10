@@ -13,6 +13,11 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing getters and setters methods for 
+ * form field instances and methods to add, search or remove field instance from 
+ * form.
+ */
 trait FieldMethods
 {
 	/**

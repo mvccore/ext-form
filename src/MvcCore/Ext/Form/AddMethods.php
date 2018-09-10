@@ -13,6 +13,11 @@
 
 namespace MvcCore\Ext\Form;
 
+/**
+ * Trait for class `MvcCore\Ext\Form` containing adding methods for configurable 
+ * properties except methods manipulating with form field instances, for those 
+ * methods, there is another trait `\MvcCore\Ext\Form\FieldMethods`.
+ */
 trait AddMethods
 {
 	/**
@@ -66,7 +71,7 @@ trait AddMethods
 					$field
 						->AddError($errorMsgUtf8)
 						->AddCssClasses('error');
-					if ($field instanceof \MvcCore\Ext\Forms\IFieldGroup)
+					if ($field instanceof \MvcCore\Ext\Forms\IFieldsGroup)
 						$field->AddGroupCssClass('error');
 				}
 			}

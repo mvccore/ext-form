@@ -14,7 +14,8 @@
 namespace MvcCore\Ext\Forms\Validators;
 
 /**
- * 
+ * Responsibility: Validate everithing necessary for uploaded files and check 
+ *				   files by `accept` attribute rules by magic bytes.
  * @see http://php.net/manual/en/features.file-upload.php
  * @see http://php.net/manual/en/features.file-upload.common-pitfalls.php
  */

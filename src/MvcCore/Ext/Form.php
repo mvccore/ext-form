@@ -13,7 +13,15 @@
 
 namespace MvcCore\Ext;
 
-class Form extends \MvcCore\Controller implements \MvcCore\Ext\Forms\IForm
+/**
+ * Responsibility: Main form class with all `<form>` configuraion, attributes,
+ *				   field instances and it's validators. To create any HTML form,
+ *				   you need to instantiate this class, configure an id, action 
+ *				   and more.
+ */
+class		Form 
+extends		\MvcCore\Controller
+implements	\MvcCore\Ext\Forms\IForm
 {
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
