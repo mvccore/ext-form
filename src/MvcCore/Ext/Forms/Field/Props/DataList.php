@@ -45,7 +45,7 @@ trait DataList
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @return string|NULL
 	 */
-	public function GetList () {
+	public function & GetList () {
 		return $this->list;
 	}
 

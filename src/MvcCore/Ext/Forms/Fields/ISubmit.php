@@ -54,5 +54,5 @@ interface ISubmit
 	 * @param int|NULL $customResultState 
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetCustomResultState ($customResultState = \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE)
+	public function & SetCustomResultState ($customResultState = \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE);
 }

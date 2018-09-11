@@ -111,9 +111,7 @@ interface IVisibleField
 	 * `$form->SetValues();` or from session.
 	 * @return bool|NULL
 	 */
-	public function GetDisabled () {
-		return $this->disabled;
-	}
+	public function GetDisabled ();
 
 	/**
 	 * Set form field attribute `disabled`, determinating if field value will be 
@@ -147,9 +145,7 @@ interface IVisibleField
 	 * `$form->SetValues();` or from session.
 	 * @return bool|NULL
 	 */
-	public function GetReadOnly () {
-		return $this->readOnly;
-	}
+	public function GetReadOnly ();
 
 	/**
 	 * Set form field attribute `readonly`, determinating if field value will be 
@@ -178,9 +174,7 @@ interface IVisibleField
 	 * But this method return only value stored inside this field instance.
 	 * @return bool|NULL
 	 */
-	public function GetRequired () {
-		return $this->required;
-	}
+	public function GetRequired ();
 
 	/**
 	 * Set form field attribute required, determinating

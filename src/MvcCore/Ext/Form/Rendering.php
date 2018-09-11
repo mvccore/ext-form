@@ -90,7 +90,7 @@ trait Rendering
 	 */
 	public function RenderEnd () {
 		$this->PreDispatch();
-		$this->form->SetFormTagRenderingStatus(FALSE);
+		$this->SetFormTagRenderingStatus(FALSE);
 		$result = '</form>'
 			. $this->RenderSupportingJs()
 			. $this->RenderSupportingCss();
