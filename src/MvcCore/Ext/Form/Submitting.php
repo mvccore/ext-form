@@ -167,7 +167,7 @@ trait Submitting
 				if (
 					class_exists($validatorFullClassName) &&
 					$toolClass::CheckClassInterface(
-						$validatorFullClassName, \MvcCore\Ext\Forms\IValidator::class, TRUE, TRUE
+						$validatorFullClassName, 'MvcCore\\Ext\\Forms\\IValidator', TRUE, TRUE
 					)
 				) {
 					$validator = $validatorFullClassName::CreateInstance()

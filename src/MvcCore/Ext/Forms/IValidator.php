@@ -20,6 +20,15 @@ interface IValidator
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
 	public static function & CreateInstance ();
+	
+	/**
+	 * Return predefined validator custom error message strings (not translated) 
+	 * with replacements for field names and more specific info 
+	 * to tell the user what happend or what to do more.
+	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
+	 * @return string
+	 */
+	public static function GetErrorMessage ($errorMsgIndex);
 
 	/**
 	 * Set up form instance, where is validator created durring submit.
@@ -37,15 +46,6 @@ interface IValidator
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field);
-	
-	/**
-	 * Return predefined validator custom error message strings (not translated) 
-	 * with replacements for field names and more specific info 
-	 * to tell the user what happend or what to do more.
-	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
-	 * @return string
-	 */
-	public static function GetErrorMessage ($errorMsgIndex);
 
 	/**
 	 * Validation method.

@@ -59,7 +59,7 @@ extends	\MvcCore\Ext\Forms\Field
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> "",
+			'value'		=> htmlspecialchars($this->value, ENT_QUOTES),
 			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}

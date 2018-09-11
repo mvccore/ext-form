@@ -75,7 +75,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	 * Validate raw user input, if there are any XSS characters 
 	 * or base ASCII characters or characters in this list: | = \ %,
 	 * add submit error and return `NULL`.
-  * @param string|array $rawSubmittedValue Raw submitted value from user.
+	 * @param string|array $rawSubmittedValue Raw submitted value from user.
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
