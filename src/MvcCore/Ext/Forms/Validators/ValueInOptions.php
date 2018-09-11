@@ -66,10 +66,10 @@ implements	\MvcCore\Ext\Forms\Fields\IMultiple
 
 		if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
 			// if this validator is added into field as instance - check field if it has multiple attribute defined:
-			$field->SetMultiple($this->multiple);
-		} else if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
-			// if validator is added as string - get multiple property from field:
 			$this->multiple = $field->GetMultiple();
+		} else if ($this->multiple !== NULL && $field->GetMultiple() === NULL) {
+			// if validator is added as string - get multiple property from field:
+			$field->SetMultiple($this->multiple);
 		}
 
 		return parent::SetField($field);

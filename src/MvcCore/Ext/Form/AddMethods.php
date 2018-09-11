@@ -72,7 +72,7 @@ trait AddMethods
 						->AddError($errorMsgUtf8)
 						->AddCssClasses('error');
 					if ($field instanceof \MvcCore\Ext\Forms\IFieldsGroup)
-						$field->AddGroupCssClass('error');
+						$field->AddGroupLabelCssClasses('error');
 				}
 			}
 		}
