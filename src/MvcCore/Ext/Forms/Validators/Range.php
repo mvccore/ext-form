@@ -39,12 +39,13 @@ class Range extends \MvcCore\Ext\Forms\Validators\Number
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IMultiple`.'
 			);
 
-		if ($this->multiple !== NULL && $field->GetMultiple() === NULL) {
+		$fieldMultiple = $field->GetMultiple();
+		if ($fieldMultiple !== NULL) {
+			// if validator is added as string - get multiple property from field:
+			$this->multiple = $fieldMultiple;
+		} else if ($this->multiple !== NULL && $fieldMultiple === NULL) {
 			// if this validator is added into field as instance - check field if it has multiple attribute defined:
 			$field->SetMultiple($this->multiple);
-		} else if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
-			// if validator is added as string - get multiple property from field:
-			$this->multiple = $field->GetMultiple();
 		}
 
 		return $this;

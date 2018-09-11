@@ -51,12 +51,14 @@ implements	\MvcCore\Ext\Forms\Fields\IPattern
 			$this->throwNewInvalidArgumentException(
 				"Field doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IPattern`."
 			);
-		if ($this->pattern !== NULL && $field->GetPattern() === NULL) {
+
+		$fieldPattern = $field->GetPattern();
+		if ($fieldPattern !== NULL) {
+			// if validator is added as string - get pattern property from field:
+			$this->pattern = $fieldPattern;
+		} else if ($this->pattern !== NULL && $fieldPattern === NULL) {
 			// if this validator is added into field as instance - check field if it has pattern attribute defined:
 			$field->SetPattern($this->pattern);
-		} else if ($this->pattern === NULL && $field->GetPattern() !== NULL) {
-			// if validator is added as string - get pattern property from field:
-			$this->pattern = $field->GetPattern();
 		} 
 		return $this;
 	}

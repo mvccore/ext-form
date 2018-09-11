@@ -107,29 +107,32 @@ class Files
 				.'interface `\\MvcCore\\Ext\\Forms\\Fields\\IFiles`.'
 			);
 		
-		if ($this->multiple !== NULL && $field->GetMultiple() === NULL) {
+		$fieldMultiple = $field->GetMultiple();
+		if ($fieldMultiple !== NULL) {
+			// if validator is added as string - get multiple property from field:
+			$this->multiple = $fieldMultiple;
+		} else if ($this->multiple !== NULL && $fieldMultiple === NULL) {
 			// if this validator is added into field as instance - check field if it has multiple attribute defined:
 			$field->SetMultiple($this->multiple);
-		} else if ($this->multiple === NULL && $field->GetMultiple() !== NULL) {
-			// if validator is added as string - get multiple property from field:
-			$this->multiple = $field->GetMultiple();
 		}
 		
-		if ($this->accept !== NULL && $field->GetAccept() === NULL) {
+		$fieldAccept = $field->GetAccept();
+		if ($fieldAccept !== NULL) {
+			// if validator is added as string - get accept property from field:
+			$this->accept = $fieldAccept;
+		} else if ($this->accept !== NULL && $fieldAccept === NULL) {
 			// if this validator is added into field as instance - check field if it has accept attribute defined:
 			$field->SetAccept($this->accept);
-		} else if ($this->accept === NULL && $field->GetAccept() !== NULL) {
-			// if validator is added as string - get accept property from field:
-			$this->accept = $field->GetAccept();
 		}
 		
-		if ($this->allowedFileNameChars !== NULL && $field->GetAllowedFileNameChars() === NULL) {
+		$fieldAllowedFileNameChars = $field->GetAccept();
+		if ($fieldAllowedFileNameChars !== NULL) {
+			// if validator is added as string - get allowedFileNameChars property from field:
+			$this->allowedFileNameChars = $fieldAllowedFileNameChars;
+		} else if ($this->allowedFileNameChars !== NULL && $fieldAllowedFileNameChars === NULL) {
 			// if this validator is added into field as instance - check field if it has allowedFileNameChars field defined:
 			$field->SetAllowedFileNameChars($this->allowedFileNameChars);
-		} else if ($this->allowedFileNameChars === NULL && $field->GetAllowedFileNameChars() !== NULL) {
-			// if validator is added as string - get allowedFileNameChars property from field:
-			$this->allowedFileNameChars = $field->GetAllowedFileNameChars();
-		} else if ($this->allowedFileNameChars === NULL && $field->GetAllowedFileNameChars() === NULL) {
+		} else if ($this->allowedFileNameChars === NULL && $fieldAllowedFileNameChars === NULL) {
 			$this->allowedFileNameChars = static::ALLOWED_FILE_NAME_CHARS_DEFAULT;
 		}
 		

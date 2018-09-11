@@ -56,20 +56,22 @@ class MinMaxLength
 				"Field doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxLength`."
 			);
 		
-		if ($this->minLength === NULL && $field->GetMinLength() !== NULL) {
+		$fieldMinLength = $field->GetMinLength();
+		if ($fieldMinLength !== NULL) {
+			// if validator is added as string - get min property from field:
+			$this->minLength = $fieldMinLength;
+		} else if ($this->minLength !== NULL && $fieldMinLength === NULL) {
 			// if this validator is added into field as instance - check field if it has min attribute defined:
 			$field->SetMinLength($this->minLength);
-		} else if ($this->minLength === NULL && $field->GetMinLength() !== NULL) {
-			// if validator is added as string - get min property from field:
-			$this->minLength = $field->GetMinLength();
 		}
 
-		if ($this->maxLength === NULL && $field->GetMaxLength() !== NULL) {
+		$fieldMaxLength = $field->GetMaxLength();
+		if ($fieldMaxLength !== NULL) {
+			// if validator is added as string - get max property from field:
+			$this->maxLength = $fieldMaxLength;
+		} else if ($this->maxLength !== NULL && $fieldMaxLength === NULL) {
 			// if this validator is added into field as instance - check field if it has max attribute defined:
 			$field->SetMaxLength($this->maxLength);
-		} else if ($this->maxLength === NULL && $field->GetMaxLength() !== NULL) {
-			// if validator is added as string - get max property from field:
-			$this->maxLength = $field->GetMaxLength();
 		}
 
 		return $this;

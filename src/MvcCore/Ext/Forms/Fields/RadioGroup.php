@@ -43,6 +43,26 @@ class RadioGroup extends \MvcCore\Ext\Forms\FieldsGroup
 	protected $validators = ['ValueInOptions'];
 
 	/**
+	 * Radio group is always not marked as multiple value control. This function 
+	 * always return `FALSE` for radio group instance.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @return bool
+	 */
+	public function GetMultiple () {
+		return FALSE;
+	}
+
+	/**
+	 * Field group is always not marked as multiple value control. This function 
+	 * does nothing, because multiple option has to be `FALSE` for radio group instance all time.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
+	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 */
+	public function & SetMultiple ($multiple = TRUE) {
+		return $this;
+	}
+
+	/**
 	 * Create new form `<input type="radio">` control instance.
 	 * @param array $cfg Config array with public properties and it's 
 	 *					 values which you want to configure, presented 

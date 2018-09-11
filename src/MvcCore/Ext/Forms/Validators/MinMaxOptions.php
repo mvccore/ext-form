@@ -52,20 +52,22 @@ class MinMaxOptions extends ValueInOptions
 				"Field doesn't implement interface `\\MvcCore\\Ext\\Forms\\Fields\\IMinMaxOptions`."
 			);
 		
-		if ($this->minOptions === NULL && $field->GetMinOptions() !== NULL) {
+		$fieldMinOptions = $field->GetMinOptions();
+		if ($fieldMinOptions !== NULL) {
+			// if validator is added as string - get min property from field:
+			$this->minOptions = $fieldMinOptions;
+		} else if ($this->minOptions !== NULL && $fieldMinOptions === NULL) {
 			// if this validator is added into field as instance - check field if it has min attribute defined:
 			$field->SetMinOptions($this->minOptions);
-		} else if ($this->minOptions === NULL && $field->GetMinOptions() !== NULL) {
-			// if validator is added as string - get min property from field:
-			$this->minOptions = $field->GetMinOptions();
 		}
 
-		if ($this->maxOptions === NULL && $field->GetMaxOptions() !== NULL) {
+		$fieldMaxOptions = $field->GetMaxOptions();
+		if ($fieldMaxOptions !== NULL) {
+			// if validator is added as string - get max property from field:
+			$this->maxOptions = $fieldMaxOptions;
+		} else if ($this->maxOptions !== NULL && $fieldMaxOptions === NULL) {
 			// if this validator is added into field as instance - check field if it has max attribute defined:
 			$field->SetMaxOptions($this->maxOptions);
-		} else if ($this->maxOptions === NULL && $field->GetMaxOptions() !== NULL) {
-			// if validator is added as string - get max property from field:
-			$this->maxOptions = $field->GetMaxOptions();
 		}
 
 		return $this;

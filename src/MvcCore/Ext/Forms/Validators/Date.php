@@ -102,20 +102,23 @@ implements	\MvcCore\Ext\Forms\Fields\IMinMaxStepDates
 			);
 		}
 
-		if ($this->min !== NULL && $field->GetMin() === NULL) {
+		$fieldMin = $field->GetMin();
+		if ($fieldMin !== NULL) {
+			$this->min = $fieldMin;
+		} else if ($this->min !== NULL && $fieldMin === NULL) {
 			$field->SetMin($this->min);
-		} else if ($this->min === NULL && $field->GetMin() !== NULL) {
-			$this->min = $field->GetMin();
 		}
-		if ($this->max !== NULL && $field->GetMax() === NULL) {
+		$fieldMax = $field->GetMax();
+		if ($fieldMax !== NULL) {
+			$this->max = $fieldMax;
+		} else if ($this->max !== NULL && $fieldMax === NULL) {
 			$field->SetMax($this->max);
-		} else if ($this->max === NULL && $field->GetMax() !== NULL) {
-			$this->max = $field->GetMax();
 		}
-		if ($this->step !== NULL && $field->GetStep() === NULL) {
+		$fieldStep = $field->GetStep();
+		if ($fieldStep !== NULL) {
+			$this->step = $fieldStep;
+		} else if ($this->step !== NULL && $fieldStep === NULL) {
 			$field->SetStep($this->step);
-		} else if ($this->step === NULL && $field->GetStep() !== NULL) {
-			$this->step = $field->GetStep();
 		}
 
 		return $this;
