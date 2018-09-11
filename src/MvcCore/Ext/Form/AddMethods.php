@@ -105,7 +105,7 @@ trait AddMethods
 	public function & AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
-		$this->cssSupportFile[] = [$cssRelativePath];
+		$this->cssSupportFiles[] = [$cssRelativePath];
 		return $this;
 	}
 
