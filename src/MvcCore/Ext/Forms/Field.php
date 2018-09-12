@@ -238,9 +238,44 @@ implements		\MvcCore\Ext\Forms\IField
 	 * @param string $errorMsg 
 	 * @param array $errorMsgArgs 
 	 * @param callable $replacingCallable 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddValidationError (
+		$errorMsg = '', array 
+		$errorMsgArgs = [], 
+		callable $replacingCallable = NULL
+	) {
+		$errorMsg = $this->translateAndFormatValidationError($errorMsg, $errorMsgArgs, $replacingCallable);
+		$this->form->AddError($errorMsg, $this->name);
+		return $this;
+	}
+
+	/**
+	 * Format form error with given error message containing 
+	 * possible replacements for array values. 
+	 * 
+	 * If there is necessary to translate form elements 
+	 * (form has configured property `translator` as `callable`)
+	 * than given error message is translated first before replacing.
+	 * 
+	 * Before error message processing for replacements,
+	 * there is automaticly assigned into first position into `$errorMsgArgs`
+	 * array (translated) field label or field name and than 
+	 * error message is processed for replacements.
+	 * 
+	 * If there is given some custom `$replacingCallable` param,
+	 * error message is processed for replacements by custom `$replacingCallable`.
+	 * 
+	 * If there is not given any custom `$replacingCallable` param,
+	 * error message is processed for replacements by static `Format()`
+	 * method by configured form view class.
+	 * 
+	 * @param string $errorMsg 
+	 * @param array $errorMsgArgs 
+	 * @param callable $replacingCallable 
+	 * @return string
+	 */
+	protected function translateAndFormatValidationError (
 		$errorMsg = '', array 
 		$errorMsgArgs = [], 
 		callable $replacingCallable = NULL
@@ -264,11 +299,10 @@ implements		\MvcCore\Ext\Forms\IField
 				$replacingCallable, 
 				$errorMsg, $errorMsgArgs, $formViewClass
 			);
-		} else if (strpos($errorMsg, '{0}') !== FALSE) {
+		} else if (strpos($errorMsg, '{0}') !== FALSE || strpos($errorMsg, '{1}') !== FALSE) {
 			$errorMsg = $formViewClass::Format($errorMsg, $errorMsgArgs);
 		}
-		$this->form->AddError($errorMsg, $this->name);
-		return $this;
+		return $errorMsg;
 	}
 	
 	/**

@@ -106,7 +106,7 @@ interface IField
 	 * @param string $errorMsg 
 	 * @param array $errorMsgArgs 
 	 * @param callable $replacingCallable 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddValidationError (
 		$errorMsg = '', array 

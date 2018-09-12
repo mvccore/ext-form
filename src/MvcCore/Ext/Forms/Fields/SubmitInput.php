@@ -90,6 +90,8 @@ class SubmitInput
 	 * @return string
 	 */
 	public function RenderControl () {
+		if ($this->customResultState !== NULL) 
+			$this->SetControlAttr('data-result', $this->customResultState);
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
 			'formAction', 'formEnctype', 'formMethod', 'formNoValidate', 'formTarget'
 		]);

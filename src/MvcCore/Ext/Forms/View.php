@@ -478,7 +478,8 @@ class View extends \MvcCore\View
 	public static function Format ($str = '', array $args = []) {
 		foreach ($args as $key => $value) {
 			$pos = strpos($str, '{'.$key.'}');
-			$str = substr($str, 0, $pos) . $value . substr($str, $pos + strlen($key) + 2);
+			if ($pos !== FALSE)
+				$str = substr($str, 0, $pos) . $value . substr($str, $pos + strlen($key) + 2);
 		}
 		return $str;
 	}

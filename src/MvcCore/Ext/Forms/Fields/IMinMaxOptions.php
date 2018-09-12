@@ -56,6 +56,21 @@ interface IMinMaxOptions
 	public function & SetMaxOptions ($maxOptions);
 
 	/**
+	 * Get field is required bubble message for javascript.
+	 * This method could be used only for checkbox group control.
+	 * @return string
+	 */
+	public function GetRequiredBubbleMessage ();
+
+	/**
+	 * Set field is required bubble message for javascript.
+	 * This method could be used only for checkbox group control.
+	 * @param string $requiredBubbleMessage 
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public function & SetRequiredBubbleMessage ($requiredBubbleMessage);
+
+	/**
 	 * Get minimum options bubble message for javascript.
 	 * @return string
 	 */

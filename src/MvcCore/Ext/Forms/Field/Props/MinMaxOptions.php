@@ -37,6 +37,12 @@ trait MinMaxOptions
 	protected $maxOptions = NULL;
 
 	/**
+	 * Field is required bubble message for javascript.
+	 * @var string|NULL
+	 */
+	protected $requiredBubbleMessage = NULL;
+
+	/**
 	 * Minimum options bubble message for javascript.
 	 * @var string|NULL
 	 */
@@ -85,6 +91,26 @@ trait MinMaxOptions
 	 */
 	public function & SetMaxOptions ($maxOptions) {
 		$this->maxOptions = $maxOptions;
+		return $this;
+	}
+
+	/**
+	 * Get field is required bubble message for javascript.
+	 * This method could be used only for checkbox group control.
+	 * @return string
+	 */
+	public function GetRequiredBubbleMessage () {
+		return $this->requiredBubbleMessage;
+	}
+
+	/**
+	 * Set field is required bubble message for javascript.
+	 * This method could be used only for checkbox group control.
+	 * @param string $requiredBubbleMessage 
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public function & SetRequiredBubbleMessage ($requiredBubbleMessage) {
+		$this->requiredBubbleMessage = $requiredBubbleMessage;
 		return $this;
 	}
 

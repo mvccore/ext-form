@@ -33,16 +33,18 @@ class CheckboxGroup
 	 * Valid email address error message index.
 	 * @var int
 	 */
-	const ERROR_MIN_OPTIONS_BUBBLE = 0;
-	const ERROR_MAX_OPTIONS_BUBBLE = 1;
+	const ERROR_REQUIRED_BUBBLE = 0;
+	const ERROR_MIN_OPTIONS_BUBBLE = 1;
+	const ERROR_MAX_OPTIONS_BUBBLE = 2;
 
 	/**
 	 * Validation failure message template definitions.
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_MIN_OPTIONS_BUBBLE	=> "Please select at least `{0}` options as minimum.",
-		self::ERROR_MAX_OPTIONS_BUBBLE	=> "Please select up to `{0}` options at maximum.",
+		self::ERROR_REQUIRED_BUBBLE		=> "Please tick this box, field is required.",
+		self::ERROR_MIN_OPTIONS_BUBBLE	=> "Please select at least `{1}` option(s) as minimum.",
+		self::ERROR_MAX_OPTIONS_BUBBLE	=> "Please select up to `{1}` option(s) at maximum.",
 	];
 
 	/**
@@ -160,47 +162,41 @@ class CheckboxGroup
 		parent::PreDispatch();
 		$minOptsDefined = $this->minOptions !== NULL;
 		$maxOptsDefined = $this->maxOptions !== NULL;
+		$addSupportingJavascript = $this->required || $minOptsDefined || $maxOptsDefined;
+		if (!$addSupportingJavascript) return;
 		$form = & $this->form;
-		$viewClass = $form->GetViewClass();
-		if ($this->translate) {
-			if ($minOptsDefined) {
-				// add necessary error messages if there are empty strings
-				if (!$this->minOptionsBubbleMessage)
-					$this->minOptionsBubbleMessage = $form->GetDefaultErrorMsg(
-						static::$errorMessages[static::ERROR_MIN_OPTIONS_BUBBLE]
-					);
-				$this->minOptionsBubbleMessage = $form->Translate($this->minOptionsBubbleMessage);
-			}
-			if ($maxOptsDefined) {
-				// add necessary error messages if there are empty strings
-				if (!$this->maxOptionsBubbleMessage)
-					$this->maxOptionsBubbleMessage = $form->GetDefaultErrorMsg(
-						static::$errorMessages[static::ERROR_MAX_OPTIONS_BUBBLE]
-					);
-				$this->maxOptionsBubbleMessage = $form->Translate($this->maxOptionsBubbleMessage);
-			}
-		}
-		if ($minOptsDefined) $this->minOptionsBubbleMessage = $viewClass::Format(
-			$this->minOptionsBubbleMessage, [$this->minOptions]
+		// add necessary error messages
+		$this->requiredBubbleMessage = strip_tags($this->translateAndFormatValidationError(
+			($this->requiredBubbleMessage
+				? $this->requiredBubbleMessage
+				: static::$errorMessages[static::ERROR_REQUIRED_BUBBLE])
+		));
+		$this->minOptionsBubbleMessage = strip_tags($this->translateAndFormatValidationError(
+			($this->minOptionsBubbleMessage
+				? $this->minOptionsBubbleMessage
+				: static::$errorMessages[static::ERROR_MIN_OPTIONS_BUBBLE]),
+			[$minOptsDefined ? $this->minOptions : 1]
+		));
+		$this->maxOptionsBubbleMessage = strip_tags($this->translateAndFormatValidationError(
+			($this->maxOptionsBubbleMessage
+				? $this->maxOptionsBubbleMessage
+				: static::$errorMessages[static::ERROR_MAX_OPTIONS_BUBBLE]),
+			[$maxOptsDefined ? $this->maxOptions : count($this->options)]
+		));
+		$form->AddJsSupportFile(
+			$this->jsSupportingFile, 
+			$this->jsClassName, 
+			[
+				$this->name . '[]', 
+				$this->required,
+				$this->minOptions,
+				$this->maxOptions,
+				$this->requiredBubbleMessage,
+				$this->minOptionsBubbleMessage,
+				$this->maxOptionsBubbleMessage,
+				$this->maxOptionsClassName
+			]
 		);
-		if ($maxOptsDefined) $this->maxOptionsBubbleMessage = $viewClass::Format(
-			$this->maxOptionsBubbleMessage, [$this->maxOptions]
-		);
-		if ($this->required || $minOptsDefined || $maxOptsDefined)
-			$form->AddJsSupportFile(
-				$this->jsSupportingFile, 
-				$this->jsClassName, 
-				[
-					$this->name . '[]', 
-					$this->required,
-					$this->minOptions,
-					$this->maxOptions,
-					$this->minOptionsBubbleMessage,
-					$this->maxOptionsBubbleMessage,
-					$this->maxOptionsClassName
-				]
-			);
-		return $this;
 	}
 
 	/**
@@ -223,11 +219,13 @@ class CheckboxGroup
 		if ($optionType == 'string') {
 			$itemLabelText = $option ? $option : $key;
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
+			$controlAttrsMerged = $this->controlAttrs;
+			if ($this->minOptions !== NULL)
+				$controlAttrsMerged = array_merge($controlAttrsMerged, ['data-min-selected-options' => $this->minOptions,]);
+			if ($this->maxOptions !== NULL)
+				$controlAttrsMerged = array_merge($controlAttrsMerged, ['data-max-selected-options' => $this->maxOptions,]);
 			$controlAttrsStr = $this->renderAttrsWithFieldVars(
-				[], array_merge($this->controlAttrs, [
-					'data-min-selected-options' => $this->minOptions,
-					'data-max-selected-options' => $this->maxOptions,
-				]), $this->cssClasses, TRUE
+				[], $controlAttrsMerged, $this->cssClasses, TRUE
 			);
 		} else if ($optionType == 'array') {
 			$itemLabelText = isset($option['text']) ? $option['text'] : $key;
@@ -236,10 +234,10 @@ class CheckboxGroup
 			if (isset($option['attrs']) && gettype($option['attrs']) == 'array') {
 				$attrsArr = array_merge($this->controlAttrs, $option['attrs']);
 			}
-			$attrsArr = array_merge($attrsArr, [
-				'data-min-selected-options' => $this->minOptions,
-				'data-max-selected-options' => $this->maxOptions,
-			]);
+			if ($this->minOptions !== NULL)
+				$attrsArr = array_merge($attrsArr, ['data-min-selected-options' => $this->minOptions,]);
+			if ($this->maxOptions !== NULL)
+				$attrsArr = array_merge($attrsArr, ['data-max-selected-options' => $this->maxOptions,]);
 			if (isset($option['class'])) {
 				$classArrParam = [];
 				$cssClassType = gettype($option['class']);
