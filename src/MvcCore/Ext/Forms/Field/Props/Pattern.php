@@ -15,8 +15,6 @@ namespace MvcCore\Ext\Forms\Field\Props;
 
 /**
  * Trait for classes:
- * - `\MvcCore\Ext\Forms\Fields\Number`
- *    - `\MvcCore\Ext\Forms\Fields\Range`
  * - `\MvcCore\Ext\Forms\Fields\Text`
  *    - `\MvcCore\Ext\Forms\Fields\Email`
  *    - `\MvcCore\Ext\Forms\Fields\Password`

@@ -147,7 +147,6 @@ class Range
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'pattern',
 			'min', 'max', 'step',
 			'list',
 			'autoComplete',

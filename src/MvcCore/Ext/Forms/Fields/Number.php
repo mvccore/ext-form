@@ -27,13 +27,11 @@ class Number
 				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\INumber,
 				\MvcCore\Ext\Forms\Fields\IMinMaxStepNumbers,
-				\MvcCore\Ext\Forms\Fields\IPattern,
 				\MvcCore\Ext\Forms\Fields\IDataList
 {
 	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
 	use \MvcCore\Ext\Forms\Field\Props\Label;
 	use \MvcCore\Ext\Forms\Field\Props\MinMaxStepNumbers;
-	use \MvcCore\Ext\Forms\Field\Props\Pattern;
 	use \MvcCore\Ext\Forms\Field\Props\DataList;
 	use \MvcCore\Ext\Forms\Field\Props\AutoComplete;
 	use \MvcCore\Ext\Forms\Field\Props\PlaceHolder;
@@ -53,7 +51,7 @@ class Number
 	 *				and return `float` or `NULL`.
 	 * @var string[]|\Closure[]
 	 */
-	protected $validators = ['Number' /*,'Pattern'*/];
+	protected $validators = ['Number'];
 
 	/**
 	 * Numeric field value is always stored as float value.
@@ -152,7 +150,6 @@ class Number
 	 */
 	public function RenderControl () {
 		$attrsStr = $this->renderControlAttrsWithFieldVars([
-			'pattern',
 			'min', 'max', 'step',
 			'list',
 			'autoComplete',

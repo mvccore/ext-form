@@ -130,3 +130,206 @@ if ($result == \MvcCore\Ext\Form::RESULT_SUCCESS) {
 // or error url (by internal $form->Result property):
 $form->SubmittedRedirect();
 ```
+
+### Form Extensible Packages Map
+
+- `ext-form-all`
+	- `ext-form`
+	- `ext-form-field-texts`			MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.
+	- `ext-form-field-numerics`			MvcCore form extension with input field types number and range.
+	- `ext-form-field-selections`		MvcCore form extension with fields select, country select, checkbox(es) and radios.
+	- `ext-form-field-dates`			MvcCore form extension with input field types date, datetime, time, week and month.
+	- `ext-form-field-buttons`			MvcCore form extension with button fields and input submit fields.
+	- `ext-form-field-special`			MvcCore form extension with input type file and color.
+	- `ext-form-validators-advanced`	MvcCore form extension with advanced text and numeric validators.
+
+	
+- `ext-form`
+	+ Form
+		- AddMethods.php
+		- Assets.php
+		- ConfigProps.php
+		- Csrf.php
+		- FieldMethods.php
+		- GetMethods.php
+		- InternalProps.php
+		- Rendering.php
+		- Session.php
+		- SetMethods.php
+		- Submitting.php
+	+ Forms
+		+ assets
+			+ fields
+				- checkbox-group.js
+				- range.css
+				- range.js
+				- reset.js
+			- mvccore-form.js
+		+ Field
+			+ Props
+				- AccessKey.php
+				- AutoComplete.php
+				- AutoFocus.php
+				- DataList.php
+				- Disabled.php
+				- GroupCssClasses.php
+				- GroupLabelAttrs.php
+				- InputMode.php
+				- Label.php
+				- Multiple.php
+				- Options.php
+				- PlaceHolder.php
+				- ReadOnly.php
+				- Required.php
+				- Size.php
+				- TabIndex.php
+				- VisibleField.php
+				- Wrapper.php
+			- Getters.php
+			- Props.php
+			- Rendering.php
+			- Setters.php
+		+ Fields
+			- IDataList.php
+			- IMultiple.php
+			- ILabel.php
+			- IOptions.php
+			- ISubmit.php
+			- IVisibleField.php
+			- DataList.php
+			- Hidden.php
+		+ Validators
+			- SafeString.php
+		- Field.php
+		- FieldsGroup.php
+		- IError.php
+		- IField.php
+		- IFieldsGroup.php
+		- IForm.php
+		- IValidator.php
+		- IView.php
+		- Validator.php
+		- View.php
+	- Form.php
+
+- `ext-form-field-texts`
+	+ Forms
+		+ Field
+			+ Props
+				- MinMaxLength.php
+				- Pattern.php
+				- RowsColsWrap.php
+				- SpellCheck.php
+		+ Fields
+			- IMinMaxLength.php
+			- IPattern.php
+			- Email.php
+			- Password.php
+			- Search.php
+			- Tel.php
+			- Text.php
+			- Textarea.php
+			- Url.php
+	+ Forms
+		+ Validators
+			- Email.php
+			- MinMaxLength.php
+			- Password.php
+			- Pattern.php
+			- Tel.php
+			- Url.php
+			
+- `ext-form-field-numerics`
+	+ Forms
+		+ Field
+			+ Props
+				- MinMaxStepNumbers.php
+		+ Fields
+			- IMinMaxStepNumbers.php
+			- INumber.php
+			- Number.php
+			- Range.php
+		+ Validators
+			- Float.php
+			- Integer.php
+			- Number.php
+			- Range.php
+			
+- `ext-form-field-selections`
+	+ Forms
+		+ Field
+			+ Props
+				- Checked.php
+				- MinMaxOptions.php
+				- NullOptionText.php
+		+ Fields
+			- IMinMaxOptions
+			- IChecked.php.php
+			- CountrySelect.php
+			- Select.php
+			- Checkbox.php
+			- CheckboxGroup.php
+			- RadioGroup.php
+		+ Validators
+			- MinMaxOptions.php
+			- ValueInOptions.php
+			
+- `ext-form-field-dates`
+	+ Forms
+		+ Field
+			+ Props
+				- Format.php
+				- MinMaxStepDates.php
+		+ Fields
+			- IFormat.php
+			- IMinMaxStepDates.php
+			- Date.php
+			- DateTime.php
+			- Month.php
+			- Time.php
+			- Week.php
+		+ Validators
+			- Date.php
+			- DateTime.php
+			- Month.php
+			- Time.php
+			- Week.php
+		
+- `ext-form-field-buttons`
+	+ Forms
+		+ Field
+			+ Props
+				- FormAttrs.php
+				- Submit.php
+				- WidthHeight.php
+		+ Fields
+			- Button.php
+			- ResetButton.php
+			- ResetInput.php
+			- SubmitButton.php
+			- SubmitInput.php
+			- Image.php
+		
+- `ext-form-field-special`
+	+ Forms
+		+ Field
+			+ Props
+				- Files.php
+		+ Fields
+			- IFiles.php
+			- Color.php
+			- File.php
+		+ Validators
+			- Color.php
+			- Files.php
+		
+- `ext-form-validators-advanced`
+	+ Forms
+		+ Validators
+			- CompanyIdEu.php
+			- CompanyVatIdEu.php
+			- CreditCard.php
+			- Hex.php
+			- Iban.php
+			- Ip.php
+			- ZipCode.php
