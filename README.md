@@ -34,7 +34,8 @@ composer require mvccore/ext-form
 		- country `select`
 		- `input:checkbox`
 		- `input:checkbox` group
-		- input:radio (radio button, switch)
+		- `input:radio` (radio button, switch)
+		- `input:color`
 	- extended date fields:
 		- `input:date`
 		- `input:datetime-local`
@@ -70,8 +71,8 @@ composer require mvccore/ext-form
 		- range (min., max. and step)
 	- extended selection fields:
 		- checkbox - checked
-		- select - value in options
-		- min/max selected options
+		- value in options - for selects, country selects, checkbox group and radios
+		- min./max. selected options
 	- special
 		- EU company ID/VAT ID
 - custom js/css assets for any field type
