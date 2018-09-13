@@ -15,39 +15,60 @@ composer require mvccore/ext-form
 
 ## Features
 - creates, renders and submits dynamicly created web forms without needs to specify 
-  any static model class for form model (like in stupid classic .NET MVC forms)
-- possibility to extend form itself, any field, field group or validator
-- automaticly preconfigured controls for specific types with predefined validators
-- every form (GET/POST...) has it's own cross site request forgery (CSRF) hidden 
+  any static model class for form model (like in classic .NET MVC forms)
+- possibility to extend form itself, any field, field group or validator (interfaces, abstract classes)
+- automaticly preconfigured HTML5 controls for specific types with predefined validators
+- every form (GET/POST) has it's own cross site request forgery (CSRF) hidden 
 	input with token name and token value to check if form was submitted by specific 
 	user session and not by any foreing atacker javascript
-- control types:
-	- text inputs: text, password, email, hidden
-	- number inputs: number, range (slider), multi range
-	- selects: select, multi-select, country select
-	- checkboxes: single checkbox, checkbox group
-	- radio buttons
-	- buttons: submit button, reset button, common button, input:submit
-	- textarea
-	- dates: date, time, datetime
-	- no-type input to extend basic input with your custom functionality
+- fields (controls) types:
+	- build in:
+		- `input:hidden`, `datalist`
+	- extended text fields: 
+		- `input:text`, `:password`, `:email`, `:search`, `:tel`, `:url`
+		- `textarea`
+	- extended numeric fields:
+		- `input:number`, `:range` (slider) and multiple `input:range`
+	- extended selection fields:
+		- `select` (multi select)
+		- country `select`
+		- `input:checkbox`
+		- `input:checkbox` group
+		- input:radio (radio button, switch)
+	- extended date fields:
+		- `input:date`
+		- `input:datetime-local`
+		- `input:time`
+		- `input:week`
+		- `input:month`
+	- extended button fields: 
+		- `input:submit`
+		- `input:reset`
+		- `button`
+		- `button:reset`
+		- `button:submit`
+		- `input:image`
+	- extended file field: 
+		- `input:file` with multiple option and validation
+	- base field class to extend any control with your custom functionality
 - submit validators (each form control has naturaly configured validator(s) by type):
-	- required (for all fields by it's configuration)
-	- texts:
-		- safe string (safe characters for database operations)
-		- max. length
-		- preg_replace pattern
-		- special:
-			- email
-			- url
-			- ZIP code
-			- phone
-	- numbers:
-		- integer
-		- number
-		- float
-		- range (min. & max.)
-	- options
+	- build in:
+		- required, readOnly, dispabled...
+		- safe string (safe characters to display in response - XSS protection)
+	- extended text fields:
+		- email - to check if email(s) is/are email(s) or not
+		- min. and max. text length
+		- password - to check password strength by configured rules
+		- pattern - PHP preg_match by `pattern` control attribute
+		- url (to check if string is url or not)
+		- tel (only to clean not allowed chars in phone number)
+		- ZIP code (to check international ZIP code form)
+	- extended numeric fields:
+		- number (min., max. and step)
+		- integer (min., max. and step)
+		- float (min., max. and step)
+		- range (min., max. and step)
+	- extended selection fields:
 		- checkbox - checked
 		- select - value in options
 		- min/max selected options
