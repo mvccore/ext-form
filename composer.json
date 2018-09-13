@@ -1,7 +1,7 @@
 {
 	"name": "mvccore/ext-form",
 	"type": "library",
-	"description": "MvcCore Extension - Form - render web forms with classic user controls and some HTML5 controls, to handle and validate submited user data, to manage forms sessions for default values, to manage user input errors and to extend and develop custom fields and field groups.",
+	"description": "MvcCore - Extension - Form - form extension with base classes to create and render web forms with HTML5 controls, to handle and validate submited user data, to manage forms sessions for default values, to manage user input errors and to extend and develop custom fields and field groups.",
 	"keywords": [
 		"mvc", 
 		"mvccore", 
@@ -11,17 +11,38 @@
 		"plug-in", 
 		"ext", 
 		"mvccore", 
-		"mvccore form", 
 		"form", 
 		"forms", 
-		"dynamic forms", 
-		"web forms", 
+		"webform", 
 		"html5", 
-		"submit", 
-		"submitting", 
-		"validate", 
-		"validation", 
-		"validating"
+		"dynamic",
+		"field",
+		"fields",
+		"input",
+		"inputs",
+		"text", 
+		"number", 
+		"select", 
+		"checkbox", 
+		"radio",
+		"groups",
+		"reset",
+		"button",
+		"image",
+		"date",
+		"time",
+		"week",
+		"month",
+		"datetime",
+		"date",
+		"range",
+		"file",
+		"color",
+		"tel",
+		"url",
+		"search",
+		"email",
+		"textarea"
 	],
 	"license": ["BSD-3-Clause"],
 	"authors": [{
@@ -31,6 +52,15 @@
 	"require": {
 		"php": ">=5.3.0",
 		"mvccore/mvccore": "^4.3.1"
+	},
+	"suggest": {
+		"mvccore/ext-form-field-text": "MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.",
+		"mvccore/ext-form-field-numeric": "MvcCore form extension with input field types number and range.",
+		"mvccore/ext-form-field-selection": "MvcCore form extension with fields select, country select, checkbox(es) and radios.",
+		"mvccore/ext-form-field-date": "MvcCore form extension with input field types date, datetime, time, week and month.",
+		"mvccore/ext-form-field-button": "MvcCore form extension with button fields and input submit fields.",
+		"mvccore/ext-form-field-special": "MvcCore form extension with input type file and color.",
+		"mvccore/ext-form-validator-special": "MvcCore form extension with special text and numeric validators."
 	},
 	"autoload": {
 		"classmap": ["src/"]

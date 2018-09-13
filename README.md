@@ -133,15 +133,23 @@ $form->SubmittedRedirect();
 
 ### Form Extensible Packages Map
 
-- `ext-form-all`
-	- `ext-form`
-	- `ext-form-field-text`				MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.
-	- `ext-form-field-numeric`			MvcCore form extension with input field types number and range.
-	- `ext-form-field-selection`		MvcCore form extension with fields select, country select, checkbox(es) and radios.
-	- `ext-form-field-date`				MvcCore form extension with input field types date, datetime, time, week and month.
-	- `ext-form-field-button`			MvcCore form extension with button fields and input submit fields.
-	- `ext-form-field-special`			MvcCore form extension with input type file and color.
-	- `ext-form-validator-special`		MvcCore form extension with special text and numeric validators.
+- `ext-form-all`					MvcCore extension to render web forms, handle submits, managing fields, sessions and errors, extension with all form packages.
+	- `ext-form`					MvcCore form extension with base classes.
+		MvcCore - Extension - Form - form extension with base classes to create and render web forms with HTML5 controls, to handle and validate submited user data, to manage forms sessions for default values, to manage user input errors and to extend and develop custom fields and field groups.
+	- `ext-form-field-text`			MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.
+		MvcCore - Extension - Form - Field - Text - form field types - input:text, input:email, input:password, input:search, input:tel, input:url and textarea.
+	- `ext-form-field-numeric`		MvcCore form extension with input field types number and range.
+		MvcCore - Extension - Form - Field - Numeric - form field types - input:number and input:range.
+	- `ext-form-field-selection`	MvcCore form extension with fields select, country select, checkbox(es) and radios.
+		MvcCore - Extension - Form - Field - Selection - form field types - select, country select, checkbox, radio button and checkboxes group.
+	- `ext-form-field-date`			MvcCore form extension with input field types date, datetime, time, week and month.
+		MvcCore - Extension - Form - Field - Date - form field types - input:date, input:datetime-local, input:time, input:week and input:month.
+	- `ext-form-field-button`		MvcCore form extension with button fields and input submit fields.
+		MvcCore - Extension - Form - Field - Button - form field types - button:submit, button:reset, input:submit, input:reset and image.
+	- `ext-form-field-special`		MvcCore form extension with input type file and color.
+		MvcCore - Extension - Form - Field - Special - form field types - input:file to upload files and input:color.
+	- `ext-form-validator-special`	MvcCore form extension with special text and numeric validators.
+		MvcCore - Extension - Form - Validator - Special - form special text and numeric validators - company ID (EU), company VAT ID (EU), credit card, hexadecimal number, IBAN bank account number, IP address and ZIP code.
 
 	
 - `ext-form`
@@ -333,6 +341,3 @@ $form->SubmittedRedirect();
 			- Iban.php
 			- Ip.php
 			- ZipCode.php
-
-
-
