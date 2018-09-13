@@ -135,13 +135,13 @@ $form->SubmittedRedirect();
 
 - `ext-form-all`
 	- `ext-form`
-	- `ext-form-field-texts`			MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.
-	- `ext-form-field-numerics`			MvcCore form extension with input field types number and range.
-	- `ext-form-field-selections`		MvcCore form extension with fields select, country select, checkbox(es) and radios.
-	- `ext-form-field-dates`			MvcCore form extension with input field types date, datetime, time, week and month.
-	- `ext-form-field-buttons`			MvcCore form extension with button fields and input submit fields.
+	- `ext-form-field-text`				MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.
+	- `ext-form-field-numeric`			MvcCore form extension with input field types number and range.
+	- `ext-form-field-selection`		MvcCore form extension with fields select, country select, checkbox(es) and radios.
+	- `ext-form-field-date`				MvcCore form extension with input field types date, datetime, time, week and month.
+	- `ext-form-field-button`			MvcCore form extension with button fields and input submit fields.
 	- `ext-form-field-special`			MvcCore form extension with input type file and color.
-	- `ext-form-validators-advanced`	MvcCore form extension with advanced text and numeric validators.
+	- `ext-form-validator-special`		MvcCore form extension with special text and numeric validators.
 
 	
 - `ext-form`
@@ -212,7 +212,7 @@ $form->SubmittedRedirect();
 		- View.php
 	- Form.php
 
-- `ext-form-field-texts`
+- `ext-form-field-text`
 	+ Forms
 		+ Field
 			+ Props
@@ -239,7 +239,7 @@ $form->SubmittedRedirect();
 			- Tel.php
 			- Url.php
 			
-- `ext-form-field-numerics`
+- `ext-form-field-numeric`
 	+ Forms
 		+ Field
 			+ Props
@@ -255,7 +255,7 @@ $form->SubmittedRedirect();
 			- Number.php
 			- Range.php
 			
-- `ext-form-field-selections`
+- `ext-form-field-selection`
 	+ Forms
 		+ Field
 			+ Props
@@ -295,7 +295,7 @@ $form->SubmittedRedirect();
 			- Time.php
 			- Week.php
 		
-- `ext-form-field-buttons`
+- `ext-form-field-button`
 	+ Forms
 		+ Field
 			+ Props
@@ -323,7 +323,7 @@ $form->SubmittedRedirect();
 			- Color.php
 			- Files.php
 		
-- `ext-form-validators-advanced`
+- `ext-form-validator-special`
 	+ Forms
 		+ Validators
 			- CompanyIdEu.php
