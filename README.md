@@ -4,13 +4,13 @@
 [![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md)
 ![PHP Version](https://img.shields.io/badge/PHP->=5.3-brightgreen.svg?style=plastic)
 
-<br /><br />
+<br />
 
 **THIS IS NOT PACKAGE WITH ALL FORM FIELD CLASSES!  
 IF YOU JUST WANT TO CREATE A FORM VERY QUICKLY,  
 USE PACKAGE [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all) INSTEAD WITH ALL FORM FIELDS AND VALIDATORS!**
 
-<br /><br />
+<br />
 
 MvcCore extension with base form and field classes to create and render web forms with 
 HTML5 controls, to handle and validate submited user data, to manage forms sessions 
