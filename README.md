@@ -31,12 +31,12 @@ composer require mvccore/ext-form-field-text
 - [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all)&emsp;&emsp;- Main huge extension with all subextensions to render web forms, handle submits,  
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;managing fields, sessions and errors, extension with all form packages.  
 - `mvccore/ext-form`													- Form extension with only base form and field classes.  
-- [`mvccore/ext-form-field-text`](https://github.com/mvccore/ext-form-field-text)				- Fields extension with input field types text, email, password, search, tel, url and textarea.
-- [`mvccore/ext-form-field-numeric`](https://github.com/mvccore/ext-form-field-numeric)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types number and range.  
-- [`mvccore/ext-form-field-selection`](https://github.com/mvccore/ext-form-field-selection)&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
-- [`mvccore/ext-form-field-date`](https://github.com/mvccore/ext-form-field-date)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types date, datetime, time, week and month.  
-- [`mvccore/ext-form-field-button`](https://github.com/mvccore/ext-form-field-button)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with button fields and input submit fields.  
-- [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input type file(s) with upload validation.  
+- [`mvccore/ext-form-field-text`](https://github.com/mvccore/ext-form-field-text)&emsp;&emsp;&emsp;&nbsp;&thinsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
+- [`mvccore/ext-form-field-numeric`](https://github.com/mvccore/ext-form-field-numeric)&emsp;&emsp;- Fields extension with input field types number and range.  
+- [`mvccore/ext-form-field-selection`](https://github.com/mvccore/ext-form-field-selection)&emsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
+- [`mvccore/ext-form-field-date`](https://github.com/mvccore/ext-form-field-date)&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types date, datetime, time, week and month.  
+- [`mvccore/ext-form-field-button`](https://github.com/mvccore/ext-form-field-button)&emsp;&emsp;&thinsp;&thinsp;- Fields extension with button fields and input submit fields.  
+- [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file)&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input type file(s) with upload validation.  
 - [`mvccore/ext-form-validator-special`](https://github.com/mvccore/ext-form-validator-special)- Validators only extension with special text and numeric validators.
 
 
