@@ -6,7 +6,7 @@
 
 **THIS IS NOT PACKAGE WITH ALL FORM FIELD CLASSES!  
 IF YOU JUST WANT TO CREATE A FORM VERY QUICKLY,  
-USE PACKAGE `mvccore/ext-form-all` INSTEAD WITH ALL FORM FIELDS AND VALIDATORS!**
+USE PACKAGE [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all) INSTEAD WITH ALL FORM FIELDS AND VALIDATORS!**
 
 MvcCore extension with base form and field classes to create and render web forms with 
 HTML5 controls, to handle and validate submited user data, to manage forms sessions 
@@ -15,7 +15,7 @@ and field groups.
 
 This class can not exist alone without any form field extension(s) like: `mvccore/ext-form-field-*`
 to have possiblity to create specific field(s) in youf form instance. If you want to use all 
-fields and validators, use extension `mvccore/ext-form-all` instead of `mvccore/ext-form`.
+fields and validators, use extension [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all) instead of `mvccore/ext-form`.
 This extension is only part of whole thing to not have too much field classes code in small aplications.
 
 ## Installation
@@ -28,16 +28,16 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
-- `ext-form-all`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Main huge extension with all subextensions to render web forms, handle submits,  
+- [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Main huge extension with all subextensions to render web forms, handle submits,  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;managing fields, sessions and errors, extension with all form packages.  
-- `ext-form`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Form extension with only base form and field classes.  
-- `ext-form-field-text`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
-- `ext-form-field-numeric`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types number and range.  
-- `ext-form-field-selection`&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
-- `ext-form-field-date`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types date, datetime, time, week and month.  
-- `ext-form-field-button`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with button fields and input submit fields.  
-- `ext-form-field-file`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input type file(s) with upload validation.  
-- `ext-form-validator-special`- Validators only extension with special text and numeric validators.
+- `ext-form`]()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Form extension with only base form and field classes.  
+- [`ext-form-field-text`](https://github.com/mvccore/ext-form-field-text)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
+- [`ext-form-field-numeric`](https://github.com/mvccore/ext-form-field-numeric)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types number and range.  
+- [`ext-form-field-selection`](https://github.com/mvccore/ext-form-field-selection)&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
+- [`ext-form-field-date`](https://github.com/mvccore/ext-form-field-date)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types date, datetime, time, week and month.  
+- [`ext-form-field-button`](https://github.com/mvccore/ext-form-field-button)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with button fields and input submit fields.  
+- [`ext-form-field-file`](https://github.com/mvccore/ext-form-field-file)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input type file(s) with upload validation.  
+- [`ext-form-validator-special`](https://github.com/mvccore/ext-form-validator-special)- Validators only extension with special text and numeric validators.
 
 
 ## Main Features
