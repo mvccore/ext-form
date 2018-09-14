@@ -27,28 +27,16 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
-<div width="200">asdfasdfa</div>
- - <code>ext-form-all</code><br />
-<br />
- - <code>ext-form</code><br />
- - <code>ext-form-field-text</code><br />
- - <code>ext-form-field-numeric</code><br />
- - <code>ext-form-field-selection</code><br />
- - <code>ext-form-field-date</code><br />
- - <code>ext-form-field-button</code><br />
- - <code>ext-form-field-file</code><br />
- - <code>ext-form-validator-special</code>
-
-- Main huge extension with all subextensions to render web forms, handle submits, <br />
-  managing fields, sessions and errors, extension with all form packages.<br />
-- Form extension with only base form and field classes.<br />
-- Fields extension with input field types text, email, password, search, tel, url and textarea.<br />
-- Fields extension with input field types number and range.<br />
-- Fields extension with fields select, country select, checkbox(es), radios and color.<br />
-- Fields extension with input field types date, datetime, time, week and month.<br />
-- Fields extension with button fields and input submit fields.<br />
-- Fields extension with input type file(s) with upload validation.<br />
-- Validators only extension with special text and numeric validators.
+- `ext-form-all`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Main huge extension with all subextensions to render web forms, handle submits,  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;managing fields, sessions and errors, extension with all form packages.  
+- `ext-form`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Form extension with only base form and field classes.  
+- `ext-form-field-text`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
+- `ext-form-field-numeric`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types number and range.  
+- `ext-form-field-selection`&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
+- `ext-form-field-date`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types date, datetime, time, week and month.  
+- `ext-form-field-button`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with button fields and input submit fields.  
+- `ext-form-field-file`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input type file(s) with upload validation.  
+- `ext-form-validator-special`&nbsp;&nbsp;- Validators only extension with special text and numeric validators.
 
 
 ## Main Features
