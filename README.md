@@ -37,7 +37,7 @@ composer require mvccore/ext-form-field-text
 - [`mvccore/ext-form-field-date`](https://github.com/mvccore/ext-form-field-date)			&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			- Fields extension with input field types date, datetime, time, week and month.  
 - [`mvccore/ext-form-field-button`](https://github.com/mvccore/ext-form-field-button)		&emsp;&emsp;&thinsp;&thinsp;						- Fields extension with button fields and input submit fields.  
 - [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file)			&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			- Fields extension with input type file(s) with upload validation.  
-- [`mvccore/ext-form-validator-special`](https://github.com/mvccore/ext-form-validator-special)		&nbsp;										- Validators only extension with special text and numeric validators.
+- [`mvccore/ext-form-validator-special`](https://github.com/mvccore/ext-form-validator-special)&nbsp;											- Validators only extension with special text and numeric validators.
 
 
 ## Main Features
