@@ -29,9 +29,9 @@ composer require mvccore/ext-form-field-text
 
 - `ext-form-all`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Main huge extension with all subextensions to render web forms, handle submits,  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;managing fields, sessions and errors, extension with all form packages.  
-- `ext-form`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Form extension with only base form and field classes.  
-- `ext-form-field-text`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
-- `ext-form-field-numeric`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types number and range.  
+- `ext-form`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Form extension with only base form and field classes.  
+- `ext-form-field-text`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
+- `ext-form-field-numeric`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types number and range.  
 - `ext-form-field-selection`&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
 - `ext-form-field-date`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with input field types date, datetime, time, week and month.  
 - `ext-form-field-button`&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fields extension with button fields and input submit fields.  
