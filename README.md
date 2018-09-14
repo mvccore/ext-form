@@ -29,17 +29,16 @@ composer require mvccore/ext-form-field-text
 
 <table style="border-collapse:collapse;" border="0" cellspacing="0! cellpadding="0"><tbody><tr>
 <td style="padding:0;border:0;">
-  			   
-- `ext-form-all`
-
-- `ext-form`
-- `ext-form-field-text`
-- `ext-form-field-numeric`
-- `ext-form-field-selection`
-- `ext-form-field-date`
-- `ext-form-field-button`
-- `ext-form-field-file`
-- `ext-form-validator-special`
+`ext-form-all`<br />
+<br />
+`ext-form`<br />
+`ext-form-field-text`<br />
+`ext-form-field-numeric`<br />
+`ext-form-field-selection`<br />
+`ext-form-field-date`<br />
+`ext-form-field-button`<br />
+`ext-form-field-file`<br />
+`ext-form-validator-special`
 
 </td><td style="padding:0;border:0;">
 - Main huge extension with all subextensions to render web forms, handle submits, <br />
