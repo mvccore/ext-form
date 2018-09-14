@@ -28,9 +28,9 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
-- [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all)&emsp;&emsp;- Main huge extension with all subextensions to render web forms, handle submits,  
-&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;managing fields, sessions and errors, extension with all form packages.  
-- `mvccore/ext-form`													- Form extension with only base form and field classes.  
+- [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all)&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&thinsp;&thinsp;&thinsp;&thinsp;- Main huge extension with all subextensions to render web forms, handle submits,  
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&thinsp;managing fields, sessions and errors, extension with all form packages.  
+- `mvccore/ext-form`&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&thinsp;&thinsp;&thinsp;- Form extension with only base form and field classes.  
 - [`mvccore/ext-form-field-text`](https://github.com/mvccore/ext-form-field-text)&emsp;&emsp;&emsp;&nbsp;&thinsp;- Fields extension with input field types text, email, password, search, tel, url and textarea.
 - [`mvccore/ext-form-field-numeric`](https://github.com/mvccore/ext-form-field-numeric)&emsp;&emsp;- Fields extension with input field types number and range.  
 - [`mvccore/ext-form-field-selection`](https://github.com/mvccore/ext-form-field-selection)&emsp;- Fields extension with fields select, country select, checkbox(es), radios and color.  
