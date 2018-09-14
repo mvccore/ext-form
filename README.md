@@ -27,20 +27,24 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
-<table style="border-collapse:collapse;border:0;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
-<td style="padding:0;border:0;">
- - `ext-form-all`<br />
-<br />
- - `ext-form`<br />
- - `ext-form-field-text`<br />
- - `ext-form-field-numeric`<br />
- - `ext-form-field-selection`<br />
- - `ext-form-field-date`<br />
- - `ext-form-field-button`<br />
- - `ext-form-field-file`<br />
- - `ext-form-validator-special`
+table.columns {
+  border-color:red !important;
+}
 
-</td><td style="padding:0;border:0;">
+<table class="columns" style="border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
+<td style="padding:0;border:0 !important;">
+ - <code>ext-form-all</code><br />
+<br />
+ - <code>ext-form</code><br />
+ - <code>ext-form-field-text</code><br />
+ - <code>ext-form-field-numeric</code><br />
+ - <code>ext-form-field-selection</code><br />
+ - <code>ext-form-field-date</code><br />
+ - <code>ext-form-field-button</code><br />
+ - <code>ext-form-field-file</code><br />
+ - <code>ext-form-validator-special</code>
+
+</td><td style="padding:0;border:0 !important;">
 - Main huge extension with all subextensions to render web forms, handle submits, <br />
   managing fields, sessions and errors, extension with all form packages.<br />
 - Form extension with only base form and field classes.<br />
