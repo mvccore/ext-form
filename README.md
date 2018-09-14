@@ -27,15 +27,16 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
-- `ext-form-all`					MvcCore extension to render web forms, handle submits, managing fields, sessions and errors, extension with all form packages.
-	- `ext-form`					MvcCore form extension with base classes.
-	- `ext-form-field-text`			MvcCore form extension with input field types text, email, password, search, tel, url and textarea.
-	- `ext-form-field-numeric`		MvcCore form extension with input field types number and range.
-	- `ext-form-field-selection`	MvcCore form extension with fields select, country select, checkbox(es), radios and color.
-	- `ext-form-field-date`			MvcCore form extension with input field types date, datetime, time, week and month.
-	- `ext-form-field-button`		MvcCore form extension with button fields and input submit fields.
-	- `ext-form-field-file`			MvcCore form extension with input type file(s) with upload validation.
-	- `ext-form-validator-special`	MvcCore form extension with special text and numeric validators.
+- `ext-form-all`					Main huge extension with all subextensions to render web forms, handle submits,  
+									managing fields, sessions and errors, extension with all form packages.
+	- `ext-form`					Form extension with only base form and field classes.
+	- `ext-form-field-text`			Fields extension with input field types text, email, password, search, tel, url and textarea.
+	- `ext-form-field-numeric`		Fields extension with input field types number and range.
+	- `ext-form-field-selection`	Fields extension with fields select, country select, checkbox(es), radios and color.
+	- `ext-form-field-date`			Fields extension with input field types date, datetime, time, week and month.
+	- `ext-form-field-button`		Fields extension with button fields and input submit fields.
+	- `ext-form-field-file`			Fields extension with input type file(s) with upload validation.
+	- `ext-form-validator-special`	Validators only extension with special text and numeric validators.
 
 ## Main Features
 - create dynamic forms with variable assigned fields
