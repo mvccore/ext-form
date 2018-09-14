@@ -1,16 +1,22 @@
 # MvcCore Extension - Form
 
-**THIS IS NOT PACKAGE WITH ALL FORM FIELD CLASSES!  
-IF YOU JUST WANT TO CREATE A FORM VERY QUICKLY,  
-USE PACKAGE `mvccore/ext-form-all` INSTEAD WITH ALL FORM FIELDS AND VALIDATORS!**
-
 [![Latest Stable Version](https://img.shields.io/badge/Stable-v4.3.1-brightgreen.svg?style=plastic)](https://github.com/mvccore/ext-form/releases)
 [![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md)
 ![PHP Version](https://img.shields.io/badge/PHP->=5.3-brightgreen.svg?style=plastic)
 
-MvcCore extension with base classes to create and render web forms with HTML5 controls, 
-to handle and validate submited user data, to manage forms sessions for default values, 
-to manage user input errors and to extend and develop custom fields and field groups.
+**THIS IS NOT PACKAGE WITH ALL FORM FIELD CLASSES!  
+IF YOU JUST WANT TO CREATE A FORM VERY QUICKLY,  
+USE PACKAGE `mvccore/ext-form-all` INSTEAD WITH ALL FORM FIELDS AND VALIDATORS!**
+
+MvcCore extension with base form and field classes to create and render web forms with 
+HTML5 controls, to handle and validate submited user data, to manage forms sessions 
+for default values, to manage user input errors and to extend and develop custom fields 
+and field groups.
+
+This class can no exist alone without any extension like: `mvccore/ext-form-field-*`
+to have possiblity to create specific field(s) in youf form. If you want to use all 
+fields and validators, use extension `mvccore/ext-form-all` instead of `mvccore/ext-form`.
+This extension is only part of whole thing to not have too much corm classes code in small aplications.
 
 ## Installation
 ```shell
