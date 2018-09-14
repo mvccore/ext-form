@@ -58,32 +58,32 @@ composer require mvccore/ext-form-field-text
 	- base `Field` and `FieldsGroup` clases to extend any control with your custom functionality
 	- `input:hidden`
 	- `datalist`
-- extended text fields: 
+- extended text fields in [`mvccore/ext-form-field-text`](https://github.com/mvccore/ext-form-field-text): 
 	- `input:text`, `:password`, `:email`, `:search`, `:tel`, `:url`
 	- `textarea`
-- extended numeric fields:
+- extended numeric fields in [`mvccore/ext-form-field-numeric`](https://github.com/mvccore/ext-form-field-numeric):
 	- `input:number`, `:range` (slider) and multiple `input:range`
-- extended selection fields:
+- extended selection fields in [`mvccore/ext-form-field-selection`](https://github.com/mvccore/ext-form-field-selection):
 	- `select` (multi select)
 	- country `select`
 	- `input:checkbox`
 	- `input:checkbox` group
 	- `input:radio` (radio button, switch)
 	- `input:color`
-- extended date fields:
+- extended date fields in [`mvccore/ext-form-field-date`](https://github.com/mvccore/ext-form-field-date):
 	- `input:date`
 	- `input:datetime-local`
 	- `input:time`
 	- `input:week`
 	- `input:month`
-- extended button fields: 
+- extended button fields in [`mvccore/ext-form-field-button`](https://github.com/mvccore/ext-form-field-button): 
 	- `input:submit`
 	- `input:reset`
 	- `button`
 	- `button:reset`
 	- `button:submit`
 	- `input:image`
-- extended file field: 
+- extended file field in [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file): 
 	- `input:file` with multiple option and validation
 
 ### Validators
@@ -91,7 +91,7 @@ Each form control has always naturaly configured validator(s) by type.
 - build in validators in every field and in `mvccore/ext-form`:
 	- required, readOnly, disabled...
 	- safe string (keep characters to safely display submitted value in response - XSS protection)
-- extended text fields:
+- extended text fields in [`mvccore/ext-form-field-text`](https://github.com/mvccore/ext-form-field-text):
 	- email - to check if email(s) is/are valid form or not
 	- min. and max. text length
 	- password - to check password strength by configured rules
@@ -99,20 +99,20 @@ Each form control has always naturaly configured validator(s) by type.
 	- url (to check if string is url or not)
 	- tel (only to clean not allowed chars in phone number)
 	- ZIP code (to check international ZIP code form)
-- extended numeric fields:
+- extended numeric fields in [`mvccore/ext-form-field-numeric`](https://github.com/mvccore/ext-form-field-numeric):
 	- number (integer or float, min., max. and step)
 	- range (min., max. and step)
-- extended selection fields:
+- extended selection fields in [`mvccore/ext-form-field-selection`](https://github.com/mvccore/ext-form-field-selection):
 	- checkbox - checked
 	- value in options (check if submitted value exists in options or not, for selects, country selects, checkbox group and radios)
 	- min./max. options selected
 	- hexadecimal non-transparent color
-- extended date fields:
+- extended date fields in [`mvccore/ext-form-field-date`](https://github.com/mvccore/ext-form-field-date):
 	- date - if date has correct format and check min. max. and step
 	- datetime, time, week and month validators are extended from date validator
-- extended file field
+- extended file field in [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file)
 	- files validator to check everything possible in uploaded file(s) (by magic bytes and more)
-- extended special validators
+- extended special validators in [`mvccore/ext-form-validator-special`](https://github.com/mvccore/ext-form-validator-special)
 	- EU company ID/VAT ID
 	- credit card (only checking number checksum)
 	- iban bank account number (only checking number checksum)
