@@ -86,7 +86,7 @@ composer require mvccore/ext-form-field-text
 	- `input:reset`
 	- `input:submit`
 	- `input:image`
-	- `button`
+	- `button:button`
 	- `button:reset`
 	- `button:submit`
 - extended file field in [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file): 
