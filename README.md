@@ -27,9 +27,11 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
+<style>
 table.columns {
   border-color:red !important;
 }
+</style>
 
 <table class="columns" style="border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0"><tbody><tr>
 <td style="padding:0;border:0 !important;">
