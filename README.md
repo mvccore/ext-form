@@ -27,8 +27,7 @@ composer require mvccore/ext-form-field-text
 
 ### Form Extensible Packages Map
 
-<table border="0" cellspacing="0" cellpadding="0"><tbody><tr>
-<td border="0">
+<div width="200">asdfasdfa</div>
  - <code>ext-form-all</code><br />
 <br />
  - <code>ext-form</code><br />
@@ -40,7 +39,6 @@ composer require mvccore/ext-form-field-text
  - <code>ext-form-field-file</code><br />
  - <code>ext-form-validator-special</code>
 
-</td><td border="0">
 - Main huge extension with all subextensions to render web forms, handle submits, <br />
   managing fields, sessions and errors, extension with all form packages.<br />
 - Form extension with only base form and field classes.<br />
@@ -51,7 +49,7 @@ composer require mvccore/ext-form-field-text
 - Fields extension with button fields and input submit fields.<br />
 - Fields extension with input type file(s) with upload validation.<br />
 - Validators only extension with special text and numeric validators.
-</tr></tbody></table>
+
 
 ## Main Features
 - create dynamic forms with variable assigned fields
