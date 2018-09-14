@@ -52,12 +52,34 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 
 	/**
 	 * Create every time new validator instance with configured form instance. No singleton.
+	 * @param array $constructorConfig	Configuration arguments for constructor, 
+	 *									validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public static function & CreateInstance () {
-		$validator = new static();
+	public static function & CreateInstance (array $constructorConfig = []) {
+		$validator = new static($constructorConfig);
 		$validator::$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
 		return $validator;
+	}
+
+	/**
+	 * Create new form field validator instance.
+	 * @param array $cfg Config array with protected properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 */
+	public function __construct(array $cfg = []) {
+		foreach ($cfg as $propertyName => $propertyValue) {
+			if ($propertyName == 'field' || $propertyName == 'form' || !property_exists($this, $propertyName)) {
+				$this->throwNewInvalidArgumentException(
+					'Property `'.$propertyName.'` is not possible '
+					.'to configure by constructor `$cfg` param.'
+				);
+			} else {
+				$this->{$propertyName} = $propertyValue;
+			}
+		}
 	}
 
 	/**

@@ -17,9 +17,11 @@ interface IValidator
 {
 	/**
 	 * Create every time new validator instance with configured form instance. No singleton.
+	 * @param array $constructorConfig	Configuration arguments for constructor, 
+	 *									validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public static function & CreateInstance ();
+	public static function & CreateInstance (array $constructorConfig = []);
 	
 	/**
 	 * Return predefined validator custom error message strings (not translated) 
