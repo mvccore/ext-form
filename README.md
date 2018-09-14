@@ -54,10 +54,10 @@ composer require mvccore/ext-form
 	- base field class to extend any control with your custom functionality
 - submit validators (each form control has naturaly configured validator(s) by type):
 	- build in:
-		- required, readOnly, dispabled...
-		- safe string (safe characters to display in response - XSS protection)
+		- required, readOnly, disabled...
+		- safe string (keep characters to safely display submitted value in response - XSS protection)
 	- extended text fields:
-		- email - to check if email(s) is/are email(s) or not
+		- email - to check if email(s) is/are valid form or not
 		- min. and max. text length
 		- password - to check password strength by configured rules
 		- pattern - PHP preg_match by `pattern` control attribute
@@ -65,33 +65,36 @@ composer require mvccore/ext-form
 		- tel (only to clean not allowed chars in phone number)
 		- ZIP code (to check international ZIP code form)
 	- extended numeric fields:
-		- number (min., max. and step)
-		- integer (min., max. and step)
-		- float (min., max. and step)
+		- number (integer or float, min., max. and step)
 		- range (min., max. and step)
 	- extended selection fields:
 		- checkbox - checked
-		- value in options - for selects, country selects, checkbox group and radios
-		- min./max. selected options
-	- special
-		- EU company ID/VAT ID
+		- value in options (check if submitted value exists in options or not, for selects, country selects, checkbox group and radios)
+		- min./max. options selected
+		- hexadecimal non-transparent color
+	- extended date fields:
+		- date - if date has correct format and check min. max. and step
+		- datetime, time, week and month validators are extended from date validator
+	- extended file field
+		- files validator to check everything possible in uploaded file(s) (by magic bytes and more)
 - custom js/css assets for any field type
-	- possible to render immediately after form HTML body
-	- possible to render as external linked file by custom renderer or custom response appender
-- error messages - stored in session only for one hook
+	- possible to render immediately after form HTML body (by default)
+	- possible to render as external linked file by custom renderer or custom response appending script/solution
+- error messages - stored in session only for one form submit
 - loading default values or previous submit values from session
-- clearing session after submitting
-- declarating error url, success url (next step url for special developer implementations)
+- possible to optionally clear session after submitting
+- declarating error url, success url (previous and next step url for special developer implementations)
+- possibility to define for any submit button custom form result state to recognize what to do next
 - templates rendering automaticly or by custom template
 	- naturaly rendered form has each control in empty div
 	- rendered custom template shoud have any content and CSRF tokens are creted
 	  automaticly by `$form->RenderFormBegin();`
-	- any complex form control shoud have also it's own custom template
+	- any complex form control could have also it's own custom template
 	- any form or control template has automaticly asigned properties 
 	  from it's local `$this` context and original `$controller->View` from 
 	  controller passed into form `__construct();` is asigned into `$this->View`.
-- every visible form shoud be translated by configured translator callable
-- form have build-in language property (for translator) and locale for advanced fields and validators
+- every visible form shoud be translated by configured translator callable into form instance
+- form have build-in language property (for translator) and locale property for advanced fields and validators
 - posibility to extend build-in javascripts by checkout and extend: "[**mvccore/ext-form-js**](https://github.com/mvccore/ext-form-js)"
 
 ## Examples
@@ -157,12 +160,12 @@ $form->SubmittedRedirect();
 
 - `ext-form-all`					MvcCore extension to render web forms, handle submits, managing fields, sessions and errors, extension with all form packages.
 	- `ext-form`					MvcCore form extension with base classes.
-	- `ext-form-field-text`			MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.
+	- `ext-form-field-text`			MvcCore form extension with input field types text, email, password, search, tel, url and textarea.
 	- `ext-form-field-numeric`		MvcCore form extension with input field types number and range.
-	- `ext-form-field-selection`	MvcCore form extension with fields select, country select, checkbox(es) and radios.
+	- `ext-form-field-selection`	MvcCore form extension with fields select, country select, checkbox(es), radios and color.
 	- `ext-form-field-date`			MvcCore form extension with input field types date, datetime, time, week and month.
 	- `ext-form-field-button`		MvcCore form extension with button fields and input submit fields.
-	- `ext-form-field-special`		MvcCore form extension with input type file and color.
+	- `ext-form-field-file`			MvcCore form extension with input type file(s) with upload validation.
 	- `ext-form-validator-special`	MvcCore form extension with special text and numeric validators.
 
 - `ext-form`
