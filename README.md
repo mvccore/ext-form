@@ -42,16 +42,16 @@ composer require mvccore/ext-form-field-text
 - `ext-form-validator-special`
 
 </td><td style="padding:0;border:0;">
-Main huge extension with all subextensions to render web forms, handle submits,  
-managing fields, sessions and errors, extension with all form packages.
-Form extension with only base form and field classes.
-Fields extension with input field types text, email, password, search, tel, url and textarea.
-Fields extension with input field types number and range.
-Fields extension with fields select, country select, checkbox(es), radios and color.
-Fields extension with input field types date, datetime, time, week and month.
-Fields extension with button fields and input submit fields.
-Fields extension with input type file(s) with upload validation.
-Validators only extension with special text and numeric validators.
+- Main huge extension with all subextensions to render web forms, handle submits, <br />
+  managing fields, sessions and errors, extension with all form packages.<br />
+- Form extension with only base form and field classes.<br />
+- Fields extension with input field types text, email, password, search, tel, url and textarea.<br />
+- Fields extension with input field types number and range.<br />
+- Fields extension with fields select, country select, checkbox(es), radios and color.<br />
+- Fields extension with input field types date, datetime, time, week and month.<br />
+- Fields extension with button fields and input submit fields.<br />
+- Fields extension with input type file(s) with upload validation.<br />
+- Validators only extension with special text and numeric validators.
 </tr></tbody></table>
 
 ## Main Features
