@@ -17,7 +17,7 @@ HTML5 controls, to handle and validate submited user data, to manage forms sessi
 for default values, to manage user input errors and to extend and develop custom fields 
 and field groups.
 
-This class can not exist alone without any form field extension(s) like: `mvccore/ext-form-field-*`
+This package can not exist alone without any form field extension(s) like: `mvccore/ext-form-field-*`
 to have possiblity to create specific field(s) in youf form instance. If you want to use all 
 fields and validators, use extension [`mvccore/ext-form-all`](https://github.com/mvccore/ext-form-all) instead of `mvccore/ext-form`.
 This extension is only part of whole thing to not have too much field classes code in small aplications.
