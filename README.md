@@ -82,12 +82,13 @@ composer require mvccore/ext-form-field-text
 	- `input:week`
 	- `input:month`
 - extended button fields in [`mvccore/ext-form-field-button`](https://github.com/mvccore/ext-form-field-button): 
-	- `input:submit`
+	- `input:button`
 	- `input:reset`
+	- `input:submit`
+	- `input:image`
 	- `button`
 	- `button:reset`
 	- `button:submit`
-	- `input:image`
 - extended file field in [`mvccore/ext-form-field-file`](https://github.com/mvccore/ext-form-field-file): 
 	- `input:file` with multiple option and validation
 
