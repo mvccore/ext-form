@@ -46,52 +46,6 @@ abstract class FieldsGroup
 	 * @var \string[]|NULL
 	 */
 	protected $value = [];
-	
-	/**
-	 * Form group control options to render
-	 * more sub-control attributes for specified
-	 * submitted values (array keys).
-	 * This property configuration is required.
-	 * 
-	 * Example:
-	 * ```
-	 * // To configure for example radio buttons named: `gender` for `Female` and `Male`:
-	 * //   <label for="gender-f">Female:</label>
-	 * //   <input id="gender-f" type="radio" name="gender" value="f" />
-	 * //   <label for="gender-m">Male:</label>
-	 * //   <input id="gender-m" type="radio" name="gender" value="m" />
-	 * // use this configuration:
-	 * $field->name = 'gender';
-	 * $field->options = array(
-	 *	 'f' => 'Female',
-	 *	 'm' => 'Male',
-	 * );
-	 *
-	 * // Or you can use more adwanced configuration with css class names 
-	 * // and html element attributes, let's consider html code like this:
-	 * //   <label for="gender-f" class="female">Female:</label>
-	 * //   <input id="gender-f" type="radio" name="gender" value="f" class="female" data-any="something-for-females" />
-	 * //   <label for="gender-m" class="male">Male:</label>
-	 * //   <input id="gender-m" type="radio" name="gender" value="m" class="male" data-any="something-for-males" />
-	 * // For that use this configuration:
-	 * $field->name = 'gender';
-	 * $field->options = array(
-	 *	 'f' => array(
-	 *		 'text'  => 'Female',	// text key will be also automaticly translated
-	 *		 'class' => 'female',
-	 *		 'attrs' => array('data-any' => 'something-for-females'),
-	 *	 ),
-	 *	 'm' => array(
-	 *		 'text'  => 'Male', // text key will be also automaticly translated
-	 *		 'class' => 'male',
-	 *		 'attrs' => array('data-any' => 'something-for-males'),
-	 *	 ),
-	 * ));
-	 * ```
-	 * @requires
-	 * @var array
-	 */
-	protected $options = [];
 
 	/**
 	 * Standard field template strings for natural 
