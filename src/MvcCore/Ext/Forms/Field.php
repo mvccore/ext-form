@@ -199,8 +199,8 @@ implements		\MvcCore\Ext\Forms\IField
 					}
 					$result = $validator->SetField($this)->Validate($result);	
 				}
-				// add required error message if necessary
-				if ($this->required) {
+				// add required error message if necessary and if there are no other errors
+				if ($this->required && !$this->errors) {
 					$safeSubmittedValueType = gettype($result);
 					if (
 						$result === NULL ||

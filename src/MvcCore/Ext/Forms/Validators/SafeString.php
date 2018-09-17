@@ -24,20 +24,6 @@ namespace MvcCore\Ext\Forms\Validators;
 class SafeString extends \MvcCore\Ext\Forms\Validator
 {
 	/**
-	 * Error message index(es).
-	 * @var int
-	 */
-	const ERROR_INVALID_CHARS = 0;
-
-	/**
-	 * Validation failure message template definitions.
-	 * @var array
-	 */
-	protected static $errorMessages = [
-		self::ERROR_INVALID_CHARS	=> "Field '{0}' contains invalid characters (it can not contain: {1}).",
-	];
-
-	/**
 	 * Base ASCII characters from 0 to 31 incl. (first column).
 	 * @see http://www.asciitable.com/index/asciifull.gif
 	 * @var \string[]
@@ -94,15 +80,6 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		// Replace characters to entities: | = \ %
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
 
-		if (mb_strlen($cleanedValue) === mb_strlen($rawSubmittedValue)) {
-			$result = $cleanedValue;
-		} else {
-			$this->field->AddValidationError(
-				static::GetErrorMessage(self::ERROR_INVALID_CHARS),
-				['&amp; &quot; &apos; &lt; &gt; &#124; &#61; &#92; &#37;']
-			);
-		}
-
-		return $result;
+		return $cleanedValue;
 	}
 }

@@ -75,6 +75,7 @@ trait Csrf
 			if ($this->translate)
 				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($errorMsg);
+			x("ProcessCsrfErrorHandlersQueue");
 			static::ProcessCsrfErrorHandlersQueue($this, $errorMsg);
 		}
 		return $this;

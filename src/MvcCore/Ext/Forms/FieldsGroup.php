@@ -351,7 +351,7 @@ abstract class FieldsGroup
 			'id'		=> $itemControlId,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $key,
+			'value'		=> htmlspecialchars_decode(htmlspecialchars($key, ENT_QUOTES), ENT_QUOTES),
 			'checked'	=> $checked ? ' checked="checked"' : '',
 			'attrs'		=> strlen($controlAttrsStr) > 0 ? ' ' . $controlAttrsStr : '',
 		]);
