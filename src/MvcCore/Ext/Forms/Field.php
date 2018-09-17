@@ -70,13 +70,17 @@ implements		\MvcCore\Ext\Forms\IField
 	public function __call ($name, $arguments = []) {
 		$nameBegin = strtolower(substr($name, 0, 3));
 		$prop = lcfirst(substr($name, 3));
-		if ($nameBegin == 'get' && isset($this->$prop)) {
-			return $this->$prop;
+		if ($nameBegin == 'get') {
+			if (property_exists($this, $prop)) {
+				return $this->{$prop};
+			} else {
+				return $this->throwNewInvalidArgumentException("No property with name '$prop' defined.");
+			}
 		} else if ($nameBegin == 'set') {
-			$this->$prop = isset($arguments[0]) ? $arguments[0] : NULL;
+			$this->{$prop} = isset($arguments[0]) ? $arguments[0] : NULL;
 			return $this;
 		} else {
-			return $this->throwNewInvalidArgumentException("No property with name '$prop' defined.");
+			return $this->throwNewInvalidArgumentException("No method with name '$name' defined.");
 		}
 	}
 
@@ -207,6 +211,25 @@ implements		\MvcCore\Ext\Forms\IField
 					);
 				}
 			}
+		}
+		return $result;
+	}
+
+	/**
+	 * Default implementation for any extended field class to get field specific
+	 * data for validator purposes. If you want to extend any field, you could 
+	 * implement this method better and faster. It's only necessary in your 
+	 * implementation to return array with keys to be field specific properties 
+	 * in camel case and values to be field properties values, which validator 
+	 * requires.
+	 * @param array $fieldPropsDefaultValidValues
+	 * @return array
+	 */
+	public function & GetValidatorData ($fieldPropsDefaultValidValues = []) {
+		$result = [];
+		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue) {
+			if (property_exists($this, $propName)) 
+				$result[$propName] = $this->{$propName};
 		}
 		return $result;
 	}

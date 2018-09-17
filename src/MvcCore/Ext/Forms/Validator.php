@@ -44,6 +44,9 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 */
 	protected static $errorMessages = [];
 
+	// TODO
+	protected static $fieldSpecificProperties = [];
+
 	/**
 	 * Remembered value from `\MvcCore\Application::GetInstance()->GetToolClass();`
 	 * @var string
@@ -102,6 +105,8 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		$this->field = & $field;
+		if (static::$fieldSpecificProperties) 
+			$this->setUpFieldProps(static::$fieldSpecificProperties);
 		return $this;
 	}
 	
@@ -144,5 +149,37 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 		throw new \InvalidArgumentException(
 			'['.__CLASS__.'] ' . $errorMsg . ($msgs ? ' '.implode(', ', $msgs) : '')
 		);
+	}
+
+	/**
+	 * Set up field specific properties.
+	 * If field returns it's specific value (`array_key_exists()`), use it for 
+	 * validator. If field doesn't return any specific value and validator has 
+	 * this specific value defined, try to set up this specific value to field.
+	 * If there is no specific value in field and not even in validator, set into
+	 * validator default value.
+	 * @param array $fieldPropsDefaultValidValues Array with key as property 
+	 *											  name and value as default 
+	 *											  validator value, if there is 
+	 *											  nothing in field and nothing 
+	 *											  even in validator itself.
+	 * @return void
+	 */
+	protected function setUpFieldProps ($fieldPropsDefaultValidValues = []) {
+		$fieldValues = $this->field->GetValidatorData($fieldPropsDefaultValidValues);
+		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue) {
+			$fieldValue = array_key_exists($propName, $fieldValues)
+				? $fieldValues[$propName]
+				: NULL;
+			if ($this->{$propName} === NULL/* && $fieldValue !== NULL*/) {
+				$this->{$propName} = $fieldValue;
+			} else if ($this->{$propName} !== NULL && $fieldValue === NULL) {
+				$setter = 'Set'.ucfirst($propName);
+				if (method_exists($this->field, $setter))
+					$this->field->{$setter}($this->{$propName});
+			} else {
+				$this->{$propName} = $defaultValidatorValue;
+			}
+		}
 	}
 }

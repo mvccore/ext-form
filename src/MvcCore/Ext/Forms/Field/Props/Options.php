@@ -68,7 +68,7 @@ trait Options
 	 * @requires
 	 * @var array
 	 */
-	#protected $options = [];
+	protected $options = [];
 
 	/**
 	 * Set form control or group control options to render
@@ -135,23 +135,5 @@ trait Options
 	 */
 	public function & GetOptions () {
 		return $this->options;
-	}
-
-	/**
-	 * Return all options keys as array of strings.
-	 * @return \string[]
-	 */
-	public function GetAllOptionsKeys () {
-		$allOptionsKeys = [];
-		foreach ($this->options as $firstLevelKey => & $firstLevelOption) {
-			if (isset($firstLevelOption['options']) && gettype($firstLevelOption['options']) == 'array') {
-				foreach ($firstLevelOption['options'] as $secondLevelKey => & $secondLevelOption) {
-					$allOptionsKeys[(string) $secondLevelKey] = TRUE;
-				}
-			} else {
-				$allOptionsKeys[(string) $firstLevelKey] = TRUE;
-			}
-		}
-		return array_keys($allOptionsKeys);
 	}
 }

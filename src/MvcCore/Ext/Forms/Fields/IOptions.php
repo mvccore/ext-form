@@ -14,9 +14,7 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility: define getters and setters for field property `options`
- *				   and public function `GetAllOptionsKeys()` to get all possible
- *				   values to check submitted user input.
+ * Responsibility: define getters and setters for field property `options`.
  * Interface for classes:
  * - `\MvcCore\Ext\Forms\Fields\DataList`
  * - `\MvcCore\Ext\Forms\Fields\Select`
@@ -86,10 +84,4 @@ interface IOptions
 	 * @return array
 	 */
 	public function & GetOptions ();
-
-	/**
-	 * Return all options keys as array of strings.
-	 * @return \string[]
-	 */
-	public function GetAllOptionsKeys ();
 }

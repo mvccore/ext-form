@@ -80,6 +80,18 @@ interface IField
 	public function Submit (array & $rawRequestParams = []);
 
 	/**
+	 * Default implementation for any extended field class to get field specific
+	 * data for validator purposes. If you want to extend any field, you could 
+	 * implement this method better and faster. It's only necessary in your 
+	 * implementation to return array with keys to be field specific properties 
+	 * in camel case and values to be field properties values, which validator 
+	 * requires.
+	 * @param array $fieldPropsDefaultValidValues
+	 * @return array
+	 */
+	public function & GetValidatorData ($fieldPropsDefaultValidValues = []);
+
+	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field` 
 	 * in submit processing. Do not use this method even if you 
 	 * don't develop any form field or field validator.
