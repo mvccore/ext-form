@@ -85,30 +85,6 @@ implements	\MvcCore\Ext\Forms\IForm
 	}
 
 	/**
-	 * Try to determinate `\MvcCore\Controller` instance from `debug_bactrace()`,
-	 * where was form created, if no form instance given into form constructor.
-	 * If no previous controller instance founded, `NULL` is returned.
-	 * @return \MvcCore\Interfaces\IController|NULL
-	 */
-	public static function & GetCallerControllerInstance () {
-		$result = NULL;
-		$backtraceItems = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT);
-		if (count($backtraceItems) < 3) return $result;
-		foreach ($backtraceItems as $backtraceItem) {
-			if (!isset($backtraceItem['object']) || !$backtraceItem['object']) continue;
-			$object = & $backtraceItem['object'];
-			if (
-				$object instanceof \MvcCore\Interfaces\IController &&
-				!$object instanceof \MvcCore\Ext\Forms\IForm
-			) {
-				$result = & $object;
-				break;
-			}
-		}
-		return $result;
-	}
-
-	/**
 	 * Initialize the form, check if form is initialized or not and do it only once.
 	 * Check if any form id exists and exists only once and initialize translation 
 	 * boolean for better field initializations. This is template method. To define 
