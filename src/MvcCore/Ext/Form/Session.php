@@ -50,7 +50,7 @@ trait Session
 	/**
 	 * Get session namespace reference with configured expiration
 	 * and predefined fields `values`, `csrf` and `errors` as arrays.
-	 * @return \MvcCore\Interfaces\ISession
+	 * @return \MvcCore\ISession
 	 */
 	protected function & getSession () {
 		if (isset(self::$allFormsSessions[$this->id])) {

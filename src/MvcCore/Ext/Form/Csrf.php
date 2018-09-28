@@ -37,7 +37,7 @@ trait Csrf
 				}
 			} catch (\Exception $e) {
 				$debugClass = $form->GetApplication()->GetDebugClass();
-				$debugClass::Log($e, \MvcCore\Interfaces\IDebug::CRITICAL);
+				$debugClass::Log($e, \MvcCore\IDebug::CRITICAL);
 			}
 		}
 	}

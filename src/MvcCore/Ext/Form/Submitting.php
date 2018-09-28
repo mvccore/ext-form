@@ -147,7 +147,7 @@ trait Submitting
 		if (!$url && $this->result > -1 && $this->result < 4) throw new \RuntimeException(
 			'['.__CLASS__.'] No url specified to redirect. ' . $errorMsg
 		);
-		if ($url) self::Redirect($url, \MvcCore\Interfaces\IResponse::SEE_OTHER);
+		if ($url) self::Redirect($url, \MvcCore\IResponse::SEE_OTHER);
 	}
 
 	/**

@@ -55,16 +55,16 @@ interface IView
 
 	/**
 	 * Get controller instance as reference.
-	 * @return \MvcCore\View|\MvcCore\Interfaces\IView
+	 * @return \MvcCore\View|\MvcCore\IView
 	 */
 	public function & GetView ();
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\View|\MvcCore\Interfaces\IView $view
+	 * @param \MvcCore\View|\MvcCore\IView $view
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function & SetView (\MvcCore\Interfaces\IView & $view);
+	public function & SetView (\MvcCore\IView & $view);
 
 	/**
 	 * Get form instance to render.

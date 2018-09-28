@@ -48,7 +48,7 @@ class View extends \MvcCore\View
 	 * Controller view instance reference, which form belongs to.
 	 * Every form is usually created inside MvcCore controller instance,
 	 * and mostly every controller instance has it's own view.
-	 * @var \MvcCore\View|\MvcCore\Interfaces\IView|NULL
+	 * @var \MvcCore\View|\MvcCore\IView|NULL
 	 */
 	protected $view = NULL;
 
@@ -126,7 +126,7 @@ class View extends \MvcCore\View
 
 	/**
 	 * Get controller instance as reference.
-	 * @return \MvcCore\View|\MvcCore\Interfaces\IView
+	 * @return \MvcCore\View|\MvcCore\IView
 	 */
 	public function & GetView () {
 		return $this->view;
@@ -134,10 +134,10 @@ class View extends \MvcCore\View
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\View|\MvcCore\Interfaces\IView $view
+	 * @param \MvcCore\View|\MvcCore\IView $view
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function & SetView (\MvcCore\Interfaces\IView & $view) {
+	public function & SetView (\MvcCore\IView & $view) {
 		$this->view = & $view;
 		return $this;
 	}
@@ -231,7 +231,7 @@ class View extends \MvcCore\View
 		}
 		// if property is still not in store, try to complete result by given view
 		// instance, which search in it's store and in it's controller instance:
-		if ($this->view instanceof \MvcCore\Interfaces\IView)
+		if ($this->view instanceof \MvcCore\IView)
 			return $this->view->__get($name);
 		// return NULL, if property is not in local store an even anywhere else
 		return NULL;
@@ -288,7 +288,7 @@ class View extends \MvcCore\View
 		}
 		// if property is still not in store, try to complete result by given view
 		// instance, which search in it's store and in it's controller instance:
-		if ($this->view instanceof \MvcCore\Interfaces\IView)
+		if ($this->view instanceof \MvcCore\IView)
 			return $this->view->__isset($name);
 		// return FALSE, if property is not in local store an even anywhere else
 		return FALSE;
