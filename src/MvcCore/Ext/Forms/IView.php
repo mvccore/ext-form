@@ -55,40 +55,40 @@ interface IView
 
 	/**
 	 * Get controller instance as reference.
-	 * @return \MvcCore\View|\MvcCore\IView
+	 * @return \MvcCore\IView
 	 */
 	public function & GetView ();
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\View|\MvcCore\IView $view
-	 * @return \MvcCore\Ext\Forms\View
+	 * @param \MvcCore\IView $view
+	 * @return \MvcCore\Ext\Forms\IView
 	 */
 	public function & SetView (\MvcCore\IView & $view);
 
 	/**
 	 * Get form instance to render.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Forms\IForm
 	 */
 	public function & GetForm ();
 
 	/**
 	 * Set form instance to render.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
-	 * @return \MvcCore\Ext\Forms\View
+	 * @param \MvcCore\Ext\Forms\IForm $form
+	 * @return \MvcCore\Ext\Forms\IView
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
 
 	/**
 	 * Get rendered field.
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & GetField ();
 
 	/**
 	 * Set rendered field.
-	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
-	 * @return \MvcCore\Ext\Forms\View
+	 * @param \MvcCore\Ext\Forms\IField $field
+	 * @return \MvcCore\Ext\Forms\IView
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field);
 

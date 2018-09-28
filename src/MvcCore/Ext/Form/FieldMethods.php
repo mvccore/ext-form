@@ -145,6 +145,22 @@ trait FieldMethods
 	}
 
 	/**
+	 * Return first catched form field instance by given field type string.
+	 * If no field found, `NULL` is returned.
+	 * @param string $fieldType
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
+	 */
+	public function & GetFirstFieldByType ($fieldType = '') {
+		$result = NULL;
+		foreach ($this->fields as & $field) {
+			if ($field->GetType() == $fieldType) {
+				$result = & $field;
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * Return form field instances by field class name
 	 * compared by `is_a($field, $fieldClassName)` check.
 	 * If no field(s) found, it's returned empty array.

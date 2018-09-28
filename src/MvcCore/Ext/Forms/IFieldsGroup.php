@@ -27,7 +27,7 @@ interface IFieldsGroup
 	 * separated by space. Any previously defined 
 	 * group css classes will be replaced.
 	 * @param string|\string[] $groupLabelCssClasses
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetGroupLabelCssClasses ($groupLabelCssClasses);
 
@@ -35,7 +35,7 @@ interface IFieldsGroup
 	 * Add css class(es) for group label as array of 
 	 * strings or string with classes separated by space.
 	 * @param string|\string[] $groupLabelCssClasses
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function AddGroupLabelCssClasses ($groupLabelCssClasses);
 
@@ -51,7 +51,7 @@ interface IFieldsGroup
 	 * as key (for attribute name) and value (for attribute value).
 	 * Any previously defined attributes will be replaced.
 	 * @param array $groupLabelAttrs
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetGroupLabelAttrs ($groupLabelAttrs = []);
 
@@ -61,7 +61,7 @@ interface IFieldsGroup
 	 * All additional attributes will be completed as array merge
 	 * with previous values and new values.
 	 * @param array $groupLabelAttrs
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function AddGroupLabelAttr ($groupLabelAttrs = []);
 
@@ -78,7 +78,7 @@ interface IFieldsGroup
 	 * an empty array. For extended class `RadioGroup` - the value type is only a `string` 
 	 * or `NULL`.
 	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\IFieldsGroup
 	 */
 	public function & SetValue ($value);
 
@@ -94,7 +94,7 @@ interface IFieldsGroup
 	 * Field group is always marked as multiple value control. This function 
 	 * does nothing, because multiple option has to be `TRUE` for field group instance all time.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\IFieldsGroup
 	 */
 	public function & SetMultiple ($multiple = TRUE);
 
@@ -106,9 +106,9 @@ interface IFieldsGroup
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Check if there are any options for current controls group.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\IFieldsGroup
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
 

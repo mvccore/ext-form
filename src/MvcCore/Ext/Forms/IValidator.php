@@ -19,7 +19,7 @@ interface IValidator
 	 * Create every time new validator instance with configured form instance. No singleton.
 	 * @param array $constructorConfig	Configuration arguments for constructor, 
 	 *									validator's constructor first param.
-	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
 	public static function & CreateInstance (array $constructorConfig = []);
 	
@@ -34,8 +34,8 @@ interface IValidator
 
 	/**
 	 * Set up form instance, where is validator created durring submit.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
-	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 * @param \MvcCore\Ext\Forms\IForm $form 
+	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
 
@@ -44,8 +44,8 @@ interface IValidator
 	 * validator during submit before every `Validate()` method call.
 	 * This method is also called once, when validator instance is separately 
 	 * added into already created field instance to process any field checking.
-	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
-	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 * @param \MvcCore\Ext\Forms\IField $field 
+	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field);
 

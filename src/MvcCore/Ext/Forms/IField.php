@@ -47,9 +47,9 @@ interface IField
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate boolean property.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\Forms\IForm $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
 
@@ -118,7 +118,7 @@ interface IField
 	 * @param string $errorMsg 
 	 * @param array $errorMsgArgs 
 	 * @param callable $replacingCallable 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function AddValidationError (
 		$errorMsg = '', array 
@@ -320,7 +320,7 @@ interface IField
 	 * Set form field HTML id attribute, completed from form name and field name.
 	 * This value is completed automaticly, but you can customize it.
 	 * @param string $id
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetId ($id = NULL);
 
@@ -329,7 +329,7 @@ interface IField
 	 * This value is reguired for all form fields.
 	 * @requires
 	 * @param string $name
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetName ($name = NULL);
 
@@ -338,7 +338,7 @@ interface IField
 	 * Every typed field has it's own string value, but base field type 
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
 	 * @param string $type
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetType ($type = NULL);
 
@@ -346,7 +346,7 @@ interface IField
 	 * Set form field value. It could be string or array, in or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @param string|array|int|float|NULL $value
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetValue ($value);
 
@@ -357,7 +357,7 @@ interface IField
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetCssClasses ($cssClasses);
 
@@ -368,7 +368,7 @@ interface IField
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & AddCssClasses ($cssClasses);
 
@@ -386,7 +386,7 @@ interface IField
 	 * All previously defined additional field attributes 
 	 * will be replaced by given array.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetControlAttrs (array $attrs = []);
 
@@ -404,7 +404,7 @@ interface IField
 	 * previous attribute with the same name will be overwritten.
 	 * @param string $name
 	 * @param mixed $value
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetControlAttr ($name, $value);
 
@@ -420,7 +420,7 @@ interface IField
 	 * All given additional field attributes 
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & AddControlAttrs (array $attrs = []);
 
@@ -437,7 +437,7 @@ interface IField
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetValidators (array $validatorsNamesOrInstances = []);
 
@@ -454,7 +454,7 @@ interface IField
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances,...
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & AddValidators (/* ...$validatorsNamesOrInstances */);
 
@@ -471,7 +471,7 @@ interface IField
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorNameOrInstance,...
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & RemoveValidator ($validatorNameOrInstance);
 
@@ -503,7 +503,7 @@ interface IField
 	 * $field->SetType('my-field-type');
 	 * ```
 	 * @param bool|string|NULL $boolOrViewScriptPath
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetViewScript ($boolOrViewScriptPath = NULL);
 
@@ -521,7 +521,7 @@ interface IField
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $jsClass
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetJsClassName ($jsClassName);
 
@@ -539,7 +539,7 @@ interface IField
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $jsFullFile
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetJsSupportingFile ($jsSupportingFilePath);
 
@@ -557,7 +557,7 @@ interface IField
 	 * own and also you can run your helper css also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $cssFullFile
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetCssSupportingFile ($cssSupportingFilePath);
 
@@ -568,7 +568,7 @@ interface IField
 	 * in render preparing process. To add form error properly, 
 	 * use `$field->form->AddError($errorMsg, $fieldNames);` method instead.
 	 * @param string $errorMsg
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & AddError ($errorMsg);
 

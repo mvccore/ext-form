@@ -135,7 +135,7 @@ class View extends \MvcCore\View
 	/**
 	 * Set controller and it's view instance.
 	 * @param \MvcCore\View|\MvcCore\IView $view
-	 * @return \MvcCore\Ext\Forms\View
+	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
 	public function & SetView (\MvcCore\IView & $view) {
 		$this->view = & $view;
@@ -153,7 +153,7 @@ class View extends \MvcCore\View
 	/**
 	 * Set form instance to render.
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
-	 * @return \MvcCore\Ext\Forms\View
+	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
 	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
 		$this->form = & $form;
@@ -171,7 +171,7 @@ class View extends \MvcCore\View
 	/**
 	 * Set rendered field.
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
-	 * @return \MvcCore\Ext\Forms\View
+	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
 		$this->__protected['fieldRendering'] = TRUE;
