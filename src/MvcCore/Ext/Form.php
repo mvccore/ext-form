@@ -132,7 +132,7 @@ implements	\MvcCore\Ext\Forms\IForm
 	public function PreDispatch () {
 		if ($this->dispatchState > 1) return $this;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
-		foreach ($this->fields as & $field)
+		foreach ($this->fields as $field)
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
 		$session = & $this->getSession();
@@ -140,8 +140,13 @@ implements	\MvcCore\Ext\Forms\IForm
 			list($errorMsg, $fieldNames) = array_merge([], $errorMsgAndFieldNames);
 			$this->AddError($errorMsg, $fieldNames);
 		}
-		if ($session->values) 
-			$this->SetValues(array_merge([], $session->values));
+		if ($session->values) {
+			foreach ($session->values as $fieldName => $fieldValue) {
+				$field = $this->fields[$fieldName];
+				if ($field->GetValue() === NULL)
+					$field->SetValue($fieldValue);
+			}
+		}
 		
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
