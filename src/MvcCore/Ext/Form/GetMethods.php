@@ -481,7 +481,7 @@ trait GetMethods
 	 * @return int|NULL
 	 */
 	public static function GetPhpIniSizeLimit ($iniVarName) {
-		$rawIniValue = ini_get($iniVarName);
+		$rawIniValue = @ini_get($iniVarName);
 		if ($rawIniValue === FALSE) {
 			return 0;
 		} else if ($rawIniValue === NULL) {
