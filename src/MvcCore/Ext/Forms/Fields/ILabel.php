@@ -48,7 +48,7 @@ interface ILabel
     /**
 	 * Get control label visible text.
 	 * If field form has configured any translator,
-	 * translation will be processed automaticly
+	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
 	 * @return string|NULL
 	 */
@@ -57,7 +57,7 @@ interface ILabel
 	/**
 	 * Set control label visible text.
 	 * If field form has configured any translator,
-	 * translation will be processed automaticly
+	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
 	 * @param string $label
 	 * @return \MvcCore\Ext\Forms\IField
@@ -123,7 +123,7 @@ interface ILabel
 	 * `class` attributes, those attributes have it's own 
 	 * configurable properties with it's own getters. 
 	 * Label `class` attribute has always the same css 
-	 * classes as it's field automaticly. 
+	 * classes as it's field automatically. 
 	 * Default value is an empty array to not render 
 	 * any additional attributes.
 	 * @return array
@@ -136,7 +136,7 @@ interface ILabel
 	 * attributes as: `id`,`for` or `class`, those 
 	 * attributes has it's own configurable properties 
 	 * with it's own getters. Label `class` attribute 
-	 * has always the same css classes as it's field automaticly. 
+	 * has always the same css classes as it's field automatically. 
 	 * If attribute doesn't exist, `NULL` is returned.
 	 * @param string $name
 	 * @return mixed
@@ -151,7 +151,7 @@ interface ILabel
 	 * configurable properties by setter methods 
 	 * or by constructor config array. Label `class` 
 	 * attribute has always the same css classes as 
-	 * it's field automaticly. Default value is an empty 
+	 * it's field automatically. Default value is an empty 
 	 * array to not render any additional attributes.
 	 * All previously defined additional label attributes 
 	 * will be replaced by given array.
@@ -167,7 +167,7 @@ interface ILabel
 	 * attributes have it's own configurable properties 
 	 * by setter methods or by constructor config array. 
 	 * Label `class` attribute has always the same css 
-	 * classes as it's field automaticly. 
+	 * classes as it's field automatically. 
 	 * Given additional label attribute will be directly
 	 * set into additional attributes array and any 
 	 * previous attribute with the same name will be overwritten.
@@ -185,7 +185,7 @@ interface ILabel
 	 * configurable properties by setter methods 
 	 * or by constructor config array. Label `class` 
 	 * attribute has always the same css classes as 
-	 * it's field automaticly. 
+	 * it's field automatically. 
 	 * All given additional label attributes 
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs

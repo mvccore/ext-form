@@ -47,12 +47,12 @@ namespace MvcCore\Ext\Forms\Field\Props;
 trait Disabled
 {
 	/**
-	 * Form field attribute `disabled`, determinating if field value will be 
-	 * possible to change by user and if user will be graphicly informed about it 
+	 * Form field attribute `disabled`, determination if field value will be 
+	 * possible to change by user and if user will be graphically informed about it 
 	 * by default browser behaviour or not. Default value is `FALSE`. 
 	 * This flag is also used for sure for submit checking. But if any field is 
 	 * marked as disabled, browsers always don't send any value under this field name
-	 * in submit. If field is configured as disabled, no value sended under field name 
+	 * in submit. If field is configured as disabled, no value sent under field name 
 	 * from user will be accepted in submit process and value for this field will 
 	 * be used by server side form initialization. 
 	 * Disabled attribute has more power than required. If disabled is true and
@@ -64,12 +64,12 @@ trait Disabled
 	protected $disabled = NULL;
 
 	/**
-	 * Get form field attribute `disabled`, determinating if field value will be 
-	 * possible to change by user and if user will be graphicly informed about it 
+	 * Get form field attribute `disabled`, determination if field value will be 
+	 * possible to change by user and if user will be graphically informed about it 
 	 * by default browser behaviour or not. Default value is `FALSE`. 
 	 * This flag is also used for sure for submit checking. But if any field is 
 	 * marked as disabled, browsers always don't send any value under this field name
-	 * in submit. If field is configured as disabled, no value sended under field name 
+	 * in submit. If field is configured as disabled, no value sent under field name 
 	 * from user will be accepted in submit process and value for this field will 
 	 * be used by server side form initialization. 
 	 * Disabled attribute has more power than required. If disabled is true and
@@ -83,12 +83,12 @@ trait Disabled
 	}
 
 	/**
-	 * Set form field attribute `disabled`, determinating if field value will be 
-	 * possible to change by user and if user will be graphicly informed about it 
+	 * Set form field attribute `disabled`, determination if field value will be 
+	 * possible to change by user and if user will be graphically informed about it 
 	 * by default browser behaviour or not. Default value is `FALSE`. 
 	 * This flag is also used for sure for submit checking. But if any field is 
 	 * marked as disabled, browsers always don't send any value under this field name
-	 * in submit. If field is configured as disabled, no value sended under field name 
+	 * in submit. If field is configured as disabled, no value sent under field name 
 	 * from user will be accepted in submit process and value for this field will 
 	 * be used by server side form initialization. 
 	 * Disabled attribute has more power than required. If disabled is true and

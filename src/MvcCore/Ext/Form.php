@@ -71,7 +71,7 @@ implements	\MvcCore\Ext\Forms\IForm
 
 	/**
 	 * Throw new `\InvalidArgumentException` with given
-	 * error message and append automaticly current class name,
+	 * error message and append automatically current class name,
 	 * current form id and form class type.
 	 * @param string $errorMsg 
 	 * @throws \InvalidArgumentException 
@@ -114,7 +114,7 @@ implements	\MvcCore\Ext\Forms\IForm
 	/**
 	 * Prepare form and it's fields for rendering.
 	 * 
-	 * This function is called automaticly by rendering process if necessary.
+	 * This function is called automatically by rendering process if necessary.
 	 * But if you need to operate with fields in your controller before rendering
 	 * with real session values and initialized session errors, you can call this
 	 * method anytime to prepare form for rendering and operate with anything inside.

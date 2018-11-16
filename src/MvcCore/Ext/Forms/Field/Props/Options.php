@@ -54,12 +54,12 @@ trait Options
 	 * $field->name = 'gender';
 	 * $field->options = array(
 	 *	 'f' => array(
-	 *		 'text'  => 'Female',	// text key will be also automaticly translated
+	 *		 'text'  => 'Female',	// text key will be also automatically translated
 	 *		 'class' => 'female',
 	 *		 'attrs' => array('data-any' => 'something-for-females'),
 	 *	 ),
 	 *	 'm' => array(
-	 *		 'text'  => 'Male', // text key will be also automaticly translated
+	 *		 'text'  => 'Male', // text key will be also automatically translated
 	 *		 'class' => 'male',
 	 *		 'attrs' => array('data-any' => 'something-for-males'),
 	 *	 ),
@@ -83,7 +83,7 @@ trait Options
 	 * //   <input id="gender-m" type="radio" name="gender" value="m" />
 	 * // use this configuration:
 	 * $field->SetName('gender')->SetOptions(array(
-	 *	 // field values will be automaticly translated, 
+	 *	 // field values will be automatically translated, 
 	 *	 // if form has configured translator `callable`
 	 *	 'f' => 'Female',
 	 *	 'm' => 'Male',
@@ -98,12 +98,12 @@ trait Options
 	 * // For that use this configuration:
 	 * $field->SetName('gender')->SetOptions(array(
 	 *	 'f' => array(
-	 *		 'text'  => 'Female',	// text key will be also automaticly translated
+	 *		 'text'  => 'Female',	// text key will be also automatically translated
 	 *		 'class' => 'female',
 	 *		 'attrs' => array('data-any' => 'something-for-females'),
 	 *	 ),
 	 *	 'm' => array(
-	 *		 'text'  => 'Male', // text key will be also automaticly translated
+	 *		 'text'  => 'Male', // text key will be also automatically translated
 	 *		 'class' => 'male',
 	 *		 'attrs' => array('data-any' => 'something-for-males'),
 	 *	 ),

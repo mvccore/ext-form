@@ -59,7 +59,7 @@ trait Rendering
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
 	 * Render field naturally by configured property `$field->renderMode` if any 
-	 * or by default render mode without any label. Field shoud be rendered with 
+	 * or by default render mode without any label. Field should be rendered with 
 	 * label beside, label around or without label by local field configuration. 
 	 * Also there could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
@@ -222,7 +222,7 @@ trait Rendering
 	 * by selected field variables from $this field context
 	 * only if called $fieldVars item in $this field context is
 	 * something different then NULL value.
-	 * Automaticly render into attributes and css classes also
+	 * Automatically render into attributes and css classes also
 	 * system field properties: 'Disabled', 'Readonly' and 'Required'
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into
@@ -240,7 +240,7 @@ trait Rendering
 	 * by selected field variables from $this field context
 	 * only if called $fieldVars item in $this field context is
 	 * something different then NULL value.
-	 * Automaticly render into attributes and css classes also
+	 * Automatically render into attributes and css classes also
 	 * system field properties: 'Disabled', 'Readonly' and 'Required'
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into
@@ -258,7 +258,7 @@ trait Rendering
 	 * by selected field variables from $this field context
 	 * only if called $fieldVars item in $this field context is
 	 * something different then NULL value.
-	 * Automaticly render into attributes and css classes also
+	 * Automatically render into attributes and css classes also
 	 * system field properties: 'Disabled', 'Readonly' and 'Required'
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into

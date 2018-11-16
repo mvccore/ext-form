@@ -87,7 +87,7 @@ trait InputMode
 	}
 
 	/**
-	 * Automaticly set up `inputmode` attribute (if it is still `NULL`) 
+	 * Automatically set up `inputmode` attribute (if it is still `NULL`) 
 	 * by field type in `PreDispatch()` field rendering moment.
 	 * @return void
 	 */

@@ -26,7 +26,7 @@ trait Submitting
 	 * - Check max. post size by php configuration if form is posted.
 	 * - Check cross site request forgery tokens with session tokens.
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
-	 *	 `AddError()` method automaticly switch `$form->Result` property to zero - `0`, it means error submit result.
+	 *	 `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
 	 * @param array $rawRequestParams optional
 	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
@@ -100,9 +100,9 @@ trait Submitting
 	}
 	
 	/**
-	 * Go throught all fields, which are not `button:submit` or `input:submit` types
+	 * Go through all fields, which are not `button:submit` or `input:submit` types
 	 * and call on every `$field->Submit()` method to process all configured field validators.
-	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automaticly
+	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automatically
 	 * assigned under field name into form result values and into form field value.
 	 * @param array $rawRequestParams
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -196,7 +196,7 @@ trait Submitting
 
 	/**
 	 * If form has defined any `accept-charset` attribute values,
-	 * go throught all accept charsets and try to transcode all raw values 
+	 * go through all accept charsets and try to transcode all raw values 
 	 * and collect translation statistics from this process. Then decode 
 	 * best translation charset and return by given param `$rawRequestParams`
 	 * new translated raw values by first best charset in `accept-charset` attribute.

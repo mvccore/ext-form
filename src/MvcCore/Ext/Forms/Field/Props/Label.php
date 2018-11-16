@@ -49,7 +49,7 @@ trait Label
 	/**
 	 * Control label visible text.
 	 * If field form has configured any translator,
-	 * translation will be processed automaticly
+	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
 	 * @var string
 	 */
@@ -88,7 +88,7 @@ trait Label
 	 * configurable properties by setter methods 
 	 * or by constructor config array. Label `class` 
 	 * attribute has always the same css classes as 
-	 * it's field automaticly. Default value is an empty 
+	 * it's field automatically. Default value is an empty 
 	 * array to not render any additional attributes.
 	 * @var array
 	 */
@@ -97,7 +97,7 @@ trait Label
 	/**
 	 * Get control label visible text.
 	 * If field form has configured any translator,
-	 * translation will be processed automaticly
+	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
 	 * @return string|NULL
 	 */
@@ -108,7 +108,7 @@ trait Label
 	/**
 	 * Set control label visible text.
 	 * If field form has configured any translator,
-	 * translation will be processed automaticly
+	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
 	 * @param string $label
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
@@ -187,7 +187,7 @@ trait Label
 	 * `class` attributes, those attributes have it's own 
 	 * configurable properties with it's own getters. 
 	 * Label `class` attribute has always the same css 
-	 * classes as it's field automaticly. 
+	 * classes as it's field automatically. 
 	 * Default value is an empty array to not render 
 	 * any additional attributes.
 	 * @return array
@@ -202,7 +202,7 @@ trait Label
 	 * attributes as: `id`,`for` or `class`, those 
 	 * attributes has it's own configurable properties 
 	 * with it's own getters. Label `class` attribute 
-	 * has always the same css classes as it's field automaticly. 
+	 * has always the same css classes as it's field automatically. 
 	 * If attribute doesn't exist, `NULL` is returned.
 	 * @param string $name
 	 * @return mixed
@@ -221,7 +221,7 @@ trait Label
 	 * configurable properties by setter methods 
 	 * or by constructor config array. Label `class` 
 	 * attribute has always the same css classes as 
-	 * it's field automaticly. Default value is an empty 
+	 * it's field automatically. Default value is an empty 
 	 * array to not render any additional attributes.
 	 * All previously defined additional label attributes 
 	 * will be replaced by given array.
@@ -240,7 +240,7 @@ trait Label
 	 * attributes have it's own configurable properties 
 	 * by setter methods or by constructor config array. 
 	 * Label `class` attribute has always the same css 
-	 * classes as it's field automaticly. 
+	 * classes as it's field automatically. 
 	 * Given additional label attribute will be directly
 	 * set into additional attributes array and any 
 	 * previous attribute with the same name will be overwritten.
@@ -261,7 +261,7 @@ trait Label
 	 * configurable properties by setter methods 
 	 * or by constructor config array. Label `class` 
 	 * attribute has always the same css classes as 
-	 * it's field automaticly. 
+	 * it's field automatically. 
 	 * All given additional label attributes 
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs

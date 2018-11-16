@@ -26,14 +26,14 @@ interface IValidator
 	/**
 	 * Return predefined validator custom error message strings (not translated) 
 	 * with replacements for field names and more specific info 
-	 * to tell the user what happend or what to do more.
+	 * to tell the user what happened or what to do more.
 	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
 	 * @return string
 	 */
 	public static function GetErrorMessage ($errorMsgIndex);
 
 	/**
-	 * Set up form instance, where is validator created durring submit.
+	 * Set up form instance, where is validator created during submit.
 	 * @param \MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */

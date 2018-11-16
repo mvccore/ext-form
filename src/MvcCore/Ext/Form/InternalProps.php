@@ -44,20 +44,20 @@ trait InternalProps
 
 	/**
 	 * Validators instances keyed by validators ending 
-	 * class names, created durring `Submit()`.
+	 * class names, created during `Submit()`.
 	 * @var \MvcCore\Ext\Forms\IValidator[]
 	 */
 	protected $validators = [];
 
 	/**
-	 * Automaticly growing tabindex value for fields with tabindex in `auto` value.
+	 * Automatically growing tab-index value for fields with tab-index in `auto` value.
 	 * @var int
 	 */
 	protected $fieldsAutoTabIndex = 0;
 
 	/**
 	 * Internal flag to quickly know if form fields will be translated or not.
-	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * Automatically completed to `TRUE` if `$form->translator` is not `NULL` and also if
 	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
 	 * @var bool
 	 */
@@ -108,9 +108,9 @@ trait InternalProps
 	 * if any form submit CSRF checking (Cross Site Request Forgery) triggers error
 	 * and where second record is `boolean`, if handler is `closure` or not.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happend.
+	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
 	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `string`				- Translated error meessage string.
+	 *	- `string`				- Translated error message string.
 	 * Example:
 	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
 	 *		// ... anything you want to do, for example to sign out user.
@@ -131,7 +131,7 @@ trait InternalProps
 	/**
 	 * Default (not translated) error messages with replacements
 	 * for field names and more specific info to tell the user
-	 * what happend or what to do more.
+	 * what happened or what to do more.
 	 * @var array
 	 */
 	protected static $defaultErrorMessages = [

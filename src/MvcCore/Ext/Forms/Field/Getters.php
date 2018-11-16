@@ -21,7 +21,7 @@ trait Getters
 {
 	/**
 	 * Get form field HTML id attribute, completed from form name and field name.
-	 * This value is completed automaticly, but you can customize it.
+	 * This value is completed automatically, but you can customize it.
 	 * @return string|NULL
 	 */
 	public function GetId () {
@@ -29,8 +29,8 @@ trait Getters
 	}
 
 	/**
-	 * Get form field specific name, used to identify submited value.
-	 * This value is reguired for all form fields.
+	 * Get form field specific name, used to identify submitted value.
+	 * This value is required for all form fields.
 	 * @return string|NULL
 	 */
 	public function GetName () {
@@ -156,7 +156,7 @@ trait Getters
 	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);` value, which is again 
 	 * `/App/Views/Forms/Fields` by default.
 	 * 
-	 * `FALSE` or `NULL` (`NULL` is default) is returned to render field naturaly.
+	 * `FALSE` or `NULL` (`NULL` is default) is returned to render field naturally.
 	 * 
 	 * Example:
 	 * ```

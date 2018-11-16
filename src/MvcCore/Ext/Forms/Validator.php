@@ -39,7 +39,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	/**
 	 * Validator custom error message strings (not translated) 
 	 * with replacements for field names and more specific info 
-	 * to tell the user what happend or what to do more.
+	 * to tell the user what happened or what to do more.
 	 * @var \string[]
 	 */
 	protected static $errorMessages = [];
@@ -86,7 +86,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	}
 
 	/**
-	 * Set up form instance, where is validator created durring submit.
+	 * Set up form instance, where is validator created during submit.
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
@@ -113,7 +113,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	/**
 	 * Return predefined validator custom error message strings (not translated) 
 	 * with replacements for field names and more specific info 
-	 * to tell the user what happend or what to do more.
+	 * to tell the user what happened or what to do more.
 	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
 	 * @return string
 	 */
@@ -134,7 +134,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 
 	/**
 	 * Throw new `\InvalidArgumentException` with given
-	 * error message and append automaticly current class, 
+	 * error message and append automatically current class, 
 	 * field name, form id, field class name and form class name.
 	 * @param string $errorMsg 
 	 * @throws \InvalidArgumentException 

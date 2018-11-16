@@ -81,7 +81,7 @@ trait AutoFocus
 	 * - `1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW`)
 	 *   There will be removed previously defined autofocused element and configured new given one.
 	 * - `-1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW`)
-	 *   There will be quietly configured another field autofocused. Be carefull!!! This is not standard behaviour!
+	 *   There will be quietly configured another field autofocused. Be careful!!! This is not standard behaviour!
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus

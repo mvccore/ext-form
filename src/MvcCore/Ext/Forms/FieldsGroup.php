@@ -171,8 +171,8 @@ abstract class FieldsGroup
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
-	 * Render field naturaly by render mode.
-	 * Field shoud be rendered with label beside, label around
+	 * Render field naturally by render mode.
+	 * Field should be rendered with label beside, label around
 	 * or without label by local field configuration. Also there
 	 * could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
@@ -205,7 +205,7 @@ abstract class FieldsGroup
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
 	 * Render field naturally by configured property `$field->renderMode` if any 
-	 * or by default render mode without any label. Field shoud be rendered with 
+	 * or by default render mode without any label. Field should be rendered with 
 	 * label beside, label around or without label by local field configuration. 
 	 * Also there could be rendered specific field errors before or after field
 	 * if field form is configured in that way.

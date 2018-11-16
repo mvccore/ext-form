@@ -47,23 +47,23 @@ namespace MvcCore\Ext\Forms\Field\Props;
 trait Required
 {
 	/**
-	 * Form field attribute `required`, determinating
-	 * if controll will be required to complete any value by user.
+	 * Form field attribute `required`, determination
+	 * if control will be required to complete any value by user.
 	 * This flag is also used for submit checking. Default value is `NULL`
 	 * to not require any field value. If form has configured it's property
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
-	 * will be automaticly required by default form configuration.
+	 * will be automatically required by default form configuration.
 	 * @var bool|NULL
 	 */
 	protected $required = NULL;
 
 	/**
-	 * Get form field attribute required, determinating
+	 * Get form field attribute required, determination
 	 * if field will be required to complete any value by user.
 	 * This flag is also used for submit checking. Default value is `NULL`
 	 * to not require any field value. If form has configured it's property
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
-	 * will be automaticly considered as required by default form configuration.
+	 * will be automatically considered as required by default form configuration.
 	 * But this method return only value stored inside this field instance.
 	 * @return bool|NULL
 	 */
@@ -72,12 +72,12 @@ trait Required
 	}
 
 	/**
-	 * Set form field attribute required, determinating
+	 * Set form field attribute required, determination
 	 * if field will be required to complete any value by user.
 	 * This flag is also used for submit checking. Default value is `NULL`
 	 * to not require any field value. If form has configured it's property
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
-	 * will be automaticly considered required by default form configuration.
+	 * will be automatically considered required by default form configuration.
 	 * @param bool|NULL $required
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */

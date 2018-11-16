@@ -28,14 +28,14 @@ trait Rendering
 
 	/**
 	 * Render whole `<form>` with all content into HTML string to display it.
-	 * - If form is not initialized, there is automaticly
+	 * - If form is not initialized, there is automatically
 	 *   called `$form->Init();` method.
 	 * - If form is not pre-dispatched for rendering, there is
-	 *   automaticly called `$form->Predispatch();` method.
+	 *   automatically called `$form->Predispatch();` method.
 	 * - Create new form view instance and set up the view with local
 	 *   context variables.
-	 * - Render form naturaly or by custom template.
-	 * - Clean session errors, because errors shoud be rendered
+	 * - Render form naturally or by custom template.
+	 * - Clean session errors, because errors should be rendered
 	 *   only once, only when it's used and it's now - in this rendering process.
 	 * @return string
 	 */
@@ -54,7 +54,7 @@ trait Rendering
 	 * Render form inner content, all field controls, content inside `<form>` tag, 
 	 * without form errors. Go through all `$form->fields` and call `$field->Render();` 
 	 * on every field instance and put field render result into an empty `<div>` 
-	 * element. Render each field in full possible way - naturaly by label 
+	 * element. Render each field in full possible way - naturally by label 
 	 * configuration with possible errors configured beside or with custom field template.
 	 * @return string
 	 */
@@ -74,7 +74,7 @@ trait Rendering
 	}
 
 	/**
-	 * Render form begin - opening `<form>` tag and automaticly
+	 * Render form begin - opening `<form>` tag and automatically
 	 * prepared hidden input with CSRF (Cross Site Request Forgery) tokens.
 	 * @return string
 	 */

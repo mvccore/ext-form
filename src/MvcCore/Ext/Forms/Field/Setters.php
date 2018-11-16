@@ -21,7 +21,7 @@ trait Setters
 {
 	/**
 	 * Set form field HTML id attribute, completed from form name and field name.
-	 * This value is completed automaticly, but you can customize it.
+	 * This value is completed automatically, but you can customize it.
 	 * @param string $id
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
@@ -31,8 +31,8 @@ trait Setters
 	}
 
 	/**
-	 * Set form field specific name, used to identify submited value.
-	 * This value is reguired for all form fields.
+	 * Set form field specific name, used to identify submitted value.
+	 * This value is required for all form fields.
 	 * @requires
 	 * @param string $name
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
@@ -271,7 +271,7 @@ trait Setters
 	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);` value, which is again 
 	 * `/App/Views/Forms/Fields` by default.
 	 * 
-	 * To render field naturaly, set `FALSE`, empty string or `NULL` (`NULL` is default).
+	 * To render field naturally, set `FALSE`, empty string or `NULL` (`NULL` is default).
 	 * 
 	 * Example:
 	 * ```

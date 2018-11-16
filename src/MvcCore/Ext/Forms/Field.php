@@ -94,7 +94,7 @@ implements		\MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * Universal setter, if property not defined - it's automaticly declarated.
+	 * Universal setter, if property not defined - it's automatically declarated.
 	 * @param string $name
 	 * @param mixed	 $value
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
@@ -158,7 +158,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * don't develop form library or any form field.
 	 * 
 	 * Submit field value - process raw request value with all
-	 * configured validators and add errors into form if necesary.
+	 * configured validators and add errors into form if necessary.
 	 * Then return safe processed value by all from validators or `NULL`.
 	 * 
 	 * @param array $rawRequestParams Raw request params from MvcCore 
@@ -247,7 +247,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * than given error message is translated first before replacing.
 	 * 
 	 * Before error message processing for replacements,
-	 * there is automaticly assigned into first position into `$errorMsgArgs`
+	 * there is automatically assigned into first position into `$errorMsgArgs`
 	 * array (translated) field label or field name and than 
 	 * error message is processed for replacements.
 	 * 
@@ -282,7 +282,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * than given error message is translated first before replacing.
 	 * 
 	 * Before error message processing for replacements,
-	 * there is automaticly assigned into first position into `$errorMsgArgs`
+	 * there is automatically assigned into first position into `$errorMsgArgs`
 	 * array (translated) field label or field name and than 
 	 * error message is processed for replacements.
 	 * 
@@ -330,7 +330,7 @@ implements		\MvcCore\Ext\Forms\IField
 	
 	/**
 	 * Throw new `\InvalidArgumentException` with given
-	 * error message and append automaticly current class name,
+	 * error message and append automatically current class name,
 	 * current form id, form class type and current field class type.
 	 * @param string $errorMsg 
 	 * @throws \InvalidArgumentException 

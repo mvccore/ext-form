@@ -99,7 +99,7 @@ trait FieldMethods
 
 	/**
 	 * Remove configured form field instance by given instance or given field name.
-	 * If field is not found by it's name, no error happend.
+	 * If field is not found by it's name, no error happened.
 	 * @param \MvcCore\Ext\Forms\IField|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -145,7 +145,7 @@ trait FieldMethods
 	}
 
 	/**
-	 * Return first catched form field instance by given field type string.
+	 * Return first caught form field instance by given field type string.
 	 * If no field found, `NULL` is returned.
 	 * @param string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
@@ -183,7 +183,7 @@ trait FieldMethods
 	}
 
 	/**
-	 * Return first catched form field instance by field class name
+	 * Return first caught form field instance by field class name
 	 * compared by `is_a($field, $fieldClassName)` check.
 	 * If no field found, it's returned `NULL`.
 	 * @param string $fieldClassName Full php class name or full interface name.

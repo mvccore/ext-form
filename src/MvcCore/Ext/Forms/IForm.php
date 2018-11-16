@@ -17,7 +17,7 @@ interface IForm
 {
 	/**
 	 * MvcCore Extension - Form - version:
-	 * Comparation by PHP function version_compare();
+	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
 	const VERSION = '5.0.0-alpha';
@@ -66,31 +66,31 @@ interface IForm
 
 
 	/**
-	 * Form submit result state (`0` - error happend).
+	 * Form submit result state (`0` - error happened).
 	 * Submit was not successful, there was an error or errors.
 	 */
 	const RESULT_ERRORS		= 0;
 
 	/**
-	 * Form submit result state (`1` - everything ok).
-	 * Submit was successful, no error happend.
+	 * Form submit result state (`1` - everything OK).
+	 * Submit was successful, no error happened.
 	 * User could be redirected to success url.
 	 */
 	const RESULT_SUCCESS	= 1;
 
 	/**
-	 * Form submit result state (`2` - everything ok, redirect user to previous step url).
-	 * Submit was successful, no error happend and one of submitting
+	 * Form submit result state (`2` - everything OK, redirect user to previous step url).
+	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
-	 * to previous step url in multiple forms wizzard (typicly eshop ordering).
+	 * to previous step url in multiple forms wizard (typically e-shop ordering).
 	 */
 	const RESULT_PREV_PAGE	= 2;
 
 	/**
-	 * Form submit result state (`3` - everything ok, redirect user to next step url).
-	 * Submit was successful, no error happend and one of submitting
+	 * Form submit result state (`3` - everything OK, redirect user to next step url).
+	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
-	 * to next step url in multiple forms wizzard (typicly eshop ordering).
+	 * to next step url in multiple forms wizard (typically e-shop ordering).
 	 */
 	const RESULT_NEXT_PAGE	= 3;
 
@@ -118,7 +118,7 @@ interface IForm
 
 	/**
 	 * Control errors rendering mode (`all-together`).
-	 * All errors are rendered naturaly at form begin together in one html div element.
+	 * All errors are rendered naturally at form begin together in one html div element.
 	 * If you are using custom template for form - you have to call after form beginning
 	 * `$form->RenderErrors();` to get all errors into template. This value is used as
 	 * default for all `\MvcCore\Ext\Form` instances.
@@ -176,7 +176,7 @@ interface IForm
 	/**
 	 * Prepare form and it's fields for rendering.
 	 * 
-	 * This function is called automaticly by rendering process if necessary.
+	 * This function is called automatically by rendering process if necessary.
 	 * But if you need to operate with fields in your controller before rendering
 	 * with real session values and initialized session errors, you can call this
 	 * method anytime to prepare form for rendering and operate with anything inside.
@@ -313,7 +313,7 @@ interface IForm
 	public function GetAcceptCharsets ();
 
 	/**
-	 * Get lang property to complete optional translator language argument automaticly.
+	 * Get lang property to complete optional translator language argument automatically.
 	 * If you are operating in multilanguage project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, this `lang` property with target language code
 	 * serves to translate every visible text into target lang. Use this property
@@ -323,7 +323,7 @@ interface IForm
 	public function GetLang ();
 
 	/**
-	 * Get `$form->locale`, uppercase locale code or `NULL`, usualy used to create
+	 * Get `$form->locale`, upper case locale code or `NULL`, usualy used to create
 	 * proper validator for zip codes, currencies etc...
 	 * If you are operating in multilanguage project and you want to use
 	 * in `\MvcCore\Ext\Form` form field validators for locale specific needs,
@@ -424,7 +424,7 @@ interface IForm
 
 	/**
 	 * Get internal flag to quickly know if form fields will be translated or not.
-	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * Automatically completed to `TRUE` if `$form->translator` is not `NULL` and also if
 	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
 	 * @return bool
 	 */
@@ -449,7 +449,7 @@ interface IForm
 	 * Get all form errors. Returned collection is array with arrays.
 	 * Every array in collection have first item as error message
 	 * string and second argument (optional) as field name string or
-	 * array with field names strings, where error happend.
+	 * array with field names strings, where error happened.
 	 * @return array
 	 */
 	public function & GetErrors ();
@@ -463,8 +463,8 @@ interface IForm
 	public function GetSessionExpiration ();
 
 	/**
-	 * Get base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
-	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * Get base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
+	 * This value could move tab-index values for each field into higher or lower values by needs, 
 	 * where is form currently rendered.
 	 * @return int
 	 */
@@ -472,7 +472,7 @@ interface IForm
 
 	/**
 	 * This method is INTERNAL, used by fields in predispatch rendering moment.
-	 * This method returns next automatic tabindex value for field.
+	 * This method returns next automatic tab-index value for field.
 	 * @return int
 	 */
 	public function GetFieldNextAutoTabIndex ();
@@ -488,7 +488,7 @@ interface IForm
 
 	/**
 	 * Get errors rendering mode, by default configured as string: `all-together`.
-	 * It means all errors are rendered naturaly at form begin together in one HTML `div.errors` element.
+	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
 	 * @return string
@@ -498,8 +498,8 @@ interface IForm
 	/**
 	 * Get custom form view script relative path without `.phtml` extension.
 	 * View script could be `TRUE`/`FALSE` to render or not form by view script name
-	 * completed automaticly with form id and configured view extension (.phtml) or explicit
-	 * relative view script path defined by string. Automaticly completed form view
+	 * completed automatically with form id and configured view extension (.phtml) or explicit
+	 * relative view script path defined by string. Automatically completed form view
 	 * script path and also explicitly defined form view script path by string are
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
@@ -733,7 +733,7 @@ interface IForm
 	public function & SetAcceptCharsets ($acceptCharsets = []);
 
 	/**
-	 * Set lang property to complete optional translator language argument automaticly.
+	 * Set lang property to complete optional translator language argument automatically.
 	 * If you are operating in multilanguage project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to target language code
 	 * you want to translate every visible text into target language. Use this property
@@ -884,7 +884,7 @@ interface IForm
 	 * First param `$errorsCollection` has to be array with arrays.
 	 * Every array in collection must have first item as error message
 	 * string and second argument (optional) as field name string or
-	 * array with field names strings where error happend.
+	 * array with field names strings where error happened.
 	 * @param array $errorsCollection
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
@@ -900,8 +900,8 @@ interface IForm
 	public function & SetSessionExpiration ($seconds = 0);
 
 	/**
-	 * Set base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
-	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * Set base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
+	 * This value could move tab-index values for each field into higher or lower values by needs, 
 	 * where is form currently rendered.
 	 * @param $baseTabIndex int
 	 * @return \MvcCore\Ext\Forms\IForm
@@ -920,7 +920,7 @@ interface IForm
 
 	/**
 	 * Set errors rendering mode, by default configured as string: `all-together`.
-	 * It means all errors are rendered naturaly at form begin together in one HTML `div.errors` element.
+	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
 	 * @param string $errorsRenderMode
@@ -931,8 +931,8 @@ interface IForm
 	/**
 	 * Set custom form view script relative path without `.phtml` extension.
 	 * View script could be `TRUE` to render form by view script name completed
-	 * automaticly with form id and configured view extension (.phtml) or explicit
-	 * relative view script path defined by string. Automaticly completed form view
+	 * automatically with form id and configured view extension (.phtml) or explicit
+	 * relative view script path defined by string. Automatically completed form view
 	 * script path and also explicitly defined form view script path by string are
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
@@ -951,7 +951,7 @@ interface IForm
 
 	/**
 	 * Set supporting javascript files configuration. This method is dangerous,
-	 * It removes all previously, automaticly configured javascript support files.
+	 * It removes all previously, automatically configured javascript support files.
 	 * If you want only to add javascript support file, call method:
 	 * `$form->AddJsSupportFile($jsRelativePath, $jsClassName, $constructorParams);` instead.
 	 * Every record in given `$jsPathsClassNamesAndParams` array has to be defined as array with:
@@ -965,7 +965,7 @@ interface IForm
 
 	/**
 	 * Set supporting css files configuration. This method is dangerous,
-	 * It removes all previously, automaticly configured css support files.
+	 * It removes all previously, automatically configured css support files.
 	 * If you want only to add css support file, call method:
 	 * `$form->AddCssSupportFile($cssRelativePath);` instead.
 	 * Given `$cssRelativePaths` has to be array with supporting css file relative
@@ -1049,7 +1049,7 @@ interface IForm
 	 * - `1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW`)
 	 *   There will be removed previously defined autofocused element and configured new given one.
 	 * - `-1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW`)
-	 *   There will be quietly configured another field autofocused. Be carefull!!! This is not standard behaviour!
+	 *   There will be quietly configured another field autofocused. Be careful!!! This is not standard behaviour!
 	 * If there is `$formId` and also `$fieldName` with `NULL` value, any previously defined
 	 * autofocused form field is changed and `autofocus` boolean attribute is removed.
 	 * @param string $formId 
@@ -1092,8 +1092,8 @@ interface IForm
 
 	/**
 	 * Add form submit error and switch form result to zero - to error state.
-	 * @param string $errorMsg Any error message, translated if necessary. All html tags from error message will be removed automaticly.
-	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happend.
+	 * @param string $errorMsg Any error message, translated if necessary. All html tags from error message will be removed automatically.
+	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL);
@@ -1120,13 +1120,13 @@ interface IForm
 
 	/**
 	 * Add CSRF (Cross Site Request Forgery) error handler.
-	 * If CSRF submit comparation fails, it's automaticly processed
+	 * If CSRF submit comparison fails, it's automatically processed
 	 * queue with this handlers, you can put here for example handler
-	 * to deauthenticate your user or anything else to more secure your application.
+	 * to de-authenticate your user or anything else to more secure your application.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happend.
+	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
 	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `string`				- Translated error meessage string.
+	 *	- `string`				- Translated error message string.
 	 * Example:
 	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
 	 *		// ... anything you want to do, for example to sign out user.
@@ -1197,7 +1197,7 @@ interface IForm
 
 	/**
 	 * Remove configured form field instance by given instance or given field name.
-	 * If field is not found by it's name, no error happend.
+	 * If field is not found by it's name, no error happened.
 	 * @param \MvcCore\Ext\Forms\IField|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
@@ -1220,7 +1220,7 @@ interface IForm
 	public function & GetFieldsByType ($fieldType = '');
 
 	/**
-	 * Return first catched form field instance by given field type string.
+	 * Return first caught form field instance by given field type string.
 	 * If no field found, `NULL` is returned.
 	 * @param string $fieldType
 	 * @return \MvcCore\Ext\Forms\IField|NULL
@@ -1239,7 +1239,7 @@ interface IForm
 	public function & GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE);
 
 	/**
-	 * Return first catched form field instance by field class name
+	 * Return first caught form field instance by field class name
 	 * compared by `is_a($field, $fieldClassName)` check.
 	 * If no field found, it's returned `NULL`.
 	 * @param string $fieldClassName Full php class name or full interface name.
@@ -1281,14 +1281,14 @@ interface IForm
 
 	/**
 	 * Render whole `<form>` with all content into HTML string to display it.
-	 * - If form is not initialized, there is automaticly
+	 * - If form is not initialized, there is automatically
 	 *   called `$form->Init();` method.
 	 * - If form is not pre-dispatched for rendering, there is
-	 *   automaticly called `$form->Predispatch();` method.
+	 *   automatically called `$form->Predispatch();` method.
 	 * - Create new form view instance and set up the view with local
 	 *   context variables.
-	 * - Render form naturaly or by custom template.
-	 * - Clean session errors, because errors shoud be rendered
+	 * - Render form naturally or by custom template.
+	 * - Clean session errors, because errors should be rendered
 	 *   only once, only when it's used and it's now - in this rendering process.
 	 * @return string
 	 */
@@ -1298,7 +1298,7 @@ interface IForm
 	 * Render form inner content, all field controls, content inside `<form>` tag, 
 	 * without form errors. Go through all `$form->fields` and call `$field->Render();` 
 	 * on every field instance and put field render result into an empty `<div>` 
-	 * element. Render each field in full possible way - naturaly by label 
+	 * element. Render each field in full possible way - naturally by label 
 	 * configuration with possible errors configured beside or with custom field template.
 	 * @return string
 	 */
@@ -1314,7 +1314,7 @@ interface IForm
 	public function RenderErrors ();
 
 	/**
-	 * Render form begin - opening `<form>` tag and automaticly
+	 * Render form begin - opening `<form>` tag and automatically
 	 * prepared hidden input with CSRF (Cross Site Request Forgery) tokens.
 	 * @return string
 	 */
@@ -1367,7 +1367,7 @@ interface IForm
 	 * - Check max. post size by php configuration if form is posted.
 	 * - Check cross site request forgery tokens with session tokens.
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
-	 *	 `AddError()` method automaticly switch `$form->Result` property to zero - `0`, it means error submit result.
+	 *	 `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
 	 * @param array $rawRequestParams optional
 	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
@@ -1394,9 +1394,9 @@ interface IForm
 	public function & SubmitValidateMaxPostSizeIfNecessary ();
 	
 	/**
-	 * Go throught all fields, which are not `button:submit` or `input:submit` types
+	 * Go through all fields, which are not `button:submit` or `input:submit` types
 	 * and call on every `$field->Submit()` method to process all configured field validators.
-	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automaticly
+	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automatically
 	 * assigned under field name into form result values and into form field value.
 	 * @param array $rawRequestParams
 	 * @return \MvcCore\Ext\Forms\IForm
@@ -1435,8 +1435,8 @@ interface IForm
 
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Forms\IForm $form Form instance where CSRF error happend.
-	 * @param string $errorMsg Translated error message abouzt CSRF invalid tokens.
+	 * @param \MvcCore\Ext\Forms\IForm $form Form instance where CSRF error happened.
+	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm & $form, $errorMsg);
@@ -1449,9 +1449,9 @@ interface IForm
 	public function GetCsrf ();
 
 	/**
-	 * Check CSRF (Cross Site Request Forgery) sended tokens from user with session tokens.
-	 * If tokens are diferent, add form error and process CSRF error handlers queue.
-	 * If there is any exception catched in CSRF error handlers queue, it's logged
+	 * Check CSRF (Cross Site Request Forgery) sent tokens from user with session tokens.
+	 * If tokens are different, add form error and process CSRF error handlers queue.
+	 * If there is any exception caught in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
 	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
 	 * @return \MvcCore\Ext\Forms\IForm

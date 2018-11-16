@@ -135,7 +135,7 @@ interface IView
 	public function RenderTemplate ();
 
 	/**
-	 * Render form naturaly by cycles inside php scripts.
+	 * Render form naturally by cycles inside php scripts.
 	 * All form fields will be rendered inside empty <div> elements.
 	 * @return string
 	 */
@@ -177,7 +177,7 @@ interface IView
 	 * Render form content - form fields.
 	 * Go through all `$form->fields` and call `$field->Render();` on every field
 	 * and put it into an empty `<div>` element. Render each field in full possible
-	 * way - naturaly by label configuration with possible errors configured beside
+	 * way - naturally by label configuration with possible errors configured beside
 	 * or with custom field template.
 	 * @return string
 	 */

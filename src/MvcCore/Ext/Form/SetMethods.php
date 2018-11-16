@@ -169,7 +169,7 @@ trait SetMethods
 	}
 
 	/**
-	 * Set lang property to complete optional translator language argument automaticly.
+	 * Set lang property to complete optional translator language argument automatically.
 	 * If you are operating in multilanguage project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to target language code
 	 * you want to translate every visible text into target language. Use this property
@@ -385,7 +385,7 @@ trait SetMethods
 	 * First param `$errorsCollection` has to be array with arrays.
 	 * Every array in collection must have first item as error message
 	 * string and second argument (optional) as field name string or
-	 * array with field names strings where error happend.
+	 * array with field names strings where error happened.
 	 * @param array $errorsCollection
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -413,8 +413,8 @@ trait SetMethods
 	}
 
 	/**
-	 * Set base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
-	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * Set base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
+	 * This value could move tab-index values for each field into higher or lower values by needs, 
 	 * where is form currently rendered.
 	 * @param $baseTabIndex int
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -439,7 +439,7 @@ trait SetMethods
 
 	/**
 	 * Set errors rendering mode, by default configured as string: `all-together`.
-	 * It means all errors are rendered naturaly at form begin together in one HTML `div.errors` element.
+	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
 	 * @param string $errorsRenderMode
@@ -453,8 +453,8 @@ trait SetMethods
 	/**
 	 * Set custom form view script relative path without `.phtml` extension.
 	 * View script could be `TRUE` to render form by view script name completed
-	 * automaticly with form id and configured view extension (.phtml) or explicit
-	 * relative view script path defined by string. Automaticly completed form view
+	 * automatically with form id and configured view extension (.phtml) or explicit
+	 * relative view script path defined by string. Automatically completed form view
 	 * script path and also explicitly defined form view script path by string are
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
@@ -479,7 +479,7 @@ trait SetMethods
 
 	/**
 	 * Set supporting javascript files configuration. This method is dangerous,
-	 * It removes all previously, automaticly configured javascript support files.
+	 * It removes all previously, automatically configured javascript support files.
 	 * If you want only to add javascript support file, call method:
 	 * `$form->AddJsSupportFile($jsRelativePath, $jsClassName, $constructorParams);` instead.
 	 * Every record in given `$jsPathsClassNamesAndParams` array has to be defined as array with:
@@ -500,7 +500,7 @@ trait SetMethods
 
 	/**
 	 * Set supporting css files configuration. This method is dangerous,
-	 * It removes all previously, automaticly configured css support files.
+	 * It removes all previously, automatically configured css support files.
 	 * If you want only to add css support file, call method:
 	 * `$form->AddCssSupportFile($cssRelativePath);` instead.
 	 * Given `$cssRelativePaths` has to be array with supporting css file relative
@@ -609,7 +609,7 @@ trait SetMethods
 	 * - `1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW`)
 	 *   There will be removed previously defined autofocused element and configured new given one.
 	 * - `-1` (`\MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW`)
-	 *   There will be quietly configured another field autofocused. Be carefull!!! This is not standard behaviour!
+	 *   There will be quietly configured another field autofocused. Be careful!!! This is not standard behaviour!
 	 * If there is `$formId` and also `$fieldName` with `NULL` value, any previously defined
 	 * autofocused form field is changed and `autofocus` boolean attribute is removed.
 	 * @param string $formId 
@@ -622,7 +622,7 @@ trait SetMethods
 		if (self::$autoFocusedFormField) {
 			// if any global autofocus record is already defined
 			if ($formId === NULL && $fieldName === NULL) {
-				// unset old everytime form id and field name is both `NULL`
+				// unset old every time form id and field name is both `NULL`
 				list ($oldFormId, $oldFieldName) = self::$autoFocusedFormField;
 				self::GetById($oldFormId)->GetField($oldFieldName)->SetAutoFocus(FALSE);
 				self::$autoFocusedFormField = [];

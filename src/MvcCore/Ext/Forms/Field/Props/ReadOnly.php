@@ -47,11 +47,11 @@ namespace MvcCore\Ext\Forms\Field\Props;
 trait ReadOnly
 {
 	/**
-	 * Form field attribute `readonly`, determinating if field value will be 
+	 * Form field attribute `readonly`, determination if field value will be 
 	 * possible to read only or if value will be possible to change by user. 
 	 * Default value is `FALSE`. This flag is also used for submit checking. 
 	 * If any field is marked as read only, browsers always send value in submit.
-	 * If field is configured as read only, no value sended under field name 
+	 * If field is configured as read only, no value sent under field name 
 	 * from user will be accepted in submit process and value for this field 
 	 * will be used by server side form initialization. 
 	 * Readonly attribute has more power than required. If readonly is true and
@@ -63,11 +63,11 @@ trait ReadOnly
 	protected $readOnly = NULL;
 
 	/**
-	 * Get form field attribute `readonly`, determinating if field value will be 
+	 * Get form field attribute `readonly`, determination if field value will be 
 	 * possible to read only or if value will be possible to change by user. 
 	 * Default value is `FALSE`. This flag is also used for submit checking. 
 	 * If any field is marked as read only, browsers always send value in submit.
-	 * If field is configured as read only, no value sended under field name 
+	 * If field is configured as read only, no value sent under field name 
 	 * from user will be accepted in submit process and value for this field 
 	 * will be used by server side form initialization. 
 	 * Readonly attribute has more power than required. If readonly is true and
@@ -81,11 +81,11 @@ trait ReadOnly
 	}
 
 	/**
-	 * Set form field attribute `readonly`, determinating if field value will be 
+	 * Set form field attribute `readonly`, determination if field value will be 
 	 * possible to read only or if value will be possible to change by user. 
 	 * Default value is `FALSE`. This flag is also used for submit checking. 
 	 * If any field is marked as read only, browsers always send value in submit.
-	 * If field is configured as read only, no value sended under field name 
+	 * If field is configured as read only, no value sent under field name 
 	 * from user will be accepted in submit process and value for this field 
 	 * will be used by server side form initialization. 
 	 * Readonly attribute has more power than required. If readonly is true and

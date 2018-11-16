@@ -134,7 +134,7 @@ trait ConfigProps
 	protected $acceptCharsets = [];
 
 	/**
-	 * Property to complete optional translator language argument automaticly.
+	 * Property to complete optional translator language argument automatically.
 	 * If you are operating in multilanguage project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to desired language code
 	 * you want to translate every visible text into it. Use this property
@@ -260,14 +260,14 @@ trait ConfigProps
 	protected $fields = [];
 
 	/**
-	 * Form submited values from client. After `$form->Submit()` has been called,
+	 * Form submitted values from client. After `$form->Submit()` has been called,
 	 * values are cleaned by validators and ready to use if `$form->result` is in success state.
 	 * @var array
 	 */
 	protected $values = [];
 
 	/**
-	 * If any configured error happends by executing `$form->Submit()`, it's stored in this array.
+	 * If any configured error happens by executing `$form->Submit()`, it's stored in this array.
 	 * Every record in this array is array with first item to be an error message string.
 	 * If the error is for specific field name or field names, there is also a second item - array with field names.
 	 * Errors array has normal numeric keys.
@@ -284,8 +284,8 @@ trait ConfigProps
 	protected $sessionExpiration = 0;
 
 	/**
-	 * Base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
-	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * Base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
+	 * This value could move tab-index values for each field into higher or lower values by needs, 
 	 * where is form currently rendered.
 	 * @var int|NULL
 	 */
@@ -302,7 +302,7 @@ trait ConfigProps
 
 	/**
 	 * Errors rendering mode, by default configured as string: `all-together`,
-	 * It means all errors are rendered naturaly at form begin together in one HTML `div.errors` element.
+	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `$this->RenderErrors();`
 	 * to get all errors into template.
 	 * @var string
@@ -312,7 +312,7 @@ trait ConfigProps
 	/**
 	 * Form custom template relative path without `.phtml` or `.php` extension.
 	 * It's `NULL` by default, which means there will be used no template and form
-	 * will be rendered naturaly, all fiels one by one without any breaking line html element.
+	 * will be rendered naturally, all fiels one by one without any breaking line html element.
 	 * If there is any path defined, it has to be defined relatively from directory
 	 * `/App/Views/Scripts` to desired template.
 	 * @var string|NULL

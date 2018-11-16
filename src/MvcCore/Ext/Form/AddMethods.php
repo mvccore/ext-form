@@ -52,8 +52,8 @@ trait AddMethods
 
 	/**
 	 * Add form submit error and switch form result to zero - to error state.
-	 * @param string $errorMsg Any error message, translated if necessary. All html tags from error message will be removed automaticly.
-	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happend.
+	 * @param string $errorMsg Any error message, translated if necessary. All html tags from error message will be removed automatically.
+	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {
@@ -111,13 +111,13 @@ trait AddMethods
 
 	/**
 	 * Add CSRF (Cross Site Request Forgery) error handler.
-	 * If CSRF submit comparation fails, it's automaticly processed
+	 * If CSRF submit comparison fails, it's automatically processed
 	 * queue with this handlers, you can put here for example handler
-	 * to deauthenticate your user or anything else to more secure your application.
+	 * to de-authenticate your user or anything else to more secure your application.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happend.
+	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
 	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `string`				- Translated error meessage string.
+	 *	- `string`				- Translated error message string.
 	 * Example:
 	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
 	 *		// ... anything you want to do, for example to sign out user.

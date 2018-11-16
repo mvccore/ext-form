@@ -49,20 +49,20 @@ trait TabIndex
 	/**
 	 * An integer attribute indicating if the element can take input focus (is focusable), 
 	 * if it should participate to sequential keyboard navigation, and if so, at what 
-	 * position. You can set `auto` string value to get next form tabindex value automaticly. 
-	 * Tabindex for every field in form is better to index from value `1` or automaticly and 
+	 * position. You can set `auto` string value to get next form tab-index value automatically. 
+	 * Tab-index for every field in form is better to index from value `1` or automatically and 
 	 * moved to specific higher value by place, where is form currently rendered by form 
-	 * instance method `$form->SetBaseTabIndex()` to move tabindex for each field into 
-	 * final values. Tabindex can takes several values:
+	 * instance method `$form->SetBaseTabIndex()` to move tab-index for each field into 
+	 * final values. Tab-index can takes several values:
 	 * - a negative value means that the element should be focusable, but should not be 
 	 *   reachable via sequential keyboard navigation;
 	 * - 0 means that the element should be focusable and reachable via sequential 
 	 *   keyboard navigation, but its relative order is defined by the platform convention;
 	 * - a positive value means that the element should be focusable and reachable via 
 	 *   sequential keyboard navigation; the order in which the elements are focused is 
-	 *   the increasing value of the tabindex. If several elements share the same tabindex, 
+	 *   the increasing value of the tab-index. If several elements share the same tab-index, 
 	 *   their relative order follows their relative positions in the document.
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tabindex
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
 	 * @var int|string|NULL
 	 */
 	protected $tabIndex = NULL;
@@ -70,20 +70,20 @@ trait TabIndex
 	/**
 	 * Get an integer attribute indicating if the element can take input focus (is focusable), 
 	 * if it should participate to sequential keyboard navigation, and if so, at what 
-	 * position. You can set `auto` string value to get next form tabindex value automaticly. 
-	 * Tabindex for every field in form is better to index from value `1` or automaticly and 
+	 * position. You can set `auto` string value to get next form tab-index value automatically. 
+	 * Tab-index for every field in form is better to index from value `1` or automatically and 
 	 * moved to specific higher value by place, where is form currently rendered by form 
-	 * instance method `$form->SetBaseTabIndex()` to move tabindex for each field into 
-	 * final values. Tabindex can takes several values:
+	 * instance method `$form->SetBaseTabIndex()` to move tab-index for each field into 
+	 * final values. Tab-index can takes several values:
 	 * - a negative value means that the element should be focusable, but should not be 
 	 *   reachable via sequential keyboard navigation;
 	 * - 0 means that the element should be focusable and reachable via sequential 
 	 *   keyboard navigation, but its relative order is defined by the platform convention;
 	 * - a positive value means that the element should be focusable and reachable via 
 	 *   sequential keyboard navigation; the order in which the elements are focused is 
-	 *   the increasing value of the tabindex. If several elements share the same tabindex, 
+	 *   the increasing value of the tab-index. If several elements share the same tab-index, 
 	 *   their relative order follows their relative positions in the document.
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tabindex
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
 	 * @return int|string|NULL
 	 */
 	public function GetTabIndex () {
@@ -93,20 +93,20 @@ trait TabIndex
 	/**
 	 * Set an integer attribute indicating if the element can take input focus (is focusable), 
 	 * if it should participate to sequential keyboard navigation, and if so, at what 
-	 * position. You can set `auto` string value to get next form tabindex value automaticly. 
-	 * Tabindex for every field in form is better to index from value `1` or automaticly and 
+	 * position. You can set `auto` string value to get next form tab-index value automatically. 
+	 * Tab-index for every field in form is better to index from value `1` or automatically and 
 	 * moved to specific higher value by place, where is form currently rendered by form 
-	 * instance method `$form->SetBaseTabIndex()` to move tabindex for each field into 
-	 * final values. Tabindex can takes several values:
+	 * instance method `$form->SetBaseTabIndex()` to move tab-index for each field into 
+	 * final values. Tab-index can takes several values:
 	 * - a negative value means that the element should be focusable, but should not be 
 	 *   reachable via sequential keyboard navigation;
 	 * - 0 means that the element should be focusable and reachable via sequential 
 	 *   keyboard navigation, but its relative order is defined by the platform convention;
 	 * - a positive value means that the element should be focusable and reachable via 
 	 *   sequential keyboard navigation; the order in which the elements are focused is 
-	 *   the increasing value of the tabindex. If several elements share the same tabindex, 
+	 *   the increasing value of the tab-index. If several elements share the same tab-index, 
 	 *   their relative order follows their relative positions in the document.
-	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tabindex
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
 	 * @param int|string $tabIndex 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
@@ -115,7 +115,7 @@ trait TabIndex
 			$this->tabIndex = $tabIndex;
 		} else {
 			$this->throwNewInvalidArgumentException(
-				'Tabindex property is possible to configure only with `auto` string or integer. `'.$tabIndex.'` value given.'
+				'Property `tabindex` is possible to configure only with `auto` string or integer. `'.$tabIndex.'` value given.'
 			);
 		}
 		return $this;
@@ -124,7 +124,7 @@ trait TabIndex
 	/**
 	 * Check after field is added into form, if field 
 	 * has defined any value for pattern property and if it does,
-	 * add automaticaly build in pattern validator.
+	 * add automatically build in pattern validator.
 	 * @return void
 	 */
 	protected function preDispatchTabIndex () {

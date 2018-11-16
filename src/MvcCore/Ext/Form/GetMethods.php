@@ -142,7 +142,7 @@ trait GetMethods
 	}
 
 	/**
-	 * Get lang property to complete optional translator language argument automaticly.
+	 * Get lang property to complete optional translator language argument automatically.
 	 * If you are operating in multilanguage project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, this `lang` property with target language code
 	 * serves to translate every visible text into target lang. Use this property
@@ -154,7 +154,7 @@ trait GetMethods
 	}
 
 	/**
-	 * Get `$form->locale`, uppercase locale code or `NULL`, usualy used to create
+	 * Get `$form->locale`, upper case locale code or `NULL`, usualy used to create
 	 * proper validator for zip codes, currencies etc...
 	 * If you are operating in multilanguage project and you want to use
 	 * in `\MvcCore\Ext\Form` form field validators for locale specific needs,
@@ -273,7 +273,7 @@ trait GetMethods
 
 	/**
 	 * Get internal flag to quickly know if form fields will be translated or not.
-	 * Automaticly completed to `TRUE` if `$form->translator` is not `NULL` and also if
+	 * Automatically completed to `TRUE` if `$form->translator` is not `NULL` and also if
 	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
 	 * @return bool
 	 */
@@ -304,7 +304,7 @@ trait GetMethods
 	 * Get all form errors. Returned collection is array with arrays.
 	 * Every array in collection have first item as error message
 	 * string and second argument (optional) as field name string or
-	 * array with field names strings, where error happend.
+	 * array with field names strings, where error happened.
 	 * @return array
 	 */
 	public function & GetErrors () {
@@ -322,8 +322,8 @@ trait GetMethods
 	}
 
 	/**
-	 * Get base tabindex value for every field in form, which has defined tabindex value (different from `NULL`).
-	 * This value could move tabindex values for each field into higher or lower values by needs, 
+	 * Get base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
+	 * This value could move tab-index values for each field into higher or lower values by needs, 
 	 * where is form currently rendered.
 	 * @return int
 	 */
@@ -333,7 +333,7 @@ trait GetMethods
 
 	/**
 	 * This method is INTERNAL, used by fields in predispatch rendering moment.
-	 * This method returns next automatic tabindex value for field.
+	 * This method returns next automatic tab-index value for field.
 	 * @return int
 	 */
 	public function GetFieldNextAutoTabIndex () {
@@ -354,7 +354,7 @@ trait GetMethods
 
 	/**
 	 * Get errors rendering mode, by default configured as string: `all-together`.
-	 * It means all errors are rendered naturaly at form begin together in one HTML `div.errors` element.
+	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
 	 * @return string
@@ -366,8 +366,8 @@ trait GetMethods
 	/**
 	 * Get custom form view script relative path without `.phtml` extension.
 	 * View script could be `TRUE`/`FALSE` to render or not form by view script name
-	 * completed automaticly with form id and configured view extension (.phtml) or explicit
-	 * relative view script path defined by string. Automaticly completed form view
+	 * completed automatically with form id and configured view extension (.phtml) or explicit
+	 * relative view script path defined by string. Automatically completed form view
 	 * script path and also explicitly defined form view script path by string are
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
