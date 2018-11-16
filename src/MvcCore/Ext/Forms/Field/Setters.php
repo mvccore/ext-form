@@ -359,7 +359,7 @@ trait Setters
 	/**
 	 * Add field error message text to render it in rendering process.
 	 * This method is only for rendering purposes, not to add errors
-	 * into session. It's always called internaly from `\MvcCore\Ext\Form`
+	 * into session. It's always called internally from `\MvcCore\Ext\Form`
 	 * in render preparing process. To add form error properly, 
 	 * use `$field->form->AddError($errorMsg, $fieldNames);` method instead.
 	 * @param string $errorMsg

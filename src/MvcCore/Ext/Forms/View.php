@@ -396,7 +396,7 @@ class View extends \MvcCore\View
 	/**
 	 * Render hidden input with CSRF tokens.
 	 * This method is not necessary to call, it's
-	 * called internaly by $form->View->RenderBegin();
+	 * called internally by `$form->View->RenderBegin();`
 	 * @return string
 	 */
 	public function RenderCsrf () {

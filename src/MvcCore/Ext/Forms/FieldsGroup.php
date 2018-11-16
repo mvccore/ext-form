@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility: init, predispatch and render group of common form controls, 
+ * Responsibility: init, pre-dispatch and render group of common form controls, 
  *				   mostly `input` controls. This class is not possible to 
  *				   instantiate, you need to extend this class to create own 
  *				   specific form control.

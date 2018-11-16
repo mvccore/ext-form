@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms;
 interface IError
 {
 	/**
-	 * Constants used internaly and mostly
+	 * Constants used internally and mostly
 	 * in validator classes to specify
 	 * proper error message index.
 	 */

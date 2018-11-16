@@ -28,7 +28,7 @@ trait ConfigProps
 	protected $id = NULL;
 
 	/**
-	 * Form submitting url value.
+	 * Form submitting URL value.
 	 * Should be relative or absolute, anything
 	 * to complete classic html form attribute action.
 	 * @requires
@@ -57,7 +57,7 @@ trait ConfigProps
 	 *   `key1=value1&key2=value2...` string.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
-	 *   Data will not be encoded to url string form, this value is required,
+	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control. 
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
@@ -171,20 +171,20 @@ trait ConfigProps
 	protected $attributes = [];
 
 	/**
-	 * Form success submit url string to redirect after, relative or absolute,
+	 * Form success submit URL string to redirect after, relative or absolute,
 	 * to specify, where to redirect user after form has been submitted successfully.
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @var string|NULL
 	 */
 	protected $successUrl = NULL;
 	
 	/**
-	 * Form success submit previous step url string, relative or absolute, to specify,
+	 * Form success submit previous step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized to switch form result property `$form->result` to value `2`.
-	 * Which means "previous step" redirection after successfull submit. This functionality
+	 * Which means "previous step" redirection after successful submit. This functionality
 	 * to switch result value to `2` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -195,10 +195,10 @@ trait ConfigProps
 	protected $prevStepUrl = NULL;
 
 	/**
-	 * Form success submit next step url string, relative or absolute, to specify,
+	 * Form success submit next step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized to switch form result property `$form->result` to value `3`.
-	 * Which means "next step" redirection after successfull submit. This functionality
+	 * Which means "next step" redirection after successful submit. This functionality
 	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -209,11 +209,11 @@ trait ConfigProps
 	protected $nextStepUrl = NULL;
 
 	/**
-	 * Form error submit url string, relative or absolute, to specify,
+	 * Form error submit URL string, relative or absolute, to specify,
 	 * where to redirect user after has not been submitted successfully.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @var string|NULL
 	 */
 	protected $errorUrl = NULL;
@@ -222,9 +222,9 @@ trait ConfigProps
 	 * Form submit result state. Submit could have two basic values (or three values for next step):
 	 * `0` - Submit has errors. User will be redirected after submit to error url.
 	 *	   `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1` - Submit was successfull. User will be redirected after submit to success url.
+	 * `1` - Submit was successful. User will be redirected after submit to success url.
 	 *	   `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2` - Submit was successfull. User will be redirected after submit to next step url.
+	 * `2` - Submit was successful. User will be redirected after submit to next step url.
 	 *	   `\MvcCore\Ext\Form::RESULT_NEXT_PAGE`
 	 * @var int|NULL
 	 */

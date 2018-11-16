@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility: init, predispatch and render `<datalist>` HTML element 
+ * Responsibility: init, pre-dispatch and render `<datalist>` HTML element 
  *				   with given options, optionally translated. This field 
  *				   has no possible value to submit. It just renders the
  *				   `<datalist>` with given options.

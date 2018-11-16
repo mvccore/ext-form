@@ -44,7 +44,7 @@ interface IForm
 
 	/**
 	 * Form enctype attribute value `multipart/form-data`,
-	 * By submitting - data will not be encoded to url string form.
+	 * By submitting - data will not be encoded to URL string form.
 	 * This value is required when you are using forms that have a file upload control.
 	 */
 	const ENCTYPE_MULTIPART  = 'multipart/form-data';
@@ -82,7 +82,7 @@ interface IForm
 	 * Form submit result state (`2` - everything OK, redirect user to previous step url).
 	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
-	 * to previous step url in multiple forms wizard (typically e-shop ordering).
+	 * to previous step URL in multiple forms wizard (typically e-shop ordering).
 	 */
 	const RESULT_PREV_PAGE	= 2;
 
@@ -90,7 +90,7 @@ interface IForm
 	 * Form submit result state (`3` - everything OK, redirect user to next step url).
 	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
-	 * to next step url in multiple forms wizard (typically e-shop ordering).
+	 * to next step URL in multiple forms wizard (typically e-shop ordering).
 	 */
 	const RESULT_NEXT_PAGE	= 3;
 
@@ -215,7 +215,7 @@ interface IForm
 	public function GetId ();
 
 	/**
-	 * Get form submitting url value.
+	 * Get form submitting URL value.
 	 * It could be relative or absolute, anything
 	 * to complete classic html form attribute `action`.
 	 * @return string|NULL
@@ -241,7 +241,7 @@ interface IForm
 	 *   `key1=value1&key2=value2...` string.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
-	 *   Data will not be encoded to url string form, this value is required,
+	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control. 
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
@@ -351,20 +351,20 @@ interface IForm
 	public function & GetAttributes ();
 
 	/**
-	 * Get form success submit url string to redirect after, relative or absolute,
+	 * Get form success submit URL string to redirect after, relative or absolute,
 	 * to specify, where to redirect user after form has been submitted successfully.
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @return string|NULL
 	 */
 	public function GetSuccessUrl ();
 
 	/**
-	 * Get form success submit prev step url string, relative or absolute, to specify,
+	 * Get form success submit prev step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `2`.
-	 * Which means "previous step" redirection after successfull submit. This functionality
+	 * Which means "previous step" redirection after successful submit. This functionality
 	 * to switch result value to `2` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -375,10 +375,10 @@ interface IForm
 	public function GetPrevStepUrl ();
 
 	/**
-	 * Get form success submit next step url string, relative or absolute, to specify,
+	 * Get form success submit next step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `3`.
-	 * Which means "next step" redirection after successfull submit. This functionality
+	 * Which means "next step" redirection after successful submit. This functionality
 	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -389,11 +389,11 @@ interface IForm
 	public function GetNextStepUrl ();
 
 	/**
-	 * Get form error submit url string, relative or absolute, to specify,
+	 * Get form error submit URL string, relative or absolute, to specify,
 	 * where to redirect user after has not been submitted successfully.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @return string|NULL
 	 */
 	public function GetErrorUrl ();
@@ -403,9 +403,9 @@ interface IForm
 	 * `NULL` - No `Submit()` method has been called yet. Call `$form->Submit();` before.
 	 * `0`	- Submit has errors. User will be redirected after submit to error url.
 	 *		  `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1`	- Submit was successfull. User will be redirected after submit to success url.
+	 * `1`	- Submit was successful. User will be redirected after submit to success url.
 	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2`	- Submit was successfull. User will be redirected after submit to next step url.
+	 * `2`	- Submit was successful. User will be redirected after submit to next step url.
 	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
 	 * @return int|NULL
 	 */
@@ -471,7 +471,7 @@ interface IForm
 	public function GetBaseTabIndex ();
 
 	/**
-	 * This method is INTERNAL, used by fields in predispatch rendering moment.
+	 * This method is INTERNAL, used by fields in pre-dispatch rendering moment.
 	 * This method returns next automatic tab-index value for field.
 	 * @return int
 	 */
@@ -628,7 +628,7 @@ interface IForm
 	public function & SetId ($id);
 
 	/**
-	 * Set form submitting url value.
+	 * Set form submitting URL value.
 	 * It could be relative or absolute, anything
 	 * to complete classic html form attribute `action`.
 	 * @param string|NULL $url
@@ -656,7 +656,7 @@ interface IForm
 	 *   `key1=value1&key2=value2...` string.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
-	 *   Data will not be encoded to url string form, this value is required,
+	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control. 
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
@@ -777,21 +777,21 @@ interface IForm
 	public function & SetAttributes (array $attributes = []);
 
 	/**
-	 * Set form success submit url string to redirect after, relative or absolute,
+	 * Set form success submit URL string to redirect after, relative or absolute,
 	 * to specify, where to redirect user after form has been submitted successfully.
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
 	public function & SetSuccessUrl ($url = NULL);
 
 	/**
-	 * Set form success submit previous step url string, relative or absolute, to specify,
+	 * Set form success submit previous step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `2`.
-	 * Which means "previous step" redirection after successfull submit. This functionality
+	 * Which means "previous step" redirection after successful submit. This functionality
 	 * to switch result value to `2` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -803,10 +803,10 @@ interface IForm
 	public function & SetPrevStepUrl ($url = NULL);
 
 	/**
-	 * Set form success submit next step url string, relative or absolute, to specify,
+	 * Set form success submit next step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `3`.
-	 * Which means "next step" redirection after successfull submit. This functionality
+	 * Which means "next step" redirection after successful submit. This functionality
 	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -818,11 +818,11 @@ interface IForm
 	public function & SetNextStepUrl ($url = NULL);
 
 	/**
-	 * Set form error submit url string, relative or absolute, to specify,
+	 * Set form error submit URL string, relative or absolute, to specify,
 	 * where to redirect user after has not been submitted successfully.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
@@ -833,9 +833,9 @@ interface IForm
 	 * `NULL` - No `Submit()` method has been called yet.
 	 * `0`	- Submit has errors. User will be redirected after submit to error url.
 	 *		  `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1`	- Submit was successfull. User will be redirected after submit to success url.
+	 * `1`	- Submit was successful. User will be redirected after submit to success url.
 	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2`	- Submit was successfull. User will be redirected after submit to next step url.
+	 * `2`	- Submit was successful. User will be redirected after submit to next step url.
 	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
 	 * @param int|NULL $result
 	 * @return \MvcCore\Ext\Forms\IForm
@@ -1407,7 +1407,7 @@ interface IForm
 	/**
 	 * Call this function in custom `\MvcCore\Ext\Form::Submit();` method implementation
 	 * at the end of custom `Submit()` method to redirect user by configured success/error/prev/next
-	 * step url address into final place and store everything into session.
+	 * step URL address into final place and store everything into session.
 	 * You can also to redirect form after submit by yourself.
 	 * @return void
 	 */

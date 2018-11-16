@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility: init, predispatch and render `<input>` HTML element 
+ * Responsibility: init, pre-dispatch and render `<input>` HTML element 
  *				   with type `hidden`. `Hidden` field has it's own validator 
  *				   `SafeString` to clean string from base ASCII chars and 
  *				   some control chars by default. But validator `SafeString` 

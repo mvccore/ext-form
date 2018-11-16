@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility: init, predispatch and render common form control, 
+ * Responsibility: init, pre-dispatch and render common form control, 
  *				   it could be `input`, `select` or textarea. This 
  *				   class is not possible to instantiate, you need to 
  *				   extend this class to create own specific form control.
@@ -94,7 +94,7 @@ implements		\MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * Universal setter, if property not defined - it's automatically declarated.
+	 * Universal setter, if property not defined - it's automatically declared.
 	 * @param string $name
 	 * @param mixed	 $value
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField

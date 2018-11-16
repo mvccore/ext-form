@@ -124,7 +124,7 @@ trait Submitting
 	/**
 	 * Call this function in custom `\MvcCore\Ext\Form::Submit();` method implementation
 	 * at the end of custom `Submit()` method to redirect user by configured success/error/prev/next
-	 * step url address into final place and store everything into session.
+	 * step URL address into final place and store everything into session.
 	 * You can also to redirect form after submit by yourself.
 	 * @return void
 	 */

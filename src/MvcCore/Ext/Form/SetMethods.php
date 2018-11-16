@@ -33,7 +33,7 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form submitting url value.
+	 * Set form submitting URL value.
 	 * It could be relative or absolute, anything
 	 * to complete classic html form attribute `action`.
 	 * @param string|NULL $url
@@ -67,7 +67,7 @@ trait SetMethods
 	 *   `key1=value1&key2=value2...` string.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
-	 *   Data will not be encoded to url string form, this value is required,
+	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control. 
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
@@ -228,11 +228,11 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form success submit url string to redirect after, relative or absolute,
+	 * Set form success submit URL string to redirect after, relative or absolute,
 	 * to specify, where to redirect user after form has been submitted successfully.
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -242,10 +242,10 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form success submit previous step url string, relative or absolute, to specify,
+	 * Set form success submit previous step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `2`.
-	 * Which means "previous step" redirection after successfull submit. This functionality
+	 * Which means "previous step" redirection after successful submit. This functionality
 	 * to switch result value to `2` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -260,10 +260,10 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form success submit next step url string, relative or absolute, to specify,
+	 * Set form success submit next step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `3`.
-	 * Which means "next step" redirection after successfull submit. This functionality
+	 * Which means "next step" redirection after successful submit. This functionality
 	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
@@ -278,11 +278,11 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form error submit url string, relative or absolute, to specify,
+	 * Set form error submit URL string, relative or absolute, to specify,
 	 * where to redirect user after has not been submitted successfully.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
-	 * you need to specify at least success and error url strings.
+	 * you need to specify at least success and error URL strings.
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -296,9 +296,9 @@ trait SetMethods
 	 * `NULL` - No `Submit()` method has been called yet.
 	 * `0`	- Submit has errors. User will be redirected after submit to error url.
 	 *		  `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1`	- Submit was successfull. User will be redirected after submit to success url.
+	 * `1`	- Submit was successful. User will be redirected after submit to success url.
 	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2`	- Submit was successfull. User will be redirected after submit to next step url.
+	 * `2`	- Submit was successful. User will be redirected after submit to next step url.
 	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
 	 * @param int|NULL $result
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -627,14 +627,14 @@ trait SetMethods
 				self::GetById($oldFormId)->GetField($oldFieldName)->SetAutoFocus(FALSE);
 				self::$autoFocusedFormField = [];
 			} else if ($duplicateBehaviour === \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
-				// thrwn an runtime exception
+				// thrown an runtime exception
 				list ($currentFormId, $currentFieldName) = self::$autoFocusedFormField;
 				throw new \RuntimeException(
 					'Another form field has already defined `autofocus` attribute.'
 					. ' Form id: `' . $currentFormId . '`, field name: `' . $currentFieldName . '`.'
 				);
 			} else if ($duplicateBehaviour === \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW) {
-				// quietly set (could be usefull to render something in the background)
+				// quietly set (could be useful to render something in the background)
 				self::GetById($formId)->GetField($fieldName)->SetAutoFocus(
 					TRUE, \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW
 				);
