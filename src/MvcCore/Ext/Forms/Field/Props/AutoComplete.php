@@ -60,6 +60,7 @@ trait AutoComplete
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetAutoComplete ($autoComplete) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->autoComplete = $autoComplete;
 		return $this;
 	}

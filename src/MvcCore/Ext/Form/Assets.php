@@ -22,7 +22,7 @@ trait Assets
 	/**
 	 * Complete JS/CSS supporting file(s) to add them after rendered `<form>` element
 	 * or to add them into response by external renderer. This function processes all
-	 * assets necessary to and and filters them for asset files already added into response.
+	 * assets necessary to and filters them for asset files already added into response.
 	 * @param bool $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
 	 * @return array
 	 */

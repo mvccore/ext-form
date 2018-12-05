@@ -45,6 +45,7 @@ trait GroupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetGroupLabelAttrs ($groupLabelAttrs = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->groupLabelAttrs = $groupLabelAttrs;
 		return $this;
 	}
@@ -58,6 +59,7 @@ trait GroupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddGroupLabelAttr ($groupLabelAttrs = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $groupLabelAttrs);
 		return $this;
 	}

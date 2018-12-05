@@ -46,7 +46,7 @@ trait InputMode
 
 	/**
 	 * A hint to browsers for which virtual keyboard to display. 
-	 * This attribute applies when the the type attribute is 
+	 * This attribute applies when the type attribute is 
 	 * `text`, `password`, `email`, or `url`. Possible values:
 	 * 	`none`		: No virtual keyboard should be displayed.
 	 * 	`text`		: Text input in the user's locale.
@@ -66,7 +66,7 @@ trait InputMode
 
 	/**
 	 * A hint to browsers for which virtual keyboard to display. 
-	 * This attribute applies when the the type attribute is 
+	 * This attribute applies when the type attribute is 
 	 * `text`, `password`, `email`, or `url`. Possible values:
 	 * 	`none`		: No virtual keyboard should be displayed.
 	 * 	`text`		: Text input in the user's locale.
@@ -82,6 +82,7 @@ trait InputMode
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetInputMode ($inputMode) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->inputMode = $inputMode;
 		return $this;
 	}
@@ -92,6 +93,7 @@ trait InputMode
 	 * @return void
 	 */
 	protected function preDispatchInputMode () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($this->inputMode !== NULL) return;
 		if ($this->type === 'number') {
 			if (

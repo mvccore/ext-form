@@ -53,7 +53,7 @@ trait GetMethods
 	}
 
 	/**
-	 * Get form enctype attribute - how the form values will be encoded 
+	 * Get form `enctype` attribute - how the form values will be encoded 
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to 
@@ -143,7 +143,7 @@ trait GetMethods
 
 	/**
 	 * Get lang property to complete optional translator language argument automatically.
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, this `lang` property with target language code
 	 * serves to translate every visible text into target lang. Use this property
 	 * with `$form->translator` property.
@@ -154,9 +154,9 @@ trait GetMethods
 	}
 
 	/**
-	 * Get `$form->locale`, upper case locale code or `NULL`, usualy used to create
+	 * Get `$form->locale`, upper case locale code or `NULL`, usually used to create
 	 * proper validator for zip codes, currencies etc...
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * in `\MvcCore\Ext\Form` form field validators for locale specific needs,
 	 * `$form->locale` property helps you to process validation functionality
 	 * with proper validator by locale code.
@@ -200,7 +200,7 @@ trait GetMethods
 	}
 
 	/**
-	 * Get form success submit prev step URL string, relative or absolute, to specify,
+	 * Get form success submit previous step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `2`.
 	 * Which means "previous step" redirection after successful submit. This functionality
@@ -261,7 +261,7 @@ trait GetMethods
 	/**
 	 * Get translator to translate field labels, options, placeholders and error messages.
 	 * Translator is `callable` (it could be `closure function` or `array`
-	 * with `classname/instance` and `method name` string). First argument
+	 * with `class_name/instance` and `method name` string). First argument
 	 * of `callable` is a translation key and second argument
 	 * is language string (`en`, `de` ...) to translate the key into.
 	 * Result of `callable` object is a string - translated key for called language.
@@ -284,7 +284,7 @@ trait GetMethods
 	/**
 	 * Get default switch how to set every form control to be required by default.
 	 * If you define directly any control to NOT be required, it will NOT be required.
-	 * This is only value used as DEFAULT VALUE for form fiels, not to strictly define
+	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define
 	 * required flag value in controls. Default value is `FALSE`.
 	 * @return bool
 	 */
@@ -409,7 +409,7 @@ trait GetMethods
 
 	/**
 	 * Get javascript support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal javascript
+	 * to accept first argument to be `\SplFileInfo` about external javascript
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
 	 * @return callable|NULL
@@ -420,7 +420,7 @@ trait GetMethods
 
 	/**
 	 * Get css support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal css
+	 * to accept first argument to be `\SplFileInfo` about external css
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
 	 * @return callable|NULL
@@ -476,7 +476,7 @@ trait GetMethods
 	}
 
 	/**
-	 * Get PHP data limit as integer value by given ini variable name.
+	 * Get PHP data limit as integer value by given PHP INI variable name.
 	 * @param string $iniVarName 
 	 * @return int|NULL
 	 */

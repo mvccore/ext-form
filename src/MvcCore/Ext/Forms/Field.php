@@ -33,7 +33,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 *					 values which you want to configure, presented 
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return void
 	 */
 	public function __construct ($cfg = []) {
 		static::$templates = (object) static::$templates;

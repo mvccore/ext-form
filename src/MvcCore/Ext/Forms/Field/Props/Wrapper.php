@@ -30,7 +30,7 @@ trait Wrapper
 	 * Html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * Defaul wrapper values is: `{control}`.
+	 * Default wrapper values is: `{control}`.
 	 * @var string
 	 */
 	public $wrapper = '{control}';
@@ -39,7 +39,7 @@ trait Wrapper
 	 * Get html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * Defaul wrapper values is: `{control}`.
+	 * Default wrapper values is: `{control}`.
 	 * @return string
 	 */
 	public function GetWrapper () {
@@ -50,10 +50,11 @@ trait Wrapper
 	 * Set html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * @param string $wrapper Defaul wrapper values is: `{control}`.
+	 * @param string $wrapper Default wrapper values is: `{control}`.
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetWrapper ($wrapper) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->wrapper = $wrapper;
 		return $this;
 	}

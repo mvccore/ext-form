@@ -211,7 +211,7 @@ interface IVisibleField
 	/**
 	 * Set an integer attribute indicating if the element can take input focus (is focusable), 
 	 * if it should participate to sequential keyboard navigation, and if so, at what 
-	 * position. Tab-index for every field in form could be indexed as yu wish or it could
+	 * position. Tab-index for every field in form could be indexed as you wish or it could
 	 * be indexed from value `1` and moved to specific higher value by place, where form is 
 	 * currently rendered by form instance method `$form->SetBaseTabIndex()` to move tab-index 
 	 * for each field into final values. Tab-index can takes several values:

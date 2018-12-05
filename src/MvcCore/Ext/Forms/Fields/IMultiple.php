@@ -38,7 +38,7 @@ interface IMultiple
 	 * If control is `<select>`, this Boolean attribute indicates 
 	 * that multiple options can be selected in the list. When 
 	 * multiple is specified, most browsers will show a scrolling 
-	 * list box instead of a single line dropdown.
+	 * list box instead of a single line drop down.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
 	 * @return bool
@@ -55,7 +55,7 @@ interface IMultiple
 	 * If control is `<select>`, this Boolean attribute indicates 
 	 * that multiple options can be selected in the list. When 
 	 * multiple is specified, most browsers will show a scrolling 
-	 * list box instead of a single line dropdown.
+	 * list box instead of a single line drop down.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
 	 * @param bool $multiple 

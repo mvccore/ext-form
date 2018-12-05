@@ -101,7 +101,7 @@ class DataList
 	 * in submit processing. Do not use this method even if you 
 	 * don't develop form library or any form field.
 	 * 
-	 * Return allways `NULL` for this `<datalist>` pseudo-field.
+	 * Return always `NULL` for this `<datalist>` pseudo-field.
 	 * 
 	 * @param array $rawRequestParams Raw request params from MvcCore 
 	 *								  request object based on raw app 

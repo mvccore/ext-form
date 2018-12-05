@@ -85,20 +85,20 @@ trait InternalProps
 
 	/**
 	 * Temporary collection with js support files to add into HTML output after rendered form(s).
-	 * It could be added directly after rendered form or by external renderer, doesn't metter.
+	 * It could be added directly after rendered form or by external renderer, doesn't matter.
 	 * This serves only for purpose - how to determinate to add every supporting javascript for all
 	 * it's field types only once. Keys are relative javascript support file paths and values are
-	 * simple dummy booleans.
+	 * simple dummy boolean values.
 	 * @var array
 	 */
 	protected static $allJsSupportFiles = [];
 
 	/**
 	 * Temporary collection with css support files to add into HTML output after rendered form(s).
-	 * It could be added directly after rendered form or by external renderer, doesn't metter.
+	 * It could be added directly after rendered form or by external renderer, doesn't matter.
 	 * This serves only for purpose - how to determinate to add every supporting css for all
 	 * it's field types only once. Keys are relative css support file paths and values are
-	 * simple dummy booleans.
+	 * simple dummy boolean values.
 	 * @var array
 	 */
 	protected static $allCssSupportFiles = [];

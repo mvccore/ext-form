@@ -23,13 +23,13 @@ trait Submitting
 	 * If no params passed as first argument, all params from object
 	 * `\MvcCore\Application::GetInstance()->GetRequest()` are used.
 	 * - If fields are not initialized - initialize them by calling `$form->Init();`.
-	 * - Check max. post size by php configuration if form is posted.
+	 * - Check maximum post size by php configuration if form is posted.
 	 * - Check cross site request forgery tokens with session tokens.
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
 	 *	 `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
 	 * @param array $rawRequestParams optional
-	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
+	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		if ($this->dispatchState < 1) $this->Init();
@@ -57,6 +57,7 @@ trait Submitting
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitSetStartResultState (array & $rawRequestParams = []) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if (!$this->customResultStates) {
 			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
 		} else {
@@ -77,12 +78,13 @@ trait Submitting
 	}
 
 	/**
-	 * Validate max. posted size in POST request body by `Content-Length` HTTP header.
+	 * Validate maximum posted size in POST request body by `Content-Length` HTTP header.
 	 * If there is no `Content-Length` request header, add error.
-	 * If `Content-Length` value is bigger than `post_max_size` from PHP ini, add form error.
+	 * If `Content-Length` value is bigger than `post_max_size` from PHP INI, add form error.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & SubmitValidateMaxPostSizeIfNecessary () {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return $this;
 		$contentLength = $this->request->GetContentLength();
 		if ($contentLength === NULL) $this->AddError(
@@ -108,6 +110,7 @@ trait Submitting
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
 		foreach ($this->fields as $fieldName => & $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
@@ -196,7 +199,7 @@ trait Submitting
 
 	/**
 	 * If form has defined any `accept-charset` attribute values,
-	 * go through all accept charsets and try to transcode all raw values 
+	 * go through all accept charset(s) and try to transcode all raw values 
 	 * and collect translation statistics from this process. Then decode 
 	 * best translation charset and return by given param `$rawRequestParams`
 	 * new translated raw values by first best charset in `accept-charset` attribute.
@@ -207,7 +210,7 @@ trait Submitting
 		if (count($this->acceptCharsets) === 0) return $rawRequestParams;
 		$toEncoding = strtoupper($this->GetResponse()->GetEncoding());
 		if (!static::$toolClass) static::$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
-		// try to translate one accepting charset by one and colect success statistics
+		// try to translate one accepting charset by one and collect success statistics
 		$bestCharset = NULL;
 		$translatedStats = [];
 		$translatedRawRequestParams = [];

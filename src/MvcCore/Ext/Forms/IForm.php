@@ -35,10 +35,10 @@ interface IForm
 
 
 	/**
-	 * Form enctype attribute value `application/x-www-form-urlencoded`,
+	 * Form `enctype` attribute value `application/x-www-form-urlencoded`,
 	 * By submitting - all form values will be encoded
 	 * to `key1=value1&key2=value2&...` string.
-	 * This enctype type is used for all `\MvcCore\Ext\Form` instances by default.
+	 * This `enctype` type is used for all `\MvcCore\Ext\Form` instances by default.
 	 */
 	const ENCTYPE_URLENCODED = 'application/x-www-form-urlencoded';
 
@@ -50,7 +50,7 @@ interface IForm
 	const ENCTYPE_MULTIPART  = 'multipart/form-data';
 
 	/**
-	 * Form enctype attribute value `application/x-www-form-urlencoded`,
+	 * Form `enctype` attribute value `application/x-www-form-urlencoded`,
 	 * By submitting - spaces will be converted to `+` symbols,
 	 * but no other special characters will be encoded.
 	 */
@@ -118,7 +118,7 @@ interface IForm
 
 	/**
 	 * Control errors rendering mode (`all-together`).
-	 * All errors are rendered naturally at form begin together in one html div element.
+	 * All errors are rendered naturally at form begin together in one HTML `<div>` element.
 	 * If you are using custom template for form - you have to call after form beginning
 	 * `$form->RenderErrors();` to get all errors into template. This value is used as
 	 * default for all `\MvcCore\Ext\Form` instances.
@@ -234,7 +234,7 @@ interface IForm
 	public function GetMethod ();
 
 	/**
-	 * Get form enctype attribute - how the form values will be encoded 
+	 * Get form `enctype` attribute - how the form values will be encoded 
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to 
@@ -314,7 +314,7 @@ interface IForm
 
 	/**
 	 * Get lang property to complete optional translator language argument automatically.
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, this `lang` property with target language code
 	 * serves to translate every visible text into target lang. Use this property
 	 * with `$form->translator` property.
@@ -323,9 +323,9 @@ interface IForm
 	public function GetLang ();
 
 	/**
-	 * Get `$form->locale`, upper case locale code or `NULL`, usualy used to create
+	 * Get `$form->locale`, upper case locale code or `NULL`, usually used to create
 	 * proper validator for zip codes, currencies etc...
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * in `\MvcCore\Ext\Form` form field validators for locale specific needs,
 	 * `$form->locale` property helps you to process validation functionality
 	 * with proper validator by locale code.
@@ -361,7 +361,7 @@ interface IForm
 	public function GetSuccessUrl ();
 
 	/**
-	 * Get form success submit prev step URL string, relative or absolute, to specify,
+	 * Get form success submit previous step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
 	 * will be recognized as submit type to switch form result property `$form->result` to value `2`.
 	 * Which means "previous step" redirection after successful submit. This functionality
@@ -414,7 +414,7 @@ interface IForm
 	/**
 	 * Get translator to translate field labels, options, placeholders and error messages.
 	 * Translator is `callable` (it could be `closure function` or `array`
-	 * with `classname/instance` and `method name` string). First argument
+	 * with `class_name/instance` and `method name` string). First argument
 	 * of `callable` is a translation key and second argument
 	 * is language string (`en`, `de` ...) to translate the key into.
 	 * Result of `callable` object is a string - translated key for called language.
@@ -433,7 +433,7 @@ interface IForm
 	/**
 	 * Get default switch how to set every form control to be required by default.
 	 * If you define directly any control to NOT be required, it will NOT be required.
-	 * This is only value used as DEFAULT VALUE for form fiels, not to strictly define
+	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define
 	 * required flag value in controls. Default value is `FALSE`.
 	 * @return bool
 	 */
@@ -533,7 +533,7 @@ interface IForm
 
 	/**
 	 * Get javascript support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal javascript
+	 * to accept first argument to be `\SplFileInfo` about external javascript
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
 	 * @return callable|NULL
@@ -542,7 +542,7 @@ interface IForm
 
 	/**
 	 * Get css support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal css
+	 * to accept first argument to be `\SplFileInfo` about external css
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
 	 * @return callable|NULL
@@ -588,7 +588,7 @@ interface IForm
 	public static function GetValidatorsNamespaces ();
 
 	/**
-	 * Get PHP data limit as integer value by given ini variable name.
+	 * Get PHP data limit as integer value by given PHP INI variable name.
 	 * @param string $iniVarName 
 	 * @return int|NULL
 	 */
@@ -649,7 +649,7 @@ interface IForm
 	public function & SetMethod ($method = \MvcCore\Ext\Forms\IForm::METHOD_POST);
 
 	/**
-	 * Set form enctype attribute - how the form values will be encoded 
+	 * Set form `enctype` attribute - how the form values will be encoded 
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to 
@@ -705,7 +705,7 @@ interface IForm
 	 * fields (username and password), if the user permits the storage the browser will
 	 * autofill the login the next time the user visits the page. See The autocomplete 
 	 * attribute and login fields.
-	 * @param bool|string $autoComplete Posible values are `'on' | TRUE | 'off' | FALSE | NULL`.
+	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
 	public function & SetAutoComplete ($autoComplete = FALSE);
@@ -725,7 +725,7 @@ interface IForm
 	 * uses them in the order in which they are listed. The default value,
 	 * the reserved string `'UNKNOWN'`, indicates the same encoding as that 
 	 * of the document containing the form element. Any previously configured
-	 * accept charsets will be replaced by given array. If you want only to
+	 * accept charset(s) will be replaced by given array. If you want only to
 	 * add another charset, use method: `$form->AddAcceptCharset()` instead.
 	 * @param \string[] $acceptCharsets 
 	 * @return \MvcCore\Ext\Forms\IForm
@@ -734,7 +734,7 @@ interface IForm
 
 	/**
 	 * Set lang property to complete optional translator language argument automatically.
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to target language code
 	 * you want to translate every visible text into target language. Use this property
 	 * with `$form->translator`property.
@@ -744,8 +744,8 @@ interface IForm
 	public function & SetLang ($lang = NULL);
 
 	/**
-	 * Set `$form->locale`, usualy used to create proper validator for zip codes, currencies etc...
-	 * If you are operating in multilanguage project and you want to use
+	 * Set `$form->locale`, usually used to create proper validator for zip codes, currencies etc...
+	 * If you are operating in multi-language project and you want to use
 	 * in `\MvcCore\Ext\Form` form field validators for locale specific needs,
 	 * `$form->locale` property helps you to process validation functionality
 	 * with proper validator by locale code.
@@ -845,7 +845,7 @@ interface IForm
 	/**
 	 * Set translator to translate field labels, options, placeholders and error messages.
 	 * Translator has to be `callable` (it could be `closure function` or `array`
-	 * with `classname/instance` and `method name` string). First argument
+	 * with `class_name/instance` and `method name` string). First argument
 	 * of `callable` has to be a translation key and second argument
 	 * has to be language string (`en`, `de` ...) to translate the key into.
 	 * Result of `callable` object has to be a string - translated key for called language.
@@ -857,7 +857,7 @@ interface IForm
 	/**
 	 * Set default switch how to set every form control to be required by default.
 	 * If you define directly any control to NOT be required, it will NOT be required.
-	 * This is only value used as DEFAULT VALUE for form fiels, not to strictly define
+	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define
 	 * required flag value in controls. Default value is `FALSE`.
 	 * @param bool $defaultRequired
 	 * @return \MvcCore\Ext\Forms\IForm
@@ -870,7 +870,7 @@ interface IForm
 	 * with the same name. Only data with existing fields by keys are setted into field values.
 	 * Values are assigned into fields by keys in case sensitive mode by default.
 	 * @param array $values						Key value array with keys as field names and values for fields.
-	 * @param bool  $caseInsensitive			If `TRUE`, set up values from `$values` with keys in case insensive mode.
+	 * @param bool  $caseInsensitive			If `TRUE`, set up values from `$values` with keys in case insensitive mode.
 	 * @param bool  $clearPreviousSessionValues If `TRUE`, clear all previous data records for this form from session.
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
@@ -977,7 +977,7 @@ interface IForm
 
 	/**
 	 * Set javascript support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal javascript
+	 * to accept first argument to be `\SplFileInfo` about external javascript
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
 	 * @param callable|NULL $jsSupportFilesRenderer
@@ -987,7 +987,7 @@ interface IForm
 
 	/**
 	 * Set css support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal css
+	 * to accept first argument to be `\SplFileInfo` about external css
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
 	 * @param callable|NULL $cssSupportFilesRenderer
@@ -1162,7 +1162,7 @@ interface IForm
 
 	/**
 	 * Replace all previously configured fields with given fully configured fields array.
-	 * This method is dangerous - it will remove all previously added form fiels
+	 * This method is dangerous - it will remove all previously added form fields
 	 * and add given fields. If you want only to add another field(s) into form,
 	 * use functions:
 	 * - `$form->AddField($field);`
@@ -1284,7 +1284,7 @@ interface IForm
 	 * - If form is not initialized, there is automatically
 	 *   called `$form->Init();` method.
 	 * - If form is not pre-dispatched for rendering, there is
-	 *   automatically called `$form->Predispatch();` method.
+	 *   automatically called `$form->PreDispatch();` method.
 	 * - Create new form view instance and set up the view with local
 	 *   context variables.
 	 * - Render form naturally or by custom template.
@@ -1348,7 +1348,7 @@ interface IForm
 	 * section, linked to external JS source files.
 	 * Anyway there is always created at least one `<script>` tag 
 	 * placed directly after `</form>` end tag with supporting javascripts
-	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fieds 
+	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fields 
 	 * options, names, counts, values etc...
 	 * @return string
 	 */
@@ -1364,13 +1364,13 @@ interface IForm
 	 * If no params passed as first argument, all params from object
 	 * `\MvcCore\Application::GetInstance()->GetRequest()` are used.
 	 * - If fields are not initialized - initialize them by calling `$form->Init();`.
-	 * - Check max. post size by php configuration if form is posted.
+	 * - Check maximum post size by php configuration if form is posted.
 	 * - Check cross site request forgery tokens with session tokens.
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
 	 *	 `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
 	 * @param array $rawRequestParams optional
-	 * @return array Array to list: `array($form->Result, $form->Data, $form->Errors);`
+	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []);
 
@@ -1386,7 +1386,7 @@ interface IForm
 	public function SubmitSetStartResultState (array & $rawRequestParams = []);
 
 	/**
-	 * Validate max. posted size in POST request body by `Content-Length` HTTP header.
+	 * Validate maximum posted size in POST request body by `Content-Length` HTTP header.
 	 * If there is no `Content-Length` request header, add error.
 	 * If `Content-Length` value is bigger than `post_max_size` from PHP ini, add form error.
 	 * @return \MvcCore\Ext\Forms\IForm
@@ -1430,12 +1430,12 @@ interface IForm
 	public function GetDefaultErrorMsg ($index);
 
 	/***************************************************************************
-	 *                               Csrf Form trait                           *
+	 *                               CSRF Form trait                           *
 	 **************************************************************************/
 
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Forms\IForm $form Form instance where CSRF error happened.
+	 * @param \MvcCore\Ext\Forms\IForm $form The form instance where CSRF error happened.
 	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
@@ -1453,7 +1453,7 @@ interface IForm
 	 * If tokens are different, add form error and process CSRF error handlers queue.
 	 * If there is any exception caught in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
-	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
+	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []);

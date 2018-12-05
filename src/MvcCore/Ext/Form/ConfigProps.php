@@ -50,7 +50,7 @@ trait ConfigProps
 	protected $method = \MvcCore\Ext\Forms\IForm::METHOD_POST;
 
 	/**
-	 * Form enctype attribute - how the form values will be encoded 
+	 * Form `enctype` attribute - how the form values will be encoded 
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to 
@@ -135,7 +135,7 @@ trait ConfigProps
 
 	/**
 	 * Property to complete optional translator language argument automatically.
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to desired language code
 	 * you want to translate every visible text into it. Use this property
 	 * with `$form->translator` and `$form->translate` properties.
@@ -145,7 +145,7 @@ trait ConfigProps
 
 	/**
 	 * Field to create proper validator for zip codes, currencies etc...
-	 * If you are operating in multilanguage project and you want to use
+	 * If you are operating in multi-language project and you want to use
 	 * form field validators for locale specific needs in `\MvcCore\Ext\Form`,
 	 * set `$form->locale` property to desired international locale code
 	 * you want to use proper validator functionality.
@@ -233,7 +233,7 @@ trait ConfigProps
 	/**
 	 * Translator to translate field labels, options, placeholders and error messages.
 	 * Translator has to be `callable` (it could be `closure function` or `array`
-	 * with `classname/instance` and `method name` string). First argument
+	 * with `class_name/instance` and `method name` string). First argument
 	 * of `callable` has to be a translation key and second argument
 	 * has to be language string (`en`, `de` ...) to translate the key into.
 	 * Result of `callable` object has to be a string - translated key to called language.
@@ -244,7 +244,7 @@ trait ConfigProps
 	/**
 	 * Default switch how to set every form control to be required by default.
 	 * If you define directly any control to NOT be required, it will NOT be required.
-	 * This is only value used as DEFAULT VALUE for form fiels, not to strictly define
+	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define
 	 * required flag value in controls. Default value is `FALSE`.
 	 * @var bool
 	 */
@@ -312,7 +312,7 @@ trait ConfigProps
 	/**
 	 * Form custom template relative path without `.phtml` or `.php` extension.
 	 * It's `NULL` by default, which means there will be used no template and form
-	 * will be rendered naturally, all fiels one by one without any breaking line html element.
+	 * will be rendered naturally, all fields one by one without any breaking line html element.
 	 * If there is any path defined, it has to be defined relatively from directory
 	 * `/App/Views/Scripts` to desired template.
 	 * @var string|NULL
@@ -347,7 +347,7 @@ trait ConfigProps
 
 	/**
 	 * Javascript support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal javascript
+	 * to accept first argument to be `\SplFileInfo` about external javascript
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
 	 * @var callable|NULL
@@ -356,7 +356,7 @@ trait ConfigProps
 
 	/**
 	 * Css support files external renderer. Given callable has
-	 * to accept first argument to be `\SplFileInfo` about extenal css
+	 * to accept first argument to be `\SplFileInfo` about external css
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
 	 * @var callable|NULL
@@ -398,7 +398,7 @@ trait ConfigProps
 
 	/**
 	 * Form field with `autofocus` boolean attribute defined. Form field 
-	 * with `autofocus` atribute defined could be only one in whole rendered document.
+	 * with `autofocus` attribute defined could be only one in whole rendered document.
 	 * @var \string[]
 	 */
 	protected static $autoFocusedFormField = [];

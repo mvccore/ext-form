@@ -260,7 +260,7 @@ interface IField
 	 * `$field->SetJsSupportingFile(...)` to define path to your javascript file
 	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
 	 * value. Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -277,7 +277,7 @@ interface IField
 	 * define path to your javascript file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -294,7 +294,7 @@ interface IField
 	 * define path to your css file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting css file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetCssSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting css files into response by your 
@@ -514,7 +514,7 @@ interface IField
 	 * `$field->SetJsSupportingFile(...)` to define path to your javascript file
 	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
 	 * value. Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -532,7 +532,7 @@ interface IField
 	 * define path to your javascript file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -550,7 +550,7 @@ interface IField
 	 * define path to your css file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting css file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetCssSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting css files into response by your 

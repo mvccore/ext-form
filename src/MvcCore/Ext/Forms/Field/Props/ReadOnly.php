@@ -96,6 +96,7 @@ trait ReadOnly
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetReadOnly ($readOnly = TRUE) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->readOnly = $readOnly;
 		return $this;
 	}

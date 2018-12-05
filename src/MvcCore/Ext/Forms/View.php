@@ -15,11 +15,11 @@ namespace MvcCore\Ext\Forms;
 
 /**
  * Responsibility: create and extended MvcCore view instance to render form or 
- * form field with custom view template. This view contains buildin properties:
+ * form field with custom view template. This view contains built-in properties:
  * - `view` - Containing parent controller view.
  * - `form` - Containing rendered form instance when form or field is rendered.
  * - `field` - Containing rendered field instance when field is rendered.
- * This view also contains many buildin methods to render specific form parts:
+ * This view also contains many built-in methods to render specific form parts:
  * - `RenderBegin()`	- Renders opening `<form>` tag with all configured 
  *						  attributes.
  * - `RenderErrors()`	- Renders translated form errors.
@@ -191,6 +191,7 @@ class View extends \MvcCore\View
 	 * @return mixed
 	 */
 	public function __get ($name) {
+		/** @var $store array */
 		$store = & $this->__protected['store'];
 		// if property is in view store - return it
 		if (array_key_exists($name, $store))
@@ -249,6 +250,7 @@ class View extends \MvcCore\View
 	 * @return bool
 	 */
 	public function __isset ($name) {
+		/** @var $store array */
 		$store = & $this->__protected['store'];
 		// if property is in view store - return TRUE
 		if (array_key_exists($name, $store)) return TRUE;
@@ -374,7 +376,7 @@ class View extends \MvcCore\View
 			if (!in_array($key, $formProperties))
 				$attrs[$key] = $value;
 		}
-		// presudo-boolean attributes completing
+		// pseudo-boolean attributes completing
 		$formAutoComplete = $form->GetAutoComplete();
 		if ($formAutoComplete !== NULL) 
 			$attrs['autocomplete'] = $formAutoComplete ? 'on' : 'off';
@@ -486,12 +488,12 @@ class View extends \MvcCore\View
 
 	/**
 	 * Render content of html tag attributes by key/value array.
-	 * @param array $atrributes
+	 * @param array $attributes
 	 * @return string
 	 */
-	public static function RenderAttrs (array $atrributes = []) {
+	public static function RenderAttrs (array $attributes = []) {
 		$result = [];
-		foreach ($atrributes as $attrName => $attrValue) {
+		foreach ($attributes as $attrName => $attrValue) {
 			//if (gettype($attrValue) == 'array') $stop();
 			$result[] = $attrName.'="'.$attrValue.'"';
 		}

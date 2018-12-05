@@ -47,7 +47,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
 trait AccessKey
 {
 	/**
-	 * The accesskey global attribute provides a hint for generating
+	 * The access key global attribute provides a hint for generating
 	 * a keyboard shortcut for the current element. The attribute 
 	 * value must consist of a single printable character (which 
 	 * includes accented and other characters that can be generated 
@@ -58,7 +58,7 @@ trait AccessKey
 	protected $accessKey = NULL;
 
 	/**
-	 * The accesskey global attribute provides a hint for generating
+	 * The access key global attribute provides a hint for generating
 	 * a keyboard shortcut for the current element. The attribute 
 	 * value must consist of a single printable character (which 
 	 * includes accented and other characters that can be generated 
@@ -71,7 +71,7 @@ trait AccessKey
 	}
 
 	/**
-	 * The accesskey global attribute provides a hint for generating
+	 * The access key global attribute provides a hint for generating
 	 * a keyboard shortcut for the current element. The attribute 
 	 * value must consist of a single printable character (which 
 	 * includes accented and other characters that can be generated 

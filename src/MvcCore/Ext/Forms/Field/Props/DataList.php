@@ -57,6 +57,7 @@ trait DataList
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetList ($dataListIdOrInstance) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($dataListIdOrInstance instanceof \MvcCore\Ext\Forms\IField) {
 			$this->list = $dataListIdOrInstance->GetId();
 		} else {

@@ -143,7 +143,7 @@ interface IView
 
 	/**
 	 * Render form begin.
-	 * Render opening <form> tag and hidden input with csrf tokens.
+	 * Render opening <form> tag and hidden input with CSRF tokens.
 	 * @return string
 	 */
 	public function RenderBegin ();
@@ -202,8 +202,8 @@ interface IView
 
 	/**
 	 * Render content of html tag attributes by key/value array.
-	 * @param array $atrributes
+	 * @param array $attributes
 	 * @return string
 	 */
-	public static function RenderAttrs (array $atrributes = []);
+	public static function RenderAttrs (array $attributes = []);
 }

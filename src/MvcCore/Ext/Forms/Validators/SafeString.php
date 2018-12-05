@@ -16,7 +16,7 @@ namespace MvcCore\Ext\Forms\Validators;
 /**
  * Responsibility: Validate raw user input as "safe string" to display it in 
  *				   response. Remove from submitted value base ASCII characters 
- *				   from 0 to 31 incl. (first column) and special characters: 
+ *				   from 0 to 31 included (first column) and special characters: 
  *				   `& " ' < > | = \ %`. 
  *				   THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS! 
  *				   To prevent sql injects - use `\PDO::prepare();` and `\PDO::execute()`.
@@ -24,7 +24,7 @@ namespace MvcCore\Ext\Forms\Validators;
 class SafeString extends \MvcCore\Ext\Forms\Validator
 {
 	/**
-	 * Base ASCII characters from 0 to 31 incl. (first column).
+	 * Base ASCII characters from 0 to 31 included (first column).
 	 * @see http://www.asciitable.com/index/asciifull.gif
 	 * @var \string[]
 	 */
@@ -39,7 +39,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		"\x07"	=> '',	"\x0F"	=> '',	"\x17"	=> '',	"\x1F"	=> '',
 	];
 	/**
-	 * Characters to prevent XSS atack and some other special chars
+	 * Characters to prevent XSS attack and some other special chars
 	 * what could be dangerous user input.
 	 * @see http://php.net/manual/en/function.htmlspecialchars.php
 	 * @var \string[]
@@ -65,12 +65,10 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	 * @return string|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
-		$result = NULL;
-
-		// remove whitespaces from both sides: `SPACE \t \n \r \0 \x0B`:
+		// remove white spaces from both sides: `SPACE \t \n \r \0 \x0B`:
 		$rawSubmittedValue = trim($rawSubmittedValue);
 
-		// Remove base ASCII characters from 0 to 31 incl. (first column):
+		// Remove base ASCII characters from 0 to 31 included (first column):
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
 
 		// Replace characters to entities: & " ' < > to &amp; &quot; &#039; &lt; &gt;

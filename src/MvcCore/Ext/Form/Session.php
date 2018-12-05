@@ -26,6 +26,7 @@ trait Session
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & ClearSession () {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->values = [];
 		$this->errors = [];
 		$session = & $this->getSession();
@@ -41,6 +42,7 @@ trait Session
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & SaveSession () {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$session = & $this->getSession();
 		$session->errors = $this->errors;
 		$session->values = $this->values;

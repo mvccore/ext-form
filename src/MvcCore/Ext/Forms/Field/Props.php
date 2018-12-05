@@ -77,7 +77,7 @@ trait Props
 	
 	/**
 	 * List of predefined validator classes ending names or validator instances.
-	 * Keys are valiators ending names and values are validators ending names or instances.
+	 * Keys are validators ending names and values are validators ending names or instances.
 	 * Validator class must exist in any validators namespace(s) configured by default:
 	 * - `array('\MvcCore\Ext\Forms\Validators\');`
 	 * Or it could exist in any other validators namespaces, configured by method(s):
@@ -132,7 +132,7 @@ trait Props
 	 * `$field->jsSupportingFile` property to define path to your javascript file
 	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
 	 * value. Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -149,7 +149,7 @@ trait Props
 	 * define path to your javascript file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -166,7 +166,7 @@ trait Props
 	 * define path to your css file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting css file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetCssSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting css files into response by your 

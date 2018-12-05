@@ -82,6 +82,7 @@ trait Required
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetRequired ($required = TRUE) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->required = $required;
 		return $this;
 	}

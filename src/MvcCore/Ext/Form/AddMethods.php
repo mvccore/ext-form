@@ -29,6 +29,7 @@ trait AddMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function AddAcceptCharset ($charset) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->acceptCharsets[] = $charset;
 		return $this;
 	}
@@ -43,6 +44,7 @@ trait AddMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & AddCssClasses ($cssClasses) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -57,6 +59,7 @@ trait AddMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$errorMsgUtf8 = iconv(
 			mb_detect_encoding($errorMsg, mb_detect_order(), TRUE),
 			"UTF-8",
@@ -93,6 +96,7 @@ trait AddMethods
 		$jsClassName = 'MvcCoreForm.FieldType', 
 		$constructorParams = []
 	) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->jsSupportFiles[] = [$jsRelativePath, $jsClassName, $constructorParams];
 		return $this;
 	}
@@ -105,6 +109,7 @@ trait AddMethods
 	public function & AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->cssSupportFiles[] = [$cssRelativePath];
 		return $this;
 	}

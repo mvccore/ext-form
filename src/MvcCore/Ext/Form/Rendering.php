@@ -31,7 +31,7 @@ trait Rendering
 	 * - If form is not initialized, there is automatically
 	 *   called `$form->Init();` method.
 	 * - If form is not pre-dispatched for rendering, there is
-	 *   automatically called `$form->Predispatch();` method.
+	 *   automatically called `$form->PreDispatch();` method.
 	 * - Create new form view instance and set up the view with local
 	 *   context variables.
 	 * - Render form naturally or by custom template.
@@ -132,7 +132,7 @@ trait Rendering
 	 * section, linked to external JS source files.
 	 * Anyway there is always created at least one `<script>` tag 
 	 * placed directly after `</form>` end tag with supporting javascripts
-	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fieds 
+	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fields 
 	 * options, names, counts, values etc...
 	 * @return string
 	 */
@@ -159,7 +159,7 @@ trait Rendering
 		foreach ($this->jsSupportFiles as $jsSupportFile) {
 			list(, $jsFullClassName, $constructParams) = $jsSupportFile;
 			$constructParamsEncoded = json_encode($constructParams);
-			// remove beggining char and ending char from javascript array: `[`, `]`
+			// remove beginning char and ending char from javascript array: `[`, `]`
 			$constructParamsEncoded = mb_substr(
 				$constructParamsEncoded, 1, mb_strlen($constructParamsEncoded) - 2
 			);
@@ -179,13 +179,14 @@ trait Rendering
 	}
 
 	/**
-	 * Call this function fter form has been rendered 
+	 * Call this function after form has been rendered 
 	 * to clear session errors, because there is not necessary 
 	 * to have there those errors anymore, because will be 
 	 * displayed in rendered form.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	protected function cleanSessionErrorsAfterRender () {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->errors = [];
 		$session = & $this->getSession();
 		$session->errors = [];

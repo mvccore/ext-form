@@ -23,6 +23,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function Render () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($this->viewScript) {
 			return $this->RenderTemplate();
 		} else {
@@ -41,6 +42,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderTemplate () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$viewClass = $this->form->GetViewClass();
 		$formParentController = $this->form->GetParentController();
 		$view = $viewClass::CreateInstance()
@@ -66,6 +68,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderNaturally () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$result = '';
 		$renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL;
 		$label = NULL;
@@ -99,6 +102,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderLabelAndControl () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$result = '';
 		if ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
 			$result = $this->RenderLabel() . $this->RenderControl();
@@ -124,6 +128,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
@@ -155,6 +160,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderControl () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
@@ -177,6 +183,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderLabel () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$renderMode = $this instanceof \MvcCore\Ext\Forms\Fields\ILabel
 			? $this->GetRenderMode()
 			: \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL;
@@ -199,6 +206,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderErrors () {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$result = "";
 		if (
 			$this->errors && 
@@ -231,6 +239,7 @@ trait Rendering
 	 * @return string
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->labelAttrs, $this->cssClasses, FALSE
 		);
@@ -249,6 +258,7 @@ trait Rendering
 	 * @return string
 	 */
 	protected function renderControlAttrsWithFieldVars ($fieldVars = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
 		);
@@ -277,6 +287,7 @@ trait Rendering
 		$cssClasses = [], 
 		$controlRendering = FALSE
 	) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$attrs = [];
 		foreach ($fieldVars as $fieldName) {
 			if ($this->{$fieldName} !== NULL) {

@@ -90,6 +90,7 @@ trait AutoFocus
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->autoFocus = $autoFocus;
 		if ($autoFocus && $duplicateBehaviour !== \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW) {
 			$form = & $this->form;

@@ -35,7 +35,7 @@ abstract class FieldsGroup
 	
 	/**
 	 * Form group pseudo control type,
-	 * unique type accross all form field types.
+	 * unique type across all form field types.
 	 * @var string|NULL
 	 */
 	protected $type = NULL;
@@ -217,9 +217,11 @@ abstract class FieldsGroup
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
 		);
+		/** @var $templates \stdClass */
+		$templates = & static::$templates;
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
-			? static::$templates->togetherLabelLeft 
-			: static::$templates->togetherLabelRight;
+			? $templates->togetherLabelLeft 
+			: $templates->togetherLabelRight;
 		$viewClass = $this->form->GetViewClass();
 		$result = $viewClass::Format($template, [
 			'id'		=> $this->id,
@@ -266,7 +268,9 @@ abstract class FieldsGroup
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
 		);
 		$viewClass = $this->form->GetViewClass();
-		return $viewClass::Format(static::$templates->label, [
+		/** @var $templates \stdClass */
+		$templates = & static::$templates;
+		return $viewClass::Format($templates->label, [
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'attrs'		=> $attrsStr ? " $attrsStr" : '',
@@ -277,7 +281,7 @@ abstract class FieldsGroup
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
-	 * Render subcontrols with each subcontrol label tag
+	 * Render sub-controls with each sub-control label tag
 	 * and without group label or without group specific errors.
 	 * @param string $key
 	 * @param string|array $option
@@ -301,7 +305,9 @@ abstract class FieldsGroup
 			? in_array($key, $this->value)
 			: $this->value === $key;
 		$viewClass = $this->form->GetViewClass();
-		$itemControl = $viewClass::Format(static::$templates->control, [
+		/** @var $templates \stdClass */
+		$templates = & static::$templates;
+		$itemControl = $viewClass::Format($templates->control, [
 			'id'		=> $itemControlId,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
@@ -311,7 +317,7 @@ abstract class FieldsGroup
 		]);
 		if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 			// control and label
-			$itemLabel = $viewClass::Format(static::$templates->label, [
+			$itemLabel = $viewClass::Format($templates->label, [
 				'id'		=> $itemControlId,
 				'label'		=> $itemLabelText,
 				'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '',
@@ -342,7 +348,7 @@ abstract class FieldsGroup
 	/**
 	 * Complete and return semi-finished strings for rendering by field key and option:
 	 * - Label text string.
-	 * - Label attributes string string.
+	 * - Label attributes string.
 	 * - Control attributes string.
 	 * @param string	   $key
 	 * @param string|array $option

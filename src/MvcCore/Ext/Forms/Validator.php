@@ -70,7 +70,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @param array $cfg Config array with protected properties and it's 
 	 *					 values which you want to configure, presented 
 	 *					 in camel case properties names syntax.
-	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
+	 * @return void
 	 */
 	public function __construct(array $cfg = []) {
 		foreach ($cfg as $propertyName => $propertyValue) {

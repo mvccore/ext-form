@@ -26,6 +26,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetId ($id = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->id = $id;
 		return $this;
 	}
@@ -38,6 +39,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetName ($name = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->name = $name;
 		return $this;
 	}
@@ -50,6 +52,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetType ($type = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->type = $type;
 		return $this;
 	}
@@ -61,6 +64,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetValue ($value) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->value = $value;
 		return $this;
 	}
@@ -75,6 +79,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetCssClasses ($cssClasses) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -92,6 +97,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & AddCssClasses ($cssClasses) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -116,6 +122,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetControlAttrs (array $attrs = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->controlAttrs = & $attrs;
 		return $this;
 	}
@@ -137,6 +144,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetControlAttr ($name, $value) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->controlAttrs[$name] = $value;
 		return $this;
 	}
@@ -156,6 +164,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & AddControlAttrs (array $attrs = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->controlAttrs = array_merge($this->controlAttrs, $attrs);
 		return $this;
 	}
@@ -197,6 +206,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & AddValidators (/* ...$validatorsNamesOrInstances */) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$validatorsNamesOrInstances = func_get_args();
 		foreach ($validatorsNamesOrInstances as $validatorNameOrInstance) {
 			$instanceType = FALSE;
@@ -239,6 +249,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & RemoveValidator ($validatorNameOrInstance) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if (is_string($validatorNameOrInstance)) {
 			$validatorClassName = $validatorNameOrInstance;
 		} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
@@ -289,6 +300,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetViewScript ($boolOrViewScriptPath = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->viewScript = $boolOrViewScriptPath;
 		return $this;
 	}
@@ -300,7 +312,7 @@ trait Setters
 	 * `$field->SetJsSupportingFile(...)` to define path to your javascript file
 	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
 	 * value. Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -310,6 +322,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetJsClassName ($jsClassName) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->jsClassName = $jsClassName;
 		return $this;
 	}
@@ -321,7 +334,7 @@ trait Setters
 	 * define path to your javascript file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting javascript files into response by your 
@@ -331,6 +344,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetJsSupportingFile ($jsSupportingFilePath) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->jsSupportingFile = $jsSupportingFilePath;
 		return $this;
 	}
@@ -342,7 +356,7 @@ trait Setters
 	 * define path to your css file relatively from configured 
 	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
 	 * Than you have to add supporting css file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediatelly after form
+	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetCssSupportFilesRenderer(...);` method.
 	 * Or you can add your custom supporting css files into response by your 
@@ -352,6 +366,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetCssSupportingFile ($cssSupportingFilePath) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->cssSupportingFile = $cssSupportingFilePath;
 		return $this;
 	}
@@ -366,6 +381,7 @@ trait Setters
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
 	public function & AddError ($errorMsg) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->errors[] = $errorMsg;
 		return $this;
 	}

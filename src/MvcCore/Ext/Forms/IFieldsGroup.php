@@ -16,13 +16,13 @@ namespace MvcCore\Ext\Forms;
 interface IFieldsGroup
 {
 	/**
-	 * Get css class(es) for group label as array of strings.
+	 * Get css class or classes for group label as array of strings.
 	 * @return \string[]
 	 */
 	public function & GetGroupLabelCssClasses ();
 
 	/**
-	 * Set css class(es) for group label,
+	 * Set css class or classes for group label,
 	 * as array of strings or string with classes
 	 * separated by space. Any previously defined 
 	 * group css classes will be replaced.
@@ -32,7 +32,7 @@ interface IFieldsGroup
 	public function & SetGroupLabelCssClasses ($groupLabelCssClasses);
 
 	/**
-	 * Add css class(es) for group label as array of 
+	 * Add css class or classes for group label as array of 
 	 * strings or string with classes separated by space.
 	 * @param string|\string[] $groupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\IField
@@ -172,7 +172,7 @@ interface IFieldsGroup
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
-	 * Render subcontrols with each subcontrol label tag
+	 * Render sub-controls with each sub-control label tag
 	 * and without group label or without group specific errors.
 	 * @param string $key
 	 * @param string|array $option

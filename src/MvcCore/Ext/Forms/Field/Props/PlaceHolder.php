@@ -59,6 +59,7 @@ trait PlaceHolder
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetPlaceHolder ($placeHolder) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->placeHolder = $placeHolder;
 		return $this;
 	}

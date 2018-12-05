@@ -22,13 +22,13 @@ namespace MvcCore\Ext\Forms\Field\Props;
 trait GroupLabelCssClasses
 {
 	/**
-	 * Css class(es) for group label as array of strings.
+	 * Css class or classes for group label as array of strings.
 	 * @var \string[]
 	 */
 	protected $groupLabelCssClasses = [];
 
 	/**
-	 * Get css class(es) for group label as array of strings.
+	 * Get css class or classes for group label as array of strings.
 	 * @return \string[]
 	 */
 	public function & GetGroupLabelCssClasses () {
@@ -36,7 +36,7 @@ trait GroupLabelCssClasses
 	}
 
 	/**
-	 * Set css class(es) for group label,
+	 * Set css class or classes for group label,
 	 * as array of strings or string with classes
 	 * separated by space. Any previously defined 
 	 * group css classes will be replaced.
@@ -44,6 +44,7 @@ trait GroupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetGroupLabelCssClasses ($groupLabelCssClasses) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$this->groupLabelCssClasses = $groupLabelCssClasses;
 		} else {
@@ -53,12 +54,13 @@ trait GroupLabelCssClasses
 	}
 
 	/**
-	 * Add css class(es) for group label as array of 
+	 * Add css class or classes for group label as array of 
 	 * strings or string with classes separated by space.
 	 * @param string|\string[] $groupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddGroupLabelCssClasses ($groupLabelCssClasses) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$groupCssClasses = $groupLabelCssClasses;
 		} else {

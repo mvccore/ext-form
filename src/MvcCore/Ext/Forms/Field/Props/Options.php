@@ -26,7 +26,7 @@ trait Options
 {
 	/**
 	 * Form group control options to render
-	 * more subcontrol attributes for specified
+	 * more sub-control attributes for specified
 	 * submitted values (array keys).
 	 * This property configuration is required.
 	 * 
@@ -113,6 +113,7 @@ trait Options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetOptions (array $options = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->options = & $options;
 		return $this;
 	}
@@ -125,6 +126,7 @@ trait Options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & AddOptions (array $options = []) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->options = array_merge($this->options, $options);
 		return $this;
 	}

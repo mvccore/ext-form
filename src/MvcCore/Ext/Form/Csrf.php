@@ -21,7 +21,7 @@ trait Csrf
 {
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form Form instance where CSRF error happened.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form The form instance where CSRF error happened.
 	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
@@ -58,10 +58,11 @@ trait Csrf
 	 * If tokens are different, add form error and process CSRF error handlers queue.
 	 * If there is any exception caught in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
-	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\Mvccore\Request` params.
+	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$result = FALSE;
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf 

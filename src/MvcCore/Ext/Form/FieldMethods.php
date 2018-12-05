@@ -33,7 +33,7 @@ trait FieldMethods
 
 	/**
 	 * Replace all previously configured fields with given fully configured fields array.
-	 * This method is dangerous - it will remove all previously added form fiels
+	 * This method is dangerous - it will remove all previously added form fields
 	 * and add given fields. If you want only to add another field(s) into form,
 	 * use functions:
 	 * - `$form->AddField($field);`
@@ -42,6 +42,7 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & SetFields ($fields = []) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->fields = [];
 		foreach ($fields as & $field)
 			$this->AddField($field);
@@ -55,6 +56,7 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & AddFields (/* ...$fields */) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$fields = func_get_args();
 		foreach ($fields as & $field)
 			$this->AddField($field);
@@ -67,6 +69,7 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & AddField (\MvcCore\Ext\Forms\IField $field) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		/** @var $field \MvcCore\Ext\Forms\Field */
 		if ($this->dispatchState < 1) $this->Init();
 		$fieldName = $field->GetName();
@@ -104,6 +107,7 @@ trait FieldMethods
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & RemoveField ($fieldOrFieldName = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($this->dispatchState < 1) $this->Init();
 		$fieldName = NULL;
 		if ($fieldOrFieldName instanceof \MvcCore\Ext\Forms\IField) {

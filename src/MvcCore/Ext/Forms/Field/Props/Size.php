@@ -70,9 +70,10 @@ trait Size
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-size
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-size
 	 * @param int|NULL $size 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetSize ($size) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->size = $size;
 		return $this;
 	}

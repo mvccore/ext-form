@@ -14,7 +14,7 @@
 namespace MvcCore\Ext;
 
 /**
- * Responsibility: Main form class with all `<form>` configuraion, attributes,
+ * Responsibility: Main form class with all `<form>` configuration, attributes,
  *				   field instances and it's validators. To create any HTML form,
  *				   you need to instantiate this class, configure an id, action 
  *				   and more.
@@ -39,9 +39,10 @@ implements	\MvcCore\Ext\Forms\IForm
 	/**
 	 * Create \MvcCore\Ext\Form instance.
 	 * Please don't forget to configure at least $form->Id, $form->Action,
-	 * any control to work with and finaly any button:submit/input:submit
+	 * any control to work with and finally any button:submit/input:submit
 	 * to submit the form to any URL defined in $form->Action.
 	 * @param \MvcCore\Controller|\MvcCore\IController|NULL $controller
+	 * @return void
 	 */
 	public function __construct (\MvcCore\IController & $controller = NULL) {
 		/** @var $controller \MvcCore\Controller */
