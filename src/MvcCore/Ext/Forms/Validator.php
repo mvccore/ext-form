@@ -145,9 +145,9 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 			$msgs[] = 'Field name: `'.$this->field->GetName() . '`, Field type: `'.get_class($this->field).'`';
 		if ($this->form) 
 			$msgs[] = 'Form id: `'.$this->form->GetId() . '`, Form type: `'.get_class($this->form).'`';
-		
+		$selfClass = version_compare(PHP_VERSION, '5.5', '>') ? self::class : __CLASS__;
 		throw new \InvalidArgumentException(
-			'['.__CLASS__.'] ' . $errorMsg . ($msgs ? ' '.implode(', ', $msgs) : '')
+			'['.$selfClass.'] ' . $errorMsg . ($msgs ? ' '.implode(', ', $msgs) : '')
 		);
 	}
 

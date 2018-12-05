@@ -78,7 +78,8 @@ implements	\MvcCore\Ext\Forms\IForm
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		$str = '['.__CLASS__.'] ' . $errorMsg . ' ('
+		$selfClass = version_compare(PHP_VERSION, '5.5', '>') ? self::class : __CLASS__;
+		$str = '['.$selfClass.'] ' . $errorMsg . ' ('
 			. 'form id: `'.$this->id . '`, '
 			. 'form type: `'.get_class($this->form).'`'
 		.')';
