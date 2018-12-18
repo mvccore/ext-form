@@ -21,6 +21,13 @@ namespace MvcCore\Ext\Forms;
 abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 {
 	/**
+	 * MvcCore - version:
+	 * Comparison by PHP function `version_compare();`.
+	 * @see http://php.net/manual/en/function.version-compare.php
+	 */
+	const VERSION = '5.0.0-alpha';
+
+	/**
 	 * Form instance where was validator created.
 	 * Every validator instance belongs to only one form instance.
 	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm

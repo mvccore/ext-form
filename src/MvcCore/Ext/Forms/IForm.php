@@ -16,14 +16,6 @@ namespace MvcCore\Ext\Forms;
 interface IForm
 {
 	/**
-	 * MvcCore Extension - Form - version:
-	 * Comparison by PHP function version_compare();
-	 * @see http://php.net/manual/en/function.version-compare.php
-	 */
-	const VERSION = '5.0.0-alpha';
-
-
-	/**
 	 * Form http submitting method (`GET`).
 	 */
 	const METHOD_GET		= 'GET';

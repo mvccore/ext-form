@@ -22,6 +22,13 @@ namespace MvcCore\Ext\Forms;
 abstract class	Field 
 implements		\MvcCore\Ext\Forms\IField
 {
+	/**
+	 * MvcCore - version:
+	 * Comparison by PHP function `version_compare();`.
+	 * @see http://php.net/manual/en/function.version-compare.php
+	 */
+	const VERSION = '5.0.0-alpha';
+
 	use \MvcCore\Ext\Forms\Field\Props;
 	use \MvcCore\Ext\Forms\Field\Getters;
 	use \MvcCore\Ext\Forms\Field\Setters;

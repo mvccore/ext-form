@@ -23,6 +23,13 @@ class		Form
 extends		\MvcCore\Controller
 implements	\MvcCore\Ext\Forms\IForm
 {
+	/**
+	 * MvcCore Extension - Form - version:
+	 * Comparison by PHP function version_compare();
+	 * @see http://php.net/manual/en/function.version-compare.php
+	 */
+	const VERSION = '5.0.0-alpha';
+
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
 	use \MvcCore\Ext\Form\GetMethods;
@@ -34,7 +41,6 @@ implements	\MvcCore\Ext\Forms\IForm
 	use \MvcCore\Ext\Form\Rendering;
 	use \MvcCore\Ext\Form\Assets;
 	use \MvcCore\Ext\Form\Submitting;
-
 
 	/**
 	 * Create \MvcCore\Ext\Form instance.
