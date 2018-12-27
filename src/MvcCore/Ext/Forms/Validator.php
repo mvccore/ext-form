@@ -51,7 +51,18 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 */
 	protected static $errorMessages = [];
 
-	// TODO
+	/**
+	 * An associative array for extended classes, where you could define in 
+	 * camel case field specific properties to get before validation into local
+	 * context with values from field instance, given in method local `SetField()`.
+	 * All keys defined in this array are field names to transfer from field 
+	 * instance into local context. Values in this array is good practise to 
+	 * define with `NULL`, but values also could be used as default values, if 
+	 * there is `NULL` value for defined property in field instance. Then value
+	 * from this array is used in local context and is also set into field by 
+	 * field setter method.
+	 * @var array
+	 */
 	protected static $fieldSpecificProperties = [];
 
 	/**
