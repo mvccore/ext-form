@@ -205,9 +205,11 @@ trait Setters
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & AddValidators (/* ...$validatorsNamesOrInstances */) {
+	public function & AddValidators ($validatorsNamesOrInstances = []) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$validatorsNamesOrInstances = func_get_args();
+		if (count($validatorsNamesOrInstances) === 1 && is_array($validatorsNamesOrInstances[0])) 
+			$validatorsNamesOrInstances = $validatorsNamesOrInstances[0];
 		foreach ($validatorsNamesOrInstances as $validatorNameOrInstance) {
 			$instanceType = FALSE;
 			if (is_string($validatorNameOrInstance)) {

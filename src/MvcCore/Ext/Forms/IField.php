@@ -456,7 +456,7 @@ interface IField
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddValidators (/* ...$validatorsNamesOrInstances */);
+	public function & AddValidators ($validatorsNamesOrInstances = []);
 
 	/**
 	 * Remove predefined validator by given class ending name or by given validator instance.

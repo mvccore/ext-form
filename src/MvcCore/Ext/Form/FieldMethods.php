@@ -55,9 +55,10 @@ trait FieldMethods
 	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddFields (/* ...$fields */) {
+	public function & AddFields ($fields) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$fields = func_get_args();
+		if (count($fields) === 1 && is_array($fields[0])) $fields = $fields[0];
 		foreach ($fields as & $field)
 			$this->AddField($field);
 		return $this;

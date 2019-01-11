@@ -159,8 +159,10 @@ trait AddMethods
 	 * @param \string[] $validatorsNamespaces,...
 	 * @return int New validators namespaces count.
 	 */
-	public static function AddValidatorsNamespaces (/* ...$validatorsNamespaces */) {
+	public static function AddValidatorsNamespaces ($validatorsNamespaces) {
 		$validatorsNamespaces = func_get_args();
+		if (count($validatorsNamespaces) === 1 && is_array($validatorsNamespaces[0])) 
+			$validatorsNamespaces = $validatorsNamespaces[0];
 		foreach ($validatorsNamespaces as $validatorsNamespace)
 			static::$validatorsNamespaces[] = '\\' . trim($validatorsNamespace, '\\') . '\\';
 		return count(static::$validatorsNamespaces);
