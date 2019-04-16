@@ -16,6 +16,16 @@ namespace MvcCore\Ext\Forms;
 interface IFieldsGroup
 {
 	/**
+	 * Create new form control group instance.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\IFieldsGroup
+	 */
+	public static function CreateInstance ($cfg = []);
+
+	/**
 	 * Get css class or classes for group label as array of strings.
 	 * @return \string[]
 	 */

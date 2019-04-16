@@ -60,6 +60,18 @@ abstract class FieldsGroup
 	];
 
 	/**
+	 * Create new form control group instance.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 */
+	public static function CreateInstance ($cfg = []) {
+		return new static($cfg);
+	}
+
+	/**
 	 * Get form group controls value, in most cases it's an array of strings.
 	 * For extended class `RadioGroup` - the type is only a `string` or `NULL`.
 	 * @return \string[]|string|NULL

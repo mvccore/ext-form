@@ -40,6 +40,16 @@ interface IField
 	 **************************************************************************/
 
 	/**
+	 * Create new form control instance.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public static function CreateInstance ($cfg = []);
+
+	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
 	 * is added into form instance by `$form->AddField();` method. Do not 
 	 * use this method even if you don't develop any form field.

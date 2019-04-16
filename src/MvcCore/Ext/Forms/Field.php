@@ -40,6 +40,18 @@ implements		\MvcCore\Ext\Forms\IField
 	 *					 values which you want to configure, presented 
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 */
+	public static function CreateInstance ($cfg = []) {
+		return new static($cfg);
+	}
+
+	/**
+	 * Create new form control instance.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
 	public function __construct ($cfg = []) {
