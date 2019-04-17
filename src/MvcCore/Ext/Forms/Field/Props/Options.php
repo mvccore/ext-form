@@ -71,6 +71,12 @@ trait Options
 	protected $options = [];
 
 	/**
+	 * Boolean about to translate options texts, default `TRUE` to translate.
+	 * @var bool
+	 */
+	protected $translateOptions = TRUE;
+
+	/**
 	 * Set form control or group control options to render
 	 * more values for more specified submitted keys.
 	 * 
@@ -137,5 +143,24 @@ trait Options
 	 */
 	public function & GetOptions () {
 		return $this->options;
+	}
+
+	/**
+	 * Set `FALSE` if you don't want to translate options texts, default `TRUE`.
+	 * @param bool $translateOptions 
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public function & SetTranslateOptions ($translateOptions = TRUE) {
+		/** @var $this \MvcCore\Ext\Forms\IField */
+		$this->translateOptions = $translateOptions;
+		return $this;
+	}
+
+	/**
+	 * Return boolean if options are translated or not.
+	 * @return array
+	 */
+	public function GetTranslateOptions () {
+		return $this->translateOptions;
 	}
 }

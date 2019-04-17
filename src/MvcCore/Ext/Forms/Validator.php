@@ -136,7 +136,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @return string
 	 */
 	public static function GetErrorMessage ($errorMsgIndex) {
-		return static::$errorMessages[$errorMsgIndex];;
+		return static::$errorMessages[$errorMsgIndex];
 	}
 
 	/**

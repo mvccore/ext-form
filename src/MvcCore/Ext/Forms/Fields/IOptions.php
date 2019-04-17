@@ -84,4 +84,17 @@ interface IOptions
 	 * @return array
 	 */
 	public function & GetOptions ();
+
+	/**
+	 * Set `FALSE` if you don't want to translate options texts, default `TRUE`.
+	 * @param bool $translateOptions 
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public function & SetTranslateOptions ($translateOptions = TRUE);
+
+	/**
+	 * Return boolean if options are translated or not.
+	 * @return array
+	 */
+	public function GetTranslateOptions ();
 }
