@@ -29,14 +29,14 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	 * @var \string[]
 	 */
 	protected static $baseAsciiChars = [
-		"\x00"	=> '',	"\x08"	=> '',	"\x10"	=> '',	"\x18"	=> '',
-		"\x01"	=> '',	"\x09"	=> '',	"\x11"	=> '',	"\x19"	=> '',
-		"\x02"	=> '',	"\x0A"	=> '',	"\x12"	=> '',	"\x1A"	=> '',
-		"\x03"	=> '',	"\x0B"	=> '',	"\x13"	=> '',	"\x1B"	=> '',
-		"\x04"	=> '',	"\x0C"	=> '',	"\x14"	=> '',	"\x1C"	=> '',
-		"\x05"	=> '',	"\x0D"	=> '',	"\x15"	=> '',	"\x1D"	=> '',
-		"\x06"	=> '',	"\x0E"	=> '',	"\x16"	=> '',	"\x1E"	=> '',
-		"\x07"	=> '',	"\x0F"	=> '',	"\x17"	=> '',	"\x1F"	=> '',
+		"\x00"	=> '',	"\x08"	=> '',		"\x10"	=> '',	"\x18"	=> '',
+		"\x01"	=> '',	"\x09"	=> "\t",	"\x11"	=> '',	"\x19"	=> '',
+		"\x02"	=> '',	"\x0A"	=> "\n",	"\x12"	=> '',	"\x1A"	=> '',
+		"\x03"	=> '',	"\x0B"	=> '',		"\x13"	=> '',	"\x1B"	=> '',
+		"\x04"	=> '',	"\x0C"	=> '',		"\x14"	=> '',	"\x1C"	=> '',
+		"\x05"	=> '',	"\x0D"	=> "\r",	"\x15"	=> '',	"\x1D"	=> '',
+		"\x06"	=> '',	"\x0E"	=> '',		"\x16"	=> '',	"\x1E"	=> '',
+		"\x07"	=> '',	"\x0F"	=> '',		"\x17"	=> '',	"\x1F"	=> '',
 	];
 	/**
 	 * Characters to prevent XSS attack and some other special chars
@@ -67,7 +67,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	public function Validate ($rawSubmittedValue) {
 		// remove white spaces from both sides: `SPACE \t \n \r \0 \x0B`:
 		$rawSubmittedValue = trim($rawSubmittedValue);
-
+		
 		// Remove base ASCII characters from 0 to 31 included (first column):
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
 
@@ -77,7 +77,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		
 		// Replace characters to entities: | = \ %
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
-
+		
 		return $cleanedValue;
 	}
 }
