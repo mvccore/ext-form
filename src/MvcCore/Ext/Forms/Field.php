@@ -150,7 +150,8 @@ implements		\MvcCore\Ext\Forms\IField
 			$this->required = $this->required === NULL 
 				? $form->GetDefaultRequired()
 				: $this->required ;
-		$this->translate = $form->GetTranslate();
+		if ($this->translate === NULL)
+			$this->translate = $form->GetTranslate();
 		return $this;
 	}
 
@@ -197,7 +198,7 @@ implements		\MvcCore\Ext\Forms\IField
 			if (isset($rawRequestParams[$fieldName])) 
 				$result = $rawRequestParams[$fieldName];
 			if ($result === NULL) {
-				$result = $this->value;
+				//$result = $this->value;// if nothing submitted - nothins is result!
 				$processValidators = FALSE;
 			} else {
 				$processValidators = TRUE;

@@ -112,10 +112,13 @@ trait Submitting
 	public function SubmitAllFields (array & $rawRequestParams = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
+		$this->values = [];
 		foreach ($this->fields as $fieldName => & $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
 			$safeValue = $field->Submit($rawRequestParams);
-			if ($safeValue !== NULL) {
+			if ($safeValue === NULL) {
+				$this->values[$fieldName] = NULL;
+			} else {
 				$field->SetValue($safeValue);
 				$this->values[$fieldName] = $safeValue;
 			}

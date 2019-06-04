@@ -30,11 +30,11 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	 */
 	protected static $baseAsciiChars = [
 		"\x00"	=> '',	"\x08"	=> '',		"\x10"	=> '',	"\x18"	=> '',
-		"\x01"	=> '',	"\x09"	=> "\t",	"\x11"	=> '',	"\x19"	=> '',
-		"\x02"	=> '',	"\x0A"	=> "\n",	"\x12"	=> '',	"\x1A"	=> '',
+		"\x01"	=> '',	/*"\x09"=> "\t",*/	"\x11"	=> '',	"\x19"	=> '',
+		"\x02"	=> '',	/*"\x0A"=> "\n",*/	"\x12"	=> '',	"\x1A"	=> '',
 		"\x03"	=> '',	"\x0B"	=> '',		"\x13"	=> '',	"\x1B"	=> '',
 		"\x04"	=> '',	"\x0C"	=> '',		"\x14"	=> '',	"\x1C"	=> '',
-		"\x05"	=> '',	"\x0D"	=> "\r",	"\x15"	=> '',	"\x1D"	=> '',
+		"\x05"	=> '',	/*"\x0D"=> "\r",*/	"\x15"	=> '',	"\x1D"	=> '',
 		"\x06"	=> '',	"\x0E"	=> '',		"\x16"	=> '',	"\x1E"	=> '',
 		"\x07"	=> '',	"\x0F"	=> '',		"\x17"	=> '',	"\x1F"	=> '',
 	];
@@ -68,7 +68,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		// remove white spaces from both sides: `SPACE \t \n \r \0 \x0B`:
 		$rawSubmittedValue = trim($rawSubmittedValue);
 		
-		// Remove base ASCII characters from 0 to 31 included (first column):
+		// Remove base ASCII characters from 0 to 31 included (first column) except `\n \r \t`:
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
 
 		// Replace characters to entities: & " ' < > to &amp; &quot; &#039; &lt; &gt;
