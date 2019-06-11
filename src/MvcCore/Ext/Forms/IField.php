@@ -572,6 +572,15 @@ interface IField
 	public function & SetCssSupportingFile ($cssSupportingFilePath);
 
 	/**
+	 * Set boolean flag about field visible texts and error messages translation.
+	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
+	 * flag in `$field->Init();` method.
+	 * @param bool $translate
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public function & SetTranslate ($translate);
+
+	/**
 	 * Add field error message text to render it in rendering process.
 	 * This method is only for rendering purposes, not to add errors
 	 * into session. It's always called internally from `\MvcCore\Ext\Form`

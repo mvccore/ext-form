@@ -25,6 +25,7 @@ trait Getters
 	 * @return string|NULL
 	 */
 	public function GetId () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->id;
 	}
 
@@ -34,6 +35,7 @@ trait Getters
 	 * @return string|NULL
 	 */
 	public function GetName () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->name;
 	}
 
@@ -44,6 +46,7 @@ trait Getters
 	 * @return string|NULL
 	 */
 	public function GetType () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->type;
 	}
 
@@ -53,6 +56,7 @@ trait Getters
 	 * @return string|array|int|float|NULL
 	 */
 	public function GetValue () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->value;
 	}
 
@@ -62,6 +66,7 @@ trait Getters
 	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->cssClasses;
 	}
 
@@ -79,6 +84,7 @@ trait Getters
 	 * @return array
 	 */
 	public function & GetControlAttrs () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->controlAttrs;
 	}
 
@@ -96,6 +102,7 @@ trait Getters
 	 * @return mixed
 	 */
 	public function GetControlAttr ($name = 'data-*') {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return isset($this->controlAttrs[$name])
 			? $this->controlAttrs[$name]
 			: NULL;
@@ -116,6 +123,7 @@ trait Getters
 	 * @return \string[]|\MvcCore\Ext\Forms\IValidator[]
 	 */
 	public function & GetValidators () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->validators;
 	}
 
@@ -126,6 +134,7 @@ trait Getters
 	 * @return bool
 	 */
 	public function & HasValidator ($validatorNameOrInstance) {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		if (is_string($validatorNameOrInstance)) {
 			$validatorClassName = $validatorNameOrInstance;
 		} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
@@ -174,6 +183,7 @@ trait Getters
 	 * @return bool|string|NULL
 	 */
 	public function GetViewScript () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->viewScript;
 	}
 
@@ -193,6 +203,7 @@ trait Getters
 	 * @return string|NULL
 	 */
 	public function GetJsClassName () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->jsClassName;
 	}
 
@@ -212,6 +223,7 @@ trait Getters
 	 * @return string|NULL
 	 */
 	public function GetJsSupportingFile () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->jsSupportingFile;
 	}
 
@@ -231,7 +243,19 @@ trait Getters
 	 * @return string|NULL
 	 */
 	public function GetCssSupportingFile () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->cssSupportingFile;
+	}
+
+	/**
+	 * Get boolean flag about field visible texts and error messages translation.
+	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
+	 * flag in `$field->Init();` method.
+	 * @var bool
+	 */
+	public function GetTranslate () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
+		return $this->translate;
 	}
 
 	/**

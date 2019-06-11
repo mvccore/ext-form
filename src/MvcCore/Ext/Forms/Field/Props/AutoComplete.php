@@ -56,12 +56,18 @@ trait AutoComplete
 	 * by the browser, usually by remembering previous values the user has entered.
 	 * Possible values: `off`, `on`, `name`, `email`, `username`, `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
-	 * @param string $autoComplete 
+	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | 'anything' | NULL`.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAutoComplete ($autoComplete) {
+	public function & SetAutoComplete ($autoComplete = FALSE) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
-		$this->autoComplete = $autoComplete;
+		if ($autoComplete === FALSE) {
+			$this->autoComplete = 'off';
+		} else if ($autoComplete === TRUE) {
+			$this->autoComplete = 'on';
+		} else {
+			$this->autoComplete = $autoComplete;
+		}
 		return $this;
 	}
 }

@@ -127,15 +127,16 @@ trait SetMethods
 	 * fields (username and password), if the user permits the storage the browser will
 	 * autofill the login the next time the user visits the page. See The autocomplete 
 	 * attribute and login fields.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function & SetAutoComplete ($autoComplete = FALSE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
-		if ($autoComplete === 'on' || $autoComplete === TRUE) {
-			$this->autoComplete = TRUE;
-		} else if ($autoComplete === 'off' || $autoComplete === FALSE) {
+		if ($autoComplete === 'off' || $autoComplete === FALSE) {
 			$this->autoComplete = FALSE;
+		} else if ($autoComplete === 'on' || $autoComplete === TRUE) {
+			$this->autoComplete = TRUE;
 		} else {
 			$this->autoComplete = NULL;
 		}

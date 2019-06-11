@@ -697,6 +697,7 @@ interface IForm
 	 * fields (username and password), if the user permits the storage the browser will
 	 * autofill the login the next time the user visits the page. See The autocomplete 
 	 * attribute and login fields.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
