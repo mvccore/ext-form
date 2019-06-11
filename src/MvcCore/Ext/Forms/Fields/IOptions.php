@@ -97,4 +97,12 @@ interface IOptions
 	 * @return array
 	 */
 	public function GetTranslateOptions ();
+
+	/**
+	 * Merge given field options with possible grouped options into single 
+	 * level flatten array for submit checking purposes.
+	 * @param array $fieldOptions
+	 * @return array
+	 */
+	public static function & GetFlattenOptions (array & $fieldOptions = []);
 }

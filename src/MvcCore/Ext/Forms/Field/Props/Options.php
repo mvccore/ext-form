@@ -119,7 +119,7 @@ trait Options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & SetOptions (array $options = []) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->options = & $options;
 		return $this;
 	}
@@ -132,7 +132,7 @@ trait Options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function & AddOptions (array $options = []) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->options = array_merge($this->options, $options);
 		return $this;
 	}
@@ -142,6 +142,7 @@ trait Options
 	 * @return array
 	 */
 	public function & GetOptions () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->options;
 	}
 
@@ -151,16 +152,54 @@ trait Options
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function & SetTranslateOptions ($translateOptions = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->translateOptions = $translateOptions;
 		return $this;
 	}
 
 	/**
 	 * Return boolean if options are translated or not.
-	 * @return array
+	 * @return bool
 	 */
 	public function GetTranslateOptions () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->translateOptions;
+	}
+
+	/**
+	 * Merge given field options with possible grouped options into single 
+	 * level flatten array for submit checking purposes.
+	 * @param array $fieldOptions
+	 * @return array
+	 */
+	public static function & GetFlattenOptions (array & $fieldOptions = []) {
+		$flattenOptions = [];
+		/** @var $this \MvcCore\Ext\Forms\Field */
+		foreach ($fieldOptions as $key1 => $value1) {
+			if (is_scalar($value1)) {
+				// most simple key/value array options configuration
+				$flattenOptions[$key1] = $value1;
+			} else if (is_array($value1)) {
+				if (isset($value1['options']) && is_array($value1['options'])) {
+					// `<optgroup>` options configuration
+					$subOptions = $value1['options'];
+					foreach ($subOptions as $key2 => $value2) {
+						if (is_scalar($value2)) {
+							// most simple key/value array options configuration
+							$flattenOptions[$key2] = $value2;
+						} else if (is_array($value2)) {
+							// advanced configuration with key, text, cs class, and any other attributes for single option tag
+							$flattenOptions[$key2] = isset($subOptions['value']) 
+								? $subOptions['value'] 
+								: ($value2 === NULL ? $key2 : $value2);
+						}
+					}
+				} else {
+					// advanced configuration with key, text, css class, and any other attributes for single option tag
+					$flattenOptions[$key1] = isset($value1['text']) ? $value1['text'] : $key1;
+				}
+			}
+		}
+		return $flattenOptions;
 	}
 }
