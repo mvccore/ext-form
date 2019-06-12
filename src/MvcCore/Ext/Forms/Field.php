@@ -220,16 +220,15 @@ implements		\MvcCore\Ext\Forms\IField
 					$result = $validator->SetField($this)->Validate($result);	
 				}
 				// add required error message if necessary and if there are no other errors
-				if ($this->required && !$this->errors) {
-					$safeSubmittedValueType = gettype($result);
+				if ($this->required && !$this->errors) 
 					if (
-						$result === NULL ||
-						($safeSubmittedValueType == 'string' && mb_strlen($result) === 0) ||
-						($safeSubmittedValueType == 'array'  && count($result) === 0)
-					) $this->AddValidationError(
-						$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED)
-					);
-				}
+						$result === NULL ||									// normally validator return NULL on failure
+						(is_string($result) && mb_strlen($result) === 0) ||	// but line is for sure
+						(is_array($result) && count($result) === 0)			// and this line is for sure
+					) 
+						$this->AddValidationError(
+							$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED)
+						);
 			}
 		}
 		return $result;
