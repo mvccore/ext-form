@@ -66,7 +66,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 	 */
 	public function Validate ($rawSubmittedValue) {
 		// remove white spaces from both sides: `SPACE \t \n \r \0 \x0B`:
-		$rawSubmittedValue = trim($rawSubmittedValue);
+		$rawSubmittedValue = trim((string) $rawSubmittedValue);
 		
 		// Remove base ASCII characters from 0 to 31 included (first column) except `\n \r \t`:
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
@@ -77,6 +77,8 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		
 		// Replace characters to entities: | = \ %
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
+
+		if (mb_strlen($cleanedValue) === 0 && !$this->field->GetRequired()) return NULL;
 		
 		return $cleanedValue;
 	}
