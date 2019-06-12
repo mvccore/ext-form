@@ -39,7 +39,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * Before every `Validate()` method call, there is called
 	 * `$validator->SetField($field);` to work with proper field 
 	 * instance during validation.
-	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|\MvcCore\Ext\Forms\Fields\IVisibleField
 	 */
 	protected $field = NULL;
 
@@ -118,10 +118,15 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * validator during submit before every `Validate()` method call.
 	 * This method is also called once, when validator instance is separately 
 	 * added into already created field instance to process any field checking.
-	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
+	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|\MvcCore\Ext\Forms\Fields\IVisibleField $field 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
 	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+		if (!($field instanceof \MvcCore\Ext\Forms\Fields\IVisibleField))
+			throw new \Exception(
+				"Field `".$field->GetName().
+				"` doesn`t implement interface `\MvcCore\Ext\Forms\Fields\IVisibleField`."
+			);
 		$this->field = & $field;
 		if (static::$fieldSpecificProperties) 
 			$this->setUpFieldProps(static::$fieldSpecificProperties);
@@ -191,7 +196,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 				: NULL;
 			if ($fieldValue !== NULL /*&& $this->{$propName} === NULL*/) {
 				$this->{$propName} = $fieldValue;
-			} else if ($fieldValue === NULL && $this->{$propName} !== NULL) {
+			} else if ($fieldValue === NULL && property_exists($this, $propName) && $this->{$propName} !== NULL) {
 				$setter = 'Set'.ucfirst($propName);
 				if (method_exists($this->field, $setter))
 					$this->field->{$setter}($this->{$propName});
