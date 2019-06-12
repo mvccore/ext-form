@@ -78,7 +78,7 @@ class SafeString extends \MvcCore\Ext\Forms\Validator
 		// Replace characters to entities: | = \ %
 		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
 
-		if (mb_strlen($cleanedValue) === 0 && !$this->field->GetRequired()) return NULL;
+		if (mb_strlen($cleanedValue) === 0) return NULL;
 		
 		return $cleanedValue;
 	}

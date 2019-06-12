@@ -361,7 +361,9 @@ implements		\MvcCore\Ext\Forms\IField
 			$str .= 'form id: `'.$this->form->GetId() . '`, '
 				. 'form type: `'.get_class($this->form).'`, ';
 		}
-		$str .= 'field type: `'.get_class($this) . '`)';
+		if (property_exists($this, 'name') && isset($this->name))
+			$str .= 'field name: `' . $this->name . '`, ';
+		$str .= 'field type: `' . get_class($this) . '`)';
 		throw new \InvalidArgumentException($str);
 	}
 }
