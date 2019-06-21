@@ -242,6 +242,12 @@ trait ConfigProps
 	protected $translator = NULL;
 
 	/**
+	 * CSRF checking boolean, enabled by default.
+	 * @var bool $enabled 
+	 */
+	protected $csrfEnabled = TRUE;
+
+	/**
 	 * Default switch how to set every form control to be required by default.
 	 * If you define directly any control to NOT be required, it will NOT be required.
 	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define

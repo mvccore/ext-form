@@ -43,6 +43,17 @@ trait Csrf
 	}
 
 	/**
+	 * Enable or disable CSRF checking, enabled by default.
+	 * @param bool $enabled 
+	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetEnableCsrf ($enabled = TRUE) {
+		/** @var $this \MvcCore\Ext\Forms\IForm */
+		$this->csrfEnabled = $enabled;
+		return $this;
+	}
+
+	/**
 	 * Return current CSRF (Cross Site Request Forgery) hidden
 	 * input name and it's value as `\stdClass`with  keys `name` and `value`.
 	 * @return \stdClass
@@ -63,6 +74,7 @@ trait Csrf
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
+		if (!$this->csrfEnabled) return $this;
 		$result = FALSE;
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf 

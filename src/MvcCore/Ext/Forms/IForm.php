@@ -1435,6 +1435,13 @@ interface IForm
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm & $form, $errorMsg);
 
 	/**
+	 * Enable or disable CSRF checking, enabled by default.
+	 * @param bool $enabled 
+	 * @return \MvcCore\Ext\Forms\IForm
+	 */
+	public function & SetEnableCsrf ($enabled = TRUE);
+
+	/**
 	 * Return current CSRF (Cross Site Request Forgery) hidden
 	 * input name and it's value as `\stdClass`with  keys `name` and `value`.
 	 * @return \stdClass

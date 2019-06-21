@@ -289,11 +289,16 @@ trait Rendering
 	) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$attrs = [];
-		foreach ($fieldVars as $fieldName) {
-			if ($this->{$fieldName} !== NULL) {
+		foreach ($fieldVars as $key => $value) {
+			if (is_numeric($key)) {
+				$fieldName = $value;
 				$attrName = strtolower($fieldName);
-				$fieldType = gettype($this->{$fieldName});
-				if ($fieldType == 'array') {
+			} else {
+				$fieldName = $key;
+				$attrName = strtolower($value);
+			}
+			if ($this->{$fieldName} !== NULL) {
+				if (is_array($this->{$fieldName})) {
 					$attrs[$attrName] = implode(',', $this->{$fieldName});
 				} else {
 					$attrs[$attrName] = (string) $this->{$fieldName};

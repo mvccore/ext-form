@@ -391,7 +391,8 @@ class View extends \MvcCore\View
 		if ($attrsStr) $result .= ' ' . $attrsStr;
 		$result .= '>';
 		$this->form->SetFormTagRenderingStatus(TRUE);
-		$result .= $this->RenderCsrf();
+		if ($this->csrfEnabled) 
+			$result .= $this->RenderCsrf();
 		return $result;
 	}
 
