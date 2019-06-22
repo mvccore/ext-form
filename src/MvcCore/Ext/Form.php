@@ -151,8 +151,16 @@ implements	\MvcCore\Ext\Forms\IForm
 		if ($session->values) {
 			foreach ($session->values as $fieldName => $fieldValue) {
 				$field = $this->fields[$fieldName];
-				if ($field->GetValue() === NULL)
+				$configuredFieldValue = $field->GetValue();
+				$multiple = FALSE;
+				if ($field instanceof \MvcCore\Ext\Forms\Fields\IMultiple)
+					$multiple = $field->GetMultiple() ?: FALSE;
+				if (
+					(!$multiple && $configuredFieldValue === NULL) || 
+					($multiple && is_array($configuredFieldValue) && count($configuredFieldValue) === 0)
+				) {
 					$field->SetValue($fieldValue);
+				}
 			}
 		}
 		
