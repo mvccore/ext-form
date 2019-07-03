@@ -150,6 +150,7 @@ implements	\MvcCore\Ext\Forms\IForm
 		}
 		if ($session->values) {
 			foreach ($session->values as $fieldName => $fieldValue) {
+				if (!array_key_exists($fieldName, $this->fields)) continue;
 				$field = $this->fields[$fieldName];
 				$configuredFieldValue = $field->GetValue();
 				$multiple = FALSE;
