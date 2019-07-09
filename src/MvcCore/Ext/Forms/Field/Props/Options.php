@@ -180,7 +180,7 @@ trait Options
 				// most simple key/value array options configuration
 				$flattenOptions[$key1] = $value1;
 			} else if (is_array($value1)) {
-				if (isset($value1['options']) && is_array($value1['options'])) {
+				if (array_key_exists('options', $value1) && is_array($value1['options'])) {
 					// `<optgroup>` options configuration
 					$subOptions = $value1['options'];
 					foreach ($subOptions as $key2 => $value2) {
@@ -188,15 +188,27 @@ trait Options
 							// most simple key/value array options configuration
 							$flattenOptions[$key2] = $value2;
 						} else if (is_array($value2)) {
-							// advanced configuration with key, text, cs class, and any other attributes for single option tag
-							$flattenOptions[$key2] = isset($subOptions['value']) 
-								? $subOptions['value'] 
-								: ($value2 === NULL ? $key2 : $value2);
+							// advanced configuration with key, text, cs class, 
+							// and any other attributes for single option tag
+							$value = array_key_exists('value', $value2) 
+								? $value2['value'] 
+								: $key2;
+							$text = array_key_exists('text', $value2) 
+								? $value2['text'] 
+								: $key2;
+							$flattenOptions[$value] = $text;
 						}
 					}
 				} else {
-					// advanced configuration with key, text, css class, and any other attributes for single option tag
-					$flattenOptions[$key1] = isset($value1['text']) ? $value1['text'] : $key1;
+					// advanced configuration with `value`, `text`, `attrs` or css class, 
+					// and any other attributes for single option tag:
+					$value = array_key_exists('value', $value1) 
+						? $value1['value'] 
+						: $key1;
+					$text = array_key_exists('text', $value1) 
+						? $value1['text'] 
+						: $key1;
+					$flattenOptions[$value] = $text;
 				}
 			}
 		}
