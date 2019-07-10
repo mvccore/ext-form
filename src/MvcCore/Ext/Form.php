@@ -157,14 +157,13 @@ implements	\MvcCore\Ext\Forms\IForm
 				if ($field instanceof \MvcCore\Ext\Forms\Fields\IMultiple)
 					$multiple = $field->GetMultiple() ?: FALSE;
 				if (
-					(!$multiple && $configuredFieldValue === NULL) || 
+					$configuredFieldValue === NULL || 
 					($multiple && is_array($configuredFieldValue) && count($configuredFieldValue) === 0)
 				) {
 					$field->SetValue($fieldValue);
 				}
 			}
 		}
-		
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
 			->SetForm($this);
