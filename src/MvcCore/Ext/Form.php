@@ -148,6 +148,7 @@ implements	\MvcCore\Ext\Forms\IForm
 			list($errorMsg, $fieldNames) = array_merge([], $errorMsgAndFieldNames);
 			$this->AddError($errorMsg, $fieldNames);
 		}
+		$this->errors = array_merge([], $session->errors);
 		if ($session->values) {
 			foreach ($session->values as $fieldName => $fieldValue) {
 				if (!array_key_exists($fieldName, $this->fields)) continue;
