@@ -71,6 +71,12 @@ trait Options
 	protected $options = [];
 
 	/**
+	 * Temp flatten key/value array to cache flatten options for submit checking.
+	 * @var array|NULL
+	 */
+	protected $flattenOptions = NULL;
+
+	/**
 	 * Boolean about to translate options texts, default `TRUE` to translate.
 	 * @var bool
 	 */
@@ -169,16 +175,21 @@ trait Options
 	/**
 	 * Merge given field options with possible grouped options into single 
 	 * level flatten array for submit checking purposes.
-	 * @param array $fieldOptions
+	 * @param array|NULL $fieldOptions
 	 * @return array
 	 */
-	public static function & GetFlattenOptions (array & $fieldOptions = []) {
-		$flattenOptions = [];
+	public function & GetFlattenOptions (array $fieldOptions = NULL) {
+		if ($fieldOptions === NULL && $this->flattenOptions !== NULL)
+			return $this->flattenOptions;
+		$this->flattenOptions = [];
 		/** @var $this \MvcCore\Ext\Forms\Field */
+		$fieldOptions = $fieldOptions === NULL
+			? $this->options
+			: $fieldOptions;
 		foreach ($fieldOptions as $key1 => $value1) {
 			if (is_scalar($value1)) {
 				// most simple key/value array options configuration
-				$flattenOptions[$key1] = $value1;
+				$this->flattenOptions[$key1] = $value1;
 			} else if (is_array($value1)) {
 				if (array_key_exists('options', $value1) && is_array($value1['options'])) {
 					// `<optgroup>` options configuration
@@ -186,7 +197,7 @@ trait Options
 					foreach ($subOptions as $key2 => $value2) {
 						if (is_scalar($value2)) {
 							// most simple key/value array options configuration
-							$flattenOptions[$key2] = $value2;
+							$this->flattenOptions[$key2] = $value2;
 						} else if (is_array($value2)) {
 							// advanced configuration with key, text, cs class, 
 							// and any other attributes for single option tag
@@ -196,7 +207,7 @@ trait Options
 							$text = array_key_exists('text', $value2) 
 								? $value2['text'] 
 								: $key2;
-							$flattenOptions[$value] = $text;
+							$this->flattenOptions[$value] = $text;
 						}
 					}
 				} else {
@@ -208,10 +219,10 @@ trait Options
 					$text = array_key_exists('text', $value1) 
 						? $value1['text'] 
 						: $key1;
-					$flattenOptions[$value] = $text;
+					$this->flattenOptions[$value] = $text;
 				}
 			}
 		}
-		return $flattenOptions;
+		return $this->flattenOptions;
 	}
 }

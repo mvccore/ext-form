@@ -101,8 +101,8 @@ interface IOptions
 	/**
 	 * Merge given field options with possible grouped options into single 
 	 * level flatten array for submit checking purposes.
-	 * @param array $fieldOptions
+	 * @param array|NULL $fieldOptions
 	 * @return array
 	 */
-	public static function & GetFlattenOptions (array & $fieldOptions = []);
+	public function & GetFlattenOptions (array $fieldOptions = NULL);
 }
