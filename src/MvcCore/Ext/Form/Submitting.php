@@ -137,14 +137,19 @@ trait Submitting
 	public function SubmittedRedirect () {
 		if ($this->dispatchState < 1) $this->Init();
 		$urlPropertyName = '';
+		$redirectMsg = '';
 		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
 			$urlPropertyName = 'errorUrl';
+			$redirectMsg = 'error URL';
 		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
 			$urlPropertyName = 'successUrl';
+			$redirectMsg = 'success URL';
 		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_PREV_PAGE) {
 			$urlPropertyName = 'prevStepUrl';
+			$redirectMsg = 'previous step URL';
 		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE) {
 			$urlPropertyName = 'nextStepUrl';
+			$redirectMsg = 'next step URL';
 		}
 		$url = isset($this->{$urlPropertyName}) ? $this->{$urlPropertyName} : NULL;
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
@@ -156,7 +161,11 @@ trait Submitting
 				'['.$selfClass.'] No url specified to redirect. ' . $errorMsg
 			);
 		}
-		if ($url) self::Redirect($url, \MvcCore\IResponse::SEE_OTHER);
+		if ($url) self::Redirect(
+			$url, 
+			\MvcCore\IResponse::SEE_OTHER,
+			'Form has been submitted and redirected to ' . $redirectMsg
+		);
 	}
 
 	/**
