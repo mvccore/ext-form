@@ -120,11 +120,12 @@ trait AddMethods
 	 * queue with this handlers, you can put here for example handler
 	 * to de-authenticate your user or anything else to more secure your application.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
-	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `string`				- Translated error message string.
+	 *	- `\MvcCore\Ext\Forms\IForm`	- Form instance where error happened.
+	 *	- `\MvcCore\IRequest`			- Current request object.
+	 *	- `\MvcCore\IResponse`			- Current response object.
+	 *	- `string`						- Translated error message string.
 	 * Example:
-	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
+	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $response, $errorMsg) {
 	 *		// ... anything you want to do, for example to sign out user.
 	 * });`
 	 * @param callable $handler
@@ -138,8 +139,12 @@ trait AddMethods
 				'['.$selfClass.'] Given argument is not callable: `'.serialize($handler).'`.'
 			);
 		}
-		$reflection = new \ReflectionFunction($handler);
-		$isClosure = $reflection->isClosure();
+		if (is_array($handler) || (is_string($handler) && mb_strpos($handler, '::') !== FALSE)) {
+			$isClosure = FALSE;
+		} else {
+			$reflection = new \ReflectionFunction($handler);
+			$isClosure = $reflection->isClosure();
+		}
 		if ($priorityIndex === NULL) {
 			static::$csrfErrorHandlers[] = [$handler, $isClosure];
 		} else {

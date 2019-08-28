@@ -26,14 +26,15 @@ trait Csrf
 	 * @return void
 	 */
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm & $form, $errorMsg) {
-		$request = $form->GetRequest();
+		$request = & $form->GetRequest();
+		$response = & $form->GetResponse();
 		foreach (static::$csrfErrorHandlers as $handlersRecord) {
 			list ($handler, $isClosure) = $handlersRecord;
 			try {
 				if ($isClosure) {
-					$handler($form, $request, $errorMsg);
+					$handler($form, $request, $response, $errorMsg);
 				} else {
-					call_user_func($handler, $form, $request, $errorMsg);
+					call_user_func($handler, $form, $request, $response, $errorMsg);
 				}
 			} catch (\Exception $e) {
 				$debugClass = $form->GetApplication()->GetDebugClass();
