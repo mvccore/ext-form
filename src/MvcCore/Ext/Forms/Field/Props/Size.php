@@ -72,7 +72,7 @@ trait Size
 	 * @param int|NULL $size 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetSize ($size) {
+	public function SetSize ($size) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->size = $size;
 		return $this;

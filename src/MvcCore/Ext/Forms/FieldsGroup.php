@@ -14,14 +14,14 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility: init, pre-dispatch and render group of common form controls, 
- *				   mostly `input` controls. This class is not possible to 
- *				   instantiate, you need to extend this class to create own 
+ * Responsibility: init, pre-dispatch and render group of common form controls,
+ *				   mostly `input` controls. This class is not possible to
+ *				   instantiate, you need to extend this class to create own
  *				   specific form control.
  */
-abstract class FieldsGroup 
+abstract class FieldsGroup
 	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IVisibleField, 
+	implements	\MvcCore\Ext\Forms\Fields\IVisibleField,
 				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IOptions,
 				\MvcCore\Ext\Forms\Fields\IMultiple,
@@ -32,7 +32,7 @@ abstract class FieldsGroup
 	use \MvcCore\Ext\Forms\Field\Props\Options;
 	use \MvcCore\Ext\Forms\Field\Props\GroupLabelCssClasses;
 	use \MvcCore\Ext\Forms\Field\Props\GroupLabelAttrs;
-	
+
 	/**
 	 * Form group pseudo control type,
 	 * unique type across all form field types.
@@ -48,7 +48,7 @@ abstract class FieldsGroup
 	protected $value = [];
 
 	/**
-	 * Standard field template strings for natural 
+	 * Standard field template strings for natural
 	 * rendering - `label`, `control`, `togetherLabelLeft` and `togetherLabelRight`.
 	 * @var string
 	 */
@@ -61,8 +61,8 @@ abstract class FieldsGroup
 
 	/**
 	 * Create new form control group instance.
-	 * @param array $cfg Config array with public properties and it's 
-	 *					 values which you want to configure, presented 
+	 * @param array $cfg Config array with public properties and it's
+	 *					 values which you want to configure, presented
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
@@ -79,22 +79,22 @@ abstract class FieldsGroup
 	public function GetValue () {
 		return $this->value;
 	}
-	
+
 	/**
 	 * Set form group controls value, in most cases - it could be an array with types,
-	 * which are possible simply to convert into array of strings. `NULL` value is then 
-	 * an empty array. For extended class `RadioGroup` - the value type is only a `string` 
+	 * which are possible simply to convert into array of strings. `NULL` value is then
+	 * an empty array. For extended class `RadioGroup` - the value type is only a `string`
 	 * or `NULL`.
 	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function & SetValue ($value) {
+	public function SetValue ($value) {
 		$this->value = $value;
 		return $this;
 	}
 
 	/**
-	 * Field group is always marked as multiple value control. This function 
+	 * Field group is always marked as multiple value control. This function
 	 * always return `TRUE` for field group instance.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return bool
@@ -104,12 +104,12 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * Field group is always marked as multiple value control. This function 
+	 * Field group is always marked as multiple value control. This function
 	 * does nothing, because multiple option has to be `TRUE` for field group instance all time.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function & SetMultiple ($multiple = TRUE) {
+	public function SetMultiple ($multiple = TRUE) {
 		return $this;
 	}
 
@@ -120,7 +120,7 @@ abstract class FieldsGroup
 	public function __construct(array $cfg = array()) {
 		parent::__construct($cfg);
 		static::$templates = (object) array_merge(
-			(array) parent::$templates, 
+			(array) parent::$templates,
 			(array) self::$templates
 		);
 	}
@@ -128,7 +128,7 @@ abstract class FieldsGroup
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
-	 * is added into form by `$form->AddField();` method. 
+	 * is added into form by `$form->AddField();` method.
 	 * Do not use this method even if you don't develop any form field group.
 	 * - Check if field has any name, which is required.
 	 * - Set up form and field id attribute by form id and field name.
@@ -138,7 +138,7 @@ abstract class FieldsGroup
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
 		parent::SetForm($form);
 		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
@@ -161,16 +161,15 @@ abstract class FieldsGroup
 		parent::PreDispatch();
 		$this->preDispatchTabIndex();
 		if (!$this->translate) return;
-		$form = & $this->form;
+		$form = $this->form;
 		foreach ($this->options as $key => & $value) {
-			$valueType = gettype($value);
-			if ($valueType == 'string') {
+			if (is_string($value)) {
 				// most simple key/value array options configuration
-				if ($value) 
+				if ($value)
 					$this->options[$key] = $form->Translate((string) $value);
-			} else if ($valueType == 'array') {
+			} else if (is_array($value)) {
 				// advanced configuration with key, text, css class, and any other attributes for single option tag
-				$text = isset($value['text']) 
+				$text = isset($value['text'])
 					? $value['text']
 					: $key;
 				if ($text)
@@ -180,9 +179,9 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering`
 	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 * 
+	 *
 	 * Render field naturally by render mode.
 	 * Field should be rendered with label beside, label around
 	 * or without label by local field configuration. Also there
@@ -213,26 +212,26 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
 	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 * 
-	 * Render field naturally by configured property `$field->renderMode` if any 
-	 * or by default render mode without any label. Field should be rendered with 
-	 * label beside, label around or without label by local field configuration. 
+	 *
+	 * Render field naturally by configured property `$field->renderMode` if any
+	 * or by default render mode without any label. Field should be rendered with
+	 * label beside, label around or without label by local field configuration.
 	 * Also there could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL)
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
 		);
 		/** @var $templates \stdClass */
 		$templates = & static::$templates;
-		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT 
-			? $templates->togetherLabelLeft 
+		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
+			? $templates->togetherLabelLeft
 			: $templates->togetherLabelRight;
 		$viewClass = $this->form->GetViewClass();
 		$result = $viewClass::Format($template, [
@@ -252,9 +251,9 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
 	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 * 
+	 *
 	 * Render all sub-controls by multiple calls of `$field->RenderControlItem();`.
 	 * @return string
 	 */
@@ -267,14 +266,14 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
 	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 * 
+	 *
 	 * Render label tag only without control or specific errors.
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL)
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
@@ -290,9 +289,9 @@ abstract class FieldsGroup
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
 	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 * 
+	 *
 	 * Render sub-controls with each sub-control label tag
 	 * and without group label or without group specific errors.
 	 * @param string $key
@@ -309,7 +308,7 @@ abstract class FieldsGroup
 			$labelAttrsStr,
 			$controlAttrsStr
 		) = $this->renderControlItemCompleteAttrsClassesAndText($key, $option);
-		if (!$this->form->GetFormTagRenderingStatus()) 
+		if (!$this->form->GetFormTagRenderingStatus())
 			$controlAttrsStr .= (strlen($controlAttrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
 		// render control, render label and put it together if necessary
@@ -334,14 +333,14 @@ abstract class FieldsGroup
 				'label'		=> $itemLabelText,
 				'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '',
 			]);
-			$result = ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) 
-				? $itemControl . $itemLabel 
+			$result = ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT)
+				? $itemControl . $itemLabel
 				: $itemLabel . $itemControl;
 		} else if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND) {
 			// control inside label
 			$templatesKey = 'togetherLabel' . (
-				($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) 
-					? 'Right' 
+				($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT)
+					? 'Right'
 					: 'Left'
 			);
 			$result = $viewClass::Format(
@@ -372,7 +371,7 @@ abstract class FieldsGroup
 		$controlAttrsStr = '';
 		$itemLabelText = '';
 		$originalRequired = $this->required;
-		if ($this->type == 'checkbox') 
+		if ($this->type == 'checkbox')
 			$this->required = FALSE;
 		if ($optionType == 'string') {
 			$itemLabelText = $option ? $option : $key;
@@ -401,11 +400,11 @@ abstract class FieldsGroup
 				['multiple'], $attrsArr, $classArr, TRUE
 			);
 		}
-		if ($this->type == 'checkbox') 
+		if ($this->type == 'checkbox')
 			$this->required = $originalRequired;
 		return [
-			$itemLabelText, 
-			$labelAttrsStr, 
+			$itemLabelText,
+			$labelAttrsStr,
 			$controlAttrsStr
 		];
 	}

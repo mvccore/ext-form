@@ -25,7 +25,7 @@ trait Session
 	 * clear form CSRF tokens clear CRSF tokens in form session namespace.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & ClearSession () {
+	public function ClearSession () {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->values = [];
 		$this->errors = [];
@@ -41,7 +41,7 @@ trait Session
 	 * in it's own form session namespace.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SaveSession () {
+	public function SaveSession () {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$session = & $this->getSession();
 		$session->errors = $this->errors;

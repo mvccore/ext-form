@@ -59,7 +59,7 @@ trait AutoComplete
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | 'anything' | NULL`.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAutoComplete ($autoComplete = FALSE) {
+	public function SetAutoComplete ($autoComplete = FALSE) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($autoComplete === FALSE) {
 			$this->autoComplete = 'off';

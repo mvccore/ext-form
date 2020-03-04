@@ -83,7 +83,7 @@ trait Submitting
 	 * If `Content-Length` value is bigger than `post_max_size` from PHP INI, add form error.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SubmitValidateMaxPostSizeIfNecessary () {
+	public function SubmitValidateMaxPostSizeIfNecessary () {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return $this;
 		$contentLength = $this->request->GetContentLength();
@@ -113,7 +113,7 @@ trait Submitting
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
 		$this->values = [];
-		foreach ($this->fields as $fieldName => & $field) {
+		foreach ($this->fields as $fieldName => $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
 			$safeValue = $field->Submit($rawRequestParams);
 			if ($safeValue === NULL) {
@@ -176,7 +176,7 @@ trait Submitting
 	 */
 	public function & GetValidator ($validatorName) {
 		if (isset($this->validators[$validatorName])) {
-			$validator = & $this->validators[$validatorName];
+			$validator = $this->validators[$validatorName];
 		} else {
 			$validator = NULL;
 			$toolClass = self::$toolClass;
@@ -197,7 +197,7 @@ trait Submitting
 				'Validator `' . $validatorName . '` not found in any namespace: `' 
 				. implode('`, `', static::$validatorsNamespaces) . '`.'
 			);
-			$this->validators[$validatorName] = & $validator;
+			$this->validators[$validatorName] = $validator;
 		}
 		return $validator;
 	}

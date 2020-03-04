@@ -62,7 +62,7 @@ interface IVisibleField
 	 * @param string $accessKey 
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAccessKey ($accessKey);
+	public function SetAccessKey ($accessKey);
 
 	/**
 	 * This Boolean attribute lets you specify that a form control should have input
@@ -94,7 +94,7 @@ interface IVisibleField
 	 * @param int $duplicateBehaviour
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION);
+	public function SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION);
 
 	/**
 	 * Get form field attribute `disabled`, determination if field value will be 
@@ -129,7 +129,7 @@ interface IVisibleField
 	 * @param bool|NULL $readonly
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetDisabled ($disabled);
+	public function SetDisabled ($disabled);
 
 	/**
 	 * Get form field attribute `readonly`, determination if field value will be 
@@ -162,7 +162,7 @@ interface IVisibleField
 	 * @param bool|NULL $readonly
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetReadOnly ($readOnly = TRUE);
+	public function SetReadOnly ($readOnly = TRUE);
 
 	/**
 	 * Get form field attribute required, determination
@@ -186,7 +186,7 @@ interface IVisibleField
 	 * @param bool|NULL $required
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetRequired ($required = TRUE);
+	public function SetRequired ($required = TRUE);
 
 	/**
 	 * Get an integer attribute indicating if the element can take input focus (is focusable), 
@@ -227,5 +227,5 @@ interface IVisibleField
 	 * @param int $tabIndex 
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTabIndex ($tabIndex);
+	public function SetTabIndex ($tabIndex);
 }

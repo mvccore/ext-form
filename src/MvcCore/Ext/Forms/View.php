@@ -14,19 +14,19 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility: create and extended MvcCore view instance to render form or 
+ * Responsibility: create and extended MvcCore view instance to render form or
  * form field with custom view template. This view contains built-in properties:
  * - `view` - Containing parent controller view.
  * - `form` - Containing rendered form instance when form or field is rendered.
  * - `field` - Containing rendered field instance when field is rendered.
  * This view also contains many built-in methods to render specific form parts:
- * - `RenderBegin()`	- Renders opening `<form>` tag with all configured 
+ * - `RenderBegin()`	- Renders opening `<form>` tag with all configured
  *						  attributes.
  * - `RenderErrors()`	- Renders translated form errors.
- * - `RenderContent()`	- Render all configured form fields from 
+ * - `RenderContent()`	- Render all configured form fields from
  *						  `$this->form->GetFields()` array by calling `Render()`
  *						  method on every field instance.
- * - `RenderEnd()`		- Renders opening `<form>` tag and configured form 
+ * - `RenderEnd()`		- Renders opening `<form>` tag and configured form
  *						  field's supporting js/css files.
  * - `static Format()`
  */
@@ -128,7 +128,7 @@ class View extends \MvcCore\View
 	 * Get controller instance as reference.
 	 * @return \MvcCore\View|\MvcCore\IView
 	 */
-	public function & GetView () {
+	public function GetView () {
 		return $this->view;
 	}
 
@@ -137,8 +137,8 @@ class View extends \MvcCore\View
 	 * @param \MvcCore\View|\MvcCore\IView $view
 	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
-	public function & SetView (\MvcCore\IView & $view) {
-		$this->view = & $view;
+	public function SetView (\MvcCore\IView $view) {
+		$this->view = $view;
 		return $this;
 	}
 
@@ -146,7 +146,7 @@ class View extends \MvcCore\View
 	 * Get form instance to render.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & GetForm () {
+	public function GetForm () {
 		return $this->form;
 	}
 
@@ -155,8 +155,8 @@ class View extends \MvcCore\View
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
 	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
-		$this->form = & $form;
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+		$this->form = $form;
 		return $this;
 	}
 
@@ -164,7 +164,7 @@ class View extends \MvcCore\View
 	 * Get rendered field.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & GetField () {
+	public function GetField () {
 		return $this->field;
 	}
 
@@ -173,9 +173,9 @@ class View extends \MvcCore\View
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
 	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
-	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
+	public function SetField (\MvcCore\Ext\Forms\IField $field) {
+		$this->field = $field;
 		$this->__protected['fieldRendering'] = TRUE;
-		$this->field = & $field;
 		return $this;
 	}
 
@@ -193,6 +193,7 @@ class View extends \MvcCore\View
 	public function __get ($name) {
 		/** @var $store array */
 		$store = & $this->__protected['store'];
+		$phpWithTypes = PHP_VERSION_ID >= 70400;
 		// if property is in view store - return it
 		if (array_key_exists($name, $store))
 			return $store[$name];
@@ -208,7 +209,13 @@ class View extends \MvcCore\View
 				$property = $fieldType->getProperty($name);
 				if (!$property->isStatic()) {
 					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
-					$value = $property->getValue($this->field);
+					$value = NULL;
+					if (PHP_VERSION_ID >= 70400 && $property->hasType()) {
+						if ($property->isInitialized($this->field))
+							$value = $property->getValue($this->field);
+					} else {
+						$value = $property->getValue($this->field);
+					}
 					$store[$name] = & $value;
 					return $value;
 				}
@@ -224,7 +231,13 @@ class View extends \MvcCore\View
 				$property = $formType->getProperty($name);
 				if (!$property->isStatic()) {
 					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
-					$value = $property->getValue($this->form);
+					$value = NULL;
+					if (PHP_VERSION_ID >= 70400 && $property->hasType()) {
+						if ($property->isInitialized($this->form))
+							$value = $property->getValue($this->form);
+					} else {
+						$value = $property->getValue($this->form);
+					}
 					$store[$name] = & $value;
 					return $value;
 				}
@@ -252,6 +265,7 @@ class View extends \MvcCore\View
 	public function __isset ($name) {
 		/** @var $store array */
 		$store = & $this->__protected['store'];
+		$phpWithTypes = PHP_VERSION_ID >= 70400;
 		// if property is in view store - return TRUE
 		if (array_key_exists($name, $store)) return TRUE;
 		/** @var $property \ReflectionProperty */
@@ -265,8 +279,15 @@ class View extends \MvcCore\View
 			if ($fieldType->hasProperty($name)) {
 				$property = $fieldType->getProperty($name);
 				if (!$property->isStatic()) {
-					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
-					$value = $property->getValue($this->field);
+					if (!$property->isPublic())
+						$property->setAccessible (TRUE); // protected or private
+					$value = NULL;
+					if ($phpWithTypes && $property->hasType()) {
+						if ($property->isInitialized($this->field))
+							$value = $property->getValue($this->field);
+					} else {
+						$value = $property->getValue($this->field);
+					}
 					$store[$name] = & $value;
 					return TRUE;
 				}
@@ -281,8 +302,15 @@ class View extends \MvcCore\View
 			if ($formType->hasProperty($name)) {
 				$property = $formType->getProperty($name);
 				if (!$property->isStatic()) {
-					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
-					$value = $property->getValue($this->form);
+					if (!$property->isPublic())
+						$property->setAccessible (TRUE); // protected or private
+					$value = NULL;
+					if ($phpWithTypes && $property->hasType()) {
+						if ($property->isInitialized($this->form))
+							$value = $property->getValue($this->form);
+					} else {
+						$value = $property->getValue($this->form);
+					}
 					$store[$name] = & $value;
 					return TRUE;
 				}
@@ -305,18 +333,18 @@ class View extends \MvcCore\View
 	 * @return mixed
 	 */
 	public function __call ($method, $arguments) {
+		$field = $this->field;
+		$form = $this->form;
 		if (
 			$this->__protected['fieldRendering'] &&
-			$this->field instanceof \MvcCore\Ext\Forms\IField &&
-			method_exists($this->field, $method)
+			$field instanceof \MvcCore\Ext\Forms\IField &&
+			method_exists($field, $method)
 		) {
-			$field = & $this->field;
 			return call_user_func_array([$field, $method], $arguments);
 		} else if (
-			$this->form instanceof \MvcCore\Ext\Forms\IForm &&
-			method_exists($this->form, $method)
+			$form instanceof \MvcCore\Ext\Forms\IForm &&
+			method_exists($form, $method)
 		) {
-			$form = & $this->form;
 			return call_user_func_array([$form, $method], $arguments);
 		} else {
 			return parent::__call($method, $arguments);
@@ -356,7 +384,7 @@ class View extends \MvcCore\View
 		$this->form->PreDispatch();
 		$result = "<form";
 		$attrs = [];
-		$form = & $this->form;
+		$form = $this->form;
 		// standard attributes
 		$formProperties = ['id', 'action', 'method', 'enctype', 'target'];
 		foreach ($formProperties as $property) {
@@ -378,20 +406,20 @@ class View extends \MvcCore\View
 		}
 		// pseudo-boolean attributes completing
 		$formAutoComplete = $form->GetAutoComplete();
-		if ($formAutoComplete !== NULL) 
+		if ($formAutoComplete !== NULL)
 			$attrs['autocomplete'] = $formAutoComplete ? 'on' : 'off';
 		$formNoValidate = $form->GetNoValidate();
 		if ($formNoValidate === TRUE)
 			$attrs['novalidate'] = 'novalidate';
 		$formAcceptCharsets = $form->GetAcceptCharsets();
-		if (count($formAcceptCharsets) > 0) 
+		if (count($formAcceptCharsets) > 0)
 			$attrs['accept-charset'] = implode(' ', $formAcceptCharsets);
 		// boolean and additional attributes
 		$attrsStr = self::RenderAttrs($attrs);
 		if ($attrsStr) $result .= ' ' . $attrsStr;
 		$result .= '>';
 		$this->form->SetFormTagRenderingStatus(TRUE);
-		if ($this->csrfEnabled) 
+		if ($this->csrfEnabled)
 			$result .= $this->RenderCsrf();
 		return $result;
 	}
@@ -427,10 +455,10 @@ class View extends \MvcCore\View
 	public function RenderErrors () {
 		$this->form->PreDispatch();
 		$result = '';
-		$errors = & $this->form->GetErrors();
+		$errors = $this->form->GetErrors();
 		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 			$result .= '<div class="errors">';
-			foreach ($errors as & $errorMessageAndFieldNames) {
+			foreach ($errors as $errorMessageAndFieldNames) {
 				list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
 				$result .= '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
 			}
@@ -451,7 +479,7 @@ class View extends \MvcCore\View
 		$this->form->PreDispatch();
 		$result = "";
 		$fieldRendered = "";
-		foreach ($this->form->GetFields() as & $field) {
+		foreach ($this->form->GetFields() as $field) {
 			$fieldRendered = $field->Render();
 			if (!($field instanceof \MvcCore\Ext\Forms\Fields\Hidden)) {
 				$fieldRendered = "<div>".$fieldRendered."</div>";

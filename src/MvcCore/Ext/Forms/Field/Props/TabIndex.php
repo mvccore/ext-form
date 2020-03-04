@@ -110,7 +110,7 @@ trait TabIndex
 	 * @param int|string $tabIndex 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTabIndex ($tabIndex = 'auto') {
+	public function SetTabIndex ($tabIndex = 'auto') {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($tabIndex === 'auto' || is_int($tabIndex)) {
 			$this->tabIndex = $tabIndex;

@@ -57,40 +57,40 @@ interface IView
 	 * Get controller instance as reference.
 	 * @return \MvcCore\IView
 	 */
-	public function & GetView ();
+	public function GetView ();
 
 	/**
 	 * Set controller and it's view instance.
 	 * @param \MvcCore\IView $view
 	 * @return \MvcCore\Ext\Forms\IView
 	 */
-	public function & SetView (\MvcCore\IView & $view);
+	public function SetView (\MvcCore\IView $view);
 
 	/**
 	 * Get form instance to render.
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
-	public function & GetForm ();
+	public function GetForm ();
 
 	/**
 	 * Set form instance to render.
 	 * @param \MvcCore\Ext\Forms\IForm $form
 	 * @return \MvcCore\Ext\Forms\IView
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
 
 	/**
 	 * Get rendered field.
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & GetField ();
+	public function GetField ();
 
 	/**
 	 * Set rendered field.
 	 * @param \MvcCore\Ext\Forms\IField $field
 	 * @return \MvcCore\Ext\Forms\IView
 	 */
-	public function & SetField (\MvcCore\Ext\Forms\IField & $field);
+	public function SetField (\MvcCore\Ext\Forms\IField $field);
 
 	/**
 	 * Get any value by given name existing in local store. If there is no value

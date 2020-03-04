@@ -124,9 +124,9 @@ trait Options
 	 * @param array $options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetOptions (array $options = []) {
+	public function SetOptions (array $options = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
-		$this->options = & $options;
+		$this->options = $options;
 		return $this;
 	}
 
@@ -137,7 +137,7 @@ trait Options
 	 * @param array $options
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & AddOptions (array $options = []) {
+	public function AddOptions (array $options = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->options = array_merge($this->options, $options);
 		return $this;
@@ -147,7 +147,7 @@ trait Options
 	 * Return reference to configured options array.
 	 * @return array
 	 */
-	public function & GetOptions () {
+	public function GetOptions () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->options;
 	}
@@ -157,7 +157,7 @@ trait Options
 	 * @param bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTranslateOptions ($translateOptions = TRUE) {
+	public function SetTranslateOptions ($translateOptions = TRUE) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->translateOptions = $translateOptions;
 		return $this;

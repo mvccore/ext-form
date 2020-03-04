@@ -61,5 +61,5 @@ interface IMultiple
 	 * @param bool $multiple 
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetMultiple ($multiple = TRUE);
+	public function SetMultiple ($multiple = TRUE);
 }

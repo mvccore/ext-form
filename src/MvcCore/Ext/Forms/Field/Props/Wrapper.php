@@ -53,7 +53,7 @@ trait Wrapper
 	 * @param string $wrapper Default wrapper values is: `{control}`.
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetWrapper ($wrapper) {
+	public function SetWrapper ($wrapper) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->wrapper = $wrapper;
 		return $this;

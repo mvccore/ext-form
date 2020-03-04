@@ -62,7 +62,7 @@ interface ILabel
 	 * @param string $label
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabel ($label = NULL);
+	public function SetLabel ($label = NULL);
 
 	/**
 	 * Get label side from rendered field - location where label will be rendered.
@@ -87,7 +87,7 @@ interface ILabel
 	 * @param string $labelSide
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT);
+	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT);
 
 	/**
 	 * Get rendering mode flag how to render field and it's label.
@@ -114,7 +114,7 @@ interface ILabel
 	 * @param string $renderMode
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND);
+	public function SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND);
 
 	/**
 	 * Get collection with `<label>` HTML element 
@@ -158,7 +158,7 @@ interface ILabel
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelAttrs (array $attrs = []);
+	public function SetLabelAttrs (array $attrs = []);
 
 	/**
 	 * Set `<label>` HTML element additional attribute 
@@ -175,7 +175,7 @@ interface ILabel
 	 * @param mixed $value
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelAttr ($name, $value);
+	public function SetLabelAttr ($name, $value);
 
 	/**
 	 * Add collection with `<label>` HTML element 
@@ -191,5 +191,5 @@ interface ILabel
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddLabelAttrs (array $attrs = []);
+	public function AddLabelAttrs (array $attrs = []);
 }

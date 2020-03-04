@@ -113,7 +113,7 @@ trait Label
 	 * @param string $label
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabel ($label = NULL) {
+	public function SetLabel ($label = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->label = $label;
 		return $this;
@@ -144,7 +144,7 @@ trait Label
 	 * @param string $labelSide
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
+	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->labelSide = $labelSide;
 		return $this;
@@ -177,7 +177,7 @@ trait Label
 	 * @param string $renderMode
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+	public function SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->renderMode = $renderMode;
 		return $this;
@@ -231,9 +231,9 @@ trait Label
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelAttrs (array $attrs = []) {
+	public function SetLabelAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
-		$this->labelAttrs = & $attrs;
+		$this->labelAttrs = $attrs;
 		return $this;
 	}
 
@@ -252,7 +252,7 @@ trait Label
 	 * @param mixed $value
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetLabelAttr ($name, $value) {
+	public function SetLabelAttr ($name, $value) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->labelAttrs[$name] = $value;
 		return $this;
@@ -272,7 +272,7 @@ trait Label
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & AddLabelAttrs (array $attrs = []) {
+	public function AddLabelAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->labelAttrs = array_merge($this->labelAttrs, $attrs);
 		return $this;

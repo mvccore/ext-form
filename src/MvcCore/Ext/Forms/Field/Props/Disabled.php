@@ -98,7 +98,7 @@ trait Disabled
 	 * @param bool|NULL $readonly
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetDisabled ($disabled) {
+	public function SetDisabled ($disabled) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->disabled = $disabled;
 		return $this;

@@ -43,7 +43,7 @@ trait GroupLabelCssClasses
 	 * @param string|\string[] $groupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetGroupLabelCssClasses ($groupLabelCssClasses) {
+	public function SetGroupLabelCssClasses ($groupLabelCssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$this->groupLabelCssClasses = $groupLabelCssClasses;

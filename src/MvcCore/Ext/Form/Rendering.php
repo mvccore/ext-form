@@ -39,7 +39,7 @@ trait Rendering
 	 *   only once, only when it's used and it's now - in this rendering process.
 	 * @return string
 	 */
-	public function Render ($controllerDashedName = '', $actionDashedName = '') {
+	public function & Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
 		$this->PreDispatch();
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
@@ -51,10 +51,10 @@ trait Rendering
 	}
 
 	/**
-	 * Render form inner content, all field controls, content inside `<form>` tag, 
-	 * without form errors. Go through all `$form->fields` and call `$field->Render();` 
-	 * on every field instance and put field render result into an empty `<div>` 
-	 * element. Render each field in full possible way - naturally by label 
+	 * Render form inner content, all field controls, content inside `<form>` tag,
+	 * without form errors. Go through all `$form->fields` and call `$field->Render();`
+	 * on every field instance and put field render result into an empty `<div>`
+	 * element. Render each field in full possible way - naturally by label
 	 * configuration with possible errors configured beside or with custom field template.
 	 * @return string
 	 */
@@ -115,8 +115,8 @@ trait Rendering
 		$useExternalRenderer = is_callable($this->cssSupportFilesRenderer);
 		foreach ($cssFiles as $cssFile) {
 			$this->renderSupportingFile(
-				$cssFilesContent, $cssFile, 
-				$useExternalRenderer, $this->cssSupportFilesRenderer 
+				$cssFilesContent, $cssFile,
+				$useExternalRenderer, $this->cssSupportFilesRenderer
 			);
 		}
 		if ($useExternalRenderer) return '';
@@ -130,9 +130,9 @@ trait Rendering
 	 * render all supporting JS files by configured external
 	 * JS files renderer to add only links to HTML response `<head>`
 	 * section, linked to external JS source files.
-	 * Anyway there is always created at least one `<script>` tag 
+	 * Anyway there is always created at least one `<script>` tag
 	 * placed directly after `</form>` end tag with supporting javascripts
-	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fields 
+	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fields
 	 * options, names, counts, values etc...
 	 * @return string
 	 */
@@ -147,14 +147,14 @@ trait Rendering
 			$jsBaseSupportFile = $this->absolutizeSupportingFilePath(static::$jsBaseSupportFile, 'js');
 			self::$allJsSupportFiles[static::$jsBaseSupportFile] = TRUE;
 			$this->renderSupportingFile(
-				$jsFilesContent, $jsBaseSupportFile, 
-				$useExternalRenderer, $this->jsSupportFilesRenderer 
+				$jsFilesContent, $jsBaseSupportFile,
+				$useExternalRenderer, $this->jsSupportFilesRenderer
 			);
 		}
 		foreach ($jsFiles as $jsFile)
 			$this->renderSupportingFile(
-				$jsFilesContent, $jsFile, 
-				$useExternalRenderer, $this->jsSupportFilesRenderer 
+				$jsFilesContent, $jsFile,
+				$useExternalRenderer, $this->jsSupportFilesRenderer
 			);
 		foreach ($this->jsSupportFiles as $jsSupportFile) {
 			list(, $jsFullClassName, $constructParams) = $jsSupportFile;
@@ -179,9 +179,9 @@ trait Rendering
 	}
 
 	/**
-	 * Call this function after form has been rendered 
-	 * to clear session errors, because there is not necessary 
-	 * to have there those errors anymore, because will be 
+	 * Call this function after form has been rendered
+	 * to clear session errors, because there is not necessary
+	 * to have there those errors anymore, because will be
 	 * displayed in rendered form.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */

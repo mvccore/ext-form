@@ -80,7 +80,7 @@ trait AccessKey
 	 * @param string $accessKey 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetAccessKey ($accessKey) {
+	public function SetAccessKey ($accessKey) {
 		$this->accessKey = $accessKey;
 		return $this;
 	}

@@ -78,7 +78,7 @@ trait Multiple
 	 * @param bool $multiple 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetMultiple ($multiple = TRUE) {
+	public function SetMultiple ($multiple = TRUE) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->multiple = $multiple;
 		return $this;

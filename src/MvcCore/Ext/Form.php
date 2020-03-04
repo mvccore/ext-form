@@ -50,12 +50,12 @@ implements	\MvcCore\Ext\Forms\IForm
 	 * @param \MvcCore\Controller|\MvcCore\IController|NULL $controller
 	 * @return void
 	 */
-	public function __construct (\MvcCore\IController & $controller = NULL) {
+	public function __construct (\MvcCore\IController $controller = NULL) {
 		/** @var $controller \MvcCore\Controller */
 		if ($controller === NULL) {
-			$controller = & \MvcCore\Ext\Form::GetCallerControllerInstance();
+			$controller = \MvcCore\Ext\Form::GetCallerControllerInstance();
 			if ($controller === NULL) 
-				$controller = & \MvcCore\Application::GetInstance()->GetController();
+				$controller = \MvcCore\Application::GetInstance()->GetController();
 			if ($controller === NULL) $this->throwNewInvalidArgumentException(
 				'There was not possible to determinate caller controller, '
 				.'where is form instance create. Provide `$controller` instance explicitly '
@@ -109,11 +109,11 @@ implements	\MvcCore\Ext\Forms\IForm
 		if (!$this->id)
 			throw new \RuntimeException("No form `id` property defined in `".get_class($this)."`.");
 		if (isset(self::$instances[$this->id])) {
-			$storedInstance = & self::$instances[$this->id];
+			$storedInstance = self::$instances[$this->id];
 			if ($storedInstance !== $this) 
 				throw new \RuntimeException("Form id `".$this->id."` already defined.");
 		} else {
-			self::$instances[$this->id] = & $this;
+			self::$instances[$this->id] = $this;
 		}
 		$this->translate = $this->translator !== NULL && is_callable($this->translator);
 		return $this;

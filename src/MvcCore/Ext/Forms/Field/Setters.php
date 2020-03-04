@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms\Field;
 
 /**
- * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly 
+ * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly
  * configurable) properties setter methods.
  */
 trait Setters
@@ -25,7 +25,7 @@ trait Setters
 	 * @param string $id
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetId ($id = NULL) {
+	public function SetId ($id = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->id = $id;
 		return $this;
@@ -38,7 +38,7 @@ trait Setters
 	 * @param string $name
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetName ($name = NULL) {
+	public function SetName ($name = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->name = $name;
 		return $this;
@@ -46,12 +46,12 @@ trait Setters
 
 	/**
 	 * Set form field type, used in `<input type="...">` attribute value.
-	 * Every typed field has it's own string value, but base field type 
+	 * Every typed field has it's own string value, but base field type
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
 	 * @param string $type
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetType ($type = NULL) {
+	public function SetType ($type = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->type = $type;
 		return $this;
@@ -63,7 +63,7 @@ trait Setters
 	 * @param string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetValue ($value) {
+	public function SetValue ($value) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->value = $value;
 		return $this;
@@ -73,12 +73,12 @@ trait Setters
 	 * Set form field HTML element css classes strings.
 	 * All previously defined css classes will be removed.
 	 * Default value is an empty array to not render HTML `class` attribute.
-	 * You can define css classes as single string, more classes separated 
+	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetCssClasses ($cssClasses) {
+	public function SetCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
@@ -91,12 +91,12 @@ trait Setters
 	 * Add css classes strings for HTML element attribute `class`.
 	 * Given css classes will be added after previously defined css classes.
 	 * Default value is an empty array to not render HTML `class` attribute.
-	 * You can define css classes as single string, more classes separated 
+	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddCssClasses ($cssClasses) {
+	public function AddCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
@@ -106,64 +106,64 @@ trait Setters
 	}
 
 	/**
-	 * Set collection with field HTML element 
+	 * Set collection with field HTML element
 	 * additional attributes by array keys/values.
-	 * Do not use system attributes as: `id`, `name`, 
+	 * Do not use system attributes as: `id`, `name`,
 	 * `value`, `readonly`, `disabled`, `class` ...
 	 * Those attributes have it's own configurable properties
 	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>, 
+	 * HTML field elements are meant: `<input>,
 	 * <button>, <select>, <textarea> ...`
-	 * Default value is an empty array to not 
+	 * Default value is an empty array to not
 	 * render any additional attributes.
-	 * All previously defined additional field attributes 
+	 * All previously defined additional field attributes
 	 * will be replaced by given array.
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetControlAttrs (array $attrs = []) {
+	public function SetControlAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
-		$this->controlAttrs = & $attrs;
+		$this->controlAttrs = $attrs;
 		return $this;
 	}
 
 	/**
-	 * Set field HTML element additional attribute 
+	 * Set field HTML element additional attribute
 	 * by attribute name and value.
-	 * Do not use system attributes as: `id`, `name`, 
+	 * Do not use system attributes as: `id`, `name`,
 	 * `value`, `readonly`, `disabled`, `class` ...
 	 * Those attributes have it's own configurable properties
 	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>, 
+	 * HTML field elements are meant: `<input>,
 	 * <button>, <select>, <textarea> ...`
 	 * Given additional field attribute will be directly
-	 * set into additional attributes array and any 
+	 * set into additional attributes array and any
 	 * previous attribute with the same name will be overwritten.
 	 * @param string $name
 	 * @param mixed $value
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetControlAttr ($name, $value) {
+	public function SetControlAttr ($name, $value) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->controlAttrs[$name] = $value;
 		return $this;
 	}
 
 	/**
-	 * Add (and merge) collection with field HTML element 
+	 * Add (and merge) collection with field HTML element
 	 * additional attributes by array keys/values.
-	 * Do not use system attributes as: `id`, `name`, 
+	 * Do not use system attributes as: `id`, `name`,
 	 * `value`, `readonly`, `disabled`, `class` ...
 	 * Those attributes have it's own configurable properties
 	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>, 
+	 * HTML field elements are meant: `<input>,
 	 * <button>, <select>, <textarea> ...`.
-	 * All given additional field attributes 
+	 * All given additional field attributes
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddControlAttrs (array $attrs = []) {
+	public function AddControlAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->controlAttrs = array_merge($this->controlAttrs, $attrs);
 		return $this;
@@ -176,19 +176,18 @@ trait Setters
 	 * Or it could exist in any other validators namespaces, configured by method(s):
 	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
 	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every given validator class (ending name) or given validator instance has to 
-	 * implement interface `\MvcCore\Ext\Forms\IValidator` or it could be extended 
+	 * Every given validator class (ending name) or given validator instance has to
+	 * implement interface `\MvcCore\Ext\Forms\IValidator` or it could be extended
 	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetValidators (array $validatorsNamesOrInstances = []) {
+	public function SetValidators (array $validatorsNamesOrInstances = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->validators = [];
-		$validators = call_user_func_array([$this, 'AddValidators'], $validatorsNamesOrInstances);
-		return $validators;
+		return $this->AddValidators($validatorsNamesOrInstances);
 	}
 
 	/**
@@ -198,18 +197,18 @@ trait Setters
 	 * Or it could exist in any other validators namespaces, configured by method(s):
 	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
 	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every given validator class (ending name) or given validator instance has to 
-	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended 
+	 * Every given validator class (ending name) or given validator instance has to
+	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddValidators ($validatorsNamesOrInstances = []) {
+	public function AddValidators ($validatorsNamesOrInstances = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$validatorsNamesOrInstances = func_get_args();
-		if (count($validatorsNamesOrInstances) === 1 && is_array($validatorsNamesOrInstances[0])) 
+		if (count($validatorsNamesOrInstances) === 1 && is_array($validatorsNamesOrInstances[0]))
 			$validatorsNamesOrInstances = $validatorsNamesOrInstances[0];
 		foreach ($validatorsNamesOrInstances as $validatorNameOrInstance) {
 			$instanceType = FALSE;
@@ -227,7 +226,7 @@ trait Setters
 				);
 			}
 			$slashPos = strrpos($validatorClassName, '\\');
-			$validatorName = $slashPos !== FALSE 
+			$validatorName = $slashPos !== FALSE
 				? substr($validatorClassName, $slashPos + 1)
 				: $validatorClassName;
 			$this->validators[$validatorName] = $validatorNameOrInstance;
@@ -243,15 +242,15 @@ trait Setters
 	 * Or it could exist in any other validators namespaces, configured by method(s):
 	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
 	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every given validator class (ending name) or given validator instance has to 
-	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended 
+	 * Every given validator class (ending name) or given validator instance has to
+	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorNameOrInstance,...
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & RemoveValidator ($validatorNameOrInstance) {
+	public function RemoveValidator ($validatorNameOrInstance) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		if (is_string($validatorNameOrInstance)) {
 			$validatorClassName = $validatorNameOrInstance;
@@ -259,12 +258,12 @@ trait Setters
 			$validatorClassName = get_class($validatorNameOrInstance);
 		} else {
 			return $this->throwNewInvalidArgumentException(
-				'Unknown validator type given: `' . $validatorNameOrInstance 
+				'Unknown validator type given: `' . $validatorNameOrInstance
 				. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
 			);
 		}
 		$slashPos = strrpos($validatorClassName, '\\');
-		$validatorName = $slashPos !== FALSE 
+		$validatorName = $slashPos !== FALSE
 			? substr($validatorClassName, $slashPos + 1)
 			: $validatorClassName;
 		if (isset($this->validators[$validatorName]))
@@ -273,28 +272,28 @@ trait Setters
 	}
 
 	/**
-	 * Set boolean `TRUE` or string with template relative path 
-	 * without `.phtml` or `.php` extension, if you want to render 
-	 * field by any custom template. 
-	 * 
+	 * Set boolean `TRUE` or string with template relative path
+	 * without `.phtml` or `.php` extension, if you want to render
+	 * field by any custom template.
+	 *
 	 * If `TRUE` given, path to template
 	 * is completed by configured `\MvcCore\Ext\Forms\view::SetFieldsDir(...);`
 	 * value, which is `/App/Views/Forms/Fields` by default.
-	 * 
+	 *
 	 * If any string with relative path given, path must be relative from configured
-	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);` value, which is again 
+	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);` value, which is again
 	 * `/App/Views/Forms/Fields` by default.
-	 * 
+	 *
 	 * To render field naturally, set `FALSE`, empty string or `NULL` (`NULL` is default).
-	 * 
+	 *
 	 * Example:
 	 * ```
 	 * // To render field template prepared in:
 	 * // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
-	 * 
+	 *
 	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields'); // by default
 	 * $field->SetViewScript('my-specials/my-field-type');
-	 * 
+	 *
 	 * // Or you can do the same by:
 	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
 	 * $field->SetType('my-field-type');
@@ -302,7 +301,7 @@ trait Setters
 	 * @param bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetViewScript ($boolOrViewScriptPath = NULL) {
+	public function SetViewScript ($boolOrViewScriptPath = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->viewScript = $boolOrViewScriptPath;
 		return $this;
@@ -314,17 +313,17 @@ trait Setters
 	 * for any additional purposes for your custom field, you need to use
 	 * `$field->SetJsSupportingFile(...)` to define path to your javascript file
 	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
-	 * value. Than you have to add supporting javascript file path into field form 
+	 * value. Than you have to add supporting javascript file path into field form
 	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting javascript files into response by your 
+	 * Or you can add your custom supporting javascript files into response by your
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $jsClass
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetJsClassName ($jsClassName) {
+	public function SetJsClassName ($jsClassName) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->jsClassName = $jsClassName;
 		return $this;
@@ -332,21 +331,21 @@ trait Setters
 
 	/**
 	 * Set field supporting javascript file relative path.
-	 * If you want to use any custom supporting javascript file (with prototyped 
-	 * class) for any additional purposes for your custom field, you need to 
-	 * define path to your javascript file relatively from configured 
-	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
-	 * Than you have to add supporting javascript file path into field form 
+	 * If you want to use any custom supporting javascript file (with prototyped
+	 * class) for any additional purposes for your custom field, you need to
+	 * define path to your javascript file relatively from configured
+	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value.
+	 * Than you have to add supporting javascript file path into field form
 	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetJsSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting javascript files into response by your 
+	 * Or you can add your custom supporting javascript files into response by your
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $jsFullFile
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetJsSupportingFile ($jsSupportingFilePath) {
+	public function SetJsSupportingFile ($jsSupportingFilePath) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->jsSupportingFile = $jsSupportingFilePath;
 		return $this;
@@ -354,21 +353,21 @@ trait Setters
 
 	/**
 	 * Set field supporting css file relative path.
-	 * If you want to use any custom supporting css file 
-	 * for any additional purposes for your custom field, you need to 
-	 * define path to your css file relatively from configured 
-	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
-	 * Than you have to add supporting css file path into field form 
+	 * If you want to use any custom supporting css file
+	 * for any additional purposes for your custom field, you need to
+	 * define path to your css file relatively from configured
+	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value.
+	 * Than you have to add supporting css file path into field form
 	 * in `$field->PreDispatch();` method to render those files immediately after form
 	 * (once) or by any external custom assets renderer configured by:
 	 * `$form->SetCssSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting css files into response by your 
+	 * Or you can add your custom supporting css files into response by your
 	 * own and also you can run your helper css also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $cssFullFile
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetCssSupportingFile ($cssSupportingFilePath) {
+	public function SetCssSupportingFile ($cssSupportingFilePath) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->cssSupportingFile = $cssSupportingFilePath;
 		return $this;
@@ -376,12 +375,12 @@ trait Setters
 
 	/**
 	 * Set boolean flag about field visible texts and error messages translation.
-	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
+	 * This flag is automatically assigned from `$field->form->GetTranslate();`
 	 * flag in `$field->Init();` method.
 	 * @param bool $translate
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTranslate ($translate) {
+	public function SetTranslate ($translate) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->translate = $translate;
 		return $this;
@@ -391,12 +390,12 @@ trait Setters
 	 * Add field error message text to render it in rendering process.
 	 * This method is only for rendering purposes, not to add errors
 	 * into session. It's always called internally from `\MvcCore\Ext\Form`
-	 * in render preparing process. To add form error properly, 
+	 * in render preparing process. To add form error properly,
 	 * use `$field->form->AddError($errorMsg, $fieldNames);` method instead.
 	 * @param string $errorMsg
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddError ($errorMsg) {
+	public function AddError ($errorMsg) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->errors[] = $errorMsg;
 		return $this;
@@ -421,7 +420,7 @@ trait Setters
 	/**
 	 * Set fields (and labels) default templates for natural
 	 * (not customized with `*.phtml` view) field rendering.
-	 * @param array|\stdClass $templates 
+	 * @param array|\stdClass $templates
 	 * @return array
 	 */
 	public static function SetTemplates ($templates = []) {

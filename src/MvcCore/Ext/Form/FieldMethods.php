@@ -41,10 +41,10 @@ trait FieldMethods
 	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetFields ($fields = []) {
+	public function SetFields ($fields = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->fields = [];
-		foreach ($fields as & $field)
+		foreach ($fields as $field)
 			$this->AddField($field);
 		return $this;
 	}
@@ -55,11 +55,11 @@ trait FieldMethods
 	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddFields ($fields) {
+	public function AddFields ($fields) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$fields = func_get_args();
 		if (count($fields) === 1 && is_array($fields[0])) $fields = $fields[0];
-		foreach ($fields as & $field)
+		foreach ($fields as $field)
 			$this->AddField($field);
 		return $this;
 	}
@@ -69,15 +69,15 @@ trait FieldMethods
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddField (\MvcCore\Ext\Forms\IField $field) {
+	public function AddField (\MvcCore\Ext\Forms\IField $field) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		/** @var $field \MvcCore\Ext\Forms\Field */
 		if ($this->dispatchState < 1) $this->Init();
 		$fieldName = $field->GetName();
 		$field->SetForm($this);
-		$this->fields[$fieldName] = & $field;
+		$this->fields[$fieldName] = $field;
 		if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
-			$this->submitFields[$fieldName] = & $field;
+			$this->submitFields[$fieldName] = $field;
 			$fieldCustomResultState = $field->GetCustomResultState();
 			if ($fieldCustomResultState !== NULL)
 				$this->customResultStates[$fieldName] = $fieldCustomResultState;
@@ -107,7 +107,7 @@ trait FieldMethods
 	 * @param \MvcCore\Ext\Forms\IField|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & RemoveField ($fieldOrFieldName = NULL) {
+	public function RemoveField ($fieldOrFieldName = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($this->dispatchState < 1) $this->Init();
 		$fieldName = NULL;
@@ -126,10 +126,10 @@ trait FieldMethods
 	 * @param string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
 	 */
-	public function & GetField ($fieldName = '') {
+	public function GetField ($fieldName = '') {
 		$result = NULL;
 		if (isset($this->fields[$fieldName]))
-			$result = & $this->fields[$fieldName];
+			$result = $this->fields[$fieldName];
 		return $result;
 	}
 
@@ -140,9 +140,9 @@ trait FieldMethods
 	 * @param string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]|array
 	 */
-	public function & GetFieldsByType ($fieldType = '') {
+	public function GetFieldsByType ($fieldType = '') {
 		$result = [];
-		foreach ($this->fields as & $field) {
+		foreach ($this->fields as $field) {
 			if ($field->GetType() == $fieldType)
 				$result[$field->GetName()] = $field;
 		}
@@ -155,11 +155,11 @@ trait FieldMethods
 	 * @param string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
 	 */
-	public function & GetFirstFieldByType ($fieldType = '') {
+	public function GetFirstFieldByType ($fieldType = '') {
 		$result = NULL;
-		foreach ($this->fields as & $field) {
+		foreach ($this->fields as $field) {
 			if ($field->GetType() == $fieldType) {
-				$result = & $field;
+				$result = $field;
 			}
 		}
 		return $result;
@@ -174,9 +174,9 @@ trait FieldMethods
 	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]|array
 	 */
-	public function & GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
+	public function GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
 		$result = [];
-		foreach ($this->fields as & $field) {
+		foreach ($this->fields as $field) {
 			if (is_a($field, $fieldClassName)) {
 				if ($directTypesOnly)
 					if (is_subclass_of($field, $fieldClassName))
@@ -195,9 +195,9 @@ trait FieldMethods
 	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
 	 */
-	public function & GetFirstFieldByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
+	public function GetFirstFieldByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
 		$result = NULL;
-		foreach ($this->fields as & $field) {
+		foreach ($this->fields as $field) {
 			if (is_a($field, $fieldClassName)) {
 				if ($directTypesOnly)
 					if (is_subclass_of($field, $fieldClassName))

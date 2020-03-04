@@ -40,7 +40,7 @@ interface IDataList
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @return string|NULL
 	 */
-	public function & GetList ();
+	public function GetList ();
 
 	/**
 	 * Set element `list` attribute value - the `<list>` 
@@ -49,5 +49,5 @@ interface IDataList
 	 * @param string|\MvcCore\Ext\Forms\IField $dataListIdOrInstance
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetList ($dataListIdOrInstance);
+	public function SetList ($dataListIdOrInstance);
 }

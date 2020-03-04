@@ -77,7 +77,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 *									validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public static function & CreateInstance (array $constructorConfig = []) {
+	public static function CreateInstance (array $constructorConfig = []) {
 		$validator = new static($constructorConfig);
 		$validator::$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
 		return $validator;
@@ -108,8 +108,8 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
-		$this->form = & $form;
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+		$this->form = $form;
 		return $this;
 	}
 
@@ -121,8 +121,8 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public function & SetField (\MvcCore\Ext\Forms\IField & $field) {
-		$this->field = & $field;
+	public function SetField (\MvcCore\Ext\Forms\IField $field) {
+		$this->field = $field;
 		if (static::$fieldSpecificProperties) 
 			$this->setUpFieldProps(static::$fieldSpecificProperties);
 		return $this;

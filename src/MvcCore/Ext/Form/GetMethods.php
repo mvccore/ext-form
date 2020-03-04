@@ -40,7 +40,7 @@ trait GetMethods
 	}
 
 	/**
-	 * Get form http submitting method. `POST` by default. 
+	 * Get form http submitting method. `POST` by default.
 	 * Use `GET` only if form data contains only ASCII characters.
 	 * Possible values: `'POST' | 'GET'`
 	 * You can use constants:
@@ -53,18 +53,18 @@ trait GetMethods
 	}
 
 	/**
-	 * Get form `enctype` attribute - how the form values will be encoded 
+	 * Get form `enctype` attribute - how the form values will be encoded
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
-	 *   By default, it means all form values will be encoded to 
+	 *   By default, it means all form values will be encoded to
 	 *   `key1=value1&key2=value2...` string.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
 	 *   Data will not be encoded to URL string form, this value is required,
-	 *   when you are using forms that have a file upload control. 
+	 *   when you are using forms that have a file upload control.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
-	 *   Spaces will be converted to `+` symbols, but no other special 
+	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
 	 * @return string
@@ -74,21 +74,21 @@ trait GetMethods
 	}
 
 	/**
-	 * Get form target attribute - where to display the response that is 
-	 * received after submitting the form. This is a name of, or keyword for, 
-	 * a browsing context (e.g. tab, window, or inline frame). Default value 
+	 * Get form target attribute - where to display the response that is
+	 * received after submitting the form. This is a name of, or keyword for,
+	 * a browsing context (e.g. tab, window, or inline frame). Default value
 	 * is `NULL` to not render any `<form>` element `target` attribute.
 	 * The following keywords have special meanings:
-	 * - `_self`:		Load the response into the same browsing context as the 
-	 *					current one. This value is the default if the attribute 
+	 * - `_self`:		Load the response into the same browsing context as the
+	 *					current one. This value is the default if the attribute
 	 *					is not specified.
 	 * - `_blank`:		Load the response into a new unnamed browsing context.
-	 * - `_parent`:		Load the response into the parent browsing context of 
-	 *					the current one. If there is no parent, this option 
+	 * - `_parent`:		Load the response into the parent browsing context of
+	 *					the current one. If there is no parent, this option
 	 *					behaves the same way as `_self`.
-	 * - `_top`:		Load the response into the top-level browsing context 
-	 *					(i.e. the browsing context that is an ancestor of the 
-	 *					current one, and has no parent). If there is no parent, 
+	 * - `_top`:		Load the response into the top-level browsing context
+	 *					(i.e. the browsing context that is an ancestor of the
+	 *					current one, and has no parent). If there is no parent,
 	 *					this option behaves the same way as `_self`.
 	 * - `iframename`:	The response is displayed in a named `<iframe>`.
 	 * @return string|NULL
@@ -98,19 +98,19 @@ trait GetMethods
 	}
 
 	/**
-	 * Indicates whether input elements can by default have their values automatically 
-	 * completed by the browser. This setting can be overridden by an `autocomplete` 
+	 * Indicates whether input elements can by default have their values automatically
+	 * completed by the browser. This setting can be overridden by an `autocomplete`
 	 * attribute on an element belonging to the form. Possible values are:
-	 * - `FALSE` (`'off'`):	The user must explicitly enter a value into each field for 
-	 * 						every use, or the document provides its own auto-completion 
+	 * - `FALSE` (`'off'`):	The user must explicitly enter a value into each field for
+	 * 						every use, or the document provides its own auto-completion
 	 * 						method; the browser does not automatically complete entries.
-	 * - `TRUE` (`'on'`):	The browser can automatically complete values based on 
+	 * - `TRUE` (`'on'`):	The browser can automatically complete values based on
 	 * 						values that the user has previously entered in the form.
 	 * - `NULL`				Do not render the attribute.
-	 * For most modern browsers setting the autocomplete attribute will not prevent 
-	 * a browser's password manager from asking the user if they want to store login 
+	 * For most modern browsers setting the autocomplete attribute will not prevent
+	 * a browser's password manager from asking the user if they want to store login
 	 * fields (username and password), if the user permits the storage the browser will
-	 * autofill the login the next time the user visits the page. See The autocomplete 
+	 * autofill the login the next time the user visits the page. See The autocomplete
 	 * attribute and login fields.
 	 * @return bool|NULL
 	 */
@@ -119,9 +119,9 @@ trait GetMethods
 	}
 
 	/**
-	 * This Boolean attribute indicates that the form is not to be validated when 
-	 * submitted. If this attribute is not specified (and therefore the form is 
-	 * validated), this default setting can be overridden by a `formnovalidate` 
+	 * This Boolean attribute indicates that the form is not to be validated when
+	 * submitted. If this attribute is not specified (and therefore the form is
+	 * validated), this default setting can be overridden by a `formnovalidate`
 	 * attribute on a `<button>` or `<input>` element belonging to the form.
 	 * Only `TRUE` renders the form attribute.
 	 * @return bool|NULL
@@ -131,9 +131,9 @@ trait GetMethods
 	}
 
 	/**
-	 * A list of character encodings that the server accepts. The browser 
+	 * A list of character encodings that the server accepts. The browser
 	 * uses them in the order in which they are listed. The default value,
-	 * the reserved string `'UNKNOWN'`, indicates the same encoding as that 
+	 * the reserved string `'UNKNOWN'`, indicates the same encoding as that
 	 * of the document containing the form element.
 	 * @return \string[]
 	 */
@@ -169,7 +169,7 @@ trait GetMethods
 	/**
 	 * Get form field HTML element css classes strings as array.
 	 * Default value is an empty array to not render HTML `class` attribute.
-	 * @return string
+	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
 		return $this->cssClasses;
@@ -323,7 +323,7 @@ trait GetMethods
 
 	/**
 	 * Get base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
-	 * This value could move tab-index values for each field into higher or lower values by needs, 
+	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
 	 * @return int
 	 */
@@ -430,7 +430,7 @@ trait GetMethods
 	}
 
 	/**
-	 * This is INTERNAL method for rendering fields. 
+	 * This is INTERNAL method for rendering fields.
 	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
 	 * @return bool
 	 */
@@ -477,7 +477,7 @@ trait GetMethods
 
 	/**
 	 * Get PHP data limit as integer value by given PHP INI variable name.
-	 * @param string $iniVarName 
+	 * @param string $iniVarName
 	 * @return int|NULL
 	 */
 	public static function GetPhpIniSizeLimit ($iniVarName) {
@@ -489,12 +489,12 @@ trait GetMethods
 		}
 		$unit = strtoupper(substr($rawIniValue, -1));
 		$multiplier = (
-			$unit == 'M' 
-				? 1048576 
-				: ($unit == 'K' 
-					? 1024 
-					: ($unit == 'G' 
-						? 1073741824 
+			$unit == 'M'
+				? 1048576
+				: ($unit == 'K'
+					? 1024
+					: ($unit == 'G'
+						? 1073741824
 						: 1)));
 		return intval($multiplier * floatval($rawIniValue));
 	}
@@ -502,11 +502,11 @@ trait GetMethods
 	/**
 	 * Get form instance by form id string.
 	 * If no form instance found, thrown an `RuntimeException`.
-	 * @param string $formId 
-	 * @throws \RuntimeException 
+	 * @param string $formId
+	 * @throws \RuntimeException
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public static function & GetById ($formId) {
+	public static function GetById ($formId) {
 		if (isset(self::$instances[$formId])) {
 			return self::$instances[$formId];
 		} else {
@@ -521,11 +521,11 @@ trait GetMethods
 	/**
 	 * Get form field instance with defined `autofocus` boolean attribute.
 	 * If there is no field in any form with this attribute, return `NULL`.
-	 * @param string $formId 
-	 * @param string $fieldName 
+	 * @param string $formId
+	 * @param string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public static function & GetAutoFocusedFormField ($formId, $fieldName) {
+	public static function GetAutoFocusedFormField ($formId, $fieldName) {
 		if (self::$autoFocusedFormField) {
 			list ($currentFormId, $currentFieldName) = self::$autoFocusedFormField;
 			return self::GetById($currentFormId)->GetField($currentFieldName);

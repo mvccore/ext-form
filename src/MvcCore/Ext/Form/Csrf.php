@@ -25,9 +25,9 @@ trait Csrf
 	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
-	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm & $form, $errorMsg) {
-		$request = & $form->GetRequest();
-		$response = & $form->GetResponse();
+	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm $form, $errorMsg) {
+		$request = $form->GetRequest();
+		$response = $form->GetResponse();
 		foreach (static::$csrfErrorHandlers as $handlersRecord) {
 			list ($handler, $isClosure) = $handlersRecord;
 			try {
@@ -48,7 +48,7 @@ trait Csrf
 	 * @param bool $enabled 
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetEnableCsrf ($enabled = TRUE) {
+	public function SetEnableCsrf ($enabled = TRUE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->csrfEnabled = $enabled;
 		return $this;

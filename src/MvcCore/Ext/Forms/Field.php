@@ -135,11 +135,11 @@ implements		\MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
 		if (!$this->name) $this->throwNewInvalidArgumentException(
 			'No `name` property defined.'
 		);
-		$this->form = & $form;
+		$this->form = $form;
 		if ($this->id === NULL)
 			$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, [
 				$form->GetId(),
@@ -164,7 +164,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * @return void
 	 */
 	public function PreDispatch () {
-		$form = & $this->form;
+		$form = $this->form;
 		// if there is no specific render mode - set render mode by form
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField && $this->renderMode === NULL)
 			$this->renderMode = $form->GetDefaultFieldsRenderMode();
@@ -246,10 +246,9 @@ implements		\MvcCore\Ext\Forms\IField
 	 */
 	public function & GetValidatorData ($fieldPropsDefaultValidValues = []) {
 		$result = [];
-		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue) {
+		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue) 
 			if (property_exists($this, $propName)) 
 				$result[$propName] = $this->{$propName};
-		}
 		return $result;
 	}
 

@@ -43,7 +43,7 @@ trait AddMethods
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddCssClasses ($cssClasses) {
+	public function AddCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
@@ -91,7 +91,7 @@ trait AddMethods
 	 * @param array  $constructorParams	Supporting javascript constructor params.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddJsSupportFile (
+	public function AddJsSupportFile (
 		$jsRelativePath = '/fields/custom-type.js', 
 		$jsClassName = 'MvcCoreForm.FieldType', 
 		$constructorParams = []
@@ -106,7 +106,7 @@ trait AddMethods
 	 * @param string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & AddCssSupportFile (
+	public function AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */

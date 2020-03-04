@@ -133,7 +133,7 @@ trait Getters
 	 * @param string|\MvcCore\Ext\Forms\IValidator $validatorNameOrInstance
 	 * @return bool
 	 */
-	public function & HasValidator ($validatorNameOrInstance) {
+	public function HasValidator ($validatorNameOrInstance) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		if (is_string($validatorNameOrInstance)) {
 			$validatorClassName = $validatorNameOrInstance;

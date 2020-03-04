@@ -61,7 +61,7 @@ interface IField
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
@@ -229,7 +229,7 @@ interface IField
 	 * @param string|\MvcCore\Ext\Forms\IValidator $validatorNameOrInstance
 	 * @return bool
 	 */
-	public function & HasValidator ($validatorNameOrInstance);
+	public function HasValidator ($validatorNameOrInstance);
 
 	/**
 	 * Get boolean `TRUE` or string with template relative path 
@@ -332,7 +332,7 @@ interface IField
 	 * @param string $id
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetId ($id = NULL);
+	public function SetId ($id = NULL);
 
 	/**
 	 * Set form field specific name, used to identify submitted value.
@@ -341,7 +341,7 @@ interface IField
 	 * @param string $name
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetName ($name = NULL);
+	public function SetName ($name = NULL);
 
 	/**
 	 * Set form field type, used in `<input type="...">` attribute value.
@@ -350,7 +350,7 @@ interface IField
 	 * @param string $type
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetType ($type = NULL);
+	public function SetType ($type = NULL);
 
 	/**
 	 * Set form field value. It could be string or array, in or float, it depends
@@ -358,7 +358,7 @@ interface IField
 	 * @param string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetValue ($value);
+	public function SetValue ($value);
 
 	/**
 	 * Set form field HTML element css classes strings.
@@ -369,7 +369,7 @@ interface IField
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetCssClasses ($cssClasses);
+	public function SetCssClasses ($cssClasses);
 
 	/**
 	 * Add css classes strings for HTML element attribute `class`.
@@ -380,7 +380,7 @@ interface IField
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddCssClasses ($cssClasses);
+	public function AddCssClasses ($cssClasses);
 
 	/**
 	 * Set collection with field HTML element 
@@ -398,7 +398,7 @@ interface IField
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetControlAttrs (array $attrs = []);
+	public function SetControlAttrs (array $attrs = []);
 
 	/**
 	 * Set field HTML element additional attribute 
@@ -416,7 +416,7 @@ interface IField
 	 * @param mixed $value
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetControlAttr ($name, $value);
+	public function SetControlAttr ($name, $value);
 
 	/**
 	 * Add (and merge) collection with field HTML element 
@@ -432,7 +432,7 @@ interface IField
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddControlAttrs (array $attrs = []);
+	public function AddControlAttrs (array $attrs = []);
 
 	/**
 	 * Set list of predefined validator classes ending names or validator instances.
@@ -449,7 +449,7 @@ interface IField
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetValidators (array $validatorsNamesOrInstances = []);
+	public function SetValidators (array $validatorsNamesOrInstances = []);
 
 	/**
 	 * Add list of predefined validator classes ending names or validator instances.
@@ -466,7 +466,7 @@ interface IField
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddValidators ($validatorsNamesOrInstances = []);
+	public function AddValidators ($validatorsNamesOrInstances = []);
 
 	/**
 	 * Remove predefined validator by given class ending name or by given validator instance.
@@ -483,7 +483,7 @@ interface IField
 	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorNameOrInstance,...
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & RemoveValidator ($validatorNameOrInstance);
+	public function RemoveValidator ($validatorNameOrInstance);
 
 	/**
 	 * Set boolean `TRUE` or string with template relative path 
@@ -515,7 +515,7 @@ interface IField
 	 * @param bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetViewScript ($boolOrViewScriptPath = NULL);
+	public function SetViewScript ($boolOrViewScriptPath = NULL);
 
 	/**
 	 * Set supporting javascript full javascript class name.
@@ -533,7 +533,7 @@ interface IField
 	 * @param string $jsClass
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetJsClassName ($jsClassName);
+	public function SetJsClassName ($jsClassName);
 
 	/**
 	 * Set field supporting javascript file relative path.
@@ -551,7 +551,7 @@ interface IField
 	 * @param string $jsFullFile
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetJsSupportingFile ($jsSupportingFilePath);
+	public function SetJsSupportingFile ($jsSupportingFilePath);
 
 	/**
 	 * Set field supporting css file relative path.
@@ -569,7 +569,7 @@ interface IField
 	 * @param string $cssFullFile
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetCssSupportingFile ($cssSupportingFilePath);
+	public function SetCssSupportingFile ($cssSupportingFilePath);
 
 	/**
 	 * Set boolean flag about field visible texts and error messages translation.
@@ -578,7 +578,7 @@ interface IField
 	 * @param bool $translate
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTranslate ($translate);
+	public function SetTranslate ($translate);
 
 	/**
 	 * Add field error message text to render it in rendering process.
@@ -589,7 +589,7 @@ interface IField
 	 * @param string $errorMsg
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddError ($errorMsg);
+	public function AddError ($errorMsg);
 
 	/**
 	 * Set field (or label) default template for natural

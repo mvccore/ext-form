@@ -26,10 +26,10 @@ trait SetMethods
 	 * @param string $id
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetId ($id) {
+	public function SetId ($id) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->id = $id;
-		self::$instances[$id] = & $this;
+		self::$instances[$id] = $this;
 		return $this;
 	}
 
@@ -40,7 +40,7 @@ trait SetMethods
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetAction ($url = NULL) {
+	public function SetAction ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->action = $url;
 		return $this;
@@ -56,7 +56,7 @@ trait SetMethods
 	 * @param string $method
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetMethod ($method = \MvcCore\Ext\Forms\IForm::METHOD_POST) {
+	public function SetMethod ($method = \MvcCore\Ext\Forms\IForm::METHOD_POST) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->method = strtoupper($method);
 		return $this;
@@ -80,7 +80,7 @@ trait SetMethods
 	 * @param string $enctype
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetEnctype ($enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED) {
+	public function SetEnctype ($enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->enctype = $enctype;
 		return $this;
@@ -106,7 +106,7 @@ trait SetMethods
 	 * - `iframename`:	The response is displayed in a named `<iframe>`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetTarget ($target = '_self') {
+	public function SetTarget ($target = '_self') {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->target = $target;
 		return $this;
@@ -131,7 +131,7 @@ trait SetMethods
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetAutoComplete ($autoComplete = FALSE) {
+	public function SetAutoComplete ($autoComplete = FALSE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($autoComplete === 'off' || $autoComplete === FALSE) {
 			$this->autoComplete = FALSE;
@@ -151,7 +151,7 @@ trait SetMethods
 	 * @param bool|NULL $noValidate Only `TRUE` renders the form attribute.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetNoValidate ($noValidate = TRUE) {
+	public function SetNoValidate ($noValidate = TRUE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($noValidate === TRUE) {
 			$this->noValidate = TRUE;
@@ -171,7 +171,7 @@ trait SetMethods
 	 * @param \string[] $acceptCharsets 
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetAcceptCharsets ($acceptCharsets = []) {
+	public function SetAcceptCharsets ($acceptCharsets = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->acceptCharsets = $acceptCharsets;
 		return $this;
@@ -186,7 +186,7 @@ trait SetMethods
 	 * @param string|NULL $lang
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetLang ($lang = NULL) {
+	public function SetLang ($lang = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->lang = $lang;
 		return $this;
@@ -201,7 +201,7 @@ trait SetMethods
 	 * @param string|NULL $locale
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetLocale ($locale = NULL) {
+	public function SetLocale ($locale = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->locale = strtoupper($locale);
 		return $this;
@@ -216,7 +216,7 @@ trait SetMethods
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetCssClasses ($cssClasses) {
+	public function SetCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
@@ -234,7 +234,7 @@ trait SetMethods
 	 * @param array $attributes
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetAttributes (array $attributes = []) {
+	public function SetAttributes (array $attributes = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->attributes = $attributes;
 		return $this;
@@ -249,7 +249,7 @@ trait SetMethods
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetSuccessUrl ($url = NULL) {
+	public function SetSuccessUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->successUrl = $url;
 		return $this;
@@ -268,7 +268,7 @@ trait SetMethods
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetPrevStepUrl ($url = NULL) {
+	public function SetPrevStepUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->nextStepUrl = $url;
 		return $this;
@@ -287,7 +287,7 @@ trait SetMethods
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetNextStepUrl ($url = NULL) {
+	public function SetNextStepUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->nextStepUrl = $url;
 		return $this;
@@ -302,7 +302,7 @@ trait SetMethods
 	 * @param string|NULL $url
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetErrorUrl ($url = NULL) {
+	public function SetErrorUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->errorUrl = $url;
 		return $this;
@@ -320,7 +320,7 @@ trait SetMethods
 	 * @param int|NULL $result
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetResult ($result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
+	public function SetResult ($result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->result = $result;
 		return $this;
@@ -336,7 +336,7 @@ trait SetMethods
 	 * @param callable|NULL $handler
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetTranslator (callable $translator = NULL) {
+	public function SetTranslator (callable $translator = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($translator !== NULL && is_callable($translator))
 			$this->translator = $translator;
@@ -351,7 +351,7 @@ trait SetMethods
 	 * @param bool $defaultRequired
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetDefaultRequired ($defaultRequired = TRUE) {
+	public function SetDefaultRequired ($defaultRequired = TRUE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->defaultRequired = $defaultRequired;
 		return $this;
@@ -367,14 +367,14 @@ trait SetMethods
 	 * @param bool  $clearPreviousSessionValues If `TRUE`, clear all previous data records for this form from session.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
+	public function SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		if ($this->dispatchState < 1) $this->Init();
 		if ($clearPreviousSessionValues) $this->ClearSession();
 		$defaultsKeys = $caseInsensitive
 			? ',' . implode(',', array_keys($values)) . ','
 			: '' ;
-		foreach ($this->fields as $fieldName => & $field) {
+		foreach ($this->fields as $fieldName => $field) {
 			if (isset($values[$fieldName])) {
 				$fieldValue = $values[$fieldName];
 			} else if ($caseInsensitive) {
@@ -410,7 +410,7 @@ trait SetMethods
 	 * @param array $errorsCollection
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetErrors ($errorsCollection = []) {
+	public function SetErrors ($errorsCollection = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->errors = [];
 		foreach ($errorsCollection as $errorMsgAndFieldNames) {
@@ -429,7 +429,7 @@ trait SetMethods
 	 * @param $seconds int
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetSessionExpiration ($seconds = 0) {
+	public function SetSessionExpiration ($seconds = 0) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->sessionExpiration = $seconds;
 		return $this;
@@ -442,7 +442,7 @@ trait SetMethods
 	 * @param $baseTabIndex int
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetBaseTabIndex ($baseTabIndex = 0) {
+	public function SetBaseTabIndex ($baseTabIndex = 0) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->baseTabIndex = $baseTabIndex;
 		return $this;
@@ -456,7 +456,7 @@ trait SetMethods
 	 * @param string $defaultFieldsRenderMode
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL) {
+	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->defaultFieldsRenderMode = $defaultFieldsRenderMode;
 		return $this;
@@ -470,7 +470,7 @@ trait SetMethods
 	 * @param string $errorsRenderMode
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->errorsRenderMode = $errorsRenderMode;
 		return $this;
@@ -487,7 +487,7 @@ trait SetMethods
 	 * @param bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetViewScript ($boolOrViewScriptPath = NULL) {
+	public function SetViewScript ($boolOrViewScriptPath = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->viewScript = $boolOrViewScriptPath;
 		return $this;
@@ -499,7 +499,7 @@ trait SetMethods
 	 * @param string $viewClass
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetViewClass ($viewClass = '\\MvcCore\\Ext\\Forms\\View') {
+	public function SetViewClass ($viewClass = '\\MvcCore\\Ext\\Forms\\View') {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->viewClass = $viewClass;
 		return $this;
@@ -517,7 +517,7 @@ trait SetMethods
 	 * @param array $jsFilesClassesAndConstructorParams
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = []) {
+	public function SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->jsSupportFiles = [];
 		foreach ($jsRelPathsClassNamesAndParams as $jsRelPathClassNameAndParams) {
@@ -537,7 +537,7 @@ trait SetMethods
 	 * @param array $cssRelativePaths
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetCssSupportFiles (array $cssRelativePaths = []) {
+	public function SetCssSupportFiles (array $cssRelativePaths = []) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->cssSupportFiles = [];
 		foreach ($cssRelativePaths as $cssRelativePath)
@@ -553,7 +553,7 @@ trait SetMethods
 	 * @param callable|NULL $jsSupportFilesRenderer
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetJsSupportFilesRenderer (callable $jsSupportFilesRenderer) {
+	public function SetJsSupportFilesRenderer (callable $jsSupportFilesRenderer) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->jsSupportFilesRenderer = $jsSupportFilesRenderer;
 		return $this;
@@ -567,7 +567,7 @@ trait SetMethods
 	 * @param callable|NULL $cssSupportFilesRenderer
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function & SetCssSupportFilesRenderer (callable $cssSupportFilesRenderer) {
+	public function SetCssSupportFilesRenderer (callable $cssSupportFilesRenderer) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		$this->cssSupportFilesRenderer = $cssSupportFilesRenderer;
 		return $this;
@@ -628,7 +628,7 @@ trait SetMethods
 	 * @param \string[] $validatorsNamespaces
 	 * @return int New validators namespaces count.
 	 */
-	public static function & SetValidatorsNamespaces (array $validatorsNamespaces = []) {
+	public static function SetValidatorsNamespaces (array $validatorsNamespaces = []) {
 		static::$validatorsNamespaces = [];
 		return static::AddValidatorsNamespaces($validatorsNamespaces);
 	}

@@ -47,7 +47,7 @@ class DataList
 	 * Get if options has to be translated or not.
 	 * @return bool
 	 */
-	public function & GetTranslateOptions () {
+	public function GetTranslateOptions () {
 		return $this->translateOptions;
 	}
 	
@@ -56,7 +56,7 @@ class DataList
 	 * @param bool $translateOptions
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTranslateOptions ($translateOptions = TRUE) {
+	public function SetTranslateOptions ($translateOptions = TRUE) {
 		$this->translateOptions = $translateOptions;
 		return $this;
 	}
@@ -73,7 +73,7 @@ class DataList
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form) {
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
 		parent::SetForm($form);
 		if (!$this->translate) $this->translateOptions = $this->translate;
 		return $this;
@@ -90,7 +90,7 @@ class DataList
 	public function PreDispatch () {
 		parent::PreDispatch();
 		if ($this->translateOptions) {
-			$form = & $this->form;
+			$form = $this->form;
 			foreach ($this->options as $key => $value) 
 				$this->options[$key] = $form->Translate($key);
 		}

@@ -21,7 +21,7 @@ interface IValidator
 	 *									validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
-	public static function & CreateInstance (array $constructorConfig = []);
+	public static function CreateInstance (array $constructorConfig = []);
 	
 	/**
 	 * Return predefined validator custom error message strings (not translated) 
@@ -37,7 +37,7 @@ interface IValidator
 	 * @param \MvcCore\Ext\Forms\IForm $form 
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
 
 	/**
 	 * Set up field instance, where is validated value by this 
@@ -47,7 +47,7 @@ interface IValidator
 	 * @param \MvcCore\Ext\Forms\IField $field 
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
-	public function & SetField (\MvcCore\Ext\Forms\IField & $field);
+	public function SetField (\MvcCore\Ext\Forms\IField $field);
 
 	/**
 	 * Validation method.

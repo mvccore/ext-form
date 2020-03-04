@@ -60,7 +60,7 @@ trait InputMode
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
 	 * @return string|NULL
 	 */
-	public function & GetInputMode () {
+	public function GetInputMode () {
 		return $this->inputMode;
 	}
 
@@ -81,7 +81,7 @@ trait InputMode
 	 * @param string|NULL $inputMode
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetInputMode ($inputMode) {
+	public function SetInputMode ($inputMode) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->inputMode = $inputMode;
 		return $this;

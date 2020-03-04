@@ -45,7 +45,7 @@ trait DataList
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @return string|NULL
 	 */
-	public function & GetList () {
+	public function GetList () {
 		return $this->list;
 	}
 
@@ -56,7 +56,7 @@ trait DataList
 	 * @param string|\MvcCore\Ext\Forms\IField $dataListIdOrInstance
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function & SetList ($dataListIdOrInstance) {
+	public function SetList ($dataListIdOrInstance) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		if ($dataListIdOrInstance instanceof \MvcCore\Ext\Forms\IField) {
 			$this->list = $dataListIdOrInstance->GetId();

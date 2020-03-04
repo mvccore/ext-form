@@ -39,7 +39,7 @@ interface IFieldsGroup
 	 * @param string|\string[] $groupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetGroupLabelCssClasses ($groupLabelCssClasses);
+	public function SetGroupLabelCssClasses ($groupLabelCssClasses);
 
 	/**
 	 * Add css class or classes for group label as array of 
@@ -63,7 +63,7 @@ interface IFieldsGroup
 	 * @param array $groupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetGroupLabelAttrs ($groupLabelAttrs = []);
+	public function SetGroupLabelAttrs ($groupLabelAttrs = []);
 
 	/**
 	 * Add any additional attributes for group label, defined
@@ -90,7 +90,7 @@ interface IFieldsGroup
 	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
 	 * @return \MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function & SetValue ($value);
+	public function SetValue ($value);
 
 	/**
 	 * Field group is always marked as multiple value control. This function 
@@ -106,7 +106,7 @@ interface IFieldsGroup
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return \MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function & SetMultiple ($multiple = TRUE);
+	public function SetMultiple ($multiple = TRUE);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
@@ -120,7 +120,7 @@ interface IFieldsGroup
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function & SetForm (\MvcCore\Ext\Forms\IForm & $form);
+	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before

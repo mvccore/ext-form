@@ -68,7 +68,7 @@ interface IOptions
 	 * @param array $options
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetOptions (array $options = []);
+	public function SetOptions (array $options = []);
 
 	/**
 	 * Add form control or group control options to render
@@ -77,7 +77,7 @@ interface IOptions
 	 * @param array $options
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & AddOptions (array $options = []);
+	public function AddOptions (array $options = []);
 
 	/**
 	 * Return reference to configured options array.
@@ -90,7 +90,7 @@ interface IOptions
 	 * @param bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function & SetTranslateOptions ($translateOptions = TRUE);
+	public function SetTranslateOptions ($translateOptions = TRUE);
 
 	/**
 	 * Return boolean if options are translated or not.
