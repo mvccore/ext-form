@@ -133,12 +133,10 @@ trait AddMethods
 	 * @return int New CSRF error handlers count.
 	 */
 	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL) {
-		if (!is_callable($handler)) {
-			$selfClass = version_compare(PHP_VERSION, '5.5', '>') ? self::class : __CLASS__;
+		if (!is_callable($handler)) 
 			throw new \InvalidArgumentException(
-				'['.$selfClass.'] Given argument is not callable: `'.serialize($handler).'`.'
+				'['.get_class().'] Given argument is not callable: `'.serialize($handler).'`.'
 			);
-		}
 		if (is_array($handler) || (is_string($handler) && mb_strpos($handler, '::') !== FALSE)) {
 			$isClosure = FALSE;
 		} else {

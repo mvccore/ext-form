@@ -155,12 +155,10 @@ trait Submitting
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
 		if ($this->result) $this->values = [];
 		$this->SaveSession();
-		if (!$url && $this->result > -1 && $this->result < 4) {
-			$selfClass = version_compare(PHP_VERSION, '5.5', '>') ? self::class : __CLASS__;
+		if (!$url && $this->result > -1 && $this->result < 4) 
 			throw new \RuntimeException(
-				'['.$selfClass.'] No url specified to redirect. ' . $errorMsg
+				'['.get_class().'] No url specified to redirect. ' . $errorMsg
 			);
-		}
 		if ($url) self::Redirect(
 			$url, 
 			\MvcCore\IResponse::SEE_OTHER,

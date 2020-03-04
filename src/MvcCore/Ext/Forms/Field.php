@@ -354,8 +354,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		$selfClass = version_compare(PHP_VERSION, '5.5', '>') ? self::class : __CLASS__;
-		$str = '['.$selfClass.'] ' . $errorMsg . ' (';
+		$str = '['.get_class().'] ' . $errorMsg . ' (';
 		if ($this->form) {
 			$str .= 'form id: `'.$this->form->GetId() . '`, '
 				. 'form type: `'.get_class($this->form).'`, ';

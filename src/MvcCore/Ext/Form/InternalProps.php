@@ -21,7 +21,7 @@ use \MvcCore\Ext\Forms\IError;
 trait InternalProps
 {
 	/**
-	 * Internal array with all configured submit buttons to recognize starting 
+	 * Internal array with all configured submit buttons to recognize starting
 	 * result state in submit processing by presented button in params array.
 	 * @var \MvcCore\Ext\Forms\Fields\SubmitButton|\MvcCore\Ext\Forms\Fields\SubmitInput
 	 */
@@ -36,14 +36,14 @@ trait InternalProps
 	protected $customResultStates = [];
 
 	/**
-	 * This is INTERNAL property for rendering fields. 
+	 * This is INTERNAL property for rendering fields.
 	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
 	 * @var bool
 	 */
 	protected $formTagRendergingStatus = FALSE;
 
 	/**
-	 * Validators instances keyed by validators ending 
+	 * Validators instances keyed by validators ending
 	 * class names, created during `Submit()`.
 	 * @var \MvcCore\Ext\Forms\IValidator[]
 	 */
@@ -104,7 +104,7 @@ trait InternalProps
 	protected static $allCssSupportFiles = [];
 
 	/**
-	 * Collection with arrays, where first record is `callable` handler to process, 
+	 * Collection with arrays, where first record is `callable` handler to process,
 	 * if any form submit CSRF checking (Cross Site Request Forgery) triggers error
 	 * and where second record is `boolean`, if handler is `closure` or not.
 	 * Params in `callable` should be two with following types:
@@ -126,7 +126,7 @@ trait InternalProps
 	 * the base supporting javascript is located.
 	 * @var string
 	 */
-	protected static $jsBaseSupportFile = \MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT . '/mvccore-form.js';
+	protected static $jsBaseSupportFile = '__MVCCORE_FORM_ASSETS_DIR__/mvccore-form.js';
 
 	/**
 	 * Default (not translated) error messages with replacements
