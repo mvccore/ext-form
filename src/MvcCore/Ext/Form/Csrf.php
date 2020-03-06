@@ -101,7 +101,15 @@ trait Csrf
 	 */
 	public function SetUpCsrf () {
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
-		$randomHash = bin2hex(openssl_random_pseudo_bytes(32));
+		if (function_exists('openssl_random_pseudo_bytes')) {
+			$randomHash = bin2hex(openssl_random_pseudo_bytes(32));
+		} else if (PHP_VERSION_ID >= 70000) {
+			$randomHash = bin2hex(random_bytes(32));
+		} else {
+			$randomHash = '';
+			for ($i = 0; $i < 32; $i++) 
+				$randomHash .= str_pad(dechex(rand(0,255)),2,'0',STR_PAD_LEFT);
+		}
 		$nowTime = (string)time();
 		$name = '____'.sha1($this->id . $requestUrl . 'name' . $nowTime . $randomHash);
 		$value = sha1($this->id . $requestUrl . 'value' . $nowTime . $randomHash);
