@@ -147,7 +147,7 @@ trait Options
 	 * Return reference to configured options array.
 	 * @return array
 	 */
-	public function GetOptions () {
+	public function & GetOptions () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->options;
 	}
