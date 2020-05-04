@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Form;
 
 /**
- * Trait for class `MvcCore\Ext\Form` containing logic and methods to work with 
+ * Trait for class `MvcCore\Ext\Form` containing logic and methods to work with
  * values necessary store in session. It use configured core class `\MvcCore\Session`.
  */
 trait Session
@@ -65,14 +65,15 @@ trait Session
 				$formIdPc = $toolClass::GetPascalCaseFromDashed($formIdPc);
 			if (strpos($formIdPc, '_') !== FALSE)
 				$formIdPc = $toolClass::GetPascalCaseFromUnderscored($formIdPc);
-			$namespaceName = '\\MvcCore\\Ext\\Form\\' . ucfirst($formIdPc);
+			$formIdPcUc = ucfirst($formIdPc);
+			$namespaceName = "\MvcCore\Ext\Form\\{$formIdPcUc}";
 			$sessionNamespace = $sessionClass::GetNamespace($namespaceName);
 			// Do not use hoops expiration, because there is better
 			// to set up any large value into session namespace
 			// or zero value to browser close and after rendered
 			// errors just clear the errors.
 			//$sessionNamespace->SetExpirationHoops(1);
-			$sessionNamespace->SetExpirationSeconds($this->sessionExpiration);
+			$sessionNamespace->SetExpirationSeconds($this->GetSessionExpiration());
 			if (!isset($sessionNamespace->values)) $sessionNamespace->values = [];
 			if (!isset($sessionNamespace->csrf)) $sessionNamespace->csrf = [];
 			if (!isset($sessionNamespace->errors)) $sessionNamespace->errors = [];

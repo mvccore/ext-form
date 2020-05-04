@@ -448,8 +448,10 @@ interface IForm
 
 	/**
 	 * Get session expiration in seconds. Default value is zero seconds (`0`).
-	 * Zero value (`0`) means "until the browser is closed" if there is no more
-	 * higher namespace expirations in whole session.
+	 * Zero value (`0`) means "until the browser is closed" if there is
+	 * no higher namespace expiration in any other session namespace.
+	 * If there is found any autorization service and authenticated user,
+	 * default value is set by authorization expiration time.
 	 * @return int
 	 */
 	public function GetSessionExpiration ();
@@ -885,8 +887,10 @@ interface IForm
 
 	/**
 	 * Set session expiration in seconds. Default value is zero seconds (`0`).
-	 * Zero value (`0`) means "until the browser is closed" if there is no more
-	 * higher namespace expirations in whole session.
+	 * Zero value (`0`) means "until the browser is closed" if there is
+	 * no higher namespace expiration in any other session namespace.
+	 * If there is found any autorization service and authenticated user,
+	 * default value is set by authorization expiration time.
 	 * @param $seconds int
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */

@@ -313,11 +313,37 @@ trait GetMethods
 
 	/**
 	 * Get session expiration in seconds. Default value is zero seconds (`0`).
-	 * Zero value (`0`) means "until the browser is closed" if there is no more
-	 * higher namespace expirations in whole session.
+	 * Zero value (`0`) means "until the browser is closed" if there is
+	 * no higher namespace expiration in any other session namespace.
+	 * If there is found any autorization service and authenticated user,
+	 * default value is set by authorization expiration time.
 	 * @return int
 	 */
 	public function GetSessionExpiration () {
+		if ($this->sessionExpiration === NULL) {
+			$authClassesFullNames = [
+				"\MvcCore\Ext\Auth",
+				"\MvcCore\Ext\Auths\Basic"
+			];
+			/** @var $auth \MvcCore\Ext\Basics\IAuth */
+			$auth = NULL;
+			foreach ($authClassesFullNames as $authClassFullName){
+				if (class_exists($authClassFullName, TRUE)) {
+					$auth = $authClassFullName::GetInstance();
+					break;
+				}
+			}
+			// If there is any authentication class, try to get
+			// authenticated user and authorization expiration seconds value:
+			if ($auth !== NULL) {
+				$user = $auth->GetUser();
+				if ($user !== NULL)
+					$this->sessionExpiration = $auth->GetExpirationAuthorization();
+			}
+			// If there is nothing like that, set expiration until browser close:
+			if ($this->sessionExpiration === NULL)
+				$this->sessionExpiration = 0;
+		}
 		return $this->sessionExpiration;
 	}
 

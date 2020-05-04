@@ -47,7 +47,7 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form http submitting method.`POST` by default. 
+	 * Set form http submitting method.`POST` by default.
 	 * Use `GET` only if form data contains only ASCII characters.
 	 * Possible values: `'POST' | 'GET'`
 	 * You can use constants:
@@ -63,18 +63,18 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form enctype attribute - how the form values will be encoded 
+	 * Set form enctype attribute - how the form values will be encoded
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
-	 *   By default, it means all form values will be encoded to 
+	 *   By default, it means all form values will be encoded to
 	 *   `key1=value1&key2=value2...` string.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
 	 *   Data will not be encoded to URL string form, this value is required,
-	 *   when you are using forms that have a file upload control. 
+	 *   when you are using forms that have a file upload control.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
-	 *   Spaces will be converted to `+` symbols, but no other special 
+	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
 	 * @param string $enctype
@@ -87,21 +87,21 @@ trait SetMethods
 	}
 
 	/**
-	 * Set form target attribute - where to display the response that is 
-	 * received after submitting the form. This is a name of, or keyword for, 
-	 * a browsing context (e.g. tab, window, or inline frame). Default value 
+	 * Set form target attribute - where to display the response that is
+	 * received after submitting the form. This is a name of, or keyword for,
+	 * a browsing context (e.g. tab, window, or inline frame). Default value
 	 * is `NULL` to not render any `<form>` element `target` attribute.
 	 * The following keywords have special meanings:
-	 * - `_self`:		Load the response into the same browsing context as the 
-	 *					current one. This value is the default if the attribute 
+	 * - `_self`:		Load the response into the same browsing context as the
+	 *					current one. This value is the default if the attribute
 	 *					is not specified.
 	 * - `_blank`:		Load the response into a new unnamed browsing context.
-	 * - `_parent`:		Load the response into the parent browsing context of 
-	 *					the current one. If there is no parent, this option 
+	 * - `_parent`:		Load the response into the parent browsing context of
+	 *					the current one. If there is no parent, this option
 	 *					behaves the same way as `_self`.
-	 * - `_top`:		Load the response into the top-level browsing context 
-	 *					(i.e. the browsing context that is an ancestor of the 
-	 *					current one, and has no parent). If there is no parent, 
+	 * - `_top`:		Load the response into the top-level browsing context
+	 *					(i.e. the browsing context that is an ancestor of the
+	 *					current one, and has no parent). If there is no parent,
 	 *					this option behaves the same way as `_self`.
 	 * - `iframename`:	The response is displayed in a named `<iframe>`.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -113,19 +113,19 @@ trait SetMethods
 	}
 
 	/**
-	 * Indicates whether input elements can by default have their values automatically 
-	 * completed by the browser. This setting can be overridden by an `autocomplete` 
+	 * Indicates whether input elements can by default have their values automatically
+	 * completed by the browser. This setting can be overridden by an `autocomplete`
 	 * attribute on an element belonging to the form. Possible values are:
-	 * - `'off' | FALSE`:The user must explicitly enter a value into each field for 
-	 * 					 every use, or the document provides its own auto-completion 
+	 * - `'off' | FALSE`:The user must explicitly enter a value into each field for
+	 * 					 every use, or the document provides its own auto-completion
 	 * 					 method; the browser does not automatically complete entries.
-	 * - `'on'` | TRUE`: The browser can automatically complete values based on 
+	 * - `'on'` | TRUE`: The browser can automatically complete values based on
 	 * 					 values that the user has previously entered in the form.
 	 * - `NULL`			 Do not render the attribute.
-	 * For most modern browsers setting the autocomplete attribute will not prevent 
-	 * a browser's password manager from asking the user if they want to store login 
+	 * For most modern browsers setting the autocomplete attribute will not prevent
+	 * a browser's password manager from asking the user if they want to store login
 	 * fields (username and password), if the user permits the storage the browser will
-	 * autofill the login the next time the user visits the page. See The autocomplete 
+	 * autofill the login the next time the user visits the page. See The autocomplete
 	 * attribute and login fields.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
@@ -144,9 +144,9 @@ trait SetMethods
 	}
 
 	/**
-	 * This Boolean attribute indicates that the form is not to be validated when 
-	 * submitted. If this attribute is not specified (and therefore the form is 
-	 * validated), this default setting can be overridden by a `formnovalidate` 
+	 * This Boolean attribute indicates that the form is not to be validated when
+	 * submitted. If this attribute is not specified (and therefore the form is
+	 * validated), this default setting can be overridden by a `formnovalidate`
 	 * attribute on a `<button>` or `<input>` element belonging to the form.
 	 * @param bool|NULL $noValidate Only `TRUE` renders the form attribute.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -156,19 +156,19 @@ trait SetMethods
 		if ($noValidate === TRUE) {
 			$this->noValidate = TRUE;
 		} else {
-			$this->noValidate = NULL;	
+			$this->noValidate = NULL;
 		}
 		return $this;
 	}
 
 	/**
-	 * A list of character encodings that the server accepts. The browser 
+	 * A list of character encodings that the server accepts. The browser
 	 * uses them in the order in which they are listed. The default value,
-	 * the reserved string `'UNKNOWN'`, indicates the same encoding as that 
+	 * the reserved string `'UNKNOWN'`, indicates the same encoding as that
 	 * of the document containing the form element. Any previously configured
 	 * accept charset(s) will be replaced by given array. If you want only to
 	 * add another charset, use method: `$form->AddAcceptCharset()` instead.
-	 * @param \string[] $acceptCharsets 
+	 * @param \string[] $acceptCharsets
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SetAcceptCharsets ($acceptCharsets = []) {
@@ -211,7 +211,7 @@ trait SetMethods
 	 * Set form HTML element css classes strings.
 	 * All previously defined css classes will be removed.
 	 * Default value is an empty array to not render HTML `class` attribute.
-	 * You can define css classes as single string, more classes separated 
+	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -424,8 +424,10 @@ trait SetMethods
 
 	/**
 	 * Set session expiration in seconds. Default value is zero seconds (`0`).
-	 * Zero value (`0`) means "until the browser is closed" if there is no more
-	 * higher namespace expirations in whole session.
+	 * Zero value (`0`) means "until the browser is closed" if there is
+	 * no higher namespace expiration in any other session namespace.
+	 * If there is found any autorization service and authenticated user,
+	 * default value is set by authorization expiration time.
 	 * @param $seconds int
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
@@ -437,7 +439,7 @@ trait SetMethods
 
 	/**
 	 * Set base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
-	 * This value could move tab-index values for each field into higher or lower values by needs, 
+	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
 	 * @param $baseTabIndex int
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
@@ -574,9 +576,9 @@ trait SetMethods
 	}
 
 	/**
-	 * This is INTERNAL method for rendering fields. 
+	 * This is INTERNAL method for rendering fields.
 	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
-	 * @param bool $formTagRenderingStatus 
+	 * @param bool $formTagRenderingStatus
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SetFormTagRenderingStatus ($formTagRenderingStatus = TRUE) {
@@ -645,10 +647,10 @@ trait SetMethods
 	 *   There will be quietly configured another field autofocused. Be careful!!! This is not standard behaviour!
 	 * If there is `$formId` and also `$fieldName` with `NULL` value, any previously defined
 	 * autofocused form field is changed and `autofocus` boolean attribute is removed.
-	 * @param string $formId 
-	 * @param string $fieldName 
-	 * @param int $duplicateBehaviour 
-	 * @throws \RuntimeException 
+	 * @param string $formId
+	 * @param string $fieldName
+	 * @param int $duplicateBehaviour
+	 * @throws \RuntimeException
 	 * @return bool
 	 */
 	public static function SetAutoFocusedFormField ($formId = NULL, $fieldName = NULL, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
