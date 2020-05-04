@@ -51,9 +51,9 @@ trait Submitting
 	 * Try to set up form submit result state into any special positive
 	 * value by presented submit button name in `$rawRequestParams` array
 	 * if there is any special submit result value configured by button names
-	 * in `$form->customResultStates` array. If no special button submit result 
+	 * in `$form->customResultStates` array. If no special button submit result
 	 * value configured, submit result state is set to `1` by default.
-	 * @param array $rawRequestParams 
+	 * @param array $rawRequestParams
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function SubmitSetStartResultState (array & $rawRequestParams = []) {
@@ -61,7 +61,7 @@ trait Submitting
 		if (!$this->customResultStates) {
 			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
 		} else {
-			// try to find if there is any field name (button:submit or input:submit) 
+			// try to find if there is any field name (button:submit or input:submit)
 			// in raw request params with submit start custom result state:
 			$customResultStateDefined = FALSE;
 			foreach ($this->customResultStates as $fieldName => $customResultState) {
@@ -71,7 +71,7 @@ trait Submitting
 					break;
 				}
 			}
-			if (!$customResultStateDefined) 
+			if (!$customResultStateDefined)
 				$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
 		}
 		return $this;
@@ -100,7 +100,7 @@ trait Submitting
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Go through all fields, which are not `button:submit` or `input:submit` types
 	 * and call on every `$field->Submit()` method to process all configured field validators.
@@ -155,12 +155,12 @@ trait Submitting
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
 		if ($this->result) $this->values = [];
 		$this->SaveSession();
-		if (!$url && $this->result > -1 && $this->result < 4) 
+		if (!$url && $this->result > -1 && $this->result < 4)
 			throw new \RuntimeException(
 				'['.get_class().'] No url specified to redirect. ' . $errorMsg
 			);
 		if ($url) self::Redirect(
-			$url, 
+			$url,
 			\MvcCore\IResponse::SEE_OTHER,
 			'Form has been submitted and redirected to ' . $redirectMsg
 		);
@@ -169,7 +169,7 @@ trait Submitting
 	/**
 	 * Get cached validator instance by name. If validator instance doesn't exist
 	 * in `$this->validators` array, create new validator instance, cache it and return it.
-	 * @param string $validatorName 
+	 * @param string $validatorName
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
 	public function & GetValidator ($validatorName) {
@@ -192,7 +192,7 @@ trait Submitting
 				}
 			}
 			if ($validator === NULL) $this->throwNewInvalidArgumentException(
-				'Validator `' . $validatorName . '` not found in any namespace: `' 
+				'Validator `' . $validatorName . '` not found in any namespace: `'
 				. implode('`, `', static::$validatorsNamespaces) . '`.'
 			);
 			$this->validators[$validatorName] = $validator;
@@ -212,11 +212,11 @@ trait Submitting
 
 	/**
 	 * If form has defined any `accept-charset` attribute values,
-	 * go through all accept charset(s) and try to transcode all raw values 
-	 * and collect translation statistics from this process. Then decode 
+	 * go through all accept charset(s) and try to transcode all raw values
+	 * and collect translation statistics from this process. Then decode
 	 * best translation charset and return by given param `$rawRequestParams`
 	 * new translated raw values by first best charset in `accept-charset` attribute.
-	 * @param array & $rawRequestParams 
+	 * @param array & $rawRequestParams
 	 * @return array
 	 */
 	protected function & submitAllFieldsEncodeAcceptCharsets (array & $rawRequestParams = []) {
@@ -237,7 +237,7 @@ trait Submitting
 				$bestCharset = $acceptCharset;
 				break;
 			} else {
-				$translatedStats[$acceptCharset] = $stats;	
+				$translatedStats[$acceptCharset] = $stats;
 			}
 		}
 		if (!$bestCharset) {
@@ -259,15 +259,15 @@ trait Submitting
 	}
 
 	/**
-	 * Try to encode raw input `array` or `string` by `iconv()` 
-	 * from given `$fromEncoding` charset to given `$toEncoding` 
+	 * Try to encode raw input `array` or `string` by `iconv()`
+	 * from given `$fromEncoding` charset to given `$toEncoding`
 	 * charset. Return array with records:
 	 * - `0` - Wow many items has been transcoded without error.
 	 * - `1` - How many items has been transcoded.
 	 * - `2` - Transcoded raw input string by `iconv()`.
-	 * @param string|\string[] $rawValue 
-	 * @param string $fromEncoding 
-	 * @param string $toEncoding 
+	 * @param string|\string[] $rawValue
+	 * @param string $fromEncoding
+	 * @param string $toEncoding
 	 * @return array
 	 */
 	protected function encodeAcceptCharsetsArrayOrString (& $rawValue, $fromEncoding, $toEncoding) {
@@ -302,23 +302,23 @@ trait Submitting
 	}
 
 	/**
-	 * Try to encode raw input `string` by `iconv()` 
-	 * from given `$fromEncoding` charset to given `$toEncoding` 
+	 * Try to encode raw input `string` by `iconv()`
+	 * from given `$fromEncoding` charset to given `$toEncoding`
 	 * charset. Return array with records:
 	 * - `0` - Wow many items has been transcoded without error.
 	 * - `1` - How many items has been transcoded.
 	 * - `2` - Transcoded raw input string by `iconv()`.
-	 * @param string|\string[] $rawValue 
-	 * @param string $fromEncoding 
-	 * @param string $toEncoding 
+	 * @param string|\string[] $rawValue
+	 * @param string $fromEncoding
+	 * @param string $toEncoding
 	 * @return array
 	 */
 	protected function encodeAcceptCharsetsString (& $rawValue, $fromEncoding, $toEncoding) {
 		$errors = [];
 		$toolClass = static::$toolClass;
 		$translatedValue = $toolClass::Invoke(
-			'iconv', 
-			[$fromEncoding, $toEncoding . '//TRANSLIT', $rawValue], 
+			'iconv',
+			[$fromEncoding, $toEncoding . '//TRANSLIT', $rawValue],
 			function () use (& $errors) {
 				$errors[] = func_get_args();
 			}
