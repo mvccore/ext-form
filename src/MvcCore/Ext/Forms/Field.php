@@ -14,12 +14,12 @@
 namespace MvcCore\Ext\Forms;
 
 /**
- * Responsibility: init, pre-dispatch and render common form control, 
- *				   it could be `input`, `select` or textarea. This 
- *				   class is not possible to instantiate, you need to 
+ * Responsibility: init, pre-dispatch and render common form control,
+ *				   it could be `input`, `select` or textarea. This
+ *				   class is not possible to instantiate, you need to
  *				   extend this class to create own specific form control.
  */
-abstract class	Field 
+abstract class	Field
 implements		\MvcCore\Ext\Forms\IField
 {
 	/**
@@ -33,11 +33,11 @@ implements		\MvcCore\Ext\Forms\IField
 	use \MvcCore\Ext\Forms\Field\Getters;
 	use \MvcCore\Ext\Forms\Field\Setters;
 	use \MvcCore\Ext\Forms\Field\Rendering;
-	
+
 	/**
 	 * Create new form control instance.
-	 * @param array $cfg Config array with public properties and it's 
-	 *					 values which you want to configure, presented 
+	 * @param array $cfg Config array with public properties and it's
+	 *					 values which you want to configure, presented
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
@@ -48,8 +48,8 @@ implements		\MvcCore\Ext\Forms\IField
 
 	/**
 	 * Create new form control instance.
-	 * @param array $cfg Config array with public properties and it's 
-	 *					 values which you want to configure, presented 
+	 * @param array $cfg Config array with public properties and it's
+	 *					 values which you want to configure, presented
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return void
@@ -125,7 +125,7 @@ implements		\MvcCore\Ext\Forms\IField
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
-	 * is added into form instance by `$form->AddField();` method. Do not 
+	 * is added into form instance by `$form->AddField();` method. Do not
 	 * use this method even if you don't develop any form field.
 	 * - Check if field has any name, which is required.
 	 * - Set up form and field id attribute by form id and field name.
@@ -147,7 +147,7 @@ implements		\MvcCore\Ext\Forms\IField
 			]);
 		// if there is no specific required boolean - set required boolean by form
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField)
-			$this->required = $this->required === NULL 
+			$this->required = $this->required === NULL
 				? $form->GetDefaultRequired()
 				: $this->required ;
 		if ($this->translate === NULL)
@@ -173,16 +173,16 @@ implements		\MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Form` 
-	 * in submit processing. Do not use this method even if you 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form`
+	 * in submit processing. Do not use this method even if you
 	 * don't develop form library or any form field.
-	 * 
+	 *
 	 * Submit field value - process raw request value with all
 	 * configured validators and add errors into form if necessary.
 	 * Then return safe processed value by all from validators or `NULL`.
-	 * 
-	 * @param array $rawRequestParams Raw request params from MvcCore 
-	 *								  request object based on raw app 
+	 *
+	 * @param array $rawRequestParams Raw request params from MvcCore
+	 *								  request object based on raw app
 	 *								  input, `$_GET` or `$_POST`.
 	 * @return string|int|array|NULL
 	 */
@@ -190,15 +190,15 @@ implements		\MvcCore\Ext\Forms\IField
 		$result = NULL;
 		$fieldName = $this->name;
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField && ($this->readOnly || $this->disabled)) {
-			// get value previously assigned from session or by developer when called: 
+			// get value previously assigned from session or by developer when called:
 			// `$form->SetValues(array(/* some predefined values from DB...*/))`
 			$result = $this->value;
 		} else {
 			$result = NULL;
-			if (isset($rawRequestParams[$fieldName])) 
+			if (isset($rawRequestParams[$fieldName]))
 				$result = $rawRequestParams[$fieldName];
 			if ($result === NULL) {
-				//$result = $this->value;// if nothing submitted - nothins is result!
+				//$result = $this->value;// if nothing submitted - nothing is result!
 				$processValidators = FALSE;
 			} else {
 				$processValidators = TRUE;
@@ -213,77 +213,77 @@ implements		\MvcCore\Ext\Forms\IField
 						$validator = $validatorNameOrInstance->SetForm($this->form)->SetField($this);
 					} else {
 						return $this->throwNewInvalidArgumentException(
-							'Unknown validator type configured: `' . $validatorNameOrInstance 
+							'Unknown validator type configured: `' . $validatorNameOrInstance
 							. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
 						);
 					}
-					$result = $validator->SetField($this)->Validate($result);	
+					$result = $validator->SetField($this)->Validate($result);
 				}
-				// add required error message if necessary and if there are no other errors
-				if ($this->required && !$this->errors) 
-					if (
-						$result === NULL ||									// normally validator return NULL on failure
-						(is_string($result) && mb_strlen($result) === 0) ||	// but line is for sure
-						(is_array($result) && count($result) === 0)			// and this line is for sure
-					) 
-						$this->AddValidationError(
-							$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED)
-						);
 			}
+			// add required error message if necessary and if there are no other errors
+			if ($this->required && !$this->errors)
+				if (
+					$result === NULL ||									// normally validator return NULL on failure
+					(is_string($result) && mb_strlen($result) === 0) ||	// but line is for sure
+					(is_array($result) && count($result) === 0)			// and this line is for sure
+				)
+					$this->AddValidationError(
+						$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED)
+					);
 		}
 		return $result;
 	}
 
 	/**
 	 * Default implementation for any extended field class to get field specific
-	 * data for validator purposes. If you want to extend any field, you could 
-	 * implement this method better and faster. It's only necessary in your 
-	 * implementation to return array with keys to be field specific properties 
-	 * in camel case and values to be field properties values, which validator 
+	 * data for validator purposes. If you want to extend any field, you could
+	 * implement this method better and faster. It's only necessary in your
+	 * implementation to return array with keys to be field specific properties
+	 * in camel case and values to be field properties values, which validator
 	 * requires.
 	 * @param array $fieldPropsDefaultValidValues
 	 * @return array
 	 */
 	public function & GetValidatorData ($fieldPropsDefaultValidValues = []) {
 		$result = [];
-		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue) 
-			if (property_exists($this, $propName)) 
+		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue)
+			if (property_exists($this, $propName))
 				$result[$propName] = $this->{$propName};
 		return $result;
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field` 
-	 * in submit processing. Do not use this method even if you 
+	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field`
+	 * in submit processing. Do not use this method even if you
 	 * don't develop any form field or field validator.
-	 * 
-	 * Add form error with given error message containing 
-	 * possible replacements for array values. 
-	 * 
-	 * If there is necessary to translate form elements 
+	 *
+	 * Add form error with given error message containing
+	 * possible replacements for array values.
+	 *
+	 * If there is necessary to translate form elements
 	 * (form has configured property `translator` as `callable`)
 	 * than given error message is translated first before replacing.
-	 * 
+	 *
 	 * Before error message processing for replacements,
 	 * there is automatically assigned into first position into `$errorMsgArgs`
-	 * array (translated) field label or field name and than 
+	 * array (translated) field label or field name and than
 	 * error message is processed for replacements.
-	 * 
+	 *
 	 * If there is given some custom `$replacingCallable` param,
 	 * error message is processed for replacements by custom `$replacingCallable`.
-	 * 
+	 *
 	 * If there is not given any custom `$replacingCallable` param,
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
-	 * 
-	 * @param string $errorMsg 
-	 * @param array $errorMsgArgs 
-	 * @param callable $replacingCallable 
+	 *
+	 * @param string $errorMsg
+	 * @param array $errorMsgArgs
+	 * @param callable $replacingCallable
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function AddValidationError (
-		$errorMsg = '', array 
-		$errorMsgArgs = [], 
+		$errorMsg = '', array
+		$errorMsgArgs = [],
 		callable $replacingCallable = NULL
 	) {
 		$errorMsg = $this->translateAndFormatValidationError($errorMsg, $errorMsgArgs, $replacingCallable);
@@ -292,33 +292,33 @@ implements		\MvcCore\Ext\Forms\IField
 	}
 
 	/**
-	 * Format form error with given error message containing 
-	 * possible replacements for array values. 
-	 * 
-	 * If there is necessary to translate form elements 
+	 * Format form error with given error message containing
+	 * possible replacements for array values.
+	 *
+	 * If there is necessary to translate form elements
 	 * (form has configured property `translator` as `callable`)
 	 * than given error message is translated first before replacing.
-	 * 
+	 *
 	 * Before error message processing for replacements,
 	 * there is automatically assigned into first position into `$errorMsgArgs`
-	 * array (translated) field label or field name and than 
+	 * array (translated) field label or field name and than
 	 * error message is processed for replacements.
-	 * 
+	 *
 	 * If there is given some custom `$replacingCallable` param,
 	 * error message is processed for replacements by custom `$replacingCallable`.
-	 * 
+	 *
 	 * If there is not given any custom `$replacingCallable` param,
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
-	 * 
-	 * @param string $errorMsg 
-	 * @param array $errorMsgArgs 
-	 * @param callable $replacingCallable 
+	 *
+	 * @param string $errorMsg
+	 * @param array $errorMsgArgs
+	 * @param callable $replacingCallable
 	 * @return string
 	 */
 	protected function translateAndFormatValidationError (
-		$errorMsg = '', array 
-		$errorMsgArgs = [], 
+		$errorMsg = '', array
+		$errorMsgArgs = [],
 		callable $replacingCallable = NULL
 	) {
 		$customReplacing = $replacingCallable !== NULL;
@@ -326,18 +326,18 @@ implements		\MvcCore\Ext\Forms\IField
 		if ($this->translate) {
 			$errorMsg = $this->form->Translate($errorMsg);
 			$fieldLabelOrName = $this->label
-				? $this->form->Translate($this->label) 
+				? $this->form->Translate($this->label)
 				: $this->name;
 		} else {
 			$fieldLabelOrName = $this->label
-				? $this->label 
+				? $this->label
 				: $this->name;
 		}
 		array_unshift($errorMsgArgs, $fieldLabelOrName);
 		$formViewClass = $this->form->GetViewClass();
 		if ($customReplacing) {
 			$errorMsg = call_user_func(
-				$replacingCallable, 
+				$replacingCallable,
 				$errorMsg, $errorMsgArgs, $formViewClass
 			);
 		} else if (strpos($errorMsg, '{0}') !== FALSE || strpos($errorMsg, '{1}') !== FALSE) {
@@ -345,13 +345,13 @@ implements		\MvcCore\Ext\Forms\IField
 		}
 		return $errorMsg;
 	}
-	
+
 	/**
 	 * Throw new `\InvalidArgumentException` with given
 	 * error message and append automatically current class name,
 	 * current form id, form class type and current field class type.
-	 * @param string $errorMsg 
-	 * @throws \InvalidArgumentException 
+	 * @param string $errorMsg
+	 * @throws \InvalidArgumentException
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
 		$str = '['.get_class().'] ' . $errorMsg . ' (';
