@@ -197,7 +197,7 @@ implements		\MvcCore\Ext\Forms\IField
 			$result = NULL;
 			if (isset($rawRequestParams[$fieldName]))
 				$result = $rawRequestParams[$fieldName];
-			if ($result === NULL) {
+			if ($result === NULL && (!$this instanceof \MvcCore\Ext\Forms\Fields\IAlwaysValidate)) {
 				//$result = $this->value;// if nothing submitted - nothing is result!
 				$processValidators = FALSE;
 			} else {
@@ -210,14 +210,18 @@ implements		\MvcCore\Ext\Forms\IField
 					if (is_string($validatorNameOrInstance)) {
 						$validator = $this->form->GetValidator($validatorName);
 					} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
-						$validator = $validatorNameOrInstance->SetForm($this->form)->SetField($this);
+						$validator = $validatorNameOrInstance
+							->SetForm($this->form)
+							->SetField($this);
 					} else {
 						return $this->throwNewInvalidArgumentException(
 							'Unknown validator type configured: `' . $validatorNameOrInstance
 							. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
 						);
 					}
-					$result = $validator->SetField($this)->Validate($result);
+					$result = $validator
+						->SetField($this)
+						->Validate($result);
 				}
 			}
 			// add required error message if necessary and if there are no other errors
