@@ -62,6 +62,12 @@ trait InternalProps
 	 * @var bool
 	 */
 	protected $translate = FALSE;
+	
+	/**
+	 * File size units for internal conversions.
+	 * @var \string[]
+	 */
+	protected static $fileSizeUnits = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
 	/**
 	 * Cached value from `\MvcCore\Application::GetInstance()->GetSessionClass();`
@@ -137,7 +143,7 @@ trait InternalProps
 	protected static $defaultErrorMessages = [
 		IError::REQUIRED				=> "Field `{0}` is required.",
 		IError::EMPTY_CONTENT			=> "Sent data are empty.",
-		IError::MAX_POST_SIZE			=> "Sent data exceeds the limit of `{1}` bytes.",
+		IError::MAX_POST_SIZE			=> "Sent data exceeds the limit of {0}.",
 		IError::CSRF					=> "Form hash expired, please submit the form again.",
 	];
 

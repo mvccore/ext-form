@@ -322,12 +322,12 @@ trait GetMethods
 	public function GetSessionExpiration () {
 		if ($this->sessionExpiration === NULL) {
 			$authClassesFullNames = [
-				"\MvcCore\Ext\Auth",
-				"\MvcCore\Ext\Auths\Basic"
+				"\\MvcCore\\Ext\\Auth",
+				"\\MvcCore\\Ext\\Auths\\Basic"
 			];
 			/** @var $auth \MvcCore\Ext\Basics\IAuth */
 			$auth = NULL;
-			foreach ($authClassesFullNames as $authClassFullName){
+			foreach ($authClassesFullNames as $authClassFullName) {
 				if (class_exists($authClassFullName, TRUE)) {
 					$auth = $authClassFullName::GetInstance();
 					break;
@@ -463,6 +463,56 @@ trait GetMethods
 	public function GetFormTagRenderingStatus () {
 		return $this->formTagRendergingStatus;
 	}
+	
+	/**
+	 * Get PHP data limit as integer value by given 
+	 * PHP INI variable name. Return `NULL` for empty 
+	 * or non-existing values.
+	 * @param string $iniVarName
+	 * @return int|NULL
+	 */
+	public function GetPhpIniSizeLimit ($iniVarName) {
+		$rawIniValue = @ini_get($iniVarName);
+		if (!$rawIniValue) return NULL;
+		return static::ConvertBytesFromHumanForm($rawIniValue);
+	}
+	
+	/**
+	 * Converts a long integer of bytes into a readable format e.g KB, MB, GB, TB, YB.
+	 * @param int $bytes The number of bytes.
+	 * @param int $precision Default `1`.
+	 * @return string
+	 */
+	public static function ConvertBytesIntoHumanForm ($bytes, $precision = 1) {
+		$level = floor(log($bytes) / log(1024));
+		$result = ($bytes / pow(1024, $level)) * 1;
+		return sprintf(
+			"%.0{$precision}F", 
+			$result
+		) . ' ' . static::$fileSizeUnits[$level];
+	}
+	
+	/**
+	 * Converts readable bytes format e.g KB, MB, GB, TB, YB into long integer of bytes.
+	 * @param string $humanValue Readable bytes format e.g KB, MB, GB, TB, YB.
+	 * @return int
+	 */
+	public static function ConvertBytesFromHumanForm ($humanValue) {
+		if (is_numeric($humanValue)) {
+			return intval($humanValue);
+		} else {
+			$rawNumeric = preg_replace("#[^\.e\-E0-9]#", '', $humanValue);
+			if (!is_numeric($rawNumeric)) $rawNumeric = '0';
+			$numericValue = floatval($rawNumeric);
+			$rawUnits = strtoupper(preg_replace("#[^kmgtpebKMGTPEB]#", '', $humanValue));
+			$rawUnitsLength = strlen($rawUnits);
+			if ($rawUnitsLength > 2) $rawUnits = substr($rawUnits, -2, 2);
+			if ($rawUnitsLength == 1 && $rawUnits != 'B') $rawUnits .= 'B';
+			$unitsLevel = array_search($rawUnits, static::$fileSizeUnits, TRUE);
+			if ($unitsLevel === 0) return $numericValue;
+			return intval(ceil($numericValue * pow(1024, $unitsLevel)));
+		}
+	}
 
 	/**
 	 * Get MvcCore Form javascript support files root directory.
@@ -499,30 +549,6 @@ trait GetMethods
 	 */
 	public static function GetValidatorsNamespaces () {
 		return static::$validatorsNamespaces;
-	}
-
-	/**
-	 * Get PHP data limit as integer value by given PHP INI variable name.
-	 * @param string $iniVarName
-	 * @return int|NULL
-	 */
-	public static function GetPhpIniSizeLimit ($iniVarName) {
-		$rawIniValue = @ini_get($iniVarName);
-		if ($rawIniValue === FALSE) {
-			return 0;
-		} else if ($rawIniValue === NULL) {
-			return NULL;
-		}
-		$unit = strtoupper(substr($rawIniValue, -1));
-		$multiplier = (
-			$unit == 'M'
-				? 1048576
-				: ($unit == 'K'
-					? 1024
-					: ($unit == 'G'
-						? 1073741824
-						: 1)));
-		return intval($multiplier * floatval($rawIniValue));
 	}
 
 	/**

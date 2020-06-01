@@ -549,6 +549,30 @@ interface IForm
 	 * @return bool
 	 */
 	public function GetFormTagRenderingStatus ();
+	
+	/**
+	 * Get PHP data limit as integer value by given 
+	 * PHP INI variable name. Return `NULL` for empty 
+	 * or non-existing values.
+	 * @param string $iniVarName
+	 * @return int|NULL
+	 */
+	public function GetPhpIniSizeLimit ($iniVarName);
+	
+	/**
+	 * Converts a long integer of bytes into a readable format e.g KB, MB, GB, TB, YB.
+	 * @param int $bytes The number of bytes.
+	 * @param int $precision Default `1`.
+	 * @return string
+	 */
+	public static function ConvertBytesIntoHumanForm ($bytes, $precision = 1);
+	
+	/**
+	 * Converts readable bytes format e.g KB, MB, GB, TB, YB into long integer of bytes.
+	 * @param string $humanValue Readable bytes format e.g KB, MB, GB, TB, YB.
+	 * @return int
+	 */
+	public static function ConvertBytesFromHumanForm ($humanValue);
 
 	/**
 	 * Get MvcCore Form javascript support files root directory.
@@ -580,13 +604,6 @@ interface IForm
 	 * @return \string[]
 	 */
 	public static function GetValidatorsNamespaces ();
-
-	/**
-	 * Get PHP data limit as integer value by given PHP INI variable name.
-	 * @param string $iniVarName
-	 * @return int|NULL
-	 */
-	public static function GetPhpIniSizeLimit ($iniVarName);
 
 	/**
 	 * Get form instance by form id string.
