@@ -197,8 +197,8 @@ implements		\MvcCore\Ext\Forms\IField
 			$result = NULL;
 			if (isset($rawRequestParams[$fieldName]))
 				$result = $rawRequestParams[$fieldName];
-			if ($result === NULL && (!$this instanceof \MvcCore\Ext\Forms\Fields\IAlwaysValidate)) {
-				//$result = $this->value;// if nothing submitted - nothing is result!
+			$alwaysValidate = $this instanceof \MvcCore\Ext\Forms\Fields\IAlwaysValidate;
+			if ($result === NULL && !$alwaysValidate) {
 				$processValidators = FALSE;
 			} else {
 				$processValidators = TRUE;
@@ -290,7 +290,9 @@ implements		\MvcCore\Ext\Forms\IField
 		$errorMsgArgs = [],
 		callable $replacingCallable = NULL
 	) {
-		$errorMsg = $this->translateAndFormatValidationError($errorMsg, $errorMsgArgs, $replacingCallable);
+		$errorMsg = $this->translateAndFormatValidationError(
+			$errorMsg, $errorMsgArgs, $replacingCallable
+		);
 		$this->form->AddError($errorMsg, $this->name);
 		return $this;
 	}
