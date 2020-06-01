@@ -230,7 +230,8 @@ trait Setters
 				? substr($validatorClassName, $slashPos + 1)
 				: $validatorClassName;
 			$this->validators[$validatorName] = $validatorNameOrInstance;
-			if ($instanceType) $validatorNameOrInstance->SetField($this);
+			if ($instanceType) 
+				$validatorNameOrInstance->SetField($this);
 		}
 		return $this;
 	}

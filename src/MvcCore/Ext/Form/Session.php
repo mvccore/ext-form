@@ -66,7 +66,7 @@ trait Session
 			if (strpos($formIdPc, '_') !== FALSE)
 				$formIdPc = $toolClass::GetPascalCaseFromUnderscored($formIdPc);
 			$formIdPcUc = ucfirst($formIdPc);
-			$namespaceName = "\MvcCore\Ext\Form\\{$formIdPcUc}";
+			$namespaceName = "\\MvcCore\\Ext\Form\\{$formIdPcUc}";
 			$sessionNamespace = $sessionClass::GetNamespace($namespaceName);
 			// Do not use hoops expiration, because there is better
 			// to set up any large value into session namespace
