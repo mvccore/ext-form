@@ -33,13 +33,15 @@ trait Submitting
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		if ($this->dispatchState < 1) $this->Init();
-		if (!$rawRequestParams) $rawRequestParams = $this->request->GetParams('.*');
-		$this
-			->SubmitSetStartResultState($rawRequestParams)
-			->SubmitValidateMaxPostSizeIfNecessary()
-			->SubmitCsrfTokens($rawRequestParams)
-			->SubmitAllFields($rawRequestParams)
-			->SaveSession();
+		if (!$rawRequestParams) 
+			$rawRequestParams = $this->request->GetParams(FALSE);
+		$this->SubmitSetStartResultState($rawRequestParams);
+		if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
+			$this
+				->SubmitCsrfTokens($rawRequestParams)
+				->SubmitAllFields($rawRequestParams);
+		}
+		$this->SaveSession();
 		return [
 			$this->result,
 			$this->values,
@@ -81,24 +83,34 @@ trait Submitting
 	 * Validate maximum posted size in POST request body by `Content-Length` HTTP header.
 	 * If there is no `Content-Length` request header, add error.
 	 * If `Content-Length` value is bigger than `post_max_size` from PHP INI, add form error.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return boolean
 	 */
 	public function SubmitValidateMaxPostSizeIfNecessary () {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
-		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) return $this;
+		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) 
+			return TRUE;
 		$contentLength = $this->request->GetContentLength();
 		if ($contentLength === NULL) $this->AddError(
 			$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
 		);
-		$maxSize = static::GetPhpIniSizeLimit('post_max_size');
-		if ($maxSize > 0 && $maxSize < $contentLength) {
+		$maxSize = $this->GetPhpIniSizeLimit('post_max_size');
+		if ($maxSize !== NULL && $maxSize < $contentLength) {
 			$viewClass = $this->viewClass;
+			$displayErrors = @ini_get("display_errors");
+			if ($displayErrors || strtolower($displayErrors) == 'on') {
+				$obContent = ob_get_contents();
+				if (preg_match(
+					"#Warning([^\:]*)\:\s+POST Content\-Length of ([0-9]+) bytes exceeds the limit of ([0-9]+) bytes#", 
+					$obContent
+				)) ob_clean();
+			}
 			$this->AddError($viewClass::Format(
 				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE),
-				[$maxSize]
+				[static::ConvertBytesIntoHumanForm($maxSize)]
 			));
+			return FALSE;
 		}
-		return $this;
+		return TRUE;
 	}
 
 	/**
