@@ -139,7 +139,7 @@ implements	\MvcCore\Ext\Forms\IForm
 	public function PreDispatch () {
 		if ($this->dispatchState > 1) return $this;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
-		foreach ($this->fields as $field)
+		foreach ($this->fields as $field) 
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
 		$session = & $this->getSession();

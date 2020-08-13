@@ -39,7 +39,7 @@ trait Rendering
 	 *   only once, only when it's used and it's now - in this rendering process.
 	 * @return string
 	 */
-	public function & Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
+	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
 		$this->PreDispatch();
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();

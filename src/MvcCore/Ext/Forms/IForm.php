@@ -617,11 +617,9 @@ interface IForm
 	/**
 	 * Get form field instance with defined `autofocus` boolean attribute.
 	 * If there is no field in any form with this attribute, return `NULL`.
-	 * @param string $formId
-	 * @param string $fieldName
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public static function GetAutoFocusedFormField ($formId, $fieldName);
+	public static function GetAutoFocusedFormField ();
 
 
 	/***************************************************************************

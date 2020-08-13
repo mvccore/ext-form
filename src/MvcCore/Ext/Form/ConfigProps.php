@@ -297,7 +297,7 @@ trait ConfigProps
 	 * where is form currently rendered.
 	 * @var int|NULL
 	 */
-	protected $baseTabIndex = 0;
+	protected $baseTabIndex = NULL;
 
 	/**
 	 * Default control/label rendering mode for each form control/label.
