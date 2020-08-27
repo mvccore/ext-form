@@ -90,10 +90,12 @@ trait AutoFocus
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
 	public function SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->autoFocus = $autoFocus;
 		if ($autoFocus && $duplicateBehaviour !== \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW) {
 			$form = $this->form;
+			if ($form === NULL)
+				$this->throwNewInvalidArgumentException("Add all fields into form instance first to configure field autofocus property.");
 			$form::SetAutoFocusedFormField($form->GetId(), $this->name, $duplicateBehaviour);
 		}
 		return $this;
