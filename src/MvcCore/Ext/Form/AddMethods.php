@@ -66,7 +66,7 @@ trait AddMethods
 			$errorMsg
 		);
 		$fieldNamesArr = $fieldNames === NULL ? [] : (gettype($fieldNames) == 'array' ? $fieldNames : [$fieldNames]);
-		$newErrorRec = [strip_tags($errorMsgUtf8), $fieldNamesArr];
+		$newErrorRec = [$errorMsgUtf8, $fieldNamesArr];
 		if ($fieldNamesArr) {
 			foreach ($fieldNamesArr as $fieldName) {
 				if (isset($this->fields[$fieldName])) {
