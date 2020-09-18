@@ -102,9 +102,10 @@ implements	\MvcCore\Ext\Forms\IForm
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function Init () {
-		if ($this->dispatchState > 0) return $this;
+		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_CREATED) 
+			return $this;
 		parent::Init();
-		$this->dispatchState = 1;
+		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_INITIALIZED;
 		if (!$this->id)
 			throw new \RuntimeException("No form `id` property defined in `".get_class($this)."`.");
 		if (isset(self::$instances[$this->id])) {
@@ -137,8 +138,9 @@ implements	\MvcCore\Ext\Forms\IForm
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	public function PreDispatch () {
-		if ($this->dispatchState > 1) return $this;
-		parent::PreDispatch(); // code: `if ($this->dispatchState < 1) $this->Init();` is executed by parent
+		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			return $this;
+		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
 		foreach ($this->fields as $field) 
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
@@ -170,7 +172,7 @@ implements	\MvcCore\Ext\Forms\IForm
 			$this->view
 				->SetController($this->parentController)
 				->SetView($this->parentController->GetView());
-		$this->dispatchState = 2;
+		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 		return $this;
 	}
 

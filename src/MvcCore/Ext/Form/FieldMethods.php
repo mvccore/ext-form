@@ -72,7 +72,8 @@ trait FieldMethods
 	public function AddField (\MvcCore\Ext\Forms\IField $field) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
 		/** @var $field \MvcCore\Ext\Forms\Field */
-		if ($this->dispatchState < 1) $this->Init();
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init();
 		$fieldName = $field->GetName();
 		$field->SetForm($this);
 		$this->fields[$fieldName] = $field;
@@ -109,7 +110,8 @@ trait FieldMethods
 	 */
 	public function RemoveField ($fieldOrFieldName = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
-		if ($this->dispatchState < 1) $this->Init();
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init();
 		$fieldName = NULL;
 		if ($fieldOrFieldName instanceof \MvcCore\Ext\Forms\IField) {
 			$fieldName = $fieldOrFieldName->GetName();

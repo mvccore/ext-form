@@ -32,7 +32,8 @@ trait Submitting
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
-		if ($this->dispatchState < 1) $this->Init();
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init();
 		if (!$rawRequestParams) 
 			$rawRequestParams = $this->request->GetParams(FALSE);
 		$this->SubmitSetStartResultState($rawRequestParams);
@@ -147,7 +148,8 @@ trait Submitting
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
-		if ($this->dispatchState < 1) $this->Init();
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init();
 		$urlPropertyName = '';
 		$redirectMsg = '';
 		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {

@@ -369,7 +369,8 @@ trait SetMethods
 	 */
 	public function SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
 		/** @var $this \MvcCore\Ext\Forms\IForm */
-		if ($this->dispatchState < 1) $this->Init();
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init();
 		if ($clearPreviousSessionValues) $this->ClearSession();
 		$defaultsKeys = $caseInsensitive
 			? ',' . implode(',', array_keys($values)) . ','

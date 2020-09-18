@@ -19,14 +19,6 @@ namespace MvcCore\Ext\Form;
 trait Rendering
 {
 	/**
-	 * Rendering process alias for `\MvcCore\Ext\Form::Render();`.
-	 * @return string
-	 */
-	public function __toString () {
-		return $this->Render();
-	}
-
-	/**
 	 * Render whole `<form>` with all content into HTML string to display it.
 	 * - If form is not initialized, there is automatically
 	 *   called `$form->Init();` method.
