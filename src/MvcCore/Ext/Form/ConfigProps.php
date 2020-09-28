@@ -70,6 +70,13 @@ trait ConfigProps
 	protected $enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED;
 
 	/**
+	 * Form title, global HTML attribute, optional.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-title
+	 * @var string|NULL
+	 */
+	protected $title = NULL;
+
+	/**
 	 * Form target attribute - where to display the response that is
 	 * received after submitting the form. This is a name of, or keyword for,
 	 * a browsing context (e.g. tab, window, or inline frame). Default value

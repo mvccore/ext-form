@@ -314,7 +314,11 @@ trait Rendering
 				'required'	=> TRUE,
 			];
 			foreach ($boolFieldVars as $fieldName => $addAlsoAsCssClass) {
-				if (isset($this->{$fieldName}) && $this->{$fieldName} !== NULL && $this->{$fieldName} !== FALSE) {
+				if (
+					isset($this->{$fieldName}) && 
+					$this->{$fieldName} !== NULL && 
+					$this->{$fieldName} !== FALSE
+				) {
 					$attrName = strtolower($fieldName);
 					if ($controlRendering) $attrs[$attrName] = $attrName;
 					if ($addAlsoAsCssClass) $cssClasses[] = $attrName;

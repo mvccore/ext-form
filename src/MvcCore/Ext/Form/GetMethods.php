@@ -22,10 +22,10 @@ trait GetMethods
 	 * Get form id, required to configure.
 	 * Used to identify session data, error messages,
 	 * CSRF tokens, html form attribute id value and much more.
-	 * @param string $id
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return string|NULL
 	 */
 	public function GetId () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->id;
 	}
 
@@ -36,6 +36,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetAction () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->action;
 	}
 
@@ -46,10 +47,20 @@ trait GetMethods
 	 * You can use constants:
 	 * - `\MvcCore\Ext\Forms\IForm::METHOD_POST`
 	 * - `\MvcCore\Ext\Forms\IForm::METHOD_GET`
-	 * @return string
+	 * @return string|NULL
 	 */
 	public function GetMethod () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->method;
+	}
+
+	/**
+	 * Get form title, global HTML attribute, optional.
+	 * @return string|NULL
+	 */
+	public function GetTitle () {
+		/** @var $this \MvcCore\Ext\Form */
+		return $this->title;
 	}
 
 	/**
@@ -67,9 +78,10 @@ trait GetMethods
 	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
-	 * @return string
+	 * @return string|NULL
 	 */
 	public function GetEnctype () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->enctype;
 	}
 
@@ -94,6 +106,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetTarget () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->target;
 	}
 
@@ -115,6 +128,7 @@ trait GetMethods
 	 * @return bool|NULL
 	 */
 	public function GetAutoComplete () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->autoComplete;
 	}
 
@@ -127,6 +141,7 @@ trait GetMethods
 	 * @return bool|NULL
 	 */
 	public function GetNoValidate () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->noValidate;
 	}
 
@@ -138,6 +153,7 @@ trait GetMethods
 	 * @return \string[]
 	 */
 	public function GetAcceptCharsets () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->acceptCharsets;
 	}
 
@@ -150,6 +166,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetLang () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->lang;
 	}
 
@@ -163,6 +180,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetLocale () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->locale;
 	}
 
@@ -172,6 +190,7 @@ trait GetMethods
 	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->cssClasses;
 	}
 
@@ -184,6 +203,7 @@ trait GetMethods
 	 * @return array
 	 */
 	public function & GetAttributes () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->attributes;
 	}
 
@@ -196,6 +216,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetSuccessUrl () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->successUrl;
 	}
 
@@ -212,6 +233,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetPrevStepUrl () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->prevStepUrl;
 	}
 
@@ -228,6 +250,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetNextStepUrl () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->nextStepUrl;
 	}
 
@@ -240,6 +263,7 @@ trait GetMethods
 	 * @return string|NULL
 	 */
 	public function GetErrorUrl () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->errorUrl;
 	}
 
@@ -255,6 +279,7 @@ trait GetMethods
 	 * @return int|NULL
 	 */
 	public function GetResult () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->result;
 	}
 
@@ -268,6 +293,7 @@ trait GetMethods
 	 * @return callable|NULL
 	 */
 	public function GetTranslator () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->translator;
 	}
 
@@ -278,6 +304,7 @@ trait GetMethods
 	 * @return bool
 	 */
 	public function GetTranslate () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->translate;
 	}
 
@@ -289,6 +316,7 @@ trait GetMethods
 	 * @return bool
 	 */
 	public function GetDefaultRequired () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->defaultRequired;
 	}
 
@@ -297,6 +325,7 @@ trait GetMethods
 	 * @return array
 	 */
 	public function & GetValues () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->values;
 	}
 
@@ -308,6 +337,7 @@ trait GetMethods
 	 * @return array
 	 */
 	public function & GetErrors () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->errors;
 	}
 
@@ -317,9 +347,10 @@ trait GetMethods
 	 * no higher namespace expiration in any other session namespace.
 	 * If there is found any autorization service and authenticated user,
 	 * default value is set by authorization expiration time.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function GetSessionExpiration () {
+		/** @var $this \MvcCore\Ext\Form */
 		if ($this->sessionExpiration === NULL) {
 			$authClassesFullNames = [
 				"\\MvcCore\\Ext\\Auth",
@@ -351,9 +382,10 @@ trait GetMethods
 	 * Get base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
 	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function GetBaseTabIndex () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->baseTabIndex;
 	}
 
@@ -363,6 +395,7 @@ trait GetMethods
 	 * @return int
 	 */
 	public function GetFieldNextAutoTabIndex () {
+		/** @var $this \MvcCore\Ext\Form */
 		$this->fieldsAutoTabIndex += 1;
 		return $this->fieldsAutoTabIndex;
 	}
@@ -375,6 +408,7 @@ trait GetMethods
 	 * @return string
 	 */
 	public function GetDefaultFieldsRenderMode () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->defaultFieldsRenderMode;
 	}
 
@@ -386,6 +420,7 @@ trait GetMethods
 	 * @return string
 	 */
 	public function GetErrorsRenderMode () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->errorsRenderMode;
 	}
 
@@ -397,18 +432,20 @@ trait GetMethods
 	 * script path and also explicitly defined form view script path by string are
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
-	 * @return string|bool|NULL
+	 * @return string|NULL
 	 */
 	public function GetViewScript () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->viewScript;
 	}
 
 	/**
 	 * Get form custom template full class name to create custom view object.
 	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
-	 * @return string
+	 * @return string|NULL
 	 */
 	public function GetViewClass () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->viewClass;
 	}
 
@@ -421,15 +458,17 @@ trait GetMethods
 	 * @return array
 	 */
 	public function & GetJsSupportFiles () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->jsSupportFiles;
 	}
 
 	/**
 	 * Get supporting css files configuration, an array with supporting
 	 * css file relative paths from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
-	 * @return array
+	 * @return \string[]
 	 */
 	public function & GetCssSupportFiles () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->cssSupportFiles;
 	}
 
@@ -441,6 +480,7 @@ trait GetMethods
 	 * @return callable|NULL
 	 */
 	public function GetJsSupportFilesRenderer () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->jsSupportFilesRenderer;
 	}
 
@@ -452,6 +492,7 @@ trait GetMethods
 	 * @return callable|NULL
 	 */
 	public function GetCssSupportFilesRenderer () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->cssSupportFilesRenderer;
 	}
 
@@ -461,6 +502,7 @@ trait GetMethods
 	 * @return bool
 	 */
 	public function GetFormTagRenderingStatus () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->formTagRendergingStatus;
 	}
 	
@@ -472,6 +514,7 @@ trait GetMethods
 	 * @return int|NULL
 	 */
 	public function GetPhpIniSizeLimit ($iniVarName) {
+		/** @var $this \MvcCore\Ext\Form */
 		$rawIniValue = @ini_get($iniVarName);
 		if (!$rawIniValue) return NULL;
 		return static::ConvertBytesFromHumanForm($rawIniValue);

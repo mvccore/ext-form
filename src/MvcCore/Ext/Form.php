@@ -172,6 +172,8 @@ implements	\MvcCore\Ext\Forms\IForm
 			$this->view
 				->SetController($this->parentController)
 				->SetView($this->parentController->GetView());
+		if ($this->csrfEnabled)
+			$this->SetUpCsrf();
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 		return $this;
 	}

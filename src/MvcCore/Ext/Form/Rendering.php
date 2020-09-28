@@ -15,6 +15,7 @@ namespace MvcCore\Ext\Form;
 
 /**
  * Trait for class `MvcCore\Ext\Form` containing rendering logic and methods.
+ * @property \MvcCore\Ext\Forms\View $view View instance.
  */
 trait Rendering
 {
@@ -32,6 +33,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
+		/** @var $this \MvcCore\Ext\Form */
 		$this->PreDispatch();
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
@@ -51,6 +53,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderContent () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->view->RenderContent();
 	}
 
@@ -62,6 +65,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderErrors () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->view->RenderErrors();
 	}
 
@@ -71,6 +75,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderBegin () {
+		/** @var $this \MvcCore\Ext\Form */
 		return $this->view->RenderBegin();
 	}
 
@@ -81,6 +86,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderEnd () {
+		/** @var $this \MvcCore\Ext\Form */
 		$this->PreDispatch();
 		$this->SetFormTagRenderingStatus(FALSE);
 		$result = '</form>'
@@ -100,6 +106,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderSupportingCss () {
+		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->cssSupportFiles) return '';
 		$cssFiles = $this->completeSupportingFilesToRender(FALSE);
 		if (!$cssFiles) return '';
@@ -129,6 +136,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderSupportingJs () {
+		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->jsSupportFiles) return '';
 		$jsFiles = $this->completeSupportingFilesToRender(TRUE);
 		if (!$jsFiles) return '';
@@ -178,7 +186,7 @@ trait Rendering
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
 	protected function cleanSessionErrorsAfterRender () {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->errors = [];
 		$session = & $this->getSession();
 		$session->errors = [];

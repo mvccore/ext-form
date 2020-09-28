@@ -386,7 +386,7 @@ class View extends \MvcCore\View
 		$attrs = [];
 		$form = $this->form;
 		// standard attributes
-		$formProperties = ['id', 'action', 'method', 'enctype', 'target'];
+		$formProperties = ['id', 'action', 'method', 'enctype', 'target', 'title'];
 		foreach ($formProperties as $property) {
 			$getter = 'Get'.ucfirst($property);
 			$formPropertyValue = $form->$getter();
@@ -417,10 +417,7 @@ class View extends \MvcCore\View
 		// boolean and additional attributes
 		$attrsStr = self::RenderAttrs($attrs);
 		if ($attrsStr) $result .= ' ' . $attrsStr;
-		$result .= '>';
-		$this->form->SetFormTagRenderingStatus(TRUE);
-		if ($this->csrfEnabled)
-			$result .= $this->RenderCsrf();
+		$result .= '>' . $this->RenderCsrf();
 		return $result;
 	}
 
@@ -431,8 +428,9 @@ class View extends \MvcCore\View
 	 * @return string
 	 */
 	public function RenderCsrf () {
-		list ($name, $value) = $this->form->SetUpCsrf();
-		return '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+		if (!$this->csrfEnabled) return '';
+		$csrf = $this->form->GetCsrf();
+		return '<input type="hidden" name="'.$csrf->name.'" value="'.$csrf->value.'" />';
 	}
 
 	/**
