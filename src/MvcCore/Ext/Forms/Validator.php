@@ -190,10 +190,6 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 				: NULL;
 			if ($fieldValue !== NULL /*&& $this->{$propName} === NULL*/) {
 				$this->{$propName} = $fieldValue;
-			} else if ($fieldValue === NULL && property_exists($this, $propName) && $this->{$propName} !== NULL) {
-				$setter = 'Set'.ucfirst($propName);
-				if (method_exists($this->field, $setter))
-					$this->field->{$setter}($this->{$propName});
 			} else {
 				$this->{$propName} = $defaultValidatorValue;
 			}
