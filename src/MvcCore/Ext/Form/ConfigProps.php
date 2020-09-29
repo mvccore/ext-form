@@ -77,6 +77,12 @@ trait ConfigProps
 	protected $title = NULL;
 
 	/**
+	 * Boolean to translate title text, `TRUE` by default.
+	 * @var boolean
+	 */
+	protected $translateTitle = TRUE;
+
+	/**
 	 * Form target attribute - where to display the response that is
 	 * received after submitting the form. This is a name of, or keyword for,
 	 * a browsing context (e.g. tab, window, or inline frame). Default value

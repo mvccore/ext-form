@@ -59,6 +59,19 @@ trait Props
 	 * @var \string[]
 	 */
 	protected $cssClasses = [];
+
+	/**
+	 * Field title, global HTML attribute, optional.
+	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-title
+	 * @var string|NULL
+	 */
+	protected $title = NULL;
+
+	/**
+	 * Boolean to translate title text, `TRUE` by default.
+	 * @var boolean
+	 */
+	protected $translateTitle = TRUE;
 	
 	/**
 	 * Collection with field HTML element 

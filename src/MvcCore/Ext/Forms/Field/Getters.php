@@ -71,6 +71,15 @@ trait Getters
 	}
 
 	/**
+	 * Get field title, global HTML attribute, optional.
+	 * @return string|NULL
+	 */
+	public function GetTitle () {
+		/** @var $this \MvcCore\Ext\Forms\Field */
+		return $this->title;
+	}
+
+	/**
 	 * Get collection with field HTML element 
 	 * additional attributes by array keys/values.
 	 * There are no system attributes as: `id`, `name`, 

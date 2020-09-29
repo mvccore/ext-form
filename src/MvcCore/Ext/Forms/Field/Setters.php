@@ -88,6 +88,20 @@ trait Setters
 	}
 
 	/**
+	 * Set field title, global HTML attribute, optional.
+	 * @param string|NULL  $title
+	 * @param boolean|NULL $translateTitle
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public function SetTitle ($title, $translateTitle = NULL) {
+		/** @var $this \MvcCore\Ext\Forms\Field */
+		$this->title = $title;
+		if ($translateTitle !== NULL)
+			$this->translateTitle = $translateTitle;
+		return $this;
+	}
+
+	/**
 	 * Add css classes strings for HTML element attribute `class`.
 	 * Given css classes will be added after previously defined css classes.
 	 * Default value is an empty array to not render HTML `class` attribute.

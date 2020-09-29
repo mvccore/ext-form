@@ -38,6 +38,22 @@ trait PlaceHolder
 	protected $placeHolder = NULL;
 
 	/**
+	 * Boolean to translate placeholder text, `TRUE` by default.
+	 * @var boolean
+	 */
+	protected $translatePlaceholder = TRUE;
+
+	/**
+	 * Automatically translate `placeHolder` attribute if necessary
+	 * in `PreDispatch()` field rendering moment.
+	 * @return void
+	 */
+	protected function preDispatchPlaceHolder () {
+		if ($this->translate && $this->placeHolder !== NULL && $this->translatePlaceholder)
+			$this->placeHolder = $this->form->Translate($this->placeHolder);
+	}
+
+	/**
 	 * A hint to the user of what can be entered in the control, typically in the form 
 	 * of an example of the type of information that should be entered. The placeholder
 	 * text must not contain carriage returns or line-feeds. `NULL` value means no 
@@ -55,12 +71,15 @@ trait PlaceHolder
 	 * text must not contain carriage returns or line-feeds. `NULL` value means no 
 	 * placeholder attribute will bee rendered.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder
-	 * @param string|NULL $placeHolder 
+	 * @param string|NULL  $placeHolder 
+	 * @param boolean|NULL $translatePlaceholder 
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetPlaceHolder ($placeHolder) {
+	public function SetPlaceHolder ($placeHolder, $translatePlaceholder = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$this->placeHolder = $placeHolder;
+		if ($translatePlaceholder !== NULL)
+			$this->translatePlaceholder = $translatePlaceholder;
 		return $this;
 	}
 }

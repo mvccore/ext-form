@@ -64,12 +64,15 @@ trait SetMethods
 
 	/**
 	 * Set form title, global HTML attribute, optional.
-	 * @param string $title
+	 * @param string|NULL  $title
+	 * @param boolean|NULL $translateTitle
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function SetTitle ($title) {
+	public function SetTitle ($title, $translateTitle = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->title = $title;
+		if ($translateTitle !== NULL)
+			$this->translateTitle = $translateTitle;
 		return $this;
 	}
 

@@ -165,6 +165,8 @@ implements	\MvcCore\Ext\Forms\IForm
 				}
 			}
 		}
+		if ($this->translate && $this->translateTitle && $this->title !== NULL)
+			$this->title = $this->Translate($this->title);
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
 			->SetForm($this);

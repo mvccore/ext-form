@@ -178,6 +178,12 @@ interface IField
 	public function & GetCssClasses ();
 
 	/**
+	 * Get field title, global HTML attribute, optional.
+	 * @return string|NULL
+	 */
+	public function GetTitle ();
+
+	/**
 	 * Get collection with field HTML element 
 	 * additional attributes by array keys/values.
 	 * There are no system attributes as: `id`, `name`, 
@@ -370,6 +376,14 @@ interface IField
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
 	public function SetCssClasses ($cssClasses);
+	
+	/**
+	 * Set field title, global HTML attribute, optional.
+	 * @param string|NULL  $title
+	 * @param boolean|NULL $translateTitle
+	 * @return \MvcCore\Ext\Forms\IField
+	 */
+	public function SetTitle ($title, $translateTitle = NULL);
 
 	/**
 	 * Add css classes strings for HTML element attribute `class`.

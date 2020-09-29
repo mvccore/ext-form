@@ -227,6 +227,12 @@ interface IForm
 	public function GetMethod ();
 
 	/**
+	 * Get form title, global HTML attribute, optional.
+	 * @return string|NULL
+	 */
+	public function GetTitle ();
+
+	/**
 	 * Get form `enctype` attribute - how the form values will be encoded
 	 * to send them to the server. Possible values are:
 	 * - `application/x-www-form-urlencoded`
@@ -657,6 +663,14 @@ interface IForm
 	 * @return \MvcCore\Ext\Forms\IForm
 	 */
 	public function SetMethod ($method = \MvcCore\Ext\Forms\IForm::METHOD_POST);
+
+	/**
+	 * Set form title, global HTML attribute, optional.
+	 * @param string|NULL  $title
+	 * @param boolean|NULL $translateTitle
+	 * @return \MvcCore\Ext\Forms\IForm
+	 */
+	public function SetTitle ($title, $translateTitle = NULL);
 
 	/**
 	 * Set form `enctype` attribute - how the form values will be encoded

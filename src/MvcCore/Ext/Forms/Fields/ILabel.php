@@ -59,10 +59,11 @@ interface ILabel
 	 * If field form has configured any translator,
 	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
-	 * @param string $label
+	 * @param string|NULL  $label
+	 * @param boolean|NULL $translateLabel
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function SetLabel ($label = NULL);
+	public function SetLabel ($label, $translateLabel = NULL);
 
 	/**
 	 * Get label side from rendered field - location where label will be rendered.

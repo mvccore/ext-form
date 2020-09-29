@@ -168,8 +168,12 @@ implements		\MvcCore\Ext\Forms\IField
 		// if there is no specific render mode - set render mode by form
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField && $this->renderMode === NULL)
 			$this->renderMode = $form->GetDefaultFieldsRenderMode();
-		if ($this->translate && $this instanceof \MvcCore\Ext\Forms\Fields\ILabel && $this->label)
-			$this->label = $form->Translate($this->label);
+		if ($this->translate) {
+			if ($this->translateTitle && $this->title !== NULL)
+				$this->title = $form->Translate($this->title);
+			if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel && $this->translateLabel && $this->label !== NULL)
+				$this->label = $form->Translate($this->label);
+		}
 	}
 
 	/**
