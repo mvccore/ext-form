@@ -206,7 +206,7 @@ trait Submitting
 				}
 			}
 			if ($validator === NULL) $this->throwNewInvalidArgumentException(
-				'Validator `' . $validatorName . '` not found in any namespace: `'
+				"Validator `{$validatorName}` not found in any namespace: `"
 				. implode('`, `', static::$validatorsNamespaces) . '`.'
 			);
 			$this->validators[$validatorName] = $validator;

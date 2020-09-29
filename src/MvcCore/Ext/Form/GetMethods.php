@@ -285,11 +285,11 @@ trait GetMethods
 
 	/**
 	 * Get translator to translate field labels, options, placeholders and error messages.
-	 * Translator is `callable` (it could be `closure function` or `array`
+	 * Translator has to be `callable` (it could be `closure function` or `array`
 	 * with `class_name/instance` and `method name` string). First argument
-	 * of `callable` is a translation key and second argument
-	 * is language string (`en`, `de` ...) to translate the key into.
-	 * Result of `callable` object is a string - translated key for called language.
+	 * of `callable` has to be a translation key and second argument
+	 * has to be array with numeric replacements to replace them in translated value.
+	 * Result of `callable` object has to be a string - translated key for called language.
 	 * @return callable|NULL
 	 */
 	public function GetTranslator () {

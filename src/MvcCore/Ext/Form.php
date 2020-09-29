@@ -180,10 +180,12 @@ implements	\MvcCore\Ext\Forms\IForm
 
 	/**
 	 * Translate given string with configured translator and configured language code.
-	 * @param string $translationKey 
-	 * @return string
+	 * @param string $key			A key to translate.
+	 * @param array $replacements	An array of replacements to process in translated result.
+	 * @throws \Exception			En exception if translations store is not successful.
+	 * @return string				Translated key or key itself if there is no key in translations store.
 	 */
-	public function Translate ($translationKey) {
-		return call_user_func_array($this->translator, [$translationKey, $this->lang]);
+	public function Translate ($key, $replacements = []) {
+		return call_user_func_array($this->translator, func_get_args());
 	}
 }

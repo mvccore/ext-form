@@ -187,10 +187,12 @@ interface IForm
 
 	/**
 	 * Translate given string with configured translator and configured language code.
-	 * @param string $translationKey
-	 * @return string
+	 * @param string $key			A key to translate.
+	 * @param array $replacements	An array of replacements to process in translated result.
+	 * @throws \Exception			En exception if translations store is not successful.
+	 * @return string				Translated key or key itself if there is no key in translations store.
 	 */
-	public function Translate ($translationKey);
+	public function Translate ($key, $replacements = []);
 
 
 	/***************************************************************************
@@ -201,8 +203,7 @@ interface IForm
 	 * Get form id, required to configure.
 	 * Used to identify session data, error messages,
 	 * CSRF tokens, html form attribute id value and much more.
-	 * @param string $id
-	 * @return \MvcCore\Ext\Forms\IForm
+	 * @return string|NULL
 	 */
 	public function GetId ();
 
@@ -221,7 +222,7 @@ interface IForm
 	 * You can use constants:
 	 * - `\MvcCore\Ext\Forms\IForm::METHOD_POST`
 	 * - `\MvcCore\Ext\Forms\IForm::METHOD_GET`
-	 * @return string
+	 * @return string|NULL
 	 */
 	public function GetMethod ();
 
@@ -240,7 +241,7 @@ interface IForm
 	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
 	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
-	 * @return string
+	 * @return string|NULL
 	 */
 	public function GetEnctype ();
 
@@ -405,11 +406,11 @@ interface IForm
 
 	/**
 	 * Get translator to translate field labels, options, placeholders and error messages.
-	 * Translator is `callable` (it could be `closure function` or `array`
+	 * Translator has to be `callable` (it could be `closure function` or `array`
 	 * with `class_name/instance` and `method name` string). First argument
-	 * of `callable` is a translation key and second argument
-	 * is language string (`en`, `de` ...) to translate the key into.
-	 * Result of `callable` object is a string - translated key for called language.
+	 * of `callable` has to be a translation key and second argument
+	 * has to be array with numeric replacements to replace them in translated value.
+	 * Result of `callable` object has to be a string - translated key for called language.
 	 * @return callable|NULL
 	 */
 	public function GetTranslator ();
@@ -452,7 +453,7 @@ interface IForm
 	 * no higher namespace expiration in any other session namespace.
 	 * If there is found any autorization service and authenticated user,
 	 * default value is set by authorization expiration time.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function GetSessionExpiration ();
 
@@ -460,7 +461,7 @@ interface IForm
 	 * Get base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
 	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
-	 * @return int
+	 * @return int|NULL
 	 */
 	public function GetBaseTabIndex ();
 
@@ -857,7 +858,7 @@ interface IForm
 	 * Translator has to be `callable` (it could be `closure function` or `array`
 	 * with `class_name/instance` and `method name` string). First argument
 	 * of `callable` has to be a translation key and second argument
-	 * has to be language string (`en`, `de` ...) to translate the key into.
+	 * has to be array with numeric replacements to replace them in translated value.
 	 * Result of `callable` object has to be a string - translated key for called language.
 	 * @param callable|NULL $handler
 	 * @return \MvcCore\Ext\Forms\IForm
