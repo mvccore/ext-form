@@ -145,26 +145,8 @@ implements	\MvcCore\Ext\Forms\IForm
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
 		$session = & $this->getSession();
-		foreach ($session->errors as $errorMsgAndFieldNames) {
-			list($errorMsg, $fieldNames) = array_merge([], $errorMsgAndFieldNames);
-			$this->AddError($errorMsg, $fieldNames);
-		}
-		if ($session->values) {
-			foreach ($session->values as $fieldName => $fieldValue) {
-				if (!array_key_exists($fieldName, $this->fields)) continue;
-				$field = $this->fields[$fieldName];
-				$configuredFieldValue = $field->GetValue();
-				$multiple = FALSE;
-				if ($field instanceof \MvcCore\Ext\Forms\Fields\IMultiple)
-					$multiple = $field->GetMultiple() ?: FALSE;
-				if (
-					$configuredFieldValue === NULL || 
-					($multiple && is_array($configuredFieldValue) && count($configuredFieldValue) === 0)
-				) {
-					$field->SetValue($fieldValue);
-				}
-			}
-		}
+		$this->preDispatchLoadErrors($session);
+		$this->preDispatchLoadValues($session);
 		if ($this->translate && $this->translateTitle && $this->title !== NULL)
 			$this->title = $this->Translate($this->title);
 		$viewClass = $this->viewClass;
@@ -178,6 +160,44 @@ implements	\MvcCore\Ext\Forms\IForm
 			$this->SetUpCsrf();
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 		return $this;
+	}
+	
+	/**
+	 * Initialize form errors from session for all fields in `PreDispatch()`
+	 * lifecycle moment or earlier from method `GetValues()`.
+	 * @param \MvcCore\ISession $session 
+	 * @return void
+	 */
+	protected function preDispatchLoadErrors (\MvcCore\ISession $session) {
+		if (!$session->errors) return;
+		foreach ($session->errors as $errorMsgAndFieldNames) {
+			list($errorMsg, $fieldNames) = array_merge([], $errorMsgAndFieldNames);
+			$this->AddError($errorMsg, $fieldNames);
+		}
+	}
+
+	/**
+	 * Initialize values from session for all fields in `PreDispatch()`
+	 * lifecycle moment or earlier from method `GetValues()`.
+	 * @param \MvcCore\ISession $session 
+	 * @return void
+	 */
+	protected function preDispatchLoadValues (\MvcCore\ISession $session) {
+		if (!$session->values) return;
+		foreach ($session->values as $fieldName => $fieldValue) {
+			if (!array_key_exists($fieldName, $this->fields)) continue;
+			$field = $this->fields[$fieldName];
+			$configuredFieldValue = $field->GetValue();
+			$multiple = FALSE;
+			if ($field instanceof \MvcCore\Ext\Forms\Fields\IMultiple)
+				$multiple = $field->GetMultiple() ?: FALSE;
+			if (
+				$configuredFieldValue === NULL || 
+				($multiple && is_array($configuredFieldValue) && count($configuredFieldValue) === 0)
+			) {
+				$field->SetValue($fieldValue);
+			}
+		}
 	}
 
 	/**

@@ -326,6 +326,9 @@ trait GetMethods
 	 */
 	public function & GetValues () {
 		/** @var $this \MvcCore\Ext\Form */
+		if (
+			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED
+		) $this->preDispatchLoadValues($this->getSession());
 		return $this->values;
 	}
 
@@ -338,6 +341,9 @@ trait GetMethods
 	 */
 	public function & GetErrors () {
 		/** @var $this \MvcCore\Ext\Form */
+		if (
+			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED
+		) $this->preDispatchLoadErrors($this->getSession());
 		return $this->errors;
 	}
 
