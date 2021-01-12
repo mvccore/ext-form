@@ -33,7 +33,9 @@ trait Submitting
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init();
+			$this->Init(TRUE);
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->PreDispatch(TRUE);
 		if (!$rawRequestParams) 
 			$rawRequestParams = $this->request->GetParams(FALSE);
 		$this->SubmitSetStartResultState($rawRequestParams);
@@ -149,7 +151,9 @@ trait Submitting
 	 */
 	public function SubmittedRedirect () {
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init();
+			$this->Init(TRUE);
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->PreDispatch(TRUE);
 		$urlPropertyName = '';
 		$redirectMsg = '';
 		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {

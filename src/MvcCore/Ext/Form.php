@@ -98,10 +98,11 @@ implements	\MvcCore\Ext\Forms\IForm
 	 * any fields in custom `\MvcCore\Ext\Form` extended class, do it in custom 
 	 * extended `Init()` method and call `parent::Init();` as first line inside 
 	 * your extended `Init()` method.
+	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function Init () {
+	public function Init ($submit = FALSE) {
 		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_CREATED) 
 			return $this;
 		parent::Init();
@@ -133,14 +134,19 @@ implements	\MvcCore\Ext\Forms\IForm
 	 *   errors into fields and into form object to render them properly.
 	 * - Load any possible previously submitted and/or stored values
 	 *   from session and set up form fields with them.
-	 * - Set initialized state to 2, which means - prepared, pre-dispatched for rendering.
 	 * 
+	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
 	 */
-	public function PreDispatch () {
+	public function PreDispatch ($submit = FALSE) {
 		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			return $this;
+		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
+		if ($submit) {
+			$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
+			return $this;
+		}
 		foreach ($this->fields as $field) 
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
