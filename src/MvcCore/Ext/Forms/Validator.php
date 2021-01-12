@@ -30,7 +30,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 	/**
 	 * Form instance where was validator created.
 	 * Every validator instance belongs to only one form instance.
-	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\IForm
 	 */
 	protected $form = NULL;
 
@@ -105,10 +105,10 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator
 
 	/**
 	 * Set up form instance, where is validator created during submit.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form 
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Validator|\MvcCore\Ext\Forms\IValidator
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+	public function SetForm (\MvcCore\Ext\IForm $form) {
 		$this->form = $form;
 		return $this;
 	}

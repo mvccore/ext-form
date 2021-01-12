@@ -23,10 +23,10 @@ trait Session
 	 * Clear form values to empty array and clear form values in form session namespace,
 	 * clear form errors to empty array and clear form errors in form session namespace and
 	 * clear form CSRF tokens clear CRSF tokens in form session namespace.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function ClearSession () {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$this->values = [];
 		$this->errors = [];
 		$session = & $this->getSession();
@@ -39,10 +39,10 @@ trait Session
 	/**
 	 * Store form values, form errors and form CSRF tokens
 	 * in it's own form session namespace.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SaveSession () {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$session = & $this->getSession();
 		$session->errors = $this->errors;
 		$session->values = $this->values;

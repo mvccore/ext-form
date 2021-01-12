@@ -189,7 +189,7 @@ trait Label
 	 * @param string $renderMode
 	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->renderMode = $renderMode;
 		return $this;

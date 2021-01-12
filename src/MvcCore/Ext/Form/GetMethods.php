@@ -45,8 +45,8 @@ trait GetMethods
 	 * Use `GET` only if form data contains only ASCII characters.
 	 * Possible values: `'POST' | 'GET'`
 	 * You can use constants:
-	 * - `\MvcCore\Ext\Forms\IForm::METHOD_POST`
-	 * - `\MvcCore\Ext\Forms\IForm::METHOD_GET`
+	 * - `\MvcCore\Ext\IForm::METHOD_POST`
+	 * - `\MvcCore\Ext\IForm::METHOD_GET`
 	 * @return string|NULL
 	 */
 	public function GetMethod () {
@@ -69,15 +69,15 @@ trait GetMethods
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to
 	 *   `key1=value1&key2=value2...` string.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
 	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
 	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_PLAINTEXT`.
 	 * @return string|NULL
 	 */
 	public function GetEnctype () {
@@ -275,7 +275,7 @@ trait GetMethods
 	 * `1`	- Submit was successful. User will be redirected after submit to success url.
 	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
 	 * `2`	- Submit was successful. User will be redirected after submit to next step url.
-	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
+	 *		  `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
 	 * @return int|NULL
 	 */
 	public function GetResult () {
@@ -605,7 +605,7 @@ trait GetMethods
 	 * If no form instance found, thrown an `RuntimeException`.
 	 * @param string $formId
 	 * @throws \RuntimeException
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public static function GetById ($formId) {
 		if (isset(self::$instances[$formId])) {

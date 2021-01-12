@@ -39,10 +39,10 @@ trait FieldMethods
 	 * - `$form->AddField($field);`
 	 * - `$form->AddFields($field1, $field2, $field3...);`
 	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields = []) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$this->fields = [];
 		foreach ($fields as $field)
 			$this->AddField($field);
@@ -53,10 +53,10 @@ trait FieldMethods
 	 * Add multiple fully configured form field instances,
 	 * function have infinite params with new field instances.
 	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddFields ($fields) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$fields = func_get_args();
 		if (count($fields) === 1 && is_array($fields[0])) $fields = $fields[0];
 		foreach ($fields as $field)
@@ -67,10 +67,10 @@ trait FieldMethods
 	/**
 	 * Add fully configured form field instance.
 	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		/** @var $field \MvcCore\Ext\Forms\Field */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
@@ -106,10 +106,10 @@ trait FieldMethods
 	 * Remove configured form field instance by given instance or given field name.
 	 * If field is not found by it's name, no error happened.
 	 * @param \MvcCore\Ext\Forms\IField|string $fieldOrFieldName
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
 		$fieldName = NULL;

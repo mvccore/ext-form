@@ -26,10 +26,10 @@ trait AddMethods
 	 * value,the reserved string `'UNKNOWN'`, indicates the same encoding 
 	 * as that of the document containing the form element.
 	 * @param string $charset 
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddAcceptCharset ($charset) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$this->acceptCharsets[] = $charset;
 		return $this;
 	}
@@ -41,10 +41,10 @@ trait AddMethods
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssClasses ($cssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -56,10 +56,10 @@ trait AddMethods
 	 * Add form submit error and switch form result to zero - to error state.
 	 * @param string $errorMsg Any error message, translated if necessary. All html tags from error message will be removed automatically.
 	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$errorMsgUtf8 = iconv(
 			mb_detect_encoding($errorMsg, mb_detect_order(), TRUE),
 			"UTF-8",
@@ -80,7 +80,7 @@ trait AddMethods
 			}
 		}
 		$this->errors[] = $newErrorRec;
-		$this->result = \MvcCore\Ext\Forms\IForm::RESULT_ERRORS;
+		$this->result = \MvcCore\Ext\IForm::RESULT_ERRORS;
 		return $this;
 	}
 
@@ -89,14 +89,14 @@ trait AddMethods
 	 * @param string $jsRelativePath	Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 * @param string $jsClassName		Supporting javascript full class name inside supporting file.
 	 * @param array  $constructorParams	Supporting javascript constructor params.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddJsSupportFile (
 		$jsRelativePath = '/fields/custom-type.js', 
 		$jsClassName = 'MvcCoreForm.FieldType', 
 		$constructorParams = []
 	) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$this->jsSupportFiles[] = [$jsRelativePath, $jsClassName, $constructorParams];
 		return $this;
 	}
@@ -104,12 +104,12 @@ trait AddMethods
 	/**
 	 * Add supporting css file.
 	 * @param string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$this->cssSupportFiles[] = [$cssRelativePath];
 		return $this;
 	}
@@ -120,7 +120,7 @@ trait AddMethods
 	 * queue with this handlers, you can put here for example handler
 	 * to de-authenticate your user or anything else to more secure your application.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Forms\IForm`	- Form instance where error happened.
+	 *	- `\MvcCore\Ext\IForm`	- Form instance where error happened.
 	 *	- `\MvcCore\IRequest`			- Current request object.
 	 *	- `\MvcCore\IResponse`			- Current response object.
 	 *	- `string`						- Translated error message string.

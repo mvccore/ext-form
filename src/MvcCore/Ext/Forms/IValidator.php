@@ -34,10 +34,10 @@ interface IValidator
 
 	/**
 	 * Set up form instance, where is validator created during submit.
-	 * @param \MvcCore\Ext\Forms\IForm $form 
+	 * @param \MvcCore\Ext\IForm $form 
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
+	public function SetForm (\MvcCore\Ext\IForm $form);
 
 	/**
 	 * Set up field instance, where is validated value by this 

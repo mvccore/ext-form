@@ -68,16 +68,16 @@ interface IView
 
 	/**
 	 * Get form instance to render.
-	 * @return \MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\IForm
 	 */
 	public function GetForm ();
 
 	/**
 	 * Set form instance to render.
-	 * @param \MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\IForm $form
 	 * @return \MvcCore\Ext\Forms\IView
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
+	public function SetForm (\MvcCore\Ext\IForm $form);
 
 	/**
 	 * Get rendered field.

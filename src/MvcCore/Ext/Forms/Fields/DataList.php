@@ -69,11 +69,11 @@ class DataList
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate options boolean property.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+	public function SetForm (\MvcCore\Ext\IForm $form) {
 		parent::SetForm($form);
 		if (!$this->translate) $this->translateOptions = $this->translate;
 		return $this;

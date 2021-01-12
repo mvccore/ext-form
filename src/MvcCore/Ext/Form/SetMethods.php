@@ -24,7 +24,7 @@ trait SetMethods
 	 * CSRF tokens, html form attribute id value and much more.
 	 * @requires
 	 * @param string $id
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetId ($id) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -38,7 +38,7 @@ trait SetMethods
 	 * It could be relative or absolute, anything
 	 * to complete classic html form attribute `action`.
 	 * @param string|NULL $url
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAction ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -51,12 +51,12 @@ trait SetMethods
 	 * Use `GET` only if form data contains only ASCII characters.
 	 * Possible values: `'POST' | 'GET'`
 	 * You can use constants:
-	 * - `\MvcCore\Ext\Forms\IForm::METHOD_POST`
-	 * - `\MvcCore\Ext\Forms\IForm::METHOD_GET`
+	 * - `\MvcCore\Ext\IForm::METHOD_POST`
+	 * - `\MvcCore\Ext\IForm::METHOD_GET`
 	 * @param string $method
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetMethod ($method = \MvcCore\Ext\Forms\IForm::METHOD_POST) {
+	public function SetMethod ($method = \MvcCore\Ext\IForm::METHOD_POST) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->method = strtoupper($method);
 		return $this;
@@ -66,7 +66,7 @@ trait SetMethods
 	 * Set form title, global HTML attribute, optional.
 	 * @param string|NULL  $title
 	 * @param boolean|NULL $translateTitle
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -82,19 +82,19 @@ trait SetMethods
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to
 	 *   `key1=value1&key2=value2...` string.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
 	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
 	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_PLAINTEXT`.
 	 * @param string $enctype
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetEnctype ($enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED) {
+	public function SetEnctype ($enctype = \MvcCore\Ext\IForm::ENCTYPE_URLENCODED) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->enctype = $enctype;
 		return $this;
@@ -118,7 +118,7 @@ trait SetMethods
 	 *					current one, and has no parent). If there is no parent,
 	 *					this option behaves the same way as `_self`.
 	 * - `iframename`:	The response is displayed in a named `<iframe>`.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTarget ($target = '_self') {
 		/** @var $this \MvcCore\Ext\Form */
@@ -143,7 +143,7 @@ trait SetMethods
 	 * attribute and login fields.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAutoComplete ($autoComplete = FALSE) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -163,7 +163,7 @@ trait SetMethods
 	 * validated), this default setting can be overridden by a `formnovalidate`
 	 * attribute on a `<button>` or `<input>` element belonging to the form.
 	 * @param bool|NULL $noValidate Only `TRUE` renders the form attribute.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNoValidate ($noValidate = TRUE) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -183,7 +183,7 @@ trait SetMethods
 	 * accept charset(s) will be replaced by given array. If you want only to
 	 * add another charset, use method: `$form->AddAcceptCharset()` instead.
 	 * @param \string[] $acceptCharsets
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAcceptCharsets ($acceptCharsets = []) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -198,7 +198,7 @@ trait SetMethods
 	 * you want to translate every visible text into target language. Use this property
 	 * with `$form->translator`property.
 	 * @param string|NULL $lang
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLang ($lang = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -213,7 +213,7 @@ trait SetMethods
 	 * `$form->locale` property helps you to process validation functionality
 	 * with proper validator by locale code.
 	 * @param string|NULL $locale
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLocale ($locale = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -228,7 +228,7 @@ trait SetMethods
 	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -246,7 +246,7 @@ trait SetMethods
 	 * values as attribute values, simple. All previously configured additional
 	 * attributes will be replaced by given attributes to this function.
 	 * @param array $attributes
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAttributes (array $attributes = []) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -261,7 +261,7 @@ trait SetMethods
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error URL strings.
 	 * @param string|NULL $url
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSuccessUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -280,7 +280,7 @@ trait SetMethods
 	 * and you want to go to "previous step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
 	 * @param string|NULL $url
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetPrevStepUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -299,7 +299,7 @@ trait SetMethods
 	 * and you want to go to "next step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
 	 * @param string|NULL $url
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNextStepUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -314,7 +314,7 @@ trait SetMethods
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error URL strings.
 	 * @param string|NULL $url
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorUrl ($url = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -330,11 +330,11 @@ trait SetMethods
 	 * `1`	- Submit was successful. User will be redirected after submit to success url.
 	 *		  `\MvcCore\Ext\Form::RESULT_SUCCESS`
 	 * `2`	- Submit was successful. User will be redirected after submit to next step url.
-	 *		  `\MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE`
+	 *		  `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
 	 * @param int|NULL $result
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetResult ($result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
+	public function SetResult ($result = \MvcCore\Ext\IForm::RESULT_SUCCESS) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->result = $result;
 		return $this;
@@ -348,7 +348,7 @@ trait SetMethods
 	 * has to be array with numeric replacements to replace them in translated value.
 	 * Result of `callable` object has to be a string - translated key for called language.
 	 * @param callable|NULL $handler
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTranslator (callable $translator = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -363,7 +363,7 @@ trait SetMethods
 	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define
 	 * required flag value in controls. Default value is `FALSE`.
 	 * @param bool $defaultRequired
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetDefaultRequired ($defaultRequired = TRUE) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -379,7 +379,7 @@ trait SetMethods
 	 * @param array $values						Key value array with keys as field names and values for fields.
 	 * @param bool  $caseInsensitive			If `TRUE`, set up values from `$values` with keys in case insensitive mode.
 	 * @param bool  $clearPreviousSessionValues If `TRUE`, clear all previous data records for this form from session.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -423,7 +423,7 @@ trait SetMethods
 	 * string and second argument (optional) as field name string or
 	 * array with field names strings where error happened.
 	 * @param array $errorsCollection
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrors ($errorsCollection = []) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -444,7 +444,7 @@ trait SetMethods
 	 * If there is found any autorization service and authenticated user,
 	 * default value is set by authorization expiration time.
 	 * @param $seconds int
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSessionExpiration ($seconds = 0) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -457,7 +457,7 @@ trait SetMethods
 	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
 	 * @param $baseTabIndex int
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetBaseTabIndex ($baseTabIndex = 0) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -471,9 +471,9 @@ trait SetMethods
 	 * before control, only label for checkbox and radio button will be
 	 * rendered after control.
 	 * @param string $defaultFieldsRenderMode
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL) {
+	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->defaultFieldsRenderMode = $defaultFieldsRenderMode;
 		return $this;
@@ -485,9 +485,9 @@ trait SetMethods
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
 	 * @param string $errorsRenderMode
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->errorsRenderMode = $errorsRenderMode;
 		return $this;
@@ -502,7 +502,7 @@ trait SetMethods
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
 	 * @param bool|string|NULL $boolOrViewScriptPath
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -514,7 +514,7 @@ trait SetMethods
 	 * Set form custom template full class name to create custom view object.
 	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
 	 * @param string $viewClass
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewClass ($viewClass = '\\MvcCore\\Ext\\Forms\\View') {
 		/** @var $this \MvcCore\Ext\Form */
@@ -532,7 +532,7 @@ trait SetMethods
 	 *	 `1` - `string` - Supporting javascript full class name inside supporting file.
 	 *	 `2` - `array`  - Supporting javascript constructor params.
 	 * @param array $jsFilesClassesAndConstructorParams
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = []) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -552,7 +552,7 @@ trait SetMethods
 	 * Given `$cssRelativePaths` has to be array with supporting css file relative
 	 * paths from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @param \string[] $cssRelativePaths
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFiles (array $cssRelativePaths = []) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -568,7 +568,7 @@ trait SetMethods
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
 	 * @param callable|NULL $jsSupportFilesRenderer
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFilesRenderer (callable $jsSupportFilesRenderer) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -582,7 +582,7 @@ trait SetMethods
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
 	 * @param callable|NULL $cssSupportFilesRenderer
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFilesRenderer (callable $cssSupportFilesRenderer) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -594,7 +594,7 @@ trait SetMethods
 	 * This is INTERNAL method for rendering fields.
 	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
 	 * @param bool $formTagRenderingStatus
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFormTagRenderingStatus ($formTagRenderingStatus = TRUE) {
 		/** @var $this \MvcCore\Ext\Form */

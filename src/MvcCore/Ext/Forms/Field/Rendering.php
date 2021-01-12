@@ -70,23 +70,23 @@ trait Rendering
 	public function RenderNaturally () {
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$result = '';
-		$renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL;
+		$renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
 		$label = NULL;
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel) {
 			$renderMode = $this->GetRenderMode();
 			$label = $this->GetLabel();
 		}
-		if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL && $label) {
+		if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL && $label) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
+		} else if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
 			$result = $this->RenderControlInsideLabel();
-		} else if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
+		} else if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-			if ($formErrorsRenderMode !== \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+			if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 				$result = $errors . $result;
-			} else if ($formErrorsRenderMode !== \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+			} else if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $errors;
 			}
 		}
@@ -111,9 +111,9 @@ trait Rendering
 		}
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -129,7 +129,7 @@ trait Rendering
 	 */
 	public function RenderControlInsideLabel () {
 		/** @var $this \MvcCore\Ext\Forms\IField */
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
 			? static::$templates->togetherLabelLeft 
@@ -144,9 +144,9 @@ trait Rendering
 		]);
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -186,8 +186,8 @@ trait Rendering
 		/** @var $this \MvcCore\Ext\Forms\IField */
 		$renderMode = $this instanceof \MvcCore\Ext\Forms\Fields\ILabel
 			? $this->GetRenderMode()
-			: \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL;
-		if ($renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+			: \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
+		if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
@@ -210,7 +210,7 @@ trait Rendering
 		$result = "";
 		if (
 			$this->errors && 
-			$this->form->GetErrorsRenderMode() !== \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER
+			$this->form->GetErrorsRenderMode() !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER
 		) {
 			$result .= '<span class="errors">';
 			foreach ($this->errors as $key => $errorMessage) {

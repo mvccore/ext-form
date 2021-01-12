@@ -21,7 +21,7 @@ namespace MvcCore\Ext;
  */
 class		Form 
 extends		\MvcCore\Controller
-implements	\MvcCore\Ext\Forms\IForm
+implements	\MvcCore\Ext\IForm
 {
 	/**
 	 * MvcCore Extension - Form - version:
@@ -100,7 +100,7 @@ implements	\MvcCore\Ext\Forms\IForm
 	 * your extended `Init()` method.
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function Init ($submit = FALSE) {
 		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_CREATED) 
@@ -136,25 +136,30 @@ implements	\MvcCore\Ext\Forms\IForm
 	 *   from session and set up form fields with them.
 	 * 
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function PreDispatch ($submit = FALSE) {
 		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			return $this;
 		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
+		
+		$session = & $this->getSession();
+		$this->preDispatchLoadErrors($session);
+		$this->preDispatchLoadValues($session);
+
 		if ($submit) {
 			$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 			return $this;
 		}
+		
 		foreach ($this->fields as $field) 
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
-		$session = & $this->getSession();
-		$this->preDispatchLoadErrors($session);
-		$this->preDispatchLoadValues($session);
+		
 		if ($this->translate && $this->translateTitle && $this->title !== NULL)
 			$this->title = $this->Translate($this->title);
+		
 		$viewClass = $this->viewClass;
 		$this->view = $viewClass::CreateInstance()
 			->SetForm($this);
@@ -162,9 +167,12 @@ implements	\MvcCore\Ext\Forms\IForm
 			$this->view
 				->SetController($this->parentController)
 				->SetView($this->parentController->GetView());
+		
 		if ($this->csrfEnabled)
 			$this->SetUpCsrf();
+		
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
+		
 		return $this;
 	}
 	
@@ -201,6 +209,7 @@ implements	\MvcCore\Ext\Forms\IForm
 				$configuredFieldValue === NULL || 
 				($multiple && is_array($configuredFieldValue) && count($configuredFieldValue) === 0)
 			) {
+				$this->values[$fieldName] = $fieldValue;
 				$field->SetValue($fieldValue);
 			}
 		}

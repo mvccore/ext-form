@@ -66,7 +66,7 @@ trait Assets
 			? static::$jsSupportFilesRootDir 
 			: static::$cssSupportFilesRootDir;
 		return str_replace(
-			[\MvcCore\Ext\Forms\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'],
+			[\MvcCore\Ext\IForm::FORM_ASSETS_DIR_REPLACEMENT, '\\'],
 			[$assetsRootDir, '/'],
 			$supportingFileRelPath
 		);

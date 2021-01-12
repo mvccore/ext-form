@@ -21,11 +21,11 @@ trait Csrf
 {
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form The form instance where CSRF error happened.
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form The form instance where CSRF error happened.
 	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
-	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\Forms\IForm $form, $errorMsg) {
+	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg) {
 		$request = $form->GetRequest();
 		$response = $form->GetResponse();
 		foreach (static::$csrfErrorHandlers as $handlersRecord) {
@@ -46,10 +46,10 @@ trait Csrf
 	/**
 	 * Enable or disable CSRF checking, enabled by default.
 	 * @param bool $enabled 
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnableCsrf ($enabled = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$this->csrfEnabled = $enabled;
 		return $this;
 	}
@@ -71,10 +71,10 @@ trait Csrf
 	 * If there is any exception caught in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
 	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		if (!$this->csrfEnabled) return $this;
 		$result = FALSE;
 		$session = & $this->getSession();

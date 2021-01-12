@@ -229,7 +229,7 @@ trait Props
 	
 	/**
 	 * Internal reference to form instance, where current fields is added.
-	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\IForm
 	 */
 	protected $form = NULL;
 

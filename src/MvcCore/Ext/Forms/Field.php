@@ -131,17 +131,17 @@ implements		\MvcCore\Ext\Forms\IField
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate boolean property.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+	public function SetForm (\MvcCore\Ext\IForm $form) {
 		if (!$this->name) $this->throwNewInvalidArgumentException(
 			'No `name` property defined.'
 		);
 		$this->form = $form;
 		if ($this->id === NULL)
-			$this->id = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, [
+			$this->id = implode(\MvcCore\Ext\IForm::HTML_IDS_DELIMITER, [
 				$form->GetId(),
 				$this->name
 			]);

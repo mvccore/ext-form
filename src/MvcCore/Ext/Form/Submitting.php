@@ -59,12 +59,12 @@ trait Submitting
 	 * in `$form->customResultStates` array. If no special button submit result
 	 * value configured, submit result state is set to `1` by default.
 	 * @param array $rawRequestParams
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitSetStartResultState (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		if (!$this->customResultStates) {
-			$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
+			$this->result = \MvcCore\Ext\IForm::RESULT_SUCCESS;
 		} else {
 			// try to find if there is any field name (button:submit or input:submit)
 			// in raw request params with submit start custom result state:
@@ -77,7 +77,7 @@ trait Submitting
 				}
 			}
 			if (!$customResultStateDefined)
-				$this->result = \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS;
+				$this->result = \MvcCore\Ext\IForm::RESULT_SUCCESS;
 		}
 		return $this;
 	}
@@ -89,8 +89,8 @@ trait Submitting
 	 * @return boolean
 	 */
 	public function SubmitValidateMaxPostSizeIfNecessary () {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
-		if ($this->method != \MvcCore\Ext\Forms\IForm::METHOD_POST) 
+		/** @var $this \MvcCore\Ext\IForm */
+		if ($this->method != \MvcCore\Ext\IForm::METHOD_POST) 
 			return TRUE;
 		$contentLength = $this->request->GetContentLength();
 		if ($contentLength === NULL) $this->AddError(
@@ -122,10 +122,10 @@ trait Submitting
 	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automatically
 	 * assigned under field name into form result values and into form field value.
 	 * @param array $rawRequestParams
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\Forms\IForm */
+		/** @var $this \MvcCore\Ext\IForm */
 		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
 		$this->values = [];
 		foreach ($this->fields as $fieldName => $field) {
@@ -156,16 +156,16 @@ trait Submitting
 			$this->PreDispatch(TRUE);
 		$urlPropertyName = '';
 		$redirectMsg = '';
-		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
+		if ($this->result === \MvcCore\Ext\IForm::RESULT_ERRORS) {
 			$urlPropertyName = 'errorUrl';
 			$redirectMsg = 'error URL';
-		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
+		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_SUCCESS) {
 			$urlPropertyName = 'successUrl';
 			$redirectMsg = 'success URL';
-		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_PREV_PAGE) {
+		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_PREV_PAGE) {
 			$urlPropertyName = 'prevStepUrl';
 			$redirectMsg = 'previous step URL';
-		} else if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_NEXT_PAGE) {
+		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_NEXT_PAGE) {
 			$urlPropertyName = 'nextStepUrl';
 			$redirectMsg = 'next step URL';
 		}

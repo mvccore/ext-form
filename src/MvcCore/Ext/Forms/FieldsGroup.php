@@ -134,11 +134,11 @@ abstract class FieldsGroup
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Check if there are any options for current controls group.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+	public function SetForm (\MvcCore\Ext\IForm $form) {
 		parent::SetForm($form);
 		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
@@ -193,18 +193,18 @@ abstract class FieldsGroup
 		$result = '';
 		if (
 			$this->label && (
-				$this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL ||
-				$this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND
+				$this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL ||
+				$this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND
 			)
 		) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
+		} else if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-			if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+			if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 				$result = $errors . $result;
-			} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+			} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $errors;
 			}
 		}
@@ -223,7 +223,7 @@ abstract class FieldsGroup
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL)
+		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL)
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
@@ -242,9 +242,9 @@ abstract class FieldsGroup
 		]);
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-		if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($formErrorsRenderMode == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -273,7 +273,7 @@ abstract class FieldsGroup
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->renderMode == \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NO_LABEL)
+		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL)
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
@@ -300,7 +300,7 @@ abstract class FieldsGroup
 	 */
 	public function RenderControlItem ($key, $option) {
 		$result = '';
-		$itemControlId = implode(\MvcCore\Ext\Forms\IForm::HTML_IDS_DELIMITER, [
+		$itemControlId = implode(\MvcCore\Ext\IForm::HTML_IDS_DELIMITER, [
 			$this->form->GetId(), $this->name, $key
 		]);
 		list(

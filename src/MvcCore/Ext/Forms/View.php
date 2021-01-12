@@ -34,7 +34,7 @@ class View extends \MvcCore\View
 {
 	/**
 	 * Rendered form instance reference, which view belongs to.
-	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm|NULL
+	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\IForm|NULL
 	 */
 	protected $form = NULL;
 
@@ -144,7 +144,7 @@ class View extends \MvcCore\View
 
 	/**
 	 * Get form instance to render.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function GetForm () {
 		return $this->form;
@@ -152,10 +152,10 @@ class View extends \MvcCore\View
 
 	/**
 	 * Set form instance to render.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
 	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form) {
+	public function SetForm (\MvcCore\Ext\IForm $form) {
 		$this->form = $form;
 		return $this;
 	}
@@ -224,7 +224,7 @@ class View extends \MvcCore\View
 		// if property is still not in store, try to complete result with property by
 		// `$name` in `$this->form` instance:
 		if (
-			$this->form instanceof \MvcCore\Ext\Forms\IForm &&
+			$this->form instanceof \MvcCore\Ext\IForm &&
 			$formType = $this->getReflectionClass('form')
 		) {
 			if ($formType->hasProperty($name)) {
@@ -296,7 +296,7 @@ class View extends \MvcCore\View
 		// if property is still not in store, try to complete result with property by
 		// `$name` in `$this->form` instance:
 		if (
-			$this->form instanceof \MvcCore\Ext\Forms\IForm &&
+			$this->form instanceof \MvcCore\Ext\IForm &&
 			$formType = $this->getReflectionClass('form')
 		) {
 			if ($formType->hasProperty($name)) {
@@ -342,7 +342,7 @@ class View extends \MvcCore\View
 		) {
 			return call_user_func_array([$field, $method], $arguments);
 		} else if (
-			$form instanceof \MvcCore\Ext\Forms\IForm &&
+			$form instanceof \MvcCore\Ext\IForm &&
 			method_exists($form, $method)
 		) {
 			return call_user_func_array([$form, $method], $arguments);
@@ -454,7 +454,7 @@ class View extends \MvcCore\View
 		$this->form->PreDispatch();
 		$result = '';
 		$errors = $this->form->GetErrors();
-		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
 			$result .= '<div class="errors">';
 			foreach ($errors as $errorMessageAndFieldNames) {
 				list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;

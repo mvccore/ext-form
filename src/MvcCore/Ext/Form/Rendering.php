@@ -183,7 +183,7 @@ trait Rendering
 	 * to clear session errors, because there is not necessary
 	 * to have there those errors anymore, because will be
 	 * displayed in rendered form.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	protected function cleanSessionErrorsAfterRender () {
 		/** @var $this \MvcCore\Ext\Form */

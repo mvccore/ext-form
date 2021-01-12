@@ -115,7 +115,7 @@ interface ILabel
 	 * @param string $renderMode
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function SetRenderMode ($renderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_LABEL_AROUND);
+	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND);
 
 	/**
 	 * Get collection with `<label>` HTML element 

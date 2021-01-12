@@ -57,11 +57,11 @@ interface IField
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate boolean property.
-	 * @param \MvcCore\Ext\Forms\IForm $form
+	 * @param \MvcCore\Ext\IForm $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\IField
 	 */
-	public function SetForm (\MvcCore\Ext\Forms\IForm $form);
+	public function SetForm (\MvcCore\Ext\IForm $form);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before

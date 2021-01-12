@@ -42,12 +42,12 @@ trait ConfigProps
 	 * Use `GET` only if form data contains only ASCII characters.
 	 * Possible values: `'POST' | 'GET'`
 	 * You can use constants:
-	 * - `\MvcCore\Ext\Forms\IForm::METHOD_POST`
-	 * - `\MvcCore\Ext\Forms\IForm::METHOD_GET`
+	 * - `\MvcCore\Ext\IForm::METHOD_POST`
+	 * - `\MvcCore\Ext\IForm::METHOD_GET`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-method
 	 * @var string
 	 */
-	protected $method = \MvcCore\Ext\Forms\IForm::METHOD_POST;
+	protected $method = \MvcCore\Ext\IForm::METHOD_POST;
 
 	/**
 	 * Form `enctype` attribute - how the form values will be encoded
@@ -55,19 +55,19 @@ trait ConfigProps
 	 * - `application/x-www-form-urlencoded`
 	 *   By default, it means all form values will be encoded to
 	 *   `key1=value1&key2=value2...` string.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_URLENCODED`.
 	 * - `multipart/form-data`
 	 *   Data will not be encoded to URL string form, this value is required,
 	 *   when you are using forms that have a file upload control.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_MULTIPART`.
 	 * - `text/plain`
 	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
-	 *   Constant: `\MvcCore\Ext\Forms\IForm::ENCTYPE_PLAINTEXT`.
+	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_PLAINTEXT`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-enctype
 	 * @var string
 	 */
-	protected $enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_URLENCODED;
+	protected $enctype = \MvcCore\Ext\IForm::ENCTYPE_URLENCODED;
 
 	/**
 	 * Form title, global HTML attribute, optional.
@@ -319,7 +319,7 @@ trait ConfigProps
 	 * rendered after control.
 	 * @var string
 	 */
-	protected $defaultFieldsRenderMode = \MvcCore\Ext\Forms\IForm::FIELD_RENDER_MODE_NORMAL;
+	protected $defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
 
 	/**
 	 * Errors rendering mode, by default configured as string: `all-together`,
@@ -328,7 +328,7 @@ trait ConfigProps
 	 * to get all errors into template.
 	 * @var string
 	 */
-	protected $errorsRenderMode = \MvcCore\Ext\Forms\IForm::ERROR_RENDER_MODE_ALL_TOGETHER;
+	protected $errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER;
 
 	/**
 	 * Form custom template relative path without `.phtml` or `.php` extension.
