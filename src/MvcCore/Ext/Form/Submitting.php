@@ -32,6 +32,7 @@ trait Submitting
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
+		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init(TRUE);
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
@@ -62,7 +63,7 @@ trait Submitting
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitSetStartResultState (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->customResultStates) {
 			$this->result = \MvcCore\Ext\IForm::RESULT_SUCCESS;
 		} else {
@@ -89,7 +90,7 @@ trait Submitting
 	 * @return boolean
 	 */
 	public function SubmitValidateMaxPostSizeIfNecessary () {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		if ($this->method != \MvcCore\Ext\IForm::METHOD_POST) 
 			return TRUE;
 		$contentLength = $this->request->GetContentLength();
@@ -125,7 +126,7 @@ trait Submitting
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
 		$this->values = [];
 		foreach ($this->fields as $fieldName => $field) {
@@ -150,6 +151,7 @@ trait Submitting
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
+		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init(TRUE);
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
@@ -191,6 +193,7 @@ trait Submitting
 	 * @return \MvcCore\Ext\Forms\IValidator
 	 */
 	public function & GetValidator ($validatorName) {
+		/** @var $this \MvcCore\Ext\Form */
 		if (isset($this->validators[$validatorName])) {
 			$validator = $this->validators[$validatorName];
 		} else {
@@ -225,6 +228,7 @@ trait Submitting
 	 * @return string
 	 */
 	public function GetDefaultErrorMsg ($index) {
+		/** @var $this \MvcCore\Ext\Form */
 		return static::$defaultErrorMessages[$index];
 	}
 
@@ -238,6 +242,7 @@ trait Submitting
 	 * @return array
 	 */
 	protected function & submitAllFieldsEncodeAcceptCharsets (array & $rawRequestParams = []) {
+		/** @var $this \MvcCore\Ext\Form */
 		if (count($this->acceptCharsets) === 0) return $rawRequestParams;
 		$toEncoding = strtoupper($this->GetResponse()->GetEncoding());
 		if (!static::$toolClass) static::$toolClass = \MvcCore\Application::GetInstance()->GetToolClass();
@@ -289,6 +294,7 @@ trait Submitting
 	 * @return array
 	 */
 	protected function encodeAcceptCharsetsArrayOrString (& $rawValue, $fromEncoding, $toEncoding) {
+		/** @var $this \MvcCore\Ext\Form */
 		if (gettype($rawValue) == 'array') {
 			$stats = 0;
 			$totalCount = 0;
@@ -332,6 +338,7 @@ trait Submitting
 	 * @return array
 	 */
 	protected function encodeAcceptCharsetsString (& $rawValue, $fromEncoding, $toEncoding) {
+		/** @var $this \MvcCore\Ext\Form */
 		$errors = [];
 		$toolClass = static::$toolClass;
 		$translatedValue = $toolClass::Invoke(
