@@ -110,11 +110,11 @@ implements	\MvcCore\Ext\IForm
 		if (!$this->id)
 			throw new \RuntimeException("No form `id` property defined in `".get_class($this)."`.");
 		if (isset(self::$instances[$this->id])) {
-			$storedInstance = self::$instances[$this->id];
-			if ($storedInstance !== $this) 
+			$anotherForm = self::$instances[$this->id];
+			if ($anotherForm !== $this)
 				throw new \RuntimeException("Form id `".$this->id."` already defined.");
 		} else {
-			self::$instances[$this->id] = $this;
+			self::$instances[$this->id] = TRUE;
 		}
 		$this->translate = $this->translator !== NULL && is_callable($this->translator);
 		return $this;

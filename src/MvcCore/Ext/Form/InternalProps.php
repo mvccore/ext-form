@@ -150,7 +150,7 @@ trait InternalProps
 	/**
 	 * Form instances storage under it's form id strings.
 	 * Key is form id, value is form instance.
-	 * @var \MvcCore\Ext\Form[]|\MvcCore\Ext\IForm[]
+	 * @var \MvcCore\Ext\Form[]
 	 */
 	protected static $instances = [];
 }
