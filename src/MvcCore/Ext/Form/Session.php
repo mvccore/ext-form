@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -17,8 +17,8 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing logic and methods to work with
  * values necessary store in session. It use configured core class `\MvcCore\Session`.
  */
-trait Session
-{
+trait Session {
+
 	/**
 	 * Clear form values to empty array and clear form values in form session namespace,
 	 * clear form errors to empty array and clear form errors in form session namespace and
@@ -26,7 +26,7 @@ trait Session
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function ClearSession () {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->values = [];
 		$this->errors = [];
 		$session = & $this->getSession();
@@ -42,7 +42,7 @@ trait Session
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SaveSession () {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$session = & $this->getSession();
 		$session->errors = $this->errors;
 		$session->values = $this->values;
@@ -52,7 +52,7 @@ trait Session
 	/**
 	 * Get session namespace reference with configured expiration
 	 * and predefined fields `values`, `csrf` and `errors` as arrays.
-	 * @return \MvcCore\ISession
+	 * @return \MvcCore\Session
 	 */
 	protected function & getSession () {
 		if (isset(self::$allFormsSessions[$this->id])) {

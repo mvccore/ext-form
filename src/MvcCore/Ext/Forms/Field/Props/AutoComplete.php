@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -29,8 +29,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Fields\Textarea`
  * - `\MvcCore\Ext\Forms\Fields\Hidden`
  */
-trait AutoComplete
-{
+trait AutoComplete {
+
 	/**
 	 * Attribute indicates if the input can be automatically completed 
 	 * by the browser, usually by remembering previous values the user has entered.
@@ -57,10 +57,10 @@ trait AutoComplete
 	 * Possible values: `off`, `on`, `name`, `email`, `username`, `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
 	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | 'anything' | NULL`.
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoComplete ($autoComplete = FALSE) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		if ($autoComplete === FALSE) {
 			$this->autoComplete = 'off';
 		} else if ($autoComplete === TRUE) {

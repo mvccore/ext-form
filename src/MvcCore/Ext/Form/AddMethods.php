@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -18,8 +18,8 @@ namespace MvcCore\Ext\Form;
  * properties except methods manipulating with form field instances, for those 
  * methods, there is another trait `\MvcCore\Ext\Form\FieldMethods`.
  */
-trait AddMethods
-{
+trait AddMethods {
+
 	/**
 	 * Add into list of character encodings that the server accepts. The 
 	 * browser uses them in the order in which they are listed. The default 
@@ -29,7 +29,7 @@ trait AddMethods
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddAcceptCharset ($charset) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->acceptCharsets[] = $charset;
 		return $this;
 	}
@@ -44,7 +44,7 @@ trait AddMethods
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssClasses ($cssClasses) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -59,7 +59,7 @@ trait AddMethods
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$errorMsgUtf8 = iconv(
 			mb_detect_encoding($errorMsg, mb_detect_order(), TRUE),
 			"UTF-8",
@@ -96,7 +96,7 @@ trait AddMethods
 		$jsClassName = 'MvcCoreForm.FieldType', 
 		$constructorParams = []
 	) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->jsSupportFiles[] = [$jsRelativePath, $jsClassName, $constructorParams];
 		return $this;
 	}
@@ -109,7 +109,7 @@ trait AddMethods
 	public function AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->cssSupportFiles[] = [$cssRelativePath];
 		return $this;
 	}
@@ -120,10 +120,10 @@ trait AddMethods
 	 * queue with this handlers, you can put here for example handler
 	 * to de-authenticate your user or anything else to more secure your application.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\IForm`	- Form instance where error happened.
-	 *	- `\MvcCore\IRequest`			- Current request object.
-	 *	- `\MvcCore\IResponse`			- Current response object.
-	 *	- `string`						- Translated error message string.
+	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
+	 *	- `\MvcCore\Request`	- Current request object.
+	 *	- `\MvcCore\Response`	- Current response object.
+	 *	- `string`				- Translated error message string.
 	 * Example:
 	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $response, $errorMsg) {
 	 *		// ... anything you want to do, for example to sign out user.

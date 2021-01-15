@@ -7,14 +7,14 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms;
 
-interface IView
-{
+interface IView {
+
 	/**
 	 * Get global views forms directory placed by default
 	 * inside `"/App/Views"` directory.
@@ -55,40 +55,40 @@ interface IView
 
 	/**
 	 * Get controller instance as reference.
-	 * @return \MvcCore\IView
+	 * @return \MvcCore\View
 	 */
 	public function GetView ();
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\IView $view
-	 * @return \MvcCore\Ext\Forms\IView
+	 * @param \MvcCore\View $view
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetView (\MvcCore\IView $view);
 
 	/**
 	 * Get form instance to render.
-	 * @return \MvcCore\Ext\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function GetForm ();
 
 	/**
 	 * Set form instance to render.
-	 * @param \MvcCore\Ext\IForm $form
-	 * @return \MvcCore\Ext\Forms\IView
+	 * @param \MvcCore\Ext\Form $form
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form);
 
 	/**
 	 * Get rendered field.
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function GetField ();
 
 	/**
 	 * Set rendered field.
-	 * @param \MvcCore\Ext\Forms\IField $field
-	 * @return \MvcCore\Ext\Forms\IView
+	 * @param \MvcCore\Ext\Forms\Field $field
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field);
 

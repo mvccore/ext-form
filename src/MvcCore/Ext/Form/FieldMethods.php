@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -18,14 +18,14 @@ namespace MvcCore\Ext\Form;
  * form field instances and methods to add, search or remove field instance from 
  * form.
  */
-trait FieldMethods
-{
+trait FieldMethods {
+
 	/**
 	 * Get all form field controls.
 	 * After adding any field into form instance by `$form->AddField()` method
 	 * field is added under it's name into this array with all another form fields 
 	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
-	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]
+	 * @return \MvcCore\Ext\Forms\Field[]
 	 */
 	public function & GetFields() {
 		return $this->fields;
@@ -38,7 +38,7 @@ trait FieldMethods
 	 * use functions:
 	 * - `$form->AddField($field);`
 	 * - `$form->AddFields($field1, $field2, $field3...);`
-	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
+	 * @param \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields = []) {
@@ -52,11 +52,11 @@ trait FieldMethods
 	/**
 	 * Add multiple fully configured form field instances,
 	 * function have infinite params with new field instances.
-	 * @param \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
+	 * @param \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddFields ($fields) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$fields = func_get_args();
 		if (count($fields) === 1 && is_array($fields[0])) $fields = $fields[0];
 		foreach ($fields as $field)
@@ -66,11 +66,11 @@ trait FieldMethods
 
 	/**
 	 * Add fully configured form field instance.
-	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
+	 * @param \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		/** @var $field \MvcCore\Ext\Forms\Field */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
@@ -89,7 +89,7 @@ trait FieldMethods
 	/**
 	 * If `TRUE` if given field instance or given
 	 * field name exists in form, `FALSE` otherwise.
-	 * @param \MvcCore\Ext\Forms\IField|string $fieldOrFieldName
+	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
 	public function HasField ($fieldOrFieldName = NULL) {
@@ -105,11 +105,11 @@ trait FieldMethods
 	/**
 	 * Remove configured form field instance by given instance or given field name.
 	 * If field is not found by it's name, no error happened.
-	 * @param \MvcCore\Ext\Forms\IField|string $fieldOrFieldName
+	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName = NULL) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
 		$fieldName = NULL;
@@ -126,7 +126,7 @@ trait FieldMethods
 	/**
 	 * Return form field instance by form field name if it exists, else return null;
 	 * @param string $fieldName
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
+	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetField ($fieldName = '') {
 		$result = NULL;
@@ -140,7 +140,7 @@ trait FieldMethods
 	 * If no field(s) found, it's returned empty array.
 	 * Result array is keyed by field names.
 	 * @param string $fieldType
-	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]|array
+	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
 	public function GetFieldsByType ($fieldType = '') {
 		$result = [];
@@ -155,7 +155,7 @@ trait FieldMethods
 	 * Return first caught form field instance by given field type string.
 	 * If no field found, `NULL` is returned.
 	 * @param string $fieldType
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
+	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetFirstFieldByType ($fieldType = '') {
 		$result = NULL;
@@ -174,7 +174,7 @@ trait FieldMethods
 	 * Result array is keyed by field names.
 	 * @param string $fieldClassName Full php class name or full interface name.
 	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
-	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]|array
+	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
 	public function GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
 		$result = [];
@@ -195,7 +195,7 @@ trait FieldMethods
 	 * If no field found, it's returned `NULL`.
 	 * @param string $fieldClassName Full php class name or full interface name.
 	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
+	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetFirstFieldByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
 		$result = NULL;

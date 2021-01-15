@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -24,8 +24,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Validators\Range`
  * - `\MvcCore\Ext\Forms\Validators\ValueInOptions`
  */
-trait Multiple
-{
+trait Multiple {
+
 	/**
 	 * If control is `<input>` with `type` as `file` or `email`,
 	 * this Boolean attribute indicates whether the user can enter 
@@ -76,10 +76,10 @@ trait Multiple
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
 	 * @param bool $multiple 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetMultiple ($multiple = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->multiple = $multiple;
 		return $this;
 	}

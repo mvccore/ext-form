@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -19,8 +19,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
-trait GroupLabelCssClasses
-{
+trait GroupLabelCssClasses {
+
 	/**
 	 * Css class or classes for group label as array of strings.
 	 * @var \string[]
@@ -41,10 +41,10 @@ trait GroupLabelCssClasses
 	 * separated by space. Any previously defined 
 	 * group css classes will be replaced.
 	 * @param string|\string[] $groupLabelCssClasses
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetGroupLabelCssClasses ($groupLabelCssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$this->groupLabelCssClasses = $groupLabelCssClasses;
 		} else {
@@ -57,10 +57,10 @@ trait GroupLabelCssClasses
 	 * Add css class or classes for group label as array of 
 	 * strings or string with classes separated by space.
 	 * @param string|\string[] $groupLabelCssClasses
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddGroupLabelCssClasses ($groupLabelCssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$groupCssClasses = $groupLabelCssClasses;
 		} else {

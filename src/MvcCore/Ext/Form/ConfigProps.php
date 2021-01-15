@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -16,8 +16,8 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing all configurable properties.
  */
-trait ConfigProps
-{
+trait ConfigProps {
+
 	/**
 	 * Form id, required to configure.
 	 * Used to identify session data, error messages,
@@ -274,7 +274,7 @@ trait ConfigProps
 	 * After adding any field into form instance by `$form->AddField()` method
 	 * field is added under it's name into this array with all another form fields
 	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
-	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\IField[]
+	 * @var \MvcCore\Ext\Forms\Field[]
 	 */
 	protected $fields = [];
 

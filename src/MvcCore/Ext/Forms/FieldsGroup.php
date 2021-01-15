@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms;
@@ -19,14 +19,14 @@ namespace MvcCore\Ext\Forms;
  *				   instantiate, you need to extend this class to create own
  *				   specific form control.
  */
-abstract class FieldsGroup
-	extends		\MvcCore\Ext\Forms\Field
-	implements	\MvcCore\Ext\Forms\Fields\IVisibleField,
+abstract class	FieldsGroup
+extends			\MvcCore\Ext\Forms\Field
+implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 				\MvcCore\Ext\Forms\Fields\ILabel,
 				\MvcCore\Ext\Forms\Fields\IOptions,
 				\MvcCore\Ext\Forms\Fields\IMultiple,
-				\MvcCore\Ext\Forms\IFieldsGroup
-{
+				\MvcCore\Ext\Forms\IFieldsGroup {
+
 	use \MvcCore\Ext\Forms\Field\Props\VisibleField;
 	use \MvcCore\Ext\Forms\Field\Props\Label;
 	use \MvcCore\Ext\Forms\Field\Props\Options;
@@ -65,7 +65,7 @@ abstract class FieldsGroup
 	 *					 values which you want to configure, presented
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public static function CreateInstance ($cfg = []) {
 		return new static($cfg);
@@ -86,7 +86,7 @@ abstract class FieldsGroup
 	 * an empty array. For extended class `RadioGroup` - the value type is only a `string`
 	 * or `NULL`.
 	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value) {
 		$this->value = $value;
@@ -107,7 +107,7 @@ abstract class FieldsGroup
 	 * Field group is always marked as multiple value control. This function
 	 * does nothing, because multiple option has to be `TRUE` for field group instance all time.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetMultiple ($multiple = TRUE) {
 		return $this;
@@ -134,9 +134,9 @@ abstract class FieldsGroup
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Check if there are any options for current controls group.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
+	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\FieldsGroup|\MvcCore\Ext\Forms\IFieldsGroup
+	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		parent::SetForm($form);

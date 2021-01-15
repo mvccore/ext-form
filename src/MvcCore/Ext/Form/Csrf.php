@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -17,11 +17,11 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing methods to create, get and 
  * verify CSRF tokens and to process CSRF error handlers if tokens are not valid.
  */
-trait Csrf
-{
+trait Csrf {
+
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form The form instance where CSRF error happened.
+	 * @param \MvcCore\Ext\Form $form The form instance where CSRF error happened.
 	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
@@ -49,7 +49,7 @@ trait Csrf
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnableCsrf ($enabled = TRUE) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->csrfEnabled = $enabled;
 		return $this;
 	}
@@ -74,7 +74,7 @@ trait Csrf
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->csrfEnabled) return $this;
 		$result = FALSE;
 		$session = & $this->getSession();

@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field;
@@ -17,8 +17,8 @@ namespace MvcCore\Ext\Forms\Field;
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly 
  * configurable) properties getter methods.
  */
-trait Getters
-{
+trait Getters {
+
 	/**
 	 * Get form field HTML id attribute, completed from form name and field name.
 	 * This value is completed automatically, but you can customize it.
@@ -129,7 +129,7 @@ trait Getters
 	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @return \string[]|\MvcCore\Ext\Forms\IValidator[]
+	 * @return \string[]|\MvcCore\Ext\Forms\Validator[]
 	 */
 	public function & GetValidators () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -139,7 +139,7 @@ trait Getters
 	/**
 	 * Get `TRUE`, if field has configured in it's validators array
 	 * given validator class ending name or validator instance.
-	 * @param string|\MvcCore\Ext\Forms\IValidator $validatorNameOrInstance
+	 * @param string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
 	 * @return bool
 	 */
 	public function HasValidator ($validatorNameOrInstance) {

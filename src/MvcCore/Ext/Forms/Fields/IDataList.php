@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Fields;
@@ -33,8 +33,8 @@ namespace MvcCore\Ext\Forms\Fields;
  *    - `\MvcCore\Ext\Forms\Fields\Tel`
  *    - `\MvcCore\Ext\Forms\Fields\Url`
  */
-interface IDataList
-{
+interface IDataList {
+
 	/**
 	 * Get element `list` attribute value - the `<list>` element `id` attribute value.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
@@ -46,8 +46,8 @@ interface IDataList
 	 * Set element `list` attribute value - the `<list>` 
 	 * element `id` attribute value or `DataList` object instance.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
-	 * @param string|\MvcCore\Ext\Forms\IField $dataListIdOrInstance
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @param string|\MvcCore\Ext\Forms\Field $dataListIdOrInstance
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetList ($dataListIdOrInstance);
 }

@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms;
@@ -20,14 +20,7 @@ namespace MvcCore\Ext\Forms;
  *				   extend this class to create own specific form control.
  */
 abstract class	Field
-implements		\MvcCore\Ext\Forms\IField
-{
-	/**
-	 * MvcCore - version:
-	 * Comparison by PHP function `version_compare();`.
-	 * @see http://php.net/manual/en/function.version-compare.php
-	 */
-	const VERSION = '5.0.0-alpha';
+implements		\MvcCore\Ext\Forms\IField {
 
 	use \MvcCore\Ext\Forms\Field\Props;
 	use \MvcCore\Ext\Forms\Field\Getters;
@@ -40,7 +33,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 *					 values which you want to configure, presented
 	 *					 in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public static function CreateInstance ($cfg = []) {
 		return new static($cfg);
@@ -84,7 +77,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * @param string $name
 	 * @param array  $arguments
 	 * @throws \InvalidArgumentException
-	 * @return mixed|\MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return mixed|\MvcCore\Ext\Forms\Field
 	 */
 	public function __call ($name, $arguments = []) {
 		$nameBegin = strtolower(substr($name, 0, 3));
@@ -116,7 +109,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * Universal setter, if property not defined - it's automatically declared.
 	 * @param string $name
 	 * @param mixed	 $value
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function __set ($name, $value) {
 		$this->$name = $value;
@@ -131,9 +124,9 @@ implements		\MvcCore\Ext\Forms\IField
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate boolean property.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
+	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		if (!$this->name) $this->throwNewInvalidArgumentException(
@@ -287,7 +280,7 @@ implements		\MvcCore\Ext\Forms\IField
 	 * @param string $errorMsg
 	 * @param array $errorMsgArgs
 	 * @param callable $replacingCallable
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidationError (
 		$errorMsg = '', array

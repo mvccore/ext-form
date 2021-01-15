@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms;
@@ -30,17 +30,17 @@ namespace MvcCore\Ext\Forms;
  *						  field's supporting js/css files.
  * - `static Format()`
  */
-class View extends \MvcCore\View
-{
+class View extends \MvcCore\View {
+
 	/**
 	 * Rendered form instance reference, which view belongs to.
-	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\IForm|NULL
+	 * @var \MvcCore\Ext\Form|NULL
 	 */
 	protected $form = NULL;
 
 	/**
 	 * Rendered form field reference if view is not form's view.
-	 * @var \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField|NULL
+	 * @var \MvcCore\Ext\Forms\Field|NULL
 	 */
 	protected $field = NULL;
 
@@ -48,7 +48,7 @@ class View extends \MvcCore\View
 	 * Controller view instance reference, which form belongs to.
 	 * Every form is usually created inside MvcCore controller instance,
 	 * and mostly every controller instance has it's own view.
-	 * @var \MvcCore\View|\MvcCore\IView|NULL
+	 * @var \MvcCore\View|NULL
 	 */
 	protected $view = NULL;
 
@@ -126,7 +126,7 @@ class View extends \MvcCore\View
 
 	/**
 	 * Get controller instance as reference.
-	 * @return \MvcCore\View|\MvcCore\IView
+	 * @return \MvcCore\View
 	 */
 	public function GetView () {
 		return $this->view;
@@ -134,8 +134,8 @@ class View extends \MvcCore\View
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\View|\MvcCore\IView $view
-	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
+	 * @param \MvcCore\View $view
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetView (\MvcCore\IView $view) {
 		$this->view = $view;
@@ -152,8 +152,8 @@ class View extends \MvcCore\View
 
 	/**
 	 * Set form instance to render.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
-	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
+	 * @param \MvcCore\Ext\Form $form
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		$this->form = $form;
@@ -162,7 +162,7 @@ class View extends \MvcCore\View
 
 	/**
 	 * Get rendered field.
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function GetField () {
 		return $this->field;
@@ -170,8 +170,8 @@ class View extends \MvcCore\View
 
 	/**
 	 * Set rendered field.
-	 * @param \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField $field
-	 * @return \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
+	 * @param \MvcCore\Ext\Forms\Field $field
+	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field) {
 		$this->field = $field;

@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field;
@@ -17,8 +17,8 @@ namespace MvcCore\Ext\Forms\Field;
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field configurable 
  * and internal properties.
  */
-trait Props
-{
+trait Props {
+
 	/************************************************************************************************
 	*									Configurable Properties									*
 	************************************************************************************************/
@@ -101,7 +101,7 @@ trait Props
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @var \string[]|\MvcCore\Ext\Forms\IValidator[]
+	 * @var \string[]|\MvcCore\Ext\Forms\Validator[]
 	 */
 	protected $validators = [];
 	
@@ -229,7 +229,7 @@ trait Props
 	
 	/**
 	 * Internal reference to form instance, where current fields is added.
-	 * @var \MvcCore\Ext\Form|\MvcCore\Ext\IForm
+	 * @var \MvcCore\Ext\Form
 	 */
 	protected $form = NULL;
 

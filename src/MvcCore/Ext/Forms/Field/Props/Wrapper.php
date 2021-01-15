@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -24,8 +24,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Fields\Number`
  *    - `\MvcCore\Ext\Forms\Fields\Range`
  */
-trait Wrapper
-{
+trait Wrapper {
+
 	/**
 	 * Html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
@@ -51,10 +51,10 @@ trait Wrapper
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
 	 * @param string $wrapper Default wrapper values is: `{control}`.
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetWrapper ($wrapper) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->wrapper = $wrapper;
 		return $this;
 	}

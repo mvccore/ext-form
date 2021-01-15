@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -18,8 +18,8 @@ use \MvcCore\Ext\Forms\IError;
 /**
  * Trait for class `MvcCore\Ext\Form` containing all internal properties.
  */
-trait InternalProps
-{
+trait InternalProps {
+
 	/**
 	 * Internal array with all configured submit buttons to recognize starting
 	 * result state in submit processing by presented button in params array.
@@ -45,7 +45,7 @@ trait InternalProps
 	/**
 	 * Validators instances keyed by validators ending
 	 * class names, created during `Submit()`.
-	 * @var \MvcCore\Ext\Forms\IValidator[]
+	 * @var \MvcCore\Ext\Forms\Validator[]
 	 */
 	protected $validators = [];
 

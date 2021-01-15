@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -22,8 +22,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
-trait Options
-{
+trait Options {
+
 	/**
 	 * Form group control options to render
 	 * more sub-control attributes for specified
@@ -122,7 +122,7 @@ trait Options
 	 * ));
 	 * ```
 	 * @param array $options
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptions (array $options = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -135,7 +135,7 @@ trait Options
 	 * more values for more specified submitted keys.
 	 * Previous options will be merged with given options.
 	 * @param array $options
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddOptions (array $options = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -155,7 +155,7 @@ trait Options
 	/**
 	 * Set `FALSE` if you don't want to translate options texts, default `TRUE`.
 	 * @param bool $translateOptions 
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
 		/** @var $this \MvcCore\Ext\Forms\Field */

@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -25,8 +25,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\Fields\Url`
  * - `\MvcCore\Ext\Forms\Fields\Textarea`
  */
-trait PlaceHolder
-{
+trait PlaceHolder {
+
 	/**
 	 * A hint to the user of what can be entered in the control, typically in the form 
 	 * of an example of the type of information that should be entered. The placeholder
@@ -73,10 +73,10 @@ trait PlaceHolder
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder
 	 * @param string|NULL  $placeHolder 
 	 * @param boolean|NULL $translatePlaceholder 
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetPlaceHolder ($placeHolder, $translatePlaceholder = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->placeHolder = $placeHolder;
 		if ($translatePlaceholder !== NULL)
 			$this->translatePlaceholder = $translatePlaceholder;

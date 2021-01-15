@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Fields;
@@ -19,10 +19,10 @@ namespace MvcCore\Ext\Forms\Fields;
  *				   has no possible value to submit. It just renders the
  *				   `<datalist>` with given options.
  */
-class DataList 
-	extends		\MvcCore\Ext\Forms\Field 
-	implements	\MvcCore\Ext\Forms\Fields\IOptions
-{
+class		DataList 
+extends		\MvcCore\Ext\Forms\Field 
+implements	\MvcCore\Ext\Forms\Fields\IOptions {
+
 	use \MvcCore\Ext\Forms\Field\Props\Options;
 	
 	/**
@@ -54,7 +54,7 @@ class DataList
 	/**
 	 * Set `TRUE` to translate given options or not.
 	 * @param bool $translateOptions
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
 		$this->translateOptions = $translateOptions;
@@ -69,9 +69,9 @@ class DataList
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate options boolean property.
-	 * @param \MvcCore\Ext\Form|\MvcCore\Ext\IForm $form
+	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
-	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\Field
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		parent::SetForm($form);

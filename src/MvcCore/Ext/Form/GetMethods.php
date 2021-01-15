@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -16,8 +16,8 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing getter methods for configurable properties.
  */
-trait GetMethods
-{
+trait GetMethods {
+
 	/**
 	 * Get form id, required to configure.
 	 * Used to identify session data, error messages,
@@ -362,7 +362,7 @@ trait GetMethods
 				"\\MvcCore\\Ext\\Auth",
 				"\\MvcCore\\Ext\\Auths\\Basic"
 			];
-			/** @var $auth \MvcCore\Ext\Basics\IAuth */
+			/** @var $auth \MvcCore\Ext\Auths\Basic */
 			$auth = NULL;
 			foreach ($authClassesFullNames as $authClassFullName) {
 				if (class_exists($authClassFullName, TRUE)) {
@@ -622,7 +622,7 @@ trait GetMethods
 	/**
 	 * Get form field instance with defined `autofocus` boolean attribute.
 	 * If there is no field in any form with this attribute, return `NULL`.
-	 * @return \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public static function GetAutoFocusedFormField () {
 		if (self::$autoFocusedFormField) {

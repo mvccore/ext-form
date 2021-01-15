@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -17,8 +17,8 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing rendering logic and methods.
  * @property \MvcCore\Ext\Forms\View $view View instance.
  */
-trait Rendering
-{
+trait Rendering {
+
 	/**
 	 * Render whole `<form>` with all content into HTML string to display it.
 	 * - If form is not initialized, there is automatically

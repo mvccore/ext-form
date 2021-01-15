@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext;
@@ -21,14 +21,14 @@ namespace MvcCore\Ext;
  */
 class		Form 
 extends		\MvcCore\Controller
-implements	\MvcCore\Ext\IForm
-{
+implements	\MvcCore\Ext\IForm {
+
 	/**
 	 * MvcCore Extension - Form - version:
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.0-alpha';
+	const VERSION = '5.0.0';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -47,7 +47,7 @@ implements	\MvcCore\Ext\IForm
 	 * Please don't forget to configure at least $form->Id, $form->Action,
 	 * any control to work with and finally any button:submit/input:submit
 	 * to submit the form to any URL defined in $form->Action.
-	 * @param \MvcCore\Controller|\MvcCore\IController|NULL $controller
+	 * @param \MvcCore\Controller|NULL $controller
 	 * @return void
 	 */
 	public function __construct (\MvcCore\IController $controller = NULL) {
@@ -179,7 +179,7 @@ implements	\MvcCore\Ext\IForm
 	/**
 	 * Initialize form errors from session for all fields in `PreDispatch()`
 	 * lifecycle moment or earlier from method `GetValues()`.
-	 * @param \MvcCore\ISession $session 
+	 * @param \MvcCore\Session $session 
 	 * @return void
 	 */
 	protected function preDispatchLoadErrors (\MvcCore\ISession $session) {
@@ -193,7 +193,7 @@ implements	\MvcCore\Ext\IForm
 	/**
 	 * Initialize values from session for all fields in `PreDispatch()`
 	 * lifecycle moment or earlier from method `GetValues()`.
-	 * @param \MvcCore\ISession $session 
+	 * @param \MvcCore\Session $session 
 	 * @return void
 	 */
 	protected function preDispatchLoadValues (\MvcCore\ISession $session) {

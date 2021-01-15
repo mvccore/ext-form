@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field;
@@ -16,14 +16,14 @@ namespace MvcCore\Ext\Forms\Field;
 /**
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field rendering methods.
  */
-trait Rendering
-{
+trait Rendering {
+
 	/**
 	 * Render field in full mode (with configured label), naturally or by custom template.
 	 * @return string
 	 */
 	public function Render () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		if ($this->viewScript) {
 			return $this->RenderTemplate();
 		} else {
@@ -42,7 +42,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderTemplate () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$viewClass = $this->form->GetViewClass();
 		$formParentController = $this->form->GetParentController();
 		$view = $viewClass::CreateInstance()
@@ -68,7 +68,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderNaturally () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
 		$renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
 		$label = NULL;
@@ -102,7 +102,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderLabelAndControl () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
 		if ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
 			$result = $this->RenderLabel() . $this->RenderControl();
@@ -128,7 +128,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
@@ -160,7 +160,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderControl () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
@@ -183,7 +183,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderLabel () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$renderMode = $this instanceof \MvcCore\Ext\Forms\Fields\ILabel
 			? $this->GetRenderMode()
 			: \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
@@ -206,7 +206,7 @@ trait Rendering
 	 * @return string
 	 */
 	public function RenderErrors () {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = "";
 		if (
 			$this->errors && 
@@ -239,7 +239,7 @@ trait Rendering
 	 * @return string
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->labelAttrs, $this->cssClasses, FALSE
 		);
@@ -258,7 +258,7 @@ trait Rendering
 	 * @return string
 	 */
 	protected function renderControlAttrsWithFieldVars ($fieldVars = []) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
 		);
@@ -287,7 +287,7 @@ trait Rendering
 		$cssClasses = [], 
 		$controlRendering = FALSE
 	) {
-		/** @var $this \MvcCore\Ext\Forms\IField */
+		/** @var $this \MvcCore\Ext\Forms\Field */
 		$attrs = [];
 		foreach ($fieldVars as $key => $value) {
 			if (is_numeric($key)) {

@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field;
@@ -17,13 +17,13 @@ namespace MvcCore\Ext\Forms\Field;
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly
  * configurable) properties setter methods.
  */
-trait Setters
-{
+trait Setters {
+
 	/**
 	 * Set form field HTML id attribute, completed from form name and field name.
 	 * This value is completed automatically, but you can customize it.
 	 * @param string $id
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetId ($id = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -36,7 +36,7 @@ trait Setters
 	 * This value is required for all form fields.
 	 * @requires
 	 * @param string $name
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetName ($name = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -49,7 +49,7 @@ trait Setters
 	 * Every typed field has it's own string value, but base field type
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
 	 * @param string $type
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetType ($type = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -61,7 +61,7 @@ trait Setters
 	 * Set form field value. It could be string or array, in or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @param string|array|int|float|NULL $value
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValue ($value) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -76,7 +76,7 @@ trait Setters
 	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -91,7 +91,7 @@ trait Setters
 	 * Set field title, global HTML attribute, optional.
 	 * @param string|NULL  $title
 	 * @param boolean|NULL $translateTitle
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -108,7 +108,7 @@ trait Setters
 	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
 	 * @param string|\string[] $cssClasses
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -133,7 +133,7 @@ trait Setters
 	 * All previously defined additional field attributes
 	 * will be replaced by given array.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -155,7 +155,7 @@ trait Setters
 	 * previous attribute with the same name will be overwritten.
 	 * @param string $name
 	 * @param mixed $value
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttr ($name, $value) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -175,7 +175,7 @@ trait Setters
 	 * All given additional field attributes
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddControlAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -195,8 +195,8 @@ trait Setters
 	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValidators (array $validatorsNamesOrInstances = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -216,8 +216,8 @@ trait Setters
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorsNamesOrInstances,...
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidators ($validatorsNamesOrInstances = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -262,8 +262,8 @@ trait Setters
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @param \string[]|\MvcCore\Ext\Forms\IValidator[] $validatorNameOrInstance,...
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function RemoveValidator ($validatorNameOrInstance) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -314,7 +314,7 @@ trait Setters
 	 * $field->SetType('my-field-type');
 	 * ```
 	 * @param bool|string|NULL $boolOrViewScriptPath
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -336,7 +336,7 @@ trait Setters
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $jsClass
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsClassName ($jsClassName) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -358,7 +358,7 @@ trait Setters
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $jsFullFile
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsSupportingFile ($jsSupportingFilePath) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -380,7 +380,7 @@ trait Setters
 	 * own and also you can run your helper css also by your own. Is up to you.
 	 * `NULL` by default.
 	 * @param string $cssFullFile
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssSupportingFile ($cssSupportingFilePath) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -393,7 +393,7 @@ trait Setters
 	 * This flag is automatically assigned from `$field->form->GetTranslate();`
 	 * flag in `$field->Init();` method.
 	 * @param bool $translate
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslate ($translate) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -408,7 +408,7 @@ trait Setters
 	 * in render preparing process. To add form error properly,
 	 * use `$field->form->AddError($errorMsg, $fieldNames);` method instead.
 	 * @param string $errorMsg
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddError ($errorMsg) {
 		/** @var $this \MvcCore\Ext\Forms\Field */

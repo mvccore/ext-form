@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Form;
@@ -16,8 +16,8 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing submitting logic and methods.
  */
-trait Submitting
-{
+trait Submitting {
+
 	/**
 	 * Process standard low level submit process.
 	 * If no params passed as first argument, all params from object
@@ -190,7 +190,7 @@ trait Submitting
 	 * Get cached validator instance by name. If validator instance doesn't exist
 	 * in `$this->validators` array, create new validator instance, cache it and return it.
 	 * @param string $validatorName
-	 * @return \MvcCore\Ext\Forms\IValidator
+	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function & GetValidator ($validatorName) {
 		/** @var $this \MvcCore\Ext\Form */

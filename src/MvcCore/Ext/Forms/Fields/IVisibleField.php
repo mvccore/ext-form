@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Fields;
@@ -49,8 +49,8 @@ namespace MvcCore\Ext\Forms\Fields;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
-interface IVisibleField
-{
+interface IVisibleField {
+
 	/**
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
 	 * @return string|NULL
@@ -60,7 +60,7 @@ interface IVisibleField
 	/**
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
 	 * @param string $accessKey 
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAccessKey ($accessKey);
 
@@ -92,7 +92,7 @@ interface IVisibleField
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus
 	 * @param bool|NULL $autoFocus 
 	 * @param int $duplicateBehaviour
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION);
 
@@ -127,7 +127,7 @@ interface IVisibleField
 	 * required error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
 	 * @param bool|NULL $readonly
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetDisabled ($disabled);
 
@@ -160,7 +160,7 @@ interface IVisibleField
 	 * error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
 	 * @param bool|NULL $readonly
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetReadOnly ($readOnly = TRUE);
 
@@ -184,7 +184,7 @@ interface IVisibleField
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
 	 * will be automatically considered required by default form configuration.
 	 * @param bool|NULL $required
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRequired ($required = TRUE);
 
@@ -225,7 +225,7 @@ interface IVisibleField
 	 *   their relative order follows their relative positions in the document.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
 	 * @param int $tabIndex 
-	 * @return \MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTabIndex ($tabIndex);
 }

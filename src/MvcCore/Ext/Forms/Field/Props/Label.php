@@ -7,8 +7,8 @@
  * For the full copyright and license information, please view
  * the LICENSE.md file that are distributed with this source code.
  *
- * @copyright	Copyright (c) 2016 Tom Flídr (https://github.com/mvccore/mvccore)
- * @license		https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md
+ * @copyright	Copyright (c) 2016 Tom Flidr (https://github.com/mvccore)
+ * @license		https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md
  */
 
 namespace MvcCore\Ext\Forms\Field\Props;
@@ -44,8 +44,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  */
-trait Label
-{
+trait Label {
+
 	/**
 	 * Control label visible text.
 	 * If field form has configured any translator,
@@ -119,7 +119,7 @@ trait Label
 	 * before rendering process. Default value is `NULL`.
 	 * @param string|NULL  $label
 	 * @param boolean|NULL $translateLabel
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabel ($label, $translateLabel = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -153,7 +153,7 @@ trait Label
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
 	 * @param string $labelSide
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -187,7 +187,7 @@ trait Label
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
 	 * @param string $renderMode
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -243,7 +243,7 @@ trait Label
 	 * All previously defined additional label attributes 
 	 * will be replaced by given array.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLabelAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -264,7 +264,7 @@ trait Label
 	 * previous attribute with the same name will be overwritten.
 	 * @param string $name
 	 * @param mixed $value
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLabelAttr ($name, $value) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
@@ -284,7 +284,7 @@ trait Label
 	 * All given additional label attributes 
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IField
+	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddLabelAttrs (array $attrs = []) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
