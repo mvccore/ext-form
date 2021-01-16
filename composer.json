@@ -3,27 +3,27 @@
 	"type": "library",
 	"description": "MvcCore - Extension - Form - form extension with base classes to create and render web forms with HTML5 controls, to handle and validate submited user data, to manage forms sessions for default values, to manage user input errors and to extend and develop custom fields and field groups.",
 	"keywords": [
-		"mvc", 
-		"mvccore", 
-		"framework", 
-		"extension", 
-		"plugin", 
-		"plug-in", 
-		"ext", 
-		"mvccore", 
-		"form", 
-		"forms", 
-		"webform", 
-		"html5", 
+		"mvc",
+		"mvccore",
+		"framework",
+		"extension",
+		"plugin",
+		"plug-in",
+		"ext",
+		"mvccore",
+		"form",
+		"forms",
+		"webform",
+		"html5",
 		"dynamic",
 		"field",
 		"fields",
 		"input",
 		"inputs",
-		"text", 
-		"number", 
-		"select", 
-		"checkbox", 
+		"text",
+		"number",
+		"select",
+		"checkbox",
 		"radio",
 		"groups",
 		"reset",
@@ -51,7 +51,7 @@
 	}],
 	"require": {
 		"php": ">=5.4.0",
-		"mvccore/mvccore": "dev-master"
+		"mvccore/mvccore": "^5.0"
 	},
 	"suggest": {
 		"mvccore/ext-form-field-text": "MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.",
@@ -63,7 +63,9 @@
 		"mvccore/ext-form-validator-special": "MvcCore form extension with special text and numeric validators."
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": [
+			"src/"
+		]
 	},
 	"minimum-stability": "dev"
 }
