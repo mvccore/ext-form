@@ -1,7 +1,7 @@
-# MvcCore Extension - Form
+# MvcCore - Extension - Form
 
-[![Latest Stable Version](https://img.shields.io/badge/Stable-v4.3.1-brightgreen.svg?style=plastic)](https://github.com/mvccore/ext-form/releases)
-[![License](https://img.shields.io/badge/Licence-BSD-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/4.0.0/LICENCE.md)
+[![Latest Stable Version](https://img.shields.io/badge/Stable-v5.0.0-brightgreen.svg?style=plastic)](https://github.com/mvccore/ext-form/releases)
+[![License](https://img.shields.io/badge/License-BSD%203-brightgreen.svg?style=plastic)](https://mvccore.github.io/docs/mvccore/5.0.0/LICENCE.md)
 ![PHP Version](https://img.shields.io/badge/PHP->=5.4-brightgreen.svg?style=plastic)
 
 <br />
@@ -25,8 +25,10 @@ This extension is only part of whole thing to not have too much field classes co
 ## Installation
 ```shell
 composer require mvccore/ext-form
+```
 
-# Than install any form field extension like: mvccore/ext-form-field-*
+Than you need install any form field extension bellow like: `mvccore/ext-form-field-*`
+```shell
 composer require mvccore/ext-form-field-text
 ```
 
