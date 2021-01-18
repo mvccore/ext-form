@@ -36,7 +36,10 @@ trait Csrf {
 				} else {
 					call_user_func($handler, $form, $request, $response, $errorMsg);
 				}
-			} catch (\Exception $e) {
+			} catch (\Exception $e) { // backward compatibility
+				$debugClass = $form->GetApplication()->GetDebugClass();
+				$debugClass::Log($e, \MvcCore\IDebug::CRITICAL);
+			} catch (\Throwable $e) {
 				$debugClass = $form->GetApplication()->GetDebugClass();
 				$debugClass::Log($e, \MvcCore\IDebug::CRITICAL);
 			}
