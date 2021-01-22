@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.0';
+	const VERSION = '5.0.1';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -100,11 +100,11 @@ implements	\MvcCore\Ext\IForm {
 	 * your extended `Init()` method.
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
-	 * @return \MvcCore\Ext\Form
+	 * @return void
 	 */
 	public function Init ($submit = FALSE) {
 		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_CREATED) 
-			return $this;
+			return;
 		parent::Init();
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_INITIALIZED;
 		if (!$this->id)
@@ -117,7 +117,6 @@ implements	\MvcCore\Ext\IForm {
 			self::$instances[$this->id] = TRUE;
 		}
 		$this->translate = $this->translator !== NULL && is_callable($this->translator);
-		return $this;
 	}
 
 	/**
@@ -136,11 +135,11 @@ implements	\MvcCore\Ext\IForm {
 	 *   from session and set up form fields with them.
 	 * 
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
-	 * @return \MvcCore\Ext\Form
+	 * @return void
 	 */
 	public function PreDispatch ($submit = FALSE) {
 		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			return $this;
+			return;
 		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
 		
@@ -150,7 +149,7 @@ implements	\MvcCore\Ext\IForm {
 
 		if ($submit) {
 			$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
-			return $this;
+			return;
 		}
 		
 		foreach ($this->fields as $field) 
@@ -172,8 +171,6 @@ implements	\MvcCore\Ext\IForm {
 			$this->SetUpCsrf();
 		
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
-		
-		return $this;
 	}
 	
 	/**
@@ -184,6 +181,9 @@ implements	\MvcCore\Ext\IForm {
 	 */
 	protected function preDispatchLoadErrors (\MvcCore\ISession $session) {
 		if (!$session->errors) return;
+		if (
+			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED
+		) $this->Init();
 		foreach ($session->errors as $errorMsgAndFieldNames) {
 			list($errorMsg, $fieldNames) = array_merge([], $errorMsgAndFieldNames);
 			$this->AddError($errorMsg, $fieldNames);
@@ -198,6 +198,9 @@ implements	\MvcCore\Ext\IForm {
 	 */
 	protected function preDispatchLoadValues (\MvcCore\ISession $session) {
 		if (!$session->values) return;
+		if (
+			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED
+		) $this->Init();
 		foreach ($session->values as $fieldName => $fieldValue) {
 			if (!array_key_exists($fieldName, $this->fields)) continue;
 			$field = $this->fields[$fieldName];

@@ -381,7 +381,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderBegin () {
-		$this->form->PreDispatch();
+		$this->form->PreDispatch(FALSE);
 		$result = "<form";
 		$attrs = [];
 		$form = $this->form;
@@ -451,7 +451,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderErrors () {
-		$this->form->PreDispatch();
+		$this->form->PreDispatch(FALSE);
 		$result = '';
 		$errors = $this->form->GetErrors();
 		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
@@ -474,7 +474,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContent () {
-		$this->form->PreDispatch();
+		$this->form->PreDispatch(FALSE);
 		$result = "";
 		$fieldRendered = "";
 		foreach ($this->form->GetFields() as $field) {

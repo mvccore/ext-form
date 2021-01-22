@@ -34,7 +34,7 @@ trait Rendering {
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
-		$this->PreDispatch();
+		$this->PreDispatch(FALSE);
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
 		} else {
@@ -87,7 +87,7 @@ trait Rendering {
 	 */
 	public function RenderEnd () {
 		/** @var $this \MvcCore\Ext\Form */
-		$this->PreDispatch();
+		$this->PreDispatch(FALSE);
 		$this->SetFormTagRenderingStatus(FALSE);
 		$result = '</form>'
 			. $this->RenderSupportingJs()

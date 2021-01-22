@@ -173,7 +173,6 @@ trait Submitting {
 		}
 		$url = isset($this->{$urlPropertyName}) ? $this->{$urlPropertyName} : NULL;
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
-		if ($this->result) $this->values = [];
 		$this->SaveSession();
 		if (!$url && $this->result > -1 && $this->result < 4)
 			throw new \RuntimeException(

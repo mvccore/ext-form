@@ -28,7 +28,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * your extended `Init()` method.
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
-	 * @return \MvcCore\Ext\Form
+	 * @return void
 	 */
 	public function Init ($submit = FALSE);
 
@@ -49,7 +49,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * - Set initialized state to 2, which means - prepared, pre-dispatched for rendering.
 	 *
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
-	 * @return \MvcCore\Ext\Form
+	 * @return void
 	 */
 	public function PreDispatch ($submit = FALSE);
 
