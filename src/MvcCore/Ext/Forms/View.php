@@ -356,6 +356,8 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderTemplate () {
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
 		$formViewScript = $this->form->GetViewScript();
 		return $this->Render(
 			static::$formsDir,
@@ -369,6 +371,8 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderNaturally () {
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
 		return $this->RenderBegin()
 			. $this->RenderErrors()
 			. $this->RenderContent()
@@ -381,7 +385,8 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderBegin () {
-		$this->form->PreDispatch(FALSE);
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
 		$result = "<form";
 		$attrs = [];
 		$form = $this->form;
@@ -429,6 +434,8 @@ class View extends \MvcCore\View {
 	 */
 	public function RenderCsrf () {
 		if (!$this->csrfEnabled) return '';
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
 		$csrf = $this->form->GetCsrf();
 		return '<input type="hidden" name="'.$csrf->name.'" value="'.$csrf->value.'" />';
 	}
@@ -451,7 +458,8 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderErrors () {
-		$this->form->PreDispatch(FALSE);
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
 		$result = '';
 		$errors = $this->form->GetErrors();
 		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
@@ -474,7 +482,8 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContent () {
-		$this->form->PreDispatch(FALSE);
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
 		$result = "";
 		$fieldRendered = "";
 		foreach ($this->form->GetFields() as $field) {

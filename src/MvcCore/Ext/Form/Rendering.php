@@ -34,13 +34,15 @@ trait Rendering {
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
 		/** @var $this \MvcCore\Ext\Form */
-		$this->PreDispatch(FALSE);
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->PreDispatch(FALSE);
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
 		} else {
 			$result = $this->view->RenderNaturally();
 		}
 		$this->cleanSessionErrorsAfterRender();
+		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_RENDERED;
 		return $result;
 	}
 
@@ -87,7 +89,8 @@ trait Rendering {
 	 */
 	public function RenderEnd () {
 		/** @var $this \MvcCore\Ext\Form */
-		$this->PreDispatch(FALSE);
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->PreDispatch(FALSE);
 		$this->SetFormTagRenderingStatus(FALSE);
 		$result = '</form>'
 			. $this->RenderSupportingJs()

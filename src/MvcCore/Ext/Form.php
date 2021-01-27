@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.1';
+	const VERSION = '5.0.2';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -138,7 +138,7 @@ implements	\MvcCore\Ext\IForm {
 	 * @return void
 	 */
 	public function PreDispatch ($submit = FALSE) {
-		if ($this->dispatchState > \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+		if ($this->dispatchState >= \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			return;
 		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
