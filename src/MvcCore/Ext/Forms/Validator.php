@@ -84,7 +84,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 *					 in camel case properties names syntax.
 	 * @return void
 	 */
-	public function __construct(array $cfg = []) {
+	public function __construct (array $cfg = []) {
 		foreach ($cfg as $propertyName => $propertyValue) {
 			if ($propertyName == 'field' || $propertyName == 'form' || !property_exists($this, $propertyName)) {
 				$this->throwNewInvalidArgumentException(
@@ -120,6 +120,17 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 		if (static::$fieldSpecificProperties) 
 			$this->setUpFieldProps(static::$fieldSpecificProperties);
 		return $this;
+	}
+	
+	/**
+	 * Set predefined validator custom error message strings (not translated) 
+	 * with replacements for field names and more specific info 
+	 * to tell the user what happened or what to do more.
+	 * @param array $errorMessages Indexes are integers and values are error message strings.
+	 * @return array
+	 */
+	public static function SetErrorMessages ($errorMessages) {
+		return static::$errorMessages = $errorMessages;
 	}
 	
 	/**
