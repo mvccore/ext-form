@@ -19,6 +19,7 @@ namespace MvcCore\Ext\Forms;
  *				   class is not possible to instantiate, you need to
  *				   extend this class to create own specific form control.
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 abstract class	Field
 implements		\MvcCore\Ext\Forms\IField {
 

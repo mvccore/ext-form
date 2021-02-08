@@ -19,6 +19,7 @@ namespace MvcCore\Ext\Forms;
  *				   instantiate, you need to extend this class to create own
  *				   specific form control.
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 abstract class	FieldsGroup
 extends			\MvcCore\Ext\Forms\Field
 implements		\MvcCore\Ext\Forms\Fields\IVisibleField,

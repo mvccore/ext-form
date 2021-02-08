@@ -18,6 +18,7 @@ namespace MvcCore\Ext\Forms;
  *				   This class is not possible to instantiate, you need to extend 
  *				   this class and define custom validation rules.
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 
 	/**

@@ -21,6 +21,7 @@ namespace MvcCore\Ext\Forms\Validators;
  *				   THIS VALIDATOR DOESN'T MEAN SAFE VALUE TO PREVENT SQL INJECTS! 
  *				   To prevent sql injects - use `\PDO::prepare();` and `\PDO::execute()`.
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 class SafeString extends \MvcCore\Ext\Forms\Validator {
 
 	/**
