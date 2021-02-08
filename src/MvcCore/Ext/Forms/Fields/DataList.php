@@ -19,6 +19,7 @@ namespace MvcCore\Ext\Forms\Fields;
  *				   has no possible value to submit. It just renders the
  *				   `<datalist>` with given options.
  */
+#[\Attribute(\Attribute::TARGET_PROPERTY)]
 class		DataList 
 extends		\MvcCore\Ext\Forms\Field 
 implements	\MvcCore\Ext\Forms\Fields\IOptions {
