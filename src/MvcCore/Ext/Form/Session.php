@@ -62,10 +62,11 @@ trait Session {
 			$toolClass = self::$toolClass;
 			$formIdPc = $this->id;
 			if (strpos($formIdPc, '-') !== FALSE)
-				$formIdPc = $toolClass::GetPascalCaseFromDashed($formIdPc);
+				$formIdPc = $toolClass::GetPascalCaseFromDashed(str_replace('-', '/', $formIdPc));
 			if (strpos($formIdPc, '_') !== FALSE)
-				$formIdPc = $toolClass::GetPascalCaseFromUnderscored($formIdPc);
+				$formIdPc = $toolClass::GetPascalCaseFromUnderscored(str_replace('_', '/', $formIdPc));
 			$formIdPcUc = ucfirst($formIdPc);
+			$formIdPcUc = str_replace('/', '\\', $formIdPcUc);
 			$namespaceName = "\\MvcCore\\Ext\Form\\{$formIdPcUc}";
 			$sessionNamespace = $sessionClass::GetNamespace($namespaceName);
 			// Do not use hoops expiration, because there is better
