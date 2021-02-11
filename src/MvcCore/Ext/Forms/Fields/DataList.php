@@ -44,6 +44,20 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 */
 	protected static $templates = [];
 
+	
+	/**
+	 * Create new form `<datalist>` element instance.
+	 * @param array $cfg Config array with public properties and it's 
+	 *					 values which you want to configure, presented 
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return void
+	 */
+	public function __construct(array $cfg = []) {
+		parent::__construct($cfg);
+		$this->ctorOptions($cfg);
+	}
+
 	/**
 	 * Get if options has to be translated or not.
 	 * @return bool
@@ -76,6 +90,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		parent::SetForm($form);
+		$this->setFormLoadOptions();
 		if (!$this->translate) $this->translateOptions = $this->translate;
 		return $this;
 	}

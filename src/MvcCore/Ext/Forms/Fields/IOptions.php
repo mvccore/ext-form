@@ -127,7 +127,7 @@ interface IOptions {
 	/**
 	 * Define method name and context to resolve options loading for complex cases.
 	 * Defined method has to return options for `$field->SetOptions()` method.
-	 * Second argument is context definition, where the method is located, you can use constants:
+	 * Second argument is context definition int flag, where the method is located, you can use constants:
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
@@ -140,6 +140,22 @@ interface IOptions {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM);
+	
+	/**
+	 * Get defined method name and context to resolve options loading for complex cases.
+	 * First item is string method name, which has to return options for `$field->SetOptions()` method.
+	 * Second item is context definition int flag, where the method is located, you can use constants:
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
+	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @throws \InvalidArgumentException 
+	 * @return array `[string $methodName, int $context]`
+	 */
+	public function GetOptionsLoader ();
 
 	/**
 	 * Set `FALSE` if you don't want to translate options texts, default `TRUE`.

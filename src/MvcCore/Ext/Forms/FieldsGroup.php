@@ -51,7 +51,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	/**
 	 * Standard field template strings for natural
 	 * rendering - `label`, `control`, `togetherLabelLeft` and `togetherLabelRight`.
-	 * @var string
+	 * @var \string[]|\stdClass
 	 */
 	protected static $templates = [
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',
@@ -116,16 +116,23 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 
 	/* core methods **************************************************************************/
 
-	/*
-	// use this constructor in extended class to merge control or label automatic templates
-	public function __construct(array $cfg = array()) {
+	/**
+	 * Create new form control group instance.
+	 * @param array $cfg Config array with public properties and it's
+	 *					 values which you want to configure, presented
+	 *					 in camel case properties names syntax.
+	 * @throws \InvalidArgumentException
+	 * @return void
+	 */
+	public function __construct(array $cfg = []) {
 		parent::__construct($cfg);
-		static::$templates = (object) array_merge(
+		$this->ctorOptions($cfg);
+		// Merge control or label automatic templates alway in extended class constructor.
+		/*static::$templates = (object) array_merge(
 			(array) parent::$templates,
 			(array) self::$templates
-		);
+		);*/
 	}
-	*/
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
@@ -141,6 +148,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		parent::SetForm($form);
+		$this->setFormLoadOptions();
 		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
 		);
