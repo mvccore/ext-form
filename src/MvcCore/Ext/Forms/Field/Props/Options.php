@@ -125,7 +125,7 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptions (array $options = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		$this->options = $options;
 		return $this;
 	}
@@ -138,7 +138,7 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddOptions (array $options = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		$this->options = array_merge($this->options, $options);
 		return $this;
 	}
@@ -148,8 +148,22 @@ trait Options {
 	 * @return array
 	 */
 	public function & GetOptions () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		return $this->options;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param int $context Context where method is located.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM) {
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
+		
+
+
+		return $this;
 	}
 
 	/**
@@ -158,7 +172,7 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		$this->translateOptions = $translateOptions;
 		return $this;
 	}
@@ -168,7 +182,7 @@ trait Options {
 	 * @return bool
 	 */
 	public function GetTranslateOptions () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		return $this->translateOptions;
 	}
 
@@ -182,7 +196,7 @@ trait Options {
 		if ($fieldOptions === NULL && $this->flattenOptions !== NULL)
 			return $this->flattenOptions;
 		$this->flattenOptions = [];
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		$fieldOptions = $fieldOptions === NULL
 			? $this->options
 			: $fieldOptions;
