@@ -23,7 +23,7 @@ trait InternalProps {
 	/**
 	 * Internal array with all configured submit buttons to recognize starting
 	 * result state in submit processing by presented button in params array.
-	 * @var \MvcCore\Ext\Forms\Fields\SubmitButton|\MvcCore\Ext\Forms\Fields\SubmitInput
+	 * @var \MvcCore\Ext\Forms\Fields\ISubmit
 	 */
 	protected $submitFields = [];
 

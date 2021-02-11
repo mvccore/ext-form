@@ -128,6 +128,7 @@ implements		\MvcCore\Ext\Forms\IField {
 		if (!$this->name) $this->throwNewInvalidArgumentException(
 			'No `name` property defined.'
 		);
+		/** @var $form \MvcCore\Ext\Form */
 		$this->form = $form;
 		if ($this->id === NULL)
 			$this->id = implode(\MvcCore\Ext\IForm::HTML_IDS_DELIMITER, [

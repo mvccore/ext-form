@@ -199,7 +199,7 @@ trait Props {
 	/**
 	 * Fields (and labels) default templates  
 	 * for natural (not customized) field rendering.
-	 * @var \stdClass
+	 * @var \string[]|\stdClass
 	 */
 	protected static $templates = [
 		'label'				=> '<label for="{id}"{attrs}>{label}</label>',

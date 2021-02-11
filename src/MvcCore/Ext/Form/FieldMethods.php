@@ -42,7 +42,7 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields = []) {
-		/** @var $this \MvcCore\Ext\IForm */
+		/** @var $this \MvcCore\Ext\Form */
 		$this->fields = [];
 		foreach ($fields as $field)
 			$this->AddField($field);
