@@ -17,6 +17,15 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing getter methods for configurable properties.
  */
 trait GetMethods {
+	
+	/**
+	 * @inheritDocs
+	 * @var \MvcCore\Controller
+	 */
+	public function GetController () {
+		/** @var $this \MvcCore\Ext\Form */
+		return $this->controller;
+	}
 
 	/**
 	 * Get form id, required to configure.

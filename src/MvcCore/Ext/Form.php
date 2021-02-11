@@ -63,6 +63,7 @@ implements	\MvcCore\Ext\IForm {
 			);
 		}
 		$controller->AddChildController($this, $this->id);
+		$this->controller = $controller;
 		if (static::$jsSupportFilesRootDir === NULL || static::$cssSupportFilesRootDir === NULL) {
 			$baseAssetsPath = str_replace('\\', '/', __DIR__) . '/Forms/assets';
 			if (static::$jsSupportFilesRootDir === NULL)

@@ -17,6 +17,13 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing all configurable properties.
  */
 trait ConfigProps {
+	
+	/**
+	 * Controller context, where form instance is created. 
+	 * Always the first form constructor argument.
+	 * @var \MvcCore\Controller
+	 */
+	protected $controller;
 
 	/**
 	 * Form id, required to configure.

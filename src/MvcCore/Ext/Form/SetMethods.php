@@ -17,6 +17,18 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing setter methods for configurable properties.
  */
 trait SetMethods {
+	
+	/**
+	 * @inheritDocs
+	 * @param \MvcCore\IController $controller 
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetController (\MvcCore\IController $controller) {
+		/** @var $this \MvcCore\Ext\Form */
+		/** @var $controller \MvcCore\Controller */
+		$this->controller = $controller;
+		return $this;
+	}
 
 	/**
 	 * Set form id, required to configure.
