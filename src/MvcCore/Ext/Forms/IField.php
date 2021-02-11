@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext\Forms;
 
+/**
+ * @method \MvcCore\Ext\Forms\IField SetUniqueValidator(string $callDefinition) Define model form unique column validator callable in syntax like: `form->ValidateSomeField`, `form::ValidateSomeField` or `model::ValidateSomeField`.
+ */
 interface IField {
 
 	/**
@@ -33,6 +36,46 @@ interface IField {
 	const	AUTOFOCUS_DUPLICITY_EXCEPTION = 0,
 			AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW = 1,
 			AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW = -1;
+
+	
+	/**
+	 * Validator instance method context in current form class.
+	 * @var int
+	 */
+	const VALIDATOR_CONTEXT_FORM			= 1;
+	
+	/**
+	 * Validator static method context in current form class.
+	 * @var int
+	 */
+	const VALIDATOR_CONTEXT_FORM_STATIC	= 2;
+	
+	/**
+	 * Validator instance method context in parent controller class of current form.
+	 * @var int
+	 */
+	const VALIDATOR_CONTEXT_CTRL			= 4;
+	
+	/**
+	 * Validator static method context in parent controller class of current form.
+	 * @var int
+	 */
+	const VALIDATOR_CONTEXT_CTRL_STATIC	= 8;
+	
+	/**
+	 * Validator instance method context in current model instance of current model form.
+	 * For this value you need to install extension `mvccore/ext-model-form` and use features for model forms.
+	 * @var int
+	 */
+	const VALIDATOR_CONTEXT_MODEL			= 16;
+	
+	/**
+	 * Validator static method context in current model instance of current model form.
+	 * For this value you need to install extension `mvccore/ext-model-form` and use features for model forms.
+	 * @var int
+	 */
+	const VALIDATOR_CONTEXT_MODEL_STATIC	= 32;
+
 
 	
 	/***************************************************************************
@@ -57,6 +100,7 @@ interface IField {
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate boolean property.
+	 * @internal
 	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
@@ -69,6 +113,7 @@ interface IField {
 	 * Do not use this method even if you don't develop any form field.
 	 * - Set up field render mode if not defined.
 	 * - Translate label text if necessary.
+	 * @internal
 	 * @return void
 	 */
 	public function PreDispatch ();
@@ -77,11 +122,10 @@ interface IField {
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` 
 	 * in submit processing. Do not use this method even if you 
 	 * don't develop form library or any form field.
-	 * 
 	 * Submit field value - process raw request value with all
 	 * configured validators and add errors into form if necessary.
 	 * Then return safe processed value by all from validators or `NULL`.
-	 * 
+	 * @internal
 	 * @param array $rawRequestParams Raw request params from MvcCore 
 	 *								  request object based on raw app 
 	 *								  input, `$_GET` or `$_POST`.
@@ -96,6 +140,7 @@ interface IField {
 	 * implementation to return array with keys to be field specific properties 
 	 * in camel case and values to be field properties values, which validator 
 	 * requires.
+	 * @internal
 	 * @param array $fieldPropsDefaultValidValues
 	 * @return array
 	 */
@@ -124,7 +169,7 @@ interface IField {
 	 * If there is not given any custom `$replacingCallable` param,
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
-	 * 
+	 * @internal
 	 * @param string $errorMsg 
 	 * @param array $errorMsgArgs 
 	 * @param callable $replacingCallable 
@@ -321,6 +366,14 @@ interface IField {
 	public function GetCssSupportingFile ();
 
 	/**
+	 * Get boolean flag about field visible texts and error messages translation.
+	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
+	 * flag in `$field->Init();` method.
+	 * @var bool
+	 */
+	public function GetTranslate ();
+
+	/**
 	 * Get fields (and labels) default templates 
 	 * for natural (not customized) field rendering.
 	 * @return array
@@ -450,6 +503,7 @@ interface IField {
 
 	/**
 	 * Set list of predefined validator classes ending names or validator instances.
+	 * All default or previously defined validator(s) will be replaced with those arguments.
 	 * Validator class must exist in any validators namespace(s) configured by default:
 	 * - `array('\MvcCore\Ext\Forms\Validators\');`
 	 * Or it could exist in any other validators namespaces, configured by method(s):
@@ -482,6 +536,43 @@ interface IField {
 	 */
 	public function AddValidators ($validatorsNamesOrInstances = []);
 
+	/**
+	 * Define method name and context to simply validate field value in some of already created classes.
+	 * Defined method has accept and return the same types as main validator method:
+	 * `\MvcCore\Ext\Forms\Validator::Validate(string|array $rawSubmittedValue): string|array|NULL;`.
+	 * Second argument is context definition, where the method is located, you can use constants:
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL_STATIC`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC`
+	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param int $context Context definition, where the method is located.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function AddValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM);
+	
+	/**
+	 * Define method name and context to simply validate field value in some of already created classes.
+	 * All default or previously defined validator(s) will be replaced with this validation method.
+	 * Defined method has accept and return the same types as main validator method:
+	 * `\MvcCore\Ext\Forms\Validator::Validate(string|array $rawSubmittedValue): string|array|NULL;`.
+	 * Second argument is context definition, where the method is located, you can use constants:
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL_STATIC`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC`
+	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param int $context Context definition, where the method is located.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM);
+	
 	/**
 	 * Remove predefined validator by given class ending name or by given validator instance.
 	 * Validator class must exist in any validators namespace(s) configured by default:
