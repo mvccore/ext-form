@@ -20,8 +20,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Setters {
 
 	/**
-	 * Set form field HTML id attribute, completed from form name and field name.
-	 * This value is completed automatically, but you can customize it.
+	 * @inheritDocs
 	 * @param string $id
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -32,8 +31,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set form field specific name, used to identify submitted value.
-	 * This value is required for all form fields.
+	 * @inheritDocs
 	 * @requires
 	 * @param string $name
 	 * @return \MvcCore\Ext\Forms\Field
@@ -45,9 +43,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set form field type, used in `<input type="...">` attribute value.
-	 * Every typed field has it's own string value, but base field type
-	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
+	 * @inheritDocs
 	 * @param string $type
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -58,8 +54,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set form field value. It could be string or array, in or float, it depends
-	 * on field implementation. Default value is `NULL`.
+	 * @inheritDocs
 	 * @param string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -70,11 +65,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set form field HTML element css classes strings.
-	 * All previously defined css classes will be removed.
-	 * Default value is an empty array to not render HTML `class` attribute.
-	 * You can define css classes as single string, more classes separated
-	 * by space or you can define css classes as array with strings.
+	 * @inheritDocs
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -88,7 +79,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set field title, global HTML attribute, optional.
+	 * @inheritDocs
 	 * @param string|NULL  $title
 	 * @param boolean|NULL $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
@@ -102,11 +93,7 @@ trait Setters {
 	}
 
 	/**
-	 * Add css classes strings for HTML element attribute `class`.
-	 * Given css classes will be added after previously defined css classes.
-	 * Default value is an empty array to not render HTML `class` attribute.
-	 * You can define css classes as single string, more classes separated
-	 * by space or you can define css classes as array with strings.
+	 * @inheritDocs
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -120,18 +107,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set collection with field HTML element
-	 * additional attributes by array keys/values.
-	 * Do not use system attributes as: `id`, `name`,
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable properties
-	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>,
-	 * <button>, <select>, <textarea> ...`
-	 * Default value is an empty array to not
-	 * render any additional attributes.
-	 * All previously defined additional field attributes
-	 * will be replaced by given array.
+	 * @inheritDocs
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -142,17 +118,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set field HTML element additional attribute
-	 * by attribute name and value.
-	 * Do not use system attributes as: `id`, `name`,
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable properties
-	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>,
-	 * <button>, <select>, <textarea> ...`
-	 * Given additional field attribute will be directly
-	 * set into additional attributes array and any
-	 * previous attribute with the same name will be overwritten.
+	 * @inheritDocs
 	 * @param string $name
 	 * @param mixed $value
 	 * @return \MvcCore\Ext\Forms\Field
@@ -164,16 +130,7 @@ trait Setters {
 	}
 
 	/**
-	 * Add (and merge) collection with field HTML element
-	 * additional attributes by array keys/values.
-	 * Do not use system attributes as: `id`, `name`,
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable properties
-	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>,
-	 * <button>, <select>, <textarea> ...`.
-	 * All given additional field attributes
-	 * will be merged with previously defined attributes.
+	 * @inheritDocs
 	 * @param array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -184,17 +141,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set list of predefined validator classes ending names or validator instances.
-	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
-	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every given validator class (ending name) or given validator instance has to
-	 * implement interface `\MvcCore\Ext\Forms\IValidator` or it could be extended
-	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
-	 * Every typed field has it's own predefined validators, but you can define any
-	 * validator you want and replace them.
+	 * @inheritDocs
 	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -205,17 +152,7 @@ trait Setters {
 	}
 
 	/**
-	 * Add list of predefined validator classes ending names or validator instances.
-	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
-	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every given validator class (ending name) or given validator instance has to
-	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended
-	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
-	 * Every typed field has it's own predefined validators, but you can define any
-	 * validator you want and replace them.
+	 * @inheritDocs
 	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -249,6 +186,38 @@ trait Setters {
 		}
 		return $this;
 	}
+
+	/**
+	 * @inheritDocs
+	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param int $context Context definition, where the method is located.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function AddValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM) {
+		$validator = (new \MvcCore\Ext\Forms\Validators\Local)
+			->SetMethod($methodName)
+			->SetContext($context);
+		$this->validators[$methodName] = $validator;
+		$validator->SetField($this);
+		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param int $context Context definition, where the method is located.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM) {
+		$validator = (new \MvcCore\Ext\Forms\Validators\Local)
+			->SetMethod($methodName)
+			->SetContext($context);
+		$this->validators = [];
+		$this->validators[$methodName] = $validator;
+		$validator->SetField($this);
+		return $this;
+	}
+	
 
 	/**
 	 * Remove predefined validator by given class ending name or by given validator instance.
