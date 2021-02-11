@@ -14,7 +14,7 @@
 namespace MvcCore\Ext\Forms\Fields;
 
 /**
- * Responsibility: always proces defined validators, also for NULL value inside params.
+ * Responsibility: always process defined validators, also for NULL value inside params.
  * Interface for classes:
  * - `\MvcCore\Ext\Forms\Fields\File`
  */
