@@ -20,8 +20,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Getters {
 
 	/**
-	 * Get form field HTML id attribute, completed from form name and field name.
-	 * This value is completed automatically, but you can customize it.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetId () {
@@ -30,8 +29,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get form field specific name, used to identify submitted value.
-	 * This value is required for all form fields.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetName () {
@@ -40,9 +38,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get form field type, used in `<input type="...">` attribute value.
-	 * Every typed field has it's own string value, but base field type 
-	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetType () {
@@ -61,8 +57,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get form field HTML element css classes strings as array.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * @inheritDocs
 	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
@@ -71,7 +66,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get field title, global HTML attribute, optional.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetTitle () {
@@ -80,16 +75,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get collection with field HTML element 
-	 * additional attributes by array keys/values.
-	 * There are no system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable 
-	 * properties with it's own getters.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`
-	 * Default value is an empty array to not 
-	 * render any additional attributes.
+	 * @inheritDocs
 	 * @return array
 	 */
 	public function & GetControlAttrs () {
@@ -98,15 +84,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get field HTML element additional attribute 
-	 * by attribute name and value.
-	 * There are no system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable 
-	 * properties with it's own getters.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`
-	 * If attribute doesn't exist, `NULL` is returned.
+	 * @inheritDocs
 	 * @param string $name
 	 * @return mixed
 	 */
@@ -118,17 +96,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get list of predefined validator classes ending names or validator instances.
-	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
-	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every validator class (ending name) or validator instance has to 
-	 * implement interface `\MvcCore\Ext\Forms\IValidator` or it could be extended 
-	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
-	 * Every typed field has it's own predefined validators, but you can define any
-	 * validator you want and replace them.
+	 * @inheritDocs
 	 * @return \string[]|\MvcCore\Ext\Forms\Validator[]
 	 */
 	public function & GetValidators () {
@@ -137,8 +105,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get `TRUE`, if field has configured in it's validators array
-	 * given validator class ending name or validator instance.
+	 * @inheritDocs
 	 * @param string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
 	 * @return bool
 	 */
@@ -162,33 +129,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get boolean `TRUE` or string with template relative path 
-	 * without `.phtml` or `.php` extension to render 
-	 * field by any custom template. 
-	 * 
-	 * If `TRUE`, path to template is always completed by configured 
-	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);`
-	 * value, which is `/App/Views/Forms/Fields` by default.
-	 * 
-	 * If returned any string with relative path, path is always relative from configured
-	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);` value, which is again 
-	 * `/App/Views/Forms/Fields` by default.
-	 * 
-	 * `FALSE` or `NULL` (`NULL` is default) is returned to render field naturally.
-	 * 
-	 * Example:
-	 * ```
-	 * // Render field template prepared in:
-	 * // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
-	 * 
-	 * \MvcCore\Ext\Forms\View::GetFieldsDir(); // returned by default: 'Forms/Fields'
-	 * $field->GetViewScript(); // returned 'my-specials/my-field-type'
-	 * 
-	 * // Or the same by:
-	 * \MvcCore\Ext\Forms\View::GetFieldsDir(); // returned 'Forms/Fields/my-specials'
-	 * $field->GetType(); // returned 'my-field-type'
-	 * $field->GetViewScript(); // returned TRUE
-	 * ```
+	 * @inheritDocs
 	 * @return bool|string|NULL
 	 */
 	public function GetViewScript () {
@@ -197,18 +138,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get supporting javascript full javascript class name.
-	 * If you want to use any custom supporting javascript prototyped class
-	 * for any additional purposes for your custom field, you need to use
-	 * `$field->SetJsSupportingFile(...)` to define path to your javascript file
-	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
-	 * value. Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediately after form
-	 * (once) or by any external custom assets renderer configured by:
-	 * `$form->SetJsSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting javascript files into response by your 
-	 * own and also you can run your helper javascripts also by your own. Is up to you.
-	 * `NULL` by default.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetJsClassName () {
@@ -217,18 +147,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get field supporting javascript file relative path.
-	 * If you want to use any custom supporting javascript file (with prototyped 
-	 * class) for any additional purposes for your custom field, you need to 
-	 * define path to your javascript file relatively from configured 
-	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value. 
-	 * Than you have to add supporting javascript file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediately after form
-	 * (once) or by any external custom assets renderer configured by:
-	 * `$form->SetJsSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting javascript files into response by your 
-	 * own and also you can run your helper javascripts also by your own. Is up to you.
-	 * `NULL` by default.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetJsSupportingFile () {
@@ -237,18 +156,7 @@ trait Getters {
 	}
 
 	/**
-	 * Get field supporting css file relative path.
-	 * If you want to use any custom supporting css file 
-	 * for any additional purposes for your custom field, you need to 
-	 * define path to your css file relatively from configured 
-	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value. 
-	 * Than you have to add supporting css file path into field form 
-	 * in `$field->PreDispatch();` method to render those files immediately after form
-	 * (once) or by any external custom assets renderer configured by:
-	 * `$form->SetCssSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting css files into response by your 
-	 * own and also you can run your helper css also by your own. Is up to you.
-	 * `NULL` by default.
+	 * @inheritDocs
 	 * @return string|NULL
 	 */
 	public function GetCssSupportingFile () {
@@ -257,19 +165,16 @@ trait Getters {
 	}
 
 	/**
-	 * Get boolean flag about field visible texts and error messages translation.
-	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
-	 * flag in `$field->Init();` method.
+	 * @inheritDocs
 	 * @var bool
 	 */
 	public function GetTranslate () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->translate;
 	}
-
+	
 	/**
-	 * Get fields (and labels) default templates 
-	 * for natural (not customized) field rendering.
+	 * @inheritDocs
 	 * @return array
 	 */
 	public static function & GetTemplates () {
