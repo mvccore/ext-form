@@ -66,6 +66,13 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/***************************************************************************
 	 *                            GetMethods Form trait                        *
 	 **************************************************************************/
+	
+	/**
+	 * Get controller context, where form instance is created. 
+	 * Always the first form constructor argument.
+	 * @var \MvcCore\Controller
+	 */
+	public function GetController ();
 
 	/**
 	 * Get form id, required to configure.
@@ -500,6 +507,14 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/***************************************************************************
 	 *                            SetMethods Form trait                        *
 	 **************************************************************************/
+
+	/**
+	 * Set controller context, where form instance is created. 
+	 * Always the first form constructor argument.
+	 * @param \MvcCore\IController $controller 
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetController (\MvcCore\IController $controller);
 
 	/**
 	 * Set form id, required to configure.
