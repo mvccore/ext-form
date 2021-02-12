@@ -457,7 +457,7 @@ trait GetMethods {
 	/**
 	 * Get form custom template full class name to create custom view object.
 	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
-	 * @return string|NULL
+	 * @return string|\MvcCore\Ext\Forms\View
 	 */
 	public function GetViewClass () {
 		/** @var $this \MvcCore\Ext\Form */
