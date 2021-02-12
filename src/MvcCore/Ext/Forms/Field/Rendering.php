@@ -212,7 +212,7 @@ trait Rendering {
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into
 	 * dashed-case.
-	 * @param string[] $fieldVars
+	 * @param  \string[] $fieldVars
 	 * @return string
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
@@ -231,7 +231,7 @@ trait Rendering {
 	 * in boolean mode. All named field context properties translate
 	 * into attributes names and css classes strings from PascalCase into
 	 * dashed-case.
-	 * @param string[] $fieldVars
+	 * @param  \string[] $fieldVars
 	 * @return string
 	 */
 	protected function renderControlAttrsWithFieldVars ($fieldVars = []) {
@@ -252,10 +252,10 @@ trait Rendering {
 	 * dashed-case.
 	 * Only if fourth param is false, do not add system attributes in boolean
 	 * mode into attributes, only into css class.
-	 * @param \string[] $fieldVars
-	 * @param array     $fieldAttrs
-	 * @param array     $cssClasses
-	 * @param bool      $controlRendering `TRUE` value means control rendering, `FALSE` means label rendering.
+	 * @param  \string[] $fieldVars
+	 * @param  array     $fieldAttrs
+	 * @param  array     $cssClasses
+	 * @param  bool      $controlRendering `TRUE` value means control rendering, `FALSE` means label rendering.
 	 * @return string
 	 */
 	protected function renderAttrsWithFieldVars (

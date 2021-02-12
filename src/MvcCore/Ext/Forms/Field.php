@@ -75,8 +75,8 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * Throws exception if no property defined by get call or if virtual call
 	 * begins with anything different from `Set` or `Get`.
 	 * This method returns custom value for get and `\MvcCore\Request` instance for set.
-	 * @param string $name
-	 * @param array  $arguments
+	 * @param  string $name
+	 * @param  array  $arguments
 	 * @throws \InvalidArgumentException
 	 * @return mixed|\MvcCore\Ext\Forms\Field
 	 */
@@ -99,7 +99,7 @@ implements		\MvcCore\Ext\Forms\IField {
 
 	/**
 	 * Universal getter, if property not defined - `NULL` is returned.
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 */
 	public function __get ($name) {
@@ -108,8 +108,8 @@ implements		\MvcCore\Ext\Forms\IField {
 
 	/**
 	 * Universal setter, if property not defined - it's automatically declared.
-	 * @param string $name
-	 * @param mixed  $value
+	 * @param  string $name
+	 * @param  mixed  $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function __set ($name, $value) {
@@ -121,7 +121,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @inheritDocs
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Form $form
+	 * @param  \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -229,7 +229,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	/**
 	 * @inheritDocs
 	 * @internal
-	 * @param array $fieldPropsDefaultValidValues
+	 * @param  array $fieldPropsDefaultValidValues
 	 * @return array
 	 */
 	public function & GetValidatorData ($fieldPropsDefaultValidValues = []) {
@@ -243,9 +243,9 @@ implements		\MvcCore\Ext\Forms\IField {
 	/**
 	 * @inheritDocs
 	 * @internal
-	 * @param string $errorMsg
-	 * @param array $errorMsgArgs
-	 * @param callable $replacingCallable
+	 * @param  string   $errorMsg
+	 * @param  array    $errorMsgArgs
+	 * @param  callable $replacingCallable
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidationError (
@@ -280,9 +280,9 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
 	 *
-	 * @param string   $errorMsg
-	 * @param array    $errorMsgArgs
-	 * @param callable $replacingCallable
+	 * @param  string   $errorMsg
+	 * @param  array    $errorMsgArgs
+	 * @param  callable $replacingCallable
 	 * @return string
 	 */
 	protected function translateAndFormatValidationError (
@@ -319,7 +319,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * Throw new `\InvalidArgumentException` with given
 	 * error message and append automatically current class name,
 	 * current form id, form class type and current field class type.
-	 * @param string $errorMsg
+	 * @param  string $errorMsg
 	 * @throws \InvalidArgumentException
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {

@@ -76,7 +76,7 @@ trait Multiple {
 	 * list box instead of a single line drop down.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
-	 * @param bool $multiple 
+	 * @param  bool $multiple 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetMultiple ($multiple = TRUE) {

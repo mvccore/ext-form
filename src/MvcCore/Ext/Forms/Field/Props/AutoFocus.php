@@ -86,8 +86,8 @@ trait AutoFocus {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus
-	 * @param bool|NULL $autoFocus 
-	 * @param int $duplicateBehaviour
+	 * @param  bool|NULL $autoFocus 
+	 * @param  int $duplicateBehaviour
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {

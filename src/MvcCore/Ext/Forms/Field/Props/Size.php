@@ -70,7 +70,7 @@ trait Size {
 	 * as a scrolled list box. The default browser`s value is `0`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-size
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-size
-	 * @param int|NULL $size 
+	 * @param  int|NULL $size 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetSize ($size) {

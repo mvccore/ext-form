@@ -42,7 +42,7 @@ trait GroupLabelAttrs {
 	 * Set any additional attributes for group label, defined
 	 * as key (for attribute name) and value (for attribute value).
 	 * Any previously defined attributes will be replaced.
-	 * @param array $groupLabelAttrs
+	 * @param  array $groupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetGroupLabelAttrs ($groupLabelAttrs = []) {
@@ -56,7 +56,7 @@ trait GroupLabelAttrs {
 	 * as key (for attribute name) and value (for attribute value).
 	 * All additional attributes will be completed as array merge
 	 * with previous values and new values.
-	 * @param array $groupLabelAttrs
+	 * @param  array $groupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddGroupLabelAttr ($groupLabelAttrs = []) {

@@ -51,7 +51,7 @@ trait Wrapper {
 	 * Set html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * @param string $wrapper Default wrapper values is: `{control}`.
+	 * @param  string $wrapper Default wrapper values is: `{control}`.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetWrapper ($wrapper) {
@@ -65,7 +65,7 @@ trait Wrapper {
 	 * any configured content, if wrapper property contains 
 	 * substring for wrapping: `{control}`.
 	 * Return rendered and wrapper HTML code.
-	 * @param string $renderedCode 
+	 * @param  string $renderedCode 
 	 * @return string
 	 */
 	protected function renderControlWrapper ($renderedCode) {

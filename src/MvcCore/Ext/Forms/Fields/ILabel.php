@@ -59,8 +59,8 @@ interface ILabel {
 	 * If field form has configured any translator,
 	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
-	 * @param string|NULL  $label
-	 * @param boolean|NULL $translateLabel
+	 * @param  string|NULL  $label
+	 * @param  boolean|NULL $translateLabel
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabel ($label, $translateLabel = NULL);
@@ -85,7 +85,7 @@ interface ILabel {
 	 * You can use constants:
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
-	 * @param string $labelSide
+	 * @param  string $labelSide
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT);
@@ -112,7 +112,7 @@ interface ILabel {
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL` - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
-	 * @param string $renderMode
+	 * @param  string $renderMode
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND);
@@ -139,7 +139,7 @@ interface ILabel {
 	 * with it's own getters. Label `class` attribute 
 	 * has always the same css classes as it's field automatically. 
 	 * If attribute doesn't exist, `NULL` is returned.
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 */
 	public function GetLabelAttr ($name = 'data-*');
@@ -156,7 +156,7 @@ interface ILabel {
 	 * array to not render any additional attributes.
 	 * All previously defined additional label attributes 
 	 * will be replaced by given array.
-	 * @param array $attrs
+	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelAttrs (array $attrs = []);
@@ -172,8 +172,8 @@ interface ILabel {
 	 * Given additional label attribute will be directly
 	 * set into additional attributes array and any 
 	 * previous attribute with the same name will be overwritten.
-	 * @param string $name
-	 * @param mixed $value
+	 * @param  string $name
+	 * @param  mixed  $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelAttr ($name, $value);
@@ -189,7 +189,7 @@ interface ILabel {
 	 * it's field automatically. 
 	 * All given additional label attributes 
 	 * will be merged with previously defined attributes.
-	 * @param array $attrs
+	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddLabelAttrs (array $attrs = []);

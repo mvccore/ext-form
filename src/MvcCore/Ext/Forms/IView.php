@@ -29,7 +29,7 @@ interface IView {
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms"`, so scripts app path
 	 * is `"/App/Views/Forms"`.
-	 * @param string $formsDir
+	 * @param  string $formsDir
 	 * @return string
 	 */
 	public static function SetFormsDir ($formsDir = 'Forms');
@@ -48,7 +48,7 @@ interface IView {
 	 * inside `"/App/Views"` directory.
 	 * Default value is `"Forms/Fields"`, so
 	 * scripts app path is `"/App/Views/Forms/Fields"`.
-	 * @param string $fieldsDir
+	 * @param  string $fieldsDir
 	 * @return string
 	 */
 	public static function SetFieldsDir ($fieldsDir = 'Forms/Fields');
@@ -61,7 +61,7 @@ interface IView {
 
 	/**
 	 * Set controller and it's view instance.
-	 * @param \MvcCore\View $view
+	 * @param  \MvcCore\View $view
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetView (\MvcCore\IView $view);
@@ -74,7 +74,7 @@ interface IView {
 
 	/**
 	 * Set form instance to render.
-	 * @param \MvcCore\Ext\Form $form
+	 * @param  \MvcCore\Ext\Form $form
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form);
@@ -87,7 +87,7 @@ interface IView {
 
 	/**
 	 * Set rendered field.
-	 * @param \MvcCore\Ext\Forms\Field $field
+	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field);
@@ -100,7 +100,7 @@ interface IView {
 	 * into store by form reflection class from form instance property and if
 	 * still no value found, try to get result value from local view instance
 	 * `__get()` method.
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 */
 	public function __get ($name);
@@ -113,7 +113,7 @@ interface IView {
 	 * into store by form reflection class from form instance property and if
 	 * still no value found, try to get result value from local view instance
 	 * `__get()` method.
-	 * @param string $name
+	 * @param  string $name
 	 * @return bool
 	 */
 	public function __isset ($name);
@@ -122,8 +122,8 @@ interface IView {
 	 * Call public field method if exists in field instance and view is used for
 	 * field rendering or call public form method if exists in form instance or
 	 * try to call view helper by parent `__call()` method.
-	 * @param string $method
-	 * @param mixed  $arguments
+	 * @param  string $method
+	 * @param  mixed  $arguments
 	 * @return mixed
 	 */
 	public function __call ($method, $arguments);
@@ -202,7 +202,7 @@ interface IView {
 
 	/**
 	 * Render content of html tag attributes by key/value array.
-	 * @param array $attributes
+	 * @param  array $attributes
 	 * @return string
 	 */
 	public static function RenderAttrs (array $attributes = []);

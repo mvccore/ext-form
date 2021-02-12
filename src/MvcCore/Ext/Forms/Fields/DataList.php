@@ -40,7 +40,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 
 	/**
 	 * No templates needed.
-	 * @var array
+	 * @var \string[]|\stdClass
 	 */
 	protected static $templates = [];
 
@@ -68,7 +68,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	
 	/**
 	 * Set `TRUE` to translate given options or not.
-	 * @param bool $translateOptions
+	 * @param  bool $translateOptions
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
@@ -84,7 +84,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Set up translate options boolean property.
-	 * @param \MvcCore\Ext\Form $form
+	 * @param  \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\Field
 	 */

@@ -105,7 +105,7 @@ trait Options {
 
 	/**
 	 * @inheritDocs
-	 * @param array $options
+	 * @param  array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptions (array $options = []) {
@@ -116,7 +116,7 @@ trait Options {
 
 	/**
 	 * @inheritDocs
-	 * @param array $options
+	 * @param  array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddOptions (array $options = []) {
@@ -136,8 +136,8 @@ trait Options {
 
 	/**
 	 * @inheritDocs
-	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param int $context Context where method is located.
+	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param  int    $context    Context where method is located.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM) {
@@ -158,7 +158,7 @@ trait Options {
 
 	/**
 	 * @inheritDocs
-	 * @param bool $translateOptions 
+	 * @param  bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
@@ -178,7 +178,7 @@ trait Options {
 
 	/**
 	 * @inheritDocs
-	 * @param array|NULL $fieldOptions
+	 * @param  array|NULL $fieldOptions
 	 * @return array
 	 */
 	public function & GetFlattenOptions (array $fieldOptions = NULL) {
@@ -232,7 +232,7 @@ trait Options {
 
 	/**
 	 * Check options loader configuration and call it if necessary.
-	 * @param array $cfg 
+	 * @param  array $cfg 
 	 * @throws \InvalidArgumentException 
 	 * @return void
 	 */

@@ -93,7 +93,7 @@ trait ReadOnly {
 	 * required is true and if there is invalid submitted value, there is no required 
 	 * error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
-	 * @param bool|NULL $readonly
+	 * @param  bool|NULL $readonly
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetReadOnly ($readOnly = TRUE) {

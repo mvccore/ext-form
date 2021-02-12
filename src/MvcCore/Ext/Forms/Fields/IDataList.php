@@ -46,7 +46,7 @@ interface IDataList {
 	 * Set element `list` attribute value - the `<list>` 
 	 * element `id` attribute value or `DataList` object instance.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
-	 * @param string|\MvcCore\Ext\Forms\Field $dataListIdOrInstance
+	 * @param  string|\MvcCore\Ext\Forms\Field $dataListIdOrInstance
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetList ($dataListIdOrInstance);

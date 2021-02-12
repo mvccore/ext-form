@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.0.3';
+	const VERSION = '5.1.2';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -47,7 +47,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Please don't forget to configure at least $form->Id, $form->Action,
 	 * any control to work with and finally any button:submit/input:submit
 	 * to submit the form to any URL defined in $form->Action.
-	 * @param \MvcCore\Controller|NULL $controller
+	 * @param  \MvcCore\Controller|NULL $controller
 	 * @return void
 	 */
 	public function __construct (\MvcCore\IController $controller = NULL) {
@@ -81,7 +81,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Throw new `\InvalidArgumentException` with given
 	 * error message and append automatically current class name,
 	 * current form id and form class type.
-	 * @param string $errorMsg 
+	 * @param  string $errorMsg 
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
@@ -94,7 +94,7 @@ implements	\MvcCore\Ext\IForm {
 
 	/**
 	 * @inheritDocs
-	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
+	 * @param  bool $submit      `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ implements	\MvcCore\Ext\IForm {
 
 	/**
 	 * @inheritDocs
-	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
+	 * @param  bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @return void
 	 */
 	public function PreDispatch ($submit = FALSE) {
@@ -159,7 +159,7 @@ implements	\MvcCore\Ext\IForm {
 	/**
 	 * Initialize form errors from session for all fields in `PreDispatch()`
 	 * lifecycle moment or earlier from method `GetValues()`.
-	 * @param \MvcCore\Session $session 
+	 * @param  \MvcCore\Session $session 
 	 * @return void
 	 */
 	protected function preDispatchLoadErrors (\MvcCore\ISession $session) {
@@ -176,7 +176,7 @@ implements	\MvcCore\Ext\IForm {
 	/**
 	 * Initialize values from session for all fields in `PreDispatch()`
 	 * lifecycle moment or earlier from method `GetValues()`.
-	 * @param \MvcCore\Session $session 
+	 * @param  \MvcCore\Session $session 
 	 * @return void
 	 */
 	protected function preDispatchLoadValues (\MvcCore\ISession $session) {
@@ -203,10 +203,10 @@ implements	\MvcCore\Ext\IForm {
 
 	/**
 	 * @inheritDocs
-	 * @param string $key          A key to translate.
-	 * @param array  $replacements An array of replacements to process in translated result.
-	 * @throws \Exception          An exception if translations store is not successful.
-	 * @return string              Translated key or key itself if there is no key in translations store.
+	 * @param  string $key          A key to translate.
+	 * @param  array  $replacements An array of replacements to process in translated result.
+	 * @throws \Exception           An exception if translations store is not successful.
+	 * @return string               Translated key or key itself if there is no key in translations store.
 	 */
 	public function Translate ($key, $replacements = []) {
 		return call_user_func_array($this->translator, func_get_args());

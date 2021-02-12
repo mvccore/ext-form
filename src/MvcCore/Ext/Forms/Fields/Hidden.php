@@ -37,7 +37,7 @@ extends	\MvcCore\Ext\Forms\Field {
 	 * - `SafeString` - remove from submitted value base ASCII characters from 0 to 31 included 
 	 *                  (first column) and escape special characters: `& " ' < > | = \ %`.
 	 *                  This validator is not prevent SQL inject attacks!
-	 * @var string[]|\Closure[]
+	 * @var \string[]|\Closure[]
 	 */
 	protected $validators = ['SafeString'];
 

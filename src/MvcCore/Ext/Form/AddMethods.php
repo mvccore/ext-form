@@ -22,7 +22,7 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $charset 
+	 * @param  string $charset 
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddAcceptCharset ($charset) {
@@ -33,7 +33,7 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssClasses ($cssClasses) {
@@ -47,8 +47,8 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
-	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
+	 * @param  string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
+	 * @param  string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {
@@ -84,9 +84,9 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $jsRelativePath    Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
-	 * @param string $jsClassName       Supporting javascript full class name inside supporting file.
-	 * @param array  $constructorParams Supporting javascript constructor params.
+	 * @param  string $jsRelativePath    Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
+	 * @param  string $jsClassName       Supporting javascript full class name inside supporting file.
+	 * @param  array  $constructorParams Supporting javascript constructor params.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddJsSupportFile (
@@ -101,7 +101,7 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
+	 * @param  string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssSupportFile (
@@ -114,8 +114,8 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param callable $handler
-	 * @param int|NULL $priorityIndex
+	 * @param  callable $handler
+	 * @param  int|NULL $priorityIndex
 	 * @return int New CSRF error handlers count.
 	 */
 	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL) {
@@ -143,7 +143,7 @@ trait AddMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param \string[] $validatorsNamespaces,...
+	 * @param  \string[] $validatorsNamespaces,...
 	 * @return int New validators namespaces count.
 	 */
 	public static function AddValidatorsNamespaces ($validatorsNamespaces) {

@@ -20,7 +20,7 @@ trait Submitting {
 
 	/**
 	 * @inheritDocs
-	 * @param array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
+	 * @param  array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
@@ -47,7 +47,7 @@ trait Submitting {
 
 	/**
 	 * @inheritDocs
-	 * @param array $rawRequestParams
+	 * @param  array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitSetStartResultState (array & $rawRequestParams = []) {
@@ -105,7 +105,7 @@ trait Submitting {
 
 	/**
 	 * @inheritDocs
-	 * @param array $rawRequestParams
+	 * @param  array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []) {
@@ -167,7 +167,7 @@ trait Submitting {
 
 	/**
 	 * @inheritDocs
-	 * @param string $validatorName
+	 * @param  string $validatorName
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function GetValidator ($validatorName) {
@@ -201,7 +201,7 @@ trait Submitting {
 
 	/**
 	 * @inheritDocs
-	 * @param int $index
+	 * @param  int $index
 	 * @return string
 	 */
 	public function GetDefaultErrorMsg ($index) {
@@ -215,7 +215,7 @@ trait Submitting {
 	 * and collect translation statistics from this process. Then decode
 	 * best translation charset and return by given param `$rawRequestParams`
 	 * new translated raw values by first best charset in `accept-charset` attribute.
-	 * @param array & $rawRequestParams
+	 * @param  array $rawRequestParams
 	 * @return array
 	 */
 	protected function & submitAllFieldsEncodeAcceptCharsets (array & $rawRequestParams = []) {
@@ -265,9 +265,9 @@ trait Submitting {
 	 *  - `0` - H ow many items has been transcoded without error.
 	 *  - `1` - How many items has been transcoded.
 	 *  - `2` - Transcoded raw input string by `iconv()`.
-	 * @param string|\string[] $rawValue
-	 * @param string $fromEncoding
-	 * @param string $toEncoding
+	 * @param  string|\string[] $rawValue
+	 * @param  string           $fromEncoding
+	 * @param  string           $toEncoding
 	 * @return array
 	 */
 	protected function encodeAcceptCharsetsArrayOrString (& $rawValue, $fromEncoding, $toEncoding) {
@@ -309,9 +309,9 @@ trait Submitting {
 	 *  - `0` - How many items has been transcoded without error.
 	 *  - `1` - How many items has been transcoded.
 	 *  - `2` - Transcoded raw input string by `iconv()`.
-	 * @param string|\string[] $rawValue
-	 * @param string $fromEncoding
-	 * @param string $toEncoding
+	 * @param  string|\string[] $rawValue
+	 * @param  string           $fromEncoding
+	 * @param  string           $toEncoding
 	 * @return array
 	 */
 	protected function encodeAcceptCharsetsString (& $rawValue, $fromEncoding, $toEncoding) {

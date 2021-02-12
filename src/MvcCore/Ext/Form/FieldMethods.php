@@ -30,7 +30,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields = []) {
@@ -43,7 +43,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddFields ($fields) {
@@ -57,7 +57,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param \MvcCore\Ext\Forms\Field $field
+	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field) {
@@ -80,7 +80,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
+	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
 	public function HasField ($fieldOrFieldName = NULL) {
@@ -95,7 +95,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
+	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName = NULL) {
@@ -115,7 +115,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $fieldName
+	 * @param  string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetField ($fieldName = '') {
@@ -127,7 +127,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $fieldType
+	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
 	public function GetFieldsByType ($fieldType = '') {
@@ -141,7 +141,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $fieldType
+	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetFirstFieldByType ($fieldType = '') {
@@ -156,8 +156,8 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $fieldClassName  Full php class name or full interface name.
-	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
+	 * @param  string $fieldClassName  Full php class name or full interface name.
+	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
 	public function GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {
@@ -175,8 +175,8 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $fieldClassName  Full php class name or full interface name.
-	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
+	 * @param  string $fieldClassName  Full php class name or full interface name.
+	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetFirstFieldByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE) {

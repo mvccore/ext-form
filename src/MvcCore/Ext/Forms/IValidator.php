@@ -27,7 +27,7 @@ interface IValidator {
 	 * Return predefined validator custom error message strings (not translated) 
 	 * with replacements for field names and more specific info 
 	 * to tell the user what happened or what to do more.
-	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
+	 * @param  int $errorMsgIndex Integer index for `static::$errorMessages` array.
 	 * @return string
 	 */
 	public static function GetErrorMessage ($errorMsgIndex);
@@ -36,7 +36,7 @@ interface IValidator {
 	 * Set up form instance, where is validator created during submit.
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Form $form 
+	 * @param  \MvcCore\Ext\Form $form 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form);
@@ -48,7 +48,7 @@ interface IValidator {
 	 * added into already created field instance to process any field checking.
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Forms\Field $field 
+	 * @param  \MvcCore\Ext\Forms\Field $field 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field);
@@ -59,7 +59,7 @@ interface IValidator {
 	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
 	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
 	 * is not possible to return safe valid value.
-	 * @param string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
+	 * @param  string|array      $rawSubmittedValue Raw submitted value, string or array of strings.
 	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue);

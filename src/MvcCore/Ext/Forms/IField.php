@@ -39,7 +39,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * - Set up translate boolean property.
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Form $form
+	 * @param  \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -81,7 +81,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * in camel case and values to be field properties values, which validator 
 	 * requires.
 	 * @internal
-	 * @param array $fieldPropsDefaultValidValues
+	 * @param  array $fieldPropsDefaultValidValues
 	 * @return array
 	 */
 	public function & GetValidatorData ($fieldPropsDefaultValidValues = []);
@@ -110,9 +110,9 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
 	 * @internal
-	 * @param string $errorMsg 
-	 * @param array $errorMsgArgs 
-	 * @param callable $replacingCallable 
+	 * @param  string   $errorMsg 
+	 * @param  array    $errorMsgArgs 
+	 * @param  callable $replacingCallable 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidationError (
@@ -193,7 +193,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * HTML field elements are meant: `<input>, 
 	 * <button>, <select>, <textarea> ...`
 	 * If attribute doesn't exist, `NULL` is returned.
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 */
 	public function GetControlAttr ($name = 'data-*');
@@ -217,7 +217,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Get `TRUE`, if field has configured in it's validators array
 	 * given validator class ending name or validator instance.
-	 * @param string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
+	 * @param  string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
 	 * @return bool
 	 */
 	public function HasValidator ($validatorNameOrInstance);
@@ -328,7 +328,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Set form field HTML id attribute, completed from form name and field name.
 	 * This value is completed automatically, but you can customize it.
-	 * @param string $id
+	 * @param  string $id
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetId ($id = NULL);
@@ -337,7 +337,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Set form field specific name, used to identify submitted value.
 	 * This value is required for all form fields.
 	 * @requires
-	 * @param string $name
+	 * @param  string $name
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetName ($name = NULL);
@@ -346,7 +346,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Set form field type, used in `<input type="...">` attribute value.
 	 * Every typed field has it's own string value, but base field type 
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
-	 * @param string $type
+	 * @param  string $type
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetType ($type = NULL);
@@ -354,7 +354,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Set form field value. It could be string or array, in or float, it depends
 	 * on field implementation. Default value is `NULL`.
-	 * @param string|array|int|float|NULL $value
+	 * @param  string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValue ($value);
@@ -365,15 +365,15 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssClasses ($cssClasses);
 	
 	/**
 	 * Set field title, global HTML attribute, optional.
-	 * @param string|NULL  $title
-	 * @param boolean|NULL $translateTitle
+	 * @param  string|NULL  $title
+	 * @param  boolean|NULL $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL);
@@ -384,7 +384,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddCssClasses ($cssClasses);
@@ -402,7 +402,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * render any additional attributes.
 	 * All previously defined additional field attributes 
 	 * will be replaced by given array.
-	 * @param array $attrs
+	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttrs (array $attrs = []);
@@ -419,8 +419,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Given additional field attribute will be directly
 	 * set into additional attributes array and any 
 	 * previous attribute with the same name will be overwritten.
-	 * @param string $name
-	 * @param mixed $value
+	 * @param  string $name
+	 * @param  mixed  $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttr ($name, $value);
@@ -436,7 +436,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * <button>, <select>, <textarea> ...`.
 	 * All given additional field attributes 
 	 * will be merged with previously defined attributes.
-	 * @param array $attrs
+	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddControlAttrs (array $attrs = []);
@@ -454,7 +454,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
+	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValidators (array $validatorsNamesOrInstances = []);
@@ -471,7 +471,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
+	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidators ($validatorsNamesOrInstances = []);
@@ -488,8 +488,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL`
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC`
 	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param int $context Context definition, where the method is located.
+	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param  int    $context    Context definition, where the method is located.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM);
@@ -507,8 +507,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL`
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC`
 	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param int $context Context definition, where the method is located.
+	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param  int    $context    Context definition, where the method is located.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM);
@@ -525,7 +525,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
 	 * Every typed field has it's own predefined validators, but you can define any
 	 * validator you want and replace them.
-	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
+	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function RemoveValidator ($validatorNameOrInstance);
@@ -557,7 +557,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 *   \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
 	 *   $field->SetType('my-field-type');
 	 * ```
-	 * @param bool|string|NULL $boolOrViewScriptPath
+	 * @param  bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL);
@@ -575,7 +575,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Or you can add your custom supporting javascript files into response by your 
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @param string $jsClass
+	 * @param  string $jsClass
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsClassName ($jsClassName);
@@ -593,7 +593,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Or you can add your custom supporting javascript files into response by your 
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @param string $jsFullFile
+	 * @param  string $jsFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsSupportingFile ($jsSupportingFilePath);
@@ -611,7 +611,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Or you can add your custom supporting css files into response by your 
 	 * own and also you can run your helper css also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @param string $cssFullFile
+	 * @param  string $cssFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssSupportingFile ($cssSupportingFilePath);
@@ -620,7 +620,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Set boolean flag about field visible texts and error messages translation.
 	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
 	 * flag in `$field->Init();` method.
-	 * @param bool $translate
+	 * @param  bool $translate
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslate ($translate);
@@ -631,7 +631,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * into session. It's always called internally from `\MvcCore\Ext\Form`
 	 * in render preparing process. To add form error properly, 
 	 * use `$field->form->AddError($errorMsg, $fieldNames);` method instead.
-	 * @param string $errorMsg
+	 * @param  string $errorMsg
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddError ($errorMsg);
@@ -639,8 +639,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Set field (or label) default template for natural
 	 * (not customized with `*.phtml` view) field rendering.
-	 * @param string $templateName Template name in array `static::$templates`.
-	 * @param string $templateCode Template HTML code with prepared replacements.
+	 * @param  string $templateName Template name in array `static::$templates`.
+	 * @param  string $templateCode Template HTML code with prepared replacements.
 	 * @return string Newly configured template value.
 	 */
 	public static function SetTemplate ($templateName = 'control',  $templateCode = '');
@@ -648,7 +648,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Set fields (and labels) default templates for natural
 	 * (not customized with `*.phtml` view) field rendering.
-	 * @param array|\stdClass $templates 
+	 * @param  array|\stdClass $templates 
 	 * @return array
 	 */
 	public static function SetTemplates ($templates = []);

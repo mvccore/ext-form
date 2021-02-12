@@ -21,7 +21,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $id
+	 * @param  string $id
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetId ($id = NULL) {
@@ -33,7 +33,7 @@ trait Setters {
 	/**
 	 * @inheritDocs
 	 * @requires
-	 * @param string $name
+	 * @param  string $name
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetName ($name = NULL) {
@@ -44,7 +44,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $type
+	 * @param  string $type
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetType ($type = NULL) {
@@ -55,7 +55,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string|array|int|float|NULL $value
+	 * @param  string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValue ($value) {
@@ -66,7 +66,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssClasses ($cssClasses) {
@@ -80,8 +80,8 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string|NULL  $title
-	 * @param boolean|NULL $translateTitle
+	 * @param  string|NULL  $title
+	 * @param  boolean|NULL $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
@@ -94,7 +94,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddCssClasses ($cssClasses) {
@@ -108,7 +108,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param array $attrs
+	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttrs (array $attrs = []) {
@@ -119,8 +119,8 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $name
-	 * @param mixed $value
+	 * @param  string $name
+	 * @param  mixed  $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttr ($name, $value) {
@@ -131,7 +131,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param array $attrs
+	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddControlAttrs (array $attrs = []) {
@@ -142,7 +142,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
+	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValidators (array $validatorsNamesOrInstances = []) {
@@ -153,7 +153,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
+	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidators ($validatorsNamesOrInstances = []) {
@@ -189,8 +189,8 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param int $context Context definition, where the method is located.
+	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param  int    $context    Context definition, where the method is located.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM) {
@@ -204,8 +204,8 @@ trait Setters {
 	
 	/**
 	 * @inheritDocs
-	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param int $context Context definition, where the method is located.
+	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param  int    $context    Context definition, where the method is located.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValidatorLocal ($methodName, $context = \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM) {
@@ -221,7 +221,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
+	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function RemoveValidator ($validatorNameOrInstance) {
@@ -247,7 +247,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param bool|string|NULL $boolOrViewScriptPath
+	 * @param  bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
@@ -258,7 +258,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $jsClass
+	 * @param  string $jsClass
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsClassName ($jsClassName) {
@@ -269,7 +269,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $jsFullFile
+	 * @param  string $jsFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsSupportingFile ($jsSupportingFilePath) {
@@ -280,7 +280,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $cssFullFile
+	 * @param  string $cssFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssSupportingFile ($cssSupportingFilePath) {
@@ -291,7 +291,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param bool $translate
+	 * @param  bool $translate
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslate ($translate) {
@@ -302,7 +302,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $errorMsg
+	 * @param  string $errorMsg
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddError ($errorMsg) {
@@ -313,8 +313,8 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $templateName Template name in array `static::$templates`.
-	 * @param string $templateCode Template HTML code with prepared replacements.
+	 * @param  string $templateName Template name in array `static::$templates`.
+	 * @param  string $templateCode Template HTML code with prepared replacements.
 	 * @return string Newly configured template value.
 	 */
 	public static function SetTemplate ($templateName = 'control', $templateCode = '' /* '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />' */) {
@@ -328,7 +328,7 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param array|\stdClass $templates
+	 * @param  array|\stdClass $templates
 	 * @return array
 	 */
 	public static function SetTemplates ($templates = []) {

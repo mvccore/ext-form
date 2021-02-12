@@ -79,7 +79,7 @@ trait InputMode {
 	 * - `email`   : Email input. Prefer `<input type="email">`.
 	 * - `url`     : URL input. Prefer `<input type="url">`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
-	 * @param string|NULL $inputMode
+	 * @param  string|NULL $inputMode
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetInputMode ($inputMode) {

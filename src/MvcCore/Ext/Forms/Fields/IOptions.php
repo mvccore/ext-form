@@ -70,19 +70,19 @@ interface IOptions {
 	 * more values for more specified submitted keys.
 	 * 
 	 * Example:
-	 * ```
+	 * ````
 	 *   // To configure for example radio buttons named: `gender` for `Female` and `Male`:
 	 *   //   <label for="gender-f">Female:</label>
 	 *   //   <input id="gender-f" type="radio" name="gender" value="f" />
 	 *   //   <label for="gender-m">Male:</label>
 	 *   //   <input id="gender-m" type="radio" name="gender" value="m" />
 	 *   // use this configuration:
-	 *   $field->SetName('gender')->SetOptions(array(
+	 *   $field->SetName('gender')->SetOptions([
 	 *       // field values will be automatically translated, 
 	 *       // if form has configured translator `callable`
 	 *       'f' => 'Female',
 	 *       'm' => 'Male',
-	 *   ));
+	 *   ]);
 	 *   
 	 *   // Or you can use more advanced configuration with css class names 
 	 *   // and html element attributes, let's consider html code like this:
@@ -91,20 +91,20 @@ interface IOptions {
 	 *   //   <label for="gender-m" class="male">Male:</label>
 	 *   //   <input id="gender-m" type="radio" name="gender" value="m" class="male" data-any="something-for-males" />
 	 *   // For that use this configuration:
-	 *   $field->SetName('gender')->SetOptions(array(
-	 *	   'f' => array(
-	 *	       'text'  => 'Female',	// text key will be also automatically translated
-	 *	       'class' => 'female',
-	 *	       'attrs' => array('data-any' => 'something-for-females'),
-	 *	   ),
-	 *	   'm' => array(
-	 *	       'text'  => 'Male', // text key will be also automatically translated
-	 *	       'class' => 'male',
-	 *	       'attrs' => array('data-any' => 'something-for-males'),
-	 *	   ),
-	 *   ));
-	 * ```
-	 * @param array $options
+	 *   $field->SetName('gender')->SetOptions([
+	 *      'f' => [
+	 *          'text'  => 'Female',	// text key will be also automatically translated
+	 *          'class' => 'female',
+	 *          'attrs' => array('data-any' => 'something-for-females'),
+	 *      ],
+	 *      'm' => [
+	 *          'text'  => 'Male', // text key will be also automatically translated
+	 *          'class' => 'male',
+	 *          'attrs' => array('data-any' => 'something-for-males'),
+	 *      ],
+	 *   ]);
+	 * ````
+	 * @param  array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptions (array $options = []);
@@ -113,7 +113,7 @@ interface IOptions {
 	 * Add form control or group control options to render
 	 * more values for more specified submitted keys.
 	 * Previous options will be merged with given options.
-	 * @param array $options
+	 * @param  array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddOptions (array $options = []);
@@ -135,8 +135,8 @@ interface IOptions {
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
 	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @param string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param int $context Context where method is located.
+	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
+	 * @param  int    $context    Context where method is located.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM);
@@ -159,7 +159,7 @@ interface IOptions {
 
 	/**
 	 * Set `FALSE` if you don't want to translate options texts, default `TRUE`.
-	 * @param bool $translateOptions 
+	 * @param  bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE);
@@ -173,7 +173,7 @@ interface IOptions {
 	/**
 	 * Merge given field options with possible grouped options into single 
 	 * level flatten array for submit checking purposes.
-	 * @param array|NULL $fieldOptions
+	 * @param  array|NULL $fieldOptions
 	 * @return array
 	 */
 	public function & GetFlattenOptions (array $fieldOptions = NULL);

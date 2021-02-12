@@ -82,7 +82,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 
 	/**
 	 * @inheritDocs
-	 * @param \float[]|\int[]|\string[]|float|int|string|array|NULL $value
+	 * @param  \float[]|\int[]|\string[]|float|int|string|array|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value) {
@@ -132,7 +132,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @inheritDocs
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Form $form
+	 * @param  \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -269,8 +269,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	/**
 	 * @inheritDocs
 	 * @internal
-	 * @param string $key
-	 * @param string|array $option
+	 * @param  string       $key
+	 * @param  string|array $option
 	 * @return string
 	 */
 	public function RenderControlItem ($key, $option) {
@@ -336,8 +336,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * - Label text string.
 	 * - Label attributes string.
 	 * - Control attributes string.
-	 * @param string       $key
-	 * @param string|array $option
+	 * @param  string       $key
+	 * @param  string|array $option
 	 * @return array
 	 */
 	protected function renderControlItemCompleteAttrsClassesAndText ($key, & $option) {

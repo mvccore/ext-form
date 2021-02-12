@@ -59,7 +59,7 @@ interface IVisibleField {
 
 	/**
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @param string $accessKey 
+	 * @param  string $accessKey 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAccessKey ($accessKey);
@@ -90,8 +90,8 @@ interface IVisibleField {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus
-	 * @param bool|NULL $autoFocus 
-	 * @param int $duplicateBehaviour
+	 * @param  bool|NULL $autoFocus 
+	 * @param  int       $duplicateBehaviour
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION);
@@ -126,7 +126,7 @@ interface IVisibleField {
 	 * required is true and if there is no or invalid submitted value, there is no 
 	 * required error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
-	 * @param bool|NULL $readonly
+	 * @param  bool|NULL $readonly
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetDisabled ($disabled);
@@ -159,7 +159,7 @@ interface IVisibleField {
 	 * required is true and if there is invalid submitted value, there is no required 
 	 * error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
-	 * @param bool|NULL $readonly
+	 * @param  bool|NULL $readonly
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetReadOnly ($readOnly = TRUE);
@@ -183,7 +183,7 @@ interface IVisibleField {
 	 * to not require any field value. If form has configured it's property
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
 	 * will be automatically considered required by default form configuration.
-	 * @param bool|NULL $required
+	 * @param  bool|NULL $required
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRequired ($required = TRUE);
@@ -224,7 +224,7 @@ interface IVisibleField {
 	 *   the increasing value of the tab-index. If several elements share the same tab-index, 
 	 *   their relative order follows their relative positions in the document.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
-	 * @param int $tabIndex 
+	 * @param  int $tabIndex 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTabIndex ($tabIndex);

@@ -79,7 +79,7 @@ trait Required {
 	 * to not require any field value. If form has configured it's property
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
 	 * will be automatically considered required by default form configuration.
-	 * @param bool|NULL $required
+	 * @param  bool|NULL $required
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRequired ($required = TRUE) {

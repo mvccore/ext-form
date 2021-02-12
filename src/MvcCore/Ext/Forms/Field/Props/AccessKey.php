@@ -78,7 +78,7 @@ trait AccessKey {
 	 * includes accented and other characters that can be generated 
 	 * by the keyboard).
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @param string $accessKey 
+	 * @param  string $accessKey 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAccessKey ($accessKey) {

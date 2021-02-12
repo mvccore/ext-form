@@ -84,7 +84,7 @@ trait Getters {
 
 	/**
 	 * @inheritDocs
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 */
 	public function GetControlAttr ($name = 'data-*') {
@@ -105,7 +105,7 @@ trait Getters {
 
 	/**
 	 * @inheritDocs
-	 * @param string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
+	 * @param  string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
 	 * @return bool
 	 */
 	public function HasValidator ($validatorNameOrInstance) {

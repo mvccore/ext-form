@@ -26,7 +26,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * any fields in custom `\MvcCore\Ext\Form` extended class, do it in custom
 	 * extended `Init()` method and call `parent::Init();` as first line inside
 	 * your extended `Init()` method.
-	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
+	 * @param  bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
 	 * @return void
 	 */
@@ -48,17 +48,17 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *   from session and set up form fields with them.
 	 * - Set initialized state to 2, which means - prepared, pre-dispatched for rendering.
 	 *
-	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
+	 * @param  bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @return void
 	 */
 	public function PreDispatch ($submit = FALSE);
 
 	/**
 	 * Translate given string with configured translator and configured language code.
-	 * @param string $key          A key to translate.
-	 * @param array  $replacements An array of replacements to process in translated result.
-	 * @throws \Exception          An exception if translations store is not successful.
-	 * @return string              Translated key or key itself if there is no key in translations store.
+	 * @param  string $key          A key to translate.
+	 * @param  array  $replacements An array of replacements to process in translated result.
+	 * @throws \Exception           An exception if translations store is not successful.
+	 * @return string               Translated key or key itself if there is no key in translations store.
 	 */
 	public function Translate ($key, $replacements = []);
 
@@ -443,22 +443,22 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Get PHP data limit as integer value by given 
 	 * PHP INI variable name. Return `NULL` for empty 
 	 * or non-existing values.
-	 * @param string $iniVarName
+	 * @param  string $iniVarName
 	 * @return int|NULL
 	 */
 	public function GetPhpIniSizeLimit ($iniVarName);
 	
 	/**
 	 * Converts a long integer of bytes into a readable format e.g KB, MB, GB, TB, YB.
-	 * @param int $bytes The number of bytes.
-	 * @param int $precision Default `1`.
+	 * @param  int $bytes The number of bytes.
+	 * @param  int $precision Default `1`.
 	 * @return string
 	 */
 	public static function ConvertBytesIntoHumanForm ($bytes, $precision = 1);
 	
 	/**
 	 * Converts readable bytes format e.g KB, MB, GB, TB, YB into long integer of bytes.
-	 * @param string $humanValue Readable bytes format e.g KB, MB, GB, TB, YB.
+	 * @param  string $humanValue Readable bytes format e.g KB, MB, GB, TB, YB.
 	 * @return int
 	 */
 	public static function ConvertBytesFromHumanForm ($humanValue);
@@ -497,7 +497,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Get form instance by form id string.
 	 * If no form instance found, thrown an `RuntimeException`.
-	 * @param string $formId
+	 * @param  string $formId
 	 * @throws \RuntimeException
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -518,7 +518,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Set controller context, where form instance is created. 
 	 * Always the first form constructor argument.
-	 * @param \MvcCore\IController $controller 
+	 * @param  \MvcCore\IController $controller 
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetController (\MvcCore\IController $controller);
@@ -528,7 +528,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Used to identify session data, error messages,
 	 * CSRF tokens, html form attribute id value and much more.
 	 * @requires
-	 * @param string $id
+	 * @param  string $id
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetId ($id);
@@ -537,7 +537,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Set form submitting URL value.
 	 * It could be relative or absolute, anything
 	 * to complete classic html form attribute `action`.
-	 * @param string|NULL $url
+	 * @param  string|NULL $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAction ($url = NULL);
@@ -549,15 +549,15 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * You can use constants:
 	 * - `\MvcCore\Ext\IForm::METHOD_POST`
 	 * - `\MvcCore\Ext\IForm::METHOD_GET`
-	 * @param string $method
+	 * @param  string $method
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetMethod ($method = \MvcCore\Ext\IForm::METHOD_POST);
 
 	/**
 	 * Set form title, global HTML attribute, optional.
-	 * @param string|NULL  $title
-	 * @param boolean|NULL $translateTitle
+	 * @param  string|NULL  $title
+	 * @param  boolean|NULL $translateTitle
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTitle ($title, $translateTitle = NULL);
@@ -577,7 +577,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *   Spaces will be converted to `+` symbols, but no other special
 	 *   characters will be encoded.
 	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_PLAINTEXT`.
-	 * @param string $enctype
+	 * @param  string $enctype
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnctype ($enctype = \MvcCore\Ext\IForm::ENCTYPE_URLENCODED);
@@ -620,7 +620,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * autofill the login the next time the user visits the page. See The autocomplete
 	 * attribute and login fields.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
-	 * @param bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
+	 * @param  bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | NULL`.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAutoComplete ($autoComplete = FALSE);
@@ -630,7 +630,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * submitted. If this attribute is not specified (and therefore the form is
 	 * validated), this default setting can be overridden by a `formnovalidate`
 	 * attribute on a `<button>` or `<input>` element belonging to the form.
-	 * @param bool|NULL $noValidate Only `TRUE` renders the form attribute.
+	 * @param  bool|NULL $noValidate Only `TRUE` renders the form attribute.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNoValidate ($noValidate = TRUE);
@@ -642,7 +642,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * of the document containing the form element. Any previously configured
 	 * accept charset(s) will be replaced by given array. If you want only to
 	 * add another charset, use method: `$form->AddAcceptCharset()` instead.
-	 * @param \string[] $acceptCharsets
+	 * @param  \string[] $acceptCharsets
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAcceptCharsets ($acceptCharsets = []);
@@ -653,7 +653,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to target language code
 	 * you want to translate every visible text into target language. Use this property
 	 * with `$form->translator`property.
-	 * @param string|NULL $lang
+	 * @param  string|NULL $lang
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLang ($lang = NULL);
@@ -664,7 +664,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * in `\MvcCore\Ext\Form` form field validators for locale specific needs,
 	 * `$form->locale` property helps you to process validation functionality
 	 * with proper validator by locale code.
-	 * @param string|NULL $locale
+	 * @param  string|NULL $locale
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLocale ($locale = NULL);
@@ -675,7 +675,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssClasses ($cssClasses);
@@ -686,7 +686,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * set here key/value array, keys will be used as attribute names,
 	 * values as attribute values, simple. All previously configured additional
 	 * attributes will be replaced by given attributes to this function.
-	 * @param array $attributes
+	 * @param  array $attributes
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAttributes (array $attributes = []);
@@ -697,7 +697,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error URL strings.
-	 * @param string|NULL $url
+	 * @param  string|NULL $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSuccessUrl ($url = NULL);
@@ -712,7 +712,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * and you want to go to "previous step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
-	 * @param string|NULL $url
+	 * @param  string|NULL $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetPrevStepUrl ($url = NULL);
@@ -727,7 +727,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * and you want to go to "next step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
-	 * @param string|NULL $url
+	 * @param  string|NULL $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNextStepUrl ($url = NULL);
@@ -738,7 +738,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error URL strings.
-	 * @param string|NULL $url
+	 * @param  string|NULL $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorUrl ($url = NULL);
@@ -754,7 +754,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *         `\MvcCore\Ext\IForm::RESULT_PREV_PAGE`
 	 * - `4` - Submit was successful. User will be redirected after submit to next step url.
 	 *         `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
-	 * @param int|NULL $result
+	 * @param  int|NULL $result
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetResult ($result = \MvcCore\Ext\IForm::RESULT_SUCCESS);
@@ -766,7 +766,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * of `callable` has to be a translation key and second argument
 	 * has to be array with numeric replacements to replace them in translated value.
 	 * Result of `callable` object has to be a string - translated key for called language.
-	 * @param callable|NULL $handler
+	 * @param  callable|NULL $handler
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTranslator (callable $translator = NULL);
@@ -776,7 +776,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * If you define directly any control to NOT be required, it will NOT be required.
 	 * This is only value used as DEFAULT VALUE for form fields, not to strictly define
 	 * required flag value in controls. Default value is `FALSE`.
-	 * @param bool $defaultRequired
+	 * @param  bool $defaultRequired
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetDefaultRequired ($defaultRequired = TRUE);
@@ -786,9 +786,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * For each key in `$values` array, this method try to find form field
 	 * with the same name. Only data with existing fields by keys are setted into field values.
 	 * Values are assigned into fields by keys in case sensitive mode by default.
-	 * @param array $values                     Key value array with keys as field names and values for fields.
-	 * @param bool  $caseInsensitive            If `TRUE`, set up values from `$values` with keys in case insensitive mode.
-	 * @param bool  $clearPreviousSessionValues If `TRUE`, clear all previous data records for this form from session.
+	 * @param  array $values                     Key value array with keys as field names and values for fields.
+	 * @param  bool  $caseInsensitive            If `TRUE`, set up values from `$values` with keys in case insensitive mode.
+	 * @param  bool  $clearPreviousSessionValues If `TRUE`, clear all previous data records for this form from session.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE);
@@ -802,7 +802,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Every array in collection must have first item as error message
 	 * string and second argument (optional) as field name string or
 	 * array with field names strings where error happened.
-	 * @param array $errorsCollection
+	 * @param  array $errorsCollection
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrors ($errorsCollection = []);
@@ -813,7 +813,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * no higher namespace expiration in any other session namespace.
 	 * If there is found any autorization service and authenticated user,
 	 * default value is set by authorization expiration time.
-	 * @param $seconds int
+	 * @param  int $seconds
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSessionExpiration ($seconds = 0);
@@ -822,7 +822,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Set base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
 	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
-	 * @param $baseTabIndex int
+	 * @param  int $baseTabIndex
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetBaseTabIndex ($baseTabIndex = 0);
@@ -832,7 +832,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Default values is string `normal`, it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
 	 * rendered after control.
-	 * @param string $defaultFieldsRenderMode
+	 * @param  string $defaultFieldsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL);
@@ -842,7 +842,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
-	 * @param string $errorsRenderMode
+	 * @param  string $errorsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER);
@@ -855,7 +855,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * script path and also explicitly defined form view script path by string are
 	 * located in directory `/App/Views/Forms` by default. If you want to change this
 	 * base directory - use `\MvcCore\Ext\Forms\View::SetFormsDir();` static method.
-	 * @param bool|string|NULL $boolOrViewScriptPath
+	 * @param  bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL);
@@ -863,7 +863,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Set form custom template full class name to create custom view object.
 	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
-	 * @param string $viewClass
+	 * @param  string $viewClass
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewClass ($viewClass = 'MvcCore\\Ext\\Forms\\View');
@@ -877,7 +877,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * - `0` - `string` - Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 * - `1` - `string` - Supporting javascript full class name inside supporting file.
 	 * - `2` - `array`  - Supporting javascript constructor params.
-	 * @param array $jsFilesClassesAndConstructorParams
+	 * @param  array $jsFilesClassesAndConstructorParams
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = []);
@@ -889,7 +889,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * `$form->AddCssSupportFile($cssRelativePath);` instead.
 	 * Given `$cssRelativePaths` has to be array with supporting css file relative
 	 * paths from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
-	 * @param array $cssRelativePaths
+	 * @param  array $cssRelativePaths
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFiles (array $cssRelativePaths = []);
@@ -899,7 +899,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * to accept first argument to be `\SplFileInfo` about external javascript
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
-	 * @param callable|NULL $jsSupportFilesRenderer
+	 * @param  callable|NULL $jsSupportFilesRenderer
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFilesRenderer (callable $jsSupportFilesRenderer);
@@ -909,7 +909,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * to accept first argument to be `\SplFileInfo` about external css
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
-	 * @param callable|NULL $cssSupportFilesRenderer
+	 * @param  callable|NULL $cssSupportFilesRenderer
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFilesRenderer (callable $cssSupportFilesRenderer);
@@ -918,7 +918,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * This is INTERNAL method for rendering fields.
 	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
 	 * @internal
-	 * @param bool $formTagRenderingStatus
+	 * @param  bool $formTagRenderingStatus
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFormTagRenderingStatus ($formTagRenderingStatus = TRUE);
@@ -931,7 +931,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * you have to create there any other custom javascript support file for any custom field
 	 * and change this property value to that javascripts directory. All supporting javascripts
 	 * for `\MvcCore\Ext\Form` fields will be loaded now from there.
-	 * @param string|NULL $jsSupportFilesRootDir
+	 * @param  string|NULL $jsSupportFilesRootDir
 	 * @return string
 	 */
 	public static function SetJsSupportFilesRootDir ($jsSupportFilesRootDir);
@@ -944,7 +944,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * library assets directory into it, by creating any other custom css for any custom field
 	 * and by change this property value to that directory. All supporting css for `\MvcCore\Ext\Form`
 	 * fields will be loaded now from there.
-	 * @param string|NULL $cssSupportFilesRootDir
+	 * @param  string|NULL $cssSupportFilesRootDir
 	 * @return string
 	 */
 	public static function SetCssSupportFilesRootDir ($cssSupportFilesRootDir);
@@ -955,7 +955,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * This method is dangerous, because it removes all previously configured
 	 * validators namespaces. If you only to add another validators namespace,
 	 * use method: `\MvcCore\Ext\Form::AddValidatorsNamespaces(...$namespaces);` instead.
-	 * @param \string[] $validatorsNamespaces
+	 * @param  \string[] $validatorsNamespaces
 	 * @return int New validators namespaces count.
 	 */
 	public static function SetValidatorsNamespaces (array $validatorsNamespaces = []);
@@ -972,9 +972,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *          There will be quietly configured another field autofocused. Be careful!!! This is not standard behaviour!
 	 * If there is `$formId` and also `$fieldName` with `NULL` value, any previously defined
 	 * autofocused form field is changed and `autofocus` boolean attribute is removed.
-	 * @param string $formId
-	 * @param string $fieldName
-	 * @param int $duplicateBehaviour
+	 * @param  string $formId
+	 * @param  string $fieldName
+	 * @param  int    $duplicateBehaviour
 	 * @throws \RuntimeException
 	 * @return bool
 	 */
@@ -994,7 +994,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * browser uses them in the order in which they are listed. The default
 	 * value,the reserved string `'UNKNOWN'`, indicates the same encoding
 	 * as that of the document containing the form element.
-	 * @param string $charset
+	 * @param  string $charset
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddAcceptCharset ($charset);
@@ -1005,24 +1005,24 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Default value is an empty array to not render HTML `class` attribute.
 	 * You can define css classes as single string, more classes separated
 	 * by space or you can define css classes as array with strings.
-	 * @param string|\string[] $cssClasses
+	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssClasses ($cssClasses);
 
 	/**
 	 * Add form submit error and switch form result to zero - to error state.
-	 * @param string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
-	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
+	 * @param  string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
+	 * @param  string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL);
 
 	/**
 	 * Add supporting javascript file.
-	 * @param string $jsRelativePath    Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
-	 * @param string $jsClassName       Supporting javascript full class name inside supporting file.
-	 * @param array  $constructorParams Supporting javascript constructor params.
+	 * @param  string $jsRelativePath    Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
+	 * @param  string $jsClassName       Supporting javascript full class name inside supporting file.
+	 * @param  array  $constructorParams Supporting javascript constructor params.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddJsSupportFile (
@@ -1033,7 +1033,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Add supporting css file.
-	 * @param string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
+	 * @param  string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssSupportFile ($cssRelativePath = '/fields/custom-type.css');
@@ -1052,8 +1052,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *   `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $response, $errorMsg) {
 	 *       // ... anything you want to do, for example to sign out user.
 	 *   });`
-	 * @param callable $handler
-	 * @param int|NULL $priorityIndex
+	 * @param  callable $handler
+	 * @param  int|NULL $priorityIndex
 	 * @return int New CSRF error handlers count.
 	 */
 	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL);
@@ -1062,7 +1062,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Add form validators base namespaces to create validator instance by it's class name.
 	 * Validator will be created by class existence in this namespaces order.
 	 * Validators namespaces array configured by default: `array('\\MvcCore\\Ext\\Forms\\Validators\\');`.
-	 * @param \string[] $validatorsNamespaces,...
+	 * @param  \string[] $validatorsNamespaces,...
 	 * @return int New validators namespaces count.
 	 */
 	public static function AddValidatorsNamespaces ($validatorsNamespaces);
@@ -1088,7 +1088,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * use functions:
 	 *  - `$form->AddField($field);`
 	 *  - `$form->AddFields($field1, $field2, $field3...);`
-	 * @param \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields = []);
@@ -1096,14 +1096,14 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Add multiple fully configured form field instances,
 	 * function have infinite params with new field instances.
-	 * @param \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddFields ($fields);
 
 	/**
 	 * Add fully configured form field instance.
-	 * @param \MvcCore\Ext\Forms\Field $field
+	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field);
@@ -1111,7 +1111,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * If `TRUE` if given field instance or given
 	 * field name exists in form, `FALSE` otherwise.
-	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
+	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
 	public function HasField ($fieldOrFieldName = NULL);
@@ -1119,14 +1119,14 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Remove configured form field instance by given instance or given field name.
 	 * If field is not found by it's name, no error happened.
-	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
+	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName = NULL);
 
 	/**
 	 * Return form field instance by form field name if it exists, else return null;
-	 * @param string $fieldName
+	 * @param  string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetField ($fieldName = '');
@@ -1135,7 +1135,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Return form field instances by given field type string.
 	 * If no field(s) found, it's returned empty array.
 	 * Result array is keyed by field names.
-	 * @param string $fieldType
+	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
 	public function GetFieldsByType ($fieldType = '');
@@ -1143,7 +1143,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Return first caught form field instance by given field type string.
 	 * If no field found, `NULL` is returned.
-	 * @param string $fieldType
+	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetFirstFieldByType ($fieldType = '');
@@ -1153,8 +1153,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * compared by `is_a($field, $fieldClassName)` check.
 	 * If no field(s) found, it's returned empty array.
 	 * Result array is keyed by field names.
-	 * @param string $fieldClassName  Full php class name or full interface name.
-	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
+	 * @param  string $fieldClassName  Full php class name or full interface name.
+	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
 	public function GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE);
@@ -1163,8 +1163,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Return first caught form field instance by field class name
 	 * compared by `is_a($field, $fieldClassName)` check.
 	 * If no field found, it's returned `NULL`.
-	 * @param string $fieldClassName  Full php class name or full interface name.
-	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
+	 * @param  string $fieldClassName  Full php class name or full interface name.
+	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetFirstFieldByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE);
@@ -1290,7 +1290,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
 	 *   `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
-	 * @param array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
+	 * @param  array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []);
@@ -1301,7 +1301,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * if there is any special submit result value configured by button names
 	 * in `$form->customResultStates` array. If no special button submit result
 	 * value configured, submit result state is set to `1` by default.
-	 * @param array $rawRequestParams
+	 * @param  array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitSetStartResultState (array & $rawRequestParams = []);
@@ -1319,7 +1319,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * and call on every `$field->Submit()` method to process all configured field validators.
 	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automatically
 	 * assigned under field name into form result values and into form field value.
-	 * @param array $rawRequestParams
+	 * @param  array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []);
@@ -1337,7 +1337,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Get cached validator instance by name. If validator instance doesn't exist
 	 * in `$this->validators` array, create new validator instance, cache it and return it.
-	 * @param string $validatorName
+	 * @param  string $validatorName
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function GetValidator ($validatorName);
@@ -1345,7 +1345,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Get error message string from internal protected static property
 	 * `\MvcCore\Ext\Form::$defaultErrorMessages` by given integer index.
-	 * @param int $index
+	 * @param  int $index
 	 * @return string
 	 */
 	public function GetDefaultErrorMsg ($index);
@@ -1356,15 +1356,15 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
-	 * @param string            $errorMsg Translated error message about CSRF invalid tokens.
+	 * @param  \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
+	 * @param  string            $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg);
 
 	/**
 	 * Enable or disable CSRF checking, enabled by default.
-	 * @param bool $enabled
+	 * @param  bool $enabled
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnableCsrf ($enabled = TRUE);
@@ -1381,7 +1381,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * If tokens are different, add form error and process CSRF error handlers queue.
 	 * If there is any exception caught in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
-	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
+	 * @param  array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []);

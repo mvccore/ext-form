@@ -102,7 +102,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 * @inheritDocs
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Form $form 
+	 * @param  \MvcCore\Ext\Form $form 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
@@ -114,7 +114,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 * @inheritDocs
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Forms\Field $field 
+	 * @param  \MvcCore\Ext\Forms\Field $field 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field) {
@@ -134,7 +134,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	
 	/**
 	 * @inheritDocs
-	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
+	 * @param  int $errorMsgIndex Integer index for `static::$errorMessages` array.
 	 * @return string
 	 */
 	public static function GetErrorMessage ($errorMsgIndex) {
@@ -143,7 +143,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 
 	/**
 	 * @inheritDocs
-	 * @param string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
+	 * @param  string|array      $rawSubmittedValue Raw submitted value, string or array of strings.
 	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public abstract function Validate ($rawSubmittedValue);
@@ -152,7 +152,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 * Throw new `\InvalidArgumentException` with given
 	 * error message and append automatically current class, 
 	 * field name, form id, field class name and form class name.
-	 * @param string $errorMsg 
+	 * @param  string $errorMsg 
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {

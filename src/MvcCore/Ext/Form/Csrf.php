@@ -21,8 +21,8 @@ trait Csrf {
 
 	/**
 	 * @inheritDocs
-	 * @param \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
-	 * @param string            $errorMsg Translated error message about CSRF invalid tokens.
+	 * @param  \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
+	 * @param  string            $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg) {
@@ -49,7 +49,7 @@ trait Csrf {
 
 	/**
 	 * @inheritDocs
-	 * @param bool $enabled 
+	 * @param  bool $enabled 
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnableCsrf ($enabled = TRUE) {
@@ -71,7 +71,7 @@ trait Csrf {
 
 	/**
 	 * @inheritDocs
-	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
+	 * @param  array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {

@@ -381,7 +381,7 @@ trait GetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param string $iniVarName
+	 * @param  string $iniVarName
 	 * @return int|NULL
 	 */
 	public function GetPhpIniSizeLimit ($iniVarName) {
@@ -393,8 +393,8 @@ trait GetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param int $bytes The number of bytes.
-	 * @param int $precision Default `1`.
+	 * @param  int $bytes The number of bytes.
+	 * @param  int $precision Default `1`.
 	 * @return string
 	 */
 	public static function ConvertBytesIntoHumanForm ($bytes, $precision = 1) {
@@ -408,7 +408,7 @@ trait GetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param string $humanValue Readable bytes format e.g KB, MB, GB, TB, YB.
+	 * @param  string $humanValue Readable bytes format e.g KB, MB, GB, TB, YB.
 	 * @return int
 	 */
 	public static function ConvertBytesFromHumanForm ($humanValue) {
@@ -454,7 +454,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param string $formId
+	 * @param  string $formId
 	 * @throws \RuntimeException
 	 * @return \MvcCore\Ext\Form
 	 */

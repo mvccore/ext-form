@@ -36,7 +36,7 @@ interface IFieldsGroup {
 	 * as array of strings or string with classes
 	 * separated by space. Any previously defined 
 	 * group css classes will be replaced.
-	 * @param string|\string[] $groupLabelCssClasses
+	 * @param  string|\string[] $groupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetGroupLabelCssClasses ($groupLabelCssClasses);
@@ -44,7 +44,7 @@ interface IFieldsGroup {
 	/**
 	 * Add css class or classes for group label as array of 
 	 * strings or string with classes separated by space.
-	 * @param string|\string[] $groupLabelCssClasses
+	 * @param  string|\string[] $groupLabelCssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddGroupLabelCssClasses ($groupLabelCssClasses);
@@ -60,7 +60,7 @@ interface IFieldsGroup {
 	 * Set any additional attributes for group label, defined
 	 * as key (for attribute name) and value (for attribute value).
 	 * Any previously defined attributes will be replaced.
-	 * @param array $groupLabelAttrs
+	 * @param  array $groupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetGroupLabelAttrs ($groupLabelAttrs = []);
@@ -70,7 +70,7 @@ interface IFieldsGroup {
 	 * as key (for attribute name) and value (for attribute value).
 	 * All additional attributes will be completed as array merge
 	 * with previous values and new values.
-	 * @param array $groupLabelAttrs
+	 * @param  array $groupLabelAttrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddGroupLabelAttr ($groupLabelAttrs = []);
@@ -87,7 +87,7 @@ interface IFieldsGroup {
 	 * which are possible simply to convert into array of strings. `NULL` value is then 
 	 * an empty array. For extended class `RadioGroup` - the value type is only a `string` 
 	 * or `NULL`.
-	 * @param \float[]|\int[]|\string[]|float|int|string|array|NULL $value
+	 * @param  \float[]|\int[]|\string[]|float|int|string|array|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value);
@@ -118,7 +118,7 @@ interface IFieldsGroup {
 	 * - Check if there are any options for current controls group.
 	 * @internal
 	 * @template
-	 * @param \MvcCore\Ext\Form $form
+	 * @param  \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -189,8 +189,8 @@ interface IFieldsGroup {
 	 * 
 	 * Render sub-controls with each sub-control label tag
 	 * and without group label or without group specific errors.
-	 * @param string $key
-	 * @param string|array $option
+	 * @param  string       $key
+	 * @param  string|array $option
 	 * @return string
 	 */
 	public function RenderControlItem ($key, $option);
