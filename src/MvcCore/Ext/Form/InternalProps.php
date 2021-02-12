@@ -114,13 +114,15 @@ trait InternalProps {
 	 * if any form submit CSRF checking (Cross Site Request Forgery) triggers error
 	 * and where second record is `boolean`, if handler is `closure` or not.
 	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
-	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `string`				- Translated error message string.
+	 *  - `\MvcCore\Ext\Form`	- Form instance where error happened.
+	 *  - `\MvcCore\Request`	- Current request object.
+	 *  - `string`				- Translated error message string.
 	 * Example:
-	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
-	 *		// ... anything you want to do, for example to sign out user.
-	 * });`
+	 * ````
+	 *   \MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
+	 *        // ... anything you want to do, for example to sign out user.
+	 *   });
+	 * ````
 	 * @var \array[]
 	 */
 	protected static $csrfErrorHandlers = [];

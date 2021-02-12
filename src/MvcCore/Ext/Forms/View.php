@@ -16,18 +16,18 @@ namespace MvcCore\Ext\Forms;
 /**
  * Responsibility: create and extended MvcCore view instance to render form or
  * form field with custom view template. This view contains built-in properties:
- * - `view` - Containing parent controller view.
- * - `form` - Containing rendered form instance when form or field is rendered.
- * - `field` - Containing rendered field instance when field is rendered.
+ *  - `view`  - Containing parent controller view.
+ *  - `form`  - Containing rendered form instance when form or field is rendered.
+ *  - `field` - Containing rendered field instance when field is rendered.
  * This view also contains many built-in methods to render specific form parts:
- * - `RenderBegin()`	- Renders opening `<form>` tag with all configured
- *						  attributes.
- * - `RenderErrors()`	- Renders translated form errors.
- * - `RenderContent()`	- Render all configured form fields from
- *						  `$this->form->GetFields()` array by calling `Render()`
- *						  method on every field instance.
- * - `RenderEnd()`		- Renders opening `<form>` tag and configured form
- *						  field's supporting js/css files.
+ * - `RenderBegin()`   - Renders opening `<form>` tag with all configured
+ *                       attributes.
+ * - `RenderErrors()`  - Renders translated form errors.
+ * - `RenderContent()` - Render all configured form fields from
+ *                       `$this->form->GetFields()` array by calling `Render()`
+ *                       method on every field instance.
+ * - `RenderEnd()`     - Renders opening `<form>` tag and configured form
+ *                       field's supporting js/css files.
  * - `static Format()`
  */
 class View extends \MvcCore\View {
@@ -71,10 +71,7 @@ class View extends \MvcCore\View {
 	protected static $fieldsDir = 'Forms/Fields';
 
 	/**
-	 * Get global views forms directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms"`, so scripts app path
-	 * is `"/App/Views/Forms"`.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public static function GetFormsDir () {
@@ -82,10 +79,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Set global views forms directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms"`, so scripts app path
-	 * is `"/App/Views/Forms"`.
+	 * @inheritDocs
 	 * @param string $formsDir
 	 * @return string
 	 */
@@ -94,10 +88,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Get global views fields directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so
-	 * scripts app path is `"/App/Views/Forms/Fields"`.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public static function GetFieldsDir () {
@@ -105,10 +96,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Set global views fields directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so
-	 * scripts app path is `"/App/Views/Forms/Fields"`.
+	 * @inheritDocs
 	 * @param string $fieldsDir
 	 * @return string
 	 */
@@ -116,6 +104,9 @@ class View extends \MvcCore\View {
 		return static::$fieldsDir = $fieldsDir;
 	}
 
+	/**
+	 * Creates form view instance.
+	 */
 	public function __construct () {
 		/**
 		 * Default flag if view is used for field rendering or only for form
@@ -125,7 +116,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Get controller instance as reference.
+	 * @inheritDocs
 	 * @return \MvcCore\View
 	 */
 	public function GetView () {
@@ -133,7 +124,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Set controller and it's view instance.
+	 * @inheritDocs
 	 * @param \MvcCore\View $view
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -143,7 +134,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Get form instance to render.
+	 * @inheritDocs
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function GetForm () {
@@ -151,7 +142,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Set form instance to render.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Form $form
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -161,7 +152,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Get rendered field.
+	 * @inheritDocs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function GetField () {
@@ -169,7 +160,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Set rendered field.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -180,13 +171,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Get any value by given name existing in local store. If there is no value
-	 * in local store by given name, try to get result value into store by
-	 * field reflection class from field instance property if view is used for
-	 * field rendering. If there is still no value found, try to get result value
-	 * into store by form reflection class from form instance property and if
-	 * still no value found, try to get result value from local view instance
-	 * `__get()` method.
+	 * @inheritDocs
 	 * @param string $name
 	 * @return mixed
 	 */
@@ -252,13 +237,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Get `TRUE` by given name existing in local store. If there is no value
-	 * in local store by given name, try to get result value into store by
-	 * field reflection class from field instance property if view is used for
-	 * field rendering. If there is still no value found, try to get result value
-	 * into store by form reflection class from form instance property and if
-	 * still no value found, try to get result value from local view instance
-	 * `__get()` method.
+	 * @inheritDocs
 	 * @param string $name
 	 * @return bool
 	 */
@@ -325,9 +304,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Call public field method if exists in field instance and view is used for
-	 * field rendering or call public form method if exists in form instance or
-	 * try to call view helper by parent `__call()` method.
+	 * @inheritDocs
 	 * @param string $method
 	 * @param mixed  $arguments
 	 * @return mixed
@@ -352,7 +329,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render configured form template.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderTemplate () {
@@ -366,8 +343,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render form naturally by cycles inside php scripts.
-	 * All form fields will be rendered inside empty <div> elements.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderNaturally () {
@@ -380,8 +356,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render form begin.
-	 * Render opening <form> tag and hidden input with csrf tokens.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderBegin () {
@@ -427,9 +402,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render hidden input with CSRF tokens.
-	 * This method is not necessary to call, it's
-	 * called internally by `$form->View->RenderBegin();`
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderCsrf () {
@@ -441,9 +414,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Return current CSRF (Cross Site Request Forgery) hidden
-	 * input name and it's value as `\stdClass`.
-	 * Result `\stdClass` has keys: `name` and `value`.
+	 * @inheritDocs
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
@@ -451,10 +422,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render form errors.
-	 * If form is configured to render all errors together at form beginning,
-	 * this function completes all form errors into `div.errors` with `div.error` elements
-	 * inside containing each single errors message.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderErrors () {
@@ -474,11 +442,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render form content - form fields.
-	 * Go through all `$form->fields` and call `$field->Render();` on every field
-	 * and put it into an empty `<div>` element. Render each field in full possible
-	 * way - naturally by label configuration with possible errors configured beside
-	 * or with custom field template.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderContent () {
@@ -497,9 +461,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render form end.
-	 * Render html closing `</form>` tag and supporting javascript and css files
-	 * if is form not using external js/css renderers.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderEnd () {
@@ -507,10 +469,10 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Format string function.
+	 * @inheritDocs
 	 * @param string $str Template with replacements like `{0}`, `{1}`, `{anyStringKey}`...
 	 * @param array $args Each value under it's index is replaced as
-	 *					  string representation by replacement in form `{arrayKey}`
+	 *                    string representation by replacement in form `{arrayKey}`
 	 * @return string
 	 */
 	public static function Format ($str = '', array $args = []) {
@@ -523,7 +485,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * Render content of html tag attributes by key/value array.
+	 * @inheritDocs
 	 * @param array $attributes
 	 * @return string
 	 */

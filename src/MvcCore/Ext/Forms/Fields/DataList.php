@@ -15,9 +15,9 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, pre-dispatch and render `<datalist>` HTML element 
- *				   with given options, optionally translated. This field 
- *				   has no possible value to submit. It just renders the
- *				   `<datalist>` with given options.
+ *                 with given options, optionally translated. This field 
+ *                 has no possible value to submit. It just renders the
+ *                 `<datalist>` with given options.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class		DataList 
@@ -48,8 +48,8 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	/**
 	 * Create new form `<datalist>` element instance.
 	 * @param array $cfg Config array with public properties and it's 
-	 *					 values which you want to configure, presented 
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented 
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -120,8 +120,8 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 * Return always `NULL` for this `<datalist>` pseudo-field.
 	 * 
 	 * @param array $rawRequestParams Raw request params from MvcCore 
-	 *								  request object based on raw app 
-	 *								  input, `$_GET` or `$_POST`.
+	 *                                request object based on raw app 
+	 *                                input, `$_GET` or `$_POST`.
 	 * @return NULL
 	 */
 	public function Submit (array & $rawRequestParams = []) {

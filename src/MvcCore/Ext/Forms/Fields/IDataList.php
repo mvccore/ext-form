@@ -15,8 +15,8 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: define getters and setters for HTML attribute `list`, 
- *				   where has to be string targeting to `<datalist>` `id` 
- *				   attribute value.
+ *                 where has to be string targeting to `<datalist>` `id` 
+ *                 attribute value.
  * Interface for classes:
  * - `\MvcCore\Ext\Forms\Fields\Color`
  * - `\MvcCore\Ext\Forms\Fields\Date`

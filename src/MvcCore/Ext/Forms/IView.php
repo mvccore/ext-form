@@ -195,7 +195,7 @@ interface IView {
 	 * Format string function.
 	 * @param string $str Template with replacements like `{0}`, `{1}`, `{anyStringKey}`...
 	 * @param array $args Each value under it's index is replaced as
-	 *					  string representation by replacement in form `{arrayKey}`
+	 *                    string representation by replacement in form `{arrayKey}`
 	 * @return string
 	 */
 	public static function Format ($str = '', array $args = []);

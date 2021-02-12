@@ -48,15 +48,15 @@ trait InputMode {
 	 * A hint to browsers for which virtual keyboard to display. 
 	 * This attribute applies when the type attribute is 
 	 * `text`, `password`, `email`, or `url`. Possible values:
-	 * 	`none`		: No virtual keyboard should be displayed.
-	 * 	`text`		: Text input in the user's locale.
-	 * 	`decimal`	: Fractional numeric input.
-	 * 	`numeric`	: Numeric input.
-	 * 	`tel`		: Telephone input, including asterisk and 
-	 * 				  pound key. Prefer `<input type="tel">`.
-	 * 	`search`	: A virtual keyboard optimized for search input.
-	 * 	`email`		: Email input. Prefer `<input type="email">`.
-	 * 	`url`		: URL input. Prefer `<input type="url">`.
+	 * - `none`    : No virtual keyboard should be displayed.
+	 * - `text`    : Text input in the user's locale.
+	 * - `decimal` : Fractional numeric input.
+	 * - `numeric` : Numeric input.
+	 * - `tel`     : Telephone input, including asterisk and 
+	 * -             pound key. Prefer `<input type="tel">`.
+	 * - `search`  : A virtual keyboard optimized for search input.
+	 * - `email`   : Email input. Prefer `<input type="email">`.
+	 * - `url`     : URL input. Prefer `<input type="url">`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
 	 * @return string|NULL
 	 */
@@ -69,15 +69,15 @@ trait InputMode {
 	 * A hint to browsers for which virtual keyboard to display. 
 	 * This attribute applies when the type attribute is 
 	 * `text`, `password`, `email`, or `url`. Possible values:
-	 * 	`none`		: No virtual keyboard should be displayed.
-	 * 	`text`		: Text input in the user's locale.
-	 * 	`decimal`	: Fractional numeric input.
-	 * 	`numeric`	: Numeric input.
-	 * 	`tel`		: Telephone input, including asterisk and 
-	 * 				  pound key. Prefer `<input type="tel">`.
-	 * 	`search`	: A virtual keyboard optimized for search input.
-	 * 	`email`		: Email input. Prefer `<input type="email">`.
-	 * 	`url`		: URL input. Prefer `<input type="url">`.
+	 * - `none`    : No virtual keyboard should be displayed.
+	 * - `text`    : Text input in the user's locale.
+	 * - `decimal` : Fractional numeric input.
+	 * - `numeric` : Numeric input.
+	 * - `tel`     : Telephone input, including asterisk and 
+	 * -             pound key. Prefer `<input type="tel">`.
+	 * - `search`  : A virtual keyboard optimized for search input.
+	 * - `email`   : Email input. Prefer `<input type="email">`.
+	 * - `url`     : URL input. Prefer `<input type="url">`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
 	 * @param string|NULL $inputMode
 	 * @return \MvcCore\Ext\Forms\Field

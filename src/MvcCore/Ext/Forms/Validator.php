@@ -15,8 +15,8 @@ namespace MvcCore\Ext\Forms;
 
 /**
  * Responsibility: Base validator class with base methods implementations.
- *				   This class is not possible to instantiate, you need to extend 
- *				   this class and define custom validation rules.
+ *                 This class is not possible to instantiate, you need to extend 
+ *                 this class and define custom validation rules.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
@@ -65,10 +65,11 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 */
 	protected static $toolClass = '';
 
+
 	/**
-	 * Create every time new validator instance with configured form instance. No singleton.
-	 * @param array $constructorConfig	Configuration arguments for constructor, 
-	 *									validator's constructor first param.
+	 * @inheritDocs
+	 * @param array $constructorConfig Configuration arguments for constructor, 
+	 *                                 validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public static function CreateInstance (array $constructorConfig = []) {
@@ -80,8 +81,8 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	/**
 	 * Create new form field validator instance.
 	 * @param array $cfg Config array with protected properties and it's 
-	 *					 values which you want to configure, presented 
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented 
+	 *                   in camel case properties names syntax.
 	 * @return void
 	 */
 	public function __construct (array $cfg = []) {
@@ -98,7 +99,9 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 
 	/**
-	 * Set up form instance, where is validator created during submit.
+	 * @inheritDocs
+	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Form $form 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
@@ -108,10 +111,9 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 
 	/**
-	 * Set up field instance, where is validated value by this 
-	 * validator during submit before every `Validate()` method call.
-	 * This method is also called once, when validator instance is separately 
-	 * added into already created field instance to process any field checking.
+	 * @inheritDocs
+	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Forms\Field $field 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
@@ -123,10 +125,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 	
 	/**
-	 * Set predefined validator custom error message strings (not translated) 
-	 * with replacements for field names and more specific info 
-	 * to tell the user what happened or what to do more.
-	 * @param array $errorMessages Indexes are integers and values are error message strings.
+	 * @inheritDocs
 	 * @return array
 	 */
 	public static function SetErrorMessages ($errorMessages) {
@@ -134,9 +133,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 	
 	/**
-	 * Return predefined validator custom error message strings (not translated) 
-	 * with replacements for field names and more specific info 
-	 * to tell the user what happened or what to do more.
+	 * @inheritDocs
 	 * @param int $errorMsgIndex Integer index for `static::$errorMessages` array.
 	 * @return string
 	 */
@@ -145,13 +142,9 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 
 	/**
-	 * Validation method.
-	 * Check submitted value by validator specific rules and 
-	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
-	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
-	 * is not possible to return safe valid value.
-	 * @param string|array			$rawSubmittedValue	Raw submitted value, string or array of strings.
-	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 * @inheritDocs
+	 * @param string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
+	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public abstract function Validate ($rawSubmittedValue);
 
@@ -181,10 +174,10 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 * If there is no specific value in field and not even in validator, set into
 	 * validator default value.
 	 * @param array $fieldPropsDefaultValidValues Array with key as property 
-	 *											  name and value as default 
-	 *											  validator value, if there is 
-	 *											  nothing in field and nothing 
-	 *											  even in validator itself.
+	 *                                            name and value as default 
+	 *                                            validator value, if there is 
+	 *                                            nothing in field and nothing 
+	 *                                            even in validator itself.
 	 * @return void
 	 */
 	protected function setUpFieldProps ($fieldPropsDefaultValidValues = []) {

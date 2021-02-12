@@ -17,8 +17,8 @@ interface IValidator {
 
 	/**
 	 * Create every time new validator instance with configured form instance. No singleton.
-	 * @param array $constructorConfig	Configuration arguments for constructor, 
-	 *									validator's constructor first param.
+	 * @param array $constructorConfig Configuration arguments for constructor, 
+	 *                                 validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
 	public static function CreateInstance (array $constructorConfig = []);
@@ -34,6 +34,8 @@ interface IValidator {
 
 	/**
 	 * Set up form instance, where is validator created during submit.
+	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Form $form 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
@@ -44,6 +46,8 @@ interface IValidator {
 	 * validator during submit before every `Validate()` method call.
 	 * This method is also called once, when validator instance is separately 
 	 * added into already created field instance to process any field checking.
+	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Forms\Field $field 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
@@ -55,8 +59,8 @@ interface IValidator {
 	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
 	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
 	 * is not possible to return safe valid value.
-	 * @param string|array			$submitValue	Raw submitted value, string or array of strings.
-	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 * @param string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
+	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue);
 }

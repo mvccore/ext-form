@@ -20,10 +20,7 @@ namespace MvcCore\Ext\Forms\Validators;
 class Clear extends \MvcCore\Ext\Forms\Validator {
 
 	/**
-	 * Set up field instance, where is validated value by this 
-	 * validator during submit before every `Validate()` method call.
-	 * This method is also called once, when validator instance is separately 
-	 * added into already created field instance to process any field checking.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field $field 
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
@@ -34,13 +31,9 @@ class Clear extends \MvcCore\Ext\Forms\Validator {
 	}
 
 	/**
-	 * Validation method.
-	 * Check submitted value by validator specific rules and 
-	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
-	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
-	 * is not possible to return safe valid value.
-	 * @param string|array			$rawSubmittedValue	Raw submitted value, string or array of strings.
-	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
+	 * @inheritDocs
+	 * @param string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
+	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
 		return $rawSubmittedValue;

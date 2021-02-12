@@ -15,10 +15,10 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: init, pre-dispatch and render `<input>` HTML element 
- *				   with type `hidden`. `Hidden` field has it's own validator 
- *				   `SafeString` to clean string from base ASCII chars and 
- *				   some control chars by default. But validator `SafeString` 
- *				   doesn't prevent SQL injects and more.
+ *                 with type `hidden`. `Hidden` field has it's own validator 
+ *                 `SafeString` to clean string from base ASCII chars and 
+ *                 some control chars by default. But validator `SafeString` 
+ *                 doesn't prevent SQL injects and more.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 class	Hidden 
@@ -35,8 +35,8 @@ extends	\MvcCore\Ext\Forms\Field {
 	/**
 	 * Validators: 
 	 * - `SafeString` - remove from submitted value base ASCII characters from 0 to 31 included 
-	 *					(first column) and escape special characters: `& " ' < > | = \ %`.
-	 *					This validator is not prevent SQL inject attacks!
+	 *                  (first column) and escape special characters: `& " ' < > | = \ %`.
+	 *                  This validator is not prevent SQL inject attacks!
 	 * @var string[]|\Closure[]
 	 */
 	protected $validators = ['SafeString'];

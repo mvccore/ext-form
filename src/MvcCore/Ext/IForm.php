@@ -1288,7 +1288,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * - Check maximum post size by php configuration if form is posted.
 	 * - Check cross site request forgery tokens with session tokens.
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
-	 *	 `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
+	 *   `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
 	 * @param array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`

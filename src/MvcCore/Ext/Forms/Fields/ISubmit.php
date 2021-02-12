@@ -15,8 +15,8 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: define getter and setter for property `customResultState` (`int`)
- *				   to have custom submit result state, for all types of submit 
- *				   buttons and inputs.
+ *                 to have custom submit result state, for all types of submit 
+ *                 buttons and inputs.
  * Interface for classes:
  * - `\MvcCore\Ext\Form`
  *    - `\MvcCore\Ext\Form\FieldMethods`

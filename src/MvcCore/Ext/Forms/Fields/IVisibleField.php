@@ -15,8 +15,8 @@ namespace MvcCore\Ext\Forms\Fields;
 
 /**
  * Responsibility: define getters and setters for properties/attributes: 
- *				   `accessKey`, `autoFocus`, `disabled`, `readOnly`, 
- *				   `required` and `tabIndex`.
+ *                 `accessKey`, `autoFocus`, `disabled`, `readOnly`, 
+ *                 `required` and `tabIndex`.
  * Interface for all field classes:
  * - `\MvcCore\Ext\Forms\Field`
  *    - `\MvcCore\Ext\Forms\Field\Rendering`

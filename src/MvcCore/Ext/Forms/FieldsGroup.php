@@ -113,8 +113,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	/**
 	 * Create new form control group instance.
 	 * @param array $cfg Config array with public properties and it's
-	 *					 values which you want to configure, presented
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */

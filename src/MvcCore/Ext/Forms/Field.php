@@ -31,8 +31,8 @@ implements		\MvcCore\Ext\Forms\IField {
 	/**
 	 * @inheritDocs
 	 * @param array $cfg Config array with public properties and it's
-	 *					 values which you want to configure, presented
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -43,8 +43,8 @@ implements		\MvcCore\Ext\Forms\IField {
 	/**
 	 * Create new form control instance.
 	 * @param array $cfg Config array with public properties and it's
-	 *					 values which you want to configure, presented
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	/**
 	 * Universal setter, if property not defined - it's automatically declared.
 	 * @param string $name
-	 * @param mixed	 $value
+	 * @param mixed  $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function __set ($name, $value) {
@@ -170,8 +170,8 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @internal
 	 * @template
 	 * @param array $rawRequestParams Raw request params from MvcCore
-	 *								  request object based on raw app
-	 *								  input, `$_GET` or `$_POST`.
+	 *                                request object based on raw app
+	 *                                input, `$_GET` or `$_POST`.
 	 * @return string|int|array|NULL
 	 */
 	public function Submit (array & $rawRequestParams = []) {
@@ -280,8 +280,8 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
 	 *
-	 * @param string $errorMsg
-	 * @param array $errorMsgArgs
+	 * @param string   $errorMsg
+	 * @param array    $errorMsgArgs
 	 * @param callable $replacingCallable
 	 * @return string
 	 */

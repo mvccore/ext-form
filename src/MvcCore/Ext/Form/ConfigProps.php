@@ -95,18 +95,18 @@ trait ConfigProps {
 	 * a browsing context (e.g. tab, window, or inline frame). Default value
 	 * is `NULL` to not render any `<form>` element `target` attribute.
 	 * The following keywords have special meanings:
-	 * - `_self`:		Load the response into the same browsing context as the
-	 *					current one. This value is the default if the attribute
-	 *					is not specified.
-	 * - `_blank`:		Load the response into a new unnamed browsing context.
-	 * - `_parent`:		Load the response into the parent browsing context of
-	 *					the current one. If there is no parent, this option
-	 *					behaves the same way as `_self`.
-	 * - `_top`:		Load the response into the top-level browsing context
-	 *					(i.e. the browsing context that is an ancestor of the
-	 *					current one, and has no parent). If there is no parent,
-	 *					this option behaves the same way as `_self`.
-	 * - `iframename`:	The response is displayed in a named `<iframe>`.
+	 * - `_self`:      Load the response into the same browsing context as the
+	 *                 current one. This value is the default if the attribute
+	 *                 is not specified.
+	 * - `_blank`:     Load the response into a new unnamed browsing context.
+	 * - `_parent`:    Load the response into the parent browsing context of
+	 *                 the current one. If there is no parent, this option
+	 *                 behaves the same way as `_self`.
+	 * - `_top`:       Load the response into the top-level browsing context
+	 *                 (i.e. the browsing context that is an ancestor of the
+	 *                 current one, and has no parent). If there is no parent,
+	 *                 this option behaves the same way as `_self`.
+	 * - `iframename`: The response is displayed in a named `<iframe>`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-target
 	 * @var string|NULL
 	 */
@@ -116,12 +116,12 @@ trait ConfigProps {
 	 * Indicates whether input elements can by default have their values automatically
 	 * completed by the browser. This setting can be overridden by an `autocomplete`
 	 * attribute on an element belonging to the form. Possible values are:
-	 * - `'off' | FALSE:The user must explicitly enter a value into each field for
-	 * 					every use, or the document provides its own auto-completion
-	 * 					method; the browser does not automatically complete entries.
-	 * - `'on'` | TRUE: The browser can automatically complete values based on
-	 * 					values that the user has previously entered in the form.
-	 * - `NULL`			Do not render the attribute.
+	 * - `'off' | FALSE: The user must explicitly enter a value into each field for
+	 *                   every use, or the document provides its own auto-completion
+	 *                   method; the browser does not automatically complete entries.
+	 * - `'on'` | TRUE:  The browser can automatically complete values based on
+	 *                   values that the user has previously entered in the form.
+	 * - `NULL`          Do not render the attribute.
 	 * For most modern browsers setting the autocomplete attribute will not prevent
 	 * a browser's password manager from asking the user if they want to store login
 	 * fields (username and password), if the user permits the storage the browser will
@@ -359,9 +359,9 @@ trait ConfigProps {
 	/**
 	 * Supporting javascript files configuration.
 	 * Every record in `$jsSupportFiles` array has to be defined as array with:
-	 *	 `0` - `string` - Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
-	 *	 `1` - `string` - Supporting javascript full class name inside supporting file.
-	 *	 `2` - `array`  - Supporting javascript constructor params.
+	 * - `0` - `string` - Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
+	 * - `1` - `string` - Supporting javascript full class name inside supporting file.
+	 * - `2` - `array`  - Supporting javascript constructor params.
 	 * @var array
 	 */
 	protected $jsSupportFiles = [];
