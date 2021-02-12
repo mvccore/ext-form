@@ -39,7 +39,7 @@ class Clear extends \MvcCore\Ext\Forms\Validator {
 	 * if there is any error, call: `$this->field->AddValidationError($errorMsg, $errorMsgArgs, $replacingCallable);` 
 	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
 	 * is not possible to return safe valid value.
-	 * @param string|array			$submitValue	Raw submitted value, string or array of strings.
+	 * @param string|array			$rawSubmittedValue	Raw submitted value, string or array of strings.
 	 * @return string|array|NULL	Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
