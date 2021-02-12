@@ -65,7 +65,12 @@ trait AddMethods {
 			"UTF-8",
 			$errorMsg
 		);
-		$fieldNamesArr = $fieldNames === NULL ? [] : (gettype($fieldNames) == 'array' ? $fieldNames : [$fieldNames]);
+		$fieldNamesArr = $fieldNames === NULL 
+			? [] 
+			: (gettype($fieldNames) == 'array' 
+				? $fieldNames 
+				: [$fieldNames]
+			);
 		$newErrorRec = [$errorMsgUtf8, $fieldNamesArr];
 		if ($fieldNamesArr) {
 			foreach ($fieldNamesArr as $fieldName) {
