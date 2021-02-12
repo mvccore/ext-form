@@ -68,6 +68,7 @@ trait Required {
 	 * @return bool|NULL
 	 */
 	public function GetRequired () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Required */
 		return $this->required;
 	}
 
@@ -79,10 +80,10 @@ trait Required {
 	 * `$form->GetDefaultRequired()` to `TRUE` and this value is `NULL`, field
 	 * will be automatically considered required by default form configuration.
 	 * @param bool|NULL $required
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRequired ($required = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Required */
 		$this->required = $required;
 		return $this;
 	}

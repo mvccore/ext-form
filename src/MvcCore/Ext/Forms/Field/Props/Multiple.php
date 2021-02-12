@@ -59,6 +59,7 @@ trait Multiple {
 	 * @return bool
 	 */
 	public function GetMultiple () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Multiple */
 		return $this->multiple;
 	}
 
@@ -79,7 +80,7 @@ trait Multiple {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetMultiple ($multiple = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Multiple */
 		$this->multiple = $multiple;
 		return $this;
 	}

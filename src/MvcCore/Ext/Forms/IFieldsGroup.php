@@ -18,8 +18,8 @@ interface IFieldsGroup {
 	/**
 	 * Create new form control group instance.
 	 * @param array $cfg Config array with public properties and it's 
-	 *					 values which you want to configure, presented 
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented 
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -87,7 +87,7 @@ interface IFieldsGroup {
 	 * which are possible simply to convert into array of strings. `NULL` value is then 
 	 * an empty array. For extended class `RadioGroup` - the value type is only a `string` 
 	 * or `NULL`.
-	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
+	 * @param \float[]|\int[]|\string[]|float|int|string|array|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value);
@@ -116,6 +116,8 @@ interface IFieldsGroup {
 	 * - Set up form and field id attribute by form id and field name.
 	 * - Set up required.
 	 * - Check if there are any options for current controls group.
+	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
@@ -131,6 +133,8 @@ interface IFieldsGroup {
 	 * - Set up translation boolean.
 	 * - Translate label property if any.
 	 * - Translate all option texts if necessary.
+	 * @internal
+	 * @template
 	 * @return void
 	 */
 	public function PreDispatch ();
@@ -144,6 +148,7 @@ interface IFieldsGroup {
 	 * or without label by local field configuration. Also there
 	 * could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderNaturally ();

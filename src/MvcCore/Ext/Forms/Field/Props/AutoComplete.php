@@ -48,6 +48,7 @@ trait AutoComplete {
 	 * @return string|NULL
 	 */
 	public function GetAutoComplete () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AutoComplete */
 		return $this->autoComplete;
 	}
 
@@ -60,7 +61,7 @@ trait AutoComplete {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoComplete ($autoComplete = FALSE) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AutoComplete */
 		if ($autoComplete === FALSE) {
 			$this->autoComplete = 'off';
 		} else if ($autoComplete === TRUE) {

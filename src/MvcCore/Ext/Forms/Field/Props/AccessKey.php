@@ -67,6 +67,7 @@ trait AccessKey {
 	 * @return string|NULL
 	 */
 	public function GetAccessKey () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AccessKey */
 		return $this->accessKey;
 	}
 
@@ -81,6 +82,7 @@ trait AccessKey {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAccessKey ($accessKey) {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AccessKey */
 		$this->accessKey = $accessKey;
 		return $this;
 	}

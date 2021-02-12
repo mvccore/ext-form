@@ -77,6 +77,7 @@ trait ReadOnly {
 	 * @return bool|NULL
 	 */
 	public function GetReadOnly () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\ReadOnly */
 		return $this->readOnly;
 	}
 
@@ -93,10 +94,10 @@ trait ReadOnly {
 	 * error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
 	 * @param bool|NULL $readonly
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetReadOnly ($readOnly = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\ReadOnly */
 		$this->readOnly = $readOnly;
 		return $this;
 	}

@@ -32,6 +32,7 @@ trait GroupLabelCssClasses {
 	 * @return \string[]
 	 */
 	public function & GetGroupLabelCssClasses () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\GroupLabelCssClasses */
 		return $this->groupLabelCssClasses;
 	}
 
@@ -44,7 +45,7 @@ trait GroupLabelCssClasses {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetGroupLabelCssClasses ($groupLabelCssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\GroupLabelCssClasses */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$this->groupLabelCssClasses = $groupLabelCssClasses;
 		} else {
@@ -60,7 +61,7 @@ trait GroupLabelCssClasses {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddGroupLabelCssClasses ($groupLabelCssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\GroupLabelCssClasses */
 		if (gettype($groupLabelCssClasses) == 'array') {
 			$groupCssClasses = $groupLabelCssClasses;
 		} else {

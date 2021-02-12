@@ -79,9 +79,9 @@ trait Label {
 	 * first or field first by another property `$field->labelSide = 'left' | 'right';`.
 	 * But if you want to render label around field or if you don't want
 	 * to render any label, you can change this with constants (values):
-	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL` - `<label /><input />`
+	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL`       - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
-	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
+	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL`     - `<input />`
 	 * @var string
 	 */
 	protected $renderMode = NULL;
@@ -108,7 +108,7 @@ trait Label {
 	 * @return string|NULL
 	 */
 	public function GetLabel () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->label;
 	}
 
@@ -122,7 +122,7 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabel ($label, $translateLabel = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->label = $label;
 		if ($translateLabel !== NULL)
 			$this->translateLabel = $translateLabel;
@@ -140,7 +140,7 @@ trait Label {
 	 * @return string
 	 */
 	public function GetLabelSide () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->labelSide;
 	}
 
@@ -156,7 +156,7 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelSide = $labelSide;
 		return $this;
 	}
@@ -173,7 +173,7 @@ trait Label {
 	 * @return string
 	 */
 	public function GetRenderMode () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->renderMode;
 	}
 
@@ -187,10 +187,10 @@ trait Label {
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
 	 * @param string $renderMode
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->renderMode = $renderMode;
 		return $this;
 	}
@@ -208,7 +208,7 @@ trait Label {
 	 * @return array
 	 */
 	public function & GetLabelAttrs () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->labelAttrs;
 	}
 
@@ -224,7 +224,7 @@ trait Label {
 	 * @return mixed
 	 */
 	public function GetLabelAttr ($name = 'data-*') {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return isset($this->labelAttrs[$name])
 			? $this->labelAttrs[$name]
 			: NULL;
@@ -243,10 +243,10 @@ trait Label {
 	 * All previously defined additional label attributes 
 	 * will be replaced by given array.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelAttrs (array $attrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelAttrs = $attrs;
 		return $this;
 	}
@@ -264,10 +264,10 @@ trait Label {
 	 * previous attribute with the same name will be overwritten.
 	 * @param string $name
 	 * @param mixed $value
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelAttr ($name, $value) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelAttrs[$name] = $value;
 		return $this;
 	}
@@ -284,10 +284,10 @@ trait Label {
 	 * All given additional label attributes 
 	 * will be merged with previously defined attributes.
 	 * @param array $attrs
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddLabelAttrs (array $attrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelAttrs = array_merge($this->labelAttrs, $attrs);
 		return $this;
 	}

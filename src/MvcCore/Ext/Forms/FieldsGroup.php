@@ -15,9 +15,9 @@ namespace MvcCore\Ext\Forms;
 
 /**
  * Responsibility: init, pre-dispatch and render group of common form controls,
- *				   mostly `input` controls. This class is not possible to
- *				   instantiate, you need to extend this class to create own
- *				   specific form control.
+ *                 mostly `input` controls. This class is not possible to
+ *                 instantiate, you need to extend this class to create own
+ *                 specific form control.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
 abstract class	FieldsGroup
@@ -61,10 +61,10 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	];
 
 	/**
-	 * Create new form control group instance.
+	 * @inheritDocs
 	 * @param array $cfg Config array with public properties and it's
-	 *					 values which you want to configure, presented
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -73,8 +73,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * Get form group controls value, in most cases it's an array of strings.
-	 * For extended class `RadioGroup` - the type is only a `string` or `NULL`.
+	 * @inheritDocs
 	 * @return \string[]|string|NULL
 	 */
 	public function GetValue () {
@@ -82,11 +81,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * Set form group controls value, in most cases - it could be an array with types,
-	 * which are possible simply to convert into array of strings. `NULL` value is then
-	 * an empty array. For extended class `RadioGroup` - the value type is only a `string`
-	 * or `NULL`.
-	 * @param \float[]|\int[]|\string[]|float|int|string|NULL $value
+	 * @inheritDocs
+	 * @param \float[]|\int[]|\string[]|float|int|string|array|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value) {
@@ -95,8 +91,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * Field group is always marked as multiple value control. This function
-	 * always return `TRUE` for field group instance.
+	 * @inheritDocs
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return bool
 	 */
@@ -105,8 +100,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * Field group is always marked as multiple value control. This function
-	 * does nothing, because multiple option has to be `TRUE` for field group instance all time.
+	 * @inheritDocs
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -135,13 +129,9 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
-	 * is added into form by `$form->AddField();` method.
-	 * Do not use this method even if you don't develop any form field group.
-	 * - Check if field has any name, which is required.
-	 * - Set up form and field id attribute by form id and field name.
-	 * - Set up required.
-	 * - Check if there are any options for current controls group.
+	 * @inheritDocs
+	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
@@ -156,14 +146,9 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
-	 * field is naturally rendered. It sets up field for rendering process.
-	 * Do not use this method even if you don't develop any form field.
-	 * Set up field properties before rendering process.
-	 * - Set up field render mode.
-	 * - Set up translation boolean.
-	 * - Translate label property if any.
-	 * - Translate all option texts if necessary.
+	 * @inheritDocs
+	 * @internal
+	 * @template
 	 * @return void
 	 */
 	public function PreDispatch () {
@@ -188,14 +173,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering`
-	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 *
-	 * Render field naturally by render mode.
-	 * Field should be rendered with label beside, label around
-	 * or without label by local field configuration. Also there
-	 * could be rendered specific field errors before or after field
-	 * if field form is configured in that way.
+	 * @inheritDocs
+	 * @internal
 	 * @return string
 	 */
 	public function RenderNaturally () {
@@ -221,14 +200,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
-	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 *
-	 * Render field naturally by configured property `$field->renderMode` if any
-	 * or by default render mode without any label. Field should be rendered with
-	 * label beside, label around or without label by local field configuration.
-	 * Also there could be rendered specific field errors before or after field
-	 * if field form is configured in that way.
+	 * @inheritDocs
+	 * @internal
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
@@ -260,10 +233,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
-	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 *
-	 * Render all sub-controls by multiple calls of `$field->RenderControlItem();`.
+	 * @inheritDocs
+	 * @internal
 	 * @return string
 	 */
 	public function RenderControl () {
@@ -275,10 +246,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
-	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 *
-	 * Render label tag only without control or specific errors.
+	 * @inheritDocs
+	 * @internal
 	 * @return string
 	 */
 	public function RenderLabel () {
@@ -298,11 +267,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup`
-	 * in rendering process. Do not use this method even if you don't develop any form field.
-	 *
-	 * Render sub-controls with each sub-control label tag
-	 * and without group label or without group specific errors.
+	 * @inheritDocs
+	 * @internal
 	 * @param string $key
 	 * @param string|array $option
 	 * @return string
@@ -370,7 +336,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * - Label text string.
 	 * - Label attributes string.
 	 * - Control attributes string.
-	 * @param string	   $key
+	 * @param string       $key
 	 * @param string|array $option
 	 * @return array
 	 */

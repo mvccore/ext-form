@@ -220,17 +220,7 @@ trait Setters {
 	
 
 	/**
-	 * Remove predefined validator by given class ending name or by given validator instance.
-	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
-	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
-	 * Every given validator class (ending name) or given validator instance has to
-	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended
-	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
-	 * Every typed field has it's own predefined validators, but you can define any
-	 * validator you want and replace them.
+	 * @inheritDocs
 	 * @param \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -256,32 +246,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set boolean `TRUE` or string with template relative path
-	 * without `.phtml` or `.php` extension, if you want to render
-	 * field by any custom template.
-	 *
-	 * If `TRUE` given, path to template
-	 * is completed by configured `\MvcCore\Ext\Forms\view::SetFieldsDir(...);`
-	 * value, which is `/App/Views/Forms/Fields` by default.
-	 *
-	 * If any string with relative path given, path must be relative from configured
-	 * `\MvcCore\Ext\Forms\view::SetFieldsDir(...);` value, which is again
-	 * `/App/Views/Forms/Fields` by default.
-	 *
-	 * To render field naturally, set `FALSE`, empty string or `NULL` (`NULL` is default).
-	 *
-	 * Example:
-	 * ```
-	 * // To render field template prepared in:
-	 * // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
-	 *
-	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields'); // by default
-	 * $field->SetViewScript('my-specials/my-field-type');
-	 *
-	 * // Or you can do the same by:
-	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
-	 * $field->SetType('my-field-type');
-	 * ```
+	 * @inheritDocs
 	 * @param bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -292,18 +257,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set supporting javascript full javascript class name.
-	 * If you want to use any custom supporting javascript prototyped class
-	 * for any additional purposes for your custom field, you need to use
-	 * `$field->SetJsSupportingFile(...)` to define path to your javascript file
-	 * relatively from configured `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);`
-	 * value. Than you have to add supporting javascript file path into field form
-	 * in `$field->PreDispatch();` method to render those files immediately after form
-	 * (once) or by any external custom assets renderer configured by:
-	 * `$form->SetJsSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting javascript files into response by your
-	 * own and also you can run your helper javascripts also by your own. Is up to you.
-	 * `NULL` by default.
+	 * @inheritDocs
 	 * @param string $jsClass
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -314,18 +268,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set field supporting javascript file relative path.
-	 * If you want to use any custom supporting javascript file (with prototyped
-	 * class) for any additional purposes for your custom field, you need to
-	 * define path to your javascript file relatively from configured
-	 * `\MvcCore\Ext\Form::SetJsSupportFilesRootDir(...);` value.
-	 * Than you have to add supporting javascript file path into field form
-	 * in `$field->PreDispatch();` method to render those files immediately after form
-	 * (once) or by any external custom assets renderer configured by:
-	 * `$form->SetJsSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting javascript files into response by your
-	 * own and also you can run your helper javascripts also by your own. Is up to you.
-	 * `NULL` by default.
+	 * @inheritDocs
 	 * @param string $jsFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -336,18 +279,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set field supporting css file relative path.
-	 * If you want to use any custom supporting css file
-	 * for any additional purposes for your custom field, you need to
-	 * define path to your css file relatively from configured
-	 * `\MvcCore\Ext\Form::SetCssSupportFilesRootDir(...);` value.
-	 * Than you have to add supporting css file path into field form
-	 * in `$field->PreDispatch();` method to render those files immediately after form
-	 * (once) or by any external custom assets renderer configured by:
-	 * `$form->SetCssSupportFilesRenderer(...);` method.
-	 * Or you can add your custom supporting css files into response by your
-	 * own and also you can run your helper css also by your own. Is up to you.
-	 * `NULL` by default.
+	 * @inheritDocs
 	 * @param string $cssFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -358,9 +290,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set boolean flag about field visible texts and error messages translation.
-	 * This flag is automatically assigned from `$field->form->GetTranslate();`
-	 * flag in `$field->Init();` method.
+	 * @inheritDocs
 	 * @param bool $translate
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -371,11 +301,7 @@ trait Setters {
 	}
 
 	/**
-	 * Add field error message text to render it in rendering process.
-	 * This method is only for rendering purposes, not to add errors
-	 * into session. It's always called internally from `\MvcCore\Ext\Form`
-	 * in render preparing process. To add form error properly,
-	 * use `$field->form->AddError($errorMsg, $fieldNames);` method instead.
+	 * @inheritDocs
 	 * @param string $errorMsg
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -386,8 +312,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set field (or label) default template for natural
-	 * (not customized with `*.phtml` view) field rendering.
+	 * @inheritDocs
 	 * @param string $templateName Template name in array `static::$templates`.
 	 * @param string $templateCode Template HTML code with prepared replacements.
 	 * @return string Newly configured template value.
@@ -402,8 +327,7 @@ trait Setters {
 	}
 
 	/**
-	 * Set fields (and labels) default templates for natural
-	 * (not customized with `*.phtml` view) field rendering.
+	 * @inheritDocs
 	 * @param array|\stdClass $templates
 	 * @return array
 	 */

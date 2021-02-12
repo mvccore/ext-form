@@ -47,9 +47,8 @@ trait Getters {
 	}
 
 	/**
-	 * Get form field value. It could be string or array, in or float, it depends
-	 * on field implementation. Default value is `NULL`.
-	 * @return string|array|int|float|NULL
+	 * @inheritDocs
+	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
 	 */
 	public function GetValue () {
 		/** @var $this \MvcCore\Ext\Forms\Field */

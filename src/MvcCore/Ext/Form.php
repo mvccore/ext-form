@@ -15,9 +15,9 @@ namespace MvcCore\Ext;
 
 /**
  * Responsibility: Main form class with all `<form>` configuration, attributes,
- *				   field instances and it's validators. To create any HTML form,
- *				   you need to instantiate this class, configure an id, action 
- *				   and more.
+ *                 field instances and it's validators. To create any HTML form,
+ *                 you need to instantiate this class, configure an id, action 
+ *                 and more.
  */
 class		Form 
 extends		\MvcCore\Controller

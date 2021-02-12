@@ -34,6 +34,7 @@ trait GroupLabelAttrs {
 	 * @return array
 	 */
 	public function & GetGroupLabelAttrs () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\GroupLabelAttrs */
 		return $this->groupLabelAttrs;
 	}
 
@@ -45,7 +46,7 @@ trait GroupLabelAttrs {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetGroupLabelAttrs ($groupLabelAttrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\GroupLabelAttrs */
 		$this->groupLabelAttrs = $groupLabelAttrs;
 		return $this;
 	}
@@ -59,7 +60,7 @@ trait GroupLabelAttrs {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddGroupLabelAttr ($groupLabelAttrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\GroupLabelAttrs */
 		$this->groupLabelAttrs = array_merge($this->groupLabelAttrs, $groupLabelAttrs);
 		return $this;
 	}

@@ -61,6 +61,7 @@ trait InputMode {
 	 * @return string|NULL
 	 */
 	public function GetInputMode () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\InputMode */
 		return $this->inputMode;
 	}
 
@@ -82,7 +83,7 @@ trait InputMode {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetInputMode ($inputMode) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\InputMode */
 		$this->inputMode = $inputMode;
 		return $this;
 	}
@@ -93,7 +94,7 @@ trait InputMode {
 	 * @return void
 	 */
 	protected function preDispatchInputMode () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\InputMode */
 		if ($this->inputMode !== NULL) return;
 		if ($this->type === 'number') {
 			if (

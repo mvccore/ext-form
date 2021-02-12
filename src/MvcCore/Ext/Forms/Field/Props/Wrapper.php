@@ -43,6 +43,7 @@ trait Wrapper {
 	 * @return string
 	 */
 	public function GetWrapper () {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Wrapper */
 		return $this->wrapper;
 	}
 
@@ -54,7 +55,7 @@ trait Wrapper {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetWrapper ($wrapper) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Wrapper */
 		$this->wrapper = $wrapper;
 		return $this;
 	}
@@ -68,6 +69,7 @@ trait Wrapper {
 	 * @return string
 	 */
 	protected function renderControlWrapper ($renderedCode) {
+		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Wrapper */
 		$wrapperReplacement = '{control}';
 		$wrapper = mb_strpos($wrapperReplacement, $this->wrapper) !== FALSE 
 			? $this->wrapper 

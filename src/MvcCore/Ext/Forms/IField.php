@@ -13,71 +13,8 @@
 
 namespace MvcCore\Ext\Forms;
 
-interface IField {
+interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 
-	/**
-	 * Render label HTML element on the left side from field HTML element.
-	 * @var string
-	 */
-	const LABEL_SIDE_LEFT = 'left';
-
-	/**
-	 * Render label HTML element on the right side from field HTML element.
-	 * @var string
-	 */
-	const LABEL_SIDE_RIGHT = 'right';
-	
-	/**
-	 * Constants used internally and mostly
-	 * in field autofocus setter to define additional
-	 * behaviour for possible duplicate field focus.
-	 * @var int
-	 */
-	const	AUTOFOCUS_DUPLICITY_EXCEPTION = 0,
-			AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW = 1,
-			AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW = -1;
-
-	
-	/**
-	 * Validator instance method context in current form class.
-	 * @var int
-	 */
-	const VALIDATOR_CONTEXT_FORM			= 1;
-	
-	/**
-	 * Validator static method context in current form class.
-	 * @var int
-	 */
-	const VALIDATOR_CONTEXT_FORM_STATIC		= 2;
-	
-	/**
-	 * Validator instance method context in parent controller class of current form.
-	 * @var int
-	 */
-	const VALIDATOR_CONTEXT_CTRL			= 4;
-	
-	/**
-	 * Validator static method context in parent controller class of current form.
-	 * @var int
-	 */
-	const VALIDATOR_CONTEXT_CTRL_STATIC		= 8;
-	
-	/**
-	 * Validator instance method context in current model instance of current model form.
-	 * For this value you need to install extension `mvccore/ext-model-form` and use features for model forms.
-	 * @var int
-	 */
-	const VALIDATOR_CONTEXT_MODEL			= 16;
-	
-	/**
-	 * Validator static method context in current model instance of current model form.
-	 * For this value you need to install extension `mvccore/ext-model-form` and use features for model forms.
-	 * @var int
-	 */
-	const VALIDATOR_CONTEXT_MODEL_STATIC	= 32;
-
-
-	
 	/***************************************************************************
 	 *                              Base Field class                           *
 	 **************************************************************************/
@@ -85,8 +22,8 @@ interface IField {
 	/**
 	 * Create new form control instance.
 	 * @param array $cfg Config array with public properties and it's 
-	 *					 values which you want to configure, presented 
-	 *					 in camel case properties names syntax.
+	 *                   values which you want to configure, presented 
+	 *                   in camel case properties names syntax.
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -101,6 +38,7 @@ interface IField {
 	 * - Set up required.
 	 * - Set up translate boolean property.
 	 * @internal
+	 * @template
 	 * @param \MvcCore\Ext\Form $form
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
@@ -114,6 +52,7 @@ interface IField {
 	 * - Set up field render mode if not defined.
 	 * - Translate label text if necessary.
 	 * @internal
+	 * @template
 	 * @return void
 	 */
 	public function PreDispatch ();
@@ -126,9 +65,10 @@ interface IField {
 	 * configured validators and add errors into form if necessary.
 	 * Then return safe processed value by all from validators or `NULL`.
 	 * @internal
+	 * @template
 	 * @param array $rawRequestParams Raw request params from MvcCore 
-	 *								  request object based on raw app 
-	 *								  input, `$_GET` or `$_POST`.
+	 *                                request object based on raw app 
+	 *                                input, `$_GET` or `$_POST`.
 	 * @return string|int|array|NULL
 	 */
 	public function Submit (array & $rawRequestParams = []);
@@ -211,7 +151,7 @@ interface IField {
 	/**
 	 * Get form field value. It could be string or array, in or float, it depends
 	 * on field implementation. Default value is `NULL`.
-	 * @return string|array|int|float|NULL
+	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
 	 */
 	public function GetValue ();
 
@@ -261,10 +201,10 @@ interface IField {
 	/**
 	 * Get list of predefined validator classes ending names or validator instances.
 	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
+	 *  - `array('\MvcCore\Ext\Forms\Validators\');`
 	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
 	 * Every validator class (ending name) or validator instance has to 
 	 * implement interface `\MvcCore\Ext\Forms\IValidator` or it could be extended 
 	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
@@ -299,16 +239,16 @@ interface IField {
 	 * 
 	 * Example:
 	 * ```
-	 * // Render field template prepared in:
-	 * // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
-	 * 
-	 * \MvcCore\Ext\Forms\View::GetFieldsDir(); // returned by default: 'Forms/Fields'
-	 * $field->GetViewScript(); // returned 'my-specials/my-field-type'
-	 * 
-	 * // Or the same by:
-	 * \MvcCore\Ext\Forms\View::GetFieldsDir(); // returned 'Forms/Fields/my-specials'
-	 * $field->GetType(); // returned 'my-field-type'
-	 * $field->GetViewScript(); // returned TRUE
+	 *   // Render field template prepared in:
+	 *   // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
+	 *   
+	 *   \MvcCore\Ext\Forms\View::GetFieldsDir(); // returned by default: 'Forms/Fields'
+	 *   $field->GetViewScript(); // returned 'my-specials/my-field-type'
+	 *   
+	 *   // Or the same by:
+	 *   \MvcCore\Ext\Forms\View::GetFieldsDir(); // returned 'Forms/Fields/my-specials'
+	 *   $field->GetType(); // returned 'my-field-type'
+	 *   $field->GetViewScript(); // returned TRUE
 	 * ```
 	 * @return bool|string|NULL
 	 */
@@ -505,10 +445,10 @@ interface IField {
 	 * Set list of predefined validator classes ending names or validator instances.
 	 * All default or previously defined validator(s) will be replaced with those arguments.
 	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
+	 *  - `array('\MvcCore\Ext\Forms\Validators\');`
 	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
 	 * Every given validator class (ending name) or given validator instance has to 
 	 * implement interface `\MvcCore\Ext\Forms\IValidator` or it could be extended 
 	 * from base abstract validator class: `\MvcCore\Ext\Forms\Validator`.
@@ -522,10 +462,10 @@ interface IField {
 	/**
 	 * Add list of predefined validator classes ending names or validator instances.
 	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
+	 *  - `array('\MvcCore\Ext\Forms\Validators\');`
 	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
 	 * Every given validator class (ending name) or given validator instance has to 
 	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended 
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
@@ -576,10 +516,10 @@ interface IField {
 	/**
 	 * Remove predefined validator by given class ending name or by given validator instance.
 	 * Validator class must exist in any validators namespace(s) configured by default:
-	 * - `array('\MvcCore\Ext\Forms\Validators\');`
+	 *  - `array('\MvcCore\Ext\Forms\Validators\');`
 	 * Or it could exist in any other validators namespaces, configured by method(s):
-	 * - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
-	 * - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::AddValidatorsNamespaces(...);`
+	 *  - `\MvcCore\Ext\Form::SetValidatorsNamespaces(...);`
 	 * Every given validator class (ending name) or given validator instance has to 
 	 * implement interface  `\MvcCore\Ext\Forms\IValidator` or it could be extended 
 	 * from base  abstract validator class: `\MvcCore\Ext\Forms\Validator`.
@@ -607,15 +547,15 @@ interface IField {
 	 * 
 	 * Example:
 	 * ```
-	 * // To render field template prepared in:
-	 * // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
-	 * 
-	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields'); // by default
-	 * $field->SetViewScript('my-specials/my-field-type');
-	 * 
-	 * // Or you can do the same by:
-	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
-	 * $field->SetType('my-field-type');
+	 *   // To render field template prepared in:
+	 *   // '/App/Views/Forms/Fields/my-specials/my-field-type.phtml':
+	 *   
+	 *   \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields'); // by default
+	 *   $field->SetViewScript('my-specials/my-field-type');
+	 *   
+	 *   // Or you can do the same by:
+	 *   \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
+	 *   $field->SetType('my-field-type');
 	 * ```
 	 * @param bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
@@ -732,6 +672,7 @@ interface IField {
 	 * This method creates `$view = new \MvcCore\Ext\Form\Core\View();`,
 	 * sets all local context variables into view instance and renders 
 	 * configured view instance into result string.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderTemplate ();
@@ -745,6 +686,7 @@ interface IField {
 	 * label beside, label around or without label by local field configuration. 
 	 * Also there could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderNaturally ();
@@ -755,6 +697,7 @@ interface IField {
 	 * 
 	 * Render field control and label by local configuration in left or in right side,
 	 * errors beside if form is configured to render specific errors beside controls.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderLabelAndControl ();
@@ -765,6 +708,7 @@ interface IField {
 	 * 
 	 * Render field control inside label by local configuration, render field
 	 * errors beside if form is configured to render specific errors beside controls.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderControlInsideLabel ();
@@ -774,6 +718,7 @@ interface IField {
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
 	 * Render control tag only without label or specific errors.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderControl ();
@@ -783,6 +728,7 @@ interface IField {
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
 	 * Render label tag only without control or specific errors.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderLabel ();
@@ -792,6 +738,7 @@ interface IField {
 	 * in rendering process. Do not use this method even if you don't develop any form field.
 	 * 
 	 * Render field specific errors only without control or label.
+	 * @internal
 	 * @return string
 	 */
 	public function RenderErrors ();
