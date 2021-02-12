@@ -107,11 +107,11 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 
 		$debugClass = $this->form->GetController()->GetApplication()->GetDebugClass();
 		$errorMsg = static::GetErrorMessage(static::ERROR_LOCAL_VALIDATION);
-		$result = NULL;
+		$safeValue = NULL;
 		try {
 
-			$this->reflectionMethod->invokeArgs(
-				$this->reflectionInvokeObject, [$rawSubmittedValue]
+			$safeValue = $this->reflectionMethod->invokeArgs(
+				$this->reflectionInvokeObject, [$rawSubmittedValue, $this->field]
 			);
 
 		} catch (\Exception $e) { // backward compatibility
@@ -122,7 +122,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 			$this->field->AddValidationError($errorMsg);
 		}
 
-		return $result;
+		return $safeValue;
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 				get_class($this->form), $modelFormInterface, TRUE, FALSE
 			);
 			if (!$formImplementsInterface) throw new \InvalidArgumentException(
-				"For model context validation, you have to implement form interface `{$modelFormInterface}`."
+				"For model context validation, you have to implement form interface `\\{$modelFormInterface}`."
 			);
 			/** @var $modelForm \MvcCore\Ext\ModelForms\Form */
 			$modelForm = $this->form;
@@ -166,7 +166,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 				$this->reflectionMethod = new \ReflectionMethod($this->reflectionInvokeObject, $this->method);
 				
 			} else if (($this->context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC) != 0) {
-				$this->reflectionMethod = new \ReflectionMethod(get_class($modelForm->GetModelInstance()), $this->method);
+				$this->reflectionMethod = new \ReflectionMethod($modelForm->GetModelClass(), $this->method);
 
 			} else {
 				throw new \InvalidArgumentException(
