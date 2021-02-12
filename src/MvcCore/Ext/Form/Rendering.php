@@ -20,16 +20,7 @@ namespace MvcCore\Ext\Form;
 trait Rendering {
 
 	/**
-	 * Render whole `<form>` with all content into HTML string to display it.
-	 * - If form is not initialized, there is automatically
-	 *   called `$form->Init();` method.
-	 * - If form is not pre-dispatched for rendering, there is
-	 *   automatically called `$form->PreDispatch();` method.
-	 * - Create new form view instance and set up the view with local
-	 *   context variables.
-	 * - Render form naturally or by custom template.
-	 * - Clean session errors, because errors should be rendered
-	 *   only once, only when it's used and it's now - in this rendering process.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
@@ -47,11 +38,7 @@ trait Rendering {
 	}
 
 	/**
-	 * Render form inner content, all field controls, content inside `<form>` tag,
-	 * without form errors. Go through all `$form->fields` and call `$field->Render();`
-	 * on every field instance and put field render result into an empty `<div>`
-	 * element. Render each field in full possible way - naturally by label
-	 * configuration with possible errors configured beside or with custom field template.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderContent () {
@@ -60,10 +47,7 @@ trait Rendering {
 	}
 
 	/**
-	 * Render form errors to display them inside `<form>` element.
-	 * If form is configured to render all errors together at form beginning,
-	 * this function completes all form errors into `div.errors` with `div.error` elements
-	 * inside containing each single errors message.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderErrors () {
@@ -72,8 +56,7 @@ trait Rendering {
 	}
 
 	/**
-	 * Render form begin - opening `<form>` tag and automatically
-	 * prepared hidden input with CSRF (Cross Site Request Forgery) tokens.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderBegin () {
@@ -82,9 +65,7 @@ trait Rendering {
 	}
 
 	/**
-	 * Render form end - closing `</form>` tag and supporting javascript and css files
-	 * only if there is necessary to add any supporting javascript or css files by
-	 * form configuration and if form is not using external JS/CSS renderer(s).
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderEnd () {
@@ -100,12 +81,7 @@ trait Rendering {
 	}
 
 	/**
-	 * Render all supporting CSS files directly
-	 * as `<style>` tag content inside HTML template
-	 * placed directly after `</form>` end tag or
-	 * render all supporting CSS files by configured external
-	 * CSS files renderer to add only links to HTML response `<head>`
-	 * section, linked to external CSS source files.
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderSupportingCss () {
@@ -126,16 +102,7 @@ trait Rendering {
 	}
 
 	/**
-	 * Render all supporting JS files directly
-	 * as `<script>` tag content inside HTML template
-	 * placed directly after `</form>` end tag or
-	 * render all supporting JS files by configured external
-	 * JS files renderer to add only links to HTML response `<head>`
-	 * section, linked to external JS source files.
-	 * Anyway there is always created at least one `<script>` tag
-	 * placed directly after `</form>` end tag with supporting javascripts
-	 * initializations - `new MvcCoreForm(/*javascript*\/);` - by rendered form fields
-	 * options, names, counts, values etc...
+	 * @inheritDocs
 	 * @return string
 	 */
 	public function RenderSupportingJs () {

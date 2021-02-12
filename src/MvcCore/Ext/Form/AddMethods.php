@@ -21,10 +21,7 @@ namespace MvcCore\Ext\Form;
 trait AddMethods {
 
 	/**
-	 * Add into list of character encodings that the server accepts. The 
-	 * browser uses them in the order in which they are listed. The default 
-	 * value,the reserved string `'UNKNOWN'`, indicates the same encoding 
-	 * as that of the document containing the form element.
+	 * @inheritDocs
 	 * @param string $charset 
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -35,11 +32,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * Add css classes strings for HTML element attribute `class`.
-	 * Given css classes will be added after previously defined css classes.
-	 * Default value is an empty array to not render HTML `class` attribute.
-	 * You can define css classes as single string, more classes separated 
-	 * by space or you can define css classes as array with strings.
+	 * @inheritDocs
 	 * @param string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -53,8 +46,8 @@ trait AddMethods {
 	}
 
 	/**
-	 * Add form submit error and switch form result to zero - to error state.
-	 * @param string $errorMsg Any error message, translated if necessary. All html tags from error message will be removed automatically.
+	 * @inheritDocs
+	 * @param string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
 	 * @param string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -90,10 +83,10 @@ trait AddMethods {
 	}
 
 	/**
-	 * Add supporting javascript file.
-	 * @param string $jsRelativePath	Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
-	 * @param string $jsClassName		Supporting javascript full class name inside supporting file.
-	 * @param array  $constructorParams	Supporting javascript constructor params.
+	 * @inheritDocs
+	 * @param string $jsRelativePath    Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
+	 * @param string $jsClassName       Supporting javascript full class name inside supporting file.
+	 * @param array  $constructorParams Supporting javascript constructor params.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddJsSupportFile (
@@ -107,7 +100,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * Add supporting css file.
+	 * @inheritDocs
 	 * @param string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -120,19 +113,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * Add CSRF (Cross Site Request Forgery) error handler.
-	 * If CSRF submit comparison fails, it's automatically processed
-	 * queue with this handlers, you can put here for example handler
-	 * to de-authenticate your user or anything else to more secure your application.
-	 * Params in `callable` should be two with following types:
-	 *	- `\MvcCore\Ext\Form`	- Form instance where error happened.
-	 *	- `\MvcCore\Request`	- Current request object.
-	 *	- `\MvcCore\Response`	- Current response object.
-	 *	- `string`				- Translated error message string.
-	 * Example:
-	 * `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $response, $errorMsg) {
-	 *		// ... anything you want to do, for example to sign out user.
-	 * });`
+	 * @inheritDocs
 	 * @param callable $handler
 	 * @param int|NULL $priorityIndex
 	 * @return int New CSRF error handlers count.
@@ -161,9 +142,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * Add form validators base namespaces to create validator instance by it's class name.
-	 * Validator will be created by class existence in this namespaces order.
-	 * Validators namespaces array configured by default: `array('\\MvcCore\\Ext\\Forms\\Validators\\');`.
+	 * @inheritDocs
 	 * @param \string[] $validatorsNamespaces,...
 	 * @return int New validators namespaces count.
 	 */

@@ -20,12 +20,13 @@ namespace MvcCore\Ext\Form;
 trait Csrf {
 
 	/**
-	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * @param \MvcCore\Ext\Form $form The form instance where CSRF error happened.
-	 * @param string $errorMsg Translated error message about CSRF invalid tokens.
+	 * @inheritDocs
+	 * @param \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
+	 * @param string            $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
 	 */
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg) {
+		/** @var $form \MvcCore\Ext\Form */
 		$request = $form->GetRequest();
 		$response = $form->GetResponse();
 		foreach (static::$csrfErrorHandlers as $handlersRecord) {
@@ -47,7 +48,7 @@ trait Csrf {
 	}
 
 	/**
-	 * Enable or disable CSRF checking, enabled by default.
+	 * @inheritDocs
 	 * @param bool $enabled 
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -58,21 +59,18 @@ trait Csrf {
 	}
 
 	/**
-	 * Return current CSRF (Cross Site Request Forgery) hidden
-	 * input name and it's value as `\stdClass`with  keys `name` and `value`.
+	 * @inheritDocs
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
+		/** @var $this \MvcCore\Ext\Form */
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf;
 		return (object) ['name' => $name, 'value' => $value];
 	}
 
 	/**
-	 * Check CSRF (Cross Site Request Forgery) sent tokens from user with session tokens.
-	 * If tokens are different, add form error and process CSRF error handlers queue.
-	 * If there is any exception caught in CSRF error handlers queue, it's logged
-	 * by configured core debug class with `CRITICAL` flag.
+	 * @inheritDocs
 	 * @param array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -98,11 +96,11 @@ trait Csrf {
 	}
 
 	/**
-	 * Create new fresh CSRF (Cross Site Request Forgery) tokens,
-	 * store them in current form session namespace and return them.
+	 * @inheritDocs
 	 * @return \string[]
 	 */
 	public function SetUpCsrf () {
+		/** @var $this \MvcCore\Ext\Form */
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
 		if (function_exists('openssl_random_pseudo_bytes')) {
 			$randomHash = bin2hex(openssl_random_pseudo_bytes(32));

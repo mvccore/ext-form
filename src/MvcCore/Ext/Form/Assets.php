@@ -58,7 +58,7 @@ trait Assets {
 	 * `\MvcCore\Ext\Form::$jsAssetsRootDir` or `\MvcCore\Ext\Form::$cssAssetsRootDir` to set path into 
 	 * library assets folder by default or to set path into any other customized defined directory.
 	 * @param string $supportingFileRelPath Supporting file relative path with `__MVCCORE_FORM_ASSETS_DIR__` replacement substring.
-	 * @param string $javascriptFiles `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
+	 * @param string $javascriptFiles       `TRUE` to complete supporting files from `$form->jsSupportFiles`, `FALSE` to complete them from `$form->cssSupportFiles`.
 	 * @return string Return absolute path to supporting javascript.
 	 */
 	protected static function absolutizeSupportingFilePath ($supportingFileRelPath = '', $javascriptFiles = TRUE) {
@@ -75,10 +75,10 @@ trait Assets {
 	/**
 	 * Render supporting js/css file. Add it's content after given first 
 	 * argument string `$content` or call external renderer handler.
-	 * @param string	$content				HTML content code with rendered supporting JS/CSS files.
-	 * @param string	$absolutePath			Absolute path to supporting JS/CSS file.
-	 * @param bool		$useExternalRenderer	`TRUE` to use any external configured renderer `callable`, default `FALSE`.
-	 * @param callable	$rendererHandler		External renderer `callable` accepting first argument as `\SplFileInfo` about supporting JS/CSS file.
+	 * @param string   $content             HTML content code with rendered supporting JS/CSS files.
+	 * @param string   $absolutePath        Absolute path to supporting JS/CSS file.
+	 * @param bool     $useExternalRenderer `TRUE` to use any external configured renderer `callable`, default `FALSE`.
+	 * @param callable $rendererHandler     External renderer `callable` accepting first argument as `\SplFileInfo` about supporting JS/CSS file.
 	 * @return void
 	 */
 	protected function renderSupportingFile (

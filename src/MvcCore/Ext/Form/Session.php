@@ -20,9 +20,7 @@ namespace MvcCore\Ext\Form;
 trait Session {
 
 	/**
-	 * Clear form values to empty array and clear form values in form session namespace,
-	 * clear form errors to empty array and clear form errors in form session namespace and
-	 * clear form CSRF tokens clear CRSF tokens in form session namespace.
+	 * @inheritDocs
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function ClearSession () {
@@ -37,8 +35,7 @@ trait Session {
 	}
 
 	/**
-	 * Store form values, form errors and form CSRF tokens
-	 * in it's own form session namespace.
+	 * @inheritDocs
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SaveSession () {

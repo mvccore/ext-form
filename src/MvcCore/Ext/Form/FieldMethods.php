@@ -21,10 +21,7 @@ namespace MvcCore\Ext\Form;
 trait FieldMethods {
 
 	/**
-	 * Get all form field controls.
-	 * After adding any field into form instance by `$form->AddField()` method
-	 * field is added under it's name into this array with all another form fields 
-	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
+	 * @inheritDocs
 	 * @return \MvcCore\Ext\Forms\Field[]
 	 */
 	public function & GetFields() {
@@ -32,12 +29,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Replace all previously configured fields with given fully configured fields array.
-	 * This method is dangerous - it will remove all previously added form fields
-	 * and add given fields. If you want only to add another field(s) into form,
-	 * use functions:
-	 * - `$form->AddField($field);`
-	 * - `$form->AddFields($field1, $field2, $field3...);`
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -50,8 +42,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Add multiple fully configured form field instances,
-	 * function have infinite params with new field instances.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -65,7 +56,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Add fully configured form field instance.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -78,6 +69,7 @@ trait FieldMethods {
 		$field->SetForm($this);
 		$this->fields[$fieldName] = $field;
 		if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
+			/** @var $field \MvcCore\Ext\Forms\Fields\ISubmit */
 			$this->submitFields[$fieldName] = $field;
 			$fieldCustomResultState = $field->GetCustomResultState();
 			if ($fieldCustomResultState !== NULL)
@@ -87,8 +79,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * If `TRUE` if given field instance or given
-	 * field name exists in form, `FALSE` otherwise.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
@@ -103,8 +94,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Remove configured form field instance by given instance or given field name.
-	 * If field is not found by it's name, no error happened.
+	 * @inheritDocs
 	 * @param \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -124,7 +114,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Return form field instance by form field name if it exists, else return null;
+	 * @inheritDocs
 	 * @param string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
@@ -136,9 +126,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Return form field instances by given field type string.
-	 * If no field(s) found, it's returned empty array.
-	 * Result array is keyed by field names.
+	 * @inheritDocs
 	 * @param string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
@@ -152,8 +140,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Return first caught form field instance by given field type string.
-	 * If no field found, `NULL` is returned.
+	 * @inheritDocs
 	 * @param string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
@@ -168,11 +155,8 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Return form field instances by field class name
-	 * compared by `is_a($field, $fieldClassName)` check.
-	 * If no field(s) found, it's returned empty array.
-	 * Result array is keyed by field names.
-	 * @param string $fieldClassName Full php class name or full interface name.
+	 * @inheritDocs
+	 * @param string $fieldClassName  Full php class name or full interface name.
 	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
@@ -190,10 +174,8 @@ trait FieldMethods {
 	}
 
 	/**
-	 * Return first caught form field instance by field class name
-	 * compared by `is_a($field, $fieldClassName)` check.
-	 * If no field found, it's returned `NULL`.
-	 * @param string $fieldClassName Full php class name or full interface name.
+	 * @inheritDocs
+	 * @param string $fieldClassName  Full php class name or full interface name.
 	 * @param bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */

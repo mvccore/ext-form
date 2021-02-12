@@ -19,16 +19,8 @@ namespace MvcCore\Ext\Form;
 trait Submitting {
 
 	/**
-	 * Process standard low level submit process.
-	 * If no params passed as first argument, all params from object
-	 * `\MvcCore\Application::GetInstance()->GetRequest()` are used.
-	 * - If fields are not initialized - initialize them by calling `$form->Init();`.
-	 * - Check maximum post size by php configuration if form is posted.
-	 * - Check cross site request forgery tokens with session tokens.
-	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
-	 *	 `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
-	 * Return array with form result, safe values from validators and errors array.
-	 * @param array $rawRequestParams optional
+	 * @inheritDocs
+	 * @param array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
@@ -54,11 +46,7 @@ trait Submitting {
 	}
 
 	/**
-	 * Try to set up form submit result state into any special positive
-	 * value by presented submit button name in `$rawRequestParams` array
-	 * if there is any special submit result value configured by button names
-	 * in `$form->customResultStates` array. If no special button submit result
-	 * value configured, submit result state is set to `1` by default.
+	 * @inheritDocs
 	 * @param array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -84,9 +72,7 @@ trait Submitting {
 	}
 
 	/**
-	 * Validate maximum posted size in POST request body by `Content-Length` HTTP header.
-	 * If there is no `Content-Length` request header, add error.
-	 * If `Content-Length` value is bigger than `post_max_size` from PHP INI, add form error.
+	 * @inheritDocs
 	 * @return boolean
 	 */
 	public function SubmitValidateMaxPostSizeIfNecessary () {
@@ -118,10 +104,7 @@ trait Submitting {
 	}
 
 	/**
-	 * Go through all fields, which are not `button:submit` or `input:submit` types
-	 * and call on every `$field->Submit()` method to process all configured field validators.
-	 * If method `$field->Submit()` returns anything else than `NULL`, that value is automatically
-	 * assigned under field name into form result values and into form field value.
+	 * @inheritDocs
 	 * @param array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -144,10 +127,7 @@ trait Submitting {
 
 
 	/**
-	 * Call this function in custom `\MvcCore\Ext\Form::Submit();` method implementation
-	 * at the end of custom `Submit()` method to redirect user by configured success/error/prev/next
-	 * step URL address into final place and store everything into session.
-	 * You can also to redirect form after submit by yourself.
+	 * @inheritDocs
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
@@ -186,12 +166,11 @@ trait Submitting {
 	}
 
 	/**
-	 * Get cached validator instance by name. If validator instance doesn't exist
-	 * in `$this->validators` array, create new validator instance, cache it and return it.
+	 * @inheritDocs
 	 * @param string $validatorName
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
-	public function & GetValidator ($validatorName) {
+	public function GetValidator ($validatorName) {
 		/** @var $this \MvcCore\Ext\Form */
 		if (isset($this->validators[$validatorName])) {
 			$validator = $this->validators[$validatorName];
@@ -221,8 +200,7 @@ trait Submitting {
 	}
 
 	/**
-	 * Get error message string from internal protected static property
-	 * `\MvcCore\Ext\Form::$defaultErrorMessages` by given integer index.
+	 * @inheritDocs
 	 * @param int $index
 	 * @return string
 	 */
@@ -284,9 +262,9 @@ trait Submitting {
 	 * Try to encode raw input `array` or `string` by `iconv()`
 	 * from given `$fromEncoding` charset to given `$toEncoding`
 	 * charset. Return array with records:
-	 * - `0` - Wow many items has been transcoded without error.
-	 * - `1` - How many items has been transcoded.
-	 * - `2` - Transcoded raw input string by `iconv()`.
+	 *  - `0` - H ow many items has been transcoded without error.
+	 *  - `1` - How many items has been transcoded.
+	 *  - `2` - Transcoded raw input string by `iconv()`.
 	 * @param string|\string[] $rawValue
 	 * @param string $fromEncoding
 	 * @param string $toEncoding
@@ -328,9 +306,9 @@ trait Submitting {
 	 * Try to encode raw input `string` by `iconv()`
 	 * from given `$fromEncoding` charset to given `$toEncoding`
 	 * charset. Return array with records:
-	 * - `0` - Wow many items has been transcoded without error.
-	 * - `1` - How many items has been transcoded.
-	 * - `2` - Transcoded raw input string by `iconv()`.
+	 *  - `0` - How many items has been transcoded without error.
+	 *  - `1` - How many items has been transcoded.
+	 *  - `2` - Transcoded raw input string by `iconv()`.
 	 * @param string|\string[] $rawValue
 	 * @param string $fromEncoding
 	 * @param string $toEncoding

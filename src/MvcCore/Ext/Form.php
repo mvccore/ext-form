@@ -93,12 +93,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * Initialize the form, check if form is initialized or not and do it only once.
-	 * Check if any form id exists and exists only once and initialize translation 
-	 * boolean for better field initializations. This is template method. To define 
-	 * any fields in custom `\MvcCore\Ext\Form` extended class, do it in custom 
-	 * extended `Init()` method and call `parent::Init();` as first line inside 
-	 * your extended `Init()` method.
+	 * @inheritDocs
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
 	 * @return void
@@ -121,20 +116,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * Prepare form and it's fields for rendering.
-	 * 
-	 * This function is called automatically by rendering process if necessary.
-	 * But if you need to operate with fields in your controller before rendering
-	 * with real session values and initialized session errors, you can call this
-	 * method anytime to prepare form for rendering and operate with anything inside.
-	 * 
-	 * - Process all defined fields and call `$field->PreDispatch();`
-	 *   to prepare all fields for rendering process.
-	 * - Load any possible error from session and set up
-	 *   errors into fields and into form object to render them properly.
-	 * - Load any possible previously submitted and/or stored values
-	 *   from session and set up form fields with them.
-	 * 
+	 * @inheritDocs
 	 * @param bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @return void
 	 */
@@ -220,11 +202,11 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * Translate given string with configured translator and configured language code.
-	 * @param string $key			A key to translate.
-	 * @param array $replacements	An array of replacements to process in translated result.
-	 * @throws \Exception			En exception if translations store is not successful.
-	 * @return string				Translated key or key itself if there is no key in translations store.
+	 * @inheritDocs
+	 * @param string $key          A key to translate.
+	 * @param array  $replacements An array of replacements to process in translated result.
+	 * @throws \Exception          An exception if translations store is not successful.
+	 * @return string              Translated key or key itself if there is no key in translations store.
 	 */
 	public function Translate ($key, $replacements = []) {
 		return call_user_func_array($this->translator, func_get_args());
