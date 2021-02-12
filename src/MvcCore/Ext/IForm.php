@@ -386,7 +386,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Get form custom template full class name to create custom view object.
 	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
-	 * @return string
+	 * @return string|\MvcCore\Ext\Forms\View
 	 */
 	public function GetViewClass ();
 
