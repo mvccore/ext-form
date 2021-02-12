@@ -13,18 +13,17 @@
 
 namespace MvcCore\Ext\Forms;
 
-/**
- * @method \MvcCore\Ext\Forms\IField SetUniqueValidator(string $callDefinition) Define model form unique column validator callable in syntax like: `form->ValidateSomeField`, `form::ValidateSomeField` or `model::ValidateSomeField`.
- */
 interface IField {
 
 	/**
 	 * Render label HTML element on the left side from field HTML element.
+	 * @var string
 	 */
 	const LABEL_SIDE_LEFT = 'left';
 
 	/**
 	 * Render label HTML element on the right side from field HTML element.
+	 * @var string
 	 */
 	const LABEL_SIDE_RIGHT = 'right';
 	
@@ -32,6 +31,7 @@ interface IField {
 	 * Constants used internally and mostly
 	 * in field autofocus setter to define additional
 	 * behaviour for possible duplicate field focus.
+	 * @var int
 	 */
 	const	AUTOFOCUS_DUPLICITY_EXCEPTION = 0,
 			AUTOFOCUS_DUPLICITY_UNSET_OLD_SET_NEW = 1,
@@ -48,7 +48,7 @@ interface IField {
 	 * Validator static method context in current form class.
 	 * @var int
 	 */
-	const VALIDATOR_CONTEXT_FORM_STATIC	= 2;
+	const VALIDATOR_CONTEXT_FORM_STATIC		= 2;
 	
 	/**
 	 * Validator instance method context in parent controller class of current form.
@@ -60,7 +60,7 @@ interface IField {
 	 * Validator static method context in parent controller class of current form.
 	 * @var int
 	 */
-	const VALIDATOR_CONTEXT_CTRL_STATIC	= 8;
+	const VALIDATOR_CONTEXT_CTRL_STATIC		= 8;
 	
 	/**
 	 * Validator instance method context in current model instance of current model form.

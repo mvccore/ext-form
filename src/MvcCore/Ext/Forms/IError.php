@@ -19,6 +19,7 @@ interface IError {
 	 * Constants used internally and mostly
 	 * in validator classes to specify
 	 * proper error message index.
+	 * @var int
 	 */
 	const	REQUIRED = 0,
 			EMPTY_CONTENT = 1,

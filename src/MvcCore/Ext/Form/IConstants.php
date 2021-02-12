@@ -88,13 +88,13 @@ interface IConstants {
 	const RESULT_PREV_PAGE	= 2;
 
 	/**
-	 * Form submit result state (`3` - everything OK, redirect user to next step url).
+	 * Form submit result state (`4` - everything OK, redirect user to next step url).
 	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
 	 * to next step URL in multiple forms wizard (typically e-shop ordering).
 	 * @var int
 	 */
-	const RESULT_NEXT_PAGE	= 3;
+	const RESULT_NEXT_PAGE	= 4;
 
 
 	/**

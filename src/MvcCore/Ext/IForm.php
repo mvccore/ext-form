@@ -251,9 +251,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Get form success submit next step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
-	 * will be recognized as submit type to switch form result property `$form->result` to value `3`.
+	 * will be recognized as submit type to switch form result property `$form->result` to value `4`.
 	 * Which means "next step" redirection after successful submit. This functionality
-	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
+	 * to switch result value to `4` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * and you want to go to "next step" by one submit button or stay in the same page by
@@ -279,7 +279,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *         `\MvcCore\Ext\Form::RESULT_ERRORS`
 	 * - `1` - Submit was successful. User will be redirected after submit to success url.
 	 *         `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * - `2` - Submit was successful. User will be redirected after submit to next step url.
+	 * - `2` - Submit was successful. User will be redirected after submit to prev step url.
+	 *         `\MvcCore\Ext\IForm::RESULT_PREV_PAGE`
+	 * - `4` - Submit was successful. User will be redirected after submit to next step url.
 	 *         `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
 	 * @return int|NULL
 	 */
@@ -718,9 +720,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Set form success submit next step URL string, relative or absolute, to specify,
 	 * where to redirect user after form has been submitted successfully and submit button
-	 * will be recognized as submit type to switch form result property `$form->result` to value `3`.
+	 * will be recognized as submit type to switch form result property `$form->result` to value `4`.
 	 * Which means "next step" redirection after successful submit. This functionality
-	 * to switch result value to `3` is up to you. This field is designed only for you as empty.
+	 * to switch result value to `4` is up to you. This field is designed only for you as empty.
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * and you want to go to "next step" by one submit button or stay in the same page by
@@ -748,7 +750,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *         `\MvcCore\Ext\Form::RESULT_ERRORS`
 	 * - `1` - Submit was successful. User will be redirected after submit to success url.
 	 *         `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * - `2` - Submit was successful. User will be redirected after submit to next step url.
+	 * - `2` - Submit was successful. User will be redirected after submit to prev step url.
+	 *         `\MvcCore\Ext\IForm::RESULT_PREV_PAGE`
+	 * - `4` - Submit was successful. User will be redirected after submit to next step url.
 	 *         `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
 	 * @param int|NULL $result
 	 * @return \MvcCore\Ext\Form

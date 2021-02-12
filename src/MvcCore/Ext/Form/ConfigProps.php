@@ -240,12 +240,14 @@ trait ConfigProps {
 
 	/**
 	 * Form submit result state. Submit could have two basic values (or three values for next step):
-	 * `0` - Submit has errors. User will be redirected after submit to error url.
-	 *	   `\MvcCore\Ext\Form::RESULT_ERRORS`
-	 * `1` - Submit was successful. User will be redirected after submit to success url.
-	 *	   `\MvcCore\Ext\Form::RESULT_SUCCESS`
-	 * `2` - Submit was successful. User will be redirected after submit to next step url.
-	 *	   `\MvcCore\Ext\Form::RESULT_NEXT_PAGE`
+	 * - `0` - Submit has errors. User will be redirected after submit to error url.
+	 *         `\MvcCore\Ext\Form::RESULT_ERRORS`
+	 * - `1` - Submit was successful. User will be redirected after submit to success url.
+	 *         `\MvcCore\Ext\Form::RESULT_SUCCESS`
+	 * - `2` - Submit was successful. User will be redirected after submit to prev step url.
+	 *         `\MvcCore\Ext\IForm::RESULT_PREV_PAGE`
+	 * - `4` - Submit was successful. User will be redirected after submit to next step url.
+	 *         `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
 	 * @var int|NULL
 	 */
 	protected $result = NULL;
