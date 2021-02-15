@@ -448,16 +448,36 @@ class View extends \MvcCore\View {
 	public function RenderContent () {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
-		$result = "";
-		$fieldRendered = "";
-		foreach ($this->form->GetFields() as $field) {
-			$fieldRendered = $field->Render();
-			if (!($field instanceof \MvcCore\Ext\Forms\Fields\Hidden)) {
-				$fieldRendered = "<div>".$fieldRendered."</div>";
-			}
-			$result .= $fieldRendered;
+
+		$result = [];
+		
+		$allFields = $this->form->GetFields();
+		$hiddenFields = $this->form->GetFieldsByPhpClass('MvcCore\\Ext\\Forms\\Fields\\Hidden');
+		$submitFields = $this->form->GetSubmitFields();
+
+		$result[] = '<div class="hiddens">';
+		foreach ($hiddenFields as $field) 
+			$result[] = $field->Render();
+		$result[] = '</div>';
+		
+		$result[] = '<div class="controls">';
+		foreach ($allFields as $fieldName => $field) {
+			if (
+				$field instanceof \MvcCore\Ext\Forms\Fields\Hidden ||
+				isset($this->submitFields[$fieldName])
+			) continue;
+			$result[] = '<div>';
+			$result[] = $field->Render();
+			$result[] = '</div>';
 		}
-		return $result;
+		$result[] = '</div>';
+		
+		$result[] = '<div class="submits">';
+		foreach ($submitFields as $field) 
+			$result[] = $field->Render();
+		$result[] = '</div>';
+
+		return implode('', $result);
 	}
 
 	/**
