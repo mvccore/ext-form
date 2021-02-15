@@ -173,7 +173,7 @@ trait Rendering {
 		return $formViewClass::Format(static::$templates->label, [
 			'id'		=> $this->id,
 			'label'		=> $this->label,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
 	}
 
@@ -192,7 +192,7 @@ trait Rendering {
 			$result .= '<span class="errors">';
 			foreach ($this->errors as $key => $errorMessage) {
 				$errorCssClass = 'error error-' . $this->name . ' error-' . $key;
-				$result .= "<span class=\"$errorCssClass\">$errorMessage</span>";
+				$result .= "<span class=\"{$errorCssClass}\">{$errorMessage}</span>";
 			}
 			$result .= '</span>';
 		}
@@ -285,7 +285,7 @@ trait Rendering {
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField) {
 			$boolFieldVars = [
 				'accessKey'	=> FALSE, 
-				'autoFocus' => TRUE, 
+				'autoFocus'	=> TRUE, 
 				'disabled'	=> TRUE, 
 				'readOnly'	=> TRUE, 
 				'required'	=> TRUE,
@@ -303,6 +303,8 @@ trait Rendering {
 			}
 			if ($this->tabIndex !== NULL)
 				$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
+			if ($this->title !== NULL)
+				$attrs['title'] = $this->title;
 		}
 		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
 		$cssClasses[] = $this->type;
