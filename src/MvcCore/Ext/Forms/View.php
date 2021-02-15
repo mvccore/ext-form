@@ -452,30 +452,42 @@ class View extends \MvcCore\View {
 		$result = [];
 		
 		$allFields = $this->form->GetFields();
-		$hiddenFields = $this->form->GetFieldsByPhpClass('MvcCore\\Ext\\Forms\\Fields\\Hidden');
-		$submitFields = $this->form->GetSubmitFields();
-
-		$result[] = '<div class="hiddens">';
-		foreach ($hiddenFields as $field) 
-			$result[] = $field->Render();
-		$result[] = '</div>';
-		
-		$result[] = '<div class="controls">';
+		$hiddenFields = [];
+		$controlFields = [];
+		$submitFields = [];
 		foreach ($allFields as $fieldName => $field) {
-			if (
-				$field instanceof \MvcCore\Ext\Forms\Fields\Hidden ||
-				isset($this->submitFields[$fieldName])
-			) continue;
-			$result[] = '<div>';
-			$result[] = $field->Render();
+			if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) {
+				$hiddenFields[$fieldName] = $field;
+			} else if (isset($this->submitFields[$fieldName])) {
+				$submitFields[$fieldName] = $field;
+			} else {
+				$controlFields[$fieldName] = $field;
+			}
+		}
+
+		if ($hiddenFields) {
+			$result[] = '<div class="hiddens">';
+			foreach ($hiddenFields as $field) 
+				$result[] = $field->Render();
 			$result[] = '</div>';
 		}
-		$result[] = '</div>';
 		
-		$result[] = '<div class="submits">';
-		foreach ($submitFields as $field) 
-			$result[] = $field->Render();
-		$result[] = '</div>';
+		if ($controlFields) {
+			$result[] = '<div class="controls">';
+			foreach ($controlFields as $field) {
+				$result[] = '<div>';
+				$result[] = $field->Render();
+				$result[] = '</div>';
+			}
+			$result[] = '</div>';
+		}
+		
+		if ($submitFields) {
+			$result[] = '<div class="submits">';
+			foreach ($submitFields as $field) 
+				$result[] = $field->Render();
+			$result[] = '</div>';
+		}
 
 		return implode('', $result);
 	}
