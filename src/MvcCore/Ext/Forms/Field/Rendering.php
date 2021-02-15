@@ -305,6 +305,7 @@ trait Rendering {
 				$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
 		}
 		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
+		$cssClasses[] = $this->type;
 		$attrs['class'] = implode(' ', array_unique($cssClasses));
 		$formViewClass = $this->form->GetViewClass();
 		return $formViewClass::RenderAttrs(
