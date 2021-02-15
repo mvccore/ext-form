@@ -220,7 +220,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
@@ -262,7 +262,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		return $viewClass::Format($templates->label, [
 			'id'		=> $this->id,
 			'label'		=> $this->label,
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
 	}
 
@@ -306,7 +306,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$itemLabel = $viewClass::Format($templates->label, [
 				'id'		=> $itemControlId,
 				'label'		=> $itemLabelText,
-				'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '',
+				'attrs'		=> $labelAttrsStr ? " {$labelAttrsStr}" : '',
 			]);
 			$result = ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT)
 				? $itemControl . $itemLabel
@@ -324,7 +324,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 					'id'		=> $itemControlId,
 					'label'		=> $itemLabelText,
 					'control'	=> $itemControl,
-					'attrs'		=> $labelAttrsStr ? " $labelAttrsStr" : '',
+					'attrs'		=> $labelAttrsStr ? " {$labelAttrsStr}" : '',
 				]
 			);
 		}

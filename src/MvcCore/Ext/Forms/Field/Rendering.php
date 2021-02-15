@@ -301,10 +301,12 @@ trait Rendering {
 					if ($addAlsoAsCssClass) $cssClasses[] = $attrName;
 				}
 			}
-			if ($this->tabIndex !== NULL)
-				$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
-			if ($this->title !== NULL)
-				$attrs['title'] = $this->title;
+			if ($controlRendering) {
+				if ($this->tabIndex !== NULL)
+					$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
+				if ($this->title !== NULL)
+					$attrs['title'] = $this->title;
+			}
 		}
 		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
 		$cssClasses[] = $this->type;
