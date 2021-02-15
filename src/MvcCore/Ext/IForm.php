@@ -1082,6 +1082,13 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function GetFields();
 
 	/**
+	 * Return array with all configured submit buttons to recognize starting
+	 * result state in submit processing by presented button in params array.
+	 * @return \MvcCore\Ext\Forms\Fields\ISubmit[]
+	 */
+	public function GetSubmitFields ();
+
+	/**
 	 * Replace all previously configured fields with given fully configured fields array.
 	 * This method is dangerous - it will remove all previously added form fields
 	 * and add given fields. If you want only to add another field(s) into form,

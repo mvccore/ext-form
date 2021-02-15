@@ -27,6 +27,14 @@ trait FieldMethods {
 	public function & GetFields() {
 		return $this->fields;
 	}
+	
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Fields\ISubmit[]
+	 */
+	public function GetSubmitFields () {
+		return $this->submitFields;
+	}
 
 	/**
 	 * @inheritDocs
