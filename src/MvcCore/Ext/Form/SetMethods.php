@@ -346,10 +346,21 @@ trait SetMethods {
 		$this->baseTabIndex = $baseTabIndex;
 		return $this;
 	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  int $formRenderMode
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFormRenderMode ($formRenderMode = \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
+		/** @var $this \MvcCore\Ext\Form */
+		$this->formRenderMode = $formRenderMode;
+		return $this;
+	}
 
 	/**
 	 * @inheritDocs
-	 * @param  string $defaultFieldsRenderMode
+	 * @param  int $defaultFieldsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL) {
@@ -360,7 +371,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param  string $errorsRenderMode
+	 * @param  int $errorsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {

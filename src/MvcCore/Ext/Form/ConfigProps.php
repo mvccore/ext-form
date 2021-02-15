@@ -320,22 +320,31 @@ trait ConfigProps {
 	 * @var int|NULL
 	 */
 	protected $baseTabIndex = NULL;
+	
+	/**
+	 * Form content rendering mode, configuration how errors, labels, constrols 
+	 * and submit buttons will be rendered - with or without any structural 
+	 * HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * @var int
+	 */
+	protected $formRenderMode = \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE;
 
 	/**
 	 * Default control/label rendering mode for each form control/label.
-	 * Default values is string `normal`, it means label will be rendered
+	 * Default values is normal render mode (`0`), it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
 	 * rendered after control.
-	 * @var string
+	 * @var int
 	 */
 	protected $defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
 
 	/**
-	 * Errors rendering mode, by default configured as string: `all-together`,
-	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
+	 * Errors rendering mode, default mode is to render all errors together.
+	 * It means all errors are rendered naturally at form begin together in one HTML `.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `$this->RenderErrors();`
 	 * to get all errors into template.
-	 * @var string
+	 * @var int
 	 */
 	protected $errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER;
 

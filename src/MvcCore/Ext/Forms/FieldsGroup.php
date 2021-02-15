@@ -181,18 +181,18 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		$result = '';
 		if (
 			$this->label && (
-				$this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL ||
-				$this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND
+				$this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL ||
+				$this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND
 			)
 		) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
+		} else if ($this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
 			$result = $this->RenderControl();
 			$errors = $this->RenderErrors();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-			if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+			if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 				$result = $errors . $result;
-			} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+			} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $errors;
 			}
 		}
@@ -205,7 +205,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL)
+		if ($this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL)
 			return $this->RenderControl();
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
@@ -224,9 +224,9 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		]);
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-		if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -251,7 +251,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @return string
 	 */
 	public function RenderLabel () {
-		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL)
+		if ($this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL)
 			return '';
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
@@ -311,7 +311,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$result = ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT)
 				? $itemControl . $itemLabel
 				: $itemLabel . $itemControl;
-		} else if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND) {
+		} else if ($this->renderMode === \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND) {
 			// control inside label
 			$templatesKey = 'togetherLabel' . (
 				($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT)

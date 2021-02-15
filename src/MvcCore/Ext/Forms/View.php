@@ -349,10 +349,20 @@ class View extends \MvcCore\View {
 	public function RenderNaturally () {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
-		return $this->RenderBegin()
-			. $this->RenderErrors()
-			. $this->RenderContent()
-			. $this->RenderEnd();
+		$result = [$this->RenderBegin()];
+		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
+		if ($formRenderModeTable) {
+			foreach ($this->form->GetFields() as $field) 
+				if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) 
+					$result[] = $field->Render();
+			$result[] = '<table border="0" cellspacing="0" cellpadding="0">';
+		}
+		$result[] = $this->RenderErrors();
+		$result[] = $this->RenderContent();
+		$result[] = $this->RenderEnd();
+		if ($formRenderModeTable) 
+			$result[] = '</table>';
+		return implode('', $result);
 	}
 
 	/**
@@ -362,7 +372,7 @@ class View extends \MvcCore\View {
 	public function RenderBegin () {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
-		$result = "<form";
+		$result = ["<form"];
 		$attrs = [];
 		$form = $this->form;
 		// standard attributes
@@ -396,9 +406,10 @@ class View extends \MvcCore\View {
 			$attrs['accept-charset'] = implode(' ', $formAcceptCharsets);
 		// boolean and additional attributes
 		$attrsStr = self::RenderAttrs($attrs);
-		if ($attrsStr) $result .= ' ' . $attrsStr;
-		$result .= '>' . $this->RenderCsrf();
-		return $result;
+		if ($attrsStr) $result[] = ' ' . $attrsStr;
+		$result[] = '>';
+		$result[] = $this->RenderCsrf();
+		return implode('', $result);
 	}
 
 	/**
@@ -428,17 +439,41 @@ class View extends \MvcCore\View {
 	public function RenderErrors () {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
-		$result = '';
+		$result = [];
 		$errors = $this->form->GetErrors();
-		if ($errors && $this->form->GetErrorsRenderMode() == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
-			$result .= '<div class="errors">';
-			foreach ($errors as $errorMessageAndFieldNames) {
-				list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-				$result .= '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
+		if ($errors) {
+			if ($this->form->GetErrorsRenderMode() !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+				$globalErrors = [];
+				foreach ($errors as $errorData) 
+					if (!(count($errorData) > 1 && is_array($errorData[1]) && count($errorData[1]) > 0))
+						$globalErrors[] = $errorData;
+				$errors = $globalErrors;
 			}
-			$result .= '</div>';
+			if ($errors) {
+				$formRenderMode = $this->form->GetFormRenderMode();
+				if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
+					$result[] = '<div class="errors">';
+					foreach ($errors as $errorMessageAndFieldNames) {
+						list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
+						$result[] = '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
+					}
+					$result[] = '</div>';
+				} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
+					$result[] = '<thead class="errors">';
+					foreach ($errors as $errorMessageAndFieldNames) {
+						list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
+						$result[] = '<tr><th colspan="2" class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</th></tr>';
+					}
+					$result[] = '</thead>';
+				} else {
+					foreach ($errors as $errorMessageAndFieldNames) {
+						list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
+						$result[] = '<span class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</span>';
+					}
+				}
+			}
 		}
-		return $result;
+		return implode('', $result);
 	}
 
 	/**
@@ -450,7 +485,7 @@ class View extends \MvcCore\View {
 			$this->form->PreDispatch(FALSE);
 
 		$result = [];
-		
+		$formRenderMode = $this->form->GetFormRenderMode();
 		$allFields = $this->form->GetFields();
 		$hiddenFields = [];
 		$controlFields = [];
@@ -464,30 +499,57 @@ class View extends \MvcCore\View {
 				$controlFields[$fieldName] = $field;
 			}
 		}
-
-		if ($hiddenFields) {
-			$result[] = '<div class="hiddens">';
-			foreach ($hiddenFields as $field) 
-				$result[] = $field->Render();
-			$result[] = '</div>';
-		}
 		
-		if ($controlFields) {
-			$result[] = '<div class="controls">';
-			foreach ($controlFields as $field) {
-				$result[] = '<div>';
-				$result[] = $field->Render();
+		if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
+			if ($hiddenFields) {
+				$result[] = '<div class="hiddens">';
+				foreach ($hiddenFields as $field) $result[] = $field->Render();
 				$result[] = '</div>';
 			}
-			$result[] = '</div>';
-		}
-		
-		if ($submitFields) {
-			$result[] = '<div class="submits">';
-			foreach ($submitFields as $field) 
+			if ($controlFields) {
+				$result[] = '<div class="controls">';
+				foreach ($controlFields as $field) {
+					$result[] = '<div>';
+					$result[] = $field->Render();
+					$result[] = '</div>';
+				}
+				$result[] = '</div>';
+			}
+			if ($submitFields) {
+				$result[] = '<div class="submits">';
+				foreach ($submitFields as $field) $result[] = $field->Render();
+				$result[] = '</div>';
+			}
+
+		} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
+			if ($submitFields) {
+				$result[] = '<tfoot class="submits"><tr><th></th><td>';
+				foreach ($submitFields as $field) $result[] = $field->Render();
+				$result[] = '</td></tr></tfoot>';
+			}
+			if ($controlFields) {
+				$result[] = '<tbody class="controls">';
+				foreach ($controlFields as $field) {
+					$result[] = '<tr>';
+					$result[] = $field->Render();
+					$result[] = '</tr>';
+				}
+				$result[] = '</tbody>';
+			}
+
+		} else {
+			if ($hiddenFields) 
+				foreach ($hiddenFields as $field) 
+					$result[] = $field->Render();
+			if ($controlFields) 
+				foreach ($controlFields as $field) 
+					$result[] = $field->Render();
+			if ($submitFields) 
+				foreach ($submitFields as $field) 
 				$result[] = $field->Render();
-			$result[] = '</div>';
 		}
+
+		
 
 		return implode('', $result);
 	}

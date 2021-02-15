@@ -98,27 +98,47 @@ interface IConstants {
 
 
 	/**
+	 * Form will be rendered with `<div>` elements structure.
+	 * @var int
+	 */
+	const FORM_RENDER_MODE_DIV_STRUCTURE		= 0;
+
+	/**
+	 * Form will be rendered with `<table>` elements structure.
+	 * @var int
+	 */
+	const FORM_RENDER_MODE_TABLE_STRUCTURE		= 1;
+	
+	/**
+	 * Form errors, labels, constrols and submit buttons will be rendered 
+	 * without int structural HTML elements like `<div>`s or `<table>` elements.
+	 * @var string
+	 */
+	const FORM_RENDER_MODE_NO_STRUCTURE			= 2;
+
+
+	/**
 	 * Control/labels rendering mode (`normal`).
 	 * Label will be rendered before control,
 	 * only checkbox and radio button label
 	 * will be rendered after control.
-	 * @var string
+	 * @var int
 	 */
-	const FIELD_RENDER_MODE_NORMAL			= 'normal';
+	const FIELD_RENDER_MODE_NORMAL			= 0;
 
 	/**
 	 * Control/labels rendering mode (`no-label`).
 	 * No label will be rendered with control.
-	 * @var string
+	 * @var int
 	 */
-	const FIELD_RENDER_MODE_NO_LABEL		= 'no-label';
+	const FIELD_RENDER_MODE_NO_LABEL		= 1;
 
 	/**
 	 * Control/labels rendering mode (`label-around`).
 	 * Label will be rendered around control.
-	 * @var string
+	 * @var int
 	 */
-	const FIELD_RENDER_MODE_LABEL_AROUND	= 'label-around';
+	const FIELD_RENDER_MODE_LABEL_AROUND	= 2;
 
 
 	/**
@@ -127,9 +147,9 @@ interface IConstants {
 	 * If you are using custom template for form - you have to call after form beginning
 	 * `$form->RenderErrors();` to get all errors into template. This value is used as
 	 * default for all `\MvcCore\Ext\Form` instances.
-	 * @var string
+	 * @var int
 	 */
-	const ERROR_RENDER_MODE_ALL_TOGETHER		= 'all-together';
+	const ERROR_RENDER_MODE_ALL_TOGETHER		= 0;
 
 	/**
 	 * Control errors rendering mode (`before-each-control`).
@@ -141,9 +161,9 @@ interface IConstants {
 	 * If you will use in custom form rendering mod with template method `$field->RenderControl();`,
 	 * there will be not rendered any error spans before control, you have to use `$field->RenderErrors();`
 	 * to get errors for each control.
-	 * @var string
+	 * @var int
 	 */
-	const ERROR_RENDER_MODE_BEFORE_EACH_CONTROL	= 'before-each-control';
+	const ERROR_RENDER_MODE_BEFORE_EACH_CONTROL	= 1;
 
 	/**
 	 * Control errors rendering mode (`after-each-control`).
@@ -155,9 +175,9 @@ interface IConstants {
 	 * If you will use in custom form rendering mode with template method `$field->RenderControl();`,
 	 * there will be rendered no error spans before control, you have to use `$field->RenderErrors();`
 	 * to get errors for each control.
-	 * @var string
+	 * @var int
 	 */
-	const ERROR_RENDER_MODE_AFTER_EACH_CONTROL	= 'after-each-control';
+	const ERROR_RENDER_MODE_AFTER_EACH_CONTROL	= 2;
 
 	/**
 	 * MvcCore Form extension library directory replacement string.

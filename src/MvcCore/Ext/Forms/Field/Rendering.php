@@ -59,25 +59,32 @@ trait Rendering {
 	public function RenderNaturally () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
-		$renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
+		$renderMode = $this->form->GetDefaultFieldsRenderMode();
 		$label = NULL;
+		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
+		$submitFields = $this->form->GetSubmitFields();
+		if (isset($submitFields[$this->name])) $formRenderModeTable = FALSE;
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel) {
-			$renderMode = $this->GetRenderMode();
+			$renderModeLocal = $this->GetRenderMode();
+			if ($renderModeLocal !== NULL) $renderMode = $renderModeLocal;
 			$label = $this->GetLabel();
 		}
-		if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL && $label) {
+		if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL && $label) {
 			$result = $this->RenderLabelAndControl();
-		} else if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
+		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
 			$result = $this->RenderControlInsideLabel();
-		} else if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
+			if ($formRenderModeTable) 
+				$result = '<td colspan="2">' . $result . '</td>';
+		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
 			$result = $this->RenderControl();
-			$errors = $this->RenderErrors();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 			if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-				$result = $errors . $result;
+				$result = $this->RenderErrors() . $result;
 			} else if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-				$result .= $errors;
+				$result .= $this->RenderErrors();
 			}
+			if ($formRenderModeTable) 
+				$result = '<td colspan="2">' . $result . '</td>';
 		}
 		return $result;
 	}
@@ -90,18 +97,53 @@ trait Rendering {
 	public function RenderLabelAndControl () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
-		if ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
-			$result = $this->RenderLabel() . $this->RenderControl();
-		} else {
-			$result = $this->RenderControl() . $this->RenderLabel();
-		}
-		$errors = $this->RenderErrors();
+		$errors = '';
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-		if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-			$result = $errors . $result;
-		} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-			$result .= $errors;
+		$allErrorsTogether = $formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER;
+		if (!$allErrorsTogether) $errors = $this->RenderErrors();
+		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
+		$submitFields = $this->form->GetSubmitFields();
+		if (isset($submitFields[$this->name])) $formRenderModeTable = FALSE;
+		if ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+			if ($formRenderModeTable) {
+				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+					$result = '<th>' . $this->RenderLabel() . '</th><td>' . $errors . $this->RenderControl() . '</td>';
+				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+					$result = '<th>' . $this->RenderLabel() . '</th><td>' . $this->RenderControl() . $errors . '</td>';
+				} else if ($allErrorsTogether) {
+					$result = '<th>' . $this->RenderLabel() . '</th><td>' . $this->RenderControl() . '</td>';
+				}
+			} else {
+				$result = $this->RenderLabel() . $this->RenderControl();
+				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+					$result = $this->RenderLabel() . $errors . $this->RenderControl();
+				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+					$result = $this->RenderLabel() . $this->RenderControl() . $errors;
+				} else if ($allErrorsTogether) {
+					$result = $this->RenderLabel() . $this->RenderControl();
+				}
+			}
+		} else {
+			if ($formRenderModeTable) {
+				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+					$result = '<td>' . $errors . $this->RenderControl() . '</td><th>' . $this->RenderLabel() . '</th>';
+				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+					$result = '<td>' . $this->RenderControl() . $errors . '</td><th>' . $this->RenderLabel() . '</th>';
+				} else if ($allErrorsTogether) {
+					$result = '<td>' . $this->RenderControl() . '</td><th>' . $this->RenderLabel() . '</th>';
+				}
+			} else {
+				$result = $this->RenderControl() . $this->RenderLabel();
+				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+					$result = $errors . $this->RenderControl() . $this->RenderLabel();
+				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+					$result = $this->RenderControl() . $errors . $this->RenderLabel();
+				} else if ($allErrorsTogether) {
+					$result = $this->RenderControl() . $this->RenderLabel();
+				}
+			}
 		}
+		
 		return $result;
 	}
 
@@ -112,7 +154,7 @@ trait Rendering {
 	 */
 	public function RenderControlInsideLabel () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
-		if ($this->renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+		if ($this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
 			? static::$templates->togetherLabelLeft 
@@ -123,13 +165,13 @@ trait Rendering {
 			'id'		=> $this->id,
 			'label'		=> $this->label,
 			'control'	=> $this->RenderControl(),
-			'attrs'		=> $attrsStr ? " $attrsStr" : '',
+			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-		if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+		if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
 			$result = $errors . $result;
-		} else if ($formErrorsRenderMode == \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+		} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 			$result .= $errors;
 		}
 		return $result;
@@ -166,7 +208,7 @@ trait Rendering {
 		$renderMode = $this instanceof \MvcCore\Ext\Forms\Fields\ILabel
 			? $this->GetRenderMode()
 			: \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
-		if ($renderMode == \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
+		if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
@@ -184,19 +226,19 @@ trait Rendering {
 	 */
 	public function RenderErrors () {
 		/** @var $this \MvcCore\Ext\Forms\Field */
-		$result = "";
+		$result = [];
 		if (
 			$this->errors && 
 			$this->form->GetErrorsRenderMode() !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER
 		) {
-			$result .= '<span class="errors">';
+			$result[] .= '<span class="errors">';
 			foreach ($this->errors as $key => $errorMessage) {
 				$errorCssClass = 'error error-' . $this->name . ' error-' . $key;
-				$result .= "<span class=\"{$errorCssClass}\">{$errorMessage}</span>";
+				$result[] = "<span class=\"{$errorCssClass}\">{$errorMessage}</span>";
 			}
-			$result .= '</span>';
+			$result[] = '</span>';
 		}
-		return $result;
+		return implode('', $result);
 	}
 
 

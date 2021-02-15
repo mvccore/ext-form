@@ -345,6 +345,15 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @return int|NULL
 	 */
 	public function GetBaseTabIndex ();
+	
+	/**
+	 * Get form content rendering mode, configuration how errors, labels, constrols 
+	 * and submit buttons will be rendered - with or without any structural 
+	 * HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * @return int
+	 */
+	public function GetFormRenderMode ();
 
 	/**
 	 * This method is INTERNAL, used by fields in pre-dispatch rendering 
@@ -359,7 +368,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Default values is string `normal`, it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
 	 * rendered after control.
-	 * @return string
+	 * @return int
 	 */
 	public function GetDefaultFieldsRenderMode ();
 
@@ -370,7 +379,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * If you are using custom template for form - you have to call 
 	 * after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
-	 * @return string
+	 * @return int
 	 */
 	public function GetErrorsRenderMode ();
 
@@ -826,23 +835,33 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetBaseTabIndex ($baseTabIndex = 0);
+	
+	/**
+	 * Set form content rendering mode, configuration how errors, labels, constrols 
+	 * and submit buttons will be rendered - with or without any structural 
+	 * HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * @param  int $formRenderMode
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFormRenderMode ($formRenderMode = \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE);
 
 	/**
 	 * Set default control/label rendering mode for each form control/label.
-	 * Default values is string `normal`, it means label will be rendered
+	 * Default values is normal render mode (`0`), it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
 	 * rendered after control.
-	 * @param  string $defaultFieldsRenderMode
+	 * @param  int $defaultFieldsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL);
 
 	/**
-	 * Set errors rendering mode, by default configured as string: `all-together`.
-	 * It means all errors are rendered naturally at form begin together in one HTML `div.errors` element.
+	 * Set errors rendering mode, default mode is to render all errors together.
+	 * It means all errors are rendered naturally at form begin together in one HTML `.errors` element.
 	 * If you are using custom template for form - you have to call after form beginning: `echo $this->RenderErrors();`
 	 * to get all errors into template.
-	 * @param  string $errorsRenderMode
+	 * @param  int $errorsRenderMode
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER);

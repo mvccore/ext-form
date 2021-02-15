@@ -285,6 +285,15 @@ trait GetMethods {
 		/** @var $this \MvcCore\Ext\Form */
 		return $this->baseTabIndex;
 	}
+	
+	/**
+	 * @inheritDocs
+	 * @return int
+	 */
+	public function GetFormRenderMode () {
+		/** @var $this \MvcCore\Ext\Form */
+		return $this->formRenderMode;
+	}
 
 	/**
 	 * @inheritDocs
@@ -299,7 +308,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @return string
+	 * @return int
 	 */
 	public function GetDefaultFieldsRenderMode () {
 		/** @var $this \MvcCore\Ext\Form */
@@ -308,7 +317,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @return string
+	 * @return int
 	 */
 	public function GetErrorsRenderMode () {
 		/** @var $this \MvcCore\Ext\Form */

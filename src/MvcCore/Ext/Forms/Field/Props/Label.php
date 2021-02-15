@@ -82,7 +82,7 @@ trait Label {
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL`       - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL`     - `<input />`
-	 * @var string
+	 * @var int|NULL
 	 */
 	protected $renderMode = NULL;
 	
@@ -163,14 +163,14 @@ trait Label {
 
 	/**
 	 * Get rendering mode flag how to render field and it's label.
-	 * Default value is `normal` to render label and field, label 
+	 * Default value is normal render mode (`0`) to render label and field, label 
 	 * first or field first by another property `$field->SetLabelSide('left' | 'right');`.
 	 * But if you want to render label around field or if you don't want
 	 * to render any label, you can change this with constants (values):
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL` - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
-	 * @return string
+	 * @return int|NULL
 	 */
 	public function GetRenderMode () {
 		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
@@ -179,14 +179,14 @@ trait Label {
 
 	/**
 	 * Set rendering mode flag how to render field and it's label.
-	 * Default value is `normal` to render label and field, label 
+	 * Default value is normal render mode (`0`) to render label and field, label 
 	 * first or field first by another property `$field->SetLabelSide('left' | 'right');`.
 	 * But if you want to render label around field or if you don't want
 	 * to render any label, you can change this with constants (values):
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL` - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
-	 * @param  string $renderMode
+	 * @param  int $renderMode
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
