@@ -184,6 +184,33 @@ interface IView {
 	public function RenderContent ();
 
 	/**
+	 * Return array with separated content fields groups.
+	 * First result item is array with all form hidden fields except CSRF token field.
+	 * Second result item is array with all form fields except submit buttons.
+	 * Third result item is array with all form submit buttons.
+	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[], \MvcCore\Ext\Forms\Fields\ISubmit[]]
+	 */
+	public function RenderContentGetFieldsGroups ();
+
+	/**
+	 * Render form content with `<div>` elements structure.
+	 * @return string
+	 */
+	public function RenderContentWithDivStructure ();
+
+	/**
+	 * Render form content with `<table>` elements structure.
+	 * @return string
+	 */
+	public function RenderContentWithTableStructure ();
+	
+	/**
+	 * Render form content with no HTML elements structure.
+	 * @return string
+	 */
+	public function RenderContentWithoutStructure ();
+
+	/**
 	 * Render form end.
 	 * Render html closing `</form>` tag and supporting javascript and css files
 	 * if is form not using external js/css renderers.

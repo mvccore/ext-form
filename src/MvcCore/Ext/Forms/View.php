@@ -485,8 +485,23 @@ class View extends \MvcCore\View {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
 
-		$result = [];
 		$formRenderMode = $this->form->GetFormRenderMode();
+		if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
+			$result = $this->RenderContentWithDivStructure();
+		} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
+			$result = $this->RenderContentWithTableStructure();
+		} else {
+			$result = $this->RenderContentWithoutStructure();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[], \MvcCore\Ext\Forms\Fields\ISubmit[]]
+	 */
+	public function RenderContentGetFieldsGroups () {
 		$allFields = $this->form->GetFields();
 		/** @var $hiddenFields \MvcCore\Ext\Forms\Fields\Hidden[] */
 		$hiddenFields = [];
@@ -503,103 +518,132 @@ class View extends \MvcCore\View {
 				$controlFields[$fieldName] = $field;
 			}
 		}
-		
-		if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
-			if ($hiddenFields) {
-				$result[] = '<div class="hiddens">';
-				foreach ($hiddenFields as $field) $result[] = $field->Render();
-				$result[] = '</div>';
-			}
-			if ($controlFields) {
-				$result[] = '<div class="controls">';
-				foreach ($controlFields as $field) {
-					$result[] = '<div>';
-					$result[] = $field->Render();
-					$result[] = '</div>';
-				}
-				$result[] = '</div>';
-			}
-			if ($submitFields) {
-				$result[] = '<div class="submits">';
-				foreach ($submitFields as $field) $result[] = $field->Render();
-				$result[] = '</div>';
-			}
+		return [$hiddenFields, $controlFields, $submitFields];
+	}
 
-		} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
-			$fieldRenderModeDefault = $this->form->GetFieldsRenderModeDefault();
-			$fieldRenderModeDefaultNormal = $fieldRenderModeDefault === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
-			if ($submitFields) {
-				$result[] = '<tfoot class="submits"><tr>';
-				$result[] = $fieldRenderModeDefaultNormal ? '<th class="empty"></td><td class="control">' : '<td colspan="2" class="control">';
-				foreach ($submitFields as $field) $result[] = $field->Render();
-				$result[] = '</td></tr></tfoot>';
-			}
-			if ($controlFields) {
-				$result[] = '<tbody class="controls">';
-				foreach ($controlFields as $field) {
-					$fieldLabelSide = $field->GetLabelSide();
-					$fieldRenderMode = NULL;
-					if ($field instanceof \MvcCore\Ext\Forms\Fields\ILabel) 
-						$fieldRenderMode = $field->GetRenderMode();
-					if ($fieldRenderMode === NULL)
-						$fieldRenderMode = $fieldRenderModeDefault;
-					$fieldRenderModeNormal = $fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
-					
-					if ($field instanceof \MvcCore\Ext\Forms\Fields\IChecked) {
-						if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
-							$rowBegin = '<td class="control label control-and-label">';
-							$labelAndControlSeparator = '';
-							$rowEnd = '</td><td class="empty"></td>';
-						} else {
-							$rowBegin = '<td class="empty"></td><td class="control label control-and-label">';
-							$labelAndControlSeparator = '';
-							$rowEnd = '</td>';
-						}
-					} else {
-						if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
-							$rowBegin = '<td class="label">';
-							$labelAndControlSeparator = '</td><td class="control">';
-							$rowEnd = '</td>';
-						} else {
-							$rowBegin = '<td class="control">';
-							$labelAndControlSeparator = '</td><td class="label">';
-							$rowEnd = '</td>';
-						}
-					}
-
-					$result[] = '<tr>';
-					if ($fieldRenderModeNormal) {
-						$result[] = $rowBegin;
-					} else if ($fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
-						$result[] = '<td colspan="2" class="control label control-inside-label">';
-					} else {
-						$result[] = '<td colspan="2" class="control no-label">';
-					}
-					$result[] = $field->Render($labelAndControlSeparator);
-					if ($fieldRenderModeNormal) {
-						$result[] = $rowEnd;
-					} else {
-						$result[] = '</td>';
-					}
-					$result[] = '</tr>';
-				}
-				$result[] = '</tbody>';
-			}
-
-		} else {
-			if ($hiddenFields) 
-				foreach ($hiddenFields as $field) 
-					$result[] = $field->Render();
-			if ($controlFields) 
-				foreach ($controlFields as $field) 
-					$result[] = $field->Render();
-			if ($submitFields) 
-				foreach ($submitFields as $field) 
-				$result[] = $field->Render();
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
+	public function RenderContentWithDivStructure () {
+		/** @var $this \MvcCore\Ext\Forms\View */
+		$result = [];
+		list (
+			$hiddenFields, $controlFields, $submitFields
+		) = $this->RenderContentGetFieldsGroups();
+		if ($hiddenFields) {
+			$result[] = '<div class="hiddens">';
+			foreach ($hiddenFields as $field) $result[] = $field->Render();
+			$result[] = '</div>';
 		}
+		if ($controlFields) {
+			$result[] = '<div class="controls">';
+			foreach ($controlFields as $field) {
+				$result[] = '<div>';
+				$result[] = $field->Render();
+				$result[] = '</div>';
+			}
+			$result[] = '</div>';
+		}
+		if ($submitFields) {
+			$result[] = '<div class="submits">';
+			foreach ($submitFields as $field) $result[] = $field->Render();
+			$result[] = '</div>';
+		}
+		return implode('', $result);
+	}
 
-		
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
+	public function RenderContentWithTableStructure () {
+		/** @var $this \MvcCore\Ext\Forms\View */
+		$result = [];
+		list (
+			$hiddenFields, $controlFields, $submitFields
+		) = $this->RenderContentGetFieldsGroups();
+		$fieldRenderModeDefault = $this->form->GetFieldsRenderModeDefault();
+		$fieldRenderModeDefaultNormal = $fieldRenderModeDefault === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
+		if ($submitFields) {
+			$result[] = '<tfoot class="submits"><tr>';
+			$result[] = $fieldRenderModeDefaultNormal ? '<th class="empty"></td><td class="control">' : '<td colspan="2" class="control">';
+			foreach ($submitFields as $field) $result[] = $field->Render();
+			$result[] = '</td></tr></tfoot>';
+		}
+		if ($controlFields) {
+			$result[] = '<tbody class="controls">';
+			foreach ($controlFields as $field) {
+				$fieldLabelSide = $field->GetLabelSide();
+				$fieldRenderMode = NULL;
+				if ($field instanceof \MvcCore\Ext\Forms\Fields\ILabel) 
+					$fieldRenderMode = $field->GetRenderMode();
+				if ($fieldRenderMode === NULL)
+					$fieldRenderMode = $fieldRenderModeDefault;
+				$fieldRenderModeNormal = $fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
+					
+				if ($field instanceof \MvcCore\Ext\Forms\Fields\IChecked) {
+					if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+						$rowBegin = '<td class="control label control-and-label">';
+						$labelAndControlSeparator = '';
+						$rowEnd = '</td><td class="empty"></td>';
+					} else {
+						$rowBegin = '<td class="empty"></td><td class="control label control-and-label">';
+						$labelAndControlSeparator = '';
+						$rowEnd = '</td>';
+					}
+				} else {
+					if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+						$rowBegin = '<td class="label">';
+						$labelAndControlSeparator = '</td><td class="control">';
+						$rowEnd = '</td>';
+					} else {
+						$rowBegin = '<td class="control">';
+						$labelAndControlSeparator = '</td><td class="label">';
+						$rowEnd = '</td>';
+					}
+				}
 
+				$result[] = '<tr>';
+				if ($fieldRenderModeNormal) {
+					$result[] = $rowBegin;
+				} else if ($fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+					$result[] = '<td colspan="2" class="control label control-inside-label">';
+				} else {
+					$result[] = '<td colspan="2" class="control no-label">';
+				}
+				$result[] = $field->Render($labelAndControlSeparator);
+				if ($fieldRenderModeNormal) {
+					$result[] = $rowEnd;
+				} else {
+					$result[] = '</td>';
+				}
+				$result[] = '</tr>';
+			}
+			$result[] = '</tbody>';
+		}
+		return implode('', $result);
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
+	public function RenderContentWithoutStructure () {
+		/** @var $this \MvcCore\Ext\Forms\View */
+		$result = [];
+		list (
+			$hiddenFields, $controlFields, $submitFields
+		) = $this->RenderContentGetFieldsGroups();
+		if ($hiddenFields) 
+			foreach ($hiddenFields as $field) 
+				$result[] = $field->Render();
+		if ($controlFields) 
+			foreach ($controlFields as $field) 
+				$result[] = $field->Render();
+		if ($submitFields) 
+			foreach ($submitFields as $field) 
+			$result[] = $field->Render();
 		return implode('', $result);
 	}
 

@@ -69,10 +69,6 @@ trait Rendering {
 		$result = '';
 		$renderMode = $this->form->GetFieldsRenderModeDefault();
 		$label = NULL;
-		//$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
-		//$submitFields = $this->form->GetSubmitFields();
-		//if (isset($submitFields[$this->name])) 
-		//	$formRenderModeTable = FALSE;
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel) {
 			$renderModeLocal = $this->GetRenderMode();
 			if ($renderModeLocal !== NULL) $renderMode = $renderModeLocal;
@@ -82,8 +78,6 @@ trait Rendering {
 			$result = $this->RenderLabelAndControl($labelAndControlSeparator);
 		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
 			$result = $this->RenderControlInsideLabel();
-			//if ($formRenderModeTable) 
-			//	$result = '<td colspan="2">' . $result . '</td>';
 		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
 			$result = $this->RenderControl();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
@@ -92,8 +86,6 @@ trait Rendering {
 			} else if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $this->RenderErrors();
 			}
-			//if ($formRenderModeTable) 
-			//	$result = '<td colspan="2">' . $result . '</td>';
 		}
 		return $result;
 	}
