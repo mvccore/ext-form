@@ -156,7 +156,9 @@ implements		\MvcCore\Ext\Forms\IField {
 		$form = $this->form;
 		// if there is no specific render mode - set render mode by form
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\IVisibleField && $this->renderMode === NULL)
-			$this->renderMode = $form->GetDefaultFieldsRenderMode();
+			$this->renderMode = $form->GetFieldsRenderModeDefault();
+		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel && $this->labelSide === NULL)
+			$this->labelSide = $form->GetFieldsLabelSideDefault();
 		if ($this->translate) {
 			if ($this->translateTitle && $this->title !== NULL)
 				$this->title = $form->Translate($this->title);

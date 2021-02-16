@@ -88,7 +88,7 @@ interface ILabel {
 	 * @param  string $labelSide
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT);
+	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT);
 
 	/**
 	 * Get rendering mode flag how to render field and it's label.

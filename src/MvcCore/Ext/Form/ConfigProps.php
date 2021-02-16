@@ -337,7 +337,20 @@ trait ConfigProps {
 	 * rendered after control.
 	 * @var int
 	 */
-	protected $defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
+	protected $fieldsRenderModeDefault = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
+
+	/**
+	 * Default label side from rendered field - location where label will be 
+	 * rendered, for each form control with label. Every field with label has configured
+	 * `$field->GetLabelSide()` to `left` value except control(s) implementing interface 
+	 * `\MvcCore\Ext\Forms\Fields\IChecked`. There is label always in opposite side.
+	 * If you want to reconfigure it to different side, the only possible value is `right`.
+	 * You can use constants:
+	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
+	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
+	 * @var string
+	 */
+	protected $fieldsLabelSideDefault = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT;
 
 	/**
 	 * Errors rendering mode, default mode is to render all errors together.

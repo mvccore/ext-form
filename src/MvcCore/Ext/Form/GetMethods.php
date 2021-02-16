@@ -310,9 +310,18 @@ trait GetMethods {
 	 * @inheritDocs
 	 * @return int
 	 */
-	public function GetDefaultFieldsRenderMode () {
+	public function GetFieldsRenderModeDefault () {
 		/** @var $this \MvcCore\Ext\Form */
-		return $this->defaultFieldsRenderMode;
+		return $this->fieldsRenderModeDefault;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
+	public function GetFieldsLabelSideDefault () {
+		/** @var $this \MvcCore\Ext\Form */
+		return $this->fieldsLabelSideDefault;
 	}
 
 	/**

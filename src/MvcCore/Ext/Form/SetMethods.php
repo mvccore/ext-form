@@ -360,12 +360,23 @@ trait SetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param  int $defaultFieldsRenderMode
+	 * @param  int $fieldsRenderModeDefault
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL) {
+	public function SetFieldsRenderModeDefault ($fieldsRenderModeDefault = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL) {
 		/** @var $this \MvcCore\Ext\Form */
-		$this->defaultFieldsRenderMode = $defaultFieldsRenderMode;
+		$this->fieldsRenderModeDefault = $fieldsRenderModeDefault;
+		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  string $fieldsLabelSideDefault
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFieldsLabelSideDefault ($fieldsLabelSideDefault = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+		/** @var $this \MvcCore\Ext\Form */
+		$this->fieldsLabelSideDefault = $fieldsLabelSideDefault;
 		return $this;
 	}
 

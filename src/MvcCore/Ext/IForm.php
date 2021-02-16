@@ -370,7 +370,19 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * rendered after control.
 	 * @return int
 	 */
-	public function GetDefaultFieldsRenderMode ();
+	public function GetFieldsRenderModeDefault ();
+
+	/**
+	 * Get default label side from rendered field - location where label will be 
+	 * rendered, for each form control with label. Every field with label has configured
+	 * `$field->GetLabelSide()` to `left` value except control(s) implementing interface 
+	 * `\MvcCore\Ext\Forms\Fields\IChecked`. There is label always in opposite side.
+	 * You can use constants to compare returned value:
+	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
+	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
+	 * @return string
+	 */
+	public function GetFieldsLabelSideDefault ();
 
 	/**
 	 * Get errors rendering mode, by default configured as string: 
@@ -851,10 +863,24 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Default values is normal render mode (`0`), it means label will be rendered
 	 * before control, only label for checkbox and radio button will be
 	 * rendered after control.
-	 * @param  int $defaultFieldsRenderMode
+	 * @param  int $fieldsRenderModeDefault
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetDefaultFieldsRenderMode ($defaultFieldsRenderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL);
+	public function SetFieldsRenderModeDefault ($fieldsRenderModeDefault = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL);
+
+	/**
+	 * Set default label side from rendered field - location where label will be 
+	 * rendered, for each form control with label. Every field with label has configured
+	 * `$field->GetLabelSide()` to `left` value except control(s) implementing interface 
+	 * `\MvcCore\Ext\Forms\Fields\IChecked`. There is label always in opposite side.
+	 * If you want to reconfigure it to different side, the only possible value is `right`.
+	 * You can use constants:
+	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
+	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
+	 * @param  string $fieldsLabelSideDefault
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFieldsLabelSideDefault ($fieldsLabelSideDefault = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT);
 
 	/**
 	 * Set errors rendering mode, default mode is to render all errors together.

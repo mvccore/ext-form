@@ -69,9 +69,9 @@ trait Label {
 	 * You can use constants:
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
-	 * @var string
+	 * @var string|NULL
 	 */
-	protected $labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT; // right | left
+	protected $labelSide = NULL; // `NULL | right | left`
 	
 	/**
 	 * Rendering mode flag how to render field and it's label.
@@ -155,7 +155,7 @@ trait Label {
 	 * @param  string $labelSide
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
+	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
 		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelSide = $labelSide;
 		return $this;
