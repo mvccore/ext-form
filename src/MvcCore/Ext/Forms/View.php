@@ -481,14 +481,18 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContent () {
+		/** @var $this \MvcCore\Ext\Forms\View */
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
 
 		$result = [];
 		$formRenderMode = $this->form->GetFormRenderMode();
 		$allFields = $this->form->GetFields();
+		/** @var $hiddenFields \MvcCore\Ext\Forms\Fields\Hidden[] */
 		$hiddenFields = [];
+		/** @var $controlFields \MvcCore\Ext\Forms\Field[] */
 		$controlFields = [];
+		/** @var $submitFields \MvcCore\Ext\Forms\Fields\ISubmit[] */
 		$submitFields = [];
 		foreach ($allFields as $fieldName => $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) {
@@ -522,16 +526,61 @@ class View extends \MvcCore\View {
 			}
 
 		} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
+			$fieldRenderModeDefault = $this->form->GetFieldsRenderModeDefault();
+			$fieldRenderModeDefaultNormal = $fieldRenderModeDefault === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
 			if ($submitFields) {
-				$result[] = '<tfoot class="submits"><tr><th></th><td>';
+				$result[] = '<tfoot class="submits"><tr>';
+				$result[] = $fieldRenderModeDefaultNormal ? '<th class="empty"></td><td class="control">' : '<td colspan="2" class="control">';
 				foreach ($submitFields as $field) $result[] = $field->Render();
 				$result[] = '</td></tr></tfoot>';
 			}
 			if ($controlFields) {
 				$result[] = '<tbody class="controls">';
 				foreach ($controlFields as $field) {
+					$fieldLabelSide = $field->GetLabelSide();
+					$fieldRenderMode = NULL;
+					if ($field instanceof \MvcCore\Ext\Forms\Fields\ILabel) 
+						$fieldRenderMode = $field->GetRenderMode();
+					if ($fieldRenderMode === NULL)
+						$fieldRenderMode = $fieldRenderModeDefault;
+					$fieldRenderModeNormal = $fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
+					
+					if ($field instanceof \MvcCore\Ext\Forms\Fields\IChecked) {
+						if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+							$rowBegin = '<td class="control label control-and-label">';
+							$labelAndControlSeparator = '';
+							$rowEnd = '</td><td class="empty"></td>';
+						} else {
+							$rowBegin = '<td class="empty"></td><td class="control label control-and-label">';
+							$labelAndControlSeparator = '';
+							$rowEnd = '</td>';
+						}
+					} else {
+						if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+							$rowBegin = '<td class="label">';
+							$labelAndControlSeparator = '</td><td class="control">';
+							$rowEnd = '</td>';
+						} else {
+							$rowBegin = '<td class="control">';
+							$labelAndControlSeparator = '</td><td class="label">';
+							$rowEnd = '</td>';
+						}
+					}
+
 					$result[] = '<tr>';
-					$result[] = $field->Render();
+					if ($fieldRenderModeNormal) {
+						$result[] = $rowBegin;
+					} else if ($fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+						$result[] = '<td colspan="2" class="control label control-inside-label">';
+					} else {
+						$result[] = '<td colspan="2" class="control no-label">';
+					}
+					$result[] = $field->Render($labelAndControlSeparator);
+					if ($fieldRenderModeNormal) {
+						$result[] = $rowEnd;
+					} else {
+						$result[] = '</td>';
+					}
 					$result[] = '</tr>';
 				}
 				$result[] = '</tbody>';

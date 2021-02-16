@@ -20,31 +20,38 @@ trait Rendering {
 
 	/**
 	 * @inheritDocs
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function Render () {
+	public function Render ($labelAndControlSeparator = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		if ($this->viewScript) {
 			return $this->RenderTemplate();
 		} else {
-			return $this->RenderNaturally();
+			return $this->RenderNaturally($labelAndControlSeparator);
 		}
 	}
 
 	/**
 	 * @inheritDocs
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderTemplate () {
+	public function RenderTemplate ($labelAndControlSeparator = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
+		/** @var $viewClass string|\MvcCore\Ext\Forms\View */
+		/** @var $view \MvcCore\Ext\Forms\View */
 		$viewClass = $this->form->GetViewClass();
 		$formParentController = $this->form->GetParentController();
-		$view = $viewClass::CreateInstance()
+		$view = $viewClass::CreateInstance();
+		$view
 			->SetController($formParentController)
 			->SetView($formParentController->GetView())
 			->SetForm($this->form)
 			->SetField($this);
+		if ($labelAndControlSeparator !== NULL)
+			$view->__set('labelAndControlSeparator', $labelAndControlSeparator);
 		return $view->Render(
 			$viewClass::GetFieldsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
@@ -54,27 +61,29 @@ trait Rendering {
 	/**
 	 * @inheritDocs
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderNaturally () {
+	public function RenderNaturally ($labelAndControlSeparator = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
-		$renderMode = $this->form->GetDefaultFieldsRenderMode();
+		$renderMode = $this->form->GetFieldsRenderModeDefault();
 		$label = NULL;
-		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
-		$submitFields = $this->form->GetSubmitFields();
-		if (isset($submitFields[$this->name])) $formRenderModeTable = FALSE;
+		//$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
+		//$submitFields = $this->form->GetSubmitFields();
+		//if (isset($submitFields[$this->name])) 
+		//	$formRenderModeTable = FALSE;
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel) {
 			$renderModeLocal = $this->GetRenderMode();
 			if ($renderModeLocal !== NULL) $renderMode = $renderModeLocal;
 			$label = $this->GetLabel();
 		}
 		if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL && $label) {
-			$result = $this->RenderLabelAndControl();
+			$result = $this->RenderLabelAndControl($labelAndControlSeparator);
 		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label) {
 			$result = $this->RenderControlInsideLabel();
-			if ($formRenderModeTable) 
-				$result = '<td colspan="2">' . $result . '</td>';
+			//if ($formRenderModeTable) 
+			//	$result = '<td colspan="2">' . $result . '</td>';
 		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$label) {
 			$result = $this->RenderControl();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
@@ -83,8 +92,8 @@ trait Rendering {
 			} else if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
 				$result .= $this->RenderErrors();
 			}
-			if ($formRenderModeTable) 
-				$result = '<td colspan="2">' . $result . '</td>';
+			//if ($formRenderModeTable) 
+			//	$result = '<td colspan="2">' . $result . '</td>';
 		}
 		return $result;
 	}
@@ -92,55 +101,36 @@ trait Rendering {
 	/**
 	 * @inheritDocs
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderLabelAndControl () {
+	public function RenderLabelAndControl ($labelAndControlSeparator = NULL) {
 		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
 		$errors = '';
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		$allErrorsTogether = $formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER;
-		if (!$allErrorsTogether) $errors = $this->RenderErrors();
-		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
-		$submitFields = $this->form->GetSubmitFields();
-		if (isset($submitFields[$this->name])) $formRenderModeTable = FALSE;
-		if ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
-			if ($formRenderModeTable) {
-				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-					$result = '<th>' . $this->RenderLabel() . '</th><td>' . $errors . $this->RenderControl() . '</td>';
-				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-					$result = '<th>' . $this->RenderLabel() . '</th><td>' . $this->RenderControl() . $errors . '</td>';
-				} else if ($allErrorsTogether) {
-					$result = '<th>' . $this->RenderLabel() . '</th><td>' . $this->RenderControl() . '</td>';
-				}
-			} else {
-				$result = $this->RenderLabel() . $this->RenderControl();
-				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-					$result = $this->RenderLabel() . $errors . $this->RenderControl();
-				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-					$result = $this->RenderLabel() . $this->RenderControl() . $errors;
-				} else if ($allErrorsTogether) {
-					$result = $this->RenderLabel() . $this->RenderControl();
-				}
+		if (!$allErrorsTogether) 
+			$errors = $this->RenderErrors();
+		if ($labelAndControlSeparator === NULL) 
+			$labelAndControlSeparator = '';
+
+		if ($this->labelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
+			if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+				$result = $this->RenderLabel() . $labelAndControlSeparator . $errors . $this->RenderControl();
+			} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+				$result = $this->RenderLabel() . $labelAndControlSeparator . $this->RenderControl() . $errors;
+			} else if ($allErrorsTogether) {
+				$result = $this->RenderLabel() . $labelAndControlSeparator . $this->RenderControl();
 			}
+			
 		} else {
-			if ($formRenderModeTable) {
-				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-					$result = '<td>' . $errors . $this->RenderControl() . '</td><th>' . $this->RenderLabel() . '</th>';
-				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-					$result = '<td>' . $this->RenderControl() . $errors . '</td><th>' . $this->RenderLabel() . '</th>';
-				} else if ($allErrorsTogether) {
-					$result = '<td>' . $this->RenderControl() . '</td><th>' . $this->RenderLabel() . '</th>';
-				}
-			} else {
-				$result = $this->RenderControl() . $this->RenderLabel();
-				if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-					$result = $errors . $this->RenderControl() . $this->RenderLabel();
-				} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-					$result = $this->RenderControl() . $errors . $this->RenderLabel();
-				} else if ($allErrorsTogether) {
-					$result = $this->RenderControl() . $this->RenderLabel();
-				}
+			if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
+				$result = $errors . $this->RenderControl() . $labelAndControlSeparator . $this->RenderLabel();
+			} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
+				$result = $this->RenderControl() . $errors . $labelAndControlSeparator . $this->RenderLabel();
+			} else if ($allErrorsTogether) {
+				$result = $this->RenderControl() . $labelAndControlSeparator . $this->RenderLabel();
 			}
 		}
 		

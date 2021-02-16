@@ -660,9 +660,12 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 
 	/**
 	 * Render field in full mode (with configured label), naturally or by custom template.
+	 * You can set any separator string as first argument to separate rendered label and 
+	 * control by given value in natural or also in template rendering mode.
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function Render ();
+	public function Render ($labelAndControlSeparator = NULL);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
@@ -672,10 +675,14 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * This method creates `$view = new \MvcCore\Ext\Form\Core\View();`,
 	 * sets all local context variables into view instance and renders 
 	 * configured view instance into result string.
+	 * 
+	 * You can set any separator string as first argument to separate rendered label and 
+	 * control by given value in template rendering mode as view variable with the same name.
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderTemplate ();
+	public function RenderTemplate ($labelAndControlSeparator = NULL);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
@@ -686,10 +693,14 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * label beside, label around or without label by local field configuration. 
 	 * Also there could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
+	 * 
+	 * You can set any separator string as first argument to separate rendered label and 
+	 * control by given value in natural rendering mode.
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderNaturally ();
+	public function RenderNaturally ($labelAndControlSeparator = NULL);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
@@ -697,10 +708,14 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * 
 	 * Render field control and label by local configuration in left or in right side,
 	 * errors beside if form is configured to render specific errors beside controls.
+	 * 
+	 * You can set any separator string as first argument to separate rendered label and 
+	 * control by given value.
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderLabelAndControl ();
+	public function RenderLabelAndControl ($labelAndControlSeparator = NULL);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\Field\Rendering` 
