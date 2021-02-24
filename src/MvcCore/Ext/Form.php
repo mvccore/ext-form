@@ -47,7 +47,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Please don't forget to configure at least $form->Id, $form->Action,
 	 * any control to work with and finally any button:submit/input:submit
 	 * to submit the form to any URL defined in $form->Action.
-	 * @param  \MvcCore\Controller|NULL $controller
+	 * @param  \MvcCore\Controller|NULL $controller Controller instance, where the form is created.
 	 * @return void
 	 */
 	public function __construct (\MvcCore\IController $controller = NULL) {
