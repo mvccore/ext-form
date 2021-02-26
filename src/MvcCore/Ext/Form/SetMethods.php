@@ -173,7 +173,7 @@ trait SetMethods {
 	 */
 	public function SetCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Form */
-		$cssClassesArr = gettype($cssClasses) == 'array'
+		$cssClassesArr = is_array($cssClasses)
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
 		$this->cssClasses = $cssClassesArr;

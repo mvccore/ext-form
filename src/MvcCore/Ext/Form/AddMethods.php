@@ -38,7 +38,7 @@ trait AddMethods {
 	 */
 	public function AddCssClasses ($cssClasses) {
 		/** @var $this \MvcCore\Ext\Form */
-		$cssClassesArr = gettype($cssClasses) == 'array'
+		$cssClassesArr = is_array($cssClasses)
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
 		$this->cssClasses = array_merge($this->cssClasses, $cssClassesArr);
@@ -60,7 +60,7 @@ trait AddMethods {
 		);
 		$fieldNamesArr = $fieldNames === NULL 
 			? [] 
-			: (gettype($fieldNames) == 'array' 
+			: (is_array($fieldNames)
 				? $fieldNames 
 				: [$fieldNames]
 			);
