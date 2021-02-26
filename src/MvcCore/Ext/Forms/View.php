@@ -129,6 +129,7 @@ class View extends \MvcCore\View {
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetView (\MvcCore\IView $view) {
+		/** @var $view \MvcCore\View */
 		$this->view = $view;
 		return $this;
 	}
@@ -147,6 +148,7 @@ class View extends \MvcCore\View {
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
+		/** @var $form \MvcCore\Ext\Form */
 		$this->form = $form;
 		return $this;
 	}
@@ -165,6 +167,7 @@ class View extends \MvcCore\View {
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field) {
+		/** @var $field \MvcCore\Ext\Forms\Field */
 		$this->field = $field;
 		$this->__protected['fieldRendering'] = TRUE;
 		return $this;
@@ -195,7 +198,7 @@ class View extends \MvcCore\View {
 				if (!$property->isStatic()) {
 					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
 					$value = NULL;
-					if (PHP_VERSION_ID >= 70400 && $property->hasType()) {
+					if ($phpWithTypes && $property->hasType()) {
 						if ($property->isInitialized($this->field))
 							$value = $property->getValue($this->field);
 					} else {
@@ -217,7 +220,7 @@ class View extends \MvcCore\View {
 				if (!$property->isStatic()) {
 					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
 					$value = NULL;
-					if (PHP_VERSION_ID >= 70400 && $property->hasType()) {
+					if ($phpWithTypes && $property->hasType()) {
 						if ($property->isInitialized($this->form))
 							$value = $property->getValue($this->form);
 					} else {
