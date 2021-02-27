@@ -411,6 +411,7 @@ class View extends \MvcCore\View {
 		$attrsStr = self::RenderAttrs($attrs);
 		if ($attrsStr) $result[] = ' ' . $attrsStr;
 		$result[] = '>';
+		$this->form->SetFormTagRenderingStatus(TRUE);
 		$result[] = $this->RenderCsrf();
 		return implode('', $result);
 	}
