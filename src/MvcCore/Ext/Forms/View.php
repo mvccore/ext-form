@@ -362,9 +362,9 @@ class View extends \MvcCore\View {
 		}
 		$result[] = $this->RenderErrors();
 		$result[] = $this->RenderContent();
-		$result[] = $this->RenderEnd();
 		if ($formRenderModeTable) 
 			$result[] = '</table>';
+		$result[] = $this->RenderEnd();
 		return implode('', $result);
 	}
 
