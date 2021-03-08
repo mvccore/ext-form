@@ -36,7 +36,9 @@ trait Assets {
 			$staticCollection = & self::$allCssSupportFiles;
 		}
 		foreach ($instanceCollection as $item) {
-			$absoluteSupportingFilePath = static::absolutizeSupportingFilePath($item[0], $javascriptFiles);
+			$absoluteSupportingFilePath = static::absolutizeSupportingFilePath(
+				$item[0], $javascriptFiles
+			);
 			$files[$absoluteSupportingFilePath] = TRUE;
 		}
 		$files = array_keys($files);
