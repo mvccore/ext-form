@@ -565,7 +565,7 @@ class View extends \MvcCore\View {
 		/** @var $this \MvcCore\Ext\Forms\View */
 		$result = [];
 		list (
-			$hiddenFields, $controlFields, $submitFields
+			/*$hiddenFields*/, $controlFields, $submitFields
 		) = $this->RenderContentGetFieldsGroups();
 		$fieldRenderModeDefault = $this->form->GetFieldsRenderModeDefault();
 		$fieldRenderModeDefaultNormal = $fieldRenderModeDefault === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
