@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing logic and methods to work with
  * values necessary store in session. It use configured core class `\MvcCore\Session`.
+ * @mixin \MvcCore\Ext\Form
  */
 trait Session {
 
@@ -24,7 +25,6 @@ trait Session {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function ClearSession () {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->values = [];
 		$this->errors = [];
 		$session = & $this->getSession();
@@ -39,7 +39,6 @@ trait Session {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SaveSession () {
-		/** @var $this \MvcCore\Ext\Form */
 		$session = & $this->getSession();
 		$session->errors = $this->errors;
 		$session->values = $this->values;

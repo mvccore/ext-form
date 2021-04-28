@@ -21,6 +21,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\FieldsGroup`
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Options {
 
@@ -39,10 +40,10 @@ trait Options {
 	 *   //   <input id="gender-m" type="radio" name="gender" value="m" />
 	 *   // use this configuration:
 	 *   $field->name = 'gender';
-	 *   $field->options = array(
+	 *   $field->options = [
 	 *       'f' => 'Female',
 	 *       'm' => 'Male',
-	 *   );
+	 *   ];
 	 *   
 	 *   // Or you can use more advanced configuration with css class names 
 	 *   // and html element attributes, let's consider html code like this:
@@ -52,18 +53,18 @@ trait Options {
 	 *   //   <input id="gender-m" type="radio" name="gender" value="m" class="male" data-any="something-for-males" />
 	 *   // For that use this configuration:
 	 *   $field->name = 'gender';
-	 *   $field->options = array(
-	 *       'f' => array(
+	 *   $field->options = [
+	 *       'f' => [
 	 *           'text'  => 'Female',	// text key will be also automatically translated
 	 *           'class' => 'female',
-	 *           'attrs' => array('data-any' => 'something-for-females'),
-	 *       ),
-	 *       'm' => array(
+	 *           'attrs' => ['data-any' => 'something-for-females'],
+	 *       ],
+	 *       'm' => [
 	 *           'text'  => 'Male', // text key will be also automatically translated
 	 *           'class' => 'male',
-	 *           'attrs' => array('data-any' => 'something-for-males'),
-	 *       ),
-	 *   ));
+	 *           'attrs' => ['data-any' => 'something-for-males'],
+	 *       ],
+	 *   ];
 	 * ```
 	 * @requires
 	 * @var array
@@ -93,7 +94,7 @@ trait Options {
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
 	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
 	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @var array
+	 * @var array|callable
 	 */
 	protected $optionsLoader = [];
 	
@@ -109,7 +110,6 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptions (array $options = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		$this->options = $options;
 		return $this;
 	}
@@ -120,7 +120,6 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddOptions (array $options = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		$this->options = array_merge($this->options, $options);
 		return $this;
 	}
@@ -130,7 +129,6 @@ trait Options {
 	 * @return array
 	 */
 	public function & GetOptions () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		return $this->options;
 	}
 
@@ -141,7 +139,6 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		$this->optionsLoader = [$methodName, $context];
 		return $this;
 	}
@@ -152,7 +149,6 @@ trait Options {
 	 * @return array `[string $methodName, int $context]`
 	 */
 	public function GetOptionsLoader () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		return $this->optionsLoader;
 	}
 
@@ -162,7 +158,6 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		$this->translateOptions = $translateOptions;
 		return $this;
 	}
@@ -172,7 +167,6 @@ trait Options {
 	 * @return bool
 	 */
 	public function GetTranslateOptions () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		return $this->translateOptions;
 	}
 
@@ -182,11 +176,9 @@ trait Options {
 	 * @return array
 	 */
 	public function & GetFlattenOptions (array $fieldOptions = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		if ($fieldOptions === NULL && $this->flattenOptions !== NULL)
 			return $this->flattenOptions;
 		$this->flattenOptions = [];
-		/** @var $this \MvcCore\Ext\Forms\Fields\IOptions */
 		$fieldOptions = $fieldOptions === NULL
 			? $this->options
 			: $fieldOptions;
@@ -237,7 +229,6 @@ trait Options {
 	 * @return void
 	 */
 	protected function ctorOptions (array & $cfg = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		if (!isset($cfg['optionsLoader'])) return;
 		$optionsLoader = $cfg['optionsLoader'];
 		if (is_string($optionsLoader)) {
@@ -257,7 +248,6 @@ trait Options {
 	 * @return void
 	 */
 	protected function setFormLoadOptions () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		if (count($this->optionsLoader) === 0) 
 			return;
 		list (
@@ -283,7 +273,6 @@ trait Options {
 	 * @return array [`\ReflectionMethod`, `\MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Model|NULL`]
 	 */
 	protected function getOptionsLoaderReflection () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Options */
 		if (count($this->optionsLoaderReflection) > 0) 
 			return $this->optionsLoaderReflection;
 
@@ -317,7 +306,7 @@ trait Options {
 			if (!$formImplementsInterface) throw new \InvalidArgumentException(
 				"For model context options loader, you have to implement form interface `{$modelFormInterface}`."
 			);
-			/** @var $modelForm \MvcCore\Ext\ModelForms\Form */
+			/** @var \MvcCore\Ext\ModelForms\Form $modelForm */
 			$modelForm = $this->form;
 			if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL) != 0) {
 				$reflectionInvokeObject = $modelForm->GetModelInstance();

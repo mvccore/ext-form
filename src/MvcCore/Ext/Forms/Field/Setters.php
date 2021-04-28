@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Forms\Field;
 /**
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field (mostly
  * configurable) properties setter methods.
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Setters {
 
@@ -25,7 +26,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetId ($id = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->id = $id;
 		return $this;
 	}
@@ -37,7 +37,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetName ($name = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->name = $name;
 		return $this;
 	}
@@ -48,7 +47,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetType ($type = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->type = $type;
 		return $this;
 	}
@@ -59,7 +57,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValue ($value) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->value = $value;
 		return $this;
 	}
@@ -70,7 +67,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssClasses ($cssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -85,7 +81,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->title = $title;
 		if ($translateTitle !== NULL)
 			$this->translateTitle = $translateTitle;
@@ -98,7 +93,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddCssClasses ($cssClasses) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$cssClassesArr = gettype($cssClasses) == 'array'
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -112,7 +106,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttrs (array $attrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->controlAttrs = $attrs;
 		return $this;
 	}
@@ -124,7 +117,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttr ($name, $value) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->controlAttrs[$name] = $value;
 		return $this;
 	}
@@ -135,7 +127,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddControlAttrs (array $attrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->controlAttrs = array_merge($this->controlAttrs, $attrs);
 		return $this;
 	}
@@ -146,7 +137,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValidators (array $validatorsNamesOrInstances = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->validators = [];
 		return $this->AddValidators($validatorsNamesOrInstances);
 	}
@@ -157,7 +147,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidators ($validatorsNamesOrInstances = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$validatorsNamesOrInstances = func_get_args();
 		if (count($validatorsNamesOrInstances) === 1 && is_array($validatorsNamesOrInstances[0]))
 			$validatorsNamesOrInstances = $validatorsNamesOrInstances[0];
@@ -225,7 +214,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function RemoveValidator ($validatorNameOrInstance) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		if (is_string($validatorNameOrInstance)) {
 			$validatorClassName = $validatorNameOrInstance;
 		} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
@@ -251,7 +239,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->viewScript = $boolOrViewScriptPath;
 		return $this;
 	}
@@ -262,7 +249,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsClassName ($jsClassName) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->jsClassName = $jsClassName;
 		return $this;
 	}
@@ -273,7 +259,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetJsSupportingFile ($jsSupportingFilePath) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->jsSupportingFile = $jsSupportingFilePath;
 		return $this;
 	}
@@ -284,7 +269,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssSupportingFile ($cssSupportingFilePath) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->cssSupportingFile = $cssSupportingFilePath;
 		return $this;
 	}
@@ -295,7 +279,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslate ($translate) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->translate = $translate;
 		return $this;
 	}
@@ -306,7 +289,6 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddError ($errorMsg) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$this->errors[] = $errorMsg;
 		return $this;
 	}

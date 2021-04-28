@@ -17,6 +17,7 @@ use \MvcCore\Ext\Forms\IError;
 
 /**
  * Trait for class `MvcCore\Ext\Form` containing all internal properties.
+ * @mixin \MvcCore\Ext\Form
  */
 trait InternalProps {
 
@@ -135,6 +136,12 @@ trait InternalProps {
 	 * @var string
 	 */
 	protected static $jsBaseSupportFile = '__MVCCORE_FORM_ASSETS_DIR__/mvccore-form.js';
+
+	/**
+	 * Supporting assets nonce attribute for CSP policy, completed only if necessary.
+	 * @var \bool[]|\string[]|\NULL[]
+	 */
+	protected static $assetsNonces = [NULL, NULL];
 
 	/**
 	 * Default (not translated) error messages with replacements

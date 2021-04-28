@@ -33,8 +33,9 @@ trait AutoComplete {
 
 	/**
 	 * Attribute indicates if the input can be automatically completed 
-	 * by the browser, usually by remembering previous values the user has entered.
-	 * Possible values: `off`, `on`, `name`, `email`, `username`, `country`, `postal-code` and many more...
+	 * by the browser, usually by remembering previous values the user 
+	 * has entered. Possible values: `off`, `on`, `name`, `email`, 
+	 * `username`, `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
 	 * @var string|NULL
 	 */
@@ -42,26 +43,26 @@ trait AutoComplete {
 
 	/**
 	 * Get attribute indicates if the input can be automatically completed 
-	 * by the browser, usually by remembering previous values the user has entered.
-	 * Possible values: `off`, `on`, `name`, `email`, `username`, `country`, `postal-code` and many more...
+	 * by the browser, usually by remembering previous values the user has 
+	 * entered. Possible values: `off`, `on`, `name`, `email`, `username`, 
+	 * `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
 	 * @return string|NULL
 	 */
 	public function GetAutoComplete () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AutoComplete */
 		return $this->autoComplete;
 	}
 
 	/**
 	 * Set attribute indicates if the input can be automatically completed 
-	 * by the browser, usually by remembering previous values the user has entered.
-	 * Possible values: `off`, `on`, `name`, `email`, `username`, `country`, `postal-code` and many more...
+	 * by the browser, usually by remembering previous values the user has 
+	 * entered. * Possible values: `off`, `on`, `name`, `email`, `username`, 
+	 * `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
 	 * @param  bool|string $autoComplete Possible values are `'on' | TRUE | 'off' | FALSE | 'anything' | NULL`.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoComplete ($autoComplete = FALSE) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AutoComplete */
 		if ($autoComplete === FALSE) {
 			$this->autoComplete = 'off';
 		} else if ($autoComplete === TRUE) {

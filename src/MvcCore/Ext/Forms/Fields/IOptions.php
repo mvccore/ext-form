@@ -95,12 +95,12 @@ interface IOptions {
 	 *      'f' => [
 	 *          'text'  => 'Female',	// text key will be also automatically translated
 	 *          'class' => 'female',
-	 *          'attrs' => array('data-any' => 'something-for-females'),
+	 *          'attrs' => ['data-any' => 'something-for-females'],
 	 *      ],
 	 *      'm' => [
 	 *          'text'  => 'Male', // text key will be also automatically translated
 	 *          'class' => 'male',
-	 *          'attrs' => array('data-any' => 'something-for-males'),
+	 *          'attrs' => ['data-any' => 'something-for-males'],
 	 *      ],
 	 *   ]);
 	 * ````

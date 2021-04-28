@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * MvcCore
@@ -33,47 +33,89 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	protected $type = 'data-list';
 
 	/**
-	 * Translate given options or not.
-	 * @var bool|NULL
-	 */
-	protected $translateOptions = NULL;
-
-	/**
 	 * No templates needed.
 	 * @var \string[]|\stdClass
 	 */
-	protected static $templates = [];
+	protected static $templates = [
+		'control' => '<datalist id="{id}" {attrs}>{options}</datalist>',
+	];
 
-	
+
 	/**
 	 * Create new form `<datalist>` element instance.
-	 * @param array $cfg Config array with public properties and it's 
-	 *                   values which you want to configure, presented 
-	 *                   in camel case properties names syntax.
+	 * 
+	 * @param  array                  $cfg
+	 * Config array with public properties and it's
+	 * values which you want to configure, presented
+	 * in camel case properties names syntax.
+	 * 
+	 * @param  string                 $name 
+	 * Form field specific name, used to identify submitted value.
+	 * This value is required for all form fields.
+	 * @param  string                 $type 
+	 * Form field type, used in `<input type="...">` attribute value.
+	 * Every typed field has it's own string value, but base field type 
+	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
+	 * @param  string                 $title 
+	 * Field title, global HTML attribute, optional.
+	 * @param  string                 $translate 
+	 * Boolean flag about field visible texts and error messages translation.
+	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
+	 * flag in `$field->Init();` method.
+	 * @param  string                 $translateTitle 
+	 * Boolean to translate title text, `TRUE` by default.
+	 * @param  array                  $cssClasses 
+	 * Form field HTML element css classes strings.
+	 * Default value is an empty array to not render HTML `class` attribute.
+	 * @param  array                  $controlAttrs 
+	 * Collection with field HTML element additional attributes by array keys/values.
+	 * Do not use system attributes as: `id`, `name`, `value`, `readonly`, `disabled`, `class` ...
+	 * Those attributes has it's own configurable properties by setter methods or by constructor config array.
+	 * HTML field elements are meant: `<input>, <button>, <select>, <textarea> ...`. 
+	 * Default value is an empty array to not render any additional attributes.
+	 * 
+	 * @param  array                  $options
+	 * Form group control options to render more sub-control attributes for specified
+	 * submitted values (array keys). This property configuration is required.
+	 * @param  bool                   $translateOptions
+	 * Boolean about to translate options texts, default `TRUE` to translate.
+	 * @param  array                  $optionsLoader
+	 * Definition for method name and context to resolve options loading for complex cases.
+	 * First item is string method name, which has to return options for `$field->SetOptions()` method.
+	 * Second item is context definition int flag, where the method is located, you can use constants:
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
+	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
+	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * 
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
-	public function __construct(array $cfg = []) {
+	public function __construct(
+		array $cfg = [],
+		
+		$name = NULL, 
+		$type = NULL, 
+		$title = NULL, 
+		$translate = NULL, 
+		$translateTitle = NULL, 
+		array $cssClasses = [], 
+		array $controlAttrs = [], 
+		
+		array $options = [],
+		$translateOptions = TRUE,
+		array $optionsLoader = []
+	) {
+		$this->consolidateCfg($cfg, func_get_args(), func_num_args());
 		parent::__construct($cfg);
+		static::$templates = (object) array_merge(
+			(array) parent::$templates, 
+			(array) self::$templates
+		);
 		$this->ctorOptions($cfg);
-	}
-
-	/**
-	 * Get if options has to be translated or not.
-	 * @return bool
-	 */
-	public function GetTranslateOptions () {
-		return $this->translateOptions;
-	}
-	
-	/**
-	 * Set `TRUE` to translate given options or not.
-	 * @param  bool $translateOptions
-	 * @return \MvcCore\Ext\Forms\Field
-	 */
-	public function SetTranslateOptions ($translateOptions = TRUE) {
-		$this->translateOptions = $translateOptions;
-		return $this;
 	}
 
 	/**
@@ -139,10 +181,21 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 * @return string
 	 */
 	public function RenderControl () {
-		$result = '<datalist id="' . $this->id . '">';
+		/** @var \MvcCore\Ext\Forms\Fields\Select $this */
+		$attrsStr = $this->renderControlAttrsWithFieldVars();
+		$optionsStrs = [];
 		foreach ($this->options as $value) 
-			$result .= '<option value="' . htmlspecialchars($value, ENT_QUOTES) . '" />';
-		$result .= '</datalist>';
-		return $result;
+			$optionsStrs[] = '<option value="' . htmlspecialchars($value, ENT_QUOTES) . '" />';
+		if (!$this->form->GetFormTagRenderingStatus()) 
+			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
+				. 'form="' . $this->form->GetId() . '"';
+		$formViewClass = $this->form->GetViewClass();
+		/** @var \stdClass $templates */
+		$templates = static::$templates;
+		return $formViewClass::Format($templates->control, [
+			'id'		=> $this->id,
+			'options'	=> implode('', $optionsStrs),
+			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
+		]);
 	}
 }

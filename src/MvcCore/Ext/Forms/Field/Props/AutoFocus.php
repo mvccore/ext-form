@@ -67,7 +67,6 @@ trait AutoFocus {
 	 * @return bool|NULL
 	 */
 	public function GetAutoFocus () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AutoFocus */
 		return $this->autoFocus;
 	}
 
@@ -91,7 +90,6 @@ trait AutoFocus {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetAutoFocus ($autoFocus = TRUE, $duplicateBehaviour = \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_EXCEPTION) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\AutoFocus */
 		$this->autoFocus = $autoFocus;
 		if ($autoFocus && $duplicateBehaviour !== \MvcCore\Ext\Forms\IField::AUTOFOCUS_DUPLICITY_QUIETLY_SET_NEW) {
 			$form = $this->form;

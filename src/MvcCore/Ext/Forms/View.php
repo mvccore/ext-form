@@ -129,7 +129,7 @@ class View extends \MvcCore\View {
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetView (\MvcCore\IView $view) {
-		/** @var $view \MvcCore\View */
+		/** @var \MvcCore\View $view */
 		$this->view = $view;
 		return $this;
 	}
@@ -148,7 +148,7 @@ class View extends \MvcCore\View {
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
-		/** @var $form \MvcCore\Ext\Form */
+		/** @var \MvcCore\Ext\Form $form */
 		$this->form = $form;
 		return $this;
 	}
@@ -167,7 +167,7 @@ class View extends \MvcCore\View {
 	 * @return \MvcCore\Ext\Forms\View
 	 */
 	public function SetField (\MvcCore\Ext\Forms\IField $field) {
-		/** @var $field \MvcCore\Ext\Forms\Field */
+		/** @var \MvcCore\Ext\Forms\Field $field */
 		$this->field = $field;
 		$this->__protected['fieldRendering'] = TRUE;
 		return $this;
@@ -179,13 +179,13 @@ class View extends \MvcCore\View {
 	 * @return mixed
 	 */
 	public function __get ($name) {
-		/** @var $store array */
+		/** @var array $store */
 		$store = & $this->__protected['store'];
 		$phpWithTypes = PHP_VERSION_ID >= 70400;
 		// if property is in view store - return it
 		if (array_key_exists($name, $store))
 			return $store[$name];
-		/** @var $property \ReflectionProperty */
+		/** @var \ReflectionProperty $property */
 		// if property is not in store and this view is used for field rendering,
 		// try to complete result with property by `$name` in `$this->field` instance:
 		if (
@@ -245,12 +245,12 @@ class View extends \MvcCore\View {
 	 * @return bool
 	 */
 	public function __isset ($name) {
-		/** @var $store array */
+		/** @var array $store */
 		$store = & $this->__protected['store'];
 		$phpWithTypes = PHP_VERSION_ID >= 70400;
 		// if property is in view store - return TRUE
 		if (array_key_exists($name, $store)) return TRUE;
-		/** @var $property \ReflectionProperty */
+		/** @var \ReflectionProperty $property */
 		// if property is not in store and this view is used for field rendering,
 		// try to complete result with property by `$name` in `$this->field` instance:
 		if (
@@ -485,7 +485,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContent () {
-		/** @var $this \MvcCore\Ext\Forms\View */
+		/** @var \MvcCore\Ext\Forms\View $this */
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
 
@@ -503,7 +503,7 @@ class View extends \MvcCore\View {
 
 	/**
 	 * @inheritDocs
-	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[], \MvcCore\Ext\Forms\Fields\ISubmit[]]
+	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[], \MvcCore\Ext\Forms\Fields\ISubmit[]|\MvcCore\Ext\Forms\Fields\IReset[]]
 	 */
 	public function RenderContentGetFieldsGroups () {
 		$allFields = $this->form->GetFields();
@@ -511,12 +511,12 @@ class View extends \MvcCore\View {
 		$hiddenFields = [];
 		/** @var $controlFields \MvcCore\Ext\Forms\Field[] */
 		$controlFields = [];
-		/** @var $submitFields \MvcCore\Ext\Forms\Fields\ISubmit[] */
+		/** @var $submitFields \MvcCore\Ext\Forms\Fields\ISubmit[]|\MvcCore\Ext\Forms\Fields\IReset[] */
 		$submitFields = [];
 		foreach ($allFields as $fieldName => $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) {
 				$hiddenFields[$fieldName] = $field;
-			} else if (isset($this->submitFields[$fieldName])) {
+			} else if (isset($this->submitFields[$fieldName]) || $field instanceof \MvcCore\Ext\Forms\Fields\IReset) {
 				$submitFields[$fieldName] = $field;
 			} else {
 				$controlFields[$fieldName] = $field;
@@ -530,7 +530,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContentWithDivStructure () {
-		/** @var $this \MvcCore\Ext\Forms\View */
+		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
 		list (
 			$hiddenFields, $controlFields, $submitFields
@@ -562,7 +562,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContentWithTableStructure () {
-		/** @var $this \MvcCore\Ext\Forms\View */
+		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
 		list (
 			/*$hiddenFields*/, $controlFields, $submitFields
@@ -634,7 +634,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderContentWithoutStructure () {
-		/** @var $this \MvcCore\Ext\Forms\View */
+		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
 		list (
 			$hiddenFields, $controlFields, $submitFields

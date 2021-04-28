@@ -17,6 +17,7 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing adding methods for configurable 
  * properties except methods manipulating with form field instances, for those 
  * methods, there is another trait `\MvcCore\Ext\Form\FieldMethods`.
+ * @mixin \MvcCore\Ext\Form
  */
 trait AddMethods {
 
@@ -26,7 +27,6 @@ trait AddMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddAcceptCharset ($charset) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->acceptCharsets[] = $charset;
 		return $this;
 	}
@@ -37,7 +37,6 @@ trait AddMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddCssClasses ($cssClasses) {
-		/** @var $this \MvcCore\Ext\Form */
 		$cssClassesArr = is_array($cssClasses)
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -52,7 +51,6 @@ trait AddMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$errorMsgUtf8 = iconv(
 			mb_detect_encoding($errorMsg, mb_detect_order(), TRUE),
 			"UTF-8",
@@ -94,7 +92,6 @@ trait AddMethods {
 		$jsClassName = 'MvcCoreForm.FieldType', 
 		$constructorParams = []
 	) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->jsSupportFiles[] = [$jsRelativePath, $jsClassName, $constructorParams];
 		return $this;
 	}
@@ -107,7 +104,6 @@ trait AddMethods {
 	public function AddCssSupportFile (
 		$cssRelativePath = '/fields/custom-type.css'
 	) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->cssSupportFiles[] = [$cssRelativePath];
 		return $this;
 	}

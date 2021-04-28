@@ -66,6 +66,39 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 	 */
 	protected $reflectionInvokeObject = NULL;
 
+	
+	/**
+	 * Create local method validator instance.
+	 * 
+	 * @param  array  $cfg
+	 * Config array with protected properties and it's 
+	 * values which you want to configure, presented 
+	 * in camel case properties names syntax.
+	 * 
+	 * @param  string $method
+	 * Method name to simply validate field value in some of already created classes.
+	 * @param  string $context
+	 * Validation method context definition, where the method is located, you can use constants:
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL_STATIC`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL`
+	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC`
+	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * 
+	 * @throws \InvalidArgumentException 
+	 * @return void
+	 */
+	public function __construct(
+		array $cfg = [],
+		$method = NULL,
+		$context = NULL
+	) {
+		$this->consolidateCfg($cfg, func_get_args(), func_num_args());
+		parent::__construct($cfg);
+	}
+
 	/**
 	 * Set method name to simply validate field value in some of already created classes.
 	 * @param string $methodName 
@@ -155,7 +188,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 			if (!$formImplementsInterface) throw new \InvalidArgumentException(
 				"For model context validation, you have to implement form interface `\\{$modelFormInterface}`."
 			);
-			/** @var $modelForm \MvcCore\Ext\ModelForms\Form */
+			/** @var \MvcCore\Ext\ModelForms\Form $modelForm */
 			$modelForm = $this->form;
 			if (($this->context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL) != 0) {
 				$this->reflectionInvokeObject = $modelForm->GetModelInstance();

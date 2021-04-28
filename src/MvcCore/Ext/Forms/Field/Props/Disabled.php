@@ -79,7 +79,6 @@ trait Disabled {
 	 * @return bool|NULL
 	 */
 	public function GetDisabled () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Disabled */
 		return $this->disabled;
 	}
 
@@ -100,7 +99,6 @@ trait Disabled {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetDisabled ($disabled) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Disabled */
 		$this->disabled = $disabled;
 		return $this;
 	}

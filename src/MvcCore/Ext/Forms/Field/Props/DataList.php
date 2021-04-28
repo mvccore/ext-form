@@ -46,7 +46,6 @@ trait DataList {
 	 * @return string|NULL
 	 */
 	public function GetList () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\DataList */
 		return $this->list;
 	}
 
@@ -58,7 +57,6 @@ trait DataList {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetList ($dataListIdOrInstance) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\DataList */
 		if ($dataListIdOrInstance instanceof \MvcCore\Ext\Forms\IField) {
 			$this->list = $dataListIdOrInstance->GetId();
 		} else {

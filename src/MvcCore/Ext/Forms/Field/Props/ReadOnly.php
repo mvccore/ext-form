@@ -43,6 +43,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\FieldsGroup`
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait ReadOnly {
 
@@ -77,7 +78,6 @@ trait ReadOnly {
 	 * @return bool|NULL
 	 */
 	public function GetReadOnly () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\ReadOnly */
 		return $this->readOnly;
 	}
 
@@ -97,7 +97,6 @@ trait ReadOnly {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetReadOnly ($readOnly = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\ReadOnly */
 		$this->readOnly = $readOnly;
 		return $this;
 	}

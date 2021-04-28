@@ -43,6 +43,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\FieldsGroup`
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Label {
 
@@ -108,7 +109,6 @@ trait Label {
 	 * @return string|NULL
 	 */
 	public function GetLabel () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->label;
 	}
 
@@ -122,7 +122,6 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabel ($label, $translateLabel = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->label = $label;
 		if ($translateLabel !== NULL)
 			$this->translateLabel = $translateLabel;
@@ -140,7 +139,6 @@ trait Label {
 	 * @return string
 	 */
 	public function GetLabelSide () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->labelSide;
 	}
 
@@ -156,7 +154,6 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelSide ($labelSide = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelSide = $labelSide;
 		return $this;
 	}
@@ -173,7 +170,6 @@ trait Label {
 	 * @return int|NULL
 	 */
 	public function GetRenderMode () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->renderMode;
 	}
 
@@ -190,7 +186,6 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRenderMode ($renderMode = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->renderMode = $renderMode;
 		return $this;
 	}
@@ -208,7 +203,6 @@ trait Label {
 	 * @return array
 	 */
 	public function & GetLabelAttrs () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return $this->labelAttrs;
 	}
 
@@ -224,7 +218,6 @@ trait Label {
 	 * @return mixed
 	 */
 	public function GetLabelAttr ($name = 'data-*') {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		return isset($this->labelAttrs[$name])
 			? $this->labelAttrs[$name]
 			: NULL;
@@ -246,7 +239,6 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelAttrs (array $attrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelAttrs = $attrs;
 		return $this;
 	}
@@ -267,7 +259,6 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabelAttr ($name, $value) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelAttrs[$name] = $value;
 		return $this;
 	}
@@ -287,7 +278,6 @@ trait Label {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddLabelAttrs (array $attrs = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Label */
 		$this->labelAttrs = array_merge($this->labelAttrs, $attrs);
 		return $this;
 	}

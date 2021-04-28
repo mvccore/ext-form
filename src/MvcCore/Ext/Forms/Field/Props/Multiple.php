@@ -23,6 +23,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Validators\Files`
  * - `\MvcCore\Ext\Forms\Validators\Range`
  * - `\MvcCore\Ext\Forms\Validators\ValueInOptions`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Multiple {
 
@@ -59,7 +60,6 @@ trait Multiple {
 	 * @return bool
 	 */
 	public function GetMultiple () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Multiple */
 		return $this->multiple;
 	}
 
@@ -80,7 +80,6 @@ trait Multiple {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetMultiple ($multiple = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Multiple */
 		$this->multiple = $multiple;
 		return $this;
 	}

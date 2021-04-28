@@ -43,6 +43,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\FieldsGroup`
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Required {
 
@@ -68,7 +69,6 @@ trait Required {
 	 * @return bool|NULL
 	 */
 	public function GetRequired () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Required */
 		return $this->required;
 	}
 
@@ -83,7 +83,6 @@ trait Required {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetRequired ($required = TRUE) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Required */
 		$this->required = $required;
 		return $this;
 	}

@@ -15,6 +15,7 @@ namespace MvcCore\Ext\Forms\Field;
 
 /**
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field rendering methods.
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Rendering {
 
@@ -24,7 +25,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function Render ($labelAndControlSeparator = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		if ($this->viewScript) {
 			return $this->RenderTemplate();
 		} else {
@@ -39,9 +39,8 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderTemplate ($labelAndControlSeparator = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		/** @var $viewClass string|\MvcCore\Ext\Forms\View */
-		/** @var $view \MvcCore\Ext\Forms\View */
+		/** @var \MvcCore\Ext\Forms\View $view */
 		$viewClass = $this->form->GetViewClass();
 		$formParentController = $this->form->GetParentController();
 		$view = $viewClass::CreateInstance();
@@ -65,7 +64,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
 		$renderMode = $this->form->GetFieldsRenderModeDefault();
 		$label = NULL;
@@ -97,7 +95,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderLabelAndControl ($labelAndControlSeparator = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = '';
 		$errors = '';
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
@@ -135,7 +132,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderControlInsideLabel () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		if ($this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return $this->RenderControl();
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
@@ -165,7 +161,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderControl () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$attrsStr = $this->renderControlAttrsWithFieldVars();
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
@@ -186,7 +181,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderLabel () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$renderMode = $this instanceof \MvcCore\Ext\Forms\Fields\ILabel
 			? $this->GetRenderMode()
 			: \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
@@ -207,7 +201,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderErrors () {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$result = [];
 		if (
 			$this->errors && 
@@ -240,7 +233,6 @@ trait Rendering {
 	 * @return string
 	 */
 	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->labelAttrs, $this->cssClasses, FALSE
 		);
@@ -259,7 +251,6 @@ trait Rendering {
 	 * @return string
 	 */
 	protected function renderControlAttrsWithFieldVars ($fieldVars = []) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		return $this->renderAttrsWithFieldVars(
 			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
 		);
@@ -288,7 +279,6 @@ trait Rendering {
 		$cssClasses = [], 
 		$controlRendering = FALSE
 	) {
-		/** @var $this \MvcCore\Ext\Forms\Field */
 		$attrs = [];
 		foreach ($fieldVars as $key => $value) {
 			if (is_numeric($key)) {

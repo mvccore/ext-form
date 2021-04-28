@@ -17,6 +17,7 @@ namespace MvcCore\Ext\Form;
  * Trait for class `MvcCore\Ext\Form` containing getters and setters methods for 
  * form field instances and methods to add, search or remove field instance from 
  * form.
+ * @mixin \MvcCore\Ext\Form
  */
 trait FieldMethods {
 
@@ -42,7 +43,6 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->fields = [];
 		foreach ($fields as $field)
 			$this->AddField($field);
@@ -55,7 +55,6 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddFields ($fields) {
-		/** @var $this \MvcCore\Ext\Form */
 		$fields = func_get_args();
 		if (count($fields) === 1 && is_array($fields[0])) $fields = $fields[0];
 		foreach ($fields as $field)
@@ -69,15 +68,14 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field) {
-		/** @var $this \MvcCore\Ext\Form */
-		/** @var $field \MvcCore\Ext\Forms\Field */
+		/** @var \MvcCore\Ext\Forms\Field $field */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
 		$fieldName = $field->GetName();
 		$field->SetForm($this);
 		$this->fields[$fieldName] = $field;
 		if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
-			/** @var $field \MvcCore\Ext\Forms\Fields\ISubmit */
+			/** @var \MvcCore\Ext\Forms\Fields\ISubmit $field */
 			$this->submitFields[$fieldName] = $field;
 			$fieldCustomResultState = $field->GetCustomResultState();
 			if ($fieldCustomResultState !== NULL)
@@ -107,7 +105,6 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
 		$fieldName = NULL;

@@ -112,7 +112,7 @@ interface IConstants {
 	/**
 	 * Form errors, labels, constrols and submit buttons will be rendered 
 	 * without int structural HTML elements like `<div>`s or `<table>` elements.
-	 * @var string
+	 * @var int
 	 */
 	const FORM_RENDER_MODE_NO_STRUCTURE			= 2;
 

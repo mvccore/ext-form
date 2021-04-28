@@ -15,6 +15,7 @@ namespace MvcCore\Ext\Form;
 
 /**
  * Trait for class `MvcCore\Ext\Form` containing all configurable properties.
+ * @mixin \MvcCore\Ext\Form
  */
 trait ConfigProps {
 	

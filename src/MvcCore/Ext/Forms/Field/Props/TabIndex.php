@@ -43,6 +43,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\FieldsGroup`
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait TabIndex {
 
@@ -87,7 +88,6 @@ trait TabIndex {
 	 * @return int|string|NULL
 	 */
 	public function GetTabIndex () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\TabIndex */
 		return $this->tabIndex;
 	}
 
@@ -112,7 +112,6 @@ trait TabIndex {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTabIndex ($tabIndex = 'auto') {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\TabIndex */
 		if ($tabIndex === 'auto' || is_int($tabIndex)) {
 			$this->tabIndex = $tabIndex;
 		} else {
@@ -130,7 +129,6 @@ trait TabIndex {
 	 * @return void
 	 */
 	protected function preDispatchTabIndex () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\TabIndex */
 		if ($this->tabIndex === 'auto') 
 			$this->tabIndex = $this->form->GetFieldNextAutoTabIndex();
 	}

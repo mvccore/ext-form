@@ -27,7 +27,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public static function CreateInstance ($cfg = []);
+	public static function CreateInstance (array $cfg = []);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after field
@@ -149,7 +149,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	public function GetType ();
 
 	/**
-	 * Get form field value. It could be string or array, in or float, it depends
+	 * Get Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
 	 */
@@ -352,7 +352,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	public function SetType ($type = NULL);
 
 	/**
-	 * Set form field value. It could be string or array, in or float, it depends
+	 * Set Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @param  string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\Field

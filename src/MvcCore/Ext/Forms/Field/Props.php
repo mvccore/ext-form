@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Forms\Field;
 /**
  * Trait for class `\MvcCore\Ext\Forms\Field` containing field configurable 
  * and internal properties.
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Props {
 
@@ -47,7 +48,7 @@ trait Props {
 	protected $type = NULL;
 	
 	/**
-	 * Form field value. It could be string or array, in or float, it depends
+	 * Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @var string|array|int|float|NULL
 	 */

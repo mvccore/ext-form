@@ -24,6 +24,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\Fields\Tel`
  *    - `\MvcCore\Ext\Forms\Fields\Url`
  * - `\MvcCore\Ext\Forms\Fields\Textarea`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait PlaceHolder {
 
@@ -49,7 +50,6 @@ trait PlaceHolder {
 	 * @return void
 	 */
 	protected function preDispatchPlaceHolder () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\PlaceHolder */
 		if ($this->translate && $this->placeHolder !== NULL && $this->translatePlaceholder)
 			$this->placeHolder = $this->form->Translate($this->placeHolder);
 	}
@@ -63,7 +63,6 @@ trait PlaceHolder {
 	 * @return string|NULL
 	 */
 	public function GetPlaceHolder () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\PlaceHolder */
 		return $this->placeHolder;
 	}
 
@@ -78,7 +77,6 @@ trait PlaceHolder {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetPlaceHolder ($placeHolder, $translatePlaceholder = NULL) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\PlaceHolder */
 		$this->placeHolder = $placeHolder;
 		if ($translatePlaceholder !== NULL)
 			$this->translatePlaceholder = $translatePlaceholder;

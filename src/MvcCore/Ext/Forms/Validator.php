@@ -83,6 +83,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 * @param array $cfg Config array with protected properties and it's 
 	 *                   values which you want to configure, presented 
 	 *                   in camel case properties names syntax.
+	 * @throws \InvalidArgumentException 
 	 * @return void
 	 */
 	public function __construct (array $cfg = []) {
@@ -95,6 +96,30 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 			} else {
 				$this->{$propertyName} = $propertyValue;
 			}
+		}
+	}
+	
+	/**
+	 * Consolidate all named constructor params (except first 
+	 * agument `$cfg` array) into first agument `$cfg` array.
+	 * @param  array $cfg 
+	 * @param  array $args 
+	 * @param  int   $argsCnt 
+	 * @return void
+	 */
+	protected function consolidateCfg (array & $cfg, array $args, $argsCnt): void {
+		if ($argsCnt < 2) return;
+		/** @var \ReflectionParameter[] $params */
+		$params = (new \ReflectionClass($this))->getConstructor()->getParameters();
+		array_shift($params); // remove first `$cfg` param
+		array_shift($args);   // remove first `$cfg` param
+		/** @var \ReflectionParameter $param */
+		foreach ($params as $index => $param) {
+			if (
+				!isset($args[$index]) ||
+				$args[$index] === $param->getDefaultValue()
+			) continue;
+			$cfg[$param->name] = $args[$index];
 		}
 	}
 

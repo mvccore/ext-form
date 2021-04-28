@@ -15,6 +15,7 @@ namespace MvcCore\Ext\Form;
 
 /**
  * Trait for class `MvcCore\Ext\Form` containing getter methods for configurable properties.
+ * @mixin \MvcCore\Ext\Form
  */
 trait GetMethods {
 	
@@ -23,7 +24,6 @@ trait GetMethods {
 	 * @var \MvcCore\Controller
 	 */
 	public function GetController () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->controller;
 	}
 
@@ -32,7 +32,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetId () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->id;
 	}
 
@@ -41,7 +40,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetAction () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->action;
 	}
 
@@ -50,7 +48,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetMethod () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->method;
 	}
 
@@ -59,7 +56,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetTitle () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->title;
 	}
 
@@ -68,7 +64,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetEnctype () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->enctype;
 	}
 
@@ -77,7 +72,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetTarget () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->target;
 	}
 
@@ -86,7 +80,6 @@ trait GetMethods {
 	 * @return bool|NULL
 	 */
 	public function GetAutoComplete () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->autoComplete;
 	}
 
@@ -99,7 +92,6 @@ trait GetMethods {
 	 * @return bool|NULL
 	 */
 	public function GetNoValidate () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->noValidate;
 	}
 
@@ -108,7 +100,6 @@ trait GetMethods {
 	 * @return \string[]
 	 */
 	public function GetAcceptCharsets () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->acceptCharsets;
 	}
 
@@ -117,7 +108,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetLang () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->lang;
 	}
 
@@ -126,7 +116,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetLocale () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->locale;
 	}
 
@@ -135,7 +124,6 @@ trait GetMethods {
 	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->cssClasses;
 	}
 
@@ -144,7 +132,6 @@ trait GetMethods {
 	 * @return array
 	 */
 	public function & GetAttributes () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->attributes;
 	}
 
@@ -153,7 +140,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetSuccessUrl () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->successUrl;
 	}
 
@@ -162,7 +148,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetPrevStepUrl () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->prevStepUrl;
 	}
 
@@ -171,7 +156,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetNextStepUrl () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->nextStepUrl;
 	}
 
@@ -180,7 +164,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetErrorUrl () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->errorUrl;
 	}
 
@@ -189,7 +172,6 @@ trait GetMethods {
 	 * @return int|NULL
 	 */
 	public function GetResult () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->result;
 	}
 
@@ -198,7 +180,6 @@ trait GetMethods {
 	 * @return callable|NULL
 	 */
 	public function GetTranslator () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->translator;
 	}
 
@@ -207,7 +188,6 @@ trait GetMethods {
 	 * @return bool
 	 */
 	public function GetTranslate () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->translate;
 	}
 
@@ -216,7 +196,6 @@ trait GetMethods {
 	 * @return bool
 	 */
 	public function GetDefaultRequired () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->defaultRequired;
 	}
 
@@ -225,7 +204,6 @@ trait GetMethods {
 	 * @return array
 	 */
 	public function & GetValues () {
-		/** @var $this \MvcCore\Ext\Form */
 		if (
 			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED
 		) $this->preDispatchLoadValues($this->getSession());
@@ -237,7 +215,6 @@ trait GetMethods {
 	 * @return array
 	 */
 	public function & GetErrors () {
-		/** @var $this \MvcCore\Ext\Form */
 		if (
 			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED
 		) $this->preDispatchLoadErrors($this->getSession());
@@ -249,13 +226,12 @@ trait GetMethods {
 	 * @return int|NULL
 	 */
 	public function GetSessionExpiration () {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($this->sessionExpiration === NULL) {
 			$authClassesFullNames = [
 				"\\MvcCore\\Ext\\Auth",
 				"\\MvcCore\\Ext\\Auths\\Basic"
 			];
-			/** @var $auth \MvcCore\Ext\Auths\Basic */
+			/** @var \MvcCore\Ext\Auths\Basic $auth */
 			$auth = NULL;
 			foreach ($authClassesFullNames as $authClassFullName) {
 				if (class_exists($authClassFullName, TRUE)) {
@@ -282,7 +258,6 @@ trait GetMethods {
 	 * @return int|NULL
 	 */
 	public function GetBaseTabIndex () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->baseTabIndex;
 	}
 	
@@ -291,7 +266,6 @@ trait GetMethods {
 	 * @return int
 	 */
 	public function GetFormRenderMode () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->formRenderMode;
 	}
 
@@ -301,7 +275,6 @@ trait GetMethods {
 	 * @return int
 	 */
 	public function GetFieldNextAutoTabIndex () {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->fieldsAutoTabIndex += 1;
 		return $this->fieldsAutoTabIndex;
 	}
@@ -311,7 +284,6 @@ trait GetMethods {
 	 * @return int
 	 */
 	public function GetFieldsRenderModeDefault () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->fieldsRenderModeDefault;
 	}
 
@@ -320,7 +292,6 @@ trait GetMethods {
 	 * @return string
 	 */
 	public function GetFieldsLabelSideDefault () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->fieldsLabelSideDefault;
 	}
 
@@ -329,7 +300,6 @@ trait GetMethods {
 	 * @return int
 	 */
 	public function GetErrorsRenderMode () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->errorsRenderMode;
 	}
 
@@ -338,7 +308,6 @@ trait GetMethods {
 	 * @return string|NULL
 	 */
 	public function GetViewScript () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->viewScript;
 	}
 
@@ -347,7 +316,6 @@ trait GetMethods {
 	 * @return string|\MvcCore\Ext\Forms\View
 	 */
 	public function GetViewClass () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->viewClass;
 	}
 
@@ -356,7 +324,6 @@ trait GetMethods {
 	 * @return array
 	 */
 	public function & GetJsSupportFiles () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->jsSupportFiles;
 	}
 
@@ -365,7 +332,6 @@ trait GetMethods {
 	 * @return \string[]
 	 */
 	public function & GetCssSupportFiles () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->cssSupportFiles;
 	}
 
@@ -374,7 +340,6 @@ trait GetMethods {
 	 * @return callable|NULL
 	 */
 	public function GetJsSupportFilesRenderer () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->jsSupportFilesRenderer;
 	}
 
@@ -383,7 +348,6 @@ trait GetMethods {
 	 * @return callable|NULL
 	 */
 	public function GetCssSupportFilesRenderer () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->cssSupportFilesRenderer;
 	}
 
@@ -393,7 +357,6 @@ trait GetMethods {
 	 * @return bool
 	 */
 	public function GetFormTagRenderingStatus () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->formTagRendergingStatus;
 	}
 	
@@ -403,7 +366,6 @@ trait GetMethods {
 	 * @return int|NULL
 	 */
 	public function GetPhpIniSizeLimit ($iniVarName) {
-		/** @var $this \MvcCore\Ext\Form */
 		$rawIniValue = @ini_get($iniVarName);
 		if (!$rawIniValue) return NULL;
 		return static::ConvertBytesFromHumanForm($rawIniValue);

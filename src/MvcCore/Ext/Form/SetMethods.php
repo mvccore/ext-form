@@ -15,6 +15,7 @@ namespace MvcCore\Ext\Form;
 
 /**
  * Trait for class `MvcCore\Ext\Form` containing setter methods for configurable properties.
+ * @mixin \MvcCore\Ext\Form
  */
 trait SetMethods {
 	
@@ -24,8 +25,7 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetController (\MvcCore\IController $controller) {
-		/** @var $this \MvcCore\Ext\Form */
-		/** @var $controller \MvcCore\Controller */
+		/** @var \MvcCore\Controller $controller */
 		$this->controller = $controller;
 		return $this;
 	}
@@ -37,7 +37,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetId ($id) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->id = $id;
 		self::$instances[$id] = $this;
 		return $this;
@@ -49,7 +48,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAction ($url = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->action = $url;
 		return $this;
 	}
@@ -60,7 +58,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetMethod ($method = \MvcCore\Ext\IForm::METHOD_POST) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->method = strtoupper($method);
 		return $this;
 	}
@@ -72,7 +69,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->title = $title;
 		if ($translateTitle !== NULL)
 			$this->translateTitle = $translateTitle;
@@ -85,7 +81,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnctype ($enctype = \MvcCore\Ext\IForm::ENCTYPE_URLENCODED) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->enctype = $enctype;
 		return $this;
 	}
@@ -95,7 +90,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTarget ($target = '_self') {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->target = $target;
 		return $this;
 	}
@@ -107,7 +101,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAutoComplete ($autoComplete = FALSE) {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($autoComplete === 'off' || $autoComplete === FALSE) {
 			$this->autoComplete = FALSE;
 		} else if ($autoComplete === 'on' || $autoComplete === TRUE) {
@@ -124,7 +117,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNoValidate ($noValidate = TRUE) {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($noValidate === TRUE) {
 			$this->noValidate = TRUE;
 		} else {
@@ -139,7 +131,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAcceptCharsets ($acceptCharsets = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->acceptCharsets = $acceptCharsets;
 		return $this;
 	}
@@ -150,7 +141,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLang ($lang = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->lang = $lang;
 		return $this;
 	}
@@ -161,7 +151,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLocale ($locale = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->locale = strtoupper($locale);
 		return $this;
 	}
@@ -172,7 +161,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssClasses ($cssClasses) {
-		/** @var $this \MvcCore\Ext\Form */
 		$cssClassesArr = is_array($cssClasses)
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
@@ -186,7 +174,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAttributes (array $attributes = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->attributes = $attributes;
 		return $this;
 	}
@@ -197,7 +184,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSuccessUrl ($url = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->successUrl = $url;
 		return $this;
 	}
@@ -208,7 +194,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetPrevStepUrl ($url = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->nextStepUrl = $url;
 		return $this;
 	}
@@ -219,7 +204,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNextStepUrl ($url = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->nextStepUrl = $url;
 		return $this;
 	}
@@ -230,7 +214,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorUrl ($url = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->errorUrl = $url;
 		return $this;
 	}
@@ -241,7 +224,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetResult ($result = \MvcCore\Ext\IForm::RESULT_SUCCESS) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->result = $result;
 		return $this;
 	}
@@ -252,7 +234,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTranslator (callable $translator = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($translator !== NULL && is_callable($translator))
 			$this->translator = $translator;
 		return $this;
@@ -264,7 +245,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetDefaultRequired ($defaultRequired = TRUE) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->defaultRequired = $defaultRequired;
 		return $this;
 	}
@@ -277,7 +257,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetValues (array $values = [], $caseInsensitive = FALSE, $clearPreviousSessionValues = FALSE) {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
 		if ($clearPreviousSessionValues) $this->ClearSession();
@@ -314,7 +293,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrors ($errorsCollection = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->errors = [];
 		foreach ($errorsCollection as $errorMsgAndFieldNames) {
 			list ($errorMsg, $fieldNames) = $errorMsgAndFieldNames;
@@ -331,7 +309,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSessionExpiration ($seconds = 0) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->sessionExpiration = $seconds;
 		return $this;
 	}
@@ -342,7 +319,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetBaseTabIndex ($baseTabIndex = 0) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->baseTabIndex = $baseTabIndex;
 		return $this;
 	}
@@ -353,7 +329,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFormRenderMode ($formRenderMode = \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->formRenderMode = $formRenderMode;
 		return $this;
 	}
@@ -364,7 +339,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFieldsRenderModeDefault ($fieldsRenderModeDefault = \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->fieldsRenderModeDefault = $fieldsRenderModeDefault;
 		return $this;
 	}
@@ -375,7 +349,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFieldsLabelSideDefault ($fieldsLabelSideDefault = \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->fieldsLabelSideDefault = $fieldsLabelSideDefault;
 		return $this;
 	}
@@ -386,7 +359,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorsRenderMode ($errorsRenderMode = \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->errorsRenderMode = $errorsRenderMode;
 		return $this;
 	}
@@ -397,7 +369,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->viewScript = $boolOrViewScriptPath;
 		return $this;
 	}
@@ -408,7 +379,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewClass ($viewClass = 'MvcCore\\Ext\\Forms\\View') {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->viewClass = $viewClass;
 		return $this;
 	}
@@ -419,7 +389,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFiles (array $jsRelPathsClassNamesAndParams = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->jsSupportFiles = [];
 		foreach ($jsRelPathsClassNamesAndParams as $jsRelPathClassNameAndParams) {
 			list ($jsRelativePath, $jsClassName, $constructorParams) = $jsRelPathClassNameAndParams;
@@ -434,7 +403,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFiles (array $cssRelativePaths = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->cssSupportFiles = [];
 		foreach ($cssRelativePaths as $cssRelativePath)
 			$this->AddCssSupportFile($cssRelativePath);
@@ -447,7 +415,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFilesRenderer (callable $jsSupportFilesRenderer) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->jsSupportFilesRenderer = $jsSupportFilesRenderer;
 		return $this;
 	}
@@ -458,7 +425,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFilesRenderer (callable $cssSupportFilesRenderer) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->cssSupportFilesRenderer = $cssSupportFilesRenderer;
 		return $this;
 	}
@@ -470,7 +436,6 @@ trait SetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFormTagRenderingStatus ($formTagRenderingStatus = TRUE) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->formTagRendergingStatus = $formTagRenderingStatus;
 		return $this;
 	}

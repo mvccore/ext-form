@@ -23,6 +23,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Fields\File`
  * - `\MvcCore\Ext\Forms\Fields\Number`
  *    - `\MvcCore\Ext\Forms\Fields\Range`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Wrapper {
 
@@ -30,7 +31,7 @@ trait Wrapper {
 	 * Html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * Default wrapper values is: `{control}`.
+	 * Default wrapper values is: `'{control}'`.
 	 * @var string
 	 */
 	public $wrapper = '{control}';
@@ -39,11 +40,10 @@ trait Wrapper {
 	 * Get html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * Default wrapper values is: `{control}`.
+	 * Default wrapper values is: `'{control}'`.
 	 * @return string
 	 */
 	public function GetWrapper () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Wrapper */
 		return $this->wrapper;
 	}
 
@@ -51,11 +51,10 @@ trait Wrapper {
 	 * Set html code wrapper, wrapper has to contain
 	 * replacement in string form: `{control}`. Around this
 	 * substring you can wrap any HTML code you want.
-	 * @param  string $wrapper Default wrapper values is: `{control}`.
+	 * @param  string $wrapper Default wrapper values is: `'{control}'`.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetWrapper ($wrapper) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Wrapper */
 		$this->wrapper = $wrapper;
 		return $this;
 	}
@@ -63,13 +62,12 @@ trait Wrapper {
 	/**
 	 * Wrap around rendered control HTML core
 	 * any configured content, if wrapper property contains 
-	 * substring for wrapping: `{control}`.
+	 * substring for wrapping: `'{control}'`.
 	 * Return rendered and wrapper HTML code.
 	 * @param  string $renderedCode 
 	 * @return string
 	 */
 	protected function renderControlWrapper ($renderedCode) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Wrapper */
 		$wrapperReplacement = '{control}';
 		$wrapper = mb_strpos($wrapperReplacement, $this->wrapper) !== FALSE 
 			? $this->wrapper 

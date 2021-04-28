@@ -23,6 +23,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\Fields\Search`
  *    - `\MvcCore\Ext\Forms\Fields\Tel`
  *    - `\MvcCore\Ext\Forms\Fields\Url`
+ * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Size {
 
@@ -55,7 +56,6 @@ trait Size {
 	 * @return int|NULL
 	 */
 	public function GetSize () {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Size */
 		return $this->size;
 	}
 
@@ -74,7 +74,6 @@ trait Size {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetSize ($size) {
-		/** @var $this \MvcCore\Ext\Forms\Field|\MvcCore\Ext\Forms\Field\Props\Size */
 		$this->size = $size;
 		return $this;
 	}

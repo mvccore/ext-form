@@ -148,10 +148,14 @@ interface IFieldsGroup {
 	 * or without label by local field configuration. Also there
 	 * could be rendered specific field errors before or after field
 	 * if field form is configured in that way.
+	 * 
+	 * You can set any separator string as first argument to separate rendered label and 
+	 * control by given value in natural rendering mode.
 	 * @internal
+	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
-	public function RenderNaturally ();
+	public function RenderNaturally ($labelAndControlSeparator = NULL);
 
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Forms\FieldsGroup` 

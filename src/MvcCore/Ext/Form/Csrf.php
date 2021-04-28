@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing methods to create, get and 
  * verify CSRF tokens and to process CSRF error handlers if tokens are not valid.
+ * @mixin \MvcCore\Ext\Form
  */
 trait Csrf {
 
@@ -26,7 +27,7 @@ trait Csrf {
 	 * @return void
 	 */
 	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg) {
-		/** @var $form \MvcCore\Ext\Form */
+		/** @var \MvcCore\Ext\Form $form */
 		$request = $form->GetRequest();
 		$response = $form->GetResponse();
 		foreach (static::$csrfErrorHandlers as $handlersRecord) {
@@ -53,7 +54,6 @@ trait Csrf {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnableCsrf ($enabled = TRUE) {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->csrfEnabled = $enabled;
 		return $this;
 	}
@@ -63,7 +63,6 @@ trait Csrf {
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {
-		/** @var $this \MvcCore\Ext\Form */
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf;
 		return (object) ['name' => $name, 'value' => $value];
@@ -75,7 +74,6 @@ trait Csrf {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
-		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->csrfEnabled) return $this;
 		$result = FALSE;
 		$session = & $this->getSession();
@@ -100,7 +98,6 @@ trait Csrf {
 	 * @return \string[]
 	 */
 	public function SetUpCsrf () {
-		/** @var $this \MvcCore\Ext\Form */
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
 		if (function_exists('openssl_random_pseudo_bytes')) {
 			$randomHash = bin2hex(openssl_random_pseudo_bytes(32));
@@ -109,6 +106,7 @@ trait Csrf {
 		} else {
 			$randomHash = '';
 			for ($i = 0; $i < 32; $i++) 
+				/** @see https://github.com/php/php-src/blob/master/ext/standard/mt_rand.c */
 				$randomHash .= str_pad(dechex(rand(0,255)),2,'0',STR_PAD_LEFT);
 		}
 		$nowTime = (string)time();
