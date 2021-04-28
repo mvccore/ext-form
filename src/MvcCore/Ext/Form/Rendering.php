@@ -16,6 +16,7 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing rendering logic and methods.
  * @property \MvcCore\Ext\Forms\View $view View instance.
+ * @mixin \MvcCore\Ext\Form
  */
 trait Rendering {
 
@@ -24,7 +25,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->PreDispatch(FALSE);
 		if ($this->viewScript) {
@@ -42,7 +42,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderContent () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->view->RenderContent();
 	}
 
@@ -51,7 +50,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderErrors () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->view->RenderErrors();
 	}
 
@@ -60,7 +58,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderBegin () {
-		/** @var $this \MvcCore\Ext\Form */
 		return $this->view->RenderBegin();
 	}
 
@@ -69,7 +66,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderEnd () {
-		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->PreDispatch(FALSE);
 		$this->SetFormTagRenderingStatus(FALSE);
@@ -85,7 +81,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderSupportingCss () {
-		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->cssSupportFiles) return '';
 		$cssFiles = $this->completeSupportingFilesToRender(FALSE);
 		if (!$cssFiles) return '';
@@ -98,7 +93,8 @@ trait Rendering {
 			);
 		}
 		if ($useExternalRenderer) return '';
-		return '<style type="text/css">'.$cssFilesContent.'</style>';
+		$nonceCspAttr = static::getSupportingAssetsNonce(FALSE);
+		return "<style type=\"text/css\"{$nonceCspAttr}>".$cssFilesContent.'</style>';
 	}
 
 	/**
@@ -106,7 +102,6 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderSupportingJs () {
-		/** @var $this \MvcCore\Ext\Form */
 		if (!$this->jsSupportFiles) return '';
 		$jsFiles = $this->completeSupportingFilesToRender(TRUE);
 		if (!$jsFiles) return '';
@@ -145,7 +140,8 @@ trait Rendering {
 			strpos($viewDocType, \MvcCore\View::DOCTYPE_XHTML) !== FALSE ||
 			strpos($viewDocType, \MvcCore\View::DOCTYPE_XML) !== FALSE
 		) $result = '/*<![CDATA[*/' . $result . '/*]]>*/';
-		return '<script type="text/javascript">' . $result . '</script>';
+		$nonceCspAttr = static::getSupportingAssetsNonce(TRUE);
+		return "<script type=\"text/javascript\"{$nonceCspAttr}>" . $result . '</script>';
 	}
 
 	/**
@@ -156,10 +152,52 @@ trait Rendering {
 	 * @return \MvcCore\Ext\Form
 	 */
 	protected function cleanSessionErrorsAfterRender () {
-		/** @var $this \MvcCore\Ext\Form */
 		$this->errors = [];
 		$session = & $this->getSession();
 		$session->errors = [];
 		return $this;
+	}
+
+	/**
+	 * Get inline `<script>` or `<style>` nonce attribute from CSP header if any.
+	 * If no CSP header exists or if CSP header exist with no nonce or `strict-dynamic`, 
+	 * return an empty string.
+	 * @param  bool $js 
+	 * @return string
+	 */
+	protected static function getSupportingAssetsNonce ($js = TRUE) {
+		$nonceIndex = $js ? 1 : 0;
+		if (self::$assetsNonces[$nonceIndex] !== NULL) 
+			return self::$assetsNonces[$nonceIndex] === FALSE
+				? ''
+				: ' nonce="' . self::$assetsNonces[$nonceIndex] . '"';
+		$cspClassFullName = '\\MvcCore\\Ext\\Tools\\Csp';
+		if (class_exists($cspClassFullName)) {
+			/** @var \MvcCore\Ext\Tools\Csp $csp */
+			$assetsNonce = FALSE;
+			$csp = $cspClassFullName::GetInstance();
+			$defaultScrNonce = $csp->IsAllowedNonce($cspClassFullName::FETCH_DEFAULT_SRC);
+			if ((
+				$js && ($csp->IsAllowedNonce($cspClassFullName::FETCH_SCRIPT_SRC) || $defaultScrNonce)
+			) || (
+				!$js && ($csp->IsAllowedNonce($cspClassFullName::FETCH_STYLE_SRC) || $defaultScrNonce)
+			)) $assetsNonce = $csp->GetNonce();
+			self::$assetsNonces[$nonceIndex] = $assetsNonce;
+		} else {
+			foreach (headers_list() as $rawHeader) {
+				if (!preg_match_all('#^Content\-Security\-Policy\s*:\s*(.*)$#i', trim($rawHeader), $matches)) continue;
+				$rawHeaderValue = $matches[1][0];
+				$sections = ['script'	=> FALSE, 'style' => FALSE, 'default' => FALSE];
+				foreach ($sections as $sectionKey => $sectionValue) 
+					if (preg_match_all("#{$sectionKey}\-src\s+(?:[^;]+\s)?\'nonce\-([^']+)\'#i", $rawHeaderValue, $sectionMatches)) 
+						$sections[$sectionKey] = $sectionMatches[1][0];
+				self::$assetsNonces = [
+					$sections['style']  ? $sections['style']  : $sections['default'],
+					$sections['script'] ? $sections['script'] : $sections['default']
+				];
+				break;
+			}
+		}
+		return static::getSupportingAssetsNonce($js);
 	}
 }
