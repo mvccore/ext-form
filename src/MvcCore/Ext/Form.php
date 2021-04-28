@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.1.6';
+	const VERSION = '5.1.7';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -51,7 +51,7 @@ implements	\MvcCore\Ext\IForm {
 	 * @return void
 	 */
 	public function __construct (\MvcCore\IController $controller = NULL) {
-		/** @var $controller \MvcCore\Controller */
+		/** @var \MvcCore\Controller $controller */
 		if ($controller === NULL) {
 			$controller = \MvcCore\Ext\Form::GetCallerControllerInstance();
 			if ($controller === NULL) 
