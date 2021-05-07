@@ -43,6 +43,14 @@ trait Getters {
 	public function GetType () {
 		return $this->type;
 	}
+	
+	/**
+	 * @inheritDocs
+	 * @return int|NULL
+	 */
+	public function GetFieldOrder () {
+		return $this->fieldOrder;
+	}
 
 	/**
 	 * @inheritDocs

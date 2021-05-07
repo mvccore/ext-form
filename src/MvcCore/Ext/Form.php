@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.1.7';
+	const VERSION = '5.1.8';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -71,6 +71,7 @@ implements	\MvcCore\Ext\IForm {
 			if (static::$cssSupportFilesRootDir === NULL)
 				static::$cssSupportFilesRootDir = $baseAssetsPath;
 		}
+		$this->fieldsOrder = (object) $this->fieldsOrder;
 		if (self::$sessionClass === NULL)
 			self::$sessionClass = $this->application->GetSessionClass();
 		if (self::$toolClass === NULL)
@@ -126,6 +127,17 @@ implements	\MvcCore\Ext\IForm {
 		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
 		
+		if (count($this->fieldsOrder->numbered) > 0) {
+			$naturallySortedNames = $this->fieldsOrder->naturally;
+			foreach ($this->fieldsOrder->numbered as $fieldOrderNumber => $numberSortedNames) 
+				array_splice($naturallySortedNames, $fieldOrderNumber, 0, $numberSortedNames);
+			$fields = [];
+			foreach ($naturallySortedNames as $fieldName)
+				$fields[$fieldName] = $this->fields[$fieldName];
+			$this->fields = $fields;
+			unset($this->fieldsOrder, $naturallySortedNames, $fields);
+		}
+
 		$session = & $this->getSession();
 		$this->preDispatchLoadErrors($session);
 		$this->preDispatchLoadValues($session);

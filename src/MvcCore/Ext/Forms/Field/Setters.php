@@ -53,6 +53,16 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
+	 * @param  int $fieldOrder
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetFieldOrder ($fieldOrder = NULL) {
+		$this->fieldOrder = $fieldOrder;
+		return $this;
+	}
+
+	/**
+	 * @inheritDocs
 	 * @param  string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */

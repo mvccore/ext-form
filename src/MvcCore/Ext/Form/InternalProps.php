@@ -22,6 +22,16 @@ use \MvcCore\Ext\Forms\IError;
 trait InternalProps {
 
 	/**
+	 * Internal fields orders to render and validate 
+	 * fields order by field property `$field->GetFieldOrder()`.
+	 * @var array|\stdClass
+	 */
+	protected $fieldsOrder = [
+		'numbered'	=> [],
+		'naturally'	=> [],
+	];
+
+	/**
 	 * Internal array with all configured submit buttons to recognize starting
 	 * result state in submit processing by presented button in params array.
 	 * @var \MvcCore\Ext\Forms\Fields\ISubmit

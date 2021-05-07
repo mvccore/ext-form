@@ -81,6 +81,14 @@ trait FieldMethods {
 			if ($fieldCustomResultState !== NULL)
 				$this->customResultStates[$fieldName] = $fieldCustomResultState;
 		}
+		$fieldOrder = $field->GetFieldOrder();
+		if (is_numeric($fieldOrder)) {
+			if (!isset($this->fieldsOrder->numbered[$fieldOrder]))
+				$this->fieldsOrder->numbered[$fieldOrder] = [];
+			$this->fieldsOrder->numbered[$fieldOrder][] = $fieldName;
+		} else {
+			$this->fieldsOrder->naturally[] = $fieldName;
+		}
 		return $this;
 	}
 

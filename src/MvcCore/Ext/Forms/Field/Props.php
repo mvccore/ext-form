@@ -48,6 +48,12 @@ trait Props {
 	protected $type = NULL;
 	
 	/**
+	 * Fixed field order number, `NULL` by default.
+	 * @var int|NULL
+	 */
+	protected $fieldOrder = NULL;
+	
+	/**
 	 * Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @var string|array|int|float|NULL

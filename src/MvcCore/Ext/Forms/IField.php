@@ -149,6 +149,12 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	public function GetType ();
 
 	/**
+	 * Get fixed field order number, `NULL` by default.
+	 * @return int|NULL
+	 */
+	public function GetFieldOrder ();
+
+	/**
 	 * Get Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
 	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
@@ -350,6 +356,13 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetType ($type = NULL);
+
+	/**
+	 * Set fixed field order number, `NULL` by default.
+	 * @param  int $fieldOrder
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetFieldOrder ($fieldOrder = NULL);
 
 	/**
 	 * Set Form field value. It could be string or array, int or float, it depends
