@@ -129,6 +129,7 @@ implements	\MvcCore\Ext\IForm {
 		
 		if (count($this->fieldsOrder->numbered) > 0) {
 			$naturallySortedNames = $this->fieldsOrder->naturally;
+			ksort($this->fieldsOrder->numbered);
 			foreach ($this->fieldsOrder->numbered as $fieldOrderNumber => $numberSortedNames) 
 				array_splice($naturallySortedNames, $fieldOrderNumber, 0, $numberSortedNames);
 			$fields = [];
