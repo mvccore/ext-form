@@ -36,6 +36,7 @@ implements	\MvcCore\Ext\IForm {
 	use \MvcCore\Ext\Form\SetMethods;
 	use \MvcCore\Ext\Form\AddMethods;
 	use \MvcCore\Ext\Form\FieldMethods;
+	use \MvcCore\Ext\Form\FieldsetMethods;
 	use \MvcCore\Ext\Form\Session;
 	use \MvcCore\Ext\Form\Csrf;
 	use \MvcCore\Ext\Form\Rendering;

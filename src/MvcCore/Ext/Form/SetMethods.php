@@ -173,7 +173,7 @@ trait SetMethods {
 	 * @param  array $attributes
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetAttributes (array $attributes = []) {
+	public function SetAttributes ($attributes = []) {
 		$this->attributes = $attributes;
 		return $this;
 	}

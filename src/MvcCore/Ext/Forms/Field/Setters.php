@@ -25,7 +25,7 @@ trait Setters {
 	 * @param  string $id
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetId ($id = NULL) {
+	public function SetId ($id) {
 		$this->id = $id;
 		return $this;
 	}
@@ -36,7 +36,7 @@ trait Setters {
 	 * @param  string $name
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetName ($name = NULL) {
+	public function SetName ($name) {
 		$this->name = $name;
 		return $this;
 	}
@@ -46,7 +46,7 @@ trait Setters {
 	 * @param  string $type
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetType ($type = NULL) {
+	public function SetType ($type) {
 		$this->type = $type;
 		return $this;
 	}
@@ -56,7 +56,7 @@ trait Setters {
 	 * @param  int $fieldOrder
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetFieldOrder ($fieldOrder = NULL) {
+	public function SetFieldOrder ($fieldOrder) {
 		$this->fieldOrder = $fieldOrder;
 		return $this;
 	}
@@ -77,7 +77,7 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssClasses ($cssClasses) {
-		$cssClassesArr = gettype($cssClasses) == 'array'
+		$cssClassesArr = is_array($cssClasses)
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
 		$this->cssClasses = $cssClassesArr;
@@ -103,7 +103,7 @@ trait Setters {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddCssClasses ($cssClasses) {
-		$cssClassesArr = gettype($cssClasses) == 'array'
+		$cssClassesArr = is_array($cssClasses)
 			? $cssClasses
 			: explode(' ', (string) $cssClasses);
 		$this->cssClasses = array_merge($this->cssClasses, $cssClassesArr);

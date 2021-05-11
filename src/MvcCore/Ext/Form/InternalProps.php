@@ -24,6 +24,7 @@ trait InternalProps {
 	/**
 	 * Internal fields orders to render and validate 
 	 * fields order by field property `$field->GetFieldOrder()`.
+	 * @internal
 	 * @var array|\stdClass
 	 */
 	protected $fieldsOrder = [
@@ -34,6 +35,7 @@ trait InternalProps {
 	/**
 	 * Internal array with all configured submit buttons to recognize starting
 	 * result state in submit processing by presented button in params array.
+	 * @internal
 	 * @var \MvcCore\Ext\Forms\Fields\ISubmit
 	 */
 	protected $submitFields = [];
@@ -42,6 +44,7 @@ trait InternalProps {
 	 * Internal array to store any configured custom result state values for
 	 * submit buttons or for submit inputs. Key in array are field names, values
 	 * are custom submit start result state values, if form is submitted by named button.
+	 * @internal
 	 * @var \int[]
 	 */
 	protected $customResultStates = [];
@@ -49,6 +52,7 @@ trait InternalProps {
 	/**
 	 * This is INTERNAL property for rendering fields.
 	 * Value `TRUE` means `<form>` tag is currently rendered inside, `FALSE` otherwise.
+	 * @internal
 	 * @var bool
 	 */
 	protected $formTagRendergingStatus = FALSE;
@@ -56,12 +60,14 @@ trait InternalProps {
 	/**
 	 * Validators instances keyed by validators ending
 	 * class names, created during `Submit()`.
+	 * @internal
 	 * @var \MvcCore\Ext\Forms\Validator[]
 	 */
 	protected $validators = [];
 
 	/**
 	 * Automatically growing tab-index value for fields with tab-index in `auto` value.
+	 * @internal
 	 * @var int
 	 */
 	protected $fieldsAutoTabIndex = 0;
@@ -70,24 +76,28 @@ trait InternalProps {
 	 * Internal flag to quickly know if form fields will be translated or not.
 	 * Automatically completed to `TRUE` if `$form->translator` is not `NULL` and also if
 	 * `$form->translator` is `callable`. `FALSE` otherwise. Default value is `FALSE`.
+	 * @internal
 	 * @var bool
 	 */
 	protected $translate = FALSE;
 	
 	/**
 	 * File size units for internal conversions.
+	 * @internal
 	 * @var \string[]
 	 */
 	protected static $fileSizeUnits = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
 	/**
 	 * Cached value from `\MvcCore\Application::GetInstance()->GetSessionClass();`
+	 * @internal
 	 * @var string
 	 */
 	protected static $sessionClass = NULL;
 
 	/**
 	 * Cached value from `\MvcCore\Application::GetInstance()->GetToolClass();`
+	 * @internal
 	 * @var string
 	 */
 	protected static $toolClass = NULL;
@@ -96,6 +106,7 @@ trait InternalProps {
 	 * Static cache with references to all created form session
 	 * namespace objects to not create them and configure them
 	 * every time they are used.
+	 * @internal
 	 * @var array
 	 */
 	protected static $allFormsSessions = [];
@@ -106,6 +117,7 @@ trait InternalProps {
 	 * This serves only for purpose - how to determinate to add every supporting javascript for all
 	 * it's field types only once. Keys are relative javascript support file paths and values are
 	 * simple dummy boolean values.
+	 * @internal
 	 * @var array
 	 */
 	protected static $allJsSupportFiles = [];
@@ -116,6 +128,7 @@ trait InternalProps {
 	 * This serves only for purpose - how to determinate to add every supporting css for all
 	 * it's field types only once. Keys are relative css support file paths and values are
 	 * simple dummy boolean values.
+	 * @internal
 	 * @var array
 	 */
 	protected static $allCssSupportFiles = [];
@@ -134,6 +147,7 @@ trait InternalProps {
 	 *        // ... anything you want to do, for example to sign out user.
 	 *   });
 	 * ````
+	 * @internal
 	 * @var \array[]
 	 */
 	protected static $csrfErrorHandlers = [];
@@ -143,12 +157,14 @@ trait InternalProps {
 	 * any supporting javascript file, there is also necessary to add
 	 * base form supporting javascript - this is relative path where
 	 * the base supporting javascript is located.
+	 * @internal
 	 * @var string
 	 */
 	protected static $jsBaseSupportFile = '__MVCCORE_FORM_ASSETS_DIR__/mvccore-form.js';
 
 	/**
 	 * Supporting assets nonce attribute for CSP policy, completed only if necessary.
+	 * @internal
 	 * @var \bool[]|\string[]|\NULL[]
 	 */
 	protected static $assetsNonces = [NULL, NULL];
@@ -157,6 +173,7 @@ trait InternalProps {
 	 * Default (not translated) error messages with replacements
 	 * for field names and more specific info to tell the user
 	 * what happened or what to do more.
+	 * @internal
 	 * @var array
 	 */
 	protected static $defaultErrorMessages = [
@@ -169,6 +186,7 @@ trait InternalProps {
 	/**
 	 * Form instances storage under it's form id strings.
 	 * Key is form id, value is form instance.
+	 * @internal
 	 * @var \MvcCore\Ext\Form[]
 	 */
 	protected static $instances = [];

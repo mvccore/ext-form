@@ -337,7 +337,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @param  string $id
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetId ($id = NULL);
+	public function SetId ($id);
 
 	/**
 	 * Set form field specific name, used to identify submitted value.
@@ -346,7 +346,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @param  string $name
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetName ($name = NULL);
+	public function SetName ($name);
 
 	/**
 	 * Set form field type, used in `<input type="...">` attribute value.
@@ -355,14 +355,14 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @param  string $type
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetType ($type = NULL);
+	public function SetType ($type);
 
 	/**
 	 * Set fixed field order number, `NULL` by default.
 	 * @param  int $fieldOrder
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetFieldOrder ($fieldOrder = NULL);
+	public function SetFieldOrder ($fieldOrder);
 
 	/**
 	 * Set Form field value. It could be string or array, int or float, it depends

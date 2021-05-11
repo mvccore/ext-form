@@ -223,6 +223,7 @@ trait Props {
 	/**
 	 * Internal array with errors for rendering.
 	 * Main errors collection is stored inside form instance.
+	 * @internal
 	 * @var \string[]
 	 */
 	protected $errors = [];
@@ -230,12 +231,14 @@ trait Props {
 	/**
 	 * Internal field view object, created for custom field rendering purposes,
 	 * if property `$field->viewScript` is `TRUE` or any string with relative template path.
+	 * @internal
 	 * @var \MvcCore\Ext\Forms\View|\MvcCore\Ext\Forms\IView
 	 */
 	protected $view = NULL;
 	
 	/**
 	 * Internal reference to form instance, where current fields is added.
+	 * @internal
 	 * @var \MvcCore\Ext\Form
 	 */
 	protected $form = NULL;
@@ -243,6 +246,7 @@ trait Props {
 	/**
 	 * Protected properties, which is not possible
 	 * to configure through field constructor config array.
+	 * @internal
 	 * @var \string[]
 	 */
 	protected static $declaredProtectedProperties = [

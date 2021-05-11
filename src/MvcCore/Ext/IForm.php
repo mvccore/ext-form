@@ -710,7 +710,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  array $attributes
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetAttributes (array $attributes = []);
+	public function SetAttributes ($attributes = []);
 
 	/**
 	 * Set form success submit URL string to redirect after, relative or absolute,
@@ -1143,7 +1143,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetFields ($fields = []);
+	public function SetFields ($fields);
 
 	/**
 	 * Add multiple fully configured form field instances,
@@ -1155,6 +1155,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Add fully configured form field instance.
+	 * Register field in form fields flatten array and also
+	 * in form content tree if necessary.
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -1166,7 +1168,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
-	public function HasField ($fieldOrFieldName = NULL);
+	public function HasField ($fieldOrFieldName);
 
 	/**
 	 * Remove configured form field instance by given instance or given field name.
@@ -1174,14 +1176,14 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function RemoveField ($fieldOrFieldName = NULL);
+	public function RemoveField ($fieldOrFieldName);
 
 	/**
 	 * Return form field instance by form field name if it exists, else return null;
 	 * @param  string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
-	public function GetField ($fieldName = '');
+	public function GetField ($fieldName);
 
 	/**
 	 * Return form field instances by given field type string.
@@ -1190,7 +1192,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
-	public function GetFieldsByType ($fieldType = '');
+	public function GetFieldsByType ($fieldType);
 
 	/**
 	 * Return first caught form field instance by given field type string.
@@ -1198,7 +1200,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
-	public function GetFirstFieldByType ($fieldType = '');
+	public function GetFirstFieldByType ($fieldType);
 
 	/**
 	 * Return form field instances by field class name
@@ -1209,7 +1211,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
-	public function GetFieldsByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE);
+	public function GetFieldsByPhpClass ($fieldClassName, $directTypesOnly = FALSE);
 
 	/**
 	 * Return first caught form field instance by field class name
@@ -1219,7 +1221,78 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
-	public function GetFirstFieldByPhpClass ($fieldClassName = '', $directTypesOnly = FALSE);
+	public function GetFirstFieldByPhpClass ($fieldClassName, $directTypesOnly = FALSE);
+	
+
+	/***************************************************************************
+	 *                         FieldsetMethods Form trait                      *
+	 **************************************************************************/
+
+	/**
+	 * Get all form fieldsets instances in flatten array, keys are fieldset names.
+	 * @return \MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetFieldsets ();
+	
+	/**
+	 * Set all form fieldsets, replace any previously configured fieldsets.
+	 * Keys has to be fieldset names, values has to be fieldset instances.
+	 * This methods adds into form also all fields inside this fieldset.
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFieldsets ($fieldsets);
+	
+	/**
+	 * Add form fieldsets, provide infine fieldset param or array of fieldsets.
+	 * This methods adds into form also all fields inside this fieldset.
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function AddFieldsets ($fieldsets);
+	
+	/**
+	 * Get form fieldset by name, no matter if fieldset is 
+	 * in another fieldset or in form root level.
+	 * If fieldset is not found under given name, `NULL` is returned.
+	 * @param  string $fieldsetName
+	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	public function GetFieldset ($fieldsetName);
+	
+	/**
+	 * Set form fieldset instance under name. Replace any previously 
+	 * configured fieldname under this name.
+	 * This methods adds into form also all fields inside this fieldset.
+	 * @param  string                      $fieldsetName
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFieldset ($fieldsetName, \MvcCore\Ext\Forms\IFieldset $fieldset);
+
+	/**
+	 * Add fieldset into form. Register fielset in fieldset 
+	 * flatten array and also in form content tree if necessary.
+	 * This methods adds into form also all fields inside this fieldset.
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset);
+
+	/**
+	 * Return `TRUE` if form contains any fieldset under given name.
+	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
+	 * @return bool
+	 */
+	public function HasFieldset ($fieldsetOrFieldsetName);
+
+	/**
+	 * Remove fieldset from form and all its internal collections.
+	 * If fieldset is not found by it's name, no error happened.
+	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function RemoveFieldset ($fieldsetOrFieldsetName);
 
 
 	/***************************************************************************
