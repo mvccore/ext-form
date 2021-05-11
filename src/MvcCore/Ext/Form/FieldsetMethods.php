@@ -19,7 +19,7 @@ namespace MvcCore\Ext\Form;
  * from form.
  * @mixin \MvcCore\Ext\Form
  */
-trait FieldsetsMethods {
+trait FieldsetMethods {
 
 	
 	/**
