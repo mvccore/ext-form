@@ -46,6 +46,12 @@ trait Props {
 	 * @var string|NULL
 	 */
 	protected $type = NULL;
+
+	/**
+	 * Fieldset name where field belongs to, default `NULL`.
+	 * @var string|NULL
+	 */
+	protected $fieldsetName = NULL;
 	
 	/**
 	 * Fixed field order number, `NULL` by default.

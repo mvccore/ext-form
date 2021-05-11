@@ -22,12 +22,19 @@ use \MvcCore\Ext\Forms\IError;
 trait InternalProps {
 
 	/**
+	 * Content objects hierarchy for rendering fields and fielsets.
+	 * @internal
+	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	protected $contentObjectsTree = [];
+
+	/**
 	 * Internal fields orders to render and validate 
 	 * fields order by field property `$field->GetFieldOrder()`.
 	 * @internal
 	 * @var array|\stdClass
 	 */
-	protected $fieldsOrder = [
+	protected $ordering = [
 		'numbered'	=> [],
 		'naturally'	=> [],
 	];

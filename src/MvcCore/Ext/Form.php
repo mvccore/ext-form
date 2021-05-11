@@ -72,7 +72,7 @@ implements	\MvcCore\Ext\IForm {
 			if (static::$cssSupportFilesRootDir === NULL)
 				static::$cssSupportFilesRootDir = $baseAssetsPath;
 		}
-		$this->fieldsOrder = (object) $this->fieldsOrder;
+		$this->ordering = (object) $this->ordering;
 		if (self::$sessionClass === NULL)
 			self::$sessionClass = $this->application->GetSessionClass();
 		if (self::$toolClass === NULL)
@@ -128,16 +128,16 @@ implements	\MvcCore\Ext\IForm {
 		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
 		
-		if (count($this->fieldsOrder->numbered) > 0) {
-			$naturallySortedNames = $this->fieldsOrder->naturally;
-			ksort($this->fieldsOrder->numbered);
-			foreach ($this->fieldsOrder->numbered as $fieldOrderNumber => $numberSortedNames) 
+		if (count($this->ordering->numbered) > 0) {
+			$naturallySortedNames = $this->ordering->naturally;
+			ksort($this->ordering->numbered);
+			foreach ($this->ordering->numbered as $fieldOrderNumber => $numberSortedNames) 
 				array_splice($naturallySortedNames, $fieldOrderNumber, 0, $numberSortedNames);
 			$fields = [];
 			foreach ($naturallySortedNames as $fieldName)
 				$fields[$fieldName] = $this->fields[$fieldName];
 			$this->fields = $fields;
-			unset($this->fieldsOrder, $naturallySortedNames, $fields);
+			unset($this->ordering, $naturallySortedNames, $fields);
 		}
 
 		$session = & $this->getSession();

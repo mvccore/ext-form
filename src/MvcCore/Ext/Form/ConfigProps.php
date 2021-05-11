@@ -289,6 +289,15 @@ trait ConfigProps {
 	protected $fields = [];
 
 	/**
+	 * All form fieldsets.
+	 * After adding any fieldset into form instance by `$form->AddFieldset()` method
+	 * fieldset is added under it's name into this array and all it's fields is added 
+	 * into `$form->fields` array, if it is not already there.
+	 * @var \MvcCore\Ext\Forms\Fieldset[]
+	 */
+	protected $fieldsets = [];
+
+	/**
 	 * Form submitted values from client. After `$form->Submit()` has been called,
 	 * values are cleaned by validators and ready to use if `$form->result` is in success state.
 	 * @var array

@@ -149,6 +149,12 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	public function GetType ();
 
 	/**
+	 * Get fieldset name where field belongs to, default `NULL`.
+	 * @return string|NULL
+	 */
+	public function GetFieldsetName ();
+
+	/**
 	 * Get fixed field order number, `NULL` by default.
 	 * @return int|NULL
 	 */
@@ -356,6 +362,18 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetType ($type);
+
+	/**
+	 * Set fieldset name where field belongs to, default `NULL`.
+	 * If field is not already in form, thrown an exception or
+	 * if target fieldset is not in form, thrown an exception.
+	 * If there is target fielset registered in form, remove field 
+	 * from old fieldset (if necessary) and add into new fielset.
+	 * @param  string $fieldsetName
+	 * @throws \RuntimeException|\InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetFieldsetName ($fieldsetName);
 
 	/**
 	 * Set fixed field order number, `NULL` by default.

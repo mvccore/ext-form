@@ -104,7 +104,7 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  string|\string[] $cssClasses 
-	 * @return Field
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetCssClasses ($cssClasses) {
 		$cssClassesArr = is_array($cssClasses)
@@ -117,7 +117,7 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  string|\string[] $cssClasses 
-	 * @return Field
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddCssClasses ($cssClasses) {
 		$cssClassesArr = is_array($cssClasses)
@@ -139,7 +139,7 @@ trait GettersSetters {
 	 * @inheritDocs
 	 * @param  string|NULL $title
 	 * @param  bool|NULL   $translateTitle
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
 		$this->title = $title;
@@ -170,7 +170,7 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  array $attrs
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetControlAttrs (array $attrs = []) {
 		$this->controlAttrs = $attrs;
@@ -181,7 +181,7 @@ trait GettersSetters {
 	 * @inheritDocs
 	 * @param  string $name 
 	 * @param  mixed  $value 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetControlAttr ($name, $value) {
 		$this->controlAttrs[$name] = $value;
@@ -191,7 +191,7 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  array $attrs 
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddControlAttrs (array $attrs = []) {
 		$this->controlAttrs = array_merge($this->controlAttrs, $attrs);
@@ -259,7 +259,7 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function RemoveField ($fieldOrFieldName) {
 		// TODO
@@ -362,7 +362,7 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
-	 * @return \MvcCore\Ext\Form
+	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function RemoveFieldset ($fieldsetOrFieldsetName) {
 		// TODO

@@ -1158,9 +1158,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Register field in form fields flatten array and also
 	 * in form content tree if necessary.
 	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  bool                     $autoInit
+	 * @throws \InvalidArgumentException Form already contains field with name `...`.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddField (\MvcCore\Ext\Forms\IField $field);
+	public function AddField (\MvcCore\Ext\Forms\IField $field, $autoInit = TRUE);
 
 	/**
 	 * If `TRUE` if given field instance or given
@@ -1174,9 +1176,10 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Remove configured form field instance by given instance or given field name.
 	 * If field is not found by it's name, no error happened.
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
+	 * @param  bool                            $autoInit
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function RemoveField ($fieldOrFieldName);
+	public function RemoveField ($fieldOrFieldName, $autoInit = TRUE);
 
 	/**
 	 * Return form field instance by form field name if it exists, else return null;
@@ -1275,9 +1278,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * flatten array and also in form content tree if necessary.
 	 * This methods adds into form also all fields inside this fieldset.
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @param  bool                        $autoInit
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset);
+	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $autoInit = TRUE);
 
 	/**
 	 * Return `TRUE` if form contains any fieldset under given name.
@@ -1290,9 +1295,10 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Remove fieldset from form and all its internal collections.
 	 * If fieldset is not found by it's name, no error happened.
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
+	 * @param  bool                               $autoInit
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function RemoveFieldset ($fieldsetOrFieldsetName);
+	public function RemoveFieldset ($fieldsetOrFieldsetName, $autoInit = TRUE);
 
 
 	/***************************************************************************

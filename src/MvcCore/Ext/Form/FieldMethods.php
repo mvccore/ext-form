@@ -65,29 +65,57 @@ trait FieldMethods {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @throws \InvalidArgumentException Form already contains field with name `...`.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddField (\MvcCore\Ext\Forms\IField $field) {
+	public function AddField (\MvcCore\Ext\Forms\IField $field, $autoInit = TRUE) {
 		/** @var \MvcCore\Ext\Forms\Field $field */
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+		if ($autoInit && $this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
+		// registration:
 		$fieldName = $field->GetName();
-		$field->SetForm($this);
-		$this->fields[$fieldName] = $field;
-		if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
-			/** @var \MvcCore\Ext\Forms\Fields\ISubmit $field */
-			$this->submitFields[$fieldName] = $field;
-			$fieldCustomResultState = $field->GetCustomResultState();
-			if ($fieldCustomResultState !== NULL)
-				$this->customResultStates[$fieldName] = $fieldCustomResultState;
+		$alreadyRegistered = FALSE;
+		if (isset($this->fields[$fieldName])) {
+			$alreadyRegistered = $field === $this->fields[$fieldName];
+			if (!$alreadyRegistered)
+				throw new \InvalidArgumentException(
+					"[".get_class($this)."] Form already contains field with name: `{$fieldName}`."
+				);
 		}
-		$fieldOrder = $field->GetFieldOrder();
-		if (is_numeric($fieldOrder)) {
-			if (!isset($this->fieldsOrder->numbered[$fieldOrder]))
-				$this->fieldsOrder->numbered[$fieldOrder] = [];
-			$this->fieldsOrder->numbered[$fieldOrder][] = $fieldName;
-		} else {
-			$this->fieldsOrder->naturally[] = $fieldName;
+		if (isset($this->fieldsets[$fieldName]))
+			throw new \InvalidArgumentException(
+				"[".get_class($this)."] Form already contains fieldset with the same name as field: `{$fieldName}`."
+			);
+		if (!$alreadyRegistered) {
+			$field->SetForm($this);
+			$this->fields[$fieldName] = $field;
+			// submits:
+			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
+				/** @var \MvcCore\Ext\Forms\Fields\ISubmit $field */
+				$this->submitFields[$fieldName] = $field;
+				$fieldCustomResultState = $field->GetCustomResultState();
+				if ($fieldCustomResultState !== NULL)
+					$this->customResultStates[$fieldName] = $fieldCustomResultState;
+			}
+		}
+		// fieldset and ordering:
+		$fieldsetName = $field->GetFieldsetName();
+		if ($fieldsetName === NULL) {
+			// root form level:
+			$fieldOrder = $field->GetFieldOrder();
+			if (is_numeric($fieldOrder)) {
+				if (!isset($this->ordering->numbered[$fieldOrder]))
+					$this->ordering->numbered[$fieldOrder] = [];
+				$orderCollection = & $this->ordering->numbered[$fieldOrder];
+			} else {
+				$orderCollection = & $this->ordering->naturally;
+			}
+			if (
+				!$alreadyRegistered || (
+					$alreadyRegistered &&
+					!in_array($fieldName, $orderCollection, TRUE)
+				)
+			) $orderCollection[] = $fieldName;
 		}
 		return $this;
 	}
@@ -110,10 +138,11 @@ trait FieldMethods {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
+	 * @param  bool                            $autoInit
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function RemoveField ($fieldOrFieldName) {
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+	public function RemoveField ($fieldOrFieldName, $autoInit = TRUE) {
+		if ($autoInit && $this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init();
 		$fieldName = NULL;
 		if ($fieldOrFieldName instanceof \MvcCore\Ext\Forms\IField) {
@@ -133,9 +162,9 @@ trait FieldMethods {
 			}
 			$fieldOrder = $field->GetFieldOrder();
 			if (is_numeric($fieldOrder)) {
-				$orderCollection = & $this->fieldsOrder->numbered[$fieldOrder];
+				$orderCollection = & $this->ordering->numbered[$fieldOrder];
 			} else {
-				$orderCollection = & $this->fieldsOrder->naturally;
+				$orderCollection = & $this->ordering->naturally;
 			}
 			$fieldIndex = array_search($fieldName, $orderCollection, TRUE);
 			array_splice($orderCollection, $fieldIndex, 1);

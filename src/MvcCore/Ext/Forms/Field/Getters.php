@@ -46,6 +46,14 @@ trait Getters {
 	
 	/**
 	 * @inheritDocs
+	 * @return string|NULL
+	 */
+	public function GetFieldsetName () {
+		return $this->fieldsetName;
+	}
+	
+	/**
+	 * @inheritDocs
 	 * @return int|NULL
 	 */
 	public function GetFieldOrder () {

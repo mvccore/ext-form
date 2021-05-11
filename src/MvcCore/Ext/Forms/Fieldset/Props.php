@@ -109,4 +109,13 @@ trait Props {
 	 */
 	protected $form = NULL;
 
+	/**
+	 * Protected properties, which is not possible
+	 * to configure through field constructor config array.
+	 * @internal
+	 * @var \string[]
+	 */
+	protected static $declaredProtectedProperties = [
+		'form'
+	];
 }

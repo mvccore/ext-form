@@ -62,8 +62,8 @@ trait FieldsetMethods {
 	 */
 	public function GetFieldset ($fieldsetName) {
 		$result = NULL;
-		if (isset($this->fields[$fieldsetName]))
-			$result = $this->fields[$fieldsetName];
+		if (isset($this->fieldsets[$fieldsetName]))
+			$result = $this->fieldsets[$fieldsetName];
 		return $result;
 	}
 	
@@ -74,17 +74,37 @@ trait FieldsetMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFieldset ($fieldsetName, \MvcCore\Ext\Forms\IFieldset $fieldset) {
-		$this->fields[$fieldsetName] = $fieldset;
+		$this->fieldsets[$fieldsetName] = $fieldset;
 		return $this;
 	}
 
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset 
+	 * @param  bool                        $autoInit
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset) {
-		// TODO
+	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $autoInit = TRUE) {
+		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+		if ($autoInit && $this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init();
+		$fieldsetName = $fieldset->GetName();
+		if (isset($this->fields[$fieldsetName]))
+			throw new \InvalidArgumentException(
+				"[".get_class($this)."] Form already contains field with the same name as fieldset: `{$fieldsetName}`."
+			);
+		if (isset($this->fieldsets[$fieldsetName]))
+			throw new \InvalidArgumentException(
+				"[".get_class($this)."] Form already contains fieldset with name: `{$fieldsetName}`."
+			);
+		$fieldset->SetForm($this);
+		$this->fieldsets[$fieldsetName] = $fieldset;
+		// fields:
+
+		// ordering:
+
+		xxx($this);
 		return $this;
 	}
 	
@@ -106,9 +126,10 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
+	 * @param  bool                               $autoInit
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function RemoveFieldset ($fieldsetOrFieldsetName) {
+	public function RemoveFieldset ($fieldsetOrFieldsetName, $autoInit = TRUE) {
 		// TODO
 		return $this;
 	}
