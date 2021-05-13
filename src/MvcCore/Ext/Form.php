@@ -72,7 +72,7 @@ implements	\MvcCore\Ext\IForm {
 			if (static::$cssSupportFilesRootDir === NULL)
 				static::$cssSupportFilesRootDir = $baseAssetsPath;
 		}
-		$this->ordering = (object) $this->ordering;
+		$this->sorting = (object) $this->sorting;
 		if (self::$sessionClass === NULL)
 			self::$sessionClass = $this->application->GetSessionClass();
 		if (self::$toolClass === NULL)
@@ -128,17 +128,7 @@ implements	\MvcCore\Ext\IForm {
 		$this->viewEnabled = !$submit;
 		parent::PreDispatch(); // code: `if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) $this->Init();` is executed by parent
 		
-		if (count($this->ordering->numbered) > 0) {
-			$naturallySortedNames = $this->ordering->naturally;
-			ksort($this->ordering->numbered);
-			foreach ($this->ordering->numbered as $fieldOrderNumber => $numberSortedNames) 
-				array_splice($naturallySortedNames, $fieldOrderNumber, 0, $numberSortedNames);
-			$fields = [];
-			foreach ($naturallySortedNames as $fieldName)
-				$fields[$fieldName] = $this->fields[$fieldName];
-			$this->fields = $fields;
-			unset($this->ordering, $naturallySortedNames, $fields);
-		}
+		$this->SortChildren();
 
 		$session = & $this->getSession();
 		$this->preDispatchLoadErrors($session);
@@ -168,6 +158,82 @@ implements	\MvcCore\Ext\IForm {
 			$this->SetUpCsrf();
 		
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SortChildren () {
+		if ($this->sorting->sorted)
+			return $this;
+		if (count($this->sorting->numbered) > 0) {
+			$naturallySortedNames = & $this->sorting->naturally;
+			ksort($this->sorting->numbered);
+			foreach ($this->sorting->numbered as $fieldOrderNumber => $numberSortedNames) 
+				array_splice($naturallySortedNames, $fieldOrderNumber, 0, $numberSortedNames);
+			$this->sorting->numbered = [];
+			$fields = [];
+			$fieldsets = [];
+			$children = [];
+			foreach ($naturallySortedNames as $childName) {
+				if (isset($this->fields[$childName])) {
+					/** @var \MvcCore\Ext\Forms\Field $field */
+					$field = $this->fields[$childName];
+					$fields[$childName] = $field;
+					$children[$childName] = $field;
+				} else if (isset($this->fieldsets[$childName])) {
+					/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+					$fieldset = $this->fieldsets[$childName];
+					$fieldsets[$childName] = $fieldset;
+					$children[$childName] = $fieldset;
+					$this->sortChildrenRecursive(
+						$fieldset, $fields, $fieldsets
+					);
+				}
+			}
+			if (count($fields) !== count($this->fields)) {
+				$missingNames = implode("`,`", array_diff(array_keys($this->fields), array_keys($fields)));
+				throw new \RuntimeException(
+					"[".get_class($this)."] Some fields are not connected with form instance, ".
+					"form name: `{$this->name}`, fields: `{$missingNames}`."
+				);
+			}
+			if (count($fieldsets) !== count($this->fieldsets)) {
+				$missingNames = implode("`,`", array_diff(array_keys($this->fieldsets), array_keys($fieldsets)));
+				throw new \RuntimeException(
+					"[".get_class($this)."] Some fieldsets are not connected with form instance, ".
+					"form name: `{$this->name}`, fieldsets: `{$missingNames}`."
+				);
+			}
+			$this->fields = $fields;
+			$this->fieldsets = $fieldsets;
+			$this->children = $children;
+		}
+		$this->sorting->sorted = TRUE;
+		return $this;
+	}
+
+	/**
+	 * Complete recursively sofrted form fields and form fieldsets.
+	 * @param  \MvcCore\Ext\Forms\Fieldset   $fieldset 
+	 * @param  \MvcCore\Ext\Forms\Field[]    $fields 
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets 
+	 * @return void
+	 */
+	protected function sortChildrenRecursive (\MvcCore\Ext\Forms\IFieldset $fieldset, & $fields, & $fieldsets) {
+		foreach ($fieldset->GetChildren(TRUE) as $childName => $child)  {
+			if ($child instanceof \MvcCore\Ext\Forms\Field) {
+				/** @var \MvcCore\Ext\Forms\Field $field */
+				$fields[$childName] = $child;
+			} else if ($child instanceof \MvcCore\Ext\Forms\Fieldset) {
+				/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+				$fieldsets[$childName] = $child;
+				$this->sortChildrenRecursive(
+					$child, $fields, $fieldsets
+				);
+			}
+		}
 	}
 	
 	/**

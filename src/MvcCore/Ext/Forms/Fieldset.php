@@ -16,7 +16,8 @@ namespace MvcCore\Ext\Forms;
 class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 
 	use \MvcCore\Ext\Forms\Fieldset\Props,
-		\MvcCore\Ext\Forms\Fieldset\GettersSetters;
+		\MvcCore\Ext\Forms\Fieldset\GettersSetters,
+		\MvcCore\Ext\Forms\Fieldset\Rendering;
 
 	public function __construct (
 		array $cfg = [],
@@ -41,6 +42,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 				$this->{$propertyName} = $propertyValue;
 			}
 		}
+		$this->sorting = (object) $this->sorting;
 	}
 	
 	/**
@@ -65,6 +67,43 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 			) continue;
 			$cfg[$param->name] = $args[$index];
 		}
+	}
+
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SortChildren () {
+		if ($this->sorting->sorted)
+			return $this;
+		if (count($this->sorting->numbered) > 0) {
+			$naturallySortedNames = & $this->sorting->naturally;
+			ksort($this->sorting->numbered);
+			foreach ($this->sorting->numbered as $fieldOrderNumber => $numberSortedNames) 
+				array_splice($naturallySortedNames, $fieldOrderNumber, 0, $numberSortedNames);
+			$this->sorting->numbered = [];
+			$fields = [];
+			$fieldsets = [];
+			$children = [];
+			foreach ($naturallySortedNames as $childName) {
+				if (isset($this->fields[$childName])) {
+					/** @var \MvcCore\Ext\Forms\Field $field */
+					$field = $this->fields[$childName];
+					$fields[$childName] = $field;
+					$children[$childName] = $field;
+				} else if (isset($this->fieldsets[$childName])) {
+					/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+					$fieldset = $this->fieldsets[$childName];
+					$fieldsets[$childName] = $fieldset;
+					$children[$childName] = $fieldset;
+				}
+			}
+			$this->fields = $fields;
+			$this->fieldsets = $fieldsets;
+			$this->children = $children;
+		}
+		$this->sorting->sorted = TRUE;
+		return $this;
 	}
 
 	/**

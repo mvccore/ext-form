@@ -82,7 +82,7 @@ interface IConstants {
 	 * Form submit result state (`2` - everything OK, redirect user to previous step url).
 	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
-	 * to previous step URL in multiple forms wizard (typically e-shop ordering).
+	 * to previous step URL in multiple forms wizard (typically e-shop sorting).
 	 * @var int
 	 */
 	const RESULT_PREV_PAGE	= 2;
@@ -91,7 +91,7 @@ interface IConstants {
 	 * Form submit result state (`4` - everything OK, redirect user to next step url).
 	 * Submit was successful, no error happened and one of submitting
 	 * button is control to indicate that user could be redirected
-	 * to next step URL in multiple forms wizard (typically e-shop ordering).
+	 * to next step URL in multiple forms wizard (typically e-shop sorting).
 	 * @var int
 	 */
 	const RESULT_NEXT_PAGE	= 4;
@@ -142,7 +142,6 @@ interface IConstants {
 
 
 	/**
-	 * Control errors rendering mode (`all-together`).
 	 * All errors are rendered naturally at form begin together in one HTML `<div>` element.
 	 * If you are using custom template for form - you have to call after form beginning
 	 * `$form->RenderErrors();` to get all errors into template. This value is used as
@@ -152,7 +151,15 @@ interface IConstants {
 	const ERROR_RENDER_MODE_ALL_TOGETHER		= 0;
 
 	/**
-	 * Control errors rendering mode (`before-each-control`).
+	 * All errors are rendered naturally at fieldset begin together in one HTML `<div>` element.
+	 * If you are using custom template for form - you have to call after fieldset beginning
+	 * `$form->RenderErrors();` to get all field errors inside current fieldset into template.
+	 * If form doesn't contain any fieldset, errors are rendered at the form begin in the same way.
+	 * @var int
+	 */
+	const ERROR_RENDER_MODE_AT_FIELDSET_BEGIN	= 1;
+
+	/**
 	 * If there will be any error, it will be rendered as single span.errors
 	 * before current form control with single or multiple span.error elements
 	 * inside, by errors count for current form control. It will be rendered in
@@ -163,10 +170,9 @@ interface IConstants {
 	 * to get errors for each control.
 	 * @var int
 	 */
-	const ERROR_RENDER_MODE_BEFORE_EACH_CONTROL	= 1;
+	const ERROR_RENDER_MODE_BEFORE_EACH_CONTROL	= 2;
 
 	/**
-	 * Control errors rendering mode (`after-each-control`).
 	 * If there will be any error, it will be rendered as single span.errors
 	 * after current form control with single or multiple span.error elements
 	 * inside, by errors count for current form control. It will be rendered in
@@ -177,7 +183,7 @@ interface IConstants {
 	 * to get errors for each control.
 	 * @var int
 	 */
-	const ERROR_RENDER_MODE_AFTER_EACH_CONTROL	= 2;
+	const ERROR_RENDER_MODE_AFTER_EACH_CONTROL	= 4;
 
 	/**
 	 * MvcCore Form extension library directory replacement string.

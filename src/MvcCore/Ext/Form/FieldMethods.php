@@ -98,24 +98,27 @@ trait FieldMethods {
 					$this->customResultStates[$fieldName] = $fieldCustomResultState;
 			}
 		}
-		// fieldset and ordering:
-		$fieldsetName = $field->GetFieldsetName();
-		if ($fieldsetName === NULL) {
-			// root form level:
+		// fieldset and sorting (root form level only):
+		if ($field->GetFieldsetName() === NULL) {
+			$alreadyInChildren = isset($this->children[$fieldName]);
+			$this->children[$fieldName] = $field;
 			$fieldOrder = $field->GetFieldOrder();
 			if (is_numeric($fieldOrder)) {
-				if (!isset($this->ordering->numbered[$fieldOrder]))
-					$this->ordering->numbered[$fieldOrder] = [];
-				$orderCollection = & $this->ordering->numbered[$fieldOrder];
+				if (!isset($this->sorting->numbered[$fieldOrder]))
+					$this->sorting->numbered[$fieldOrder] = [];
+				$sortCollection = & $this->sorting->numbered[$fieldOrder];
 			} else {
-				$orderCollection = & $this->ordering->naturally;
+				$sortCollection = & $this->sorting->naturally;
 			}
 			if (
-				!$alreadyRegistered || (
-					$alreadyRegistered &&
-					!in_array($fieldName, $orderCollection, TRUE)
+				!$alreadyInChildren || (
+					$alreadyInChildren &&
+					!in_array($fieldName, $sortCollection, TRUE)
 				)
-			) $orderCollection[] = $fieldName;
+			) {
+				$sortCollection[] = $fieldName;
+				$this->sorting->sorted = FALSE;
+			}
 		}
 		return $this;
 	}
@@ -160,14 +163,22 @@ trait FieldMethods {
 				if ($fieldCustomResultState !== NULL)
 					unset($this->customResultStates[$fieldName]);
 			}
-			$fieldOrder = $field->GetFieldOrder();
-			if (is_numeric($fieldOrder)) {
-				$orderCollection = & $this->ordering->numbered[$fieldOrder];
-			} else {
-				$orderCollection = & $this->ordering->naturally;
+			$fieldsetName = $field->GetFieldsetName();
+			if (isset($this->fieldsets[$fieldsetName])) {
+				$fieldset = $this->fieldsets[$fieldsetName];
+				if ($fieldset) $fieldset->RemoveField($fieldName);
+			} else if ($fieldsetName === NULL) {
+				unset($this->children[$fieldName]);
+				$fieldOrder = $field->GetFieldOrder();
+				$this->sorting->sorted = FALSE;
+				if (is_numeric($fieldOrder)) {
+					$orderCollection = & $this->sorting->numbered[$fieldOrder];
+				} else {
+					$orderCollection = & $this->sorting->naturally;
+				}
+				$fieldIndex = array_search($fieldName, $orderCollection, TRUE);
+				array_splice($orderCollection, $fieldIndex, 1);
 			}
-			$fieldIndex = array_search($fieldName, $orderCollection, TRUE);
-			array_splice($orderCollection, $fieldIndex, 1);
 		}
 		return $this;
 	}

@@ -169,6 +169,17 @@ trait GetMethods {
 
 	/**
 	 * @inheritDocs
+	 * @param  bool $sorted
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetChildren ($sorted = TRUE) {
+		if ($sorted && !$this->sorting->sorted)
+			$this->SortChildren();
+		return $this->children;
+	}
+
+	/**
+	 * @inheritDocs
 	 * @return int|NULL
 	 */
 	public function GetResult () {
@@ -452,7 +463,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public static function GetAutoFocusedFormField () {
 		if (self::$autoFocusedFormField) {

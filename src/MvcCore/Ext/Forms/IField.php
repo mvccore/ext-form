@@ -365,12 +365,12 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 
 	/**
 	 * Set fieldset name where field belongs to, default `NULL`.
-	 * If field is not already in form, thrown an exception or
-	 * if target fieldset is not in form, thrown an exception.
-	 * If there is target fielset registered in form, remove field 
-	 * from old fieldset (if necessary) and add into new fielset.
+	 * This function doesn't move field from one fieldset into another
+	 * by changing this fieldset name. To do this, remove the field from 
+	 * first fieldset by `$fieldset->RemoveField($field)` and then 
+	 * add into another by `$fielset->AddField($field)`.
+	 * Method is used mostly internally.
 	 * @param  string $fieldsetName
-	 * @throws \RuntimeException|\InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetFieldsetName ($fieldsetName);

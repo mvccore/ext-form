@@ -54,34 +54,10 @@ trait Setters {
 	/**
 	 * @inheritDocs
 	 * @param  string $fieldsetName
-	 * @throws \RuntimeException|\InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetFieldsetName ($fieldsetName) {
-		if ($this->name === NULL) throw new \RuntimeException(
-			"[".get_class($this)."] Field has no name defined."
-		);
-		if ($this->form === NULL) throw new \RuntimeException(
-			"[".get_class($this)."] Field is not registered in form yet, field name: `{$this->name}`."
-		);
-		/** @var \MvcCore\Ext\Forms\Fieldset[] $fieldsets */
-		$fieldsets = $this->form->GetFieldsets();
-		if ($fieldsetName !== null && !isset($fieldsets[$fieldsetName])) throw new \InvalidArgumentException(
-			"[".get_class($this)."] Form has no fieldset with name `{$fieldsetName}` to place field with name: `{$this->name}`."
-		);
-		if ($this->fieldsetName !== NULL) {
-		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
-			$fieldset = $fieldsets[$this->fieldsetName];
-			if ($fieldset) 
-				$fieldset->RemoveField($this->name);
-		}
 		$this->fieldsetName = $fieldsetName;
-		if ($fieldsetName === NULL) {
-			$this->form->AddField($this);
-		} else {
-			$fieldset = $fieldsets[$this->fieldsetName];
-			$fieldset->AddField($this);
-		}
 		return $this;
 	}
 

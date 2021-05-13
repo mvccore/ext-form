@@ -271,6 +271,21 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @return string|NULL
 	 */
 	public function GetErrorUrl ();
+	
+	/**
+	 * Sort all children fields and fieldsets recursively by natural 
+	 * order and also by `fieldOrder` property on each child if any.
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SortChildren ();
+
+	/**
+	 * Return form controls content tree structure for rendering. Sorted by default.
+	 * Array keys are field or fieldset names, values are fields instances or fieldset instances.
+	 * @param  bool $sorted
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetChildren ($sorted = TRUE);
 
 	/**
 	 * Get form submit result state. Submit could have two basic values (or three values - for next step):
@@ -527,7 +542,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Get form field instance with defined `autofocus` boolean attribute.
 	 * If there is no field in any form with this attribute, return `NULL`.
-	 * @return \MvcCore\Ext\Forms\Field
+	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public static function GetAutoFocusedFormField ();
 

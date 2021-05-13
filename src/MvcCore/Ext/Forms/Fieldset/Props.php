@@ -86,6 +86,14 @@ trait Props {
 	protected $controlAttrs = [];
 
 	/**
+	 * Parent fieldset if any, fieldset could be inside another.
+	 * If there is no parent fieldset and the fieldset is directly 
+	 * in form, then this value is `NULL`.
+	 * @var \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	protected $parentFieldset = NULL;
+
+	/**
 	 * 
 	 * @var \MvcCore\Ext\Forms\Field[]
 	 */
@@ -101,6 +109,25 @@ trait Props {
 	/************************************************************************************************
 	 *                                     Internal Properties                                      *
 	 ************************************************************************************************/
+	
+	/**
+	 * Content objects hierarchy for rendering fields and fielsets.
+	 * @internal
+	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	protected $children = [];
+
+	/**
+	 * Internal fields orders to render and validate 
+	 * fields order by field property `$fieldset->GetFieldOrder()`.
+	 * @internal
+	 * @var array|\stdClass
+	 */
+	protected $sorting = [
+		'sorted'	=> FALSE,
+		'numbered'	=> [],
+		'naturally'	=> [],
+	];
 
 	/**
 	 * Internal reference to form instance, where current fieldset is added.

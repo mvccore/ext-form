@@ -14,6 +14,8 @@
 namespace MvcCore\Ext\Forms;
 
 interface IFieldset {
+	
+	const ALLOWED_LEGEND_ELEMENTS = '<abbr><b><bdo><br><canvas><cite><code><data><dfn><em><h1><h2><h3><h4><h5><h6><i><img><kbd><mark><math><meter><output><picture><progress><q><ruby><samp><small><span><strong><sub><sup><svg><time><var><wbr>';
 
 	/**
 	 * @return string
@@ -221,7 +223,20 @@ interface IFieldset {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName);
+
+	/**
+	 * 
+	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	public function GetParentFieldset ();
 	
+	/**
+	 * 
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset);
+
 	/**
 	 * @return \MvcCore\Ext\Forms\Fieldset[]
 	 */
@@ -274,6 +289,21 @@ interface IFieldset {
 	public function RemoveFieldset ($fieldsetOrFieldsetName);
 	
 	/**
+	 * Sort direct children fields and fieldsets, not recursively.
+	 * By natural order and also by `fieldOrder` property on each child if any.
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SortChildren ();
+
+	/**
+	 * Return fieldset controls content tree structure for rendering. Sorted by default.
+	 * Array keys are field or fieldset names, values are fields instances or fieldset instances.
+	 * @param  bool $sorted
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetChildren ($sorted = TRUE);
+	
+	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
 	 * fieldset is naturally rendered. It sets up fieldset for rendering process.
 	 * Do not use this method even if you don't develop any form fieldset.
@@ -284,12 +314,7 @@ interface IFieldset {
 	 * @return void
 	 */
 	public function PreDispatch ();
-		
-	/**
-	 * @return string
-	 */
-	public function Render();
-
+	
 	/**
 	 * This INTERNAL method is called from `\MvcCore\Ext\Form` after fieldset
 	 * is added into form instance by `$form->AddFieldset();` method. Do not 
@@ -309,7 +334,27 @@ interface IFieldset {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function GetForm ();
-		
-	//public function IsDefault(): bool
+			
+	/**
+	 * Render fieldset with it's legend and contained 
+	 * controls, labels and another fieldsets.
+	 * @return string
+	 */
+	public function Render ();
+
+	/**
+	 * @return string
+	 */
+	public function RenderErrors ();
+	
+	/**
+	 * @return string
+	 */
+	public function RenderLegend ();
+	
+	/**
+	 * @return string
+	 */
+	public function RenderContent ();
 
 }

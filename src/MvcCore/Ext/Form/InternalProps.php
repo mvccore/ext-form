@@ -26,7 +26,7 @@ trait InternalProps {
 	 * @internal
 	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
 	 */
-	protected $contentObjectsTree = [];
+	protected $children = [];
 
 	/**
 	 * Internal fields orders to render and validate 
@@ -34,7 +34,8 @@ trait InternalProps {
 	 * @internal
 	 * @var array|\stdClass
 	 */
-	protected $ordering = [
+	protected $sorting = [
+		'sorted'	=> FALSE,
 		'numbered'	=> [],
 		'naturally'	=> [],
 	];

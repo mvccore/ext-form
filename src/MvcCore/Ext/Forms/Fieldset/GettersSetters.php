@@ -213,6 +213,11 @@ trait GettersSetters {
 	 */
 	public function SetFields ($fields) {
 		$this->fields = [];
+		$this->sorting = (object) [
+			'sorted'	=> FALSE,
+			'numbered'	=> [],
+			'naturally'	=> [],
+		];
 		foreach ($fields as $field)
 			$this->AddField($field);
 		return $this;
@@ -234,10 +239,55 @@ trait GettersSetters {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field $field 
+	 * @throws \RuntimeException|\InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field) {
-		// TODO
+		if ($this->name === NULL)
+			throw new \RuntimeException(
+				"[".get_class($this)."] Fieldset has not configured name."
+			);
+		if ($this->form !== NULL) {
+			$field->SetFieldsetName($this->name);
+			$this->form->AddField($field);
+		} else {
+			$fieldName = $field->GetName();
+			$alreadyRegistered = FALSE;
+			if (isset($this->fields[$fieldName])) {
+				$alreadyRegistered = $field === $this->fields[$fieldName];
+				if (!$alreadyRegistered)
+					throw new \InvalidArgumentException(
+						"[".get_class($this)."] Fieldset already contains field with name: `{$fieldName}`."
+					);
+			}
+			if (isset($this->fieldsets[$fieldName]))
+				throw new \InvalidArgumentException(
+					"[".get_class($this)."] Fieldset already contains fieldset with the same name as field: `{$fieldName}`."
+				);
+			if (!$alreadyRegistered) {
+				$field->SetFieldsetName($this->name);
+				$this->fields[$fieldName] = $field;
+			}
+		}
+		$alreadyInChildren = isset($this->children[$fieldName]);
+		$this->children[$fieldName] = $field;
+		$fieldOrder = $field->GetFieldOrder();
+		if (is_numeric($fieldOrder)) {
+			if (!isset($this->sorting->numbered[$fieldOrder]))
+				$this->sorting->numbered[$fieldOrder] = [];
+			$sortCollection = & $this->sorting->numbered[$fieldOrder];
+		} else {
+			$sortCollection = & $this->sorting->naturally;
+		}
+		if (
+			!$alreadyInChildren || (
+				$alreadyInChildren &&
+				!in_array($fieldName, $sortCollection, TRUE)
+			)
+		) {
+			$sortCollection[] = $fieldName;
+			$this->sorting->sorted = FALSE;
+		}
 		return $this;
 	}
 
@@ -262,7 +312,47 @@ trait GettersSetters {
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function RemoveField ($fieldOrFieldName) {
-		// TODO
+		$fieldName = NULL;
+		if ($fieldOrFieldName instanceof \MvcCore\Ext\Forms\IField) {
+			$fieldName = $fieldOrFieldName->GetName();
+		} else if (is_string($fieldOrFieldName)) {
+			$fieldName = $fieldOrFieldName;
+		}
+		if (isset($this->fields[$fieldName])) {
+			$field = $this->fields[$fieldName];
+			unset($this->fields[$fieldName]);
+		}
+		if (isset($this->children[$fieldName])) {
+			$field = $this->children[$fieldName];
+			unset($this->children[$fieldName]);
+			$fieldOrder = $field->GetFieldOrder();
+			$this->sorting->sorted = FALSE;
+			if (is_numeric($fieldOrder)) {
+				$orderCollection = & $this->sorting->numbered[$fieldOrder];
+			} else {
+				$orderCollection = & $this->sorting->naturally;
+			}
+			$fieldIndex = array_search($fieldName, $orderCollection, TRUE);
+			array_splice($orderCollection, $fieldIndex, 1);
+		}
+		return $this;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	public function GetParentFieldset () {
+		return $this->parentFieldset;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset) {
+		// TODO: podobně jako u fieldu SetFieldset
 		return $this;
 	}
 
@@ -367,6 +457,17 @@ trait GettersSetters {
 	public function RemoveFieldset ($fieldsetOrFieldsetName) {
 		// TODO
 		return $this;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @param  bool $sorted
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetChildren ($sorted = TRUE) {
+		if ($sorted && !$this->sorting->sorted)
+			$this->SortChildren();
+		return $this->children;
 	}
 	
 	/**

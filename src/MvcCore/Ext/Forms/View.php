@@ -355,7 +355,7 @@ class View extends \MvcCore\View {
 		$result = [$this->RenderBegin()];
 		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
 		if ($formRenderModeTable) {
-			foreach ($this->form->GetFields() as $field) 
+			foreach ($this->form->GetChildren() as $field) 
 				if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) 
 					$result[] = $field->Render();
 			$result[] = '<table border="0" cellspacing="0" cellpadding="0">';
@@ -446,7 +446,12 @@ class View extends \MvcCore\View {
 		$result = [];
 		$errors = $this->form->GetErrors();
 		if ($errors) {
-			if ($this->form->GetErrorsRenderMode() !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+			$errorsAllTogether = (
+				$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER ||
+				$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN
+			);
+			if (!$errorsAllTogether) {
 				$globalErrors = [];
 				foreach ($errors as $errorData) 
 					if (!(count($errorData) > 1 && is_array($errorData[1]) && count($errorData[1]) > 0))
