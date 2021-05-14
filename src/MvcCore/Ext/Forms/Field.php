@@ -227,8 +227,12 @@ implements		\MvcCore\Ext\Forms\IField {
 			$this->required = $this->required === NULL
 				? $form->GetDefaultRequired()
 				: $this->required ;
-		if ($this->translate === NULL)
+		if ($this->translate === NULL) 
 			$this->translate = $form->GetTranslate();
+		if ($this->translateLabel === NULL) 
+			$this->translateLabel = $this->translate;
+		if ($this->translateTitle === NULL) 
+			$this->translateTitle = $this->translate;
 		return $this;
 	}
 

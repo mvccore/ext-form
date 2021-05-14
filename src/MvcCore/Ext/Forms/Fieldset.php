@@ -17,8 +17,23 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 
 	use \MvcCore\Ext\Forms\Fieldset\Props,
 		\MvcCore\Ext\Forms\Fieldset\GettersSetters,
+		\MvcCore\Ext\Forms\Fieldset\FieldMethods,
+		\MvcCore\Ext\Forms\Fieldset\FieldsetMethods,
 		\MvcCore\Ext\Forms\Fieldset\Rendering;
 
+	/**
+	 * 
+	 * @param array     $cfg 
+	 * @param string    $name 
+	 * @param int       $fieldOrder 
+	 * @param string    $legend 
+	 * @param bool      $translateLegend 
+	 * @param bool      $disabled 
+	 * @param \string[] $cssClasses 
+	 * @param string    $title 
+	 * @param bool      $translateTitle 
+	 * @param array     $controlAttrs 
+	 */
 	public function __construct (
 		array $cfg = [],
 		$name = NULL,
@@ -108,25 +123,35 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 
 	/**
 	 * @inheritDocs
-	 * @return void
-	 */
-	public function PreDispatch () {
-	}
-
-	/**
-	 * @inheritDocs
-	 * @return string
-	 */
-	public function Render () {
-	}
-
-	/**
-	 * @inheritDocs
 	 * @param  \MvcCore\Ext\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
-
+		if (!$this->name) $this->throwNewInvalidArgumentException(
+			'No `name` property defined.'
+		);
+		/** @var \MvcCore\Ext\Form $form */
+		$this->form = $form;
+		$formTranslate = $form->GetTranslate();
+		if ($this->translateLegend === NULL)
+			$this->translateLegend = $formTranslate;
+		if ($this->translateTitle === NULL)
+			$this->translateTitle = $formTranslate;
 		return $this;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @template
+	 * @return void
+	 */
+	public function PreDispatch () {
+		$form = $this->form;
+		if ($this->translate) {
+			if ($this->translateLegend && $this->legend !== NULL)
+				$this->legend = $form->Translate($this->legend);
+			if ($this->translateTitle && $this->title !== NULL)
+				$this->title = $form->Translate($this->title);
+		}
 	}
 }

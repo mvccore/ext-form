@@ -96,8 +96,8 @@ trait Setters {
 
 	/**
 	 * @inheritDocs
-	 * @param  string|NULL  $title
-	 * @param  boolean|NULL $translateTitle
+	 * @param  string|NULL $title
+	 * @param  bool|NULL   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {

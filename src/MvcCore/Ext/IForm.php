@@ -337,7 +337,10 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function & GetValues ();
 
 	/**
-	 * @inheritDocs
+	 * Return array, where are store all errors from `$form->Submit()` execution process.
+	 * Every record in this array is array with first item to be an error message string.
+	 * If the error is for specific field name or field names, there is also a second item - array with field names.
+	 * Errors array has normal numeric keys.
 	 * @return array
 	 */
 	public function & GetErrors ();
@@ -592,8 +595,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Set form title, global HTML attribute, optional.
-	 * @param  string|NULL  $title
-	 * @param  boolean|NULL $translateTitle
+	 * @param  string|NULL $title
+	 * @param  bool|NULL   $translateTitle
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTitle ($title, $translateTitle = NULL);

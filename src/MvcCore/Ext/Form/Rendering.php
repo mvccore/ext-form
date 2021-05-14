@@ -27,11 +27,13 @@ trait Rendering {
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->PreDispatch(FALSE);
+		$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
 		} else {
 			$result = $this->view->RenderNaturally();
 		}
+		$this->view->SetChildren([], FALSE); // frees memory
 		$this->cleanSessionErrorsAfterRender();
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_RENDERED;
 		return $result;

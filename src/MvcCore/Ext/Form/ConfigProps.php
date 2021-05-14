@@ -86,9 +86,9 @@ trait ConfigProps {
 
 	/**
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @var boolean
+	 * @var bool|NULL
 	 */
-	protected $translateTitle = TRUE;
+	protected $translateTitle = NULL;
 
 	/**
 	 * Form target attribute - where to display the response that is

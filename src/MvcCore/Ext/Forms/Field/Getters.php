@@ -168,7 +168,7 @@ trait Getters {
 
 	/**
 	 * @inheritDocs
-	 * @var bool
+	 * @var bool|NULL
 	 */
 	public function GetTranslate () {
 		return $this->translate;

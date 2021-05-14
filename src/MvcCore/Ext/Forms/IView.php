@@ -88,9 +88,24 @@ interface IView {
 	/**
 	 * Set rendered field.
 	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  bool                     $fieldsetRendering
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetField (\MvcCore\Ext\Forms\IField $field);
+	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL, $fieldRendering = TRUE);
+
+	/**
+	 * Get form fields or fieldsets to render in current form/fieldset level.
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetChildren ();
+
+	/**
+	 * Set form fields or fieldsets to render in current form/fieldset level.
+	 * @param  \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[] $children
+	 * @param  bool                                                     $fieldsetRendering
+	 * @return \MvcCore\Ext\Forms\View
+	 */
+	public function SetChildren (array $children, $fieldsetRendering = FALSE);
 
 	/**
 	 * Get any value by given name existing in local store. If there is no value
@@ -163,6 +178,15 @@ interface IView {
 	 * @return \stdClass
 	 */
 	public function GetCsrf ();
+
+	/**
+	 * Render form errors for current form/fielset level and
+	 * form/fielset children controls. If there is configured
+	 * table form rendering mode, render all hidden fields at 
+	 * the beginning.
+	 * @return string
+	 */
+	public function RenderErrorsAndContent ();
 
 	/**
 	 * Render form errors.

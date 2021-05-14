@@ -321,7 +321,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Get boolean flag about field visible texts and error messages translation.
 	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
 	 * flag in `$field->Init();` method.
-	 * @var bool
+	 * @var bool|NULL
 	 */
 	public function GetTranslate ();
 
@@ -403,8 +403,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	
 	/**
 	 * Set field title, global HTML attribute, optional.
-	 * @param  string|NULL  $title
-	 * @param  boolean|NULL $translateTitle
+	 * @param  string|NULL $title
+	 * @param  bool|NULL   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL);

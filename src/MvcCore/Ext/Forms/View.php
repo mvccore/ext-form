@@ -45,6 +45,12 @@ class View extends \MvcCore\View {
 	protected $field = NULL;
 
 	/**
+	 * Form fields or fieldsets to render in current form/fieldset level.
+	 * @var \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	protected $children = [];
+
+	/**
 	 * Controller view instance reference, which form belongs to.
 	 * Every form is usually created inside MvcCore controller instance,
 	 * and mostly every controller instance has it's own view.
@@ -113,6 +119,7 @@ class View extends \MvcCore\View {
 		 * rendering. Default value is for form rendering - `FALSE`.
 		 */
 		$this->__protected['fieldRendering'] = FALSE;
+		$this->__protected['fieldsetRendering'] = FALSE;
 	}
 
 	/**
@@ -164,12 +171,33 @@ class View extends \MvcCore\View {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  bool                     $fieldsetRendering
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetField (\MvcCore\Ext\Forms\IField $field) {
+	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL, $fieldRendering = TRUE) {
 		/** @var \MvcCore\Ext\Forms\Field $field */
 		$this->field = $field;
-		$this->__protected['fieldRendering'] = TRUE;
+		$this->__protected['fieldRendering'] = $fieldRendering;
+		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetChildren () {
+		return $this->children;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[] $children
+	 * @param  bool                                                     $fieldsetRendering
+	 * @return \MvcCore\Ext\Forms\View
+	 */
+	public function SetChildren (array $children, $fieldsetRendering = FALSE) {
+		$this->children = $children;
+		$this->__protected['fieldsetRendering'] = $fieldsetRendering;
 		return $this;
 	}
 
@@ -196,7 +224,7 @@ class View extends \MvcCore\View {
 			if ($fieldType->hasProperty($name)) {
 				$property = $fieldType->getProperty($name);
 				if (!$property->isStatic()) {
-					if (!$property->isPublic()) $property->setAccessible (TRUE); // protected or private
+					if (!$property->isPublic()) $property->setAccessible(TRUE); // protected or private
 					$value = NULL;
 					if ($phpWithTypes && $property->hasType()) {
 						if ($property->isInitialized($this->field))
@@ -352,20 +380,11 @@ class View extends \MvcCore\View {
 	public function RenderNaturally () {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
-		$result = [$this->RenderBegin()];
-		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
-		if ($formRenderModeTable) {
-			foreach ($this->form->GetChildren() as $field) 
-				if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) 
-					$result[] = $field->Render();
-			$result[] = '<table border="0" cellspacing="0" cellpadding="0">';
-		}
-		$result[] = $this->RenderErrors();
-		$result[] = $this->RenderContent();
-		if ($formRenderModeTable) 
-			$result[] = '</table>';
-		$result[] = $this->RenderEnd();
-		return implode('', $result);
+		return implode('', [
+			$this->RenderBegin(),
+			$this->RenderErrorsAndContent(),
+			$this->RenderEnd()
+		]);
 	}
 
 	/**
@@ -440,45 +459,80 @@ class View extends \MvcCore\View {
 	 * @inheritDocs
 	 * @return string
 	 */
+	public function RenderErrorsAndContent () {
+		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->form->PreDispatch(FALSE);
+		$result = [];
+		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
+		if ($formRenderModeTable) {
+			foreach ($this->children as $child) 
+				if ($child instanceof \MvcCore\Ext\Forms\Fields\Hidden) 
+					$result[] = $child->Render();
+			$result[] = '<table border="0" cellspacing="0" cellpadding="0">';
+		}
+		$result[] = $this->RenderErrors();
+		$result[] = $this->RenderContent();
+		if ($formRenderModeTable) 
+			$result[] = '</table>';
+		return implode('', $result);
+	}
+
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
 	public function RenderErrors () {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
 		$result = [];
-		$errors = $this->form->GetErrors();
-		if ($errors) {
-			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
-			$errorsAllTogether = (
-				$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER ||
-				$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN
-			);
-			if (!$errorsAllTogether) {
-				$globalErrors = [];
-				foreach ($errors as $errorData) 
-					if (!(count($errorData) > 1 && is_array($errorData[1]) && count($errorData[1]) > 0))
-						$globalErrors[] = $errorData;
-				$errors = $globalErrors;
+		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
+		$fieldsetRendering = $this->__protected['fieldsetRendering'];
+		if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+			$errors = $this->form->GetErrors();	
+		} else if (
+			$fieldsetRendering && 
+			$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN
+		) {
+			$childrenNames = array_keys($this->children);
+			$errors = $this->form->GetErrors();
+			$fieldsetErrors = [];
+			foreach ($errors as $errorData) {
+				if (count($errorData) < 2) continue;
+				$errorFieldNames = $errorData[1];
+				if (count(array_intersect($childrenNames, $errorFieldNames)) > 0) {
+					$fieldsetErrors[] = $errorData;
+				}
 			}
-			if ($errors) {
-				$formRenderMode = $this->form->GetFormRenderMode();
-				if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
-					$result[] = '<div class="errors">';
-					foreach ($errors as $errorMessageAndFieldNames) {
-						list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-						$result[] = '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
-					}
-					$result[] = '</div>';
-				} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
-					$result[] = '<thead class="errors">';
-					foreach ($errors as $errorMessageAndFieldNames) {
-						list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-						$result[] = '<tr><th colspan="2" class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</th></tr>';
-					}
-					$result[] = '</thead>';
-				} else {
-					foreach ($errors as $errorMessageAndFieldNames) {
-						list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-						$result[] = '<span class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</span>';
-					}
+			$errors = $fieldsetErrors;
+		} else {
+			$errors = $this->form->GetErrors();
+			$globalErrors = [];
+			foreach ($errors as $errorData) 
+				if (!(count($errorData) > 1 && is_array($errorData[1]) && count($errorData[1]) > 0))
+					$globalErrors[] = $errorData;
+			$errors = $globalErrors;
+		}
+		
+		if ($errors) {
+			$formRenderMode = $this->form->GetFormRenderMode();
+			if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
+				$result[] = '<div class="errors">';
+				foreach ($errors as $errorMessageAndFieldNames) {
+					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
+					$result[] = '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
+				}
+				$result[] = '</div>';
+			} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
+				$result[] = '<thead class="errors">';
+				foreach ($errors as $errorMessageAndFieldNames) {
+					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
+					$result[] = '<tr><th colspan="2" class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</th></tr>';
+				}
+				$result[] = '</thead>';
+			} else {
+				foreach ($errors as $errorMessageAndFieldNames) {
+					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
+					$result[] = '<span class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</span>';
 				}
 			}
 		}
@@ -508,26 +562,25 @@ class View extends \MvcCore\View {
 
 	/**
 	 * @inheritDocs
-	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[], \MvcCore\Ext\Forms\Fields\ISubmit[]|\MvcCore\Ext\Forms\Fields\IReset[]]
+	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[], \MvcCore\Ext\Forms\Fields\ISubmit[]|\MvcCore\Ext\Forms\Fields\IReset[]]
 	 */
 	public function RenderContentGetFieldsGroups () {
-		$allFields = $this->form->GetFields();
 		/** @var $hiddenFields \MvcCore\Ext\Forms\Fields\Hidden[] */
 		$hiddenFields = [];
-		/** @var $controlFields \MvcCore\Ext\Forms\Field[] */
-		$controlFields = [];
+		/** @var $contentFieldsOrFieldsets \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[] */
+		$contentFieldsOrFieldsets = [];
 		/** @var $submitFields \MvcCore\Ext\Forms\Fields\ISubmit[]|\MvcCore\Ext\Forms\Fields\IReset[] */
 		$submitFields = [];
-		foreach ($allFields as $fieldName => $field) {
-			if ($field instanceof \MvcCore\Ext\Forms\Fields\Hidden) {
-				$hiddenFields[$fieldName] = $field;
-			} else if (isset($this->submitFields[$fieldName]) || $field instanceof \MvcCore\Ext\Forms\Fields\IReset) {
-				$submitFields[$fieldName] = $field;
+		foreach ($this->children as $fieldName => $fieldOrFieldset) {
+			if ($fieldOrFieldset instanceof \MvcCore\Ext\Forms\Fields\Hidden) {
+				$hiddenFields[$fieldName] = $fieldOrFieldset;
+			} else if (isset($this->submitFields[$fieldName]) || $fieldOrFieldset instanceof \MvcCore\Ext\Forms\Fields\IReset) {
+				$submitFields[$fieldName] = $fieldOrFieldset;
 			} else {
-				$controlFields[$fieldName] = $field;
+				$contentFieldsOrFieldsets[$fieldName] = $fieldOrFieldset;
 			}
 		}
-		return [$hiddenFields, $controlFields, $submitFields];
+		return [$hiddenFields, $contentFieldsOrFieldsets, $submitFields];
 	}
 
 	/**
@@ -538,18 +591,18 @@ class View extends \MvcCore\View {
 		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
 		list (
-			$hiddenFields, $controlFields, $submitFields
+			$hiddenFields, $contentFieldsOrFieldsets, $submitFields
 		) = $this->RenderContentGetFieldsGroups();
 		if ($hiddenFields) {
 			$result[] = '<div class="hiddens">';
 			foreach ($hiddenFields as $field) $result[] = $field->Render();
 			$result[] = '</div>';
 		}
-		if ($controlFields) {
+		if ($contentFieldsOrFieldsets) {
 			$result[] = '<div class="controls">';
-			foreach ($controlFields as $field) {
+			foreach ($contentFieldsOrFieldsets as $fieldOrFieldset) {
 				$result[] = '<div>';
-				$result[] = $field->Render();
+				$result[] = $fieldOrFieldset->Render();
 				$result[] = '</div>';
 			}
 			$result[] = '</div>';
@@ -570,7 +623,7 @@ class View extends \MvcCore\View {
 		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
 		list (
-			/*$hiddenFields*/, $controlFields, $submitFields
+			/*$hiddenFields*/, $contentFieldsOrFieldsets, $submitFields
 		) = $this->RenderContentGetFieldsGroups();
 		$fieldRenderModeDefault = $this->form->GetFieldsRenderModeDefault();
 		$fieldRenderModeDefaultNormal = $fieldRenderModeDefault === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
@@ -580,18 +633,20 @@ class View extends \MvcCore\View {
 			foreach ($submitFields as $field) $result[] = $field->Render();
 			$result[] = '</td></tr></tfoot>';
 		}
-		if ($controlFields) {
+		if ($contentFieldsOrFieldsets) {
 			$result[] = '<tbody class="controls">';
-			foreach ($controlFields as $field) {
-				$fieldLabelSide = $field->GetLabelSide();
+			foreach ($contentFieldsOrFieldsets as $fieldOrFieldset) {
+				$fieldLabelSide = $fieldOrFieldset instanceof \MvcCore\Ext\Forms\Field
+					? $fieldOrFieldset->GetLabelSide()
+					: NULL;
 				$fieldRenderMode = NULL;
-				if ($field instanceof \MvcCore\Ext\Forms\Fields\ILabel) 
-					$fieldRenderMode = $field->GetRenderMode();
+				if ($fieldOrFieldset instanceof \MvcCore\Ext\Forms\Fields\ILabel) 
+					$fieldRenderMode = $fieldOrFieldset->GetRenderMode();
 				if ($fieldRenderMode === NULL)
 					$fieldRenderMode = $fieldRenderModeDefault;
 				$fieldRenderModeNormal = $fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL;
 					
-				if ($field instanceof \MvcCore\Ext\Forms\Fields\IChecked) {
+				if ($fieldOrFieldset instanceof \MvcCore\Ext\Forms\Fields\IChecked) {
 					if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT) {
 						$rowBegin = '<td class="control label control-and-label">';
 						$labelAndControlSeparator = '';
@@ -621,7 +676,7 @@ class View extends \MvcCore\View {
 				} else {
 					$result[] = '<td colspan="2" class="control no-label">';
 				}
-				$result[] = $field->Render($labelAndControlSeparator);
+				$result[] = $fieldOrFieldset->Render($labelAndControlSeparator);
 				if ($fieldRenderModeNormal) {
 					$result[] = $rowEnd;
 				} else {
@@ -642,14 +697,14 @@ class View extends \MvcCore\View {
 		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
 		list (
-			$hiddenFields, $controlFields, $submitFields
+			$hiddenFields, $contentFieldsOrFieldsets, $submitFields
 		) = $this->RenderContentGetFieldsGroups();
 		if ($hiddenFields) 
 			foreach ($hiddenFields as $field) 
 				$result[] = $field->Render();
-		if ($controlFields) 
-			foreach ($controlFields as $field) 
-				$result[] = $field->Render();
+		if ($contentFieldsOrFieldsets) 
+			foreach ($contentFieldsOrFieldsets as $fieldOrFieldset) 
+				$result[] = $fieldOrFieldset->Render();
 		if ($submitFields) 
 			foreach ($submitFields as $field) 
 			$result[] = $field->Render();

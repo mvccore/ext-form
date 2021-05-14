@@ -143,6 +143,8 @@ implements	\MvcCore\Ext\IForm {
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
 		
+		if ($this->translateTitle === NULL)
+			$this->translateTitle = $this->translate;
 		if ($this->translate && $this->translateTitle && $this->title !== NULL)
 			$this->title = $this->Translate($this->title);
 		

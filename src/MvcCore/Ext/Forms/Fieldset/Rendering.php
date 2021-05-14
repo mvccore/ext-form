@@ -49,6 +49,12 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderContent () {
-		return '';
+		/** @var \MvcCore\Ext\Forms\View $view */
+		$view = $this->form->GetView();
+		$parentChildren = $view->GetChildren();
+		$view->SetChildren($this->GetChildren(TRUE), TRUE);
+		$result = $view->RenderContent();
+		$view->SetChildren($parentChildren, FALSE);
+		return $result;
 	}
 }

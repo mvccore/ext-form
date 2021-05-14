@@ -44,9 +44,9 @@ trait Props {
 	
 	/**
 	 * Boolean to translate legend text, `TRUE` by default.
-	 * @var bool
+	 * @var bool|NULL
 	 */
-	protected $translateLegend = TRUE;
+	protected $translateLegend = NULL;
 	
 	/**
 	 * Form fieldset `disabled` boolean attribute, default `FALSE`.
@@ -71,9 +71,9 @@ trait Props {
 
 	/**
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @var boolean
+	 * @var bool|NULL
 	 */
-	protected $translateTitle = TRUE;
+	protected $translateTitle = NULL;
 
 	/**
 	 * Collection with fieldset HTML element additional attributes by array keys/values.
@@ -94,13 +94,15 @@ trait Props {
 	protected $parentFieldset = NULL;
 
 	/**
-	 * 
+	 * Fields contained only inside this fieldset. Not contained in 
+	 * whole form and not contained inside nested fields.
 	 * @var \MvcCore\Ext\Forms\Field[]
 	 */
 	protected $fields = [];
 	
 	/**
-	 * 
+	 * Fieldsets contained only inside this fieldset. Not contained in 
+	 * whole form and not contained inside nested fieldsets.
 	 * @var \MvcCore\Ext\Forms\Fieldset[]
 	 */
 	protected $fieldsets = [];
@@ -143,6 +145,6 @@ trait Props {
 	 * @var \string[]
 	 */
 	protected static $declaredProtectedProperties = [
-		'form'
+		'form', 'sorting', 'children'
 	];
 }

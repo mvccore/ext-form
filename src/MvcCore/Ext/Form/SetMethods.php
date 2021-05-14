@@ -64,8 +64,8 @@ trait SetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param  string|NULL  $title
-	 * @param  boolean|NULL $translateTitle
+	 * @param  string|NULL $title
+	 * @param  bool|NULL   $translateTitle
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {

@@ -82,9 +82,9 @@ trait Props {
 
 	/**
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @var boolean
+	 * @var bool|NULL
 	 */
-	protected $translateTitle = TRUE;
+	protected $translateTitle = NULL;
 	
 	/**
 	 * Collection with field HTML element 
