@@ -67,22 +67,22 @@ trait FieldMethods {
 			throw new \RuntimeException(
 				"[".get_class($this)."] Fieldset has not configured name."
 			);
+		$fieldName = $field->GetName();
 		if ($this->form !== NULL) {
 			$field->SetFieldsetName($this->name);
 			$this->form->AddField($field);
 		} else {
-			$fieldName = $field->GetName();
 			$alreadyRegistered = FALSE;
 			if (isset($this->fields[$fieldName])) {
 				$alreadyRegistered = $field === $this->fields[$fieldName];
 				if (!$alreadyRegistered)
 					throw new \InvalidArgumentException(
-						"[".get_class($this)."] Fieldset already contains field with name: `{$fieldName}`."
+						"[".get_class($this)."] Fieldset `{$this->name}` already contains field with name: `{$fieldName}`."
 					);
 			}
 			if (isset($this->fieldsets[$fieldName]))
 				throw new \InvalidArgumentException(
-					"[".get_class($this)."] Fieldset already contains fieldset with the same name as field: `{$fieldName}`."
+					"[".get_class($this)."] Fieldset `{$this->name}` already contains fieldset with the same name as field: `{$fieldName}`."
 				);
 			if (!$alreadyRegistered) {
 				$field->SetFieldsetName($this->name);
@@ -138,10 +138,8 @@ trait FieldMethods {
 		} else if (is_string($fieldOrFieldName)) {
 			$fieldName = $fieldOrFieldName;
 		}
-		if (isset($this->fields[$fieldName])) {
-			$field = $this->fields[$fieldName];
+		if (isset($this->fields[$fieldName])) 
 			unset($this->fields[$fieldName]);
-		}
 		if (isset($this->children[$fieldName])) {
 			$field = $this->children[$fieldName];
 			unset($this->children[$fieldName]);

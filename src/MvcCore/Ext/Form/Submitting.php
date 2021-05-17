@@ -35,6 +35,7 @@ trait Submitting {
 		if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
 			$this
 				->SubmitCsrfTokens($rawRequestParams)
+				->SubmitDisableFieldsByFieldsets()
 				->SubmitAllFields($rawRequestParams);
 		}
 		$this->SaveSession();
@@ -108,6 +109,7 @@ trait Submitting {
 	 */
 	public function SubmitAllFields (array & $rawRequestParams = []) {
 		$rawRequestParams = $this->submitAllFieldsEncodeAcceptCharsets($rawRequestParams);
+		$this->submitAllFieldsDisabledByFieldsets();
 		$this->values = [];
 		foreach ($this->fields as $fieldName => $field) {
 			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) continue;
@@ -201,6 +203,43 @@ trait Submitting {
 	 */
 	public function GetDefaultErrorMsg ($index) {
 		return static::$defaultErrorMessages[$index];
+	}
+
+	/**
+	 * Go through all children and try to find disabled fieldset.
+	 * If any fieldset is disabled - set it's fields also disabled 
+	 * and also disable all nested fieldsets with it's fiels.
+	 * @return void
+	 */
+	protected function submitAllFieldsDisabledByFieldsets () {
+		if (count($this->fieldsets) === 0) return;
+		foreach ($this->GetChildren() as $child) 
+			/** @var \MvcCore\Ext\Forms\Fieldset $child */
+			if ($child instanceof \MvcCore\Ext\Forms\IFieldset) 
+				$this->submitAllFieldsDisabledByFieldsetRecursive($child, $child->GetDisabled());
+	}
+
+	/**
+	 * Go through all nested fieldsets in given fieldset and call this method.
+	 * If second param is true, set all fields in given fieldset disabled.
+	 * @param  \MvcCore\Ext\Forms\IFieldset $fieldset 
+	 * @param  bool|NULL $disabled 
+	 * @return void
+	 */
+	protected function submitAllFieldsDisabledByFieldsetRecursive (\MvcCore\Ext\Forms\IFieldset $fieldset, $disabled = NULL) {
+		if ($disabled) 
+			foreach ($fieldset->GetFields() as $field) 
+				if ($field instanceof \MvcCore\Ext\Forms\Fields\IVisibleField)
+					$field->SetDisabled(TRUE);
+		$nestedFieldsets = $fieldset->GetFieldsets();
+		if (count($nestedFieldsets) > 0) {
+			foreach ($nestedFieldsets as $nestedFieldset) {
+				$disabledLocal = (
+					$disabled || ($disabled === NULL && $nestedFieldset->GetDisabled())
+				);
+				$this->submitAllFieldsDisabledByFieldsetRecursive($nestedFieldset, $disabledLocal);
+			}
+		}
 	}
 
 	/**

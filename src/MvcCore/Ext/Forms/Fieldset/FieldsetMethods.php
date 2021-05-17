@@ -30,10 +30,16 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset) {
-		// TODO: podobně jako u fieldu SetFieldset
+		if ($this->parentFieldset !== NULL) throw new \InvalidArgumentException(
+			"[".get_class($this)."] Can NOT override parent fieldset. ".
+			"Remove this fieldset from parent fieldset first by ".
+			"`\$parentFieldset->RemoveFieldset(\$thisFieldset);`."
+		);
+		$this->parentFieldset = $fieldset;
 		return $this;
 	}
 
@@ -111,7 +117,51 @@ trait FieldsetMethods {
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset) {
-		// TODO
+		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+		if ($this->name === NULL || $fieldset->name === NULL)
+			throw new \RuntimeException(
+				"[".get_class($this)."] Fieldset has not configured name."
+			);
+		$fieldset->SetParentFieldset($this);
+		$fieldsetName = $fieldset->GetName();
+		if ($this->form !== NULL) {
+			$this->form->AddFieldset($fieldset);
+		} else {
+			$alreadyRegistered = FALSE;
+			if (isset($this->fieldsets[$fieldsetName])) {
+				$alreadyRegistered = $fieldset === $this->fieldsets[$fieldsetName];
+				if (!$alreadyRegistered)
+					throw new \InvalidArgumentException(
+						"[".get_class($this)."] Fieldset `{$this->name}` already contains fieldset with name: `{$fieldsetName}`."
+					);
+			}
+			if (isset($this->fields[$fieldsetName]))
+				throw new \InvalidArgumentException(
+					"[".get_class($this)."] Fieldset `{$this->name}` already contains field with the same name as fieldset: `{$fieldsetName}`."
+				);
+			if (!$alreadyRegistered) {
+				$this->fieldsets[$fieldsetName] = $fieldset;
+			}
+		}
+		$alreadyInChildren = isset($this->children[$fieldsetName]);
+		$this->children[$fieldsetName] = $fieldset;
+		$fieldOrder = $fieldset->GetFieldOrder();
+		if (is_numeric($fieldOrder)) {
+			if (!isset($this->sorting->numbered[$fieldOrder]))
+				$this->sorting->numbered[$fieldOrder] = [];
+			$sortCollection = & $this->sorting->numbered[$fieldOrder];
+		} else {
+			$sortCollection = & $this->sorting->naturally;
+		}
+		if (
+			!$alreadyInChildren || (
+				$alreadyInChildren &&
+				!in_array($fieldsetName, $sortCollection, TRUE)
+			)
+		) {
+			$sortCollection[] = $fieldsetName;
+			$this->sorting->sorted = FALSE;
+		}
 		return $this;
 	}
 	
@@ -136,7 +186,27 @@ trait FieldsetMethods {
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function RemoveFieldset ($fieldsetOrFieldsetName) {
-		// TODO
+		$fieldsetName = NULL;
+		if ($fieldsetOrFieldsetName instanceof \MvcCore\Ext\Forms\IFieldset) {
+			$fieldsetName = $fieldsetOrFieldsetName->GetName();
+		} else if (is_string($fieldsetOrFieldsetName)) {
+			$fieldsetName = $fieldsetOrFieldsetName;
+		}
+		if (isset($this->fieldsets[$fieldsetName])) 
+			unset($this->fieldsets[$fieldsetName]);
+		if (isset($this->children[$fieldsetName])) {
+			$fieldset = $this->children[$fieldsetName];
+			unset($this->children[$fieldsetName]);
+			$fieldOrder = $fieldset->GetFieldOrder();
+			$this->sorting->sorted = FALSE;
+			if (is_numeric($fieldOrder)) {
+				$orderCollection = & $this->sorting->numbered[$fieldOrder];
+			} else {
+				$orderCollection = & $this->sorting->naturally;
+			}
+			$fieldsetIndex = array_search($fieldsetName, $orderCollection, TRUE);
+			array_splice($orderCollection, $fieldsetIndex, 1);
+		}
 		return $this;
 	}
 

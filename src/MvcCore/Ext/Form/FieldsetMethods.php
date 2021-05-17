@@ -106,11 +106,8 @@ trait FieldsetMethods {
 			$fieldset->SetForm($this);
 			$this->fieldsets[$fieldsetName] = $fieldset;
 		}
-		// fields:
-		$fieldsetFields = $fieldset->GetFields();
-		foreach ($fieldsetFields as $fieldsetFieldName => $fieldsetField) 
-			if (!isset($this->fields[$fieldsetFieldName]))
-				$this->AddField($fieldsetField);
+		// add nested fieldsets and fields in nested fieldsets:
+		$this->addFieldsetFieldsRecursive($fieldset);
 		// fieldset and sorting (root form level only):
 		if ($fieldset->GetParentFieldset() === NULL) {
 			$alreadyInChildren = isset($this->children[$fieldsetName]);
@@ -134,6 +131,20 @@ trait FieldsetMethods {
 			}
 		}
 		return $this;
+	}
+
+	/**
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset 
+	 * @return void
+	 */
+	protected function addFieldsetFieldsRecursive (\MvcCore\Ext\Forms\IFieldset $fieldset) {
+		$fieldsetFields = $fieldset->GetFields();
+		foreach ($fieldsetFields as $fieldsetFieldName => $fieldsetField) 
+			if (!isset($this->fields[$fieldsetFieldName]))
+				$this->AddField($fieldsetField);
+		foreach ($fieldset->GetFieldsets() as $fieldsetInFieldset) {
+			$this->addFieldset($fieldsetInFieldset);
+		}
 	}
 	
 	/**

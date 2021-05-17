@@ -233,6 +233,7 @@ interface IFieldset {
 	/**
 	 * 
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset);
@@ -342,11 +343,6 @@ interface IFieldset {
 	 */
 	public function Render ();
 
-	/**
-	 * @return string
-	 */
-	public function RenderErrors ();
-	
 	/**
 	 * @return string
 	 */

@@ -195,17 +195,17 @@ implements	\MvcCore\Ext\IForm {
 				}
 			}
 			if (count($fields) !== count($this->fields)) {
-				$missingNames = implode("`,`", array_diff(array_keys($this->fields), array_keys($fields)));
+				$missingNames = implode("`,`", array_diff(array_keys($fields), array_keys($this->fields)));
 				throw new \RuntimeException(
 					"[".get_class($this)."] Some fields are not connected with form instance, ".
-					"form name: `{$this->name}`, fields: `{$missingNames}`."
+					"form id: `{$this->id}`, fields: `{$missingNames}`."
 				);
 			}
 			if (count($fieldsets) !== count($this->fieldsets)) {
-				$missingNames = implode("`,`", array_diff(array_keys($this->fieldsets), array_keys($fieldsets)));
+				$missingNames = implode("`,`", array_diff(array_keys($fieldsets), array_keys($this->fieldsets)));
 				throw new \RuntimeException(
 					"[".get_class($this)."] Some fieldsets are not connected with form instance, ".
-					"form name: `{$this->name}`, fieldsets: `{$missingNames}`."
+					"form id: `{$this->id}`, fieldsets: `{$missingNames}`."
 				);
 			}
 			$this->fields = $fields;
