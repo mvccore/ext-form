@@ -217,7 +217,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * Complete recursively sofrted form fields and form fieldsets.
+	 * Complete recursively sorted form fields and form fieldsets.
 	 * @param  \MvcCore\Ext\Forms\Fieldset   $fieldset 
 	 * @param  \MvcCore\Ext\Forms\Field[]    $fields 
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets 

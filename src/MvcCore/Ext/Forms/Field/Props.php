@@ -68,7 +68,8 @@ trait Props {
 	
 	/**
 	 * Form field HTML element css classes strings.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * Default value is an empty array, but there is always rendered
+	 * HTML `class` attribute with fieldset name as css class.
 	 * @var \string[]
 	 */
 	protected $cssClasses = [];

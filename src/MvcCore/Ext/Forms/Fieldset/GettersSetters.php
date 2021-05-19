@@ -28,6 +28,7 @@ trait GettersSetters {
 
 	/**
 	 * @inheritDocs
+	 * @requires
 	 * @param  string $name 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */

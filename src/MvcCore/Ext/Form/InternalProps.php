@@ -29,8 +29,7 @@ trait InternalProps {
 	protected $children = [];
 
 	/**
-	 * Internal fields orders to render and validate 
-	 * fields order by field property `$field->GetFieldOrder()`.
+	 * Internal fields and fieldsets order to render and validate fields.
 	 * @internal
 	 * @var array|\stdClass
 	 */

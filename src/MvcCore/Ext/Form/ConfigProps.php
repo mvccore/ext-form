@@ -283,7 +283,7 @@ trait ConfigProps {
 	 * All form field controls.
 	 * After adding any field into form instance by `$form->AddField()` method
 	 * field is added under it's name into this array with all another form fields
-	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
+	 * except CSRF `input:hidden`s. Fields are not rendered by order in this array.
 	 * @var \MvcCore\Ext\Forms\Field[]
 	 */
 	protected $fields = [];
@@ -292,7 +292,8 @@ trait ConfigProps {
 	 * All form fieldsets.
 	 * After adding any fieldset into form instance by `$form->AddFieldset()` method
 	 * fieldset is added under it's name into this array and all it's fields is added 
-	 * into `$form->fields` array, if it is not already there.
+	 * into `$form->fields` array, if it is not already there. 
+	 * Fieldsets are not rendered by order in this array.
 	 * @var \MvcCore\Ext\Forms\Fieldset[]
 	 */
 	protected $fieldsets = [];

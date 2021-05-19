@@ -23,8 +23,9 @@ trait Props {
 	************************************************************************************************/
 
 	/**
-	 * Form fieldset specific name, used to identify fields in fielsets for rendering.
-	 * This value is required for all form fieldsets.
+	 * Form fieldset specific name, used to identify 
+	 * fieldset between each other and between fields.
+	 * This value is required and it's used mostly internally.
 	 * @requires
 	 * @var string|NULL
 	 */
@@ -37,7 +38,10 @@ trait Props {
 	protected $fieldOrder = NULL;
 	
 	/**
-	 * Form fieldset `<legend>` tag content, it could contains HTML code, default `NULL`.
+	 * Form fieldset `<legend>` tag content, it could 
+	 * contains HTML code, default `NULL`.
+	 * Allowed HTML tags are container in constant:
+	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
 	 * @var string|NULL
 	 */
 	protected $legend = NULL;
@@ -49,8 +53,9 @@ trait Props {
 	protected $translateLegend = NULL;
 	
 	/**
-	 * Form fieldset `disabled` boolean attribute, default `FALSE`.
-	 * Browsers render all fields disabled in `<fieldset>` with disabled attribute.
+	 * Form fieldset `disabled` boolean attribute, 
+	 * default `FALSE`. Browsers render all fields 
+	 * disabled in `<fieldset>` with disabled attribute.
 	 * @var bool
 	 */
 	protected $disabled = FALSE;
@@ -120,8 +125,7 @@ trait Props {
 	protected $children = [];
 
 	/**
-	 * Internal fields orders to render and validate 
-	 * fields order by field property `$fieldset->GetFieldOrder()`.
+	 * Internal fields and fieldsets order to render and validate fields.
 	 * @internal
 	 * @var array|\stdClass
 	 */

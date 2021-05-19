@@ -275,6 +275,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Sort all children fields and fieldsets recursively by natural 
 	 * order and also by `fieldOrder` property on each child if any.
+	 * After calling this method, internal form array `$form->fields`
+	 * and `$form->fieldsets` are sorted by rendering order.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SortChildren ();

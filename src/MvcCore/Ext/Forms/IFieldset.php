@@ -18,33 +18,50 @@ interface IFieldset {
 	const ALLOWED_LEGEND_ELEMENTS = '<abbr><b><bdo><br><canvas><cite><code><data><dfn><em><h1><h2><h3><h4><h5><h6><i><img><kbd><mark><math><meter><output><picture><progress><q><ruby><samp><small><span><strong><sub><sup><svg><time><var><wbr>';
 
 	/**
+	 * Get form fieldset specific name, used to identify 
+	 * fieldset between each other and between fields.
+	 * This value is required and it's used mostly internally.
 	 * @return string
 	 */
 	public function GetName ();
 
 	/**
+	 * Set form fieldset specific name, used to identify 
+	 * fieldset between each other and between fields.
+	 * This value is required and it's used mostly internally.
+	 * @requires
 	 * @param  string $name
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetName ($name);
 
 	/**
+	 * Get fixed field order number, `NULL` by default.
 	 * @return int|NULL 
 	 */
 	public function GetFieldOrder ();
 
 	/**
+	 * Set fixed field order number, `NULL` by default.
 	 * @param  int $fieldOrder
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldOrder ($fieldOrder);
 
 	/**
+	 * Get form fieldset `<legend>` tag content, it 
+	 * could contains HTML code, default `NULL`.
+	 * Allowed HTML tags are container in constant:
+	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
 	 * @return string|NULL
 	 */
 	public function GetLegend ();
 
 	/**
+	 * Set form fieldset `<legend>` tag content, it 
+	 * could contains HTML code, default `NULL`.
+	 * Allowed HTML tags are container in constant:
+	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
 	 * @param  string|NULL $legend 
 	 * @param  bool|NULL   $translateLegend
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -52,11 +69,21 @@ interface IFieldset {
 	public function SetLegend ($legend, $translateLegend = NULL);
 
 	/**
+	 * Get form fieldset `disabled` boolean attribute, 
+	 * default `FALSE`. Browsers render all fields 
+	 * disabled in `<fieldset>` with disabled attribute.
+	 * Disabled fieldset also automatically disables 
+	 * all fields inside this fieldset for submitting.
 	 * @return bool
 	 */
 	public function GetDisabled ();
 
 	/**
+	 * Set form fieldset `disabled` boolean attribute, 
+	 * default `FALSE`. Browsers render all fields 
+	 * disabled in `<fieldset>` with disabled attribute.
+	 * Disabled fieldset also automatically disables 
+	 * all fields inside this fieldset for submitting.
 	 * @param  bool $disabled
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -65,7 +92,8 @@ interface IFieldset {
 
 	/**
 	 * Get form field HTML element css classes strings as array.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * Default value is an empty array, but there is always rendered
+	 * HTML `class` attribute with fieldset name as css class.
 	 * @return \string[]
 	 */
 	public function & GetCssClasses ();
@@ -74,7 +102,8 @@ interface IFieldset {
 	/**
 	 * Set form field HTML element css classes strings.
 	 * All previously defined css classes will be removed.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * Default value is an empty array, but there is always rendered
+	 * HTML `class` attribute with fieldset name as css class.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
 	 * @param  string|\string[] $cssClasses
@@ -85,7 +114,8 @@ interface IFieldset {
 	/**
 	 * Add css classes strings for HTML element attribute `class`.
 	 * Given css classes will be added after previously defined css classes.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * Default value is an empty array, but there is always rendered
+	 * HTML `class` attribute with fieldset name as css class.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
 	 * @param  string|\string[] $cssClasses
@@ -108,29 +138,24 @@ interface IFieldset {
 	public function SetTitle ($title, $translateTitle = NULL);
 
 	/**
-	 * Get collection with field HTML element 
-	 * additional attributes by array keys/values.
-	 * There are no system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable 
-	 * properties with it's own getters.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`
-	 * Default value is an empty array to not 
-	 * render any additional attributes.
+	 * Get collection with fieldset HTML element additional 
+	 * attributes by array keys/values. Do not use system 
+	 * attributes as: `name`, `disabled`, `class` or `title` ...
+	 * Those attributes has it's own configurable properties 
+	 * by setter methods or by constructor config array. 
+	 * Default value is an empty array to not  render 
+	 * any additional attributes.
 	 * @return array
 	 */
 	public function & GetControlAttrs ();
 
 	/**
-	 * Get field HTML element additional attribute 
+	 * Get fieldset HTML element additional attribute 
 	 * by attribute name and value.
-	 * There are no system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
+	 * There are no system attributes as: `name`, 
+	 * `disabled`, `class` or `title` ...
 	 * Those attributes have it's own configurable 
 	 * properties with it's own getters.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`
 	 * If attribute doesn't exist, `NULL` is returned.
 	 * @param  string $name
 	 * @return mixed
@@ -138,33 +163,26 @@ interface IFieldset {
 	public function GetControlAttr ($name = 'data-*');
 
 	/**
-	 * Set collection with field HTML element 
-	 * additional attributes by array keys/values.
-	 * Do not use system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
-	 * Those attributes have it's own configurable properties
-	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`
-	 * Default value is an empty array to not 
-	 * render any additional attributes.
-	 * All previously defined additional field attributes 
-	 * will be replaced by given array.
+	 * Set collection with fieldset HTML element additional 
+	 * attributes by array keys/values. Do not use system 
+	 * attributes as: `name`, `disabled`, `class` or `title` ...
+	 * Those attributes has it's own configurable properties 
+	 * by setter methods or by constructor config array. 
+	 * Default value is an empty array to not  render 
+	 * any additional attributes.
 	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetControlAttrs (array $attrs = []);
 
 	/**
-	 * Set field HTML element additional attribute 
+	 * Set fieldset HTML element additional attribute 
 	 * by attribute name and value.
-	 * Do not use system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
+	 * Do not use system attributes as: `name`, 
+	 * `disabled`, `class` or `title` ...
 	 * Those attributes have it's own configurable properties
 	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`
-	 * Given additional field attribute will be directly
+	 * Given additional fieldset attribute will be directly
 	 * set into additional attributes array and any 
 	 * previous attribute with the same name will be overwritten.
 	 * @param  string $name
@@ -174,26 +192,24 @@ interface IFieldset {
 	public function SetControlAttr ($name, $value);
 
 	/**
-	 * Add (and merge) collection with field HTML element 
-	 * additional attributes by array keys/values.
-	 * Do not use system attributes as: `id`, `name`, 
-	 * `value`, `readonly`, `disabled`, `class` ...
+	 * Add fieldset HTML element additional attribute 
+	 * by attribute name and value.
+	 * Do not use system attributes as: `name`, 
+	 * `disabled`, `class` or `title` ...
 	 * Those attributes have it's own configurable properties
 	 * by setter methods or by constructor config array.
-	 * HTML field elements are meant: `<input>, 
-	 * <button>, <select>, <textarea> ...`.
-	 * All given additional field attributes 
+	 * All given additional fieldset attributes 
 	 * will be merged with previously defined attributes.
 	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddControlAttrs (array $attrs = []);
 	
-	/**
-	 * @return \MvcCore\Ext\Forms\Field[]
-	 */
-	public function & GetFields ();
 	
+	/***************************************************************************
+	 *                       FieldMethods Fieldset trait                       *
+	 **************************************************************************/
+
 	/**
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -231,6 +247,20 @@ interface IFieldset {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName);
+	
+	/**
+	 * 
+	 * @return \MvcCore\Ext\Forms\Field[]
+	 */
+	public function & GetFields ();
+	
+	/**
+	 * 
+	 * @param  string $fieldName
+	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 */
+	public function GetField ($fieldName);
+
 
 	/**
 	 * 

@@ -20,26 +20,6 @@ trait FieldMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param  string $fieldName
-	 * @return \MvcCore\Ext\Forms\Field|NULL
-	 */
-	public function GetField ($fieldName) {
-		$result = NULL;
-		if (isset($this->fields[$fieldName]))
-			$result = $this->fields[$fieldName];
-		return $result;
-	}
-	
-	/**
-	 * @inheritDocs
-	 * @return \MvcCore\Ext\Forms\Field[]
-	 */
-	public function & GetFields () {
-		return $this->fields;
-	}
-	
-	/**
-	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -225,5 +205,25 @@ trait FieldMethods {
 		}
 		return $this;
 	}
-
+	
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Field[]
+	 */
+	public function & GetFields () {
+		return $this->fields;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  string $fieldName
+	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 */
+	public function GetField ($fieldName) {
+		$result = NULL;
+		if (isset($this->fields[$fieldName]))
+			$result = $this->fields[$fieldName];
+		return $result;
+	}
+	
 }

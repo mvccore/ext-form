@@ -22,17 +22,44 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 		\MvcCore\Ext\Forms\Fieldset\Rendering;
 
 	/**
+	 * Create new form fieldset instance.
 	 * 
-	 * @param array     $cfg 
-	 * @param string    $name 
-	 * @param int       $fieldOrder 
-	 * @param string    $legend 
-	 * @param bool      $translateLegend 
-	 * @param bool      $disabled 
-	 * @param \string[] $cssClasses 
-	 * @param string    $title 
-	 * @param bool      $translateTitle 
-	 * @param array     $controlAttrs 
+	 * @param  array     $cfg
+	 * Config array with public properties and it's
+	 * values which you want to configure, presented
+	 * in camel case properties names syntax.
+	 * @param  string    $name 
+	 * Form fieldset specific name, used to identify 
+	 * fieldset between each other and between fields.
+	 * This value is required and it's used mostly internally.
+	 * @param  int       $fieldOrder 
+	 * Fixed fieldset order number, `NULL` by default.
+	 * @param  string    $legend 
+	 * Form fieldset `<legend>` tag content, it could 
+	 * contains HTML code, default `NULL`.
+	 * Allowed HTML tags are container in constant:
+	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
+	 * @param  bool      $translateLegend 
+	 * Boolean to translate legend text, `TRUE` by default.
+	 * @param  bool      $disabled 
+	 * Form fieldset `disabled` boolean attribute, 
+	 * default `FALSE`. Browsers render all fields 
+	 * disabled in `<fieldset>` with disabled attribute.
+	 * @param  \string[] $cssClasses 
+	 * Form fieldset HTML element css classes strings. Default 
+	 * value is an empty array to not render HTML `class` attribute.
+	 * @param  string    $title 
+	 * Fieldset title, global HTML attribute, optional.
+	 * @param  bool      $translateTitle 
+	 * Boolean to translate title text, `TRUE` by default.
+	 * @param  array     $controlAttrs 
+	 * Collection with fieldset HTML element additional attributes 
+	 * by array keys/values. Do not use system attributes as: 
+	 * `name`, `disabled`, `class` or `title` ... Those attributes 
+	 * has it's own configurable properties by setter methods or 
+	 * by constructor config array. Default value is an empty array 
+	 * to not  render any additional attributes.
+	 * @return void
 	 */
 	public function __construct (
 		array $cfg = [],

@@ -149,7 +149,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	public function GetType ();
 
 	/**
-	 * Get fieldset name where field belongs to, default `NULL`.
+	 * Get fieldset name, where field belongs to, default `NULL`.
 	 * @return string|NULL
 	 */
 	public function GetFieldsetName ();
@@ -169,7 +169,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 
 	/**
 	 * Get form field HTML element css classes strings as array.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * Default value is an empty array, but there is always rendered
+	 * HTML `class` attribute with fieldset name as css class.
 	 * @return \string[]
 	 */
 	public function & GetCssClasses ();
@@ -367,9 +368,9 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Set fieldset name where field belongs to, default `NULL`.
 	 * This function doesn't move field from one fieldset into another
 	 * by changing this fieldset name. To do this, remove the field from 
-	 * first fieldset by `$fieldset->RemoveField($field)` and then 
-	 * add into another by `$fielset->AddField($field)`.
-	 * Method is used mostly internally.
+	 * first fieldset by `$oldFieldset->RemoveField($field)` and then 
+	 * add into another by `$newFielset->AddField($field)`.
+	 * This method is used mostly internally.
 	 * @param  string $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -393,7 +394,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Set form field HTML element css classes strings.
 	 * All previously defined css classes will be removed.
-	 * Default value is an empty array to not render HTML `class` attribute.
+	 * Default value is an empty array, but there is always rendered
+	 * HTML `class` attribute with fieldset name as css class.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
 	 * @param  string|\string[] $cssClasses
