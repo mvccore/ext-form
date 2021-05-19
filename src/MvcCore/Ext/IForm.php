@@ -1136,26 +1136,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 **************************************************************************/
 
 	/**
-	 * Get all form field controls.
-	 * After adding any field into form instance by `$form->AddField()` method
-	 * field is added under it's name into this array with all another form fields
-	 * except CSRF `input:hidden`s. Fields are rendered by order in this array.
-	 * @return \MvcCore\Ext\Forms\Field[]
-	 */
-	public function GetFields();
-
-	/**
-	 * Return array with all configured submit buttons to recognize starting
-	 * result state in submit processing by presented button in params array.
-	 * @return \MvcCore\Ext\Forms\Fields\ISubmit[]
-	 */
-	public function GetSubmitFields ();
-
-	/**
-	 * Replace all previously configured fields with given fully configured fields array.
-	 * This method is dangerous - it will remove all previously added form fields
-	 * and adds given fields. If you want only to add another field(s) into form,
-	 * use functions:
+	 * Replace all previously configured fields with given fields array. 
+	 * Method have infinite params with new field instances. This 
+	 * method is dangerous - it will remove all previously added fields from form 
+	 * and nested fields from fieldsets and adds new given fields. If you want 
+	 * only to add another field(s) into form, use methods:
 	 *  - `$form->AddField($field);`
 	 *  - `$form->AddFields($field1, $field2, $field3...);`
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
@@ -1164,10 +1149,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function SetFields ($fields);
 
 	/**
-	 * Replace all previously configured field with given fully configured field.
-	 * This method is dangerous - it will remove any previously added form field
-	 * and adds given field. If you want only to add another field(s) into form,
-	 * use functions:
+	 * Replace previously configured field with new given field.
+	 * This method is dangerous - it will remove any previously added field
+	 * directly inside form or inside any nested fieldset and adds new 
+	 * given field. If you want only to add another field(s) into form,
+	 * use methods:
 	 *  - `$form->AddField($field);`
 	 *  - `$form->AddFields($field1, $field2, $field3...);`
 	 * @param  \MvcCore\Ext\Forms\Field $field
@@ -1179,7 +1165,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Add multiple fully configured form field instances,
-	 * function have infinite params with new field instances.
+	 * method have infinite params with new field instances.
+	 * This method adds fields directly into form. Do not add 
+	 * any fields already added over fieldsets by this method.
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -1188,7 +1176,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Add fully configured form field instance.
 	 * Register field in form fields flatten array and also
-	 * in form content tree if necessary.
+	 * in form content tree where is necessary. Do not add 
+	 * field already added over fieldset by this method.
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @param  bool                     $autoInit
 	 * @throws \InvalidArgumentException Form already contains field with name `...`.
@@ -1197,28 +1186,54 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function AddField (\MvcCore\Ext\Forms\IField $field, $autoInit = TRUE);
 
 	/**
-	 * If `TRUE` if given field instance or given
+	 * Return `TRUE` if given field instance or given
 	 * field name exists in form, `FALSE` otherwise.
+	 * Method returns `TRUE` also if field exists in 
+	 * any nested fieldset inside this form.
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
 	public function HasField ($fieldOrFieldName);
 
 	/**
-	 * Remove configured form field instance by given instance or given field name.
-	 * If field is not found by it's name, no error happened.
+	 * Remove configured form field instance by given instance 
+	 * or given field name. If field is not found by it's name, 
+	 * no error thrown. Method removes field also from any nested 
+	 * fieldset, so it's not necessary to call the same method 
+	 * on the fieldset.
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @param  bool                            $autoInit
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName, $autoInit = TRUE);
-
+	
 	/**
-	 * Return form field instance by form field name if it exists, else return null;
+	 * Get all form field controls in flatten array (including all nested 
+	 * fields inside fieldsets, without fieldsets structure). After adding 
+	 * any field into form instance by `$form->AddField()` method, field is 
+	 * added under it's name into `$form->fields` array with all another form 
+	 * fields except CSRF `input:hidden`. Fields are not rendered by order 
+	 * in this array. If you need form fields structure in rendering order, 
+	 * use method `$form->GetChildren()` instead.
+	 * @return \MvcCore\Ext\Forms\Field[]
+	 */
+	public function GetFields();
+	
+	/**
+	 * Return form field instance by form field name if it exists, or return 
+	 * `NULL` if field not found. Method returns field instance also if 
+	 * field exists in any nested fieldset inside this form.
 	 * @param  string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
 	public function GetField ($fieldName);
+
+	/**
+	 * Return array with all configured submit buttons to recognize starting
+	 * result state in submit processing by presented button in params array.
+	 * @return \MvcCore\Ext\Forms\Fields\ISubmit[]
+	 */
+	public function GetSubmitFields ();
 
 	/**
 	 * Return form field instances by given field type string.
@@ -1264,41 +1279,26 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 **************************************************************************/
 
 	/**
-	 * Get all form fieldsets instances in flatten array, keys are fieldset names.
-	 * @return \MvcCore\Ext\Forms\Fieldset[]
-	 */
-	public function GetFieldsets ();
-	
-	/**
-	 * Set all form fieldsets, replace any previously configured fieldsets.
-	 * Keys has to be fieldset names, values has to be fieldset instances.
-	 * This methods adds into form also all fields inside this fieldset.
+	 * Replace all previously configured fieldsets with given fieldsets array. 
+	 * Method have infinite params with new fieldset instances. This 
+	 * method is dangerous - it will remove all previously added fieldsets from 
+	 * form and nested fieldsets from fieldsets and adds new given fieldsets. 
+	 * If you want only to add another fieldset(s) into form, use methods:
+	 *  - `$form->AddFieldset($fieldset);`
+	 *  - `$form->AddFieldsets($fieldset1, $fieldset2, $fieldset3...);`
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFieldsets ($fieldsets);
 	
 	/**
-	 * Add form fieldsets, provide infine fieldset param or array of fieldsets.
-	 * This methods adds into form also all fields inside this fieldset.
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
-	 * @return \MvcCore\Ext\Form
-	 */
-	public function AddFieldsets ($fieldsets);
-	
-	/**
-	 * Get form fieldset by name, no matter if fieldset is 
-	 * in another fieldset or in form root level.
-	 * If fieldset is not found under given name, `NULL` is returned.
-	 * @param  string $fieldsetName
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
-	 */
-	public function GetFieldset ($fieldsetName);
-	
-	/**
-	 * Set form fieldset instance under name. Replace any previously 
-	 * configured fieldname under this name.
-	 * This methods adds into form also all fields inside this fieldset.
+	 * Replace previously configured fieldset with new given fieldset.
+	 * This method is dangerous - it will remove previously added fieldset
+	 * directly inside form or inside any nested fieldset and adds new 
+	 * given fieldset. If you want only to add another fieldset(s) into form,
+	 * use methods:
+	 *  - `$form->AddFieldset($fieldset);`
+	 *  - `$form->AddFieldsets($fieldset1, $fieldset2, $fieldset3...);`
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @param  string|NULL                 $fieldsetName
 	 * @throws \InvalidArgumentException
@@ -1307,9 +1307,22 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $fieldsetName = NULL);
 
 	/**
-	 * Add fieldset into form. Register fielset in fieldset 
-	 * flatten array and also in form content tree if necessary.
-	 * This methods adds into form also all fields inside this fieldset.
+	 * Add multiple fully configured form fieldset instances,
+	 * method have infinite params with new fieldset instances.
+	 * This method adds fieldsets directly into form.
+	 * Do not add nested fieldsets by this method already added 
+	 * over another fieldsets.
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function AddFieldsets ($fieldsets);
+	
+	/**
+	 * Add fully configured form fieldset instance.
+	 * Register fieldset in form fieldsets flatten array and also
+	 * in form content tree where is necessary. Do not add 
+	 * nested fieldset by this method already added 
+	 * over another fieldset.
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @param  bool                        $autoInit
 	 * @throws \InvalidArgumentException
@@ -1318,21 +1331,52 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $autoInit = TRUE);
 
 	/**
-	 * Return `TRUE` if form contains any fieldset under given name.
+	 * Return `TRUE` if given fieldset instance or given
+	 * fieldset name exists in form, `FALSE` otherwise.
+	 * Method returns `TRUE` also if fieldset exists in 
+	 * any nested fieldset inside this form.
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
 	 * @return bool
 	 */
 	public function HasFieldset ($fieldsetOrFieldsetName);
 
 	/**
-	 * Remove fieldset from form and all its internal collections.
-	 * If fieldset is not found by it's name, no error happened.
+	 * Remove configured form fieldset instance by given instance 
+	 * or given fieldset name. If fieldset is not found by it's name, 
+	 * no error thrown. Method removes fieldset also from any nested 
+	 * fieldset, so it's not necessary to call the same method 
+	 * on the parent fieldset.
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
 	 * @param  bool                               $autoInit
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveFieldset ($fieldsetOrFieldsetName, $autoInit = TRUE);
-
+	
+	/**
+	 * Get all form fieldsets in flatten array (including all nested fieldsets 
+	 * inside fieldsets, without the tree structure).
+	 * After adding any fieldset into form instance by `$form->AddFieldset()` method,
+	 * fieldset is added under it's name into `$form->fieldsets` array with all 
+	 * another form fieldsets. Fieldsets are not rendered by order in this array.
+	 * If you need form fieldsets strcture in rendering order, use method 
+	 * `$form->GetChildren()` instead.
+	 * @return \MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetFieldsets ();
+	
+	/**
+	 * Get all form fieldsets in flatten array (including all nested 
+	 * fieldsets inside another fieldsets, without the tree structure). 
+	 * After adding any fieldset into form instance by `$form->AddFieldset()` 
+	 * method, fieldset is added under it's name into `$form->fieldsets` 
+	 * array with all another form fieldsets. Fieldsets are not rendered 
+	 * by order in this array. If you need form fieldsets structure in 
+	 * rendering order, use method `$form->GetChildren()` instead.
+	 * @param  string $fieldsetName
+	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	public function GetFieldset ($fieldsetName);
+	
 
 	/***************************************************************************
 	 *                             Session Form trait                          *
