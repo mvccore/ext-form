@@ -66,7 +66,7 @@ trait Rendering {
 		$view = $this->form->GetView();
 		$parentChildren = $view->GetChildren();
 		$view->SetChildren($this->GetChildren(TRUE), TRUE);
-		$result = $view->RenderContent();
+		$result = $view->RenderErrorsAndContent();
 		$view->SetChildren($parentChildren, FALSE);
 		return $result;
 	}

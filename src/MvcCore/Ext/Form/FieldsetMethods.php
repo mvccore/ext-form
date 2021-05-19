@@ -32,11 +32,45 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets 
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets ,...
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFieldsets ($fieldsets) {
-		$this->fieldsets = [];
+		$args = func_get_args();
+		$fieldsets = is_array($args[0]) && count($args) === 1
+			? $args[0]
+			: $args;
+		if (count($this->fieldsets) > 0) {
+			// unset all fieldsets from not directly connected children fieldsets:
+			$fieldsetsFieldsets = array_diff_key($this->fieldsets, $this->children);
+			foreach ($fieldsetsFieldsets as $fieldsetName => $fieldsetsFieldset) {
+				/** @var \MvcCore\Ext\Forms\Fieldset $fieldsetsFieldset */
+				/** @var \MvcCore\Ext\Forms\Fieldset $parentFieldset */
+				$parentFieldset = $fieldsetsFieldset->GetParentFieldset();
+				$fieldsetsFieldset->SetParentFieldset(NULL);
+				$parentFieldset->RemoveFieldset($fieldsetName);
+			}
+			$childrenFieldsetNames = array_intersect(array_keys($this->fieldsets), array_keys($this->children));
+			// unset all naturally sorted fieldsets:
+			$newNaturallySortingNames = array_diff($this->sorting->naturally, $childrenFieldsetNames);
+			$numberedSortingNames = array_diff($childrenFieldsetNames, $this->sorting->naturally);
+			$this->sorting->naturally = $newNaturallySortingNames;
+			// unset all numbered sorting fieldsets:
+			foreach ($numberedSortingNames as $numberedSortingName) {
+				/** @var \MvcCore\Ext\Forms\Fieldset $numberedSortingFieldset */
+				$numberedSortingFieldset = $this->fieldsets[$numberedSortingName];
+				$fieldOrder = $numberedSortingFieldset->GetFieldOrder();
+				if ($fieldOrder !== NULL && isset($this->sorting->numbered[$fieldOrder])) {
+					$numberedFieldNames = & $this->sorting->numbered[$fieldOrder];
+					$index = array_search($numberedSortingName, $numberedFieldNames);
+					if ($index !== FALSE) unset($numberedFieldNames[$index]);
+				}
+			}
+			// unset all fieldsets from children (keep fields only):
+			$this->children = array_diff_key($this->children, $this->fieldsets);
+			// clean fieldsets:
+			$this->fieldsets = [];
+		}
 		foreach ($fieldsets as $fieldset)
 			$this->AddFieldset($fieldset);
 		return $this;
@@ -69,12 +103,23 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param  string                      $fieldsetName
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @param  string|NULL                 $fieldsetName
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetFieldset ($fieldsetName, \MvcCore\Ext\Forms\IFieldset $fieldset) {
-		$this->fieldsets[$fieldsetName] = $fieldset;
+	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $fieldsetName = NULL) {
+		if ($fieldsetName === NULL) {
+			$fieldsetName = $fieldset->GetName();
+			if ($fieldsetName === NULL) throw new \InvalidArgumentException(
+				"[".get_class($this)."] Fieldset has not defined name."
+			);
+		} else {
+			$fieldset->SetName($fieldsetName);
+		}
+		if (isset($this->fieldsets[$fieldsetName]) && $this->fieldsets[$fieldsetName] !== $fieldset)
+			$this->RemoveFieldset($fieldset);
+		$this->AddFieldset($fieldset);
 		return $this;
 	}
 
@@ -170,7 +215,7 @@ trait FieldsetMethods {
 	 */
 	public function RemoveFieldset ($fieldsetOrFieldsetName, $autoInit = TRUE) {
 		$fieldsetName = NULL;
-		if ($fieldsetOrFieldsetName instanceof \MvcCore\Ext\Forms\IField) {
+		if ($fieldsetOrFieldsetName instanceof \MvcCore\Ext\Forms\IFieldset) {
 			$fieldsetName = $fieldsetOrFieldsetName->GetName();
 		} else if (is_string($fieldsetOrFieldsetName)) {
 			$fieldsetName = $fieldsetOrFieldsetName;

@@ -1154,14 +1154,28 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Replace all previously configured fields with given fully configured fields array.
 	 * This method is dangerous - it will remove all previously added form fields
-	 * and add given fields. If you want only to add another field(s) into form,
+	 * and adds given fields. If you want only to add another field(s) into form,
 	 * use functions:
 	 *  - `$form->AddField($field);`
 	 *  - `$form->AddFields($field1, $field2, $field3...);`
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields);
+
+	/**
+	 * Replace all previously configured field with given fully configured field.
+	 * This method is dangerous - it will remove any previously added form field
+	 * and adds given field. If you want only to add another field(s) into form,
+	 * use functions:
+	 *  - `$form->AddField($field);`
+	 *  - `$form->AddFields($field1, $field2, $field3...);`
+	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  string|NULL              $fieldName
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetField (\MvcCore\Ext\Forms\IField $field, $fieldName = NULL);
 
 	/**
 	 * Add multiple fully configured form field instances,
@@ -1259,7 +1273,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Set all form fieldsets, replace any previously configured fieldsets.
 	 * Keys has to be fieldset names, values has to be fieldset instances.
 	 * This methods adds into form also all fields inside this fieldset.
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFieldsets ($fieldsets);
@@ -1285,11 +1299,12 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * Set form fieldset instance under name. Replace any previously 
 	 * configured fieldname under this name.
 	 * This methods adds into form also all fields inside this fieldset.
-	 * @param  string                      $fieldsetName
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @param  string|NULL                 $fieldsetName
+	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetFieldset ($fieldsetName, \MvcCore\Ext\Forms\IFieldset $fieldset);
+	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $fieldsetName = NULL);
 
 	/**
 	 * Add fieldset into form. Register fielset in fieldset 

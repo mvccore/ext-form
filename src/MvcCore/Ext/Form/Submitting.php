@@ -35,7 +35,6 @@ trait Submitting {
 		if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
 			$this
 				->SubmitCsrfTokens($rawRequestParams)
-				->SubmitDisableFieldsByFieldsets()
 				->SubmitAllFields($rawRequestParams);
 		}
 		$this->SaveSession();

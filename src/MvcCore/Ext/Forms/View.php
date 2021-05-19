@@ -487,7 +487,10 @@ class View extends \MvcCore\View {
 		$result = [];
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		$fieldsetRendering = $this->__protected['fieldsetRendering'];
-		if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+		if (
+			!$fieldsetRendering && 
+			$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER
+		) {
 			$errors = $this->form->GetErrors();	
 		} else if (
 			$fieldsetRendering && 

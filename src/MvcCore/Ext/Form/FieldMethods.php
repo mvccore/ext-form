@@ -39,13 +39,60 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetFields ($fields) {
-		$this->fields = [];
+		$args = func_get_args();
+		$fields = is_array($args[0]) && count($args) === 1
+			? $args[0]
+			: $args;
+		if (count($this->fields) > 0) {
+			$childrenFieldsNames = array_intersect(array_keys($this->fields), array_keys($this->children));
+			// unset all naturally sorted fields:
+			$newNaturallySortingNames = array_diff($this->sorting->naturally, $childrenFieldsNames);
+			$numberedSortingNames = array_diff($childrenFieldsNames, $this->sorting->naturally);
+			$this->sorting->naturally = $newNaturallySortingNames;
+			// unset all numbered sorting fields:
+			foreach ($numberedSortingNames as $numberedSortingName) {
+				/** @var \MvcCore\Ext\Forms\Field $numberedSortingField */
+				$numberedSortingField = $this->fields[$numberedSortingName];
+				$fieldOrder = $numberedSortingField->GetFieldOrder();
+				if ($fieldOrder !== NULL && isset($this->sorting->numbered[$fieldOrder])) {
+					$numberedFieldNames = & $this->sorting->numbered[$fieldOrder];
+					$index = array_search($numberedSortingName, $numberedFieldNames);
+					if ($index !== FALSE) unset($numberedFieldNames[$index]);
+				}
+			}
+			// unset all fields from children (keep fieldsets only):
+			$this->children = array_diff_key($this->children, $this->fields);
+			// clean fields:
+			$this->fields = [];
+		}
 		foreach ($fields as $field)
 			$this->AddField($field);
+		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  string|NULL              $fieldName
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetField (\MvcCore\Ext\Forms\IField $field, $fieldName = NULL) {
+		if ($fieldName === NULL) {
+			$fieldName = $field->GetName();
+			if ($fieldName === NULL) throw new \InvalidArgumentException(
+				"[".get_class($this)."] Field has not defined name."
+			);
+		} else {
+			$field->SetName($fieldName);
+		}
+		if (isset($this->fields[$fieldName]) && $this->fields[$fieldName] !== $field)
+			$this->RemoveField($field);
+		$this->AddField($field);
 		return $this;
 	}
 

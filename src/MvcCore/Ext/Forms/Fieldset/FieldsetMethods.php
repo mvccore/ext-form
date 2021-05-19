@@ -33,7 +33,7 @@ trait FieldsetMethods {
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
-	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset) {
+	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL) {
 		if ($this->parentFieldset !== NULL) throw new \InvalidArgumentException(
 			"[".get_class($this)."] Can NOT override parent fieldset. ".
 			"Remove this fieldset from parent fieldset first by ".
@@ -45,18 +45,6 @@ trait FieldsetMethods {
 
 	/**
 	 * @inheritDocs
-	 * @param  string $fieldName
-	 * @return \MvcCore\Ext\Forms\Field|NULL
-	 */
-	public function GetField ($fieldName) {
-		$result = NULL;
-		if (isset($this->fields[$fieldName]))
-			$result = $this->fields[$fieldName];
-		return $result;
-	}
-	
-	/**
-	 * @inheritDocs
 	 * @return \MvcCore\Ext\Forms\Fieldset[]
 	 */
 	public function GetFieldsets () {
@@ -65,11 +53,41 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets 
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldsets ($fieldsets) {
-		$this->fieldsets = [];
+		$args = func_get_args();
+		$fieldsets = is_array($args[0]) && count($args) === 1
+			? $args[0]
+			: $args;
+		if (count($this->fieldsets) > 0) {
+			$fieldsetNames = array_keys($this->fieldsets);
+			// unset all fieldsets from not directly connected children fieldsets:
+			$childrenFieldsetNames = array_intersect($fieldsetNames, array_keys($this->children));
+			// unset all naturally sorted fieldsets:
+			$newNaturallySortingNames = array_diff($this->sorting->naturally, $childrenFieldsetNames);
+			$numberedSortingNames = array_diff($childrenFieldsetNames, $this->sorting->naturally);
+			$this->sorting->naturally = $newNaturallySortingNames;
+			// unset all numbered sorting fieldsets:
+			foreach ($numberedSortingNames as $numberedSortingName) {
+				/** @var \MvcCore\Ext\Forms\Fieldset $numberedSortingFieldset */
+				$numberedSortingFieldset = $this->fieldsets[$numberedSortingName];
+				$fieldOrder = $numberedSortingFieldset->GetFieldOrder();
+				if ($fieldOrder !== NULL && isset($this->sorting->numbered[$fieldOrder])) {
+					$numberedFieldNames = & $this->sorting->numbered[$fieldOrder];
+					$index = array_search($numberedSortingName, $numberedFieldNames);
+					if ($index !== FALSE) unset($numberedFieldNames[$index]);
+				}
+			}
+			// unset all fieldsets from children (keep fields only):
+			$this->children = array_diff_key($this->children, $this->fieldsets);
+			// clean fieldsets:
+			if ($this->form !== NULL) 
+				foreach ($fieldsetNames as $fieldsetName)
+					$this->form->RemoveFieldset($fieldsetName);
+			$this->fieldsets = [];
+		}
 		foreach ($fieldsets as $fieldset)
 			$this->AddFieldset($fieldset);
 		return $this;
@@ -95,8 +113,8 @@ trait FieldsetMethods {
 	 */
 	public function GetFieldset ($fieldsetName) {
 		$result = NULL;
-		if (isset($this->fields[$fieldsetName]))
-			$result = $this->fields[$fieldsetName];
+		if (isset($this->fieldsets[$fieldsetName]))
+			$result = $this->fieldsets[$fieldsetName];
 		return $result;
 	}
 	
@@ -107,7 +125,10 @@ trait FieldsetMethods {
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldset ($fieldsetName, \MvcCore\Ext\Forms\IFieldset $fieldset) {
-		$this->fields[$fieldsetName] = $fieldset;
+		$fieldset->SetName($fieldsetName);
+		if (isset($this->fieldsets[$fieldsetName]) && $this->fieldsets[$fieldsetName] !== $fieldset) 
+			$this->RemoveFieldset($fieldsetName);
+		$this->AddFieldset($fieldset);
 		return $this;
 	}
 
@@ -126,6 +147,7 @@ trait FieldsetMethods {
 		$fieldsetName = $fieldset->GetName();
 		if ($this->form !== NULL) {
 			$this->form->AddFieldset($fieldset);
+			$this->fieldsets[$fieldsetName] = $fieldset;
 		} else {
 			$alreadyRegistered = FALSE;
 			if (isset($this->fieldsets[$fieldsetName])) {

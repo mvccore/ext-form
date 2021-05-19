@@ -195,11 +195,19 @@ interface IFieldset {
 	public function & GetFields ();
 	
 	/**
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFields ($fields);
 	
+	/**
+	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  string|NULL              $fieldName
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetField (\MvcCore\Ext\Forms\IField $field, $fieldName = NULL);
+
 	/**
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -236,7 +244,7 @@ interface IFieldset {
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
-	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset);
+	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL);
 
 	/**
 	 * @return \MvcCore\Ext\Forms\Fieldset[]
@@ -244,13 +252,13 @@ interface IFieldset {
 	public function GetFieldsets ();
 	
 	/**
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldsets ($fieldsets);
 	
 	/**
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddFieldsets ($fieldsets);

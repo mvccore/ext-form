@@ -20,6 +20,18 @@ trait FieldMethods {
 	
 	/**
 	 * @inheritDocs
+	 * @param  string $fieldName
+	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 */
+	public function GetField ($fieldName) {
+		$result = NULL;
+		if (isset($this->fields[$fieldName]))
+			$result = $this->fields[$fieldName];
+		return $result;
+	}
+	
+	/**
+	 * @inheritDocs
 	 * @return \MvcCore\Ext\Forms\Field[]
 	 */
 	public function & GetFields () {
@@ -28,18 +40,74 @@ trait FieldMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields
+	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFields ($fields) {
-		$this->fields = [];
-		$this->sorting = (object) [
-			'sorted'	=> FALSE,
-			'numbered'	=> [],
-			'naturally'	=> [],
-		];
+		$args = func_get_args();
+		$fields = is_array($args[0]) && count($args) === 1
+			? $args[0]
+			: $args;
+		if (count($this->fields) > 0) {
+			$fieldNames = array_keys($this->fields);
+			// unset all fields from not directly connected children fieldsets:
+			$fieldsetsFields = array_diff_key($this->fields, $this->children);
+			foreach ($fieldsetsFields as $fieldName => $fieldsetsField) {
+				/** @var \MvcCore\Ext\Forms\Field $fieldsetsField */
+				/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+				$fieldsetName = $fieldsetsField->GetFieldsetName();
+				if (!isset($this->fieldsets[$fieldsetName])) continue;
+				$fieldset = $this->fieldsets[$fieldsetName];
+				if ($fieldset->RemoveField($fieldName));
+			}
+			$childrenFieldsNames = array_intersect($fieldNames, array_keys($this->children));
+			// unset all naturally sorted fields:
+			$newNaturallySortingNames = array_diff($this->sorting->naturally, $childrenFieldsNames);
+			$numberedSortingNames = array_diff($childrenFieldsNames, $this->sorting->naturally);
+			$this->sorting->naturally = $newNaturallySortingNames;
+			// unset all numbered sorting fields:
+			foreach ($numberedSortingNames as $numberedSortingName) {
+				/** @var \MvcCore\Ext\Forms\Field $numberedSortingField */
+				$numberedSortingField = $this->fields[$numberedSortingName];
+				$fieldOrder = $numberedSortingField->GetFieldOrder();
+				if ($fieldOrder !== NULL && isset($this->sorting->numbered[$fieldOrder])) {
+					$numberedFieldNames = & $this->sorting->numbered[$fieldOrder];
+					$index = array_search($numberedSortingName, $numberedFieldNames);
+					if ($index !== FALSE) unset($numberedFieldNames[$index]);
+				}
+			}
+			// unset all fields from children (keep fieldsets only):
+			$this->children = array_diff_key($this->children, $this->fields);
+			// clean fields:
+			if ($this->form !== NULL) 
+				foreach ($fieldNames as $fieldName)
+					$this->form->RemoveField($fieldName);
+			$this->fields = [];
+		}
 		foreach ($fields as $field)
 			$this->AddField($field);
+		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Field $field
+	 * @param  string|NULL              $fieldName
+	 * @throws \InvalidArgumentException
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetField (\MvcCore\Ext\Forms\IField $field, $fieldName = NULL) {
+		if ($fieldName === NULL) {
+			$fieldName = $field->GetName();
+			if ($fieldName === NULL) throw new \InvalidArgumentException(
+				"[".get_class($this)."] Field has not defined name."
+			);
+		} else {
+			$field->SetName($fieldName);
+		}
+		if (isset($this->fields[$fieldName]) && $this->fields[$fieldName] !== $field)
+			$this->RemoveField($field);
+		$this->AddField($field);
 		return $this;
 	}
 
@@ -71,6 +139,7 @@ trait FieldMethods {
 		if ($this->form !== NULL) {
 			$field->SetFieldsetName($this->name);
 			$this->form->AddField($field);
+			$this->fields[$fieldName] = $field;
 		} else {
 			$alreadyRegistered = FALSE;
 			if (isset($this->fields[$fieldName])) {
@@ -90,7 +159,8 @@ trait FieldMethods {
 			}
 		}
 		$alreadyInChildren = isset($this->children[$fieldName]);
-		$this->children[$fieldName] = $field;
+		if (!$alreadyInChildren)
+			$this->children[$fieldName] = $field;
 		$fieldOrder = $field->GetFieldOrder();
 		if (is_numeric($fieldOrder)) {
 			if (!isset($this->sorting->numbered[$fieldOrder]))
