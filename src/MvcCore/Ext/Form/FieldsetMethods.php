@@ -21,15 +21,6 @@ namespace MvcCore\Ext\Form;
  */
 trait FieldsetMethods {
 
-	
-	/**
-	 * @inheritDocs
-	 * @return \MvcCore\Ext\Forms\Fieldset[]
-	 */
-	public function GetFieldsets () {
-		return $this->fieldsets;
-	}
-	
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets ,...
@@ -78,31 +69,6 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDocs
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
-	 * @return \MvcCore\Ext\Form
-	 */
-	public function AddFieldsets ($fieldsets) {
-		$fieldsets = func_get_args();
-		if (count($fieldsets) === 1 && is_array($fieldsets[0])) $fieldsets = $fieldsets[0];
-		foreach ($fieldsets as $fieldset)
-			$this->AddFieldset($fieldset);
-		return $this;
-	}
-	
-	/**
-	 * @inheritDocs
-	 * @param  string $fieldsetName
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
-	 */
-	public function GetFieldset ($fieldsetName) {
-		$result = NULL;
-		if (isset($this->fieldsets[$fieldsetName]))
-			$result = $this->fieldsets[$fieldsetName];
-		return $result;
-	}
-	
-	/**
-	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @param  string|NULL                 $fieldsetName
 	 * @throws \InvalidArgumentException
@@ -123,6 +89,19 @@ trait FieldsetMethods {
 		return $this;
 	}
 
+	/**
+	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function AddFieldsets ($fieldsets) {
+		$fieldsets = func_get_args();
+		if (count($fieldsets) === 1 && is_array($fieldsets[0])) $fieldsets = $fieldsets[0];
+		foreach ($fieldsets as $fieldset)
+			$this->AddFieldset($fieldset);
+		return $this;
+	}
+	
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset 
@@ -245,5 +224,25 @@ trait FieldsetMethods {
 		}
 		return $this;
 	}
-
+	
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetFieldsets () {
+		return $this->fieldsets;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  string $fieldsetName
+	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	public function GetFieldset ($fieldsetName) {
+		$result = NULL;
+		if (isset($this->fieldsets[$fieldsetName]))
+			$result = $this->fieldsets[$fieldsetName];
+		return $result;
+	}
+	
 }

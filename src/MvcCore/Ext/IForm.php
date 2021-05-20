@@ -1140,8 +1140,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Replace all previously configured fields with given fields array. 
 	 * Method have infinite params with new field instances. This 
-	 * method is dangerous - it will remove all previously added fields from form 
-	 * and nested fields from fieldsets and adds new given fields. If you want 
+	 * method is powerful - it removes all previously added fields into form 
+	 * and into nested fields (in fieldsets) and adds new given fields. If you want 
 	 * only to add another field(s) into form, use methods:
 	 *  - `$form->AddField($field);`
 	 *  - `$form->AddFields($field1, $field2, $field3...);`
@@ -1152,7 +1152,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Replace previously configured field with new given field.
-	 * This method is dangerous - it will remove any previously added field
+	 * This method is powerful - it removes any previously added field
 	 * directly inside form or inside any nested fieldset and adds new 
 	 * given field. If you want only to add another field(s) into form,
 	 * use methods:
@@ -1283,7 +1283,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Replace all previously configured fieldsets with given fieldsets array. 
 	 * Method have infinite params with new fieldset instances. This 
-	 * method is dangerous - it will remove all previously added fieldsets from 
+	 * method is powerful - it removes all previously added fieldsets from 
 	 * form and nested fieldsets from fieldsets and adds new given fieldsets. 
 	 * If you want only to add another fieldset(s) into form, use methods:
 	 *  - `$form->AddFieldset($fieldset);`
@@ -1295,7 +1295,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	
 	/**
 	 * Replace previously configured fieldset with new given fieldset.
-	 * This method is dangerous - it will remove previously added fieldset
+	 * This method is powerful - it removes previously added fieldset
 	 * directly inside form or inside any nested fieldset and adds new 
 	 * given fieldset. If you want only to add another fieldset(s) into form,
 	 * use methods:
@@ -1367,13 +1367,9 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function GetFieldsets ();
 	
 	/**
-	 * Get all form fieldsets in flatten array (including all nested 
-	 * fieldsets inside another fieldsets, without the tree structure). 
-	 * After adding any fieldset into form instance by `$form->AddFieldset()` 
-	 * method, fieldset is added under it's name into `$form->fieldsets` 
-	 * array with all another form fieldsets. Fieldsets are not rendered 
-	 * by order in this array. If you need form fieldsets structure in 
-	 * rendering order, use method `$form->GetChildren()` instead.
+	 * Return form fieldset instance by fieldset name if it exists, 
+	 * or return `NULL` if fieldset not found. Method returns fieldset 
+	 * instance also if fieldset exists in any nested fieldset inside this form.
 	 * @param  string $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
 	 */

@@ -43,7 +43,7 @@ trait Rendering {
 			$result[] = ' ' . $attrName . '="' . $attrValue . '"';
 		$result[] = '>';
 		$result[] = $this->RenderLegend();
-		$result[] = $this->RenderContent();
+		$result[] = $this->RenderErrorsAndContent();
 		$result[] = '</fieldset>';
 		return implode('', $result);
 	}
@@ -61,7 +61,7 @@ trait Rendering {
 	 * @inheritDocs
 	 * @return string
 	 */
-	public function RenderContent () {
+	public function RenderErrorsAndContent () {
 		/** @var \MvcCore\Ext\Forms\View $view */
 		$view = $this->form->GetView();
 		$parentChildren = $view->GetChildren();

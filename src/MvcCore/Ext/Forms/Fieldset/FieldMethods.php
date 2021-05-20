@@ -188,8 +188,10 @@ trait FieldMethods {
 		} else if (is_string($fieldOrFieldName)) {
 			$fieldName = $fieldOrFieldName;
 		}
-		if (isset($this->fields[$fieldName])) 
+		if (isset($this->fields[$fieldName]))
 			unset($this->fields[$fieldName]);
+		if ($this->form !== NULL)
+			$this->form->RemoveField($fieldName);
 		if (isset($this->children[$fieldName])) {
 			$field = $this->children[$fieldName];
 			unset($this->children[$fieldName]);

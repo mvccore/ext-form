@@ -29,6 +29,7 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDocs
+	 * @internal
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -43,14 +44,6 @@ trait FieldsetMethods {
 		return $this;
 	}
 
-	/**
-	 * @inheritDocs
-	 * @return \MvcCore\Ext\Forms\Fieldset[]
-	 */
-	public function GetFieldsets () {
-		return $this->fieldsets;
-	}
-	
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
@@ -95,6 +88,27 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @param  string|NULL                 $fieldsetName
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $fieldsetName = NULL) {
+		if ($fieldsetName === NULL) {
+			$fieldsetName = $fieldset->GetName();
+			if ($fieldsetName === NULL) throw new \InvalidArgumentException(
+				"[".get_class($this)."] Fieldset has not defined name."
+			);
+		} else {
+			$fieldset->SetName($fieldsetName);
+		}
+		if (isset($this->fieldsets[$fieldsetName]) && $this->fieldsets[$fieldsetName] !== $fieldset) 
+			$this->RemoveFieldset($fieldsetName);
+		$this->AddFieldset($fieldset);
+		return $this;
+	}
+
+	/**
+	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -104,6 +118,14 @@ trait FieldsetMethods {
 		foreach ($fieldsets as $fieldset)
 			$this->AddFieldset($fieldset);
 		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Fieldset[]
+	 */
+	public function GetFieldsets () {
+		return $this->fieldsets;
 	}
 	
 	/**
@@ -118,20 +140,6 @@ trait FieldsetMethods {
 		return $result;
 	}
 	
-	/**
-	 * @inheritDocs
-	 * @param  string                      $fieldsetName
-	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
-	 * @return \MvcCore\Ext\Forms\Fieldset
-	 */
-	public function SetFieldset ($fieldsetName, \MvcCore\Ext\Forms\IFieldset $fieldset) {
-		$fieldset->SetName($fieldsetName);
-		if (isset($this->fieldsets[$fieldsetName]) && $this->fieldsets[$fieldsetName] !== $fieldset) 
-			$this->RemoveFieldset($fieldsetName);
-		$this->AddFieldset($fieldset);
-		return $this;
-	}
-
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset 
