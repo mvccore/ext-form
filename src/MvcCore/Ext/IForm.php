@@ -1417,9 +1417,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * - Render form naturally or by custom template.
 	 * - Clean session errors, because errors should be rendered
 	 *   only once, only when it's used and it's now - in this rendering process.
+	 * @param  string|NULL $controllerOrActionNameDashed
+	 * @param  string|NULL $actionNameDashed
 	 * @return string
 	 */
-	public function Render ($controllerDashedName = '', $actionDashedName = '');
+	public function Render ($controllerOrActionNameDashed = NULL, $actionNameDashed = NULL);
 
 	/**
 	 * Render form inner content, all field controls, content inside `<form>` tag,
