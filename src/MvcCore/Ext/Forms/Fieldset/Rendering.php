@@ -53,7 +53,9 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderLegend () {
-		$legendContent = strip_tags($this->legend, static::ALLOWED_LEGEND_ELEMENTS);
+		if ($this->legend === NULL) return '';
+		$legendContent = trim(strip_tags($this->legend, static::ALLOWED_LEGEND_ELEMENTS));
+		if (mb_strlen($this->legend) === 0) return '';
 		return '<legend>' . $legendContent . '</legend>';
 	}
 	
@@ -64,10 +66,15 @@ trait Rendering {
 	public function RenderErrorsAndContent () {
 		/** @var \MvcCore\Ext\Forms\View $view */
 		$view = $this->form->GetView();
+		$parentFieldset = $view->GetFieldset();
 		$parentChildren = $view->GetChildren();
-		$view->SetChildren($this->GetChildren(TRUE), TRUE);
+		$view
+			->SetFieldset($this)
+			->SetChildren($this->GetChildren(TRUE));
 		$result = $view->RenderErrorsAndContent();
-		$view->SetChildren($parentChildren, FALSE);
+		$view
+			->SetFieldset($parentFieldset)
+			->SetChildren($parentChildren);
 		return $result;
 	}
 }
