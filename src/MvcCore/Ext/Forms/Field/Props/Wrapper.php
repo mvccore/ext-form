@@ -69,7 +69,7 @@ trait Wrapper {
 	 */
 	protected function renderControlWrapper ($renderedCode) {
 		$wrapperReplacement = '{control}';
-		$wrapper = mb_strpos($wrapperReplacement, $this->wrapper) !== FALSE 
+		$wrapper = mb_strpos($this->wrapper, $wrapperReplacement) !== FALSE 
 			? $this->wrapper 
 			: $wrapperReplacement;
 		return str_replace($wrapperReplacement, $renderedCode, $wrapper);
