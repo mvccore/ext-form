@@ -91,6 +91,17 @@ trait Props {
 	protected $controlAttrs = [];
 
 	/**
+	 * Form content rendering mode (only inside fieldset), configuration how errors, 
+	 * labels, constrols and submit buttons will be rendered - with or without 
+	 * any structural HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * This value could be uset to change form rendering mode only inside fieldset,
+	 * not in whole form. If this `value` is not configured, it's used form settings.
+	 * @var int|NULL
+	 */
+	protected $formRenderMode = NULL;
+
+	/**
 	 * Parent fieldset if any, fieldset could be inside another.
 	 * If there is no parent fieldset and the fieldset is directly 
 	 * in form, then this value is `NULL`.

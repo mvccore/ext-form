@@ -198,6 +198,26 @@ trait GettersSetters {
 		$this->controlAttrs = array_merge($this->controlAttrs, $attrs);
 		return $this;
 	}
+	
+	/**
+	 * @inheritDocs
+	 * @return int|NULL
+	 */
+	public function GetFormRenderMode () {
+		if ($this->formRenderMode === NULL && $this->form !== NULL)
+			return $this->form->GetFormRenderMode();
+		return $this->formRenderMode;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  int $formRenderMode
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetFormRenderMode ($formRenderMode = \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
+		$this->formRenderMode = $formRenderMode;
+		return $this;
+	}
 
 	/**
 	 * @inheritDocs
