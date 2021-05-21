@@ -267,6 +267,29 @@ interface IFieldset {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddControlAttrs (array $attrs = []);
+
+	/**
+	 * Get form content rendering mode (only inside fieldset), configuration how errors, 
+	 * labels, constrols  and submit buttons will be rendered - with or without 
+	 * any structural HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * This value could be uset to change form rendering mode only inside fieldset,
+	 * not in whole form. If this `value` is not configured, it's used form settings.
+	 * @return int|NULL
+	 */
+	public function GetFormRenderMode ();
+
+	/**
+	 * Set form content rendering mode (only inside fieldset), configuration how errors, 
+	 * labels, constrols and submit buttons will be rendered - with or without 
+	 * any structural HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * This value could be uset to change form rendering mode only inside fieldset,
+	 * not in whole form. If this `value` is not configured, it's used form settings.
+	 * @param  int $formRenderMode
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function SetFormRenderMode ($formRenderMode = \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE);
 	
 	/**
 	 * Return fields and fieldset controls content tree structure 
