@@ -88,10 +88,22 @@ interface IView {
 	/**
 	 * Set rendered field.
 	 * @param  \MvcCore\Ext\Forms\Field $field
-	 * @param  bool                     $fieldsetRendering
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL, $fieldRendering = TRUE);
+	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL);
+	
+	/**
+	 * Get rendered fieldset.
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function GetFieldset ();
+
+	/**
+	 * Set rendered fieldset.
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @return \MvcCore\Ext\Forms\View
+	 */
+	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL);
 
 	/**
 	 * Get form fields or fieldsets to render in current form/fieldset level.
@@ -102,10 +114,9 @@ interface IView {
 	/**
 	 * Set form fields or fieldsets to render in current form/fieldset level.
 	 * @param  \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[] $children
-	 * @param  bool                                                     $fieldsetRendering
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetChildren (array $children, $fieldsetRendering = FALSE);
+	public function SetChildren (array $children);
 
 	/**
 	 * Get any value by given name existing in local store. If there is no value

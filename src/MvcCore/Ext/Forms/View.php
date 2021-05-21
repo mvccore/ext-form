@@ -39,6 +39,12 @@ class View extends \MvcCore\View {
 	protected $form = NULL;
 
 	/**
+	 * Rendered fieldset reference if view renders fieldset content.
+	 * @var \MvcCore\Ext\Forms\Fieldset|NULL
+	 */
+	protected $fieldset = NULL;
+
+	/**
 	 * Rendered form field reference if view is not form's view.
 	 * @var \MvcCore\Ext\Forms\Field|NULL
 	 */
@@ -118,8 +124,11 @@ class View extends \MvcCore\View {
 		 * Default flag if view is used for field rendering or only for form
 		 * rendering. Default value is for form rendering - `FALSE`.
 		 */
-		$this->__protected['fieldRendering'] = FALSE;
-		$this->__protected['fieldsetRendering'] = FALSE;
+		$this->__protected = array_merge($this->__protected, [
+			'fieldRendering'	=> FALSE,
+			'fieldsetRendering'	=> FALSE,
+			'formRenderMode'	=> \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE,
+		]);
 	}
 
 	/**
@@ -157,6 +166,7 @@ class View extends \MvcCore\View {
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		/** @var \MvcCore\Ext\Form $form */
 		$this->form = $form;
+		$this->__protected['formRenderMode'] = $form->GetFormRenderMode();
 		return $this;
 	}
 
@@ -171,13 +181,36 @@ class View extends \MvcCore\View {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field $field
-	 * @param  bool                     $fieldsetRendering
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL, $fieldRendering = TRUE) {
+	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL) {
 		/** @var \MvcCore\Ext\Forms\Field $field */
 		$this->field = $field;
-		$this->__protected['fieldRendering'] = $fieldRendering;
+		$this->__protected['fieldRendering'] = $field !== NULL;
+		return $this;
+	}
+	
+	/**
+	 * @inheritDocs
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function GetFieldset () {
+		return $this->fieldset;
+	}
+
+	/**
+	 * @inheritDocs
+	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @return \MvcCore\Ext\Forms\View
+	 */
+	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL) {
+		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+		$fieldsetIsNotNull = $fieldset !== NULL;
+		$this->fieldset = $fieldset;
+		$this->__protected['fieldsetRendering'] = $fieldsetIsNotNull;
+		$this->__protected['formRenderMode'] = $fieldsetIsNotNull
+			? $fieldset->GetFormRenderMode()
+			: $this->form->GetFormRenderMode();
 		return $this;
 	}
 	
@@ -192,12 +225,10 @@ class View extends \MvcCore\View {
 	/**
 	 * @inheritDocs
 	 * @param  \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[] $children
-	 * @param  bool                                                     $fieldsetRendering
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetChildren (array $children, $fieldsetRendering = FALSE) {
+	public function SetChildren (array $children) {
 		$this->children = $children;
-		$this->__protected['fieldsetRendering'] = $fieldsetRendering;
 		return $this;
 	}
 
@@ -463,7 +494,7 @@ class View extends \MvcCore\View {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
 		$result = [];
-		$formRenderModeTable = $this->form->GetFormRenderMode() === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
+		$formRenderModeTable = $this->__protected['formRenderMode'] === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
 		if ($formRenderModeTable) {
 			foreach ($this->children as $child) 
 				if ($child instanceof \MvcCore\Ext\Forms\Fields\Hidden) 
@@ -517,7 +548,7 @@ class View extends \MvcCore\View {
 		}
 		
 		if ($errors) {
-			$formRenderMode = $this->form->GetFormRenderMode();
+			$formRenderMode = $this->__protected['formRenderMode'];
 			if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
 				$result[] = '<div class="errors">';
 				foreach ($errors as $errorMessageAndFieldNames) {
@@ -551,7 +582,7 @@ class View extends \MvcCore\View {
 		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->form->PreDispatch(FALSE);
 
-		$formRenderMode = $this->form->GetFormRenderMode();
+		$formRenderMode = $this->__protected['formRenderMode'];
 		if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
 			$result = $this->RenderContentWithDivStructure();
 		} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
@@ -699,18 +730,8 @@ class View extends \MvcCore\View {
 	public function RenderContentWithoutStructure () {
 		/** @var \MvcCore\Ext\Forms\View $this */
 		$result = [];
-		list (
-			$hiddenFields, $contentFieldsOrFieldsets, $submitFields
-		) = $this->RenderContentGetFieldsGroups();
-		if ($hiddenFields) 
-			foreach ($hiddenFields as $field) 
-				$result[] = $field->Render();
-		if ($contentFieldsOrFieldsets) 
-			foreach ($contentFieldsOrFieldsets as $fieldOrFieldset) 
-				$result[] = $fieldOrFieldset->Render();
-		if ($submitFields) 
-			foreach ($submitFields as $field) 
-			$result[] = $field->Render();
+		foreach ($this->children as $fieldName => $fieldOrFieldset) 
+			$result[] = $fieldOrFieldset->Render();
 		return implode('', $result);
 	}
 

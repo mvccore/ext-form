@@ -48,14 +48,14 @@ trait Rendering {
 			->SetController($formParentController)
 			->SetView($formParentController->GetView())
 			->SetForm($this->form)
-			->SetField($this, TRUE);
+			->SetField($this);
 		if ($labelAndControlSeparator !== NULL)
 			$view->__set('labelAndControlSeparator', $labelAndControlSeparator);
 		$result = $view->Render(
 			$viewClass::GetFieldsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
 		);
-		$view->SetField(NULL, FALSE);
+		unset($view);
 		return $result;
 	}
 
