@@ -56,16 +56,14 @@ trait Submitting {
 		} else {
 			// try to find if there is any field name (button:submit or input:submit)
 			// in raw request params with submit start custom result state:
-			$customResultStateDefined = FALSE;
-			foreach ($this->customResultStates as $fieldName => $customResultState) {
-				if (isset($rawRequestParams[$fieldName])) {
-					$customResultStateDefined = TRUE;
-					$this->result = $customResultState;
-					break;
-				}
-			}
-			if (!$customResultStateDefined)
+			$submitFields = array_intersect_key($this->submitFields, $rawRequestParams);
+			if (count($submitFields) === 1) {
+				$submitFieldsKeys = array_keys($submitFields);
+				$submitField = $submitFields[$submitFieldsKeys[0]];
+				$this->result = $submitField->GetCustomResultState();
+			} else {
 				$this->result = \MvcCore\Ext\IForm::RESULT_SUCCESS;
+			}
 		}
 		return $this;
 	}
