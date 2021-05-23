@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.1.11';
+	const VERSION = '5.1.12';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
