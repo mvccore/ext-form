@@ -138,15 +138,21 @@ trait Submitting {
 		if ($this->result === \MvcCore\Ext\IForm::RESULT_ERRORS) {
 			$urlPropertyName = 'errorUrl';
 			$redirectMsg = 'error URL';
-		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_SUCCESS) {
-			$urlPropertyName = 'successUrl';
-			$redirectMsg = 'success URL';
 		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_PREV_PAGE) {
 			$urlPropertyName = 'prevStepUrl';
 			$redirectMsg = 'previous step URL';
 		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_NEXT_PAGE) {
 			$urlPropertyName = 'nextStepUrl';
 			$redirectMsg = 'next step URL';
+		} else {
+			$customResultStates = array_unique(array_values($this->customResultStates));
+			if (
+				$this->result === \MvcCore\Ext\IForm::RESULT_SUCCESS ||
+				in_array($this->result, $customResultStates, TRUE)
+			) {
+				$urlPropertyName = 'successUrl';
+				$redirectMsg = 'success URL';
+			}
 		}
 		$url = isset($this->{$urlPropertyName}) ? $this->{$urlPropertyName} : NULL;
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
