@@ -546,17 +546,9 @@ class View extends \MvcCore\View {
 					$globalErrors[] = $errorData;
 			$errors = $globalErrors;
 		}
-		
 		if ($errors) {
 			$formRenderMode = $this->__protected['formRenderMode'];
-			if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {
-				$result[] = '<div class="errors">';
-				foreach ($errors as $errorMessageAndFieldNames) {
-					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-					$result[] = '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
-				}
-				$result[] = '</div>';
-			} else if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
+			if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE) {
 				$result[] = '<thead class="errors">';
 				foreach ($errors as $errorMessageAndFieldNames) {
 					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
@@ -564,10 +556,14 @@ class View extends \MvcCore\View {
 				}
 				$result[] = '</thead>';
 			} else {
+				// $formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE ||
+				// $formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_NO_STRUCTURE
+				$result[] = '<div class="errors">';
 				foreach ($errors as $errorMessageAndFieldNames) {
 					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-					$result[] = '<span class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</span>';
+					$result[] = '<div class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</div>';
 				}
+				$result[] = '</div>';
 			}
 		}
 		return implode('', $result);

@@ -210,7 +210,7 @@ trait Rendering {
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		if (
 			$this->errors && 
-			$formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER ||
+			$formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER &&
 			$formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN
 		) {
 			$result[] .= '<span class="errors">';
