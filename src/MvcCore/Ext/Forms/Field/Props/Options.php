@@ -18,6 +18,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  * - `\MvcCore\Ext\Forms\Fields\DataList`
  * - `\MvcCore\Ext\Forms\Fields\Select`
  *    - `\MvcCore\Ext\Forms\Fields\CountrySelect`
+ *    - `\MvcCore\Ext\Forms\Fields\LocalizationSelect`
  * - `\MvcCore\Ext\Forms\FieldsGroup`
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
