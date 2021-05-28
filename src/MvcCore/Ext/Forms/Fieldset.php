@@ -157,6 +157,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 		if (!$this->name) $this->throwNewInvalidArgumentException(
 			'No `name` property defined.'
 		);
+		if ($this->form !== NULL) return $this;
 		/** @var \MvcCore\Ext\Form $form */
 		$this->form = $form;
 		$formTranslate = $form->GetTranslate();

@@ -327,6 +327,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
+		if ($this->form !== NULL) return $this;
 		parent::SetForm($form);
 		$this->setFormLoadOptions();
 		if (!$this->options) $this->throwNewInvalidArgumentException(

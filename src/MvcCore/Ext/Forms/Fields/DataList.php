@@ -134,6 +134,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 * @return \MvcCore\Ext\Forms\Fields\DataList|\MvcCore\Ext\Forms\Field
 	 */
 	public function SetForm (\MvcCore\Ext\IForm $form) {
+		if ($this->form !== NULL) return $this;
 		parent::SetForm($form);
 		$this->setFormLoadOptions();
 		if (!$this->translate) $this->translateOptions = $this->translate;

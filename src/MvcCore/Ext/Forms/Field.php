@@ -215,6 +215,7 @@ implements		\MvcCore\Ext\Forms\IField {
 		if (!$this->name) $this->throwNewInvalidArgumentException(
 			'No `name` property defined.'
 		);
+		if ($this->form !== NULL) return $this;
 		/** @var \MvcCore\Ext\Form $form */
 		$this->form = $form;
 		if ($this->id === NULL)
