@@ -763,7 +763,6 @@ class View extends \MvcCore\View {
 	public static function RenderAttrs (array $attributes = []) {
 		$result = [];
 		foreach ($attributes as $attrName => $attrValue) {
-			//if (gettype($attrValue) == 'array') $stop();
 			$result[] = $attrName.'="'.$attrValue.'"';
 		}
 		return implode(' ', $result);
