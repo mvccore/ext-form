@@ -68,9 +68,9 @@ trait Options {
 	 *   ];
 	 * ```
 	 * @requires
-	 * @var array
+	 * @var array|NULL
 	 */
-	protected $options = [];
+	protected $options = NULL;
 
 	/**
 	 * Temp flatten key/value array to cache flatten options for submit checking.
@@ -249,7 +249,7 @@ trait Options {
 	 * @return void
 	 */
 	protected function setFormLoadOptions () {
-		if (count($this->optionsLoader) === 0) 
+		if ($this->options !== NULL || count($this->optionsLoader) === 0) 
 			return;
 		list (
 			$reflectionMethod, 
