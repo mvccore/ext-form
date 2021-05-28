@@ -518,33 +518,29 @@ class View extends \MvcCore\View {
 		$result = [];
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		$fieldsetRendering = $this->__protected['fieldsetRendering'];
-		if (
-			!$fieldsetRendering && 
-			$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER
-		) {
-			$errors = $this->form->GetErrors();	
-		} else if (
-			$fieldsetRendering && 
-			$formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN
-		) {
-			$childrenNames = array_keys($this->children);
-			$errors = $this->form->GetErrors();
-			$fieldsetErrors = [];
-			foreach ($errors as $errorData) {
-				if (count($errorData) < 2) continue;
-				$errorFieldNames = $errorData[1];
-				if (count(array_intersect($childrenNames, $errorFieldNames)) > 0) {
-					$fieldsetErrors[] = $errorData;
+		$errors = [];
+		if ($fieldsetRendering) {
+			// fieldset begin rendering:
+			if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN) {
+				$childrenNames = array_keys($this->children);
+				$allErrors = $this->form->GetErrors();
+				foreach ($allErrors as $errorData) {
+					if (count($errorData) < 2) continue;
+					$errorFieldNames = $errorData[1];
+					if (count(array_intersect($childrenNames, $errorFieldNames)) > 0) 
+						$errors[] = $errorData;
 				}
 			}
-			$errors = $fieldsetErrors;
 		} else {
-			$errors = $this->form->GetErrors();
-			$globalErrors = [];
-			foreach ($errors as $errorData) 
-				if (!(count($errorData) > 1 && is_array($errorData[1]) && count($errorData[1]) > 0))
-					$globalErrors[] = $errorData;
-			$errors = $globalErrors;
+			// form begin rendering:
+			if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER) {
+				$errors = $this->form->GetErrors();	
+			} else {
+				$allErrors = $this->form->GetErrors();
+				foreach ($allErrors as $errorData) 
+					if (!(count($errorData) > 1 && is_array($errorData[1]) && count($errorData[1]) > 0))
+						$errors[] = $errorData;
+			}
 		}
 		if ($errors) {
 			$formRenderMode = $this->__protected['formRenderMode'];
@@ -568,7 +564,7 @@ class View extends \MvcCore\View {
 		}
 		return implode('', $result);
 	}
-
+	
 	/**
 	 * @inheritDocs
 	 * @return string
