@@ -68,7 +68,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
-	public static function CreateInstance ($cfg = []) {
+	public static function CreateInstance (array $cfg = []) {
 		return new static($cfg);
 	}
 

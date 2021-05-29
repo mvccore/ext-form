@@ -23,7 +23,7 @@ interface IFieldsGroup {
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
-	public static function CreateInstance ($cfg = []);
+	public static function CreateInstance (array $cfg = []);
 
 	/**
 	 * Get css class or classes for group label as array of strings.
