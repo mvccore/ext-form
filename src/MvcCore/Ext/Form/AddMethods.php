@@ -63,6 +63,7 @@ trait AddMethods {
 				: [$fieldNames]
 			);
 		$newErrorRec = [$errorMsgUtf8, $fieldNamesArr];
+		$errorImprint = $this->getErrorImprint($errorMsgUtf8, $fieldNamesArr);
 		if ($fieldNamesArr) {
 			foreach ($fieldNamesArr as $fieldName) {
 				if (isset($this->fields[$fieldName])) {
@@ -75,9 +76,19 @@ trait AddMethods {
 				}
 			}
 		}
-		$this->errors[] = $newErrorRec;
+		$this->errors[$errorImprint] = $newErrorRec;
 		$this->result = \MvcCore\Ext\IForm::RESULT_ERRORS;
 		return $this;
+	}
+	
+	/**
+	 * Get error record `md5()` hash key.
+	 * @param  string $errorMsg   Any error message.
+	 * @param  array  $fieldNames Field name(s) array.
+	 * @return string
+	 */
+	protected function getErrorImprint ($errorMsg, array $fieldNames) {
+		return md5(implode('|', array_merge([$errorMsg], $fieldNames)));
 	}
 
 	/**
