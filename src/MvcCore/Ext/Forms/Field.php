@@ -138,7 +138,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @param  int   $argsCnt 
 	 * @return void
 	 */
-	protected function consolidateCfg (array & $cfg, array $args, $argsCnt): void {
+	protected function consolidateCfg (array & $cfg, array $args, $argsCnt) {
 		if ($argsCnt < 2) return;
 		/** @var \ReflectionParameter[] $params */
 		$params = (new \ReflectionClass($this))->getConstructor()->getParameters();
