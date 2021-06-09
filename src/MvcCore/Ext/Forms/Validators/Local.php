@@ -32,7 +32,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 	 * @var array
 	 */
 	protected static $errorMessages = [
-		self::ERROR_LOCAL_VALIDATION	=> "Local validation error (field `{0}`).",
+		self::ERROR_LOCAL_VALIDATION	=> "Local validation error (field '{0}').",
 	];
 
 	/**
