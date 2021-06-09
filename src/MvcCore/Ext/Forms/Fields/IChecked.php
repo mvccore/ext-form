@@ -43,6 +43,23 @@ interface IChecked {
 	public function GetChecked ();
 
 	/**
+	 * Set `TRUE` (default `FALSE`) to always return boolean 
+	 * type value after submit and to render value attribute in HTML 
+	 * element always with `true` string.
+	 * @param  bool $boolMode 
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function SetBoolMode ($boolMode = TRUE);
+
+	/**
+	 * Get `TRUE` (default `FALSE`) to always return boolean 
+	 * type value after submit and to render value attribute in HTML 
+	 * element always with `true` string.
+	 * @return bool
+	 */
+	public function GetBoolMode ();
+
+	/**
 	 * Return `TRUE` for any `array`, `object`, `resource` or `unknown type`,
 	 * `TRUE` for `boolean` `TRUE`, for `string` not equal to `no`, 
 	 * for `integer` not equal to `0` and `TRUE` for `float` not equal to `0.0`.
