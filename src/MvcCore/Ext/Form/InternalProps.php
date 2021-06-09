@@ -184,7 +184,7 @@ trait InternalProps {
 	 * @var array
 	 */
 	protected static $defaultErrorMessages = [
-		IError::REQUIRED				=> "Field `{0}` is required.",
+		IError::REQUIRED				=> "Field '{0}' is required.",
 		IError::EMPTY_CONTENT			=> "Sent data are empty.",
 		IError::MAX_POST_SIZE			=> "Sent data exceeds the limit of {0}.",
 		IError::CSRF					=> "Form hash expired, please submit the form again.",
