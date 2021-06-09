@@ -125,35 +125,40 @@ interface IOptions {
 	public function & GetOptions ();
 
 	/**
-	 * Define method name and context to resolve options loading for complex cases.
-	 * Defined method has to return options for `$field->SetOptions()` method.
-	 * Second argument is context definition int flag, where the method is located, you can use constants:
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
-	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param  int    $context    Context where method is located.
+	 * Set callable or dynamic callable definition to load control options.
+	 * Value could be:
+	 * - Standard PHP callable or `\Closure` function.
+	 * - Dynamic callable definition by array with first item to define context
+	 *   definition int flag, where the method (second array item) is located, 
+	 *   you can use constants:
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
+	 *   Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @param  callable|\Closure|array|string $optionsLoader
+	 * @throws \InvalidArgumentException 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM);
+	public function SetOptionsLoader ($optionsLoader);
 	
 	/**
-	 * Get defined method name and context to resolve options loading for complex cases.
-	 * First item is string method name, which has to return options for `$field->SetOptions()` method.
-	 * Second item is context definition int flag, where the method is located, you can use constants:
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
-	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @throws \InvalidArgumentException 
-	 * @return array `[string $methodName, int $context]`
+	 * Get callable or dynamic callable definition to load control options.
+	 * Value could be:
+	 * - Standard PHP callable or `\Closure` function.
+	 * - Dynamic callable definition by array with first item to define context
+	 *   definition int flag, where the method (second array item) is located, 
+	 *   you can use constants:
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
+	 *   Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @return callable|\Closure|array|string|NULL
 	 */
 	public function GetOptionsLoader ();
 

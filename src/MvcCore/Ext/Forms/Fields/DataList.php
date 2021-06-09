@@ -44,54 +44,57 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	/**
 	 * Create new form `<datalist>` element instance.
 	 * 
-	 * @param  array                  $cfg
+	 * @param  array                          $cfg
 	 * Config array with public properties and it's
 	 * values which you want to configure, presented
 	 * in camel case properties names syntax.
 	 * 
-	 * @param  string                 $name 
+	 * @param  string                         $name 
 	 * Form field specific name, used to identify submitted value.
 	 * This value is required for all form fields.
-	 * @param  string                 $type 
+	 * @param  string                         $type 
 	 * Fixed field order number, null by default.
-	 * @param  int                    $fieldOrder
+	 * @param  int                            $fieldOrder
 	 * Form field type, used in `<input type="...">` attribute value.
 	 * Every typed field has it's own string value, but base field type 
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
-	 * @param  string                 $title 
+	 * @param  string                         $title 
 	 * Field title, global HTML attribute, optional.
-	 * @param  string                 $translate 
+	 * @param  string                         $translate 
 	 * Boolean flag about field visible texts and error messages translation.
 	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
 	 * flag in `$field->Init();` method.
-	 * @param  string                 $translateTitle 
+	 * @param  string                         $translateTitle 
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @param  array                  $cssClasses 
+	 * @param  array                          $cssClasses 
 	 * Form field HTML element css classes strings.
 	 * Default value is an empty array to not render HTML `class` attribute.
-	 * @param  array                  $controlAttrs 
+	 * @param  array                          $controlAttrs 
 	 * Collection with field HTML element additional attributes by array keys/values.
 	 * Do not use system attributes as: `id`, `name`, `value`, `readonly`, `disabled`, `class` ...
 	 * Those attributes has it's own configurable properties by setter methods or by constructor config array.
 	 * HTML field elements are meant: `<input>, <button>, <select>, <textarea> ...`. 
 	 * Default value is an empty array to not render any additional attributes.
 	 * 
-	 * @param  array                  $options
+	 * @param  array                          $options
 	 * Form group control options to render more sub-control attributes for specified
 	 * submitted values (array keys). This property configuration is required.
-	 * @param  bool                   $translateOptions
+	 * @param  bool                           $translateOptions
 	 * Boolean about to translate options texts, default `TRUE` to translate.
-	 * @param  array                  $optionsLoader
-	 * Definition for method name and context to resolve options loading for complex cases.
-	 * First item is string method name, which has to return options for `$field->SetOptions()` method.
-	 * Second item is context definition int flag, where the method is located, you can use constants:
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
-	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @param  callable|\Closure|array|string $optionsLoader
+	 * Callable or dynamic callable definition to load control options.
+	 * Value could be:
+	 * - Standard PHP callable or `\Closure` function.
+	 * - Dynamic callable definition by array with first item to define context
+	 *   definition int flag, where the method (second array item) is located, 
+	 *   you can use constants:
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
+	 *   Last two constants are usefull only for `mvccore/ext-model-form` extension.
 	 * 
 	 * @throws \InvalidArgumentException
 	 * @return void

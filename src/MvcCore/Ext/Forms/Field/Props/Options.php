@@ -85,25 +85,34 @@ trait Options {
 	protected $translateOptions = TRUE;
 
 	/**
-	 * Definition for method name and context to resolve options loading for complex cases.
-	 * First item is string method name, which has to return options for `$field->SetOptions()` method.
-	 * Second item is context definition int flag, where the method is located, you can use constants:
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
-	 *  - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
-	 * Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @var array|callable
+	 * Callable or dynamic callable definition to load control options.
+	 * Value could be:
+	 * - Standard PHP callable or `\Closure` function.
+	 * - Dynamic callable definition by array with first item to define context
+	 *   definition int flag, where the method (second array item) is located, 
+	 *   you can use constants:
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_CTRL_STATIC`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
+	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
+	 *   Last two constants are usefull only for `mvccore/ext-model-form` extension.
+	 * @var callable|\Closure|array|string|NULL
 	 */
-	protected $optionsLoader = [];
+	protected $optionsLoader = NULL;
 	
 	/**
-	 * Resolved reflection method and invoke object to load options.
-	 * @var array `[\ReflectionMethod, \MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Model|NULL]`
+	 * This array contains options loader execution info.
+	 * - First item is bool, `TRUE` to invoke options loader by PHP reflection,
+	 *   `FALSE` to invoke options loader by `cal_user_func()`.
+	 * - Second item could be standard PHP `callable` or `\Closure` for
+	 *   invoking by `cal_user_func()` or array with reflection object and
+	 *   reflection method to invoke.
+	 * - Third item is array with optional invoke arguments.
+	 * @var array `[bool, callable|\Closure|[\MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Model, \ReflectionMethod], array]`
 	 */
-	protected $optionsLoaderReflection = [];
+	protected $optionsLoaderExecution = [];
 
 	/**
 	 * @inheritDocs
@@ -135,19 +144,24 @@ trait Options {
 
 	/**
 	 * @inheritDocs
-	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
-	 * @param  int    $context    Context where method is located.
+	 * @param  callable|\Closure|array|string $optionsLoader
+	 * @throws \InvalidArgumentException 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetOptionsLoader ($methodName, $context = \MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_FORM) {
-		$this->optionsLoader = [$methodName, $context];
+	public function SetOptionsLoader ($optionsLoader) {
+		if (!is_array($optionsLoader) && !is_string($optionsLoader)) 
+			throw new \InvalidArgumentException(
+				"Options loader for field `".get_class($this)."` ".
+				"has to be PHP callable or array with method ".
+				"context definition int and method name string."
+			);
+		$this->optionsLoader = $optionsLoader;
 		return $this;
 	}
 	
 	/**
 	 * @inheritDocs
-	 * @throws \InvalidArgumentException 
-	 * @return array `[string $methodName, int $context]`
+	 * @return callable|\Closure|array|string|NULL
 	 */
 	public function GetOptionsLoader () {
 		return $this->optionsLoader;
@@ -231,16 +245,7 @@ trait Options {
 	 */
 	protected function ctorOptions (array & $cfg = []) {
 		if (!isset($cfg['optionsLoader'])) return;
-		$optionsLoader = $cfg['optionsLoader'];
-		if (is_string($optionsLoader)) {
-			$optionsLoader = [$optionsLoader];
-		} else if (!is_array($optionsLoader)) {
-			throw new \InvalidArgumentException(
-				"Options loader for field `".get_class($this)."` ".
-				"has to be array with method name and optional context definition."
-			);
-		}
-		call_user_func_array([$this, 'SetOptionsLoader'], $optionsLoader);
+		$this->SetOptionsLoader($cfg['optionsLoader']);
 	}
 
 	/**
@@ -249,15 +254,17 @@ trait Options {
 	 * @return void
 	 */
 	protected function setFormLoadOptions () {
-		if ($this->options !== NULL || count($this->optionsLoader) === 0) 
+		if ($this->options !== NULL || $this->optionsLoader === NULL) 
 			return;
-		list (
-			$reflectionMethod, 
-			$reflectionInvokeObject
-		) = $this->getOptionsLoaderReflection();
-		$options = $reflectionMethod->invokeArgs(
-			$reflectionInvokeObject, []
-		);
+		list ($reflectionInvoke, $callable, $args) = $this->getOptionsLoaderExecution();
+		if ($reflectionInvoke) {
+			list ($reflectionInvokeObject, $reflectionMethod) = $callable;
+			$options = $reflectionMethod->invokeArgs(
+				$reflectionInvokeObject, $args
+			);
+		} else {
+			$options = call_user_func_array($callable, $args);
+		}
 		if (is_array($options)) {
 			$this->options = $options;
 		} else {
@@ -269,65 +276,100 @@ trait Options {
 	}
 
 	/**
-	 * Initialize (if necessary) and return reflection invoke method and object.
+	 * Initialize (if necessary) and return options loader execution info.
+	 * - First item is bool, `TRUE` to invoke options loader by PHP reflection,
+	 *   `FALSE` to invoke options loader by `cal_user_func()`.
+	 * - Second item could be standard PHP `callable` or `\Closure` for
+	 *   invoking by `cal_user_func()` or array with reflection object and
+	 *   reflection method to invoke.
+	 * - Third item is array with optional invoke arguments.
 	 * @throws \InvalidArgumentException 
-	 * @return array [`\ReflectionMethod`, `\MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Model|NULL`]
+	 * @return array `[bool, callable|\Closure|[\MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Model, \ReflectionMethod], array]`
 	 */
-	protected function getOptionsLoaderReflection () {
-		if (count($this->optionsLoaderReflection) > 0) 
-			return $this->optionsLoaderReflection;
+	protected function getOptionsLoaderExecution () {
+		if (count($this->optionsLoaderExecution) > 0) 
+			return $this->optionsLoaderExecution;
 
-		$reflectionMethod = NULL;
-		$reflectionInvokeObject = NULL;
-		list ($methodName, $context) = $this->optionsLoader;
+		$reflectionInvoke = FALSE;
+		$callable = $this->optionsLoader;
+		$args = [];
 
-		if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM) != 0) {
-			$reflectionInvokeObject = $this->form;
-			$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
+		if (is_array($callable)) {
+			$argsBegin = strpos($callable[0], '::') !== FALSE ? 1 : 2;
+			if (count($callable) > $argsBegin) {
+				$args = array_slice($callable, $argsBegin);
+				$callable = array_slice($callable, 0, $argsBegin);
+			}
+			/**
+			 * Those values of `$callable` could be invoked by `call_user_func()`:
+			 * `\Full\ClassName::Method`
+			 * `function_name`
+			 * `['\Full\ClassName', 'methodName']`
+			 * `[$instance, 'methodName']`
+			 * `['\Child\ClassName', 'parent::methodName']`
+			 * `[$childInstance, 'parent::methodName']`
+			 * `\Closure` function instance
+			 */
+			if (is_int($callable[0])) {
+				/**
+				 * But this value has to be resolved by PHP reflection:
+				 * `[int, 'methodName']`
+				 */
+				$reflectionInvoke = TRUE;
+				$reflectionInvokeObject = NULL;
+				$reflectionMethod = NULL;
+				list ($context, $methodName) = $callable;
 
-		} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC) != 0) {
-			$reflectionMethod = new \ReflectionMethod(get_class($this->form), $methodName);
+				if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM) != 0) {
+					$reflectionInvokeObject = $this->form;
+					$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
 
-		} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL) != 0) {
-			$reflectionInvokeObject = $this->form->GetController();
-			$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
+				} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC) != 0) {
+					$reflectionMethod = new \ReflectionMethod(get_class($this->form), $methodName);
 
-		} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL_STATIC) != 0) {
-			$reflectionMethod = new \ReflectionMethod(get_class($this->form->GetController()), $methodName);
+				} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL) != 0) {
+					$reflectionInvokeObject = $this->form->GetController();
+					$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
 
-		} else {
-			$modelFormInterface = 'MvcCore\\Ext\\ModelForms\\IForm';
-			if (!interface_exists($modelFormInterface)) throw new \InvalidArgumentException(
-				"For model context options loader, you have to install extension `mvccore/ext-model-form`."
-			);
-			$toolClass = $this->form->GetController()->GetApplication()->GetToolClass();
-			$formImplementsInterface = $toolClass::CheckClassInterface(
-				get_class($this->form), $modelFormInterface, TRUE, FALSE
-			);
-			if (!$formImplementsInterface) throw new \InvalidArgumentException(
-				"For model context options loader, you have to implement form interface `{$modelFormInterface}`."
-			);
-			/** @var \MvcCore\Ext\ModelForms\Form $modelForm */
-			$modelForm = $this->form;
-			if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL) != 0) {
-				$reflectionInvokeObject = $modelForm->GetModelInstance();
-				$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
+				} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_CTRL_STATIC) != 0) {
+					$reflectionMethod = new \ReflectionMethod(get_class($this->form->GetController()), $methodName);
+
+				} else {
+					$modelFormInterface = 'MvcCore\\Ext\\ModelForms\\IForm';
+					if (!interface_exists($modelFormInterface)) throw new \InvalidArgumentException(
+						"For model context options loader, you have to install extension `mvccore/ext-model-form`."
+					);
+					$toolClass = $this->form->GetController()->GetApplication()->GetToolClass();
+					$formImplementsInterface = $toolClass::CheckClassInterface(
+						get_class($this->form), $modelFormInterface, TRUE, FALSE
+					);
+					if (!$formImplementsInterface) throw new \InvalidArgumentException(
+						"For model context options loader, you have to implement form interface `{$modelFormInterface}`."
+					);
+					/** @var \MvcCore\Ext\ModelForms\Form $modelForm */
+					$modelForm = $this->form;
+					if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL) != 0) {
+						$reflectionInvokeObject = $modelForm->GetModelInstance();
+						$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
 				
-			} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC) != 0) {
-				$reflectionMethod = new \ReflectionMethod($modelForm->GetModelClass(), $methodName);
+					} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC) != 0) {
+						$reflectionMethod = new \ReflectionMethod($modelForm->GetModelClass(), $methodName);
 
-			} else {
-				throw new \InvalidArgumentException(
-					"Unknown local load options method context flag: `{$context}` for method `{$methodName}`."
-				);
+					} else {
+						throw new \InvalidArgumentException(
+							"Unknown local load options method context flag: `{$context}` for method `{$methodName}`."
+						);
+					}
+				}
+		
+				$reflectionMethod->setAccessible(TRUE);
+				$callable = [$reflectionInvokeObject, $reflectionMethod];
 			}
 		}
+
+		$this->optionsLoaderExecution = [$reflectionInvoke, $callable, $args];
 		
-		$reflectionMethod->setAccessible(TRUE);
-
-		$this->optionsLoaderReflection = [$reflectionMethod, $reflectionInvokeObject];
-
-		return $this->optionsLoaderReflection;
+		return $this->optionsLoaderExecution;
 	}
 
 }
