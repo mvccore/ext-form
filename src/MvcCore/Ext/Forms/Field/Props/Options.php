@@ -353,7 +353,7 @@ trait Options {
 						$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
 				
 					} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC) != 0) {
-						$reflectionMethod = new \ReflectionMethod($modelForm->GetModelClass(), $methodName);
+						$reflectionMethod = new \ReflectionMethod($modelForm->GetModelClassFullName(), $methodName);
 
 					} else {
 						throw new \InvalidArgumentException(

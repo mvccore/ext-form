@@ -195,7 +195,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 				$this->reflectionMethod = new \ReflectionMethod($this->reflectionInvokeObject, $this->method);
 				
 			} else if (($this->context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC) != 0) {
-				$this->reflectionMethod = new \ReflectionMethod($modelForm->GetModelClass(), $this->method);
+				$this->reflectionMethod = new \ReflectionMethod($modelForm->GetModelClassFullName(), $this->method);
 
 			} else {
 				throw new \InvalidArgumentException(
