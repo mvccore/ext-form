@@ -41,16 +41,10 @@ trait Rendering {
 	public function RenderTemplate ($labelAndControlSeparator = NULL) {
 		/** @var $viewClass string|\MvcCore\Ext\Forms\View */
 		/** @var \MvcCore\Ext\Forms\View $view */
-		$viewClass = $this->form->GetViewClass();
-		$formParentController = $this->form->GetParentController();
-		$view = $viewClass::CreateInstance();
-		$view
-			->SetController($formParentController)
-			->SetView($formParentController->GetView())
-			->SetForm($this->form)
-			->SetField($this);
+		$view = $this->createView();
 		if ($labelAndControlSeparator !== NULL)
 			$view->__set('labelAndControlSeparator', $labelAndControlSeparator);
+		$viewClass = $this->form->GetViewClass();
 		$result = $view->Render(
 			$viewClass::GetFieldsDir(),
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
@@ -225,6 +219,22 @@ trait Rendering {
 
 
 	/* protected renderers *******************************************************************/
+
+	/**
+	 * View instance factory method.
+	 * @return \MvcCore\View
+	 */
+	protected function createView () {
+		$viewClass = $this->form->GetViewClass();
+		$formParentController = $this->form->GetParentController();
+		$view = $viewClass::CreateInstance();
+		$view
+			->SetController($formParentController)
+			->SetView($formParentController->GetView())
+			->SetForm($this->form)
+			->SetField($this);
+		return $view;
+	}
 
 	/**
 	 * Complete HTML attributes and css classes strings for label element
