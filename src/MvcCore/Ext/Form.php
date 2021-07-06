@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.1.19';
+	const VERSION = '5.1.20';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -148,14 +148,8 @@ implements	\MvcCore\Ext\IForm {
 		if ($this->translate && $this->translateTitle && $this->title !== NULL)
 			$this->title = $this->Translate($this->title);
 		
-		$viewClass = $this->viewClass;
-		$this->view = $viewClass::CreateInstance()
-			->SetForm($this);
-		if ($this->viewScript) 
-			$this->view
-				->SetController($this->parentController)
-				->SetView($this->parentController->GetView());
-		
+		$this->view = $this->createView();
+
 		if ($this->csrfEnabled)
 			$this->SetUpCsrf();
 		

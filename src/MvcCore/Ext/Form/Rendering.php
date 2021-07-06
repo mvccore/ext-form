@@ -147,6 +147,20 @@ trait Rendering {
 	}
 
 	/**
+	 * View instance factory method.
+	 * @return \MvcCore\View
+	 */
+	protected function createView () {
+		$viewClass = $this->viewClass;
+		$view = $viewClass::CreateInstance()
+			->SetController($this->parentController)
+			->SetForm($this);
+		if ($this->viewScript) 
+			$this->view->SetView($this->parentController->GetView());
+		return $view;
+	}
+
+	/**
 	 * Call this function after form has been rendered
 	 * to clear session errors, because there is not necessary
 	 * to have there those errors anymore, because will be
