@@ -147,6 +147,7 @@ class View extends \MvcCore\View {
 	public function SetView (\MvcCore\IView $view) {
 		/** @var \MvcCore\View $view */
 		$this->view = $view;
+		$this->__protected['store']['view'] = $view;
 		return $this;
 	}
 
@@ -292,9 +293,13 @@ class View extends \MvcCore\View {
 		}
 		// if property is still not in store, try to complete result by given view
 		// instance, which search in it's store and in it's controller instance:
-		if ($this->view instanceof \MvcCore\IView)
-			return $this->view->__get($name);
+		if ($this->view instanceof \MvcCore\IView) {
+			$value = $this->view->__get($name);
+			$store[$name] = & $value;
+			return $value;
+		}
 		// return NULL, if property is not in local store an even anywhere else
+		$store[$name] = NULL;
 		return NULL;
 	}
 
