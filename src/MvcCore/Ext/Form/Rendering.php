@@ -156,7 +156,7 @@ trait Rendering {
 			->SetController($this->parentController)
 			->SetForm($this);
 		if ($this->viewScript) 
-			$this->view->SetView($this->parentController->GetView());
+			$view->SetView($this->parentController->GetView());
 		return $view;
 	}
 
