@@ -631,8 +631,8 @@ class View extends \MvcCore\View {
 		}
 		if ($contentFieldsOrFieldsets) {
 			$result[] = '<div class="controls">';
-			foreach ($contentFieldsOrFieldsets as $fieldOrFieldset) {
-				$result[] = '<div>';
+			foreach ($contentFieldsOrFieldsets as $fieldOrFieldsetName => $fieldOrFieldset) {
+				$result[] = '<div class="'.$fieldOrFieldsetName.'">';
 				$result[] = $fieldOrFieldset->Render();
 				$result[] = '</div>';
 			}
@@ -666,7 +666,7 @@ class View extends \MvcCore\View {
 		}
 		if ($contentFieldsOrFieldsets) {
 			$result[] = '<tbody class="controls">';
-			foreach ($contentFieldsOrFieldsets as $fieldOrFieldset) {
+			foreach ($contentFieldsOrFieldsets as $fieldOrFieldsetName => $fieldOrFieldset) {
 				$fieldLabelSide = $fieldOrFieldset instanceof \MvcCore\Ext\Forms\Field
 					? $fieldOrFieldset->GetLabelSide()
 					: NULL;
@@ -699,7 +699,7 @@ class View extends \MvcCore\View {
 					}
 				}
 
-				$result[] = '<tr>';
+				$result[] = '<tr class="'.$fieldOrFieldsetName.'">';
 				if ($fieldRenderModeNormal) {
 					$result[] = $rowBegin;
 				} else if ($fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
