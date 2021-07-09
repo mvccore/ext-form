@@ -339,7 +339,8 @@ trait Rendering {
 					$attrs['title'] = $this->title;
 			}
 		}
-		$cssClasses[] = \MvcCore\Tool::GetDashedFromPascalCase($this->name);
+		$toolClass = $this->form->GetApplication()->GetToolClass();
+		$cssClasses[] = $toolClass::GetDashedFromPascalCase($this->name);
 		$cssClasses[] = $this->type;
 		$attrs['class'] = implode(' ', array_unique($cssClasses));
 		$formViewClass = $this->form->GetViewClass();

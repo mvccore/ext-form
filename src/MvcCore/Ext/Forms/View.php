@@ -631,8 +631,10 @@ class View extends \MvcCore\View {
 		}
 		if ($contentFieldsOrFieldsets) {
 			$result[] = '<div class="controls">';
+			$toolClass = $this->form->GetApplication()->GetToolClass();
 			foreach ($contentFieldsOrFieldsets as $fieldOrFieldsetName => $fieldOrFieldset) {
-				$result[] = '<div class="'.$fieldOrFieldsetName.'">';
+				$fieldOrFieldsetNameDashed = $toolClass::GetDashedFromPascalCase($fieldOrFieldsetName);
+				$result[] = '<div class="'.$fieldOrFieldsetNameDashed.'">';
 				$result[] = $fieldOrFieldset->Render();
 				$result[] = '</div>';
 			}
@@ -666,6 +668,7 @@ class View extends \MvcCore\View {
 		}
 		if ($contentFieldsOrFieldsets) {
 			$result[] = '<tbody class="controls">';
+			$toolClass = $this->form->GetApplication()->GetToolClass();
 			foreach ($contentFieldsOrFieldsets as $fieldOrFieldsetName => $fieldOrFieldset) {
 				$fieldLabelSide = $fieldOrFieldset instanceof \MvcCore\Ext\Forms\Field
 					? $fieldOrFieldset->GetLabelSide()
@@ -699,7 +702,8 @@ class View extends \MvcCore\View {
 					}
 				}
 
-				$result[] = '<tr class="'.$fieldOrFieldsetName.'">';
+				$fieldOrFieldsetNameDashed = $toolClass::GetDashedFromPascalCase($fieldOrFieldsetName);
+				$result[] = '<tr class="'.$fieldOrFieldsetNameDashed.'">';
 				if ($fieldRenderModeNormal) {
 					$result[] = $rowBegin;
 				} else if ($fieldRenderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
