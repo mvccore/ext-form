@@ -61,6 +61,8 @@ trait Submitting {
 				$submitFieldsKeys = array_keys($submitFields);
 				$submitField = $submitFields[$submitFieldsKeys[0]];
 				$this->result = $submitField->GetCustomResultState();
+				if ($this->result === NULL)
+					$this->result = \MvcCore\Ext\IForm::RESULT_SUCCESS;
 			} else {
 				$this->result = \MvcCore\Ext\IForm::RESULT_SUCCESS;
 			}
