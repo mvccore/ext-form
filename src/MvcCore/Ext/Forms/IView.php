@@ -129,7 +129,7 @@ interface IView {
 	 * @param  string $name
 	 * @return mixed
 	 */
-	public function __get ($name);
+	public function & __get ($name);
 
 	/**
 	 * Get `TRUE` by given name existing in local store. If there is no value

@@ -238,12 +238,12 @@ class View extends \MvcCore\View {
 	 * @param  string $name
 	 * @return mixed
 	 */
-	public function __get ($name) {
+	public function & __get ($name) {
 		/** @var array $store */
 		$store = & $this->__protected['store'];
 		$phpWithTypes = PHP_VERSION_ID >= 70400;
 		// if property is in view store - return it
-		if (array_key_exists($name, $store))
+		if (array_key_exists($name, $store)) 
 			return $store[$name];
 		/** @var \ReflectionProperty $property */
 		// if property is not in store and this view is used for field rendering,
@@ -300,7 +300,8 @@ class View extends \MvcCore\View {
 		}
 		// return NULL, if property is not in local store an even anywhere else
 		$store[$name] = NULL;
-		return NULL;
+		$null = NULL;
+		return $null;
 	}
 
 	/**
