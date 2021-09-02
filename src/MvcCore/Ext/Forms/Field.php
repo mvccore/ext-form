@@ -398,14 +398,14 @@ implements		\MvcCore\Ext\Forms\IField {
 				: $this->name;
 		}
 		array_unshift($errorMsgArgs, $fieldLabelOrName);
-		$formViewClass = $this->form->GetViewClass();
+		$viewClass = $this->form->GetViewClass();
 		if ($customReplacing) {
 			$errorMsg = call_user_func(
 				$replacingCallable,
-				$errorMsg, $errorMsgArgs, $formViewClass
+				$errorMsg, $errorMsgArgs, $viewClass
 			);
 		} else if (strpos($errorMsg, '{0}') !== FALSE || strpos($errorMsg, '{1}') !== FALSE) {
-			$errorMsg = $formViewClass::Format($errorMsg, $errorMsgArgs);
+			$errorMsg = $viewClass::Format($errorMsg, $errorMsgArgs);
 		}
 		return $errorMsg;
 	}

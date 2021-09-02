@@ -154,6 +154,7 @@ trait Rendering {
 		$viewClass = $this->viewClass;
 		$view = $viewClass::CreateInstance()
 			->SetController($this->parentController)
+			->SetEncoding($this->response->GetEncoding())
 			->SetForm($this);
 		if ($this->viewScript) 
 			$view->SetView($this->parentController->GetView());

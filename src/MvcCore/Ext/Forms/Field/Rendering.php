@@ -138,9 +138,10 @@ trait Rendering {
 			: static::$templates->togetherLabelRight;
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		$result = $formViewClass::Format($template, [
 			'id'		=> $this->id,
-			'label'		=> $this->label,
+			'label'		=> $view->EscapeHtml($this->label),
 			'control'	=> $this->RenderControl(),
 			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
@@ -165,11 +166,12 @@ trait Rendering {
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		return $formViewClass::Format(static::$templates->control, [
 			'id'		=> $this->id,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> htmlspecialchars_decode(htmlspecialchars($this->value, ENT_QUOTES), ENT_QUOTES),
+			'value'		=> $view->EscapeAttr($this->value),
 			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
 		]);
 	}
@@ -187,9 +189,10 @@ trait Rendering {
 			return '';
 		$attrsStr = $this->renderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		return $formViewClass::Format(static::$templates->label, [
 			'id'		=> $this->id,
-			'label'		=> $this->label,
+			'label'		=> $view->EscapeHtml($this->label),
 			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
 	}
@@ -207,7 +210,7 @@ trait Rendering {
 			$formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_ALL_TOGETHER &&
 			$formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AT_FIELDSET_BEGIN
 		) {
-			$result[] .= '<span class="errors">';
+			$result[] = '<span class="errors">';
 			foreach ($this->errors as $key => $errorMessage) {
 				$errorCssClass = 'error error-' . $this->name . ' error-' . $key;
 				$result[] = "<span class=\"{$errorCssClass}\">{$errorMessage}</span>";

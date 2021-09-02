@@ -410,10 +410,11 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
 			? $templates->togetherLabelLeft
 			: $templates->togetherLabelRight;
-		$viewClass = $this->form->GetViewClass();
-		$result = $viewClass::Format($template, [
+		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
+		$result = $formViewClass::Format($template, [
 			'id'		=> $this->id,
-			'label'		=> $this->label,
+			'label'		=> $view->EscapeHtml($this->label),
 			'control'	=> $this->RenderControl(),
 			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
@@ -451,12 +452,13 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		$attrsStr = $this->renderAttrsWithFieldVars(
 			['multiple'], $this->groupLabelAttrs, $this->groupLabelCssClasses, FALSE
 		);
-		$viewClass = $this->form->GetViewClass();
+		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		/** @var \stdClass $templates */
 		$templates = & static::$templates;
-		return $viewClass::Format($templates->label, [
+		return $formViewClass::Format($templates->label, [
 			'id'		=> $this->id,
-			'label'		=> $this->label,
+			'label'		=> $view->EscapeHtml($this->label),
 			'attrs'		=> $attrsStr ? " {$attrsStr}" : '',
 		]);
 	}
@@ -485,22 +487,23 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		$checked = gettype($this->value) == 'array'
 			? in_array($key, $this->value)
 			: $this->value === $key;
-		$viewClass = $this->form->GetViewClass();
+		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		/** @var \stdClass $templates */
 		$templates = & static::$templates;
-		$itemControl = $viewClass::Format($templates->control, [
+		$itemControl = $formViewClass::Format($templates->control, [
 			'id'		=> $itemControlId,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> htmlspecialchars_decode(htmlspecialchars($key, ENT_QUOTES), ENT_QUOTES),
+			'value'		=> $view->EscapeAttr($key),
 			'checked'	=> $checked ? ' checked="checked"' : '',
 			'attrs'		=> strlen($controlAttrsStr) > 0 ? ' ' . $controlAttrsStr : '',
 		]);
 		if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
 			// control and label
-			$itemLabel = $viewClass::Format($templates->label, [
+			$itemLabel = $formViewClass::Format($templates->label, [
 				'id'		=> $itemControlId,
-				'label'		=> $itemLabelText,
+				'label'		=> $view->EscapeHtml($itemLabelText),
 				'attrs'		=> $labelAttrsStr ? " {$labelAttrsStr}" : '',
 			]);
 			$result = ($this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT)
@@ -513,11 +516,11 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 					? 'Right'
 					: 'Left'
 			);
-			$result = $viewClass::Format(
+			$result = $formViewClass::Format(
 				static::$templates->$templatesKey,
 				[
 					'id'		=> $itemControlId,
-					'label'		=> $itemLabelText,
+					'label'		=> $view->EscapeHtml($itemLabelText),
 					'control'	=> $itemControl,
 					'attrs'		=> $labelAttrsStr ? " {$labelAttrsStr}" : '',
 				]
