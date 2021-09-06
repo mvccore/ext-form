@@ -39,24 +39,6 @@ class SafeString extends \MvcCore\Ext\Forms\Validator {
 		"\x06"	=> '',	"\x0E"	=> '',		"\x16"	=> '',	"\x1E"	=> '',
 		"\x07"	=> '',	"\x0F"	=> '',		"\x17"	=> '',	"\x1F"	=> '',
 	];
-	/**
-	 * Characters to prevent XSS attack and some other special chars
-	 * what could be dangerous user input.
-	 * @see http://php.net/manual/en/function.htmlspecialchars.php
-	 * @var \string[]
-	 */
-	protected static $specialMeaningChars = [
-		// commented characters are cleaned bellow by `htmlspecialchars()`
-		//'&'	=> "&amp;",
-		//'"'	=> "&quot;",
-		//"'"	=> "&apos;",
-		//'<'	=> "&lt;",
-		//'>'	=> "&gt;",
-		'|'	=> "&#124;",
-		'='	=> "&#61;",
-		'\\'=> "&#92;",
-		'%'	=> "&#37;",
-	];
 
 	/**
 	 * Validate raw user input, if there are any XSS characters 
@@ -71,13 +53,6 @@ class SafeString extends \MvcCore\Ext\Forms\Validator {
 		
 		// Remove base ASCII characters from 0 to 31 included (first column) except `\n \r \t`:
 		$cleanedValue = strtr($rawSubmittedValue, static::$baseAsciiChars);
-
-		// Replace characters to entities: & " ' < > to &amp; &quot; &#039; &lt; &gt;
-		// http://php.net/manual/en/function.htmlspecialchars.php
-		$cleanedValue = htmlspecialchars($cleanedValue, ENT_QUOTES);
-		
-		// Replace characters to entities: | = \ %
-		$cleanedValue = strtr($cleanedValue, static::$specialMeaningChars);
 
 		if (mb_strlen($cleanedValue) === 0) return NULL;
 		
