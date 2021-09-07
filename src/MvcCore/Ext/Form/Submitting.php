@@ -138,26 +138,26 @@ trait Submitting {
 		if ($this->result === \MvcCore\Ext\IForm::RESULT_ERRORS) {
 			$urlPropertyName = 'errorUrl';
 			$redirectMsg = 'error URL';
-		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_PREV_PAGE) {
+		} else if (($this->result & \MvcCore\Ext\IForm::RESULT_PREV_PAGE) != 0) {
 			$urlPropertyName = 'prevStepUrl';
 			$redirectMsg = 'previous step URL';
-		} else if ($this->result === \MvcCore\Ext\IForm::RESULT_NEXT_PAGE) {
+		} else if (($this->result & \MvcCore\Ext\IForm::RESULT_NEXT_PAGE) != 0) {
 			$urlPropertyName = 'nextStepUrl';
 			$redirectMsg = 'next step URL';
 		} else {
 			$customResultStates = array_unique(array_values($this->customResultStates));
-			if (
-				$this->result === \MvcCore\Ext\IForm::RESULT_SUCCESS ||
-				in_array($this->result, $customResultStates, TRUE)
-			) {
-				$urlPropertyName = 'successUrl';
-				$redirectMsg = 'success URL';
+			foreach ($customResultStates as $customResultState) {
+				if (($this->result & $customResultState) != 0) {
+					$urlPropertyName = 'successUrl';
+					$redirectMsg = 'success URL';
+					break;
+				}
 			}
 		}
 		$url = isset($this->{$urlPropertyName}) ? $this->{$urlPropertyName} : NULL;
 		$errorMsg = $url ? '' : 'Specify `' . $urlPropertyName . '` property.' ;
 		$this->SaveSession();
-		if (!$url && $this->result > -1 && $this->result < 4)
+		if (!$url && $this->result >= \MvcCore\Ext\IForm::RESULT_ERRORS && $this->result <= \MvcCore\Ext\IForm::RESULT_NEXT_PAGE)
 			throw new \RuntimeException(
 				'['.get_class().'] No url specified to redirect. ' . $errorMsg
 			);
