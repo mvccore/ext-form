@@ -484,9 +484,13 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$controlAttrsStr .= (strlen($controlAttrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
 		// render control, render label and put it together if necessary
+		$optionValue = isset($option['value']) ? $option['value'] : $key;
 		$checked = gettype($this->value) == 'array'
-			? in_array($key, $this->value)
-			: $this->value === $key;
+			? in_array($optionValue, $this->value)
+			: $this->value === $optionValue;
+		$optionValueStr = is_bool($optionValue)
+			? ($optionValue ? '1' : '0')
+			: (string) $optionValue;
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		/** @var \stdClass $templates */
@@ -495,7 +499,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			'id'		=> $itemControlId,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
-			'value'		=> $view->EscapeAttr($key),
+			'value'		=> $view->EscapeAttr($optionValueStr),
 			'checked'	=> $checked ? ' checked="checked"' : '',
 			'attrs'		=> strlen($controlAttrsStr) > 0 ? ' ' . $controlAttrsStr : '',
 		]);
@@ -539,18 +543,17 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @return array
 	 */
 	protected function renderControlItemCompleteAttrsClassesAndText ($key, & $option) {
-		$optionType = gettype($option);
 		$labelAttrsStr = '';
 		$controlAttrsStr = '';
 		$itemLabelText = '';
 		$originalRequired = $this->required;
 		if ($this->type == 'checkbox')
 			$this->required = FALSE;
-		if ($optionType == 'string') {
-			$itemLabelText = $option ? $option : $key;
+		if (is_string($option)) {
+			$itemLabelText = $option !== NULL ? $option : $key;
 			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
 			$controlAttrsStr = $this->renderControlAttrsWithFieldVars(['accessKey', 'multiple']);
-		} else if ($optionType == 'array') {
+		} else if (is_array($option)) {
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
 			$attrsArr = $this->controlAttrs;
 			$classArr = $this->cssClasses;
