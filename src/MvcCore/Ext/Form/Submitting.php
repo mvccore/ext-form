@@ -138,6 +138,9 @@ trait Submitting {
 		if ($this->result === \MvcCore\Ext\IForm::RESULT_ERRORS) {
 			$urlPropertyName = 'errorUrl';
 			$redirectMsg = 'error URL';
+		} else if (($this->result & \MvcCore\Ext\IForm::RESULT_SUCCESS) != 0) {
+			$urlPropertyName = 'successUrl';
+			$redirectMsg = 'success URL';
 		} else if (($this->result & \MvcCore\Ext\IForm::RESULT_PREV_PAGE) != 0) {
 			$urlPropertyName = 'prevStepUrl';
 			$redirectMsg = 'previous step URL';
@@ -149,7 +152,7 @@ trait Submitting {
 			foreach ($customResultStates as $customResultState) {
 				if (($this->result & $customResultState) != 0) {
 					$urlPropertyName = 'successUrl';
-					$redirectMsg = 'success URL';
+					$redirectMsg = 'success URL by custom result state';
 					break;
 				}
 			}
