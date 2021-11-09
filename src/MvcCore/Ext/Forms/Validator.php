@@ -211,11 +211,22 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 			$fieldValue = array_key_exists($propName, $fieldValues)
 				? $fieldValues[$propName]
 				: NULL;
-			if ($fieldValue !== NULL /*&& $this->{$propName} === NULL*/) {
-				$this->{$propName} = $fieldValue;
-			} else {
-				$this->{$propName} = $defaultValidatorValue;
+			$configuredFromField = FALSE;
+			if ($fieldValue !== NULL) {
+				$localValueIsEmpty = (
+					$this->{$propName} === NULL || (
+						is_array($fieldValue) && 
+						is_array($this->{$propName}) &&
+						count($this->{$propName}) === 0
+					)
+				);
+				if ($localValueIsEmpty) {
+					$this->{$propName} = $fieldValue;
+					$configuredFromField = TRUE;
+				}
 			}
+			if (!$configuredFromField && $this->{$propName} === NULL) 
+				$this->{$propName} = $defaultValidatorValue;
 		}
 	}
 }
