@@ -50,7 +50,7 @@ trait VisibleField {
 	use \MvcCore\Ext\Forms\Field\Props\AccessKey;
 	use \MvcCore\Ext\Forms\Field\Props\AutoFocus;
 	use \MvcCore\Ext\Forms\Field\Props\Disabled;
-	use \MvcCore\Ext\Forms\Field\Props\ReadOnly;
+	use \MvcCore\Ext\Forms\Field\Props\ReadOnlyAttr;
 	use \MvcCore\Ext\Forms\Field\Props\Required;
 	use \MvcCore\Ext\Forms\Field\Props\TabIndex;
 }

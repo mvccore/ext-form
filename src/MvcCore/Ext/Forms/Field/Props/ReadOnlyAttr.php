@@ -45,7 +45,7 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  * @mixin \MvcCore\Ext\Forms\Field
  */
-trait ReadOnly {
+trait ReadOnlyAttr {
 
 	/**
 	 * Form field attribute `readonly`, determination if field value will be 
