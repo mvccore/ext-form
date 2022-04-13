@@ -95,7 +95,7 @@ trait Rendering {
 			);
 		}
 		if ($useExternalRenderer) return '';
-		$nonceCspAttr = static::getSupportingAssetsNonce(FALSE);
+		$nonceCspAttr = static::getSupportingAssetsNonce($this->response, FALSE);
 		return "<style type=\"text/css\"{$nonceCspAttr}>".$cssFilesContent.'</style>';
 	}
 
@@ -142,7 +142,7 @@ trait Rendering {
 			strpos($viewDocType, \MvcCore\View::DOCTYPE_XHTML) !== FALSE ||
 			strpos($viewDocType, \MvcCore\View::DOCTYPE_XML) !== FALSE
 		) $result = '/*<![CDATA[*/' . $result . '/*]]>*/';
-		$nonceCspAttr = static::getSupportingAssetsNonce(TRUE);
+		$nonceCspAttr = static::getSupportingAssetsNonce($this->response, TRUE);
 		return "<script type=\"text/javascript\"{$nonceCspAttr}>" . $result . '</script>';
 	}
 
@@ -179,16 +179,17 @@ trait Rendering {
 	 * Get inline `<script>` or `<style>` nonce attribute from CSP header if any.
 	 * If no CSP header exists or if CSP header exist with no nonce or `strict-dynamic`, 
 	 * return an empty string.
-	 * @param  bool $js 
+	 * @param  \MvcCore\IResponse $res
+	 * @param  bool               $js 
 	 * @return string
 	 */
-	protected static function getSupportingAssetsNonce ($js = TRUE) {
+	protected static function getSupportingAssetsNonce (\MvcCore\IResponse $res, $js = TRUE) {
 		$nonceIndex = $js ? 1 : 0;
 		if (self::$assetsNonces[$nonceIndex] !== NULL) 
 			return self::$assetsNonces[$nonceIndex] === FALSE
 				? ''
 				: ' nonce="' . self::$assetsNonces[$nonceIndex] . '"';
-		$cspClassFullName = '\\MvcCore\\Ext\\Tools\\Csp';
+		$cspClassFullName = static::$cspClassFullName;
 		if (class_exists($cspClassFullName)) {
 			/** @var \MvcCore\Ext\Tools\Csp $csp */
 			$assetsNonce = FALSE;
@@ -201,20 +202,16 @@ trait Rendering {
 			)) $assetsNonce = $csp->GetNonce();
 			self::$assetsNonces[$nonceIndex] = $assetsNonce;
 		} else {
-			foreach (headers_list() as $rawHeader) {
-				if (!preg_match_all('#^Content\-Security\-Policy\s*:\s*(.*)$#i', trim($rawHeader), $matches)) continue;
-				$rawHeaderValue = $matches[1][0];
-				$sections = ['script'	=> FALSE, 'style' => FALSE, 'default' => FALSE];
-				foreach ($sections as $sectionKey => $sectionValue) 
-					if (preg_match_all("#{$sectionKey}\-src\s+(?:[^;]+\s)?\'nonce\-([^']+)\'#i", $rawHeaderValue, $sectionMatches)) 
-						$sections[$sectionKey] = $sectionMatches[1][0];
-				self::$assetsNonces = [
-					$sections['style']  ? $sections['style']  : $sections['default'],
-					$sections['script'] ? $sections['script'] : $sections['default']
-				];
-				break;
-			}
+			$rawHeaderValue = trim($res->GetHeader('Content-Security-Policy'));
+			$sections = ['script'	=> FALSE, 'style' => FALSE, 'default' => FALSE];
+			foreach ($sections as $sectionKey => $sectionValue) 
+				if (preg_match_all("#{$sectionKey}\-src\s+(?:[^;]+\s)?\'nonce\-([^']+)\'#i", $rawHeaderValue, $sectionMatches)) 
+					$sections[$sectionKey] = $sectionMatches[1][0];
+			self::$assetsNonces = [
+				$sections['style']  ? $sections['style']  : $sections['default'],
+				$sections['script'] ? $sections['script'] : $sections['default']
+			];
 		}
-		return static::getSupportingAssetsNonce($js);
+		return static::getSupportingAssetsNonce($res, $js);
 	}
 }

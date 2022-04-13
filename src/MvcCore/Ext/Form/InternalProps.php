@@ -177,6 +177,12 @@ trait InternalProps {
 	protected static $assetsNonces = [NULL, NULL];
 
 	/**
+	 * MvcCore CSP policy tool full class name.
+	 * @var string
+	 */
+	protected static $cspClassFullName = '\\MvcCore\\Ext\\Tools\\Csp';
+
+	/**
 	 * Default (not translated) error messages with replacements
 	 * for field names and more specific info to tell the user
 	 * what happened or what to do more.
