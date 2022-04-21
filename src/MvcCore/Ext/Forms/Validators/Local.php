@@ -143,9 +143,6 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 				$this->reflectionInvokeObject, [$rawSubmittedValue, $this->field]
 			);
 
-		} catch (\Exception $e) { // backward compatibility
-			$debugClass::Log($e);
-			$this->field->AddValidationError($errorMsg);
 		} catch (\Throwable $e) {
 			$debugClass::Log($e);
 			$this->field->AddValidationError($errorMsg);
