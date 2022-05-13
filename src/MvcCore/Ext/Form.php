@@ -148,7 +148,7 @@ implements	\MvcCore\Ext\IForm {
 		if ($this->translate && $this->translateTitle && $this->title !== NULL)
 			$this->title = $this->Translate($this->title);
 		
-		$this->view = $this->createView();
+		$this->view = $this->createView(TRUE);
 
 		if ($this->csrfEnabled)
 			$this->SetUpCsrf();

@@ -233,6 +233,7 @@ trait Rendering {
 		$view = $viewClass::CreateInstance();
 		$view
 			->SetController($formParentController)
+			->SetEncoding($formParentController->GetResponse()->GetEncoding())
 			->SetView($formParentController->GetView())
 			->SetForm($this->form)
 			->SetField($this);

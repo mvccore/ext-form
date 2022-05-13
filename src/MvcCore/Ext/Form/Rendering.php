@@ -148,9 +148,10 @@ trait Rendering {
 
 	/**
 	 * View instance factory method.
+	 * @param  bool $actionView
 	 * @return \MvcCore\View
 	 */
-	protected function createView () {
+	protected function createView ($actionView = TRUE) {
 		$viewClass = $this->viewClass;
 		$view = $viewClass::CreateInstance()
 			->SetController($this->parentController)
