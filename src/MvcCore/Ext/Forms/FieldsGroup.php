@@ -551,8 +551,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$this->required = FALSE;
 		if (is_string($option)) {
 			$itemLabelText = $option !== NULL ? $option : $key;
-			$labelAttrsStr = $this->renderLabelAttrsWithFieldVars();
-			$controlAttrsStr = $this->renderControlAttrsWithFieldVars(['accessKey', 'multiple']);
+			$labelAttrsStr = $this->RenderLabelAttrsWithFieldVars();
+			$controlAttrsStr = $this->RenderControlAttrsWithFieldVars(['accessKey', 'multiple']);
 		} else if (is_array($option)) {
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
 			$attrsArr = $this->controlAttrs;

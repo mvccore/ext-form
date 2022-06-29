@@ -136,7 +136,7 @@ trait Rendering {
 		$template = $this->labelSide == \MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT
 			? static::$templates->togetherLabelLeft 
 			: static::$templates->togetherLabelRight;
-		$attrsStr = $this->renderLabelAttrsWithFieldVars();
+		$attrsStr = $this->RenderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		$result = $formViewClass::Format($template, [
@@ -161,7 +161,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars();
+		$attrsStr = $this->RenderControlAttrsWithFieldVars();
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
@@ -187,7 +187,7 @@ trait Rendering {
 			: \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL;
 		if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) 
 			return '';
-		$attrsStr = $this->renderLabelAttrsWithFieldVars();
+		$attrsStr = $this->RenderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		return $formViewClass::Format(static::$templates->label, [
@@ -219,6 +219,28 @@ trait Rendering {
 		}
 		return implode('', $result);
 	}
+	
+	/**
+	 * @inheritDocs
+	 * @param  \string[] $fieldVars
+	 * @return string
+	 */
+	public function RenderLabelAttrsWithFieldVars ($fieldVars = []) {
+		return $this->renderAttrsWithFieldVars(
+			$fieldVars, $this->labelAttrs, $this->cssClasses, FALSE
+		);
+	}
+
+	/**
+	 * @inheritDocs
+	 * @param  \string[] $fieldVars
+	 * @return string
+	 */
+	public function RenderControlAttrsWithFieldVars ($fieldVars = []) {
+		return $this->renderAttrsWithFieldVars(
+			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
+		);
+	}
 
 
 	/* protected renderers *******************************************************************/
@@ -240,42 +262,6 @@ trait Rendering {
 		return $view;
 	}
 
-	/**
-	 * Complete HTML attributes and css classes strings for label element
-	 * by selected field variables from $this field context
-	 * only if called $fieldVars item in $this field context is
-	 * something different then NULL value.
-	 * Automatically render into attributes and css classes also
-	 * system field properties: 'Disabled', 'Readonly' and 'Required'
-	 * in boolean mode. All named field context properties translate
-	 * into attributes names and css classes strings from PascalCase into
-	 * dashed-case.
-	 * @param  \string[] $fieldVars
-	 * @return string
-	 */
-	protected function renderLabelAttrsWithFieldVars ($fieldVars = []) {
-		return $this->renderAttrsWithFieldVars(
-			$fieldVars, $this->labelAttrs, $this->cssClasses, FALSE
-		);
-	}
-	/**
-	 * Complete HTML attributes and css classes strings for control element
-	 * by selected field variables from $this field context
-	 * only if called $fieldVars item in $this field context is
-	 * something different then NULL value.
-	 * Automatically render into attributes and css classes also
-	 * system field properties: 'Disabled', 'Readonly' and 'Required'
-	 * in boolean mode. All named field context properties translate
-	 * into attributes names and css classes strings from PascalCase into
-	 * dashed-case.
-	 * @param  \string[] $fieldVars
-	 * @return string
-	 */
-	protected function renderControlAttrsWithFieldVars ($fieldVars = []) {
-		return $this->renderAttrsWithFieldVars(
-			$fieldVars, $this->controlAttrs, $this->cssClasses, TRUE
-		);
-	}
 	/**
 	 * Complete HTML attributes and css classes strings for label/control element
 	 * by selected field variables from $this field context

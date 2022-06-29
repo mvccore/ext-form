@@ -189,7 +189,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 */
 	public function RenderControl () {
 		/** @var \MvcCore\Ext\Forms\Fields\Select $this */
-		$attrsStr = $this->renderControlAttrsWithFieldVars();
+		$attrsStr = $this->RenderControlAttrsWithFieldVars();
 		$optionsStrs = [];
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		foreach ($this->options as $value) 

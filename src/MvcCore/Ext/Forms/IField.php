@@ -790,4 +790,34 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @return string
 	 */
 	public function RenderErrors ();
+
+	/**
+	 * Complete HTML attributes and css classes strings for label element
+	 * by selected field variables from $this field context
+	 * only if called $fieldVars item in $this field context is
+	 * something different then NULL value.
+	 * Automatically render into attributes and css classes also
+	 * system field properties: 'Disabled', 'Readonly' and 'Required'
+	 * in boolean mode. All named field context properties translate
+	 * into attributes names and css classes strings from PascalCase into
+	 * dashed-case.
+	 * @param  \string[] $fieldVars
+	 * @return string
+	 */
+	public function RenderLabelAttrsWithFieldVars ($fieldVars = []);
+
+	/**
+	 * Complete HTML attributes and css classes strings for control element
+	 * by selected field variables from $this field context
+	 * only if called $fieldVars item in $this field context is
+	 * something different then NULL value.
+	 * Automatically render into attributes and css classes also
+	 * system field properties: 'Disabled', 'Readonly' and 'Required'
+	 * in boolean mode. All named field context properties translate
+	 * into attributes names and css classes strings from PascalCase into
+	 * dashed-case.
+	 * @param  \string[] $fieldVars
+	 * @return string
+	 */
+	public function RenderControlAttrsWithFieldVars ($fieldVars = []);
 }

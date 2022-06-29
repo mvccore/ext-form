@@ -120,7 +120,7 @@ extends	\MvcCore\Ext\Forms\Field {
 	 * @return string
 	 */
 	public function RenderControl () {
-		$attrsStr = $this->renderControlAttrsWithFieldVars([
+		$attrsStr = $this->RenderControlAttrsWithFieldVars([
 			'autoComplete',
 		]);
 		if (!$this->form->GetFormTagRenderingStatus()) 
