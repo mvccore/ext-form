@@ -554,7 +554,7 @@ class View extends \MvcCore\View {
 				$result[] = '<thead class="errors">';
 				foreach ($errors as $errorMessageAndFieldNames) {
 					list($errorMessage, $fieldNames) = $errorMessageAndFieldNames;
-					$result[] = '<tr><th colspan="2" class="error ' . implode(' ', $fieldNames) . '">'.$errorMessage.'</th></tr>';
+					$result[] = '<tr><th colspan="2" class="error ' . implode(' ', $fieldNames) . '"><div class="error">'.$errorMessage.'</div></th></tr>';
 				}
 				$result[] = '</thead>';
 			} else {
