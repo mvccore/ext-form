@@ -157,7 +157,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 		if ($this->translateOptions) {
 			$form = $this->form;
 			foreach ($this->options as $key => $value) 
-				$this->options[$key] = $form->Translate($key);
+				$this->options[$key] = $form->Translate($value);
 		}
 	}
 
