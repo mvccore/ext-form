@@ -95,6 +95,11 @@ trait Csrf {
 	 * @return \string[]
 	 */
 	public function SetUpCsrf () {
+		$session = & $this->getSession();
+		if ($this->response->GetCode() >= 400 && is_array($session->csrf)) {
+			// do not regenerate form CSRF tokens for 404 or 500 requests
+			return $session->csrf;
+		}
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
 		if (function_exists('openssl_random_pseudo_bytes')) {
 			$randomHash = bin2hex(openssl_random_pseudo_bytes(32));
@@ -109,7 +114,7 @@ trait Csrf {
 		$nowTime = (string)time();
 		$name = '____'.sha1($this->id . $requestUrl . 'name' . $nowTime . $randomHash);
 		$value = sha1($this->id . $requestUrl . 'value' . $nowTime . $randomHash);
-		$session = & $this->getSession();
+		
 		$session->csrf = [$name, $value];
 		return [$name, $value];
 	}
