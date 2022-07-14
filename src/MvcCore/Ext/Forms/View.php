@@ -671,7 +671,7 @@ class View extends \MvcCore\View {
 			$result[] = '<tbody class="controls">';
 			$toolClass = $this->form->GetApplication()->GetToolClass();
 			foreach ($contentFieldsOrFieldsets as $fieldOrFieldsetName => $fieldOrFieldset) {
-				$fieldLabelSide = $fieldOrFieldset instanceof \MvcCore\Ext\Forms\Field
+				$fieldLabelSide = $fieldOrFieldset instanceof \MvcCore\Ext\Forms\Fields\ILabel
 					? $fieldOrFieldset->GetLabelSide()
 					: NULL;
 				$fieldRenderMode = NULL;
@@ -686,8 +686,12 @@ class View extends \MvcCore\View {
 						$rowBegin = '<td class="control label control-and-label">';
 						$labelAndControlSeparator = '';
 						$rowEnd = '</td><td class="empty"></td>';
-					} else {
+					} else if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
 						$rowBegin = '<td class="empty"></td><td class="control label control-and-label">';
+						$labelAndControlSeparator = '';
+						$rowEnd = '</td>';
+					} else {
+						$rowBegin = '<td colspan="2" class="control">';
 						$labelAndControlSeparator = '';
 						$rowEnd = '</td>';
 					}
@@ -696,9 +700,13 @@ class View extends \MvcCore\View {
 						$rowBegin = '<td class="label">';
 						$labelAndControlSeparator = '</td><td class="control">';
 						$rowEnd = '</td>';
-					} else {
+					} else if ($fieldLabelSide === \MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT) {
 						$rowBegin = '<td class="control">';
 						$labelAndControlSeparator = '</td><td class="label">';
+						$rowEnd = '</td>';
+					} else {
+						$rowBegin = '<td colspan="2" class="control">';
+						$labelAndControlSeparator = '';
 						$rowEnd = '</td>';
 					}
 				}
