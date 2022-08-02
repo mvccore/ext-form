@@ -250,7 +250,7 @@ trait FieldMethods {
 	public function GetFieldsByType ($fieldType) {
 		$result = [];
 		foreach ($this->fields as $field) {
-			if ($field->GetType() == $fieldType)
+			if ($field->GetType() === $fieldType)
 				$result[$field->GetName()] = $field;
 		}
 		return $result;
@@ -264,7 +264,7 @@ trait FieldMethods {
 	public function GetFirstFieldByType ($fieldType) {
 		$result = NULL;
 		foreach ($this->fields as $field) {
-			if ($field->GetType() == $fieldType) {
+			if ($field->GetType() === $fieldType) {
 				$result = $field;
 			}
 		}
