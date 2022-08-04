@@ -139,6 +139,10 @@ implements	\MvcCore\Ext\IForm {
 			return;
 		}
 		
+		foreach ($this->fieldsets as $fieldset)
+			// translate fieldsets if necessary and do any rendering preparation stuff
+			$fieldset->PreDispatch();
+
 		foreach ($this->fields as $field) 
 			// translate fields if necessary and do any rendering preparation stuff
 			$field->PreDispatch();
