@@ -175,7 +175,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 	 */
 	public function PreDispatch () {
 		$form = $this->form;
-		if ($this->translate) {
+		if ($form->GetTranslate()) {
 			if ($this->translateLegend && $this->legend !== NULL)
 				$this->legend = $form->Translate($this->legend);
 			if ($this->translateTitle && $this->title !== NULL)
