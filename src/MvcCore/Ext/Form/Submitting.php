@@ -33,11 +33,13 @@ trait Submitting {
 			$rawRequestParams = $this->request->GetParams(FALSE);
 		$this->SubmitSetStartResultState($rawRequestParams);
 		if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
-			$this
-				->SubmitCsrfTokens($rawRequestParams)
-				->SubmitAllFields($rawRequestParams);
+			$this->application->ValidateCsrfProtection();
+			$this->SubmitCsrfTokens($rawRequestParams);// deprecated, but working in all browsers
+			if (!$this->application->GetTerminated())
+				$this->SubmitAllFields($rawRequestParams);
 		}
-		$this->SaveSession();
+		if (!$this->application->GetTerminated())
+			$this->SaveSession();
 		return [
 			$this->result,
 			$this->values,
@@ -129,6 +131,8 @@ trait Submitting {
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
+		if ($this->application->GetTerminated())
+			return;
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init(TRUE);
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 

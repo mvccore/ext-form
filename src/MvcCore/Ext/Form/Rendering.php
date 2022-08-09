@@ -203,11 +203,15 @@ trait Rendering {
 			)) $assetsNonce = $csp->GetNonce();
 			self::$assetsNonces[$nonceIndex] = $assetsNonce;
 		} else {
-			$rawHeaderValue = trim($res->GetHeader('Content-Security-Policy'));
+			$rawHeaderValues = $res->GetHeader('Content-Security-Policy');
+			$rawHeaderValues = is_array($rawHeaderValues) 
+				? array_map('trim', $rawHeaderValues) 
+				: [trim($rawHeaderValues)];
 			$sections = ['script'	=> FALSE, 'style' => FALSE, 'default' => FALSE];
-			foreach ($sections as $sectionKey => $sectionValue) 
-				if (preg_match_all("#{$sectionKey}\-src\s+(?:[^;]+\s)?\'nonce\-([^']+)\'#i", $rawHeaderValue, $sectionMatches)) 
-					$sections[$sectionKey] = $sectionMatches[1][0];
+			foreach ($rawHeaderValues as $rawHeaderValue)
+				foreach ($sections as $sectionKey => $sectionValue) 
+					if (preg_match_all("#{$sectionKey}\-src\s+(?:[^;]+\s)?\'nonce\-([^']+)\'#i", $rawHeaderValue, $sectionMatches)) 
+						$sections[$sectionKey] = $sectionMatches[1][0];
 			self::$assetsNonces = [
 				$sections['style']  ? $sections['style']  : $sections['default'],
 				$sections['script'] ? $sections['script'] : $sections['default']

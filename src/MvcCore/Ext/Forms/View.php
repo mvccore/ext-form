@@ -474,6 +474,7 @@ class View extends \MvcCore\View {
 
 	/**
 	 * @inheritDocs
+	 * @deprecated
 	 * @return string
 	 */
 	public function RenderCsrf () {
@@ -486,6 +487,8 @@ class View extends \MvcCore\View {
 
 	/**
 	 * @inheritDocs
+	 * @deprecated
+	 * @throws \Exception
 	 * @return \stdClass
 	 */
 	public function GetCsrf () {

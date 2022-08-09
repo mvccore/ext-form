@@ -177,7 +177,17 @@ interface IView {
 	/**
 	 * Render hidden input with CSRF tokens.
 	 * This method is not necessary to call, it's
-	 * called internally by `$form->View->RenderBegin();`
+	 * called internally by `$form->View->RenderBegin();`.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
 	 * @return string
 	 */
 	public function RenderCsrf ();
@@ -186,6 +196,17 @@ interface IView {
 	 * Return current CSRF (Cross Site Request Forgery) hidden
 	 * input name and it's value as `\stdClass`.
 	 * Result `\stdClass` has keys: `name` and `value`.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
+	 * @throws \Exception
 	 * @return \stdClass
 	 */
 	public function GetCsrf ();

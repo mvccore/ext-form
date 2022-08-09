@@ -51,7 +51,7 @@
 	}],
 	"require": {
 		"php": ">=5.4.0",
-		"mvccore/mvccore": "^5.1.26"
+		"mvccore/mvccore": "^5.1.34"
 	},
 	"suggest": {
 		"mvccore/ext-form-field-text": "MvcCore form extension with input field types text, email, password, search, tel, url and textarea field.",

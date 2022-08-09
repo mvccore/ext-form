@@ -73,10 +73,14 @@ implements	\MvcCore\Ext\IForm {
 				static::$cssSupportFilesRootDir = $baseAssetsPath;
 		}
 		$this->sorting = (object) $this->sorting;
+		$app = $this->application;
 		if (self::$sessionClass === NULL)
-			self::$sessionClass = $this->application->GetSessionClass();
+			self::$sessionClass = $app->GetSessionClass();
 		if (self::$toolClass === NULL)
-			self::$toolClass = $this->application->GetToolClass();
+			self::$toolClass = $app->GetToolClass();
+		$this->csrfEnabled = (
+			($app->GetCsrfProtection() & \MvcCore\IApplication::CSRF_PROTECTION_FORM_INPUT) != 0
+		);
 	}
 
 	/**

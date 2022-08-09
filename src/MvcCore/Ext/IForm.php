@@ -348,11 +348,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function & GetErrors ();
 
 	/**
-	 * Get session expiration in seconds. Default value is zero seconds (`0`).
-	 * Zero value (`0`) means "until the browser is closed" if there is
-	 * no higher namespace expiration in any other session namespace.
-	 * If there is found any autorization service and authenticated user,
-	 * default value is set by authorization expiration time.
+	 * Get session expiration for CSRF protection in seconds. 
+	 * Default value is zero seconds (`0`).
+	 * Zero value (`0`) means "until the browser is closed".
+	 * If there is found any autorization service,
+	 * value is set by authorization expiration time.
 	 * @return int|NULL
 	 */
 	public function GetSessionExpiration ();
@@ -1564,6 +1564,16 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
 	 * @param  \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
 	 * @param  string            $errorMsg Translated error message about CSRF invalid tokens.
 	 * @return void
@@ -1572,7 +1582,18 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/**
 	 * Enable or disable CSRF checking, enabled by default.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
 	 * @param  bool $enabled
+	 * @throws \Exception
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetEnableCsrf ($enabled = TRUE);
@@ -1580,6 +1601,17 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Return current CSRF (Cross Site Request Forgery) hidden
 	 * input name and it's value as `\stdClass`with  keys `name` and `value`.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
+	 * @throws \Exception
 	 * @return \stdClass
 	 */
 	public function GetCsrf ();
@@ -1589,6 +1621,16 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * If tokens are different, add form error and process CSRF error handlers queue.
 	 * If there is any exception caught in CSRF error handlers queue, it's logged
 	 * by configured core debug class with `CRITICAL` flag.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
 	 * @param  array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -1597,6 +1639,17 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Create new fresh CSRF (Cross Site Request Forgery) tokens,
 	 * store them in current form session namespace and return them.
+	 * 
+	 * This function is deprecated but still possible to use
+	 * for maximum compatibility. New solution is to enable 
+	 * global CSRF protection by http cookie in `Bootstrap.php`:
+	 * ```
+	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
+	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * );
+	 * ```
+	 * @deprecated
+	 * @throws \Exception
 	 * @return \string[]
 	 */
 	public function SetUpCsrf ();

@@ -29,7 +29,8 @@ trait Session {
 		$this->errors = [];
 		$session = & $this->getSession();
 		$session->values = [];
-		$session->csrf = [];
+		if ($this->csrfEnabled)
+			$session->csrf = [];
 		$session->errors = [];
 		return $this;
 	}
@@ -72,7 +73,8 @@ trait Session {
 			//$sessionNamespace->SetExpirationHoops(1);
 			$sessionNamespace->SetExpirationSeconds($this->GetSessionExpiration());
 			if (!isset($sessionNamespace->values)) $sessionNamespace->values = [];
-			if (!isset($sessionNamespace->csrf)) $sessionNamespace->csrf = [];
+			if ($this->csrfEnabled)
+				if (!isset($sessionNamespace->csrf)) $sessionNamespace->csrf = [];
 			if (!isset($sessionNamespace->errors)) $sessionNamespace->errors = [];
 			self::$allFormsSessions[$this->id] = & $sessionNamespace;
 		}

@@ -237,31 +237,8 @@ trait GetMethods {
 	 * @return int|NULL
 	 */
 	public function GetSessionExpiration () {
-		if ($this->sessionExpiration === NULL) {
-			$authClassesFullNames = [
-				"\\MvcCore\\Ext\\Auth",
-				"\\MvcCore\\Ext\\Auths\\Basic"
-			];
-			/** @var \MvcCore\Ext\Auths\Basic $auth */
-			$auth = NULL;
-			foreach ($authClassesFullNames as $authClassFullName) {
-				if (class_exists($authClassFullName, TRUE)) {
-					$auth = $authClassFullName::GetInstance();
-					break;
-				}
-			}
-			// If there is any authentication class, try to get
-			// authenticated user and authorization expiration seconds value:
-			if ($auth !== NULL) {
-				$user = $auth->GetUser();
-				if ($user !== NULL)
-					$this->sessionExpiration = $auth->GetExpirationAuthorization();
-			}
-			// If there is nothing like that, set expiration until browser close:
-			if ($this->sessionExpiration === NULL)
-				$this->sessionExpiration = 0;
-		}
-		return $this->sessionExpiration;
+		$sessionClass = $this->application->GetSessionClass();
+		return $sessionClass::GetSessionCsrfMaxTime();
 	}
 
 	/**
