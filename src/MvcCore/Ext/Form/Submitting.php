@@ -80,9 +80,12 @@ trait Submitting {
 		if ($this->method != \MvcCore\Ext\IForm::METHOD_POST) 
 			return TRUE;
 		$contentLength = $this->request->GetContentLength();
-		if ($contentLength === NULL) $this->AddError(
-			$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT)
-		);
+		if ($contentLength === NULL) {
+			$errorMsg = $this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT);
+			if ($this->translate)
+				$errorMsg = call_user_func($this->translator, $errorMsg);
+			$this->AddError($errorMsg);
+		}
 		$maxSize = $this->GetPhpIniSizeLimit('post_max_size');
 		if ($maxSize !== NULL && $maxSize < $contentLength) {
 			$viewClass = $this->viewClass;
@@ -94,8 +97,11 @@ trait Submitting {
 					$obContent
 				)) ob_clean();
 			}
+			$errorMsg = $this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE);
+			if ($this->translate)
+				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($viewClass::Format(
-				$this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE),
+				$errorMsg,
 				[static::ConvertBytesIntoHumanForm($maxSize)]
 			));
 			return FALSE;
