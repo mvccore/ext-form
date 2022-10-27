@@ -180,6 +180,16 @@ trait SetMethods {
 
 	/**
 	 * @inheritDocs
+	 * @param  array $attributes
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function AddAttributes ($attributes = []) {
+		$this->attributes = array_merge($this->attributes, $attributes);
+		return $this;
+	}
+
+	/**
+	 * @inheritDocs
 	 * @param  string|NULL $url
 	 * @return \MvcCore\Ext\Form
 	 */

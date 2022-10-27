@@ -733,6 +733,17 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	public function SetAttributes ($attributes = []);
 
 	/**
+	 * Add form html element additional attributes.
+	 * To add any other attribute for html `<form>` element,
+	 * set here key/value array, keys will be used as attribute names,
+	 * values as attribute values, simple. All previously configured additional
+	 * attributes will be merged with given attributes to this function.
+	 * @param  array $attributes
+	 * @return \MvcCore\Ext\Form
+	 */
+	public function AddAttributes ($attributes = []);
+
+	/**
 	 * Set form success submit URL string to redirect after, relative or absolute,
 	 * to specify, where to redirect user after form has been submitted successfully.
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
