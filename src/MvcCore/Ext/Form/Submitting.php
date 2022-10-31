@@ -25,14 +25,24 @@ trait Submitting {
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
+		/** @var $this \MvcCore\Ext\Form */
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
 			$this->Init(TRUE);
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
 			$this->PreDispatch(TRUE);
-		if (!$rawRequestParams) 
-			$rawRequestParams = $this->request->GetParams(FALSE);
+		$submitWithParams = count($rawRequestParams) > 0;
+		if (!$submitWithParams) {
+			$sourceType = $this->method === \MvcCore\Ext\IForm::METHOD_GET
+				? \MvcCore\IRequest::PARAM_TYPE_QUERY_STRING
+				: \MvcCore\IRequest::PARAM_TYPE_INPUT;
+			$rawRequestParams = $this->request->GetParams(
+				FALSE, array_keys($this->fields), $sourceType
+			);
+		}
 		$this->SubmitSetStartResultState($rawRequestParams);
-		if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
+		if ($submitWithParams) {
+			$this->SubmitAllFields($rawRequestParams);
+		} else if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
 			$this->application->ValidateCsrfProtection();
 			$this->SubmitCsrfTokens($rawRequestParams);// deprecated, but working in all browsers
 			if (!$this->application->GetTerminated())
@@ -74,7 +84,7 @@ trait Submitting {
 
 	/**
 	 * @inheritDocs
-	 * @return boolean
+	 * @return bool
 	 */
 	public function SubmitValidateMaxPostSizeIfNecessary () {
 		if ($this->method != \MvcCore\Ext\IForm::METHOD_POST) 
