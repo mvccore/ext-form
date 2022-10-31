@@ -62,7 +62,6 @@ trait AddMethods {
 				? $fieldNames 
 				: [$fieldNames]
 			);
-		$newErrorRec = [$errorMsgUtf8, $fieldNamesArr];
 		$errorImprint = $this->getErrorImprint($errorMsgUtf8, $fieldNamesArr);
 		if ($fieldNamesArr) {
 			foreach ($fieldNamesArr as $fieldName) {
@@ -76,7 +75,7 @@ trait AddMethods {
 				}
 			}
 		}
-		$this->errors[$errorImprint] = $newErrorRec;
+		$this->errors[$errorImprint] = [$errorMsgUtf8, $fieldNamesArr];
 		$this->result = \MvcCore\Ext\IForm::RESULT_ERRORS;
 		return $this;
 	}
