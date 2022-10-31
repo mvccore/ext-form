@@ -20,6 +20,7 @@ namespace MvcCore\Ext\Forms;
  *                 extend this class to create own specific form control.
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
+#[\AllowDynamicProperties]
 abstract class	Field
 implements		\MvcCore\Ext\Forms\IField {
 
@@ -189,7 +190,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @return mixed
 	 */
 	public function __get ($name) {
-		return isset($this->$name) ? $this->$name : NULL ;
+		return isset($this->{$name}) ? $this->{$name} : NULL ;
 	}
 
 	/**
@@ -199,7 +200,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function __set ($name, $value) {
-		$this->$name = $value;
+		$this->{$name} = $value;
 		return $this;
 	}
 
