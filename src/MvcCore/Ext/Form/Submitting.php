@@ -35,8 +35,11 @@ trait Submitting {
 			$sourceType = $this->method === \MvcCore\Ext\IForm::METHOD_GET
 				? \MvcCore\IRequest::PARAM_TYPE_QUERY_STRING
 				: \MvcCore\IRequest::PARAM_TYPE_INPUT;
+			$paramsKeys = array_keys($this->fields);
+			if ($this->csrfEnabled)
+				$paramsKeys[] = $this->getSession()->csrf[0];
 			$rawRequestParams = $this->request->GetParams(
-				FALSE, array_keys($this->fields), $sourceType
+				FALSE, $paramsKeys, $sourceType
 			);
 		}
 		$this->SubmitSetStartResultState($rawRequestParams);
