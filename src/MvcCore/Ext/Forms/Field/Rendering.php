@@ -322,12 +322,10 @@ trait Rendering {
 					if ($addAlsoAsCssClass) $cssClasses[] = $attrName;
 				}
 			}
-			if ($controlRendering) {
-				if ($this->tabIndex !== NULL)
-					$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
-				if ($this->title !== NULL)
-					$attrs['title'] = $this->title;
-			}
+			if ($controlRendering && $this->tabIndex !== NULL)
+				$attrs['tabindex'] = $this->tabIndex + $this->form->GetBaseTabIndex();
+			if ($this->title !== NULL)
+				$attrs['title'] = $this->title;
 		}
 		$toolClass = $this->form->GetApplication()->GetToolClass();
 		$cssClasses[] = $toolClass::GetDashedFromPascalCase($this->name);
