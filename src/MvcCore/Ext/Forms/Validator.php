@@ -12,6 +12,7 @@
  */
 
 namespace MvcCore\Ext\Forms;
+use MvcCore\Debug;
 
 /**
  * Responsibility: Base validator class with base methods implementations.
@@ -193,11 +194,8 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 
 	/**
 	 * Set up field specific properties.
-	 * If field returns it's specific value (`array_key_exists()`), use it for 
-	 * validator. If field doesn't return any specific value and validator has 
-	 * this specific value defined, try to set up this specific value to field.
-	 * If there is no specific value in field and not even in validator, set into
-	 * validator default value.
+	 * If field returns it's specific (not `NULL`) value, use it for validator. 
+	 * If field doesn't return any specific value, use validator default value.
 	 * @param array $fieldPropsDefaultValidValues Array with key as property 
 	 *                                            name and value as default 
 	 *                                            validator value, if there is 
@@ -207,26 +205,8 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	 */
 	protected function setUpFieldProps ($fieldPropsDefaultValidValues = []) {
 		$fieldValues = $this->field->GetValidatorData($fieldPropsDefaultValidValues);
-		foreach ($fieldPropsDefaultValidValues as $propName => $defaultValidatorValue) {
-			$fieldValue = array_key_exists($propName, $fieldValues)
-				? $fieldValues[$propName]
-				: NULL;
-			$configuredFromField = FALSE;
-			if ($fieldValue !== NULL) {
-				$localValueIsEmpty = (
-					$this->{$propName} === NULL || (
-						is_array($fieldValue) && 
-						is_array($this->{$propName}) &&
-						count($this->{$propName}) === 0
-					)
-				);
-				if ($localValueIsEmpty) {
-					$this->{$propName} = $fieldValue;
-					$configuredFromField = TRUE;
-				}
-			}
-			if (!$configuredFromField && $this->{$propName} === NULL) 
-				$this->{$propName} = $defaultValidatorValue;
-		}
+		$fieldPropsMergedValues = array_intersect_key($fieldValues, $fieldPropsDefaultValidValues);
+		foreach ($fieldPropsMergedValues as $propName => $mergedValue)
+			$this->{$propName} = $mergedValue;
 	}
 }
