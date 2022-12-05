@@ -292,7 +292,9 @@ implements		\MvcCore\Ext\Forms\IField {
 					// set safe value as field submit result value
 					$validator = NULL;
 					if (is_string($validatorNameOrInstance)) {
-						$validator = $this->form->GetValidator($validatorName);
+						$validator = $this->form
+							->GetValidator($validatorName)
+							->SetField($this);
 					} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
 						$validator = $validatorNameOrInstance
 							->SetForm($this->form)
@@ -303,9 +305,7 @@ implements		\MvcCore\Ext\Forms\IField {
 							. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
 						);
 					}
-					$result = $validator
-						->SetField($this)
-						->Validate($result);
+					$result = $validator->Validate($result);
 				}
 			}
 			// add required error message if necessary and if there are no other errors
