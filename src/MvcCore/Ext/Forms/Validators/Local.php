@@ -128,14 +128,12 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 	
 	/**
 	 * @inheritDocs
-	 * @param string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
+	 * @param  string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
 	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
 		$this->completeReflectionObjects();
 
-		$debugClass = $this->form->GetController()->GetApplication()->GetDebugClass();
-		$errorMsg = static::GetErrorMessage(static::ERROR_LOCAL_VALIDATION);
 		$safeValue = NULL;
 		try {
 
@@ -144,8 +142,11 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 			);
 
 		} catch (\Throwable $e) {
+			$debugClass = $this->form->GetController()->GetApplication()->GetDebugClass();
 			$debugClass::Log($e);
-			$this->field->AddValidationError($errorMsg);
+			$this->field->AddValidationError(
+				static::GetErrorMessage(static::ERROR_LOCAL_VALIDATION)
+			);
 		}
 
 		return $safeValue;
