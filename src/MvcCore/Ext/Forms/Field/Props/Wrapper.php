@@ -46,7 +46,7 @@ trait Wrapper {
 	 * Default wrapper values is: `'{control}'`.
 	 * @var string
 	 */
-	public $wrapper = '{control}';
+	public $wrapper = NULL;
 
 	/**
 	 * Get html code wrapper, wrapper has to contain
@@ -80,6 +80,8 @@ trait Wrapper {
 	 * @return string
 	 */
 	protected function renderControlWrapper ($renderedCode) {
+		if ($this->wrapper === NULL)
+			return $renderedCode;
 		$wrapperReplacement = '{control}';
 		$wrapper = mb_strpos($this->wrapper, $wrapperReplacement) !== FALSE 
 			? $this->wrapper 
