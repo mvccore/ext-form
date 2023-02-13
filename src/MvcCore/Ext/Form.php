@@ -119,6 +119,98 @@ implements	\MvcCore\Ext\IForm {
 			self::$instances[$this->id] = TRUE;
 		}
 		$this->translate = $this->translator !== NULL && is_callable($this->translator);
+		$this->submit = $this->initDetectSubmit();
+	}
+
+	/**
+	 * Detect if currently requested URL matches form `action` attribute 
+	 * with any trailing request query params or if any submit button 
+	 * `formAction` attribute matches form `action` attribute also with any 
+	 * trailing request query params.
+	 * Return `TRUE` for matched submit request, `FALSE` otherwise.
+	 * To detect form submit again, switch `$form->submit` property into `NULL`.
+	 * @return bool
+	 */
+	protected function initDetectSubmit () {
+		if ($this->submit !== NULL) return $this->submit;
+		$submitPoints = [[$this->action, $this->method]];
+		foreach ($this->submitFields as $submitField) {
+			/** @var $submitField \MvcCore\Ext\Forms\Fields\IFormAttrs */
+			$formAction = $submitField->GetFormAction();
+			$formMethod = $submitField->GetFormMethod();
+			if ($formAction !== NULL || $formMethod !== NULL) {
+				$submitPoints[] = [
+					$formAction ?: $this->action, $formMethod ?: $this->method
+				];
+			}
+		}
+		$req = $this->request;
+		$reqMethod = $req->GetMethod();
+		$reqScheme = NULL;
+		$reqHost = NULL;
+		$reqPort = NULL;
+		$reqPath = NULL;
+		$reqParams = NULL;
+		foreach ($submitPoints as $submitPoint) {
+			list ($formAction, $formMethod) = $submitPoint;
+			if ($formMethod !== $reqMethod) continue;
+			$actionUrl = \MvcCore\Tool::ParseUrl($this->action);
+			if (isset($actionUrl['scheme'])) {
+				if ($reqScheme === NULL) $reqScheme = $req->GetScheme();
+				if ($actionUrl['scheme'] !== $reqScheme) continue;
+			}
+			if (isset($actionUrl['host'])) {
+				if ($reqHost === NULL) $reqHost = $req->GetHostName();
+				if ($actionUrl['host'] !== $reqHost) continue;
+			}
+			if (isset($actionUrl['port'])) {
+				$reqPort = $req->GetPort();
+				if (strval($actionUrl['port']) !== $reqPort) continue;
+			}
+			if (isset($actionUrl['path'])) {
+				$actionPath = $actionUrl['path'];
+				if ($reqPath === NULL) $reqPath = $req->GetBasePath() . $req->GetPath();
+				$scriptName = $req->GetScriptName();
+				$scriptNameLen = mb_strlen($scriptName);
+				$actionPathScriptEndingPos = mb_strlen($actionPath) - $scriptNameLen;
+				$actionPathScriptEnding = mb_strpos($actionPath, $scriptName) === $actionPathScriptEndingPos;
+				$reqPathScriptEndingPos = mb_strlen($reqPath) - $scriptNameLen;
+				$reqPathScriptEnding = mb_strpos($reqPath, $scriptName) === $reqPathScriptEndingPos;
+				$reqPath2Compare = $actionPathScriptEnding && !$reqPathScriptEnding
+					? rtrim($reqPath, '/') . $scriptName
+					: $reqPath;
+				if ($actionPath !== $reqPath2Compare) continue;
+			}
+			if (isset($actionUrl['query'])) {
+				if ($reqParams === NULL)
+					$reqParams = $req->GetParams(
+						FALSE, [], 
+						\MvcCore\IRequest::PARAM_TYPE_QUERY_STRING | 
+						\MvcCore\IRequest::PARAM_TYPE_URL_REWRITE
+					);
+				$actionParams = [];
+				parse_str(trim($req::HtmlSpecialChars($actionUrl['query']), '&='), $actionParams);
+				if ($actionParams === NULL)
+					$actionParams = [];
+				$allParamsMatched = TRUE;
+				foreach ($actionParams as $actionParamName => $actionParamValue) {
+					$actionParamValueEncoded = rawurlencode($actionParamValue);
+					if (
+						!array_key_exists($actionParamName, $reqParams) ||
+						rawurlencode($reqParams[$actionParamName]) !== $actionParamValueEncoded
+					) {
+						$allParamsMatched = FALSE;
+						break;
+					}
+				}
+				if (!$allParamsMatched) continue;
+			}
+			$this->submit = TRUE;
+			break;
+		}
+		if ($this->submit === NULL)
+			$this->submit = FALSE;
+		return $this->submit;
 	}
 
 	/**
@@ -159,7 +251,7 @@ implements	\MvcCore\Ext\IForm {
 		$this->view = $this->createView(TRUE);
 
 		if ($this->csrfEnabled)
-			$this->SetUpCsrf();
+			$this->csrfValue = $this->SetUpCsrf();
 		
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 	}

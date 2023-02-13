@@ -1650,6 +1650,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	/**
 	 * Create new fresh CSRF (Cross Site Request Forgery) tokens,
 	 * store them in current form session namespace and return them.
+	 * Return previous CSRF tokens from session if any.
 	 * 
 	 * This function is deprecated but still possible to use
 	 * for maximum compatibility. New solution is to enable 
@@ -1661,7 +1662,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * ```
 	 * @deprecated
 	 * @throws \Exception
-	 * @return \string[]
+	 * @return array|[string|NULL, string|NULL]
 	 */
 	public function SetUpCsrf ();
 }

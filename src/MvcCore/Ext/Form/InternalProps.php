@@ -20,6 +20,18 @@ use \MvcCore\Ext\Forms\IError;
  * @mixin \MvcCore\Ext\Form
  */
 trait InternalProps {
+	
+	/**
+	 * `TRUE` for submit request, `FALSE` otherwise.
+	 * @var bool|NULL
+	 */
+	protected $submit = NULL;
+
+	/**
+	 * Previous CSRF session values if there are any.
+	 * @var array|[string|NULL, string|NULL]
+	 */
+	protected $csrfValue = [];
 
 	/**
 	 * Content objects hierarchy for rendering fields and fielsets.

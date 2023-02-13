@@ -26,18 +26,19 @@ trait Submitting {
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		/** @var $this \MvcCore\Ext\Form */
+		$this->submit = TRUE;
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init(TRUE);
+			$this->Init($this->submit);
 		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->PreDispatch(TRUE);
+			$this->PreDispatch($this->submit);
 		$submitWithParams = count($rawRequestParams) > 0;
 		if (!$submitWithParams) {
 			$sourceType = $this->method === \MvcCore\Ext\IForm::METHOD_GET
 				? \MvcCore\IRequest::PARAM_TYPE_QUERY_STRING
 				: \MvcCore\IRequest::PARAM_TYPE_INPUT;
 			$paramsKeys = array_keys($this->fields);
-			if ($this->csrfEnabled)
-				$paramsKeys[] = $this->getSession()->csrf[0];
+			if ($this->csrfEnabled && count($this->csrfValue) > 0)
+				$paramsKeys[] = $this->csrfValue[0];
 			$rawRequestParams = $this->request->GetParams(
 				FALSE, $paramsKeys, $sourceType
 			);

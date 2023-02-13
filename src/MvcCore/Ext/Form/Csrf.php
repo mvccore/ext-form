@@ -90,10 +90,9 @@ trait Csrf {
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
 		if (!$this->csrfEnabled) return $this;
 		$result = FALSE;
-		$session = & $this->getSession();
-		list($name, $value) = $session->csrf 
-			? $session->csrf : 
-			[NULL, NULL];
+		list($name, $value) = count($this->csrfValue) > 0
+			? $this->csrfValue
+			: [NULL, NULL];
 		if ($name !== NULL && $value !== NULL)
 			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value)
 				$result = TRUE;
@@ -111,13 +110,15 @@ trait Csrf {
 	 * @inheritDocs
 	 * @deprecated
 	 * @throws \Exception
-	 * @return \string[]
+	 * @return array|[string|NULL, string|NULL]
 	 */
 	public function SetUpCsrf () {
 		if (!$this->csrfEnabled) throw new \Exception(
 			"[".get_class($this)."] CSRF protection is disabled for this form."
 		);
 		$session = & $this->getSession();
+		$prevCsrf = $session->csrf;
+		if (count($prevCsrf) === 0) $prevCsrf = [NULL, NULL];
 		if ($this->response->GetCode() >= 400 && is_array($session->csrf)) {
 			// do not regenerate form CSRF tokens for 404 or 500 requests
 			return $session->csrf;
@@ -125,10 +126,10 @@ trait Csrf {
 		$toolClass = $this->application->GetToolClass();
 		$randomHash = $toolClass::GetRandomHash(64);
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
-		$nowTime = (string)time();
+		$nowTime = (string) time();
 		$name = '____'.sha1($randomHash . 'name' . $this->id . $requestUrl . $nowTime);
 		$value = sha1($randomHash . 'value' . $this->id . $requestUrl . $nowTime);
 		$session->csrf = [$name, $value];
-		return [$name, $value];
+		return $prevCsrf;
 	}
 }
