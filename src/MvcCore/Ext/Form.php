@@ -230,6 +230,9 @@ implements	\MvcCore\Ext\IForm {
 		$this->preDispatchLoadErrors($session);
 		$this->preDispatchLoadValues($session);
 
+		if ($this->csrfEnabled)
+			$this->csrfValue = $this->SetUpCsrf();
+		
 		if ($submit) {
 			$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 			return;
@@ -249,10 +252,7 @@ implements	\MvcCore\Ext\IForm {
 			$this->title = $this->Translate($this->title);
 		
 		$this->view = $this->createView(TRUE);
-
-		if ($this->csrfEnabled)
-			$this->csrfValue = $this->SetUpCsrf();
-		
+	
 		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED;
 	}
 
