@@ -149,13 +149,15 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetOptionsLoader ($optionsLoader) {
-		if (!is_array($optionsLoader) && !is_string($optionsLoader)) 
+		if (is_array($optionsLoader) || is_string($optionsLoader) || $optionsLoader instanceof \Closure) {
+			$this->optionsLoader = $optionsLoader;
+		} else {
 			throw new \InvalidArgumentException(
 				"Options loader for field `".get_class($this)."` ".
 				"has to be PHP callable or array with method ".
 				"context definition int and method name string."
 			);
-		$this->optionsLoader = $optionsLoader;
+		}
 		return $this;
 	}
 	

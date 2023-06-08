@@ -113,7 +113,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 		
 		array $options = [],
 		$translateOptions = TRUE,
-		array $optionsLoader = []
+		$optionsLoader = []
 	) {
 		$this->consolidateCfg($cfg, func_get_args(), func_num_args());
 		parent::__construct($cfg);

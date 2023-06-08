@@ -305,7 +305,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 
 		array $options = [],
 		$translateOptions = TRUE,
-		array $optionsLoader = [],
+		$optionsLoader = [],
 
 		array $groupLabelCssClasses = [],
 
