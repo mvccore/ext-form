@@ -25,8 +25,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->PreDispatch(FALSE);
+		$this->setUpRenderState();
 		$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
@@ -44,6 +43,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderContent () {
+		$this->setUpRenderState();
 		return $this->view->RenderContent();
 	}
 
@@ -52,6 +52,9 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderErrors () {
+		$this->setUpRenderState();
+		if (!$this->view->GetChildren())
+			$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		return $this->view->RenderErrors();
 	}
 
@@ -60,7 +63,11 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderBegin () {
+		$this->setUpRenderState();
+		if (!$this->view->GetChildren())
+			$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		return $this->view->RenderBegin();
+		
 	}
 
 	/**
@@ -68,8 +75,8 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderEnd () {
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->PreDispatch(FALSE);
+		$this->setUpRenderState();
+		$this->view->SetChildren([], FALSE); // frees memory
 		$this->SetFormTagRenderingStatus(FALSE);
 		$result = '</form>'
 			. $this->RenderSupportingJs()
@@ -218,5 +225,17 @@ trait Rendering {
 			];
 		}
 		return static::getSupportingAssetsNonce($res, $js);
+	}
+
+	/**
+	 * Check dispatch state and call `Init()` or `PreDispatch()` if necessary.
+	 * @return \MvcCore\Ext\Form
+	 */
+	protected function setUpRenderState () {
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
+			$this->Init(FALSE);
+		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
+			$this->PreDispatch(FALSE);
+		return $this;
 	}
 }
