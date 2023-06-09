@@ -54,6 +54,13 @@ interface IFieldset {
 	/***************************************************************************
 	 *                        Rendering Fieldset trait                         *
 	 **************************************************************************/
+	
+	/**
+	 * Render fieldset with it's legend, possible errors 
+	 * and contained controls, labels and another fieldsets.
+	 * @return string
+	 */
+	public function __toString ();
 
 	/**
 	 * Render fieldset with it's legend, possible errors 

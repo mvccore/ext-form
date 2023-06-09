@@ -17,6 +17,14 @@ namespace MvcCore\Ext\Forms\Fieldset;
  * @mixin \MvcCore\Ext\Forms\Fieldset
  */
 trait Rendering {
+	
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
+	public function __toString () {
+		return $this->Render();
+	}
 
 	/**
 	 * @inheritDocs

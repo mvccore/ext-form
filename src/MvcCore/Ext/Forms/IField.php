@@ -693,6 +693,12 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 
 	/**
 	 * Render field in full mode (with configured label), naturally or by custom template.
+	 * @return string
+	 */
+	public function __toString ();
+
+	/**
+	 * Render field in full mode (with configured label), naturally or by custom template.
 	 * You can set any separator string as first argument to separate rendered label and 
 	 * control by given value in natural or also in template rendering mode.
 	 * @param  string|NULL $labelAndControlSeparator

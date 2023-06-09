@@ -18,6 +18,14 @@ namespace MvcCore\Ext\Forms\Field;
  * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Rendering {
+	
+	/**
+	 * @inheritDocs
+	 * @return string
+	 */
+	public function __toString () {
+		return $this->Render();
+	}
 
 	/**
 	 * @inheritDocs
