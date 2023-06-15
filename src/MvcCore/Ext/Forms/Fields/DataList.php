@@ -192,8 +192,9 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 		$attrsStr = $this->RenderControlAttrsWithFieldVars();
 		$optionsStrs = [];
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
-		foreach ($this->options as $value) 
-			$optionsStrs[] = '<option value="' . $view->EscapeAttr($value) . '" />';
+		if ($this->options !== NULL)
+			foreach ($this->options as $value) 
+				$optionsStrs[] = '<option value="' . $view->EscapeAttr($value) . '" />';
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
