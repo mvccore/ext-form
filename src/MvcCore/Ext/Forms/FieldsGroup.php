@@ -434,11 +434,10 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @return string
 	 */
 	public function RenderControl () {
-		$result = '';
-		foreach ($this->options as $key => $value) {
-			$result .= $this->RenderControlItem($key, $value);
-		}
-		return $result;
+		$result = [];
+		foreach ($this->options as $key => $value)
+			$result[] = $this->RenderControlItem($key, $value);
+		return implode('', $result);
 	}
 
 	/**

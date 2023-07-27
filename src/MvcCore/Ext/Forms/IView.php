@@ -285,8 +285,9 @@ interface IView {
 
 	/**
 	 * Render content of html tag attributes by key/value array.
-	 * @param  array $attributes
+	 * @param  array             $attributes
+	 * @param  callable|\Closure $escapeFn
 	 * @return string
 	 */
-	public static function RenderAttrs (array $attributes = []);
+	public static function RenderAttrs (array $attributes = [], $escapeFn = NULL);
 }

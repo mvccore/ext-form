@@ -450,8 +450,8 @@ class View extends \MvcCore\View {
 				: $formCssClasses;
 		// additional custom attributes completing
 		foreach ($form->GetAttributes() as $key => $value) {
-			if (!in_array($key, $formProperties))
-				$attrs[$key] = $value;
+			if (!in_array($key, $formProperties)) 
+				$attrs[$this->EscapeAttr($key)] = $this->EscapeAttr($value);
 		}
 		// pseudo-boolean attributes completing
 		$formAutoComplete = $form->GetAutoComplete();
@@ -774,13 +774,18 @@ class View extends \MvcCore\View {
 
 	/**
 	 * @inheritDocs
-	 * @param  array $attributes
+	 * @param  array             $attributes
+	 * @param  callable|\Closure $escapeFn
 	 * @return string
 	 */
-	public static function RenderAttrs (array $attributes = []) {
+	public static function RenderAttrs (array $attributes = [], $escapeFn = NULL) {
 		$result = [];
-		foreach ($attributes as $attrName => $attrValue) {
-			$result[] = $attrName.'="'.$attrValue.'"';
+		if ($escapeFn != NULL) {
+			foreach ($attributes as $attrName => $attrValue)
+				$result[] = call_user_func($escapeFn, $attrName).'="'.call_user_func($escapeFn, $attrValue).'"';
+		} else {
+			foreach ($attributes as $attrName => $attrValue)
+				$result[] = $attrName.'="'.$attrValue.'"';
 		}
 		return implode(' ', $result);
 	}

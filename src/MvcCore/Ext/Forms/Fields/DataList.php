@@ -189,22 +189,21 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 */
 	public function RenderControl () {
 		/** @var \MvcCore\Ext\Forms\Fields\Select $this */
-		$attrsStr = $this->RenderControlAttrsWithFieldVars();
+		$attrsStrItems = [$this->RenderControlAttrsWithFieldVars()];
 		$optionsStrs = [];
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		if ($this->options !== NULL)
 			foreach ($this->options as $value) 
 				$optionsStrs[] = '<option value="' . $view->EscapeAttr($value) . '" />';
 		if (!$this->form->GetFormTagRenderingStatus()) 
-			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
-				. 'form="' . $this->form->GetId() . '"';
+			$attrsStrItems[] = 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		/** @var \stdClass $templates */
 		$templates = static::$templates;
 		return $formViewClass::Format($templates->control, [
 			'id'		=> $this->id,
 			'options'	=> implode('', $optionsStrs),
-			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
+			'attrs'		=> count($attrsStrItems) > 0 ? ' ' . implode(' ', $attrsStrItems) : '',
 		]);
 	}
 }

@@ -169,10 +169,9 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderControl () {
-		$attrsStr = $this->RenderControlAttrsWithFieldVars();
+		$attrsStrItems = [$this->RenderControlAttrsWithFieldVars()];
 		if (!$this->form->GetFormTagRenderingStatus()) 
-			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
-				. 'form="' . $this->form->GetId() . '"';
+			$attrsStrItems[] = 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		return $formViewClass::Format(static::$templates->control, [
@@ -180,7 +179,7 @@ trait Rendering {
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $view->EscapeAttr($this->value),
-			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
+			'attrs'		=> count($attrsStrItems) > 0 ? ' ' . implode(' ', $attrsStrItems) : '',
 		]);
 	}
 
@@ -340,8 +339,9 @@ trait Rendering {
 		$cssClasses[] = $this->type;
 		$attrs['class'] = implode(' ', array_unique($cssClasses));
 		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		return $formViewClass::RenderAttrs(
-			array_merge($fieldAttrs, $attrs)
+			array_merge($fieldAttrs, $attrs), $view->EscapeAttr
 		);
 	}
 }

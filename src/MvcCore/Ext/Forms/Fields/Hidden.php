@@ -169,12 +169,13 @@ extends	\MvcCore\Ext\Forms\Field {
 	 * @return string
 	 */
 	public function RenderControl () {
-		$attrsStr = $this->RenderControlAttrsWithFieldVars([
-			'autoComplete',
-		]);
+		$attrsStrItems = [
+			$this->RenderControlAttrsWithFieldVars([
+				'autoComplete',
+			])
+		];
 		if (!$this->form->GetFormTagRenderingStatus()) 
-			$attrsStr .= (strlen($attrsStr) > 0 ? ' ' : '')
-				. 'form="' . $this->form->GetId() . '"';
+			$attrsStrItems[] = 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		return $formViewClass::Format(static::$templates->control, [
@@ -182,7 +183,7 @@ extends	\MvcCore\Ext\Forms\Field {
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $view->EscapeAttr($this->value),
-			'attrs'		=> strlen($attrsStr) > 0 ? ' ' . $attrsStr : '',
+			'attrs'		=> count($attrsStrItems) > 0 ? ' ' . implode(' ', $attrsStrItems) : '',
 		]);
 	}
 }
