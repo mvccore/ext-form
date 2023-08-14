@@ -142,13 +142,17 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 			);
 
 		} catch (\Throwable $e) {
-			$debugClass = $this->form->GetController()->GetApplication()->GetDebugClass();
+			$app = $this->form->GetController()->GetApplication();
+			/** @var \MvcCore\Debug $debugClass */
+			$debugClass = $app->GetDebugClass();
+			if ($app->GetEnvironment()->IsDevelopment())
+				$debugClass::BarDump($e);
 			$debugClass::Log($e);
 			$this->field->AddValidationError(
 				static::GetErrorMessage(static::ERROR_LOCAL_VALIDATION)
 			);
 		}
-
+		
 		return $safeValue;
 	}
 
