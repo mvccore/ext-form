@@ -257,6 +257,6 @@ trait Props {
 	 * @var \string[]
 	 */
 	protected static $declaredProtectedProperties = [
-		'view', 'form', 'translate', 'errors'
+		'view', 'form', 'errors'
 	];
 }
