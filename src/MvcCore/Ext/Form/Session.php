@@ -21,7 +21,7 @@ namespace MvcCore\Ext\Form;
 trait Session {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function ClearSession () {
@@ -36,7 +36,7 @@ trait Session {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SaveSession () {

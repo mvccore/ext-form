@@ -20,7 +20,7 @@ namespace MvcCore\Ext\Form;
 trait Submitting {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
 	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
@@ -62,7 +62,7 @@ trait Submitting {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -87,7 +87,7 @@ trait Submitting {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return bool
 	 */
 	public function SubmitValidateMaxPostSizeIfNecessary () {
@@ -124,7 +124,7 @@ trait Submitting {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $rawRequestParams
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -147,7 +147,7 @@ trait Submitting {
 
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
@@ -196,7 +196,7 @@ trait Submitting {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $validatorName
 	 * @return \MvcCore\Ext\Forms\Validator
 	 */
@@ -229,7 +229,7 @@ trait Submitting {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int $index
 	 * @return string
 	 */

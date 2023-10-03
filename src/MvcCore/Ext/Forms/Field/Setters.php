@@ -21,7 +21,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Setters {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $id
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -31,7 +31,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @requires
 	 * @param  string $name
 	 * @return \MvcCore\Ext\Forms\Field
@@ -42,7 +42,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $type
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -52,7 +52,7 @@ trait Setters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -62,7 +62,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int $fieldOrder
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -72,7 +72,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|array|int|float|NULL $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -82,7 +82,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -95,7 +95,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|NULL $title
 	 * @param  bool|NULL   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
@@ -108,7 +108,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -121,7 +121,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -131,7 +131,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $name
 	 * @param  mixed  $value
 	 * @return \MvcCore\Ext\Forms\Field
@@ -142,7 +142,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -152,7 +152,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -162,7 +162,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorsNamesOrInstances,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -197,7 +197,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
 	 * @param  int    $context    Context definition, where the method is located.
 	 * @return \MvcCore\Ext\Forms\Field
@@ -212,7 +212,7 @@ trait Setters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $methodName String method name to return options for `$field->SetOptions()` method.
 	 * @param  int    $context    Context definition, where the method is located.
 	 * @return \MvcCore\Ext\Forms\Field
@@ -229,7 +229,7 @@ trait Setters {
 	
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \string[]|\MvcCore\Ext\Forms\Validator[] $validatorNameOrInstance,...
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -254,7 +254,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool|string|NULL $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -264,7 +264,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $jsClass
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -274,7 +274,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $jsFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -284,7 +284,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $cssFullFile
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -294,7 +294,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool $translate
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -304,7 +304,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $errorMsg
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -314,7 +314,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $templateName Template name in array `static::$templates`.
 	 * @param  string $templateCode Template HTML code with prepared replacements.
 	 * @return string Newly configured template value.
@@ -329,7 +329,7 @@ trait Setters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array|\stdClass $templates
 	 * @return array
 	 */

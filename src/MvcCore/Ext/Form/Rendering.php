@@ -21,7 +21,7 @@ namespace MvcCore\Ext\Form;
 trait Rendering {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
@@ -39,7 +39,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderContent () {
@@ -48,7 +48,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderErrors () {
@@ -59,7 +59,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderBegin () {
@@ -71,7 +71,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderEnd () {
@@ -86,7 +86,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderSupportingCss () {
@@ -107,7 +107,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderSupportingJs () {

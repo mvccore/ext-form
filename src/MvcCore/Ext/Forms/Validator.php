@@ -68,7 +68,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param array $constructorConfig Configuration arguments for constructor, 
 	 *                                 validator's constructor first param.
 	 * @return \MvcCore\Ext\Forms\Validator
@@ -125,7 +125,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @param  \MvcCore\Ext\Form $form 
@@ -137,7 +137,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @param  \MvcCore\Ext\Forms\Field $field 
@@ -151,7 +151,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return array
 	 */
 	public static function SetErrorMessages ($errorMessages) {
@@ -159,7 +159,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int $errorMsgIndex Integer index for `static::$errorMessages` array.
 	 * @return string
 	 */
@@ -168,7 +168,7 @@ abstract class Validator implements \MvcCore\Ext\Forms\IValidator {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|array      $rawSubmittedValue Raw submitted value, string or array of strings.
 	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */

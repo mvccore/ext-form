@@ -30,7 +30,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	use \MvcCore\Ext\Forms\Field\Rendering;
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $cfg Config array with public properties and it's
 	 *                    values which you want to configure, presented
 	 *                    in camel case properties names syntax.
@@ -205,7 +205,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @param  \MvcCore\Ext\Form $form
@@ -239,7 +239,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @return void
@@ -262,7 +262,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @param array $rawRequestParams Raw request params from MvcCore
@@ -323,7 +323,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  array $fieldPropsDefaultValidValues
 	 * @return array
@@ -337,7 +337,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  string   $errorMsg
 	 * @param  array    $errorMsgArgs

@@ -19,7 +19,7 @@ namespace MvcCore\Ext\Forms\Fieldset;
 trait GettersSetters {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetName () {
@@ -27,7 +27,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @requires
 	 * @param  string $name 
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -38,7 +38,7 @@ trait GettersSetters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return int|NULL
 	 */
 	public function GetFieldOrder () {
@@ -46,7 +46,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int $fieldOrder 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -56,7 +56,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetLegend () {
@@ -64,7 +64,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|NULL $legend 
 	 * @param  bool|NULL   $translateLegend
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -77,7 +77,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return bool
 	 */
 	public function GetDisabled () {
@@ -85,7 +85,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool $disabled 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -95,7 +95,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
@@ -103,7 +103,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|\string[] $cssClasses 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -116,7 +116,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|\string[] $cssClasses 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -129,7 +129,7 @@ trait GettersSetters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetTitle () {
@@ -137,7 +137,7 @@ trait GettersSetters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|NULL $title
 	 * @param  bool|NULL   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -150,7 +150,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return array
 	 */
 	public function & GetControlAttrs () {
@@ -158,7 +158,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $name 
 	 * @return mixed
 	 */
@@ -169,7 +169,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -179,7 +179,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $name 
 	 * @param  mixed  $value 
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -190,7 +190,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $attrs 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -200,7 +200,7 @@ trait GettersSetters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return int|NULL
 	 */
 	public function GetFormRenderMode () {
@@ -210,7 +210,7 @@ trait GettersSetters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  int $formRenderMode
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -220,7 +220,7 @@ trait GettersSetters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool $sorted
 	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
 	 */
@@ -231,7 +231,7 @@ trait GettersSetters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function GetForm () {

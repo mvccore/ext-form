@@ -19,7 +19,7 @@ namespace MvcCore\Ext\Forms\Fieldset;
 trait Rendering {
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function __toString () {
@@ -27,7 +27,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function Render () {
@@ -57,7 +57,7 @@ trait Rendering {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderLegend () {
@@ -68,7 +68,7 @@ trait Rendering {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderErrorsAndContent () {

@@ -20,7 +20,7 @@ trait FieldsetMethods {
 
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
 	 */
 	public function GetParentFieldset () {
@@ -28,7 +28,7 @@ trait FieldsetMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @throws \InvalidArgumentException
@@ -45,7 +45,7 @@ trait FieldsetMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -87,7 +87,7 @@ trait FieldsetMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @param  string|NULL                 $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -108,7 +108,7 @@ trait FieldsetMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -121,7 +121,7 @@ trait FieldsetMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Fieldset[]
 	 */
 	public function GetFieldsets () {
@@ -129,7 +129,7 @@ trait FieldsetMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
 	 */
@@ -141,7 +141,7 @@ trait FieldsetMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -196,7 +196,7 @@ trait FieldsetMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
 	 * @return bool
 	 */
@@ -211,7 +211,7 @@ trait FieldsetMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */

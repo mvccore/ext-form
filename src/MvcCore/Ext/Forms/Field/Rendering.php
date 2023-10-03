@@ -20,7 +20,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Rendering {
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function __toString () {
@@ -28,7 +28,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
 	 */
@@ -41,7 +41,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
@@ -62,7 +62,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
@@ -93,7 +93,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
@@ -134,7 +134,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -164,7 +164,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -184,7 +184,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -205,7 +205,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -228,7 +228,7 @@ trait Rendering {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \string[] $fieldVars
 	 * @return string
 	 */
@@ -239,7 +239,7 @@ trait Rendering {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \string[] $fieldVars
 	 * @return string
 	 */

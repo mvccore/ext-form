@@ -22,7 +22,7 @@ namespace MvcCore\Ext\Form;
 trait Csrf {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @param  \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
 	 * @param  string            $errorMsg Translated error message about CSRF invalid tokens.
@@ -49,7 +49,7 @@ trait Csrf {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @throws \Exception
 	 * @param  bool $enabled 
@@ -67,7 +67,7 @@ trait Csrf {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @throws \Exception
 	 * @return \stdClass
@@ -82,7 +82,7 @@ trait Csrf {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @param  array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
 	 * @return \MvcCore\Ext\Form
@@ -107,7 +107,7 @@ trait Csrf {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @throws \Exception
 	 * @return array|[string|NULL, string|NULL]

@@ -115,7 +115,7 @@ trait Options {
 	protected $optionsLoaderExecution = [];
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -125,7 +125,7 @@ trait Options {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array $options
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -135,7 +135,7 @@ trait Options {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return array
 	 */
 	public function & GetOptions () {
@@ -143,7 +143,7 @@ trait Options {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  callable|\Closure|array|string $optionsLoader
 	 * @throws \InvalidArgumentException 
 	 * @return \MvcCore\Ext\Forms\Field
@@ -162,7 +162,7 @@ trait Options {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return callable|\Closure|array|string|NULL
 	 */
 	public function GetOptionsLoader () {
@@ -170,7 +170,7 @@ trait Options {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
@@ -180,7 +180,7 @@ trait Options {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return bool
 	 */
 	public function GetTranslateOptions () {
@@ -188,7 +188,7 @@ trait Options {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array|NULL $fieldOptions
 	 * @return array
 	 */

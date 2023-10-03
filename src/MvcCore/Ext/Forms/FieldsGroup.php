@@ -61,7 +61,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	];
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param array $cfg Config array with public properties and it's
 	 *                   values which you want to configure, presented
 	 *                   in camel case properties names syntax.
@@ -73,7 +73,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \string[]|string|NULL
 	 */
 	public function GetValue () {
@@ -81,7 +81,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \float[]|\int[]|\string[]|float|int|string|array|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -91,7 +91,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return bool
 	 */
@@ -100,7 +100,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
@@ -322,7 +322,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @param  \MvcCore\Ext\Form $form
@@ -340,7 +340,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @template
 	 * @return void
@@ -367,7 +367,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  string|NULL $labelAndControlSeparator
 	 * @return string
@@ -395,7 +395,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -429,7 +429,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -441,7 +441,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @return string
 	 */
@@ -463,7 +463,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @internal
 	 * @param  string       $key
 	 * @param  string|array $option

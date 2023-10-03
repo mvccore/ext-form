@@ -127,7 +127,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
 	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
 	 */

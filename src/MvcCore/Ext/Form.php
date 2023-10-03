@@ -99,7 +99,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool $submit      `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @throws \RuntimeException No form id property defined or Form id `...` already defined.
 	 * @return void
@@ -214,7 +214,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  bool $submit `TRUE` if form is submitting, `FALSE` otherwise by default.
 	 * @return void
 	 */
@@ -257,7 +257,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SortChildren () {
@@ -378,7 +378,7 @@ implements	\MvcCore\Ext\IForm {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $key          A key to translate.
 	 * @param  array  $replacements An array of replacements to process in translated result.
 	 * @throws \Exception           An exception if translations store is not successful.

@@ -22,7 +22,7 @@ namespace MvcCore\Ext\Form;
 trait AddMethods {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $charset 
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -32,7 +32,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|\string[] $cssClasses
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -45,7 +45,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
 	 * @param  string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Form
@@ -91,7 +91,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $jsRelativePath    Supporting javascript file relative path from protected `\MvcCore\Ext\Form::$jsAssetsRootDir`.
 	 * @param  string $jsClassName       Supporting javascript full class name inside supporting file.
 	 * @param  array  $constructorParams Supporting javascript constructor params.
@@ -107,7 +107,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $cssRelativePath Supporting css file relative path from protected `\MvcCore\Ext\Form::$cssAssetsRootDir`.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -119,7 +119,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  callable $handler
 	 * @param  int|NULL $priorityIndex
 	 * @return int New CSRF error handlers count.
@@ -148,7 +148,7 @@ trait AddMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \string[] $validatorsNamespaces,...
 	 * @return int New validators namespaces count.
 	 */

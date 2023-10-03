@@ -112,7 +112,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SortChildren () {
@@ -149,7 +149,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\IForm $form 
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -169,7 +169,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @template
 	 * @return void
 	 */

@@ -21,7 +21,7 @@ namespace MvcCore\Ext\Forms\Field;
 trait Getters {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetId () {
@@ -29,7 +29,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetName () {
@@ -37,7 +37,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetType () {
@@ -45,7 +45,7 @@ trait Getters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetFieldsetName () {
@@ -53,7 +53,7 @@ trait Getters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return int|NULL
 	 */
 	public function GetFieldOrder () {
@@ -61,7 +61,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
 	 */
 	public function GetValue () {
@@ -69,7 +69,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \string[]
 	 */
 	public function & GetCssClasses () {
@@ -77,7 +77,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetTitle () {
@@ -85,7 +85,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return array
 	 */
 	public function & GetControlAttrs () {
@@ -93,7 +93,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $name
 	 * @return mixed
 	 */
@@ -104,7 +104,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \string[]|\MvcCore\Ext\Forms\Validator[]
 	 */
 	public function & GetValidators () {
@@ -112,7 +112,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string|\MvcCore\Ext\Forms\Validator $validatorNameOrInstance
 	 * @return bool
 	 */
@@ -135,7 +135,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return bool|string|NULL
 	 */
 	public function GetViewScript () {
@@ -143,7 +143,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetJsClassName () {
@@ -151,7 +151,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetJsSupportingFile () {
@@ -159,7 +159,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetCssSupportingFile () {
@@ -167,7 +167,7 @@ trait Getters {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @var bool|NULL
 	 */
 	public function GetTranslate () {
@@ -175,7 +175,7 @@ trait Getters {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return array
 	 */
 	public static function & GetTemplates () {

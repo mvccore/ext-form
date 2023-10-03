@@ -22,7 +22,7 @@ namespace MvcCore\Ext\Form;
 trait FieldMethods {
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Field[]
 	 */
 	public function & GetFields() {
@@ -30,7 +30,7 @@ trait FieldMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Fields\ISubmit[]
 	 */
 	public function GetSubmitFields () {
@@ -38,7 +38,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Array with `\MvcCore\Ext\Forms\IField` instances to set into form.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -75,7 +75,7 @@ trait FieldMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @param  string|NULL              $fieldName
 	 * @throws \InvalidArgumentException
@@ -97,7 +97,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -110,7 +110,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @throws \InvalidArgumentException Form already contains field with name `...`.
 	 * @return \MvcCore\Ext\Form
@@ -171,7 +171,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
@@ -186,7 +186,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @param  bool                            $autoInit
 	 * @return \MvcCore\Ext\Form
@@ -231,7 +231,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
@@ -243,7 +243,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field[]|array
 	 */
@@ -257,7 +257,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldType
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
@@ -272,7 +272,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldClassName  Full php class name or full interface name.
 	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field[]|array
@@ -291,7 +291,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldClassName  Full php class name or full interface name.
 	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
 	 * @return \MvcCore\Ext\Forms\Field|NULL

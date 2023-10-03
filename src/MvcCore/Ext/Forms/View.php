@@ -83,7 +83,7 @@ class View extends \MvcCore\View {
 	protected static $fieldsDir = 'Forms/Fields';
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public static function GetFormsDir () {
@@ -91,7 +91,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $formsDir
 	 * @return string
 	 */
@@ -100,7 +100,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public static function GetFieldsDir () {
@@ -108,7 +108,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldsDir
 	 * @return string
 	 */
@@ -132,7 +132,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\View
 	 */
 	public function GetView () {
@@ -140,7 +140,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\View $view
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -152,7 +152,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function GetForm () {
@@ -160,7 +160,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Form $form
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -172,7 +172,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function GetField () {
@@ -180,7 +180,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -192,7 +192,7 @@ class View extends \MvcCore\View {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function GetFieldset () {
@@ -200,7 +200,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -216,7 +216,7 @@ class View extends \MvcCore\View {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[]
 	 */
 	public function GetChildren () {
@@ -224,7 +224,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[] $children
 	 * @return \MvcCore\Ext\Forms\View
 	 */
@@ -234,7 +234,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $name
 	 * @return mixed
 	 */
@@ -305,7 +305,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $name
 	 * @return bool
 	 */
@@ -372,7 +372,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $method
 	 * @param  mixed  $arguments
 	 * @return mixed
@@ -397,7 +397,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderTemplate () {
@@ -411,7 +411,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderNaturally () {
@@ -425,7 +425,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderBegin () {
@@ -473,7 +473,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @return string
 	 */
@@ -486,7 +486,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @deprecated
 	 * @throws \Exception
 	 * @return \stdClass
@@ -496,7 +496,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderErrorsAndContent () {
@@ -518,7 +518,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderErrors () {
@@ -575,7 +575,7 @@ class View extends \MvcCore\View {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderContent () {
@@ -596,7 +596,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \array[] [\MvcCore\Ext\Forms\Fields\Hidden[], \MvcCore\Ext\Forms\Field[]|\MvcCore\Ext\Forms\Fieldset[], \MvcCore\Ext\Forms\Fields\ISubmit[]|\MvcCore\Ext\Forms\Fields\IReset[]]
 	 */
 	public function RenderContentGetFieldsGroups () {
@@ -619,7 +619,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderContentWithDivStructure () {
@@ -653,7 +653,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderContentWithTableStructure () {
@@ -737,7 +737,7 @@ class View extends \MvcCore\View {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderContentWithoutStructure () {
@@ -749,7 +749,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return string
 	 */
 	public function RenderEnd () {
@@ -757,7 +757,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param string $str Template with replacements like `{0}`, `{1}`, `{anyStringKey}`...
 	 * @param array $args Each value under it's index is replaced as
 	 *                    string representation by replacement in form `{arrayKey}`
@@ -773,7 +773,7 @@ class View extends \MvcCore\View {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  array             $attributes
 	 * @param  callable|\Closure $escapeFn
 	 * @return string

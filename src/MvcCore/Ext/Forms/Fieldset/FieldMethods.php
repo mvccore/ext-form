@@ -19,7 +19,7 @@ namespace MvcCore\Ext\Forms\Fieldset;
 trait FieldMethods {
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -70,7 +70,7 @@ trait FieldMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @param  string|NULL              $fieldName
 	 * @throws \InvalidArgumentException
@@ -92,7 +92,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -105,7 +105,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field 
 	 * @throws \RuntimeException|\InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
@@ -162,7 +162,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return bool
 	 */
@@ -177,7 +177,7 @@ trait FieldMethods {
 	}
 
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field|string $fieldOrFieldName
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -209,7 +209,7 @@ trait FieldMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @return \MvcCore\Ext\Forms\Field[]
 	 */
 	public function & GetFields () {
@@ -217,7 +217,7 @@ trait FieldMethods {
 	}
 	
 	/**
-	 * @inheritDocs
+	 * @inheritDoc
 	 * @param  string $fieldName
 	 * @return \MvcCore\Ext\Forms\Field|NULL
 	 */
