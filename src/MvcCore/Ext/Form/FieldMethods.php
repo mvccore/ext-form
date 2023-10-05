@@ -98,7 +98,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
+	 * @param  \MvcCore\Ext\Forms\Field $fields,... Any `\MvcCore\Ext\Forms\IField` fully configured instance to add into form.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddFields ($fields) {

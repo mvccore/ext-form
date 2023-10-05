@@ -93,7 +93,7 @@ trait FieldMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
+	 * @param  \MvcCore\Ext\Forms\Field $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddFields ($fields) {
