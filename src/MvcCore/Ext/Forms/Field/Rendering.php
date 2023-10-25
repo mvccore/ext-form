@@ -304,9 +304,18 @@ trait Rendering {
 			}
 			if ($this->{$fieldName} !== NULL) {
 				if (is_array($this->{$fieldName})) {
-					$attrs[$attrName] = implode(',', $this->{$fieldName});
+					$strValues = [];
+					foreach ($this->{$fieldName} as $val) {
+						$strValues[] = is_float($val)
+							? $this->renderFloatInDecimalWithoutOverflow($val)
+							: (string) $val;
+					}
+					$attrs[$attrName] = implode(',', $strValues);
 				} else {
-					$attrs[$attrName] = (string) $this->{$fieldName};
+					$fieldValue = $this->{$fieldName};
+					$attrs[$attrName] = is_float($fieldValue)
+							? $this->renderFloatInDecimalWithoutOverflow($fieldValue)
+							: (string) $fieldValue;
 				}
 			}
 		}
@@ -343,5 +352,25 @@ trait Rendering {
 		return $formViewClass::RenderAttrs(
 			array_merge($fieldAttrs, $attrs), $view->EscapeAttr
 		);
+	}
+
+	/**
+	 * Render float number in decimal form correctly, do not render in scientific form:
+	 * Be carefull - PHP always render number: `9_999_999.999_999_9` [precision=14]
+	 * with function `number_format()` as `99999999.9999999850988388`.
+	 * But there is necessary to get always result `9999999.9999999`.
+	 * @param  float  $floatVal
+	 * @return string
+	 */
+	protected function renderFloatInDecimalWithoutOverflow ($floatVal) {
+		$floatPrecision = @ini_get('precision');
+		if ($floatPrecision === FALSE) $floatPrecision = 14;
+		$floatValAsInt = intval(floor($floatVal));
+		if ($floatValAsInt !== 0)
+			$floatPrecision -= strlen((string) $floatValAsInt);
+		$floatValAsStr = number_format($floatVal, $floatPrecision, '.', '');
+		$floatValAsStr = rtrim($floatValAsStr, '0');
+		if (substr($floatValAsStr, -1, 1) === '.') $floatValAsStr .= '0';
+		return $floatValAsStr;
 	}
 }
