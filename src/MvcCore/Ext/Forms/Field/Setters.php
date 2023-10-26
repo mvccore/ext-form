@@ -320,7 +320,7 @@ trait Setters {
 	 * @return string Newly configured template value.
 	 */
 	public static function SetTemplate ($templateName = 'control', $templateCode = '' /* '<input id="{id}" name="{name}" type="{type}" value="{value}"{attrs} />' */) {
-		if (gettype(static::$templates) == 'array') {
+		if (is_array(static::$templates)) {
 			static::$templates[$templateName] = $templateCode;
 		} else {
 			static::$templates->{$templateName} = $templateCode;
@@ -334,7 +334,7 @@ trait Setters {
 	 * @return array
 	 */
 	public static function SetTemplates ($templates = []) {
-		if (gettype(static::$templates) == 'array') {
+		if (is_array(static::$templates)) {
 			static::$templates = (array) $templates;
 		} else {
 			static::$templates = (object) $templates;

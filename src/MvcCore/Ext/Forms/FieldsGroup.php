@@ -556,14 +556,14 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$itemLabelText = $option['text'] ? $option['text'] : $key;
 			$attrsArr = $this->controlAttrs;
 			$classArr = $this->cssClasses;
-			if (isset($option['attrs']) && gettype($option['attrs']) == 'array') {
+			if (isset($option['attrs']) && is_array($option['attrs'])) {
 				$attrsArr = array_merge($this->controlAttrs, $option['attrs']);
 			}
 			if (isset($option['class'])) {
 				$classArrParam = [];
-				if (gettype($option['class']) == 'array') {
+				if (is_array($option['class'])) {
 					$classArrParam = $option['class'];
-				} else if (gettype($option['class']) == 'string') {
+				} else if (is_string($option['class'])) {
 					$classArrParam = explode(' ', $option['class']);
 				}
 				foreach ($classArrParam as $clsValue) if ($clsValue) $classArr[] = $clsValue;

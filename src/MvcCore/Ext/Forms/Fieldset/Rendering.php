@@ -31,13 +31,12 @@ trait Rendering {
 	 * @return string
 	 */
 	public function Render () {
-		$cssClasses = array_merge([], $this->cssClasses, [
+		$attrs = [];
+		$cssClasses = array_unique(array_merge([], $this->cssClasses, [
 			\MvcCore\Tool::GetDashedFromPascalCase($this->name)
-		]);
-		$attrs = [
-			'name'	=> $this->name,
-			'class'	=> implode(' ', array_unique($cssClasses)),
-		];
+		]));
+		if (count($cssClasses) > 0)
+			$attrs['class']	= implode(' ', $cssClasses);
 		if ($this->disabled)
 			$attrs['disabled'] = 'disabled';
 		if ($this->title !== NULL)
@@ -46,14 +45,18 @@ trait Rendering {
 			$attrs['form'] = $this->form->GetId();
 		if (count($this->controlAttrs))
 			$attrs = array_merge([], $this->controlAttrs, $attrs);
-		$result = ['<fieldset'];
+		$attrsStrItems = [];
 		foreach ($attrs as $attrName => $attrValue) 
-			$result[] = ' ' . $attrName . '="' . $attrValue . '"';
-		$result[] = '>';
-		$result[] = $this->RenderLegend();
-		$result[] = $this->RenderErrorsAndContent();
-		$result[] = '</fieldset>';
-		return implode('', $result);
+			$attrsStrItems[] = ' ' . $attrName . '="' . $attrValue . '"';
+		$attrsStr = implode('', $attrsStrItems);
+		// <fieldset name={name}{attrs}>{legend}{content}</fieldset>
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format($this->template, [
+			'name'		=> $this->name,
+			'attrs'		=> $attrsStr,
+			'legend'	=> $this->RenderLegend(),
+			'content'	=> $this->RenderErrorsAndContent(),
+		]);
 	}
 	
 	/**

@@ -525,5 +525,20 @@ interface IFieldset {
 	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
 	 */
 	public function GetFieldset ($fieldsetName);
+
+	/**
+	 * Get fieldset template for natural rendering (not customized with `*.phtml` view).
+	 * Default value: `<fieldset name={name}{attrs}>{legend}{content}</fieldset>`.
+	 * @return string
+	 */
+	public function GetTemplate ();
+
+	/**
+	 * Set fieldset template for natural rendering (not customized with `*.phtml` view).
+	 * Default value: `<fieldset name={name}{attrs}>{legend}{content}</fieldset>`.
+	 * @param  string $template Template HTML code with prepared replacements.
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetTemplate ($template);
 	
 }

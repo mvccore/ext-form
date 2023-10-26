@@ -52,6 +52,9 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 	 * Fieldset title, global HTML attribute, optional.
 	 * @param  bool      $translateTitle 
 	 * Boolean to translate title text, `TRUE` by default.
+	 * @param  string    $template
+	 * Set fieldset template for natural rendering (not customized with `*.phtml` view).
+	 * Default value: `<fieldset name={name}{attrs}><legend>{legend}</legend>{content}</fieldset>`.
 	 * @param  array     $controlAttrs 
 	 * Collection with fieldset HTML element additional attributes 
 	 * by array keys/values. Do not use system attributes as: 
@@ -71,6 +74,7 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 		array $cssClasses = [],
 		$title = NULL,
 		$translateTitle = TRUE,
+		$template = NULL,
 		array $controlAttrs = []
 	) {
 		$this->consolidateCfg($cfg, func_get_args(), func_num_args());

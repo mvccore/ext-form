@@ -237,4 +237,22 @@ trait GettersSetters {
 	public function GetForm () {
 		return $this->form;
 	}
+
+	/**
+	 * @inheritDoc
+	 * @return string
+	 */
+	public function GetTemplate () {
+		return $this->template;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @param  string $template Template HTML code with prepared replacements.
+	 * @return \MvcCore\Ext\Forms\Fieldset
+	 */
+	public function SetTemplate ($template) {
+		$this->template = $template;
+		return $this;
+	}
 }

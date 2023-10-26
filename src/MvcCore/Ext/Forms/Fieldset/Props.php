@@ -122,6 +122,13 @@ trait Props {
 	 * @var \MvcCore\Ext\Forms\Fieldset[]
 	 */
 	protected $fieldsets = [];
+
+	/**
+	 * Fieldset template for natural rendering (not customized with `*.phtml` view).
+	 * Default value: `<fieldset name={name}{attrs}>{legend}{content}</fieldset>`.
+	 * @var string
+	 */
+	protected $template = '<fieldset name={name}{attrs}>{legend}{content}</fieldset>';
 	
 
 	/************************************************************************************************
