@@ -96,10 +96,8 @@ trait InputMode {
 		if ($this->inputMode !== NULL) return;
 		if ($this->type === 'number') {
 			if (
-				(is_numeric($this->value) && floor($this->value) !== $this->value) ||
-				(is_numeric($this->step) && floor($this->step) !== $this->step) ||
-				(is_numeric($this->min) && floor($this->min) !== $this->min) ||
-				(is_numeric($this->max) && floor($this->max) !== $this->max)
+				is_float($this->value) || is_float($this->step) ||
+				is_float($this->max) || is_float($this->min)
 			) {
 				$this->inputMode = 'decimal';
 			} else {
@@ -109,4 +107,5 @@ trait InputMode {
 			$this->inputMode = static::$fieldTypesAndInputModes[$this->type];
 		}
 	}
+
 }
