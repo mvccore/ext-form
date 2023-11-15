@@ -29,6 +29,7 @@ extends	\MvcCore\Ext\Forms\Field {
 	use \MvcCore\Ext\Forms\Field\Props\Required;
 	use \MvcCore\Ext\Forms\Field\Props\MinMaxLength;
 	use \MvcCore\Ext\Forms\Field\Props\AutoComplete;
+	use \MvcCore\Ext\Forms\Field\Props\InputMode;
 
 	/**
 	 * Possible values: `hidden`.
@@ -134,6 +135,20 @@ extends	\MvcCore\Ext\Forms\Field {
 	 * has entered. Possible values: `off`, `on`, `name`, `email`, 
 	 * `username`, `country`, `postal-code` and many more...
 	 * 
+	 * @param  string                 $inputMode
+	 * A hint to browsers for which virtual keyboard to display. 
+	 * This attribute applies when the type attribute is 
+	 * `text`, `password`, `email`, or `url`. Possible values:
+	 * - `none`    : No virtual keyboard should be displayed.
+	 * - `text`    : Text input in the user's locale.
+	 * - `decimal` : Fractional numeric input.
+	 * - `numeric` : Numeric input.
+	 * - `tel`     : Telephone input, including asterisk and 
+	 * -             pound key. Prefer `<input type="tel">`.
+	 * - `search`  : A virtual keyboard optimized for search input.
+	 * - `email`   : Email input. Prefer `<input type="email">`.
+	 * - `url`     : URL input. Prefer `<input type="url">`.
+	 * 
 	 * @throws \InvalidArgumentException
 	 * @return void
 	 */
@@ -155,10 +170,27 @@ extends	\MvcCore\Ext\Forms\Field {
 		$minLength = NULL,
 		$maxLength = NULL,
 
-		$autoComplete = NULL
+		$autoComplete = NULL,
+		$inputMode = NULL
 	) {
 		$this->consolidateCfg($cfg, func_get_args(), func_num_args());
 		parent::__construct($cfg);
+	}
+	
+	/**
+	 * This INTERNAL method is called from `\MvcCore\Ext\Form` just before
+	 * field is naturally rendered. It sets up field for rendering process.
+	 * Do not use this method even if you don't develop any form field.
+	 * - Set up field render mode if not defined.
+	 * - Translate label text if necessary.
+	 * - Translate placeholder text if necessary.
+	 * - Set up `inputmode` field attribute if necessary.
+	 * - Set up tab-index if necessary.
+	 * @return void
+	 */
+	public function PreDispatch () {
+		parent::PreDispatch();
+		$this->preDispatchInputMode();
 	}
 
 	/**
@@ -172,6 +204,7 @@ extends	\MvcCore\Ext\Forms\Field {
 		$attrsStrItems = [
 			$this->RenderControlAttrsWithFieldVars([
 				'autoComplete',
+				'inputMode',
 			])
 		];
 		if (!$this->form->GetFormTagRenderingStatus()) 
