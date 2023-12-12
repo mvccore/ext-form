@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.2.13';
+	const VERSION = '5.2.14';
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
@@ -91,7 +91,7 @@ implements	\MvcCore\Ext\IForm {
 	 * @throws \InvalidArgumentException 
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		$str = '['.get_class().'] ' . $errorMsg . ' ('
+		$str = '['.get_class($this).'] ' . $errorMsg . ' ('
 			. 'form id: `'.$this->id . '`, '
 			. 'form type: `'.get_class($this->form).'`'
 		.')';

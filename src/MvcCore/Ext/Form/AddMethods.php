@@ -127,7 +127,7 @@ trait AddMethods {
 	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL) {
 		if (!is_callable($handler)) 
 			throw new \InvalidArgumentException(
-				'['.get_class().'] Given argument is not callable: `'.serialize($handler).'`.'
+				'['.get_called_class().'] Given argument is not callable: `'.serialize($handler).'`.'
 			);
 		if (is_array($handler) || (is_string($handler) && mb_strpos($handler, '::') !== FALSE)) {
 			$isClosure = FALSE;

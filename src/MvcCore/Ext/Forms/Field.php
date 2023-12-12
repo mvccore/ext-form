@@ -419,7 +419,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function throwNewInvalidArgumentException ($errorMsg) {
-		$str = '['.get_class().'] ' . $errorMsg . ' (';
+		$str = '['.get_class($this).'] ' . $errorMsg . ' (';
 		if ($this->form) {
 			$str .= 'form id: `'.$this->form->GetId() . '`, '
 				. 'form type: `'.get_class($this->form).'`, ';

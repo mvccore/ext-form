@@ -186,7 +186,7 @@ trait Submitting {
 		$this->SaveSession();
 		if (!$url && $this->result >= \MvcCore\Ext\IForm::RESULT_ERRORS && $this->result <= \MvcCore\Ext\IForm::RESULT_NEXT_PAGE)
 			throw new \RuntimeException(
-				'['.get_class().'] No url specified to redirect. ' . $errorMsg
+				'['.get_class($this).'] No url specified to redirect. ' . $errorMsg
 			);
 		if ($url) self::Redirect(
 			$url,
