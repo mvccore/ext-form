@@ -143,6 +143,16 @@ trait Setters {
 
 	/**
 	 * @inheritDoc
+	 * @param  string $name
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function RemoveControlAttr ($name) {
+		unset($this->controlAttrs[$name]);
+		return $this;
+	}
+
+	/**
+	 * @inheritDoc
 	 * @param  array $attrs
 	 * @return \MvcCore\Ext\Forms\Field
 	 */

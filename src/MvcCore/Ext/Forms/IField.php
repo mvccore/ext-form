@@ -459,6 +459,20 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	public function SetControlAttr ($name, $value);
 
 	/**
+	 * Remove field HTML element additional attribute 
+	 * by attribute name.
+	 * Do not use system attributes as: `id`, `name`, 
+	 * `value`, `readonly`, `disabled`, `class` ...
+	 * Those attributes have it's own configurable properties
+	 * by setter methods or by constructor config array.
+	 * HTML field elements are meant: `<input>, 
+	 * <button>, <select>, <textarea> ...`
+	 * @param  string $name
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	public function RemoveControlAttr ($name);
+
+	/**
 	 * Add (and merge) collection with field HTML element 
 	 * additional attributes by array keys/values.
 	 * Do not use system attributes as: `id`, `name`, 
