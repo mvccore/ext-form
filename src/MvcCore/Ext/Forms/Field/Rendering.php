@@ -68,7 +68,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL) {
-		$result = '';
+		$result = [];
 		$renderMode = $this->form->GetFieldsRenderModeDefault();
 		$label = NULL;
 		if ($this instanceof \MvcCore\Ext\Forms\Fields\ILabel) {
@@ -76,20 +76,22 @@ trait Rendering {
 			if ($renderModeLocal !== NULL) $renderMode = $renderModeLocal;
 			$label = $this->GetLabel();
 		}
-		if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL && $label !== NULL) {
-			$result = $this->RenderLabelAndControl($labelAndControlSeparator);
-		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND && $label !== NULL) {
-			$result = $this->RenderControlInsideLabel();
-		} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || $label === NULL) {
-			$result = $this->RenderControl();
+		if ($label !== NULL && $renderMode !== \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL) {
+			if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL) {
+				$result[] = $this->RenderLabelAndControl($labelAndControlSeparator);
+			} else if ($renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND) {
+				$result[] = $this->RenderControlInsideLabel();
+			}
+		} else {
+			$result[] = $this->RenderControl();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 			if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-				$result = $this->RenderErrors() . $result;
+				array_unshift($result, $this->RenderErrors());
 			} else if ($formErrorsRenderMode !== \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-				$result .= $this->RenderErrors();
+				$result[] = $this->RenderErrors();
 			}
 		}
-		return $result;
+		return implode('', $result);
 	}
 
 	/**
@@ -147,7 +149,8 @@ trait Rendering {
 		$attrsStr = $this->RenderLabelAttrsWithFieldVars();
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
-		$result = $formViewClass::Format($template, [
+		$result = [];
+		$result[] = $formViewClass::Format($template, [
 			'id'		=> $this->id,
 			'label'		=> $view->EscapeHtml($this->label),
 			'control'	=> $this->RenderControl(),
@@ -156,11 +159,11 @@ trait Rendering {
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-			$result = $errors . $result;
+			array_unshift($result, $errors);
 		} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-			$result .= $errors;
+			$result[] = $errors;
 		}
-		return $result;
+		return implode('', $result);
 	}
 
 	/**
