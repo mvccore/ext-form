@@ -332,6 +332,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		if ($this->form !== NULL) return $this;
 		parent::SetForm($form);
+		if ($this->translateOptions === NULL && $this->translate !== NULL) 
+			$this->translateOptions = $this->translate;
 		$this->setFormLoadOptions();
 		if (!$this->options) $this->throwNewInvalidArgumentException(
 			'No `options` property defined.'
@@ -348,22 +350,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	public function PreDispatch () {
 		parent::PreDispatch();
 		$this->preDispatchTabIndex();
-		if (!$this->translate) return;
-		$form = $this->form;
-		foreach ($this->options as $key => & $value) {
-			if (is_string($value)) {
-				// most simple key/value array options configuration
-				if ($value)
-					$this->options[$key] = $form->Translate((string) $value);
-			} else if (is_array($value)) {
-				// advanced configuration with key, text, css class, and any other attributes for single option tag
-				$text = isset($value['text'])
-					? $value['text']
-					: $key;
-				if ($text)
-					$value['text'] = $form->Translate((string) $text);
-			}
-		}
+		if (!$this->translateOptions) return;
+		$this->preDispatchOptions(FALSE);
 	}
 
 	/**
@@ -373,25 +361,25 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL) {
-		$result = '';
+		$result = [];
 		if (
 			$this->label && (
 				$this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NORMAL ||
 				$this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_LABEL_AROUND
 			)
 		) {
-			$result = $this->RenderLabelAndControl();
+			$result[] = $this->RenderLabelAndControl();
 		} else if ($this->renderMode === \MvcCore\Ext\IForm::FIELD_RENDER_MODE_NO_LABEL || !$this->label) {
-			$result = $this->RenderControl();
+			$result[] = $this->RenderControl();
 			$errors = $this->RenderErrors();
 			$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 			if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-				$result = $errors . $result;
+				array_unshift($result, $errors);
 			} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-				$result .= $errors;
+				$result[] = $errors;
 			}
 		}
-		return $result;
+		return implode('', $result);
 	}
 
 	/**
@@ -412,7 +400,8 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			: $templates->togetherLabelRight;
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
-		$result = $formViewClass::Format($template, [
+		$result = [];
+		$result[] = $formViewClass::Format($template, [
 			'id'		=> $this->id,
 			'label'		=> $view->EscapeHtml($this->label),
 			'control'	=> $this->RenderControl(),
@@ -421,11 +410,11 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 		$errors = $this->RenderErrors();
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_BEFORE_EACH_CONTROL) {
-			$result = $errors . $result;
+			array_unshift($result, $errors);
 		} else if ($formErrorsRenderMode === \MvcCore\Ext\IForm::ERROR_RENDER_MODE_AFTER_EACH_CONTROL) {
-			$result .= $errors;
+			$result[] = $errors;
 		}
-		return $result;
+		return implode('', $result);
 	}
 
 	/**

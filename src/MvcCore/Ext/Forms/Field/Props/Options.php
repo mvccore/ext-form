@@ -80,9 +80,9 @@ trait Options {
 
 	/**
 	 * Boolean about to translate options texts, default `TRUE` to translate.
-	 * @var bool
+	 * @var bool|NULL
 	 */
-	protected $translateOptions = TRUE;
+	protected $translateOptions = NULL;
 
 	/**
 	 * Callable or dynamic callable definition to load control options.
@@ -171,7 +171,7 @@ trait Options {
 
 	/**
 	 * @inheritDoc
-	 * @param  bool $translateOptions 
+	 * @param  bool|NULL $translateOptions 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
@@ -181,7 +181,7 @@ trait Options {
 
 	/**
 	 * @inheritDoc
-	 * @return bool
+	 * @return bool|NULL
 	 */
 	public function GetTranslateOptions () {
 		return $this->translateOptions;
@@ -372,6 +372,54 @@ trait Options {
 		$this->optionsLoaderExecution = [$reflectionInvoke, $callable, $args];
 		
 		return $this->optionsLoaderExecution;
+	}
+
+	/**
+	 * Translate all texts in property `$this->options`.
+	 * @param  bool $useOptGroups `TRUE` to use option groups, `TRUE` by default.
+	 * @return void
+	 */
+	protected function preDispatchOptions ($useOptGroups = TRUE) {
+		$form = $this->form;
+		if ($useOptGroups) {
+			foreach ($this->options as $key => $value) {
+				if (is_scalar($value)) { // scalar is string|int|float|bool, scalar is not null|resource
+					$valueStr = (string) $value;
+					// most simple key/value array options configuration
+					if (mb_strlen($valueStr) > 0)
+						$this->options[$key] = $form->Translate($valueStr);
+				} else if (is_array($value)) {
+					if (isset($value['options']) && is_array($value['options'])) {
+						// `<optgroup>` options configuration
+						$this->preDispatchTranslateOptionOptGroup($value);
+						$this->options[$key] = $value;
+					} else {
+						// advanced configuration with key, text, css class, and any other attributes for single option tag
+						$textStr = isset($value['text'])
+							? (string) $value['text']
+							: (string) $key;
+						if (mb_strlen($textStr) > 0)
+							$this->options[$key]['text'] = $form->Translate($textStr);
+					}
+				}
+			}
+		} else {
+			foreach ($this->options as $key => $value) {
+				if (is_scalar($value)) { // scalar is string|int|float|bool, scalar is not null|resource
+					$valueStr = (string) $value;
+					// most simple key/value array options configuration
+					if (mb_strlen($valueStr) > 0)
+						$this->options[$key] = $form->Translate($valueStr);
+				} else if (is_array($value)) {
+					// advanced configuration with key, text, css class, and any other attributes for single option tag
+					$textStr = isset($value['text'])
+						? (string) $value['text']
+						: (string) $key;
+					if (mb_strlen($textStr) > 0)
+						$this->options[$key]['text'] = $form->Translate($textStr);
+				}
+			}
+		}
 	}
 
 }

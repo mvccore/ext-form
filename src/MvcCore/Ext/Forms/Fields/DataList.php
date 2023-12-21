@@ -37,7 +37,8 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 * @var \string[]|\stdClass
 	 */
 	protected static $templates = [
-		'control' => '<datalist id="{id}" {attrs}>{options}</datalist>',
+		'control'	=> '<datalist id="{id}"{attrs}>{options}</datalist>',
+		'option'	=> '<option value="{value}"{class}{attrs} />',
 	];
 
 
@@ -139,8 +140,9 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	public function SetForm (\MvcCore\Ext\IForm $form) {
 		if ($this->form !== NULL) return $this;
 		parent::SetForm($form);
+		if ($this->translateOptions === NULL && $this->translate !== NULL) 
+			$this->translateOptions = $this->translate;
 		$this->setFormLoadOptions();
-		if (!$this->translate) $this->translateOptions = $this->translate;
 		return $this;
 	}
 
@@ -154,11 +156,8 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	 */
 	public function PreDispatch () {
 		parent::PreDispatch();
-		if ($this->translateOptions) {
-			$form = $this->form;
-			foreach ($this->options as $key => $value) 
-				$this->options[$key] = $form->Translate($value);
-		}
+		if (!$this->translateOptions) return;
+		$this->preDispatchOptions(FALSE);
 	}
 
 	/**
@@ -192,9 +191,22 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 		$attrsStrItems = [$this->RenderControlAttrsWithFieldVars()];
 		$optionsStrs = [];
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
-		if ($this->options !== NULL)
-			foreach ($this->options as $value) 
-				$optionsStrs[] = '<option value="' . $view->EscapeAttr($value) . '" />';
+		if ($this->options !== NULL) {
+			foreach ($this->options as $key => $value) {
+				if (is_scalar($value)) {
+					// most simple key/value array options configuration
+					$optionsStrs[] = $this->renderControlOptionValue($value);
+				} else if (is_array($value)) {
+					// advanced configuration with key, text, cs class, and any other attributes for single option tag
+					$optionsStrs[] = $this->renderControlOptionAdvanced(
+						array_key_exists('value', $value) 
+							? $value['value'] 
+							: $key, 
+						$value
+					);
+				}
+			}
+		}
 		if (!$this->form->GetFormTagRenderingStatus()) 
 			$attrsStrItems[] = 'form="' . $this->form->GetId() . '"';
 		$formViewClass = $this->form->GetViewClass();
@@ -204,6 +216,52 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 			'id'		=> $this->id,
 			'options'	=> implode('', $optionsStrs),
 			'attrs'		=> count($attrsStrItems) > 0 ? ' ' . implode(' ', $attrsStrItems) : '',
+		]);
+	}
+	
+	/**
+	 * Render datalist `<option>` tag with inner visible `value`.
+	 * @param  string|NULL $value
+	 * @return string
+	 */
+	protected function renderControlOptionValue ($value) {
+		/** @var \MvcCore\Ext\Forms\Fields\Select $this */
+		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
+		/** @var \stdClass $templates */
+		$templates = static::$templates;
+		return $formViewClass::Format($templates->option, [
+			'value'		=> $view->EscapeAttr((string) $value),
+			'class'		=> '', // to fill prepared template control place for attribute class with empty string
+			'attrs'		=> '', // to fill prepared template control place for other attributes with empty string
+		]);
+	}
+
+	/**
+	 * Render datalist `<option>` tag with inner visible `value` and class or attributes.
+	 * @param  string|NULL $value 
+	 * @param  mixed       $optionData 
+	 * @return mixed
+	 */
+	protected function renderControlOptionAdvanced ($value, $optionData) {
+		/** @var \MvcCore\Ext\Forms\Fields\Select $this */
+		$formViewClass = $this->form->GetViewClass();
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
+		$classStr = isset($optionData['class']) && strlen((string) $optionData['class'])
+			? ' class="' . $optionData['class'] . '"'
+			: '';
+		$attrsStr = isset($optionData['attrs']) 
+			? ' ' . $formViewClass::RenderAttrs($optionData['attrs'], $view->EscapeAttr) 
+			: '';
+		$valueToRender = array_key_exists('value', $optionData) 
+			? (string) $optionData['value'] 
+			: (string) $value;
+		/** @var \stdClass $templates */
+		$templates = static::$templates;
+		return $formViewClass::Format($templates->option, [
+			'value'		=> $view->EscapeAttr($valueToRender),
+			'class'		=> $classStr,
+			'attrs'		=> $attrsStr,
 		]);
 	}
 }
