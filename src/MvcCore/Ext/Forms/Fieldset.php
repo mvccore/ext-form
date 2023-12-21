@@ -62,6 +62,17 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 	 * has it's own configurable properties by setter methods or 
 	 * by constructor config array. Default value is an empty array 
 	 * to not  render any additional attributes.
+	 * @param  int       $formRenderMode
+	 * Form content rendering mode (only inside fieldset), configuration how errors, 
+	 * labels, constrols and submit buttons will be rendered - with or without 
+	 * any structural HTML elements like `<div>` or `<table>` elements.
+	 * Default value is to render form content with `<div>` elements structure.
+	 * This value could be uset to change form rendering mode only inside fieldset,
+	 * not in whole form. If this `value` is not configured, it's used form settings.
+	 * Possible values:
+	 * - `\MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE`
+	 * - `\MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE`
+	 * - `\MvcCore\Ext\IForm::FORM_RENDER_MODE_NO_STRUCTURE`
 	 * @return void
 	 */
 	public function __construct (
@@ -75,7 +86,8 @@ class Fieldset implements \MvcCore\Ext\Forms\IFieldset {
 		$title = NULL,
 		$translateTitle = TRUE,
 		$template = NULL,
-		array $controlAttrs = []
+		array $controlAttrs = [],
+		$formRenderMode = NULL
 	) {
 		$this->consolidateCfg($cfg, func_get_args(), func_num_args());
 		foreach ($cfg as $propertyName => $propertyValue) {
