@@ -35,6 +35,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\Fields\Tel`
  *    - `\MvcCore\Ext\Forms\Fields\Url`
  * - `\MvcCore\Ext\Forms\Fields\Textarea`
+ * - `MvcCore\Ext\Forms\Fields\RadioGroup`
+ * - `MvcCore\Ext\Forms\Fields\CheckboxGroup`
  * @mixin \MvcCore\Ext\Forms\Field
  */
 trait Wrapper {
