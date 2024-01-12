@@ -352,6 +352,10 @@ trait Options {
 					$modelForm = $this->form;
 					if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL) != 0) {
 						$reflectionInvokeObject = $modelForm->GetModelInstance();
+						if ($reflectionInvokeObject === NULL) {
+							$modelFormType = new \ReflectionClass($modelForm->GetModelClassFullName());
+							$reflectionInvokeObject = $modelFormType->newInstance();
+						}
 						$reflectionMethod = new \ReflectionMethod($reflectionInvokeObject, $methodName);
 				
 					} else if (($context & \MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_MODEL_STATIC) != 0) {
