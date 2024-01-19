@@ -36,18 +36,17 @@ namespace MvcCore\Ext\Forms\Fields;
 interface IDataList {
 
 	/**
-	 * Get element `list` attribute value - the `<list>` element `id` attribute value.
+	 * Get `DataList` field unique name.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @return string|NULL
 	 */
 	public function GetList ();
 
 	/**
-	 * Set element `list` attribute value - the `<list>` 
-	 * element `id` attribute value or `DataList` object instance.
+	 * Set `DataList` field instance or `DataList` field unique name.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
-	 * @param  string|\MvcCore\Ext\Forms\Field $dataListIdOrInstance
+	 * @param  string|\MvcCore\Ext\Forms\Fields\IDataList $dataListNameOrInstance
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetList ($dataListIdOrInstance);
+	public function SetList ($dataListNameOrInstance);
 }

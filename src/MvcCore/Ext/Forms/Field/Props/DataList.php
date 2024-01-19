@@ -23,7 +23,6 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\Fields\Week`
  * - `\MvcCore\Ext\Forms\Fields\Number`
  *    - `\MvcCore\Ext\Forms\Fields\Range`
- * - `\MvcCore\Ext\Forms\Fields\ResetInput`
  * - `\MvcCore\Ext\Forms\Fields\Text`
  *    - `\MvcCore\Ext\Forms\Fields\Email`
  *    - `\MvcCore\Ext\Forms\Fields\Password`
@@ -34,14 +33,14 @@ namespace MvcCore\Ext\Forms\Field\Props;
 trait DataList {
 
 	/**
-	 * Element `list` attribute value - the `<list>` element `id` attribute value.
+	 * `DataList` field unique name.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @var string|NULL
 	 */
 	protected $list = NULL;
 
 	/**
-	 * Get element `list` attribute value - the `<list>` element `id` attribute value.
+	 * Get `DataList` field unique name.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
 	 * @return string|NULL
 	 */
@@ -50,17 +49,16 @@ trait DataList {
 	}
 
 	/**
-	 * Set element `list` attribute value - the `<list>` 
-	 * element `id` attribute value or `DataList` object instance.
+	 * Set `DataList` field instance or `DataList` field unique name.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
-	 * @param  string|\MvcCore\Ext\Forms\Field $dataListIdOrInstance
+	 * @param  string|\MvcCore\Ext\Forms\Fields\IDataList $dataListNameOrInstance
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
-	public function SetList ($dataListIdOrInstance) {
-		if ($dataListIdOrInstance instanceof \MvcCore\Ext\Forms\IField) {
-			$this->list = $dataListIdOrInstance->GetId();
+	public function SetList ($dataListNameOrInstance) {
+		if ($dataListNameOrInstance instanceof \MvcCore\Ext\Forms\IField) {
+			$this->list = $dataListNameOrInstance->GetName();
 		} else {
-			$this->list = (string) $dataListIdOrInstance;	
+			$this->list = (string) $dataListNameOrInstance;	
 		}
 		return $this;
 	}
