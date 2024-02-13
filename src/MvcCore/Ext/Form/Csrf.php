@@ -97,7 +97,7 @@ trait Csrf {
 			if (isset($rawRequestParams[$name]) && $rawRequestParams[$name] === $value)
 				$result = TRUE;
 		if (!$result) {
-			$errorMsg = $this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::CSRF);
+			$errorMsg = static::GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::CSRF);
 			if ($this->translate)
 				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($errorMsg);

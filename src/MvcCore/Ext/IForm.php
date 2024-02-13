@@ -1567,7 +1567,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @param  int $index
 	 * @return string
 	 */
-	public function GetDefaultErrorMsg ($index);
+	public static function GetDefaultErrorMsg ($index);
 
 	/***************************************************************************
 	 *                               CSRF Form trait                           *

@@ -95,7 +95,7 @@ trait Submitting {
 			return TRUE;
 		$contentLength = $this->request->GetContentLength();
 		if ($contentLength === NULL) {
-			$errorMsg = $this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT);
+			$errorMsg = static::GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::EMPTY_CONTENT);
 			if ($this->translate)
 				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($errorMsg);
@@ -111,7 +111,7 @@ trait Submitting {
 					$obContent
 				)) ob_clean();
 			}
-			$errorMsg = $this->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE);
+			$errorMsg = static::GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::MAX_POST_SIZE);
 			if ($this->translate)
 				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($viewClass::Format(
@@ -226,15 +226,6 @@ trait Submitting {
 			$this->validators[$validatorName] = $validator;
 		}
 		return $validator;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @param  int $index
-	 * @return string
-	 */
-	public function GetDefaultErrorMsg ($index) {
-		return static::$defaultErrorMessages[$index];
 	}
 
 	/**

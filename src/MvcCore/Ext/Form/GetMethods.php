@@ -362,6 +362,16 @@ trait GetMethods {
 		return static::ConvertBytesFromHumanForm($rawIniValue);
 	}
 	
+
+	/**
+	 * @inheritDoc
+	 * @param  int $index
+	 * @return string
+	 */
+	public static function GetDefaultErrorMsg ($index) {
+		return static::$defaultErrorMessages[$index];
+	}
+
 	/**
 	 * @inheritDoc
 	 * @param  int $bytes The number of bytes.
