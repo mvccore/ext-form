@@ -281,45 +281,66 @@ implements		\MvcCore\Ext\Forms\IField {
 			$result = NULL;
 			if (isset($rawRequestParams[$fieldName]))
 				$result = $rawRequestParams[$fieldName];
-			$alwaysValidate = $this instanceof \MvcCore\Ext\Forms\Fields\IAlwaysValidate;
-			if ($result === NULL && !$alwaysValidate) {
-				$processValidators = FALSE;
-			} else {
-				$processValidators = TRUE;
-			}
-			if ($processValidators && $this->validators) {
-				foreach ($this->validators as $validatorName => $validatorNameOrInstance) {
-					// set safe value as field submit result value
-					$validator = NULL;
-					if (is_string($validatorNameOrInstance)) {
-						$validator = $this->form
-							->GetValidator($validatorName)
-							->SetField($this);
-					} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
-						$validator = $validatorNameOrInstance
-							->SetForm($this->form)
-							->SetField($this);
-					} else {
-						return $this->throwNewInvalidArgumentException(
-							'Unknown validator type configured: `' . $validatorNameOrInstance
-							. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
-						);
-					}
-					$result = $validator->Validate($result);
-				}
-			}
-			// add required error message if necessary and if there are no other errors
-			if ($this->required && !$this->errors)
-				if (
-					$result === NULL ||									// normally validator return NULL on failure
-					(is_string($result) && mb_strlen($result) === 0) ||	// but line is for sure
-					(is_array($result) && count($result) === 0)			// and this line is for sure
-				)
-					$this->AddValidationError(
-						$this->form->GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED)
-					);
+			$result = $this->submitProcessValidators($result);
+			$this->submitProcessRequired($result);
 		}
 		return $result;
+	}
+	
+	/**
+	 * Process all field validators on given param if necessary, 
+	 * every validator could add it's own error message.
+	 * @param  mixed $rawValue
+	 * @return mixed
+	 */
+	protected function submitProcessValidators ($rawValue) {
+		if (count($this->validators) === 0) 
+			return $rawValue;
+		$alwaysValidate = $this instanceof \MvcCore\Ext\Forms\Fields\IAlwaysValidate;
+		if ($rawValue === NULL && !$alwaysValidate) 
+			return $rawValue;
+		foreach ($this->validators as $validatorName => $validatorNameOrInstance) {
+			// set safe value as field submit result value
+			$validator = NULL;
+			if (is_string($validatorNameOrInstance)) {
+				$validator = $this->form
+					->GetValidator($validatorName)
+					->SetField($this);
+			} else if ($validatorNameOrInstance instanceof \MvcCore\Ext\Forms\IValidator) {
+				$validator = $validatorNameOrInstance
+					->SetForm($this->form)
+					->SetField($this);
+			} else {
+				return $this->throwNewInvalidArgumentException(
+					'Unknown validator type configured: `' . $validatorNameOrInstance
+					. '`, type: `' . gettype($validatorNameOrInstance) . '`.'
+				);
+			}
+			$rawValue = $validator->Validate($rawValue);
+		}
+		return $rawValue;
+	}
+
+	/**
+	 * Add required error message if necessary and if there are no other errors.
+	 * @param  mixed $rawValue
+	 * @return bool
+	 */
+	protected function submitProcessRequired ($rawValue) {
+		if ($this->required && !$this->errors) {
+			if (
+				$rawValue === NULL ||									// normally validator return NULL on failure
+				(is_string($rawValue) && mb_strlen($rawValue) === 0) ||	// but line is for sure
+				(is_array($rawValue) && count($rawValue) === 0)			// and this line is for sure
+			) {
+				$form = $this->form;
+				$this->AddValidationError(
+					$form::GetDefaultErrorMsg(\MvcCore\Ext\Forms\IError::REQUIRED)
+				);
+				return FALSE;
+			}
+		}
+		return TRUE;
 	}
 
 	/**
