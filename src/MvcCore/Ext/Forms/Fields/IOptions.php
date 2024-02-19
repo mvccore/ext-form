@@ -178,8 +178,11 @@ interface IOptions {
 	/**
 	 * Merge given field options with possible grouped options into single 
 	 * level flatten array for submit checking purposes.
+	 * If second argument is `TRUE` (by default), array values is option visible text (`string`),
+	 * if second argument is `FALSE`, array values is original option values (`string` or `array`).
 	 * @param  array|NULL $fieldOptions
+	 * @param  bool       $asKeyValue   `TRUE` by default.
 	 * @return array
 	 */
-	public function & GetFlattenOptions (array $fieldOptions = NULL);
+	public function & GetFlattenOptions (array $fieldOptions = NULL, $asKeyValue = TRUE);
 }

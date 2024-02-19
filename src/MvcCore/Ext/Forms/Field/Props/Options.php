@@ -190,19 +190,21 @@ trait Options {
 	/**
 	 * @inheritDoc
 	 * @param  array|NULL $fieldOptions
+	 * @param  bool       $asKeyValue   `TRUE` by default.
 	 * @return array
 	 */
-	public function & GetFlattenOptions (array $fieldOptions = NULL) {
+	public function & GetFlattenOptions (array $fieldOptions = NULL, $asKeyValue = TRUE) {
+		$resultKey = $asKeyValue ? 0 : 1;
 		if ($fieldOptions === NULL && $this->flattenOptions !== NULL)
-			return $this->flattenOptions;
-		$this->flattenOptions = [];
+			return $this->flattenOptions[$resultKey];
+		$flattenOptionsObjects = [];
 		$fieldOptions = $fieldOptions === NULL
 			? $this->options
 			: $fieldOptions;
 		foreach ($fieldOptions as $key1 => $value1) {
 			if (is_scalar($value1)) {
 				// most simple key/value array options configuration
-				$this->flattenOptions[$key1] = $value1;
+				$flattenOptionsObjects[$key1] = $value1;
 			} else if (is_array($value1)) {
 				if (array_key_exists('options', $value1) && is_array($value1['options'])) {
 					// `<optgroup>` options configuration
@@ -210,17 +212,14 @@ trait Options {
 					foreach ($subOptions as $key2 => $value2) {
 						if (is_scalar($value2)) {
 							// most simple key/value array options configuration
-							$this->flattenOptions[$key2] = $value2;
+							$flattenOptionsObjects[$key2] = $value2;
 						} else if (is_array($value2)) {
 							// advanced configuration with key, text, cs class, 
 							// and any other attributes for single option tag
 							$value = array_key_exists('value', $value2) 
 								? $value2['value'] 
 								: $key2;
-							$text = array_key_exists('text', $value2) 
-								? $value2['text'] 
-								: $key2;
-							$this->flattenOptions[$value] = $text;
+							$flattenOptionsObjects[$value] = $value2;
 						}
 					}
 				} else {
@@ -229,14 +228,22 @@ trait Options {
 					$value = array_key_exists('value', $value1) 
 						? $value1['value'] 
 						: $key1;
-					$text = array_key_exists('text', $value1) 
-						? $value1['text'] 
-						: $key1;
-					$this->flattenOptions[$value] = $text;
+					$flattenOptionsObjects[$value] = $value1;
 				}
 			}
 		}
-		return $this->flattenOptions;
+		$flattenOptionsTexts = [];
+		foreach ($flattenOptionsObjects as $key1 => $value1) {
+			if (is_scalar($value1)) {
+				$flattenOptionsTexts[$key1] = $value1;
+			} else if (is_array($value1)) {
+				$flattenOptionsTexts[$key1] = array_key_exists('text', $value1) 
+					? $value1['text'] 
+					: $key1;
+			}
+		}
+		$this->flattenOptions = [$flattenOptionsTexts, $flattenOptionsObjects];
+		return $this->flattenOptions[$resultKey];
 	}
 
 	/**
