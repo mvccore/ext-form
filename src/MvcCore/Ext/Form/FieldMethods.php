@@ -116,9 +116,7 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field, $autoInit = TRUE) {
-		/** @var \MvcCore\Ext\Forms\Field $field */
-		if ($autoInit && $this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_INITIALIZED, $this->submit);
 		// registration:
 		$fieldName = $field->GetName();
 		$alreadyRegistered = FALSE;
@@ -192,8 +190,7 @@ trait FieldMethods {
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function RemoveField ($fieldOrFieldName, $autoInit = TRUE) {
-		if ($autoInit && $this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_INITIALIZED, $this->submit);
 		$fieldName = NULL;
 		if ($fieldOrFieldName instanceof \MvcCore\Ext\Forms\IField) {
 			$fieldName = $fieldOrFieldName->GetName();

@@ -76,6 +76,7 @@ trait Csrf {
 		if (!$this->csrfEnabled) throw new \Exception(
 			"[".get_class($this)."] CSRF protection is disabled for this form."
 		);
+		$this->DispatchStateCheck(static::DISPATCH_STATE_PRE_DISPATCHED, $this->submit);
 		$session = & $this->getSession();
 		list($name, $value) = $session->csrf;
 		return (object) ['name' => $name, 'value' => $value];
@@ -89,6 +90,7 @@ trait Csrf {
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
 		if (!$this->csrfEnabled) return $this;
+		$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, TRUE);
 		$result = FALSE;
 		list($name, $value) = count($this->csrfValue) > 0
 			? $this->csrfValue
@@ -110,19 +112,21 @@ trait Csrf {
 	 * @inheritDoc
 	 * @deprecated
 	 * @throws \Exception
-	 * @return array|[string|NULL, string|NULL]
+	 * @return list<string|NULL>
 	 */
 	public function SetUpCsrf () {
 		if (!$this->csrfEnabled) throw new \Exception(
 			"[".get_class($this)."] CSRF protection is disabled for this form."
 		);
-		$session = & $this->getSession();
-		$prevCsrf = $session->csrf;
-		if (count($prevCsrf) === 0) $prevCsrf = [NULL, NULL];
-		if ($this->response->GetCode() >= 400 && is_array($session->csrf)) {
-			// do not regenerate form CSRF tokens for 404 or 500 requests
-			return $session->csrf;
-		}
+		$session = $this->getSession();
+		$this->csrfValue = $session->csrf;
+		$sessionHasValues = is_array($this->csrfValue) && count($this->csrfValue) > 0;
+		// do not regenerate form CSRF tokens for already regenerated and for 404 or 500 requests
+		if (!$sessionHasValues)
+			$this->csrfValue = [NULL, NULL];
+		if ($sessionHasValues || $this->response->GetCode() >= 400) 
+			return $this->csrfValue;
+		// generate new CSRF tokens into session
 		$toolClass = $this->application->GetToolClass();
 		$randomHash = $toolClass::GetRandomHash(64);
 		$requestUrl = $this->request->GetBaseUrl() . $this->request->GetPath();
@@ -130,6 +134,7 @@ trait Csrf {
 		$name = '____'.sha1($randomHash . 'name' . $this->id . $requestUrl . $nowTime);
 		$value = sha1($randomHash . 'value' . $this->id . $requestUrl . $nowTime);
 		$session->csrf = [$name, $value];
-		return $prevCsrf;
+		// return current CSRF tokens
+		return $this->csrfValue;
 	}
 }

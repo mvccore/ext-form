@@ -137,6 +137,14 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
+	 * @return bool
+	 */
+	public function GetSubmit () {
+		return $this->submit;
+	}
+
+	/**
+	 * @inheritDoc
 	 * @return string|NULL
 	 */
 	public function GetSuccessUrl () {
@@ -215,9 +223,8 @@ trait GetMethods {
 	 * @return array
 	 */
 	public function & GetValues () {
-		if (
-			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED
-		) $this->preDispatchLoadValues($this->getSession());
+		if ($this->DispatchStateCheck(static::DISPATCH_STATE_PRE_DISPATCHED, $this->submit)) 
+			$this->preDispatchLoadValues($this->getSession());
 		return $this->values;
 	}
 
@@ -226,9 +233,8 @@ trait GetMethods {
 	 * @return array
 	 */
 	public function & GetErrors () {
-		if (
-			$this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED
-		) $this->preDispatchLoadErrors($this->getSession());
+		if ($this->DispatchStateCheck(static::DISPATCH_STATE_PRE_DISPATCHED, $this->submit)) 
+			$this->preDispatchLoadErrors($this->getSession());
 		return $this->errors;
 	}
 

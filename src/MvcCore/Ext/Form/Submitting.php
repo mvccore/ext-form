@@ -27,10 +27,8 @@ trait Submitting {
 	public function Submit (array & $rawRequestParams = []) {
 		/** @var $this \MvcCore\Ext\Form */
 		$this->submit = TRUE;
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init($this->submit);
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->PreDispatch($this->submit);
+		if (!$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, TRUE))
+			return [$this->result, $this->values, $this->errors];
 		$submitWithParams = count($rawRequestParams) > 0;
 		if (!$submitWithParams) {
 			$sourceType = $this->method === \MvcCore\Ext\IForm::METHOD_GET
@@ -54,11 +52,8 @@ trait Submitting {
 		}
 		if (!$this->application->GetTerminated())
 			$this->SaveSession();
-		return [
-			$this->result,
-			$this->values,
-			$this->errors,
-		];
+		$this->dispatchMoveState(static::DISPATCH_STATE_SUBMITTED);
+		return [$this->result, $this->values, $this->errors];
 	}
 
 	/**
@@ -151,12 +146,8 @@ trait Submitting {
 	 * @return void
 	 */
 	public function SubmittedRedirect () {
-		if ($this->application->GetTerminated())
-			return;
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init(TRUE);
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->PreDispatch(TRUE);
+		if ($this->application->GetTerminated()) return;
+		$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, $this->submit);
 		$urlPropertyName = '';
 		$redirectMsg = '';
 		if ($this->result === \MvcCore\Ext\IForm::RESULT_ERRORS) {

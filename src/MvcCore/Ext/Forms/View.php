@@ -401,8 +401,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderTemplate () {
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$formViewScript = $this->form->GetViewScript();
 		return $this->Render(
 			static::$formsDir,
@@ -415,8 +414,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderNaturally () {
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		return implode('', [
 			$this->RenderBegin(),
 			$this->RenderErrorsAndContent(),
@@ -429,8 +427,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderBegin () {
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$result = ["<form"];
 		$attrs = [];
 		$form = $this->form;
@@ -479,8 +476,7 @@ class View extends \MvcCore\View {
 	 */
 	public function RenderCsrf () {
 		if (!$this->csrfEnabled) return '';
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$csrf = $this->form->GetCsrf();
 		return '<input type="hidden" name="'.$csrf->name.'" value="'.$csrf->value.'" />';
 	}
@@ -500,8 +496,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderErrorsAndContent () {
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$result = [];
 		$formRenderModeTable = $this->__protected['formRenderMode'] === \MvcCore\Ext\IForm::FORM_RENDER_MODE_TABLE_STRUCTURE;
 		if ($formRenderModeTable) {
@@ -522,8 +517,7 @@ class View extends \MvcCore\View {
 	 * @return string
 	 */
 	public function RenderErrors () {
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$result = [];
 		$formErrorsRenderMode = $this->form->GetErrorsRenderMode();
 		$fieldsetRendering = $this->__protected['fieldsetRendering'];
@@ -580,8 +574,7 @@ class View extends \MvcCore\View {
 	 */
 	public function RenderContent () {
 		/** @var \MvcCore\Ext\Forms\View $this */
-		if ($this->form->GetDispatchState() < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->form->PreDispatch(FALSE);
+		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 
 		$formRenderMode = $this->__protected['formRenderMode'];
 		if ($formRenderMode === \MvcCore\Ext\IForm::FORM_RENDER_MODE_DIV_STRUCTURE) {

@@ -20,6 +20,27 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 **************************************************************************/
 
 	/**
+	 * Dispatch form previous states before given target state if necessary.
+	 * If form state is equal or above given point, `FALSE` is returned.
+	 * If form state is under given point, controller is dispatched
+	 * to the point and `TRUE` is returned.
+	 * @internal
+	 * @param  int $state 
+	 * Dispatch state, that is required to be completed. Possible values are:
+	 * - `\MvcCore\Ext\Form::DISPATCH_STATE_CREATED`
+	 * - `\MvcCore\Ext\Form::DISPATCH_STATE_INITIALIZED`
+	 * - `\MvcCore\Ext\Form::DISPATCH_STATE_PRE_DISPATCHED`
+	 * - `\MvcCore\Ext\Form::DISPATCH_STATE_SUBMITTED`
+	 * - `\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED`
+	 * - `\MvcCore\Ext\Form::DISPATCH_STATE_TERMINATED`
+	 * @param  bool $submit
+	 * Submit boolean from `Init($submit)` or `PreDispatch($submit)` method.
+	 * `FALSE` by default.
+	 * @return bool
+	 */
+	public function DispatchStateCheck ($state, $submit = FALSE);
+
+	/**
 	 * Initialize the form, check if form is initialized or not and do it only once.
 	 * Check if any form id exists and exists only once and initialize translation
 	 * boolean for better field initializations. This is template method. To define
@@ -223,6 +244,13 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @return array
 	 */
 	public function & GetAttributes ();
+
+	/**
+	 * Returns `TRUE` if there has been detected submit route or if it has been 
+	 * called `$form->Submit()` method, `FALSE` otherwise.
+	 * @return bool
+	 */
+	public function GetSubmit ();
 
 	/**
 	 * Get form success submit URL string to redirect after, relative or absolute,
@@ -1662,7 +1690,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * ```
 	 * @deprecated
 	 * @throws \Exception
-	 * @return array|[string|NULL, string|NULL]
+	 * @return list<string|NULL>
 	 */
 	public function SetUpCsrf ();
 }

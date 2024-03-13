@@ -25,7 +25,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
-		$this->setUpRenderState();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_RENDERED, $this->submit);
 		$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();
@@ -34,7 +34,7 @@ trait Rendering {
 		}
 		$this->view->SetChildren([], FALSE); // frees memory
 		$this->cleanSessionErrorsAfterRender();
-		$this->dispatchState = \MvcCore\IController::DISPATCH_STATE_RENDERED;
+		$this->dispatchMoveState(static::DISPATCH_STATE_RENDERED);
 		return $result;
 	}
 
@@ -43,7 +43,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderContent () {
-		$this->setUpRenderState();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_RENDERED, $this->submit);
 		return $this->view->RenderContent();
 	}
 
@@ -52,7 +52,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderErrors () {
-		$this->setUpRenderState();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_RENDERED, $this->submit);
 		if (!$this->view->GetChildren())
 			$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		return $this->view->RenderErrors();
@@ -63,7 +63,7 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderBegin () {
-		$this->setUpRenderState();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_RENDERED, $this->submit);
 		if (!$this->view->GetChildren())
 			$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		return $this->view->RenderBegin();
@@ -75,13 +75,14 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderEnd () {
-		$this->setUpRenderState();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_RENDERED, $this->submit);
 		$this->view->SetChildren([], FALSE); // frees memory
 		$this->SetFormTagRenderingStatus(FALSE);
 		$result = '</form>'
 			. $this->RenderSupportingJs()
 			. $this->RenderSupportingCss();
 		$this->cleanSessionErrorsAfterRender();
+		$this->dispatchMoveState(static::DISPATCH_STATE_RENDERED);
 		return $result;
 	}
 
@@ -151,6 +152,17 @@ trait Rendering {
 		) $result = '/*<![CDATA[*/' . $result . '/*]]>*/';
 		$nonceCspAttr = static::getSupportingAssetsNonce($this->response, TRUE);
 		return "<script type=\"text/javascript\"{$nonceCspAttr}>" . $result . '</script>';
+	}
+	
+	/**
+	 * @inheritDoc
+	 * @param  string $key          A key to translate.
+	 * @param  array  $replacements An array of replacements to process in translated result.
+	 * @throws \Exception           An exception if translations store is not successful.
+	 * @return string               Translated key or key itself if there is no key in translations store.
+	 */
+	public function Translate ($key, $replacements = []) {
+		return call_user_func_array($this->translator, func_get_args());
 	}
 
 	/**
@@ -227,15 +239,4 @@ trait Rendering {
 		return static::getSupportingAssetsNonce($res, $js);
 	}
 
-	/**
-	 * Check dispatch state and call `Init()` or `PreDispatch()` if necessary.
-	 * @return \MvcCore\Ext\Form
-	 */
-	protected function setUpRenderState () {
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init(FALSE);
-		if ($this->dispatchState < \MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED) 
-			$this->PreDispatch(FALSE);
-		return $this;
-	}
 }

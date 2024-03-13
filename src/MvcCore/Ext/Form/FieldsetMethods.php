@@ -111,8 +111,7 @@ trait FieldsetMethods {
 	 */
 	public function AddFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $autoInit = TRUE) {
 		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
-		if ($autoInit && $this->dispatchState < \MvcCore\IController::DISPATCH_STATE_INITIALIZED) 
-			$this->Init();
+		$this->DispatchStateCheck(static::DISPATCH_STATE_INITIALIZED, $this->submit);
 		$fieldsetName = $fieldset->GetName();
 		$alreadyRegistered = FALSE;
 		if (isset($this->fields[$fieldsetName]))
