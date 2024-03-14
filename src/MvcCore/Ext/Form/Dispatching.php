@@ -83,21 +83,28 @@ trait Dispatching {
 			return TRUE;
 		// here is always `$this->dispatchState < $state`:
 		$this->dispatchStateSemaphore = TRUE;
+
 		if ($submit === NULL) {
 			if ($this->submit === NULL)
 				$this->submit = $this->initDetectSubmit();
 			$submit = $this->submit;
 		}
+		
 		if ($state > static::DISPATCH_STATE_INITIALIZED)
-			$this->dispatchTemplateMethod(
-				'Init', static::DISPATCH_STATE_INITIALIZED, $submit
+			$this->dispatchMethods(
+				$this, 'Init', 
+				static::DISPATCH_STATE_INITIALIZED, FALSE
 			);
+
 		if ($state > static::DISPATCH_STATE_PRE_DISPATCHED)
-			$this->dispatchTemplateMethod(
-				'PreDispatch', static::DISPATCH_STATE_PRE_DISPATCHED, $submit
+			$this->dispatchMethods(
+				$this, 'PreDispatch', 
+				static::DISPATCH_STATE_PRE_DISPATCHED, FALSE
 			);
+
 		if ($state > static::DISPATCH_STATE_RENDERED)
 			$this->dispatchRender();
+
 		$this->dispatchStateSemaphore = FALSE;
 		return TRUE;
 	}
