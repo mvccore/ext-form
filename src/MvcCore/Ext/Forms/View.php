@@ -147,7 +147,6 @@ class View extends \MvcCore\View {
 	public function SetView (\MvcCore\IView $view) {
 		/** @var \MvcCore\View $view */
 		$this->view = $view;
-		$this->__protected['store']['view'] = $view;
 		return $this;
 	}
 
@@ -403,6 +402,7 @@ class View extends \MvcCore\View {
 	public function RenderTemplate () {
 		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$formViewScript = $this->form->GetViewScript();
+		$this->SetUpStore($this->view, FALSE);
 		return $this->Render(
 			static::$formsDir,
 			is_bool($formViewScript) ? $this->form->GetId() : $formViewScript
