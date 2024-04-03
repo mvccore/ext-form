@@ -84,11 +84,8 @@ trait Dispatching {
 		// here is always `$this->dispatchState < $state`:
 		$this->dispatchStateSemaphore = TRUE;
 
-		if ($submit === NULL) {
-			if ($this->submit === NULL)
-				$this->submit = $this->initDetectSubmit();
-			$submit = $this->submit;
-		}
+		if ($submit === NULL && $this->submit === NULL)
+			$this->submit = $this->initDetectSubmit();
 		
 		if ($state > static::DISPATCH_STATE_INITIALIZED)
 			$this->dispatchMethods(
@@ -110,28 +107,33 @@ trait Dispatching {
 	}
 	
 	/**
-	 * Dispatch form template based method.
-	 * This is usually used to call form methods like 
-	 * `$form->Init($submit)` or `$form->PreDispatch($submit)`.
-	 * @internal
-	 * @param mixed $methodName 
-	 * Called method full name, base values are `Init` or `PreDispatch`.
-	 * @param mixed $targetDispatchState 
-	 * Dispatch state, that is required to be completed. Base values are:
+	 * Execute given controller method and move dispatch state.
+	 * This method doesn't check if method exists on given controller context.
+	 * @param  \MvcCore\IController $controller 
+	 * Any level controller context.
+	 * @param  string               $methodName 
+	 * Controller public method name, possible values are:
+	 * - `Init`,
+	 * - `<action>Init`,
+	 * - `PreDispatch`,
+	 * - `<action>Action`.
+	 * @param  int                  $targetDispatchState 
+	 * Dispatch state, that is required to be completed. Possible values are:
 	 * - `\MvcCore\IController::DISPATCH_STATE_INITIALIZED`,
-	 * - `\MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED`.
-	 * @param  bool $submit
-	 * Submit boolean from `Init($submit)` or `PreDispatch($submit)` method.
-	 * `FALSE` by default.
+	 * - `\MvcCore\IController::DISPATCH_STATE_ACTION_INITIALIZED`,
+	 * - `\MvcCore\IController::DISPATCH_STATE_PRE_DISPATCHED`,
+	 * - `\MvcCore\IController::DISPATCH_STATE_ACTION_EXECUTED`.
 	 * @return void
 	 */
-	protected function dispatchTemplateMethod ($methodName, $targetDispatchState, $submit = FALSE) {
-		// Call `PreDispatch()` method only if dispatch state is not pre-dispatched yet:
-		if ($this->dispatchState < $targetDispatchState) {
-			// execute template method `Init()` or `PreDispatch()`:
-			$this->{$methodName}($submit);
-			// For cases somebody forget to call parent template method:
-			$this->dispatchMoveState($targetDispatchState);
+	protected function dispatchMethod (\MvcCore\IController $controller, $methodName, $targetDispatchState) {
+		if ($targetDispatchState === static::DISPATCH_STATE_ACTION_EXECUTED) {
+			// This dispatch state is exceptional and it's necessary to set it before execution:
+			$controller->dispatchMoveState($targetDispatchState);
+		}
+		$controller->{$methodName}($this->submit);
+		if ($targetDispatchState !== static::DISPATCH_STATE_ACTION_EXECUTED) {
+			// For cases somebody forget to call parent action method:
+			$controller->dispatchMoveState($targetDispatchState);
 		}
 	}
 	
