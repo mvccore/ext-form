@@ -147,6 +147,7 @@ class View extends \MvcCore\View {
 	public function SetView (\MvcCore\IView $view) {
 		/** @var \MvcCore\View $view */
 		$this->view = $view;
+		$this->__protected['store']['view'] = $view; // to have `$view` local variable
 		return $this;
 	}
 
