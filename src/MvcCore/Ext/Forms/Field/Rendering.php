@@ -352,8 +352,10 @@ trait Rendering {
 		$attrs['class'] = implode(' ', array_unique($cssClasses));
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
+		$escAttrMethod = new \ReflectionMethod($view, 'EscapeAttr');
 		return $formViewClass::RenderAttrs(
-			array_merge($fieldAttrs, $attrs), $view->EscapeAttr
+			array_merge($fieldAttrs, $attrs), 
+			$escAttrMethod->getClosure($view)
 		);
 	}
 
