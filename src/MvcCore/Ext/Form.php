@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.2.22';
+	const VERSION = '5.2.23';
 
 	/**
 	 * Initial value after form has been instantiated.
@@ -52,13 +52,13 @@ implements	\MvcCore\Ext\IForm {
 	 * Value after executing the submit method.
 	 * @var int
 	 */
-	const DISPATCH_STATE_SUBMITTED			= 3;
+	const DISPATCH_STATE_SUBMITTED			= 6;
 	
 	/**
 	 * Value after executing the `Render ()` method.
 	 * @var int
 	 */
-	const DISPATCH_STATE_RENDERED			= 4;
+	const DISPATCH_STATE_RENDERED			= 7;
 
 	use \MvcCore\Ext\Form\InternalProps;
 	use \MvcCore\Ext\Form\ConfigProps;
