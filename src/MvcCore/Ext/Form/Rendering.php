@@ -166,6 +166,37 @@ trait Rendering {
 	}
 
 	/**
+	 * Render float number in decimal form correctly, do not render in scientific form:
+	 * Be carefull - PHP always render number: `9_999_999.999_999_9` [precision=14]
+	 * with function `number_format()` as `9999999.99999989941716`.
+	 * But there is necessary to get always result `9999999.9999999`.
+	 * @param  float  $floatVal
+	 * @return string
+	 */
+	public function RenderFloat ($floatVal) {
+		if ($this->intlExtLoaded) {
+			$fmt = new \NumberFormatter('en_US', \NumberFormatter::TYPE_DEFAULT);
+			$fmt->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
+			$floatValStr = $fmt->format($floatVal, \NumberFormatter::TYPE_DOUBLE);
+		} else {
+			$floatPrecisionStr = @ini_get('precision');
+			$floatPrecision = $floatPrecisionStr !== FALSE
+				? intval($floatPrecisionStr)
+				: 14;
+			$absVal = abs($floatVal);
+			$roundVal = floor($absVal);
+			$fractVal = $absVal - $roundVal;
+			$intVal = intval($roundVal);
+			$intValLen = strlen((string) $intVal);
+			$fractValStr = number_format($fractVal, $floatPrecision, '.', '');
+			$fractValStr = substr($fractValStr, 2, $floatPrecision - $intValLen);
+			$fractValStr = rtrim($fractValStr, '0');
+			$floatValStr = ($floatVal < 0.0 ? '-' : '') . $intVal . '.' . $fractValStr;
+		}
+		return $floatValStr;
+	}
+
+	/**
 	 * View instance factory method.
 	 * @param  bool $actionView
 	 * @return \MvcCore\View

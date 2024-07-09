@@ -41,6 +41,7 @@ trait Dispatching {
 		}
 		$controller->AddChildController($this, $this->id);
 		$this->controller = $controller;
+		$this->intlExtLoaded = extension_loaded('intl');
 		if (static::$jsSupportFilesRootDir === NULL || static::$cssSupportFilesRootDir === NULL) {
 			$toolClass = $this->application->GetToolClass();
 			$baseAssetsPath = str_replace('\\', '/', $toolClass::RealPathVirtual(__DIR__ . '/..')) . '/Forms/assets';

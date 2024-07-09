@@ -214,6 +214,14 @@ trait GetMethods {
 	 * @inheritDoc
 	 * @return bool
 	 */
+	public function GetIntlExtLoaded () {
+		return $this->intlExtLoaded;
+	}
+
+	/**
+	 * @inheritDoc
+	 * @return bool
+	 */
 	public function GetDefaultRequired () {
 		return $this->defaultRequired;
 	}

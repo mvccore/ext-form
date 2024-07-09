@@ -83,6 +83,16 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 */
 	public function Translate ($key, $replacements = []);
 
+	/**
+	 * Render float number in decimal form correctly, do not render in scientific form:
+	 * Be carefull - PHP always render number: `9_999_999.999_999_9` [precision=14]
+	 * with function `number_format()` as `9999999.99999989941716`.
+	 * But there is necessary to get always result `9999999.9999999`.
+	 * @param  float  $floatVal
+	 * @return string
+	 */
+	public function RenderFloat ($floatVal);
+
 
 	/***************************************************************************
 	 *                            GetMethods Form trait                        *
@@ -350,6 +360,12 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * @return bool
 	 */
 	public function GetTranslate ();
+
+	/**
+	 * Get internal boolean about loaded `Intl` PHP extension, if `TRUE`, extension is loaded.
+	 * @return bool
+	 */
+	public function GetIntlExtLoaded ();
 
 	/**
 	 * Get default switch how to set every form control to be required by default.

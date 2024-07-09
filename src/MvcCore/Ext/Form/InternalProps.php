@@ -99,6 +99,12 @@ trait InternalProps {
 	 * @var bool
 	 */
 	protected $translate = FALSE;
+
+	/**
+	 * Internal boolean about loaded `Intl` PHP extension, if `TRUE`, extension is loaded.
+	 * @var bool
+	 */
+	protected $intlExtLoaded = NULL;
 	
 	/**
 	 * File size units for internal conversions.
