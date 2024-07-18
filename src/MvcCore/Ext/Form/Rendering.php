@@ -174,15 +174,17 @@ trait Rendering {
 	 * @return string
 	 */
 	public function RenderFloat ($floatVal) {
+		$floatPrecisionStr = @ini_get('precision');
+		$floatPrecision = $floatPrecisionStr !== FALSE
+			? intval($floatPrecisionStr)
+			: 14;
 		if ($this->intlExtLoaded) {
-			$fmt = new \NumberFormatter('en_US', \NumberFormatter::TYPE_DEFAULT);
+			$fmt = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+			$fmt->setAttribute(\NumberFormatter::MIN_FRACTION_DIGITS, 0);
+			$fmt->setAttribute(\NumberFormatter::MAX_FRACTION_DIGITS, $floatPrecision);
 			$fmt->setSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL, '');
 			$floatValStr = $fmt->format($floatVal, \NumberFormatter::TYPE_DOUBLE);
 		} else {
-			$floatPrecisionStr = @ini_get('precision');
-			$floatPrecision = $floatPrecisionStr !== FALSE
-				? intval($floatPrecisionStr)
-				: 14;
 			$absVal = abs($floatVal);
 			$roundVal = floor($absVal);
 			$fractVal = $absVal - $roundVal;
