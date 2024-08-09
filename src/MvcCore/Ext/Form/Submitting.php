@@ -147,7 +147,7 @@ trait Submitting {
 	 */
 	public function SubmittedRedirect () {
 		if ($this->application->GetTerminated()) return;
-		$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, $this->submit);
+		$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, $this->submit); // submit is not cheked in this method, but it could be
 		$urlPropertyName = '';
 		$redirectMsg = '';
 		if ($this->result === \MvcCore\Ext\IForm::RESULT_ERRORS) {
