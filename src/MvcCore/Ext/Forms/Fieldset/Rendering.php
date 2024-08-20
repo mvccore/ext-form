@@ -31,10 +31,36 @@ trait Rendering {
 	 * @return string
 	 */
 	public function Render () {
+		$formViewClass = $this->form->GetViewClass();
+		return $formViewClass::Format($this->template, [
+			'name'		=> $this->name,
+			'attrs'		=> $this->RenderAtributes(FALSE),
+			'legend'	=> $this->RenderLegend(),
+			'content'	=> $this->RenderErrorsAndContent(),
+		]);
+	}
+	
+	/**
+	 * @inheritDoc
+	 * @return string
+	 */
+	public function RenderBegin () {
+		$attrsStr = $this->RenderAtributes(TRUE);
+		return "<fieldset{$attrsStr}>";
+	}
+	
+	/**
+	 * @inheritDoc
+	 * @param  bool $includeName Default `TRUE` to also render fieldset attribute `name`.
+	 * @return string
+	 */
+	public function RenderAtributes ($includeName = TRUE) {
 		$attrs = [];
 		$cssClasses = array_unique(array_merge([], $this->cssClasses, [
 			\MvcCore\Tool::GetDashedFromPascalCase($this->name)
 		]));
+		if ($includeName)
+			$attrs['name'] = $this->name;
 		if (count($cssClasses) > 0)
 			$attrs['class']	= implode(' ', $cssClasses);
 		if ($this->disabled)
@@ -45,18 +71,23 @@ trait Rendering {
 			$attrs['form'] = $this->form->GetId();
 		if (count($this->controlAttrs))
 			$attrs = array_merge([], $this->controlAttrs, $attrs);
-		$attrsStrItems = [];
-		foreach ($attrs as $attrName => $attrValue) 
-			$attrsStrItems[] = ' ' . $attrName . '="' . $attrValue . '"';
-		$attrsStr = implode('', $attrsStrItems);
-		// <fieldset name={name}{attrs}>{legend}{content}</fieldset>
 		$formViewClass = $this->form->GetViewClass();
-		return $formViewClass::Format($this->template, [
-			'name'		=> $this->name,
-			'attrs'		=> $attrsStr,
-			'legend'	=> $this->RenderLegend(),
-			'content'	=> $this->RenderErrorsAndContent(),
-		]);
+		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
+		$escAttrMethod = new \ReflectionMethod($view, 'EscapeAttr');
+		$result = $formViewClass::RenderAttrs(
+			$attrs, $escAttrMethod->getClosure($view)
+		);
+		if (count($attrs) > 0) 
+			$result = ' ' . $result;
+		return $result;
+	}
+	
+	/**
+	 * @inheritDoc
+	 * @return string
+	 */
+	public function RenderEnd () {
+		return '</fieldset>';
 	}
 	
 	/**

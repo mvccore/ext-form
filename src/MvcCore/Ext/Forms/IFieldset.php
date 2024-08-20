@@ -63,11 +63,36 @@ interface IFieldset {
 	public function __toString ();
 
 	/**
-	 * Render fieldset with it's legend, possible errors 
-	 * and contained controls, labels and another fieldsets.
+	 * Render fieldset by template with it's legend, possible errors 
+	 * and content - controls, labels and possible nested fieldsets.
 	 * @return string
 	 */
 	public function Render ();
+
+	/**
+	 * Render fieldset begin part `<fieldset...>` including attributes.
+	 * This method doesn't render fieldset by it's template. 
+	 * Use this method only if you want to render fieldset manually.
+	 * @return string
+	 */
+	public function RenderBegin ();
+
+	/**
+	 * Render fieldset attributes part, including beginning space.
+	 * This method doesn't render fieldset by it's template. 
+	 * Use this method only if you want to render fieldset manually.
+	 * @param  bool $includeName Default `TRUE` to also render fieldset attribute `name`.
+	 * @return string
+	 */
+	public function RenderAtributes ($includeName = TRUE);
+
+	/**
+	 * Render fieldset end part `</fieldset>`.
+	 * This method doesn't render fieldset by it's template. 
+	 * Use this method only if you want to render fieldset manually.
+	 * @return string
+	 */
+	public function RenderEnd ();
 
 	/**
 	 * Render fieldset `<legend>` element with allowed HTML tags.
@@ -76,8 +101,8 @@ interface IFieldset {
 	public function RenderLegend ();
 	
 	/**
-	 * Render fieldset errors for current fielset 
-	 * level and fielset children controls.
+	 * Render fieldset errors for current fielset level 
+	 * and fielset children controls and possible nested fieldsets.
 	 * @return string
 	 */
 	public function RenderErrorsAndContent ();
