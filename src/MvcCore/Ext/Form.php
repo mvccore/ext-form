@@ -28,7 +28,7 @@ implements	\MvcCore\Ext\IForm {
 	 * Comparison by PHP function version_compare();
 	 * @see http://php.net/manual/en/function.version-compare.php
 	 */
-	const VERSION = '5.2.26';
+	const VERSION = '5.2.27';
 
 	/**
 	 * Initial value after form has been instantiated.
