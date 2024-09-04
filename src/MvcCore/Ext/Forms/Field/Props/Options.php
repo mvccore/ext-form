@@ -130,7 +130,7 @@ trait Options {
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddOptions (array $options = []) {
-		$this->options = array_merge($this->options, $options);
+		$this->options = array_merge($this->options !== NULL ? $this->options : [], $options);
 		return $this;
 	}
 
@@ -391,6 +391,8 @@ trait Options {
 	 * @return void
 	 */
 	protected function preDispatchOptions ($useOptGroups = TRUE) {
+		if ($this->options === NULL)
+			return;
 		$form = $this->form;
 		if ($useOptGroups) {
 			foreach ($this->options as $key => $value) {
