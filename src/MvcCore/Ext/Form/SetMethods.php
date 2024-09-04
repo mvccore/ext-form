@@ -273,7 +273,7 @@ trait SetMethods {
 			? ',' . implode(',', array_keys($values)) . ','
 			: '' ;
 		foreach ($this->fields as $fieldName => $field) {
-			if (isset($values[$fieldName])) {
+			if (array_key_exists($fieldName, $values)) {
 				$fieldValue = $values[$fieldName];
 			} else if ($caseInsensitive) {
 				$defaultsKeyPos = stripos($defaultsKeys, ','.$fieldName.',');
@@ -283,15 +283,8 @@ trait SetMethods {
 			} else {
 				continue;
 			}
-			$fieldValuesIsStr = is_string($fieldValue);
-			if (
-				$fieldValue !== NULL && (
-					!$fieldValuesIsStr || ($fieldValuesIsStr && $fieldValue != '')
-				)
-			) {
-				$field->SetValue($fieldValue);
-				$this->values[$fieldName] = $fieldValue;
-			}
+			$field->SetValue($fieldValue);
+			$this->values[$fieldName] = $fieldValue;
 		}
 		return $this;
 	}
