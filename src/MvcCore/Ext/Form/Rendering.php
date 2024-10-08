@@ -26,6 +26,7 @@ trait Rendering {
 	 */
 	public function Render ($controllerDashedName = NULL, $actionDashedName = NULL) {
 		$this->DispatchStateCheck(static::DISPATCH_STATE_RENDERED, $this->submit);
+		unset($this->fieldsEntries);
 		$this->view->SetChildren($this->GetChildren(TRUE), FALSE);
 		if ($this->viewScript) {
 			$result = $this->view->RenderTemplate();

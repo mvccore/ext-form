@@ -29,6 +29,7 @@ trait Submitting {
 		$this->submit = TRUE;
 		if (!$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, TRUE))
 			return [$this->result, $this->values, $this->errors];
+		unset($this->fieldsEntries);
 		$submitWithParams = count($rawRequestParams) > 0;
 		if (!$submitWithParams) {
 			$sourceType = $this->method === \MvcCore\Ext\IForm::METHOD_GET

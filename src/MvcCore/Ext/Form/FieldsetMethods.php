@@ -163,8 +163,7 @@ trait FieldsetMethods {
 	protected function addFieldsetFieldsRecursive (\MvcCore\Ext\Forms\IFieldset $fieldset) {
 		$fieldsetFields = $fieldset->GetFields();
 		foreach ($fieldsetFields as $fieldsetFieldName => $fieldsetField) 
-			if (!isset($this->fields[$fieldsetFieldName]))
-				$this->AddField($fieldsetField);
+			$this->AddField($fieldsetField);
 		foreach ($fieldset->GetFieldsets() as $fieldsetInFieldset) {
 			$this->addFieldset($fieldsetInFieldset);
 		}

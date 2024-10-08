@@ -108,7 +108,7 @@ trait FieldMethods {
 			$this->AddField($field);
 		return $this;
 	}
-
+	
 	/**
 	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
@@ -117,32 +117,23 @@ trait FieldMethods {
 	 */
 	public function AddField (\MvcCore\Ext\Forms\IField $field, $autoInit = TRUE) {
 		$this->DispatchStateCheck(static::DISPATCH_STATE_INITIALIZED, $this->submit);
-		// registration:
+		
+		// throw an exception if field is already registered, if not, continue:
+		$this->addFieldCheckRegistered($field);
+
+		// register field:
 		$fieldName = $field->GetName();
-		$alreadyRegistered = FALSE;
-		if (isset($this->fields[$fieldName])) {
-			$alreadyRegistered = $field === $this->fields[$fieldName];
-			if (!$alreadyRegistered)
-				throw new \InvalidArgumentException(
-					"[".get_class($this)."] Form already contains field with name: `{$fieldName}`."
-				);
+		$field->SetForm($this);
+		$this->fields[$fieldName] = $field;
+		// submits:
+		if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
+			/** @var \MvcCore\Ext\Forms\Fields\ISubmit $field */
+			$this->submitFields[$fieldName] = $field;
+			$fieldCustomResultState = $field->GetCustomResultState();
+			if ($fieldCustomResultState !== NULL)
+				$this->customResultStates[$fieldName] = $fieldCustomResultState;
 		}
-		if (isset($this->fieldsets[$fieldName]))
-			throw new \InvalidArgumentException(
-				"[".get_class($this)."] Form already contains fieldset with the same name as field: `{$fieldName}`."
-			);
-		if (!$alreadyRegistered) {
-			$field->SetForm($this);
-			$this->fields[$fieldName] = $field;
-			// submits:
-			if ($field instanceof \MvcCore\Ext\Forms\Fields\ISubmit) {
-				/** @var \MvcCore\Ext\Forms\Fields\ISubmit $field */
-				$this->submitFields[$fieldName] = $field;
-				$fieldCustomResultState = $field->GetCustomResultState();
-				if ($fieldCustomResultState !== NULL)
-					$this->customResultStates[$fieldName] = $fieldCustomResultState;
-			}
-		}
+
 		// fieldset and sorting (root form level only):
 		if ($field->GetFieldsetName() === NULL) {
 			$alreadyInChildren = isset($this->children[$fieldName]);
@@ -306,4 +297,59 @@ trait FieldMethods {
 		}
 		return $result;
 	}
+
+	/**
+	 * Check if the currently added field is already registered.
+	 * @param  \MvcCore\Ext\Forms\IField $field 
+	 * @throws \InvalidArgumentException 
+	 * @return void
+	 */
+	protected function addFieldCheckRegistered (\MvcCore\Ext\Forms\IField $field) {
+		$fieldName = $field->GetName();
+		if (!isset($this->fields[$fieldName])) {
+			if ($this->environment->IsDevelopment()) {
+				$backtraceItemPrev = NULL;
+				$backtraceItems = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5);
+				for ($i = 1; $i < 5; $i++) {
+					$backtraceItem = $backtraceItems[$i];
+					$className = isset($backtraceItem['class']) ? $backtraceItem['class'] : NULL;
+					if ($className === NULL || mb_strpos($className, 'MvcCore\\Ext\\Form') === FALSE) {
+						$this->fieldsEntries[$fieldName] = [$backtraceItem, $backtraceItemPrev];
+						break;
+					}
+					$backtraceItemPrev = $backtraceItem;
+				}
+			}
+		} else {
+			$alreadyRegistered = $field === $this->fields[$fieldName];
+			if (!$alreadyRegistered) {
+				$prevFieldType = get_class($this->fields[$fieldName]);
+				$fieldEntry = '';
+				if ($this->environment->IsDevelopment() && isset($this->fieldsEntries[$fieldName])) {
+					list($backtraceItem, $backtraceItemPrev) = $this->fieldsEntries[$fieldName];
+					if (isset($backtraceItem['class']) && isset($backtraceItem['function'])) {
+						$className = $backtraceItem['class'];
+						$funcName = $backtraceItem['function'];
+						$fieldEntry = "{$className}::{$funcName}";
+					}
+					if (isset($backtraceItemPrev['file']) && isset($backtraceItemPrev['line'])) {
+						$file = str_replace('\\', '/', $backtraceItemPrev['file']);
+						$line = $backtraceItemPrev['line'];
+						$fieldEntry = strlen($fieldEntry) > 0
+							? "`{$fieldEntry}` (`{$file}:{$line}`)"
+							: "`{$file}:{$line}`";
+					}
+					$fieldEntry = "entry: {$fieldEntry}";
+				}
+				throw new \InvalidArgumentException(
+					"[".get_class($this)."] Form already contains field with name: `{$fieldName}`, type: `{$prevFieldType}`{$fieldEntry}."
+				);
+			}
+		}
+		if (isset($this->fieldsets[$fieldName]))
+			throw new \InvalidArgumentException(
+				"[".get_class($this)."] Form already contains fieldset with the same name as field: `{$fieldName}`."
+			);
+	}
+
 }

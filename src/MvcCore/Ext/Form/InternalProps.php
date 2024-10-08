@@ -77,6 +77,14 @@ trait InternalProps {
 	protected $formTagRendergingStatus = FALSE;
 
 	/**
+	 * Places in code in development environment, where each field has been added into 
+	 * form instance. This array is usefull for complex forms, extending each other, 
+	 * where are sometimes situations, where some fields are already registered.
+	 * @var array<string,array{"file":?string,"line":?number,"function":?string,"class":?string,"type":?string}>
+	 */
+	protected $fieldsEntries = [];
+
+	/**
 	 * Validators instances keyed by validators ending
 	 * class names, created during `Submit()`.
 	 * @internal
