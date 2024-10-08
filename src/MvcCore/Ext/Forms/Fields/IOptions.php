@@ -27,6 +27,32 @@ namespace MvcCore\Ext\Forms\Fields;
 interface IOptions {
 
 	/**
+	 * Value defining that current field value is scalar type.
+	 * @var int
+	 */
+	const VALUE_TYPE_SCALAR				= 0;
+	
+	/**
+	 * Value defining that current field value is array type.
+	 * @var int
+	 */
+	const VALUE_TYPE_ARRAY				= 1;
+
+
+	/**
+	 * Value defining that options have mixed types.
+	 * @var int
+	 */
+	const OPTION_TYPE_MIXED				= 0;
+	
+	/**
+	 * Value defining that options have only integer and float types.
+	 * @var int
+	 */
+	const OPTION_TYPE_NUMERIC			= 1;
+
+
+	/**
 	 * Options loader instance method context in current form class.
 	 * @var int
 	 */

@@ -82,7 +82,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 
 	/**
 	 * @inheritDoc
-	 * @param  \float[]|\int[]|\string[]|float|int|string|array|NULL $value
+	 * @param  array<float|int|string>|float|int|string|NULL $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value) {
@@ -472,13 +472,14 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$controlAttrsStr .= (strlen($controlAttrsStr) > 0 ? ' ' : '')
 				. 'form="' . $this->form->GetId() . '"';
 		// render control, render label and put it together if necessary
-		$optionValue = isset($option['value']) ? $option['value'] : $key;
-		$checked = gettype($this->value) == 'array'
-			? in_array($optionValue, $this->value)
-			: $this->value === $optionValue;
+		$optionValue = isset($option['value']) 
+			? $option['value'] 
+			: $key;
+		$selected = $this->getOptionSelected($optionValue);
 		$optionValueStr = is_bool($optionValue)
 			? ($optionValue ? '1' : '0')
 			: (string) $optionValue;
+
 		$formViewClass = $this->form->GetViewClass();
 		$view = $this->form->GetView() ?: $this->form->GetController()->GetView();
 		/** @var \stdClass $templates */
@@ -488,7 +489,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			'name'		=> $this->name,
 			'type'		=> $this->type,
 			'value'		=> $view->EscapeAttr($optionValueStr),
-			'checked'	=> $checked ? ' checked="checked"' : '',
+			'checked'	=> $selected ? ' checked="checked"' : '',
 			'attrs'		=> strlen($controlAttrsStr) > 0 ? ' ' . $controlAttrsStr : '',
 		]);
 		if ($this->renderMode == \MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL) {
@@ -572,4 +573,5 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 			$controlAttrsStr
 		];
 	}
+
 }

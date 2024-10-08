@@ -13,6 +13,8 @@
 
 namespace MvcCore\Ext\Forms\Field\Props;
 
+use \MvcCore\Ext\Forms\Fields\IOptions;
+
 /**
  * Trait for classes:
  * - `\MvcCore\Ext\Forms\Fields\DataList`
@@ -23,6 +25,8 @@ namespace MvcCore\Ext\Forms\Field\Props;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  * @mixin \MvcCore\Ext\Forms\Field
+ * @phpstan-type OptionValue float|int|string|NULL
+ * @phpstan-type Option array{"value":OptionValue,"text":string,"class":?string,"attrs":?array<string,string>}
  */
 trait Options {
 
@@ -73,6 +77,29 @@ trait Options {
 	protected $options = NULL;
 
 	/**
+	 * Internal variable to detect if field value is array. 
+	 * It's not the same as multiple attribute, because value 
+	 * could be still `NULL`.
+	 * @var int|NULL
+	 */
+	protected $valueType = NULL;
+
+	/**
+	 * Internal variable to detect option values types
+	 * as numeric types or as string types.
+	 * @var int|NULL
+	 */
+	protected $optionsType = NULL;
+
+	/**
+	 * Internal variable to detect selected option for rendering.
+	 * It's array with keys by multiple field values converted into strings 
+	 * (array values are bool `TRUE`) or just scalar value converted into string.
+	 * @var array<string,bool>|string|NULL
+	 */
+	protected $valuesMap = NULL;
+
+	/**
 	 * Temp flatten key/value array to cache flatten options for submit checking.
 	 * @var array|NULL
 	 */
@@ -121,6 +148,7 @@ trait Options {
 	 */
 	public function SetOptions (array $options = []) {
 		$this->options = $options;
+		$this->setOptionsType();
 		return $this;
 	}
 
@@ -131,6 +159,7 @@ trait Options {
 	 */
 	public function AddOptions (array $options = []) {
 		$this->options = array_merge($this->options !== NULL ? $this->options : [], $options);
+		$this->setOptionsType();
 		return $this;
 	}
 
@@ -191,7 +220,7 @@ trait Options {
 	 * @inheritDoc
 	 * @param  array|NULL $fieldOptions
 	 * @param  bool       $asKeyValue   `TRUE` by default.
-	 * @return array
+	 * @return array<OptionValue,string|array<Option>>
 	 */
 	public function & GetFlattenOptions (array $fieldOptions = NULL, $asKeyValue = TRUE) {
 		$resultKey = $asKeyValue ? 0 : 1;
@@ -276,6 +305,7 @@ trait Options {
 		}
 		if (is_array($options)) {
 			$this->options = $options;
+			$this->setOptionsType();
 		} else {
 			throw new \RuntimeException(
 				"Options loader method `{$this->optionsLoader[0]}` in field ".
@@ -435,4 +465,87 @@ trait Options {
 		}
 	}
 
+	/**
+	 * Get `TRUE` if option value is the same as field value (not for multiple select)
+	 * or get `TRUE` of option value is between field values (for multiple select).
+	 * @param  mixed $optionValue 
+	 * @return bool
+	 */
+	protected function getOptionSelected ($optionValue) {
+		if ($this->valueType === NULL) {
+			$this
+				->initValueType()
+				->initOptionsType()
+				->initValuesMap();
+		}
+		if ($this->optionsType === IOptions::OPTION_TYPE_NUMERIC) {
+			$optionValueStr = serialize(floatval($optionValue));
+		} else {
+			$optionValueStr = serialize($optionValue);
+		}
+		if ($this->valueType === IOptions::VALUE_TYPE_ARRAY) {
+			return isset($this->valuesMap[$optionValueStr]);
+		} else {
+			return $this->valuesMap === $optionValueStr;
+		}
+	}
+	
+	/**
+	 * Initialize internal rendering variable about if value is array type.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	protected function initValueType () {
+		$this->valueType = is_array($this->value)
+			? IOptions::VALUE_TYPE_ARRAY
+			: IOptions::VALUE_TYPE_SCALAR;
+		return $this;
+	}
+
+	/**
+	 * Initialize internal rendering variable about if all options are numeric type.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	protected function initOptionsType () {
+		$numeric = 0;
+		$flattenOptionsValues = array_keys($this->GetFlattenOptions());
+		$optionsCount = count($flattenOptionsValues);
+		foreach ($flattenOptionsValues as $optionValue) {
+			if ($optionValue === NULL) {
+				$optionsCount--;
+				continue;
+			}
+			if (is_int($optionValue) || is_float($optionValue))
+				$numeric++;
+		}
+		$this->optionsType = $numeric === $optionsCount
+			? IOptions::OPTION_TYPE_NUMERIC
+			: IOptions::OPTION_TYPE_MIXED;
+		return $this;
+	}
+
+	/**
+	 * Initialize internal rendering variable with serialized values 
+	 * by options types as keys and values as booleans, to recognize selected option later.
+	 * @return \MvcCore\Ext\Forms\Field
+	 */
+	protected function initValuesMap () {
+		$valuesMap = [];
+		if ($this->valueType === IOptions::VALUE_TYPE_ARRAY) {
+			if ($this->optionsType === IOptions::OPTION_TYPE_NUMERIC) {
+				foreach ($this->value as $valueItem)
+					$valuesMap[serialize(floatval($valueItem))] = TRUE;
+			} else {
+				foreach ($this->value as $valueItem)
+					$valuesMap[serialize($valueItem)] = TRUE;
+			}
+		} else {
+			if ($this->optionsType === IOptions::OPTION_TYPE_NUMERIC) {
+				$valuesMap = serialize(floatval($this->value));
+			} else {
+				$valuesMap = serialize($this->value);
+			}
+		}
+		$this->valuesMap = $valuesMap;
+		return $this;
+	}
 }
