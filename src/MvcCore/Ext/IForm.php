@@ -862,10 +862,11 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * of `callable` has to be a translation key and second argument
 	 * has to be array with numeric replacements to replace them in translated value.
 	 * Result of `callable` object has to be a string - translated key for called language.
-	 * @param  callable|NULL $handler
+	 * @param  callable|NULL $translator
+	 * @throws \Exception Translator is not callable.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetTranslator (callable $translator = NULL);
+	public function SetTranslator ($translator = NULL);
 
 	/**
 	 * Set default switch how to set every form control to be required by default.

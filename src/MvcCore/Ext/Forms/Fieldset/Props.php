@@ -128,7 +128,7 @@ trait Props {
 	 * Default value: `<fieldset name={name}{attrs}>{legend}{content}</fieldset>`.
 	 * @var string
 	 */
-	protected $template = '<fieldset name={name}{attrs}>{legend}{content}</fieldset>';
+	protected $template = '<fieldset name="{name}"{attrs}>{legend}{content}</fieldset>';
 	
 
 	/************************************************************************************************

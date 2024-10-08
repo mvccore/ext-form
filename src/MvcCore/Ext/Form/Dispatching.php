@@ -27,9 +27,12 @@ trait Dispatching {
 	 * @param  \MvcCore\Controller|NULL $controller Controller instance, where the form is created.
 	 * @return void
 	 */
-	public function __construct (\MvcCore\IController $controller = NULL) {
+	public function __construct ($controller = NULL) {
 		/** @var \MvcCore\Controller $controller */
-		if ($controller === NULL) {
+		if ($controller !== NULL) {
+			if (!($controller instanceof \MvcCore\IController))
+				throw new \Exception("[" . get_class($this) . "] Controller doesn't implement \MvcCore\IController interface.");
+		} else {
 			$controller = \MvcCore\Ext\Form::GetCallerControllerInstance();
 			if ($controller === NULL) 
 				$controller = \MvcCore\Application::GetInstance()->GetController();

@@ -240,12 +240,14 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  callable|NULL $handler
+	 * @param  callable|NULL $translator
+	 * @throws \Exception Translator is not callable.
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetTranslator (callable $translator = NULL) {
-		if ($translator !== NULL && is_callable($translator))
-			$this->translator = $translator;
+	public function SetTranslator ($translator = NULL) {
+		if ($translator !== NULL && !is_callable($translator))
+			throw new \Exception("[" . get_class($this) . "] Translator is not callable.");
+		$this->translator = $translator;
 		return $this;
 	}
 
