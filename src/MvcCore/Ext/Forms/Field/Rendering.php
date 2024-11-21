@@ -54,7 +54,7 @@ trait Rendering {
 			$view->__set('labelAndControlSeparator', $labelAndControlSeparator);
 		$viewClass = $this->form->GetViewClass();
 		$result = $view->Render(
-			$viewClass::GetFieldsDir(),
+			$viewClass::VIEW_TYPE_FORM_FIELD,
 			is_bool($this->viewScript) ? $this->type : $this->viewScript
 		);
 		unset($view);

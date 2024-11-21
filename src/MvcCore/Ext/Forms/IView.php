@@ -16,44 +16,6 @@ namespace MvcCore\Ext\Forms;
 interface IView {
 
 	/**
-	 * Get global views forms directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms"`, so scripts app path
-	 * is `"/App/Views/Forms"`.
-	 * @return string
-	 */
-	public static function GetFormsDir ();
-
-	/**
-	 * Set global views forms directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms"`, so scripts app path
-	 * is `"/App/Views/Forms"`.
-	 * @param  string $formsDir
-	 * @return string
-	 */
-	public static function SetFormsDir ($formsDir = 'Forms');
-
-	/**
-	 * Get global views fields directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so
-	 * scripts app path is `"/App/Views/Forms/Fields"`.
-	 * @return string
-	 */
-	public static function GetFieldsDir ();
-
-	/**
-	 * Set global views fields directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so
-	 * scripts app path is `"/App/Views/Forms/Fields"`.
-	 * @param  string $fieldsDir
-	 * @return string
-	 */
-	public static function SetFieldsDir ($fieldsDir = 'Forms/Fields');
-
-	/**
 	 * Get controller instance as reference.
 	 * @return \MvcCore\View
 	 */

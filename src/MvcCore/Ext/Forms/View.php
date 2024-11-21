@@ -65,58 +65,6 @@ class View extends \MvcCore\View {
 	protected $view = NULL;
 
 	/**
-	 * Global views forms directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms"`, so scripts app path
-	 * is `"/App/Views/Forms"`.
-	 * @var string
-	 */
-	protected static $formsDir = 'Forms';
-
-	/**
-	 * Global views fields directory placed by default
-	 * inside `"/App/Views"` directory.
-	 * Default value is `"Forms/Fields"`, so
-	 * scripts app path is `"/App/Views/Forms/Fields"`.
-	 * @var string
-	 */
-	protected static $fieldsDir = 'Forms/Fields';
-
-	/**
-	 * @inheritDoc
-	 * @return string
-	 */
-	public static function GetFormsDir () {
-		return static::$formsDir;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @param  string $formsDir
-	 * @return string
-	 */
-	public static function SetFormsDir ($formsDir = 'Forms') {
-		return static::$formsDir = $formsDir;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @return string
-	 */
-	public static function GetFieldsDir () {
-		return static::$fieldsDir;
-	}
-
-	/**
-	 * @inheritDoc
-	 * @param  string $fieldsDir
-	 * @return string
-	 */
-	public static function SetFieldsDir ($fieldsDir = 'Forms/Fields') {
-		return static::$fieldsDir = $fieldsDir;
-	}
-
-	/**
 	 * Creates form view instance.
 	 */
 	public function __construct () {
@@ -404,8 +352,9 @@ class View extends \MvcCore\View {
 		$this->form->DispatchStateCheck(\MvcCore\Ext\Form::DISPATCH_STATE_RENDERED, $this->form->GetSubmit());
 		$formViewScript = $this->form->GetViewScript();
 		$this->SetUpStore($this->view, FALSE);
+		$viewClass = $this->form->GetViewClass();
 		return $this->Render(
-			static::$formsDir,
+			$viewClass::VIEW_TYPE_FORM,
 			is_bool($formViewScript) ? $this->form->GetId() : $formViewScript
 		);
 	}
