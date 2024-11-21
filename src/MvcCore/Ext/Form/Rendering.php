@@ -145,12 +145,8 @@ trait Rendering {
 			. 'document.getElementById(\'' . $this->id . '\'),'
 			. '[' . implode(',', $fieldsConstructors) . ']'
 		. ')';
-		$viewDocType = \MvcCore\View::GetDoctype();
-		if (
-			$this->response->IsXmlOutput() ||
-			strpos($viewDocType, \MvcCore\View::DOCTYPE_XHTML) !== FALSE ||
-			strpos($viewDocType, \MvcCore\View::DOCTYPE_XML) !== FALSE
-		) $result = '/*<![CDATA[*/' . $result . '/*]]>*/';
+		if ($this->response->IsXmlOutput()) 
+			$result = '/*<![CDATA[*/' . $result . '/*]]>*/';
 		$nonceCspAttr = static::getSupportingAssetsNonce($this->response, TRUE);
 		return "<script type=\"text/javascript\"{$nonceCspAttr}>" . $result . '</script>';
 	}
