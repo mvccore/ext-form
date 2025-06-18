@@ -52,7 +52,7 @@ interface IView {
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL);
+	public function SetField (/*\MvcCore\Ext\Forms\IField*/ $field = NULL);
 	
 	/**
 	 * Get rendered fieldset.
@@ -65,7 +65,7 @@ interface IView {
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL);
+	public function SetFieldset (/*\MvcCore\Ext\Forms\IFieldset*/ $fieldset = NULL);
 
 	/**
 	 * Get form fields or fieldsets to render in current form/fieldset level.
@@ -247,8 +247,8 @@ interface IView {
 
 	/**
 	 * Render content of html tag attributes by key/value array.
-	 * @param  array             $attributes
-	 * @param  callable|\Closure $escapeFn
+	 * @param  array                  $attributes
+	 * @param  callable|\Closure|NULL $escapeFn
 	 * @return string
 	 */
 	public static function RenderAttrs (array $attributes = [], $escapeFn = NULL);

@@ -210,5 +210,5 @@ interface IOptions {
 	 * @param  bool       $asKeyValue   `TRUE` by default.
 	 * @return array
 	 */
-	public function & GetFlattenOptions (array $fieldOptions = NULL, $asKeyValue = TRUE);
+	public function & GetFlattenOptions ($fieldOptions = NULL, $asKeyValue = TRUE);
 }

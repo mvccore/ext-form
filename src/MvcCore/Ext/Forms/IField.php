@@ -110,15 +110,15 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
 	 * @internal
-	 * @param  string   $errorMsg 
-	 * @param  array    $errorMsgArgs 
-	 * @param  callable $replacingCallable 
+	 * @param  string    $errorMsg 
+	 * @param  array     $errorMsgArgs 
+	 * @param  ?callable $replacingCallable 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidationError (
-		$errorMsg = '', array 
-		$errorMsgArgs = [], 
-		callable $replacingCallable = NULL
+		$errorMsg = '', 
+		array $errorMsgArgs = [], 
+		$replacingCallable = NULL
 	);
 	
 

@@ -222,7 +222,7 @@ trait Options {
 	 * @param  bool       $asKeyValue   `TRUE` by default.
 	 * @return array<OptionValue,string|array<Option>>
 	 */
-	public function & GetFlattenOptions (array $fieldOptions = NULL, $asKeyValue = TRUE) {
+	public function & GetFlattenOptions ($fieldOptions = NULL, $asKeyValue = TRUE) {
 		$resultKey = $asKeyValue ? 0 : 1;
 		if ($fieldOptions === NULL && $this->flattenOptions !== NULL)
 			return $this->flattenOptions[$resultKey];

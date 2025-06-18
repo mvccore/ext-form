@@ -451,11 +451,11 @@ interface IFieldset {
 	 * instance already exists, an exception is thrown. This method 
 	 * is used mostly internally.
 	 * @internal
-	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @param  ?\MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
-	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL);
+	public function SetParentFieldset (/*\MvcCore\Ext\Forms\IFieldset*/ $fieldset = NULL);
 
 	/**
 	 * Replace all previously configured fieldsets with given fieldsets array. 

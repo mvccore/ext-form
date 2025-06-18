@@ -132,8 +132,15 @@ class View extends \MvcCore\View {
 	 * @param  \MvcCore\Ext\Forms\Field $field
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetField (\MvcCore\Ext\Forms\IField $field = NULL) {
+	public function SetField (/*\MvcCore\Ext\Forms\IField*/ $field = NULL) {
 		/** @var \MvcCore\Ext\Forms\Field $field */
+		if (
+			$field !== NULL && 
+			!($field instanceof \MvcCore\Ext\Forms\IField) // @phpstan-ignore-line
+		) throw new \RuntimeException(
+			"[".get_class($this)."] View field doesn't implement ".
+			"interface `\MvcCore\Ext\Forms\IField`."
+		);
 		$this->field = $field;
 		$this->__protected['fieldRendering'] = $field !== NULL;
 		return $this;
@@ -152,9 +159,16 @@ class View extends \MvcCore\View {
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @return \MvcCore\Ext\Forms\View
 	 */
-	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL) {
-		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+	public function SetFieldset (/*\MvcCore\Ext\Forms\IFieldset*/ $fieldset = NULL) {
 		$fieldsetIsNotNull = $fieldset !== NULL;
+		/** @var \MvcCore\Ext\Forms\Fieldset $fieldset */
+		if (
+			$fieldsetIsNotNull && 
+			!($fieldset instanceof \MvcCore\Ext\Forms\IFieldset) // @phpstan-ignore-line
+		) throw new \RuntimeException(
+			"[".get_class($this)."] View fieldset doesn't implement ".
+			"interface `\MvcCore\Ext\Forms\IFieldset`."
+		);
 		$this->fieldset = $fieldset;
 		$this->__protected['fieldsetRendering'] = $fieldsetIsNotNull;
 		$this->__protected['formRenderMode'] = $fieldsetIsNotNull
@@ -717,8 +731,8 @@ class View extends \MvcCore\View {
 
 	/**
 	 * @inheritDoc
-	 * @param  array             $attributes
-	 * @param  callable|\Closure $escapeFn
+	 * @param  array                  $attributes
+	 * @param  callable|\Closure|NULL $escapeFn
 	 * @return string
 	 */
 	public static function RenderAttrs (array $attributes = [], $escapeFn = NULL) {

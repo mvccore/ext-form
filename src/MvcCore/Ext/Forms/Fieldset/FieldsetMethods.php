@@ -30,11 +30,18 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDoc
 	 * @internal
-	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
+	 * @param  ?\MvcCore\Ext\Forms\Fieldset $fieldset
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
-	public function SetParentFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset = NULL) {
+	public function SetParentFieldset (/*\MvcCore\Ext\Forms\IFieldset*/ $fieldset = NULL) {
+		if (
+			$fieldset !== NULL && 
+			!($fieldset instanceof \MvcCore\Ext\Forms\IFieldset) // @phpstan-ignore-line
+		) throw new \RuntimeException(
+			"[".get_class($this)."] Parent fieldset doesn't implement ".
+			"interface `\MvcCore\Ext\Forms\IFieldset`."
+		);
 		if ($this->parentFieldset !== NULL) throw new \InvalidArgumentException(
 			"[".get_class($this)."] Can NOT override parent fieldset. ".
 			"Remove this fieldset from parent fieldset first by ".

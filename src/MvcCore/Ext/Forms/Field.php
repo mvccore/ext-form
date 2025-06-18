@@ -360,15 +360,15 @@ implements		\MvcCore\Ext\Forms\IField {
 	/**
 	 * @inheritDoc
 	 * @internal
-	 * @param  string   $errorMsg
-	 * @param  array    $errorMsgArgs
-	 * @param  callable $replacingCallable
+	 * @param  string    $errorMsg
+	 * @param  array     $errorMsgArgs
+	 * @param  ?callable $replacingCallable
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddValidationError (
 		$errorMsg = '', array
 		$errorMsgArgs = [],
-		callable $replacingCallable = NULL
+		$replacingCallable = NULL
 	) {
 		$errorMsg = $this->translateAndFormatValidationError(
 			$errorMsg, $errorMsgArgs, $replacingCallable
@@ -397,17 +397,17 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * error message is processed for replacements by static `Format()`
 	 * method by configured form view class.
 	 *
-	 * @param  string   $errorMsg
-	 * @param  array    $errorMsgArgs
-	 * @param  callable $replacingCallable
+	 * @param  string    $errorMsg
+	 * @param  array     $errorMsgArgs
+	 * @param  ?callable $replacingCallable
 	 * @return string
 	 */
 	protected function translateAndFormatValidationError (
 		$errorMsg = '', array
 		$errorMsgArgs = [],
-		callable $replacingCallable = NULL
+		$replacingCallable = NULL
 	) {
-		$customReplacing = $replacingCallable !== NULL;
+		$customReplacing = is_callable($replacingCallable);
 		$fieldLabelOrName = '';
 		if ($this->translate) {
 			$errorMsg = $this->form->Translate($errorMsg);
