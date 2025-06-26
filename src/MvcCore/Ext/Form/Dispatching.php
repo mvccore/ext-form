@@ -27,7 +27,7 @@ trait Dispatching {
 	 * @param  \MvcCore\Controller|NULL $controller Controller instance, where the form is created.
 	 * @return void
 	 */
-	public function __construct ($controller = NULL) {
+	public function __construct (/*\MvcCore\Controller*/ $controller = NULL) {
 		/** @var \MvcCore\Controller $controller */
 		if ($controller !== NULL) {
 			if (!($controller instanceof \MvcCore\IController))
