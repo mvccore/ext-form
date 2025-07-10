@@ -479,7 +479,9 @@ trait Options {
 				->initValuesMap();
 		}
 		if ($this->optionsType === IOptions::OPTION_TYPE_NUMERIC) {
-			$optionValueStr = serialize(floatval($optionValue));
+			$optionValueStr = $optionValue === NULL
+				? 'NULL'
+				: serialize(floatval($optionValue));
 		} else {
 			$optionValueStr = serialize($optionValue);
 		}
@@ -536,15 +538,22 @@ trait Options {
 		$valuesMap = [];
 		if ($this->valueType === IOptions::VALUE_TYPE_ARRAY) {
 			if ($this->optionsType === IOptions::OPTION_TYPE_NUMERIC) {
-				foreach ($this->value as $valueItem)
-					$valuesMap[serialize(floatval($valueItem))] = TRUE;
+				foreach ($this->value as $valueItem) {
+					$valueItemKey = $valueItem === NULL
+						? 'NULL'
+						: serialize(floatval($valueItem));
+					$valuesMap[$valueItemKey] = TRUE;
+				}
 			} else {
-				foreach ($this->value as $valueItem)
+				foreach ($this->value as $valueItem) {
 					$valuesMap[serialize($valueItem)] = TRUE;
+				}
 			}
 		} else {
 			if ($this->optionsType === IOptions::OPTION_TYPE_NUMERIC) {
-				$valuesMap = serialize(floatval($this->value));
+				$valuesMap = $this->value === NULL
+					? 'NULL'
+					: serialize(floatval($this->value));
 			} else {
 				$valuesMap = serialize($this->value);
 			}
