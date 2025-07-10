@@ -507,12 +507,16 @@ trait Options {
 	 */
 	protected function initOptionsType () {
 		$numeric = 0;
-		$flattenOptionsValues = array_keys($this->GetFlattenOptions());
-		$optionsCount = count($flattenOptionsValues);
-		foreach ($flattenOptionsValues as $optionValue) {
+		$flattenOptions = $this->GetFlattenOptions(NULL, FALSE);
+		$optionsCount = count($flattenOptions);
+		foreach ($flattenOptions as $option) {
+			if (is_array($option)) {
+				$optionValue = $option['value'];
+			} else {
+				$optionValue = $option;
+			}
 			if ($optionValue === NULL) {
 				$optionsCount--;
-				continue;
 			}
 			if (is_int($optionValue) || is_float($optionValue))
 				$numeric++;

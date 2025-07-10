@@ -1,2 +1,2 @@
 ### Fixed
-- PHP 8.4 compatibility on `\MvcCore\Ext\Form::__constructor()`.
+- Select option type detection with first `NULL` record.
