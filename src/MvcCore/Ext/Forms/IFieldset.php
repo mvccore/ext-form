@@ -132,7 +132,7 @@ interface IFieldset {
 
 	/**
 	 * Get fixed field order number, `NULL` by default.
-	 * @return int|NULL 
+	 * @return ?int 
 	 */
 	public function GetFieldOrder ();
 
@@ -148,7 +148,7 @@ interface IFieldset {
 	 * could contains HTML code, default `NULL`.
 	 * Allowed HTML tags are container in constant:
 	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetLegend ();
 
@@ -157,8 +157,8 @@ interface IFieldset {
 	 * could contains HTML code, default `NULL`.
 	 * Allowed HTML tags are container in constant:
 	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
-	 * @param  string|NULL $legend 
-	 * @param  bool|NULL   $translateLegend
+	 * @param  ?string $legend 
+	 * @param  ?bool   $translateLegend
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetLegend ($legend, $translateLegend = NULL);
@@ -201,7 +201,7 @@ interface IFieldset {
 	 * HTML `class` attribute with fieldset name as css class.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
-	 * @param  string|\string[] $cssClasses
+	 * @param  string|array<string> $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCssClasses ($cssClasses);
@@ -213,21 +213,21 @@ interface IFieldset {
 	 * HTML `class` attribute with fieldset name as css class.
 	 * You can define css classes as single string, more classes separated 
 	 * by space or you can define css classes as array with strings.
-	 * @param  string|\string[] $cssClasses
+	 * @param  string|array<string> $cssClasses
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function AddCssClasses ($cssClasses);
 
 	/**
 	 * Get field title, global HTML attribute, optional.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetTitle ();
 	
 	/**
 	 * Set field title, global HTML attribute, optional.
-	 * @param  string|NULL $title
-	 * @param  bool|NULL   $translateTitle
+	 * @param  ?string $title
+	 * @param  ?bool   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL);
@@ -307,7 +307,7 @@ interface IFieldset {
 	 * Default value is to render form content with `<div>` elements structure.
 	 * This value could be uset to change form rendering mode only inside fieldset,
 	 * not in whole form. If this `value` is not configured, it's used form settings.
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetFormRenderMode ();
 
@@ -334,7 +334,7 @@ interface IFieldset {
 	
 	/**
 	 * Return form instance if fieldset has been added into form or `NULL` otherwise.
-	 * @return \MvcCore\Ext\Form|NULL
+	 * @return ?\MvcCore\Ext\Form
 	 */
 	public function GetForm ();
 	
@@ -351,7 +351,7 @@ interface IFieldset {
 	 * only to add another field(s) into this fieldset, use methods:
 	 *  - `$fieldset->AddField($field);`
 	 *  - `$fieldset->AddFields($field1, $field2, $field3...);`
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
+	 * @param  array<\MvcCore\Ext\Forms\Field> $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFields ($fields);
@@ -364,7 +364,7 @@ interface IFieldset {
 	 *  - `$fieldset->AddField($field);`
 	 *  - `$fieldset->AddFields($field1, $field2, $field3...);`
 	 * @param  \MvcCore\Ext\Forms\Field $field
-	 * @param  string|NULL              $fieldName
+	 * @param  ?string                  $fieldName
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -377,7 +377,7 @@ interface IFieldset {
 	 * inside this fieldset (and also inside any nested fieldsets) are 
 	 * automatically registered into form, so it's not necessary 
 	 * to call `$form->AddFields($fields)` on form instance again.
-	 * @param  \MvcCore\Ext\Forms\Field[] $fields,...
+	 * @param  array<\MvcCore\Ext\Forms\Field> $fields,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddFields ($fields);
@@ -421,7 +421,7 @@ interface IFieldset {
 	 * return fields in nested fieldsets. If you need fieldset fields 
 	 * structure in rendering order, use method `$fieldset->GetChildren()` 
 	 * instead.
-	 * @return \MvcCore\Ext\Forms\Field[]
+	 * @return array<string,\MvcCore\Ext\Forms\Field>
 	 */
 	public function & GetFields ();
 	
@@ -431,7 +431,7 @@ interface IFieldset {
 	 * instance existing inside this fieldset level, not in any nested 
 	 * fieldset or not inside whole form. 
 	 * @param  string $fieldName
-	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 * @return ?\MvcCore\Ext\Forms\Field
 	 */
 	public function GetField ($fieldName);
 
@@ -442,7 +442,7 @@ interface IFieldset {
 
 	/**
 	 * Get parent fieldset instance if any or `NULL`.
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @return ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	public function GetParentFieldset ();
 	
@@ -466,7 +466,7 @@ interface IFieldset {
 	 * If you want only to add another fieldset(s) into form, use methods:
 	 *  - `$form->AddFieldset($fieldset);`
 	 *  - `$form->AddFieldsets($fieldset1, $fieldset2, $fieldset3...);`
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
+	 * @param  array<\MvcCore\Ext\Forms\Fieldset> $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldsets ($fieldsets);
@@ -481,7 +481,7 @@ interface IFieldset {
 	 *  - `$form->AddFieldset($fieldset);`
 	 *  - `$form->AddFieldsets($fieldset1, $fieldset2, $fieldset3...);`
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
-	 * @param  string|NULL                 $fieldsetName
+	 * @param  ?string                 $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $fieldsetName = NULL);
@@ -493,7 +493,7 @@ interface IFieldset {
 	 * inside this fieldset (and also inside any nested fieldsets) are 
 	 * automatically registered into form, so it's not necessary 
 	 * to call `$form->AddFieldsets($fieldsets)` on form instance again.
-	 * @param  \MvcCore\Ext\Forms\Fieldset[] $fieldsets,...
+	 * @param  array<\MvcCore\Ext\Forms\Fieldset> $fieldsets,...
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function AddFieldsets ($fieldsets);
@@ -537,7 +537,7 @@ interface IFieldset {
 	 * return fieldsets in nested fieldsets. If you need fieldset inside 
 	 * fieldsets structure in rendering order, use method 
 	 * `$fieldset->GetChildren()` instead.
-	 * @return \MvcCore\Ext\Forms\Fieldset[]
+	 * @return array<\MvcCore\Ext\Forms\Fieldset>
 	 */
 	public function GetFieldsets ();
 	
@@ -547,7 +547,7 @@ interface IFieldset {
 	 * instance existing inside this fieldset level, not in any nested 
 	 * fieldset or not inside whole form.  
 	 * @param  string $fieldsetName
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @return ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	public function GetFieldset ($fieldsetName);
 

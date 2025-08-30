@@ -70,7 +70,7 @@ trait Label {
 	 * You can use constants:
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_LEFT`
 	 * - `\MvcCore\Ext\Forms\IField::LABEL_SIDE_RIGHT`
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $labelSide = NULL; // `NULL | right | left`
 	
@@ -83,7 +83,7 @@ trait Label {
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL`       - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL`     - `<input />`
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $renderMode = NULL;
 	
@@ -106,7 +106,7 @@ trait Label {
 	 * If field form has configured any translator,
 	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetLabel () {
 		return $this->label;
@@ -117,8 +117,8 @@ trait Label {
 	 * If field form has configured any translator,
 	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
-	 * @param  string|NULL  $label
-	 * @param  boolean|NULL $translateLabel
+	 * @param  ?string $label
+	 * @param  ?bool   $translateLabel
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabel ($label, $translateLabel = NULL) {
@@ -167,7 +167,7 @@ trait Label {
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NORMAL` - `<label /><input />`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND` - `<label><input /></label>`
 	 * - `\MvcCore\Ext\Form::FIELD_RENDER_MODE_NO_LABEL` - `<input />`
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetRenderMode () {
 		return $this->renderMode;

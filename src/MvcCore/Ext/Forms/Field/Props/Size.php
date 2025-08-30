@@ -38,7 +38,7 @@ trait Size {
 	 * as a scrolled list box. The default browser`s value is `0`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-size
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-size
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $size = NULL;
 
@@ -53,7 +53,7 @@ trait Size {
 	 * as a scrolled list box. The default browser`s value is `0`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-size
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-size
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetSize () {
 		return $this->size;
@@ -70,7 +70,7 @@ trait Size {
 	 * as a scrolled list box. The default browser`s value is `0`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-size
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-size
-	 * @param  int|NULL $size 
+	 * @param  ?int $size 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetSize ($size) {

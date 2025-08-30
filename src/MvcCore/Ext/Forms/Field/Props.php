@@ -27,7 +27,7 @@ trait Props {
 	/**
 	 * Form field HTML id attribute, completed from form name and field name.
 	 * This value is completed automatically, but you can customize it.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $id = NULL;
 	
@@ -35,7 +35,7 @@ trait Props {
 	 * Form field specific name, used to identify submitted value.
 	 * This value is required for all form fields.
 	 * @requires
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $name = NULL;
 	
@@ -43,26 +43,26 @@ trait Props {
 	 * Form field type, used in `<input type="...">` attribute value.
 	 * Every typed field has it's own string value, but base field type 
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $type = NULL;
 
 	/**
 	 * Fieldset name where field belongs to, default `NULL`.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $fieldsetName = NULL;
 	
 	/**
 	 * Fixed field order number, `NULL` by default.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $fieldOrder = NULL;
 	
 	/**
 	 * Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
-	 * @var string|array|int|float|NULL
+	 * @var string|array|int|float|null
 	 */
 	protected $value = NULL;
 	
@@ -77,13 +77,13 @@ trait Props {
 	/**
 	 * Field title, global HTML attribute, optional.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-title
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $title = NULL;
 
 	/**
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $translateTitle = NULL;
 	
@@ -146,7 +146,7 @@ trait Props {
 	 * \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
 	 * $field->type = 'my-field-type';
 	 * ```
-	 * @var bool|string|NULL
+	 * @var bool|string|null
 	 */
 	protected $viewScript = NULL;
 	
@@ -164,7 +164,7 @@ trait Props {
 	 * Or you can add your custom supporting javascript files into response by your 
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $jsClassName = NULL;
 	
@@ -181,7 +181,7 @@ trait Props {
 	 * Or you can add your custom supporting javascript files into response by your 
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $jsSupportingFile = NULL;
 	
@@ -198,7 +198,7 @@ trait Props {
 	 * Or you can add your custom supporting css files into response by your 
 	 * own and also you can run your helper css also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $cssSupportingFile = NULL;
 
@@ -206,7 +206,7 @@ trait Props {
 	 * Boolean flag about field visible texts and error messages translation.
 	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
 	 * flag in `$field->Init();` method.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $translate = NULL;
 	

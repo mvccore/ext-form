@@ -268,7 +268,7 @@ implements		\MvcCore\Ext\Forms\IField {
 	 * @param array $rawRequestParams Raw request params from MvcCore
 	 *                                request object based on raw app
 	 *                                input, `$_GET` or `$_POST`.
-	 * @return string|int|array|NULL
+	 * @return string|int|array|null
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		$result = NULL;

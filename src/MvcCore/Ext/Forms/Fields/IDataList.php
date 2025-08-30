@@ -38,7 +38,7 @@ interface IDataList {
 	/**
 	 * Get `DataList` field unique name.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-list
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetList ();
 

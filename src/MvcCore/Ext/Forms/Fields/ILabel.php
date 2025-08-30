@@ -50,7 +50,7 @@ interface ILabel {
 	 * If field form has configured any translator,
 	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetLabel ();
 
@@ -59,8 +59,8 @@ interface ILabel {
 	 * If field form has configured any translator,
 	 * translation will be processed automatically
 	 * before rendering process. Default value is `NULL`.
-	 * @param  string|NULL  $label
-	 * @param  boolean|NULL $translateLabel
+	 * @param  ?string  $label
+	 * @param  boolean|null $translateLabel
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetLabel ($label, $translateLabel = NULL);

@@ -31,7 +31,7 @@ trait ConfigProps {
 	 * Used to identify session data, error messages,
 	 * CSRF tokens, html form attribute id value and much more.
 	 * @requires
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $id = NULL;
 
@@ -41,7 +41,7 @@ trait ConfigProps {
 	 * to complete classic html form attribute action.
 	 * @requires
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-action
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $action = NULL;
 
@@ -80,13 +80,13 @@ trait ConfigProps {
 	/**
 	 * Form title, global HTML attribute, optional.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-title
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $title = NULL;
 
 	/**
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $translateTitle = NULL;
 
@@ -109,7 +109,7 @@ trait ConfigProps {
 	 *                 this option behaves the same way as `_self`.
 	 * - `iframename`: The response is displayed in a named `<iframe>`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-target
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $target = NULL;
 
@@ -129,7 +129,7 @@ trait ConfigProps {
 	 * autofill the login the next time the user visits the page. See The autocomplete
 	 * attribute and login fields.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $autoComplete = NULL;
 
@@ -140,7 +140,7 @@ trait ConfigProps {
 	 * attribute on a `<button>` or `<input>` element belonging to the form.
 	 * Only `TRUE` renders the form attribute.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-novalidate
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $noValidate = NULL;
 
@@ -160,7 +160,7 @@ trait ConfigProps {
 	 * translator in `\MvcCore\Ext\Form`, set this `lang` property to desired language code
 	 * you want to translate every visible text into it. Use this property
 	 * with `$form->translator` and `$form->translate` properties.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $lang = NULL;
 
@@ -170,7 +170,7 @@ trait ConfigProps {
 	 * form field validators for locale specific needs in `\MvcCore\Ext\Form`,
 	 * set `$form->locale` property to desired international locale code
 	 * you want to use proper validator functionality.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $locale = NULL;
 
@@ -197,7 +197,7 @@ trait ConfigProps {
 	 * It's required to use `\MvcCore\Ext\Form` like this, if you want to use method
 	 * `$form->SubmittedRedirect();`, at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error URL strings.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $successUrl = NULL;
 
@@ -211,7 +211,7 @@ trait ConfigProps {
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * and you want to go to "previous step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $prevStepUrl = NULL;
 
@@ -225,7 +225,7 @@ trait ConfigProps {
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * and you want to go to "next step" by one submit button or stay in the same page by
 	 * another submit button, this is very good and comfortable pattern.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $nextStepUrl = NULL;
 
@@ -235,7 +235,7 @@ trait ConfigProps {
 	 * It's not required to use `\MvcCore\Ext\Form` like this, but if you want to use method
 	 * `$form->SubmittedRedirect();` at the end of custom `Submit()` method implementation,
 	 * you need to specify at least success and error URL strings.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $errorUrl = NULL;
 
@@ -249,7 +249,7 @@ trait ConfigProps {
 	 *         `\MvcCore\Ext\IForm::RESULT_PREV_PAGE`
 	 * - `4` - Submit was successful. User will be redirected after submit to next step url.
 	 *         `\MvcCore\Ext\IForm::RESULT_NEXT_PAGE`
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $result = NULL;
 
@@ -260,7 +260,7 @@ trait ConfigProps {
 	 * of `callable` has to be a translation key and second argument
 	 * has to be array with numeric replacements to replace them in translated value.
 	 * Result of `callable` object has to be a string - translated key for called language.
-	 * @var callable|NULL
+	 * @var ?callable
 	 */
 	protected $translator = NULL;
 
@@ -320,7 +320,7 @@ trait ConfigProps {
 	 * no higher namespace expiration in any other session namespace.
 	 * If there is found any autorization service and authenticated user, 
 	 * default value is set by authorization expiration time.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $sessionExpiration = NULL;
 
@@ -328,7 +328,7 @@ trait ConfigProps {
 	 * Base tab-index value for every field in form, which has defined tab-index value (different from `NULL`).
 	 * This value could move tab-index values for each field into higher or lower values by needs,
 	 * where is form currently rendered.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $baseTabIndex = NULL;
 	
@@ -378,14 +378,14 @@ trait ConfigProps {
 	 * will be rendered naturally, all fields one by one without any breaking line html element.
 	 * If there is any path defined, it has to be defined relatively from directory
 	 * `/App/Views/Scripts` to desired template.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $viewScript = NULL;
 
 	/**
 	 * Form custom template full class name to create custom view object.
 	 * Default value is `\MvcCore\Ext\Forms\View` extended from `\MvcCore\View`.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $viewClass = '\\MvcCore\\Ext\\Forms\\View';
 
@@ -413,7 +413,7 @@ trait ConfigProps {
 	 * to accept first argument to be `\SplFileInfo` about external javascript
 	 * supporting file. Javascript renderer must add given supporting javascript
 	 * file into HTML only once.
-	 * @var callable|NULL
+	 * @var ?callable
 	 */
 	protected $jsSupportFilesRenderer = NULL;
 
@@ -422,7 +422,7 @@ trait ConfigProps {
 	 * to accept first argument to be `\SplFileInfo` about external css
 	 * supporting file. Css renderer must add given supporting css
 	 * file into HTML only once.
-	 * @var callable|NULL
+	 * @var ?callable
 	 */
 	protected $cssSupportFilesRenderer = NULL;
 

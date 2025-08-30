@@ -184,20 +184,20 @@ interface IOptions {
 	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
 	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
 	 *   Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @return callable|\Closure|array|string|NULL
+	 * @return callable|\Closure|array|string|null
 	 */
 	public function GetOptionsLoader ();
 
 	/**
 	 * Set `FALSE` if you don't want to translate options texts, default `TRUE`.
-	 * @param  bool|NULL $translateOptions 
+	 * @param  ?bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE);
 
 	/**
 	 * Return boolean if options are translated or not.
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetTranslateOptions ();
 
@@ -206,7 +206,7 @@ interface IOptions {
 	 * level flatten array for submit checking purposes.
 	 * If second argument is `TRUE` (by default), array values is option visible text (`string`),
 	 * if second argument is `FALSE`, array values is original option values (`string` or `array`).
-	 * @param  array|NULL $fieldOptions
+	 * @param  ?array $fieldOptions
 	 * @param  bool       $asKeyValue   `TRUE` by default.
 	 * @return array
 	 */

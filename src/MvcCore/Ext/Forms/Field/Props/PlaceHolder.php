@@ -34,7 +34,7 @@ trait PlaceHolder {
 	 * text must not contain carriage returns or line-feeds. `NULL` value means no 
 	 * placeholder attribute will bee rendered.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $placeHolder = NULL;
 
@@ -60,7 +60,7 @@ trait PlaceHolder {
 	 * text must not contain carriage returns or line-feeds. `NULL` value means no 
 	 * placeholder attribute will bee rendered.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetPlaceHolder () {
 		return $this->placeHolder;
@@ -72,8 +72,8 @@ trait PlaceHolder {
 	 * text must not contain carriage returns or line-feeds. `NULL` value means no 
 	 * placeholder attribute will bee rendered.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-placeholder
-	 * @param  string|NULL  $placeHolder 
-	 * @param  boolean|NULL $translatePlaceholder 
+	 * @param  ?string  $placeHolder 
+	 * @param  ?boolean $translatePlaceholder 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetPlaceHolder ($placeHolder, $translatePlaceholder = NULL) {

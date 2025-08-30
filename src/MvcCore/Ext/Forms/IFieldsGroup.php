@@ -78,7 +78,7 @@ interface IFieldsGroup {
 	/**
 	 * Get form group controls value, in most cases it's an array of strings.
 	 * For extended class `RadioGroup` - the type is only a `string` or `NULL`.
-	 * @return \string[]|string|NULL
+	 * @return \string[]|string|null
 	 */
 	public function GetValue ();
 
@@ -87,7 +87,7 @@ interface IFieldsGroup {
 	 * which are possible simply to convert into array of strings. `NULL` value is then 
 	 * an empty array. For extended class `RadioGroup` - the value type is only a `string` 
 	 * or `NULL`.
-	 * @param  \float[]|\int[]|\string[]|float|int|string|array|NULL $value
+	 * @param  \float[]|\int[]|\string[]|float|int|string|array|null $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value);
@@ -152,7 +152,7 @@ interface IFieldsGroup {
 	 * You can set any separator string as first argument to separate rendered label and 
 	 * control by given value in natural rendering mode.
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL);

@@ -53,7 +53,7 @@ trait AutoFocus {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $autoFocus = NULL;
 
@@ -64,7 +64,7 @@ trait AutoFocus {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetAutoFocus () {
 		return $this->autoFocus;
@@ -85,7 +85,7 @@ trait AutoFocus {
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-autofocus
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-autofocus
-	 * @param  bool|NULL $autoFocus 
+	 * @param  ?bool $autoFocus 
 	 * @param  int $duplicateBehaviour
 	 * @return \MvcCore\Ext\Forms\Field
 	 */

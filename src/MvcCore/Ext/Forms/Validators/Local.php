@@ -56,13 +56,13 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 
 	/**
 	 * PHP reflection method instance.
-	 * @var \ReflectionMethod|NULL
+	 * @var ?\ReflectionMethod
 	 */
 	protected $reflectionMethod = NULL;
 
 	/**
 	 * Reflection method context for instance method, NULL for static method.
-	 * @var \MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Form|NULL
+	 * @var \MvcCore\Ext\Form|\MvcCore\Controller|\MvcCore\Ext\ModelForms\Form|null
 	 */
 	protected $reflectionInvokeObject = NULL;
 
@@ -129,7 +129,7 @@ class Local extends \MvcCore\Ext\Forms\Validator {
 	/**
 	 * @inheritDoc
 	 * @param  string|array       $rawSubmittedValue Raw submitted value, string or array of strings.
-	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 * @return string|array|null Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue) {
 		$this->completeReflectionObjects();

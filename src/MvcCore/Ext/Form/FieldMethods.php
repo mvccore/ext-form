@@ -77,7 +77,7 @@ trait FieldMethods {
 	/**
 	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
-	 * @param  string|NULL              $fieldName
+	 * @param  ?string                  $fieldName
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -221,7 +221,7 @@ trait FieldMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string $fieldName
-	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 * @return ?\MvcCore\Ext\Forms\Field
 	 */
 	public function GetField ($fieldName) {
 		$result = NULL;
@@ -247,7 +247,7 @@ trait FieldMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string $fieldType
-	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 * @return ?\MvcCore\Ext\Forms\Field
 	 */
 	public function GetFirstFieldByType ($fieldType) {
 		$result = NULL;
@@ -282,7 +282,7 @@ trait FieldMethods {
 	 * @inheritDoc
 	 * @param  string $fieldClassName  Full php class name or full interface name.
 	 * @param  bool   $directTypesOnly Get only instances created directly from called type, no instances extended from given class name.
-	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 * @return ?\MvcCore\Ext\Forms\Field
 	 */
 	public function GetFirstFieldByPhpClass ($fieldClassName, $directTypesOnly = FALSE) {
 		$result = NULL;

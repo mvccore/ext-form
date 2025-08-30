@@ -29,7 +29,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetId () {
 		return $this->id;
@@ -37,7 +37,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetAction () {
 		return $this->action;
@@ -45,7 +45,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetMethod () {
 		return $this->method;
@@ -53,7 +53,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetTitle () {
 		return $this->title;
@@ -61,7 +61,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetEnctype () {
 		return $this->enctype;
@@ -69,7 +69,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetTarget () {
 		return $this->target;
@@ -77,7 +77,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetAutoComplete () {
 		return $this->autoComplete;
@@ -89,7 +89,7 @@ trait GetMethods {
 	 * validated), this default setting can be overridden by a `formnovalidate`
 	 * attribute on a `<button>` or `<input>` element belonging to the form.
 	 * Only `TRUE` renders the form attribute.
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetNoValidate () {
 		return $this->noValidate;
@@ -105,7 +105,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetLang () {
 		return $this->lang;
@@ -113,7 +113,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetLocale () {
 		return $this->locale;
@@ -145,7 +145,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetSuccessUrl () {
 		return $this->successUrl;
@@ -153,7 +153,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetPrevStepUrl () {
 		return $this->prevStepUrl;
@@ -161,7 +161,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetNextStepUrl () {
 		return $this->nextStepUrl;
@@ -169,7 +169,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetErrorUrl () {
 		return $this->errorUrl;
@@ -188,7 +188,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetResult () {
 		return $this->result;
@@ -196,7 +196,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return callable|NULL
+	 * @return ?callable
 	 */
 	public function GetTranslator () {
 		return $this->translator;
@@ -248,7 +248,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetSessionExpiration () {
 		if ($this->sessionExpiration === NULL) {
@@ -260,7 +260,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetBaseTabIndex () {
 		return $this->baseTabIndex;
@@ -310,7 +310,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetViewScript () {
 		return $this->viewScript;
@@ -342,7 +342,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return callable|NULL
+	 * @return ?callable
 	 */
 	public function GetJsSupportFilesRenderer () {
 		return $this->jsSupportFilesRenderer;
@@ -350,7 +350,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return callable|NULL
+	 * @return ?callable
 	 */
 	public function GetCssSupportFilesRenderer () {
 		return $this->cssSupportFilesRenderer;
@@ -368,7 +368,7 @@ trait GetMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string $iniVarName
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetPhpIniSizeLimit ($iniVarName) {
 		$rawIniValue = @ini_get($iniVarName);
@@ -425,7 +425,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public static function GetJsSupportFilesRootDir () {
 		return static::$jsSupportFilesRootDir;
@@ -433,7 +433,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public static function GetCssSupportFilesRootDir () {
 		return static::$cssSupportFilesRootDir;
@@ -467,7 +467,7 @@ trait GetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 * @return ?\MvcCore\Ext\Forms\Field
 	 */
 	public static function GetAutoFocusedFormField () {
 		if (self::$autoFocusedFormField) {

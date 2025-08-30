@@ -41,7 +41,7 @@ trait InputMode {
 
 	/**
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $inputMode = NULL;
 
@@ -59,7 +59,7 @@ trait InputMode {
 	 * - `email`   : Email input. Prefer `<input type="email">`.
 	 * - `url`     : URL input. Prefer `<input type="url">`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetInputMode () {
 		return $this->inputMode;
@@ -79,7 +79,7 @@ trait InputMode {
 	 * - `email`   : Email input. Prefer `<input type="email">`.
 	 * - `url`     : URL input. Prefer `<input type="url">`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-inputmode
-	 * @param  string|NULL $inputMode
+	 * @param  ?string $inputMode
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetInputMode ($inputMode) {

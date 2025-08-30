@@ -37,14 +37,14 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	/**
 	 * Form group pseudo control type,
 	 * unique type across all form field types.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $type = NULL;
 
 	/**
 	 * Form group controls value, in most cases it's an array of strings.
 	 * For extended class `RadioGroup` - the type is only a `string` or `NULL`.
-	 * @var \string[]|NULL
+	 * @var ?\string[]
 	 */
 	protected $value = [];
 
@@ -74,7 +74,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 
 	/**
 	 * @inheritDoc
-	 * @return \string[]|string|NULL
+	 * @return \string[]|string|null
 	 */
 	public function GetValue () {
 		return $this->value;
@@ -82,7 +82,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 
 	/**
 	 * @inheritDoc
-	 * @param  array<float|int|string>|float|int|string|NULL $value
+	 * @param  array<float|int|string>|float|int|string|null $value
 	 * @return \MvcCore\Ext\Forms\FieldsGroup
 	 */
 	public function SetValue ($value) {
@@ -357,7 +357,7 @@ implements		\MvcCore\Ext\Forms\Fields\IVisibleField,
 	/**
 	 * @inheritDoc
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL) {

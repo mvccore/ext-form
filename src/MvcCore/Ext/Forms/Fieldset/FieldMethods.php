@@ -72,7 +72,7 @@ trait FieldMethods {
 	/**
 	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Field $field
-	 * @param  string|NULL              $fieldName
+	 * @param  ?string              $fieldName
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
@@ -219,7 +219,7 @@ trait FieldMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string $fieldName
-	 * @return \MvcCore\Ext\Forms\Field|NULL
+	 * @return ?\MvcCore\Ext\Forms\Field
 	 */
 	public function GetField ($fieldName) {
 		$result = NULL;

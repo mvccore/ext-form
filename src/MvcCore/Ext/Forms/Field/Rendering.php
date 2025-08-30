@@ -29,7 +29,7 @@ trait Rendering {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function Render ($labelAndControlSeparator = NULL) {
@@ -43,7 +43,7 @@ trait Rendering {
 	/**
 	 * @inheritDoc
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderTemplate ($labelAndControlSeparator = NULL) {
@@ -64,7 +64,7 @@ trait Rendering {
 	/**
 	 * @inheritDoc
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL) {
@@ -97,7 +97,7 @@ trait Rendering {
 	/**
 	 * @inheritDoc
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderLabelAndControl ($labelAndControlSeparator = NULL) {

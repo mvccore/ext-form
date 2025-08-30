@@ -221,7 +221,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 	
 	/**
 	 * Render datalist `<option>` tag with inner visible `value`.
-	 * @param  string|NULL $value
+	 * @param  ?string $value
 	 * @return string
 	 */
 	protected function renderControlOptionValue ($value) {
@@ -239,7 +239,7 @@ implements	\MvcCore\Ext\Forms\Fields\IOptions {
 
 	/**
 	 * Render datalist `<option>` tag with inner visible `value` and class or attributes.
-	 * @param  string|NULL $value 
+	 * @param  ?string $value 
 	 * @param  mixed       $optionData 
 	 * @return mixed
 	 */

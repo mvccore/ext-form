@@ -70,7 +70,7 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
-	 * @param  string|NULL                 $fieldsetName
+	 * @param  ?string                 $fieldsetName
 	 * @throws \InvalidArgumentException
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -234,7 +234,7 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string $fieldsetName
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @return ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	public function GetFieldset ($fieldsetName) {
 		$result = NULL;

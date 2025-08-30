@@ -54,7 +54,7 @@ trait AccessKey {
 	 * includes accented and other characters that can be generated 
 	 * by the keyboard).
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $accessKey = NULL;
 
@@ -65,7 +65,7 @@ trait AccessKey {
 	 * includes accented and other characters that can be generated 
 	 * by the keyboard).
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetAccessKey () {
 		return $this->accessKey;

@@ -37,7 +37,7 @@ trait AutoComplete {
 	 * has entered. Possible values: `off`, `on`, `name`, `email`, 
 	 * `username`, `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $autoComplete = NULL;
 
@@ -47,7 +47,7 @@ trait AutoComplete {
 	 * entered. Possible values: `off`, `on`, `name`, `email`, `username`, 
 	 * `country`, `postal-code` and many more...
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetAutoComplete () {
 		return $this->autoComplete;

@@ -60,7 +60,7 @@ interface IValidator {
 	 * with not translated error message. Return safe submitted value as result or `NULL` if there 
 	 * is not possible to return safe valid value.
 	 * @param  string|array      $rawSubmittedValue Raw submitted value, string or array of strings.
-	 * @return string|array|NULL Safe submitted value or `NULL` if not possible to return safe value.
+	 * @return string|array|null Safe submitted value or `NULL` if not possible to return safe value.
 	 */
 	public function Validate ($rawSubmittedValue);
 }

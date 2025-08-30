@@ -40,7 +40,7 @@ trait Multiple {
 	 * list box instead of a single line drop down.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-multiple
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select#attr-multiple
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $multiple = NULL;
 

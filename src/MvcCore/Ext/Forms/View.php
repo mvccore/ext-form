@@ -34,19 +34,19 @@ class View extends \MvcCore\View {
 
 	/**
 	 * Rendered form instance reference, which view belongs to.
-	 * @var \MvcCore\Ext\Form|NULL
+	 * @var ?\MvcCore\Ext\Form
 	 */
 	protected $form = NULL;
 
 	/**
 	 * Rendered fieldset reference if view renders fieldset content.
-	 * @var \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @var ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	protected $fieldset = NULL;
 
 	/**
 	 * Rendered form field reference if view is not form's view.
-	 * @var \MvcCore\Ext\Forms\Field|NULL
+	 * @var ?\MvcCore\Ext\Forms\Field
 	 */
 	protected $field = NULL;
 
@@ -60,7 +60,7 @@ class View extends \MvcCore\View {
 	 * Controller view instance reference, which form belongs to.
 	 * Every form is usually created inside MvcCore controller instance,
 	 * and mostly every controller instance has it's own view.
-	 * @var \MvcCore\View|NULL
+	 * @var ?\MvcCore\View
 	 */
 	protected $view = NULL;
 
@@ -730,7 +730,7 @@ class View extends \MvcCore\View {
 	/**
 	 * @inheritDoc
 	 * @param  array                  $attributes
-	 * @param  callable|\Closure|NULL $escapeFn
+	 * @param  callable|\Closure|null $escapeFn
 	 * @return string
 	 */
 	public static function RenderAttrs (array $attributes = [], $escapeFn = NULL) {

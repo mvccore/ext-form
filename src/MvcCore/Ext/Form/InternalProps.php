@@ -23,13 +23,13 @@ trait InternalProps {
 	
 	/**
 	 * `TRUE` for submit request, `FALSE` otherwise.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $submit = NULL;
 
 	/**
 	 * Previous CSRF session values if there are any.
-	 * @var array|[string|NULL, string|NULL]
+	 * @var array{"0":?string,"1":?string}
 	 */
 	protected $csrfValue = [];
 

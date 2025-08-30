@@ -27,13 +27,13 @@ trait Props {
 	 * fieldset between each other and between fields.
 	 * This value is required and it's used mostly internally.
 	 * @requires
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $name = NULL;
 	
 	/**
 	 * Fixed fieldset order number, `NULL` by default.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $fieldOrder = NULL;
 	
@@ -42,13 +42,13 @@ trait Props {
 	 * contains HTML code, default `NULL`.
 	 * Allowed HTML tags are container in constant:
 	 * `\MvcCore\Ext\Forms\IFielset::ALLOWED_LEGEND_ELEMENTS`.
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $legend = NULL;
 	
 	/**
 	 * Boolean to translate legend text, `TRUE` by default.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $translateLegend = NULL;
 	
@@ -70,13 +70,13 @@ trait Props {
 	/**
 	 * Fieldset title, global HTML attribute, optional.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-title
-	 * @var string|NULL
+	 * @var ?string
 	 */
 	protected $title = NULL;
 
 	/**
 	 * Boolean to translate title text, `TRUE` by default.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $translateTitle = NULL;
 
@@ -97,7 +97,7 @@ trait Props {
 	 * Default value is to render form content with `<div>` elements structure.
 	 * This value could be uset to change form rendering mode only inside fieldset,
 	 * not in whole form. If this `value` is not configured, it's used form settings.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $formRenderMode = NULL;
 
@@ -105,7 +105,7 @@ trait Props {
 	 * Parent fieldset if any, fieldset could be inside another.
 	 * If there is no parent fieldset and the fieldset is directly 
 	 * in form, then this value is `NULL`.
-	 * @var \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @var ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	protected $parentFieldset = NULL;
 

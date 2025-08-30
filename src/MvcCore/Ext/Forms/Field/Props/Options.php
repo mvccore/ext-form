@@ -25,7 +25,7 @@ use \MvcCore\Ext\Forms\Fields\IOptions;
  *    - `\MvcCore\Ext\Forms\CheckboxGroup`
  *    - `\MvcCore\Ext\Forms\RadioGroup`
  * @mixin \MvcCore\Ext\Forms\Field
- * @phpstan-type OptionValue float|int|string|NULL
+ * @phpstan-type OptionValue float|int|string|null
  * @phpstan-type Option array{"value":OptionValue,"text":string,"class":?string,"attrs":?array<string,string>}
  */
 trait Options {
@@ -72,7 +72,7 @@ trait Options {
 	 *   ];
 	 * ```
 	 * @requires
-	 * @var array|NULL
+	 * @var ?array
 	 */
 	protected $options = NULL;
 
@@ -80,14 +80,14 @@ trait Options {
 	 * Internal variable to detect if field value is array. 
 	 * It's not the same as multiple attribute, because value 
 	 * could be still `NULL`.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $valueType = NULL;
 
 	/**
 	 * Internal variable to detect option values types
 	 * as numeric types or as string types.
-	 * @var int|NULL
+	 * @var ?int
 	 */
 	protected $optionsType = NULL;
 
@@ -95,19 +95,19 @@ trait Options {
 	 * Internal variable to detect selected option for rendering.
 	 * It's array with keys by multiple field values converted into strings 
 	 * (array values are bool `TRUE`) or just scalar value converted into string.
-	 * @var array<string,bool>|string|NULL
+	 * @var array<string,bool>|string|null
 	 */
 	protected $valuesMap = NULL;
 
 	/**
 	 * Temp flatten key/value array to cache flatten options for submit checking.
-	 * @var array|NULL
+	 * @var ?array
 	 */
 	protected $flattenOptions = NULL;
 
 	/**
 	 * Boolean about to translate options texts, default `TRUE` to translate.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $translateOptions = NULL;
 
@@ -125,7 +125,7 @@ trait Options {
 	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL`
 	 *   - `\MvcCore\Ext\Forms\Fields\IOptions::LOADER_CONTEXT_MODEL_STATIC`
 	 *   Last two constants are usefull only for `mvccore/ext-model-form` extension.
-	 * @var callable|\Closure|array|string|NULL
+	 * @var callable|\Closure|array|string|null
 	 */
 	protected $optionsLoader = NULL;
 	
@@ -192,7 +192,7 @@ trait Options {
 	
 	/**
 	 * @inheritDoc
-	 * @return callable|\Closure|array|string|NULL
+	 * @return callable|\Closure|array|string|null
 	 */
 	public function GetOptionsLoader () {
 		return $this->optionsLoader;
@@ -200,7 +200,7 @@ trait Options {
 
 	/**
 	 * @inheritDoc
-	 * @param  bool|NULL $translateOptions 
+	 * @param  ?bool $translateOptions 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTranslateOptions ($translateOptions = TRUE) {
@@ -210,7 +210,7 @@ trait Options {
 
 	/**
 	 * @inheritDoc
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetTranslateOptions () {
 		return $this->translateOptions;
@@ -218,7 +218,7 @@ trait Options {
 
 	/**
 	 * @inheritDoc
-	 * @param  array|NULL $fieldOptions
+	 * @param  ?array $fieldOptions
 	 * @param  bool       $asKeyValue   `TRUE` by default.
 	 * @return array<OptionValue,string|array<Option>>
 	 */

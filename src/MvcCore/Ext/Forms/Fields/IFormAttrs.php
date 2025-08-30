@@ -31,7 +31,7 @@ interface IFormAttrs {
 	 * if it is a submit button or image. This attribute overrides the
 	 * `action` attribute of the element's form owner.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formaction
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetFormAction ();
 
@@ -62,7 +62,7 @@ interface IFormAttrs {
 	 *   characters will be encoded.
 	 *   Constant: `\MvcCore\Ext\IForm::ENCTYPE_PLAINTEXT`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formenctype
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetFormEnctype ();
 
@@ -97,7 +97,7 @@ interface IFormAttrs {
 	 * - `\MvcCore\Ext\IForm::METHOD_POST`
 	 * - `\MvcCore\Ext\IForm::METHOD_GET`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formmethod
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetFormMethod ();
 
@@ -122,7 +122,7 @@ interface IFormAttrs {
 	 * It means there will be no validation on client side, but there is always 
 	 * validation on server side. Only `TRUE` renders the form attribute.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formnovalidate
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetFormNoValidate ();
 
@@ -133,7 +133,7 @@ interface IFormAttrs {
 	 * It means there will be no validation on client side, but there is always 
 	 * validation on server side. Only `TRUE` renders the form attribute.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formnovalidate
-	 * @param  bool|NULL $formNoValidate Only `TRUE` renders the form attribute.
+	 * @param  ?bool $formNoValidate Only `TRUE` renders the form attribute.
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetFormNoValidate ($formNoValidate = TRUE);
@@ -158,7 +158,7 @@ interface IFormAttrs {
 	 *                 this option behaves the same way as `_self`.
 	 * - `iframename`: The response is displayed in a named `<iframe>`.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-formtarget
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetFormTarget ();
 

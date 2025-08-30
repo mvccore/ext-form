@@ -69,7 +69,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * @param array $rawRequestParams Raw request params from MvcCore 
 	 *                                request object based on raw app 
 	 *                                input, `$_GET` or `$_POST`.
-	 * @return string|int|array|NULL
+	 * @return string|int|array|null
 	 */
 	public function Submit (array & $rawRequestParams = []);
 
@@ -129,14 +129,14 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Get form field HTML id attribute, completed from form name and field name.
 	 * This value is completed automatically, but you can customize it.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetId ();
 
 	/**
 	 * Get form field specific name, used to identify submitted value.
 	 * This value is required for all form fields.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetName ();
 
@@ -144,26 +144,26 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Get form field type, used in `<input type="...">` attribute value.
 	 * Every typed field has it's own string value, but base field type 
 	 * `\MvcCore\Ext\Forms\Field` has `NULL`.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetType ();
 
 	/**
 	 * Get fieldset name, where field belongs to, default `NULL`.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetFieldsetName ();
 
 	/**
 	 * Get fixed field order number, `NULL` by default.
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetFieldOrder ();
 
 	/**
 	 * Get Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
-	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
+	 * @return string|int|float|array<string|int|float>|null
 	 */
 	public function GetValue ();
 
@@ -177,7 +177,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 
 	/**
 	 * Get field title, global HTML attribute, optional.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetTitle ();
 
@@ -263,7 +263,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 *   $field->GetType(); // returned 'my-field-type'
 	 *   $field->GetViewScript(); // returned TRUE
 	 * ```
-	 * @return bool|string|NULL
+	 * @return bool|string|null
 	 */
 	public function GetViewScript ();
 
@@ -280,7 +280,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Or you can add your custom supporting javascript files into response by your 
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetJsClassName ();
 
@@ -297,7 +297,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Or you can add your custom supporting javascript files into response by your 
 	 * own and also you can run your helper javascripts also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetJsSupportingFile ();
 
@@ -314,7 +314,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Or you can add your custom supporting css files into response by your 
 	 * own and also you can run your helper css also by your own. Is up to you.
 	 * `NULL` by default.
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetCssSupportingFile ();
 
@@ -322,7 +322,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Get boolean flag about field visible texts and error messages translation.
 	 * This flag is automatically assigned from `$field->form->GetTranslate();` 
 	 * flag in `$field->Init();` method.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	public function GetTranslate ();
 
@@ -386,7 +386,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Set Form field value. It could be string or array, int or float, it depends
 	 * on field implementation. Default value is `NULL`.
-	 * @param  string|array|int|float|NULL $value
+	 * @param  string|array|int|float|null $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValue ($value);
@@ -405,8 +405,8 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	
 	/**
 	 * Set field title, global HTML attribute, optional.
-	 * @param  string|NULL $title
-	 * @param  bool|NULL   $translateTitle
+	 * @param  ?string $title
+	 * @param  bool|null   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL);
@@ -526,7 +526,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	/**
 	 * Define method name and context to simply validate field value in some of already created classes.
 	 * Defined method has accept and return the same types as main validator method:
-	 * `\MvcCore\Ext\Forms\Validator::Validate(string|array $rawSubmittedValue): string|array|NULL;`.
+	 * `\MvcCore\Ext\Forms\Validator::Validate(string|array $rawSubmittedValue): string|array|null;`.
 	 * Second argument is context definition, where the method is located, you can use constants:
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM`
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC`
@@ -545,7 +545,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Define method name and context to simply validate field value in some of already created classes.
 	 * All default or previously defined validator(s) will be replaced with this validation method.
 	 * Defined method has accept and return the same types as main validator method:
-	 * `\MvcCore\Ext\Forms\Validator::Validate(string|array $rawSubmittedValue): string|array|NULL;`.
+	 * `\MvcCore\Ext\Forms\Validator::Validate(string|array $rawSubmittedValue): string|array|null;`.
 	 * Second argument is context definition, where the method is located, you can use constants:
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM`
 	 *  - `\MvcCore\Ext\Forms\IField::VALIDATOR_CONTEXT_FORM_STATIC`
@@ -604,7 +604,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 *   \MvcCore\Ext\Forms\View::SetFieldsDir('Forms/Fields/my-specials');
 	 *   $field->SetType('my-field-type');
 	 * ```
-	 * @param  bool|string|NULL $boolOrViewScriptPath
+	 * @param  bool|string|null $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL);
@@ -715,7 +715,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * Render field in full mode (with configured label), naturally or by custom template.
 	 * You can set any separator string as first argument to separate rendered label and 
 	 * control by given value in natural or also in template rendering mode.
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function Render ($labelAndControlSeparator = NULL);
@@ -732,7 +732,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * You can set any separator string as first argument to separate rendered label and 
 	 * control by given value in template rendering mode as view variable with the same name.
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderTemplate ($labelAndControlSeparator = NULL);
@@ -750,7 +750,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * You can set any separator string as first argument to separate rendered label and 
 	 * control by given value in natural rendering mode.
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderNaturally ($labelAndControlSeparator = NULL);
@@ -765,7 +765,7 @@ interface IField extends \MvcCore\Ext\Forms\Field\IConstants {
 	 * You can set any separator string as first argument to separate rendered label and 
 	 * control by given value.
 	 * @internal
-	 * @param  string|NULL $labelAndControlSeparator
+	 * @param  ?string $labelAndControlSeparator
 	 * @return string
 	 */
 	public function RenderLabelAndControl ($labelAndControlSeparator = NULL);

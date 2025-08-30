@@ -37,7 +37,7 @@ interface ISubmit {
 	 * If you define any new custom result state for your submit button (`8`, `16` ...), 
 	 * you have to implement `$form->SubmittedRedirect();` method by your own to redirect
 	 * user submit request by this state to your own specific target url.
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetCustomResultState ();
 
@@ -51,7 +51,7 @@ interface ISubmit {
 	 * If you define any new custom result state for your submit button (`8`, `16` ...), 
 	 * you have to implement `$form->SubmittedRedirect();` method by your own to redirect
 	 * user submit request by this state to your own specific target url.
-	 * @param  int|NULL $customResultState 
+	 * @param  ?int $customResultState 
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetCustomResultState ($customResultState = \MvcCore\Ext\IForm::RESULT_NEXT_PAGE);

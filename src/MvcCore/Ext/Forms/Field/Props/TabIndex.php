@@ -64,7 +64,7 @@ trait TabIndex {
 	 *   the increasing value of the tab-index. If several elements share the same tab-index, 
 	 *   their relative order follows their relative positions in the document.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
-	 * @var int|string|NULL
+	 * @var int|string|null
 	 */
 	protected $tabIndex = NULL;
 
@@ -85,7 +85,7 @@ trait TabIndex {
 	 *   the increasing value of the tab-index. If several elements share the same tab-index, 
 	 *   their relative order follows their relative positions in the document.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes#attr-tab-index
-	 * @return int|string|NULL
+	 * @return int|string|null
 	 */
 	public function GetTabIndex () {
 		return $this->tabIndex;

@@ -20,7 +20,7 @@ trait GettersSetters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetName () {
 		return $this->name;
@@ -39,7 +39,7 @@ trait GettersSetters {
 	
 	/**
 	 * @inheritDoc
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetFieldOrder () {
 		return $this->fieldOrder;
@@ -57,7 +57,7 @@ trait GettersSetters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetLegend () {
 		return $this->legend;
@@ -65,8 +65,8 @@ trait GettersSetters {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $legend 
-	 * @param  bool|NULL   $translateLegend
+	 * @param  ?string $legend 
+	 * @param  ?bool   $translateLegend
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetLegend ($legend, $translateLegend = NULL) {
@@ -130,7 +130,7 @@ trait GettersSetters {
 	
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetTitle () {
 		return $this->title;
@@ -138,8 +138,8 @@ trait GettersSetters {
 	
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $title
-	 * @param  bool|NULL   $translateTitle
+	 * @param  ?string $title
+	 * @param  ?bool   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
@@ -201,7 +201,7 @@ trait GettersSetters {
 	
 	/**
 	 * @inheritDoc
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetFormRenderMode () {
 		if ($this->formRenderMode === NULL && $this->form !== NULL)

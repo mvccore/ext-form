@@ -44,7 +44,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $url
+	 * @param  ?string $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetAction ($url = NULL) {
@@ -64,8 +64,8 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $title
-	 * @param  bool|NULL   $translateTitle
+	 * @param  ?string $title
+	 * @param  ?bool   $translateTitle
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
@@ -113,7 +113,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  bool|NULL $noValidate Only `TRUE` renders the form attribute.
+	 * @param  ?bool $noValidate Only `TRUE` renders the form attribute.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNoValidate ($noValidate = TRUE) {
@@ -137,7 +137,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $lang
+	 * @param  ?string $lang
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLang ($lang = NULL) {
@@ -147,7 +147,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $locale
+	 * @param  ?string $locale
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetLocale ($locale = NULL) {
@@ -190,7 +190,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $url
+	 * @param  ?string $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetSuccessUrl ($url = NULL) {
@@ -200,7 +200,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $url
+	 * @param  ?string $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetPrevStepUrl ($url = NULL) {
@@ -210,7 +210,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $url
+	 * @param  ?string $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetNextStepUrl ($url = NULL) {
@@ -220,7 +220,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $url
+	 * @param  ?string $url
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetErrorUrl ($url = NULL) {
@@ -230,7 +230,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  int|NULL $result
+	 * @param  ?int $result
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetResult ($result = \MvcCore\Ext\IForm::RESULT_SUCCESS) {
@@ -240,7 +240,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  callable|NULL $translator
+	 * @param  ?callable $translator
 	 * @throws \Exception Translator is not callable.
 	 * @return \MvcCore\Ext\Form
 	 */
@@ -369,7 +369,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  bool|string|NULL $boolOrViewScriptPath
+	 * @param  bool|string|null $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {
@@ -415,7 +415,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  callable|NULL $jsSupportFilesRenderer
+	 * @param  ?callable $jsSupportFilesRenderer
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetJsSupportFilesRenderer (callable $jsSupportFilesRenderer) {
@@ -425,7 +425,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  callable|NULL $cssSupportFilesRenderer
+	 * @param  ?callable $cssSupportFilesRenderer
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function SetCssSupportFilesRenderer (callable $cssSupportFilesRenderer) {
@@ -446,7 +446,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $jsSupportFilesRootDir
+	 * @param  ?string $jsSupportFilesRootDir
 	 * @return string
 	 */
 	public static function SetJsSupportFilesRootDir ($jsSupportFilesRootDir) {
@@ -457,7 +457,7 @@ trait SetMethods {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $cssSupportFilesRootDir
+	 * @param  ?string $cssSupportFilesRootDir
 	 * @return string
 	 */
 	public static function SetCssSupportFilesRootDir ($cssSupportFilesRootDir) {

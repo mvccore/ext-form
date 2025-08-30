@@ -73,7 +73,7 @@ trait Setters {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|array|int|float|NULL $value
+	 * @param  string|array|int|float|null $value
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetValue ($value) {
@@ -96,8 +96,8 @@ trait Setters {
 
 	/**
 	 * @inheritDoc
-	 * @param  string|NULL $title
-	 * @param  bool|NULL   $translateTitle
+	 * @param  ?string $title
+	 * @param  bool|null   $translateTitle
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetTitle ($title, $translateTitle = NULL) {
@@ -265,7 +265,7 @@ trait Setters {
 
 	/**
 	 * @inheritDoc
-	 * @param  bool|string|NULL $boolOrViewScriptPath
+	 * @param  bool|string|null $boolOrViewScriptPath
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetViewScript ($boolOrViewScriptPath = NULL) {

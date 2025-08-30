@@ -47,7 +47,7 @@ trait AddMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string            $errorMsg   Any error message, translated if necessary. All html tags from error message will be removed automatically.
-	 * @param  string|array|NULL $fieldNames Optional, field name string or array with field names where error happened.
+	 * @param  string|array|null $fieldNames Optional, field name string or array with field names where error happened.
 	 * @return \MvcCore\Ext\Form
 	 */
 	public function AddError ($errorMsg, $fieldNames = NULL) {

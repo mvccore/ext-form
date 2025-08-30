@@ -21,7 +21,7 @@ trait FieldsetMethods {
 	
 	/**
 	 * @inheritDoc
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @return ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	public function GetParentFieldset () {
 		return $this->parentFieldset;
@@ -96,7 +96,7 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDoc
 	 * @param  \MvcCore\Ext\Forms\Fieldset $fieldset
-	 * @param  string|NULL                 $fieldsetName
+	 * @param  ?string                 $fieldsetName
 	 * @return \MvcCore\Ext\Forms\Fieldset
 	 */
 	public function SetFieldset (\MvcCore\Ext\Forms\IFieldset $fieldset, $fieldsetName = NULL) {
@@ -138,7 +138,7 @@ trait FieldsetMethods {
 	/**
 	 * @inheritDoc
 	 * @param  string $fieldsetName
-	 * @return \MvcCore\Ext\Forms\Fieldset|NULL
+	 * @return ?\MvcCore\Ext\Forms\Fieldset
 	 */
 	public function GetFieldset ($fieldsetName) {
 		$result = NULL;

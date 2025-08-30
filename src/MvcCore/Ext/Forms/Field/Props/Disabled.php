@@ -59,7 +59,7 @@ trait Disabled {
 	 * required is true and if there is no or invalid submitted value, there is no 
 	 * required error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	protected $disabled = NULL;
 
@@ -76,7 +76,7 @@ trait Disabled {
 	 * required is true and if there is no or invalid submitted value, there is no 
 	 * required error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetDisabled () {
 		return $this->disabled;
@@ -95,7 +95,7 @@ trait Disabled {
 	 * required is true and if there is no or invalid submitted value, there is no 
 	 * required error and it's used value from server side assigned by 
 	 * `$form->SetValues();` or from session.
-	 * @param  bool|NULL $readonly
+	 * @param  ?bool $readonly
 	 * @return \MvcCore\Ext\Forms\Field
 	 */
 	public function SetDisabled ($disabled) {

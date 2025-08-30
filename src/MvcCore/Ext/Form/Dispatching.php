@@ -24,7 +24,7 @@ trait Dispatching {
 	 * Please don't forget to configure at least `$form->SetId()`, `$form->SetAction()`,
 	 * any control to work with and finally any `button:submit` or `input:submit`
 	 * to submit the form to any URL defined in `$form->action`.
-	 * @param  \MvcCore\Controller|NULL $controller Controller instance, where the form is created.
+	 * @param  ?\MvcCore\Controller $controller Controller instance, where the form is created.
 	 * @return void
 	 */
 	public function __construct (/*\MvcCore\Controller*/ $controller = NULL) {

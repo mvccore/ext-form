@@ -22,7 +22,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetId () {
 		return $this->id;
@@ -30,7 +30,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetName () {
 		return $this->name;
@@ -38,7 +38,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetType () {
 		return $this->type;
@@ -46,7 +46,7 @@ trait Getters {
 	
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetFieldsetName () {
 		return $this->fieldsetName;
@@ -54,7 +54,7 @@ trait Getters {
 	
 	/**
 	 * @inheritDoc
-	 * @return int|NULL
+	 * @return ?int
 	 */
 	public function GetFieldOrder () {
 		return $this->fieldOrder;
@@ -62,7 +62,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|int|float|\string[]|\int[]|\float[]|array|NULL
+	 * @return string|int|float|array<string|int|float|null>|null
 	 */
 	public function GetValue () {
 		return $this->value;
@@ -78,7 +78,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetTitle () {
 		return $this->title;
@@ -136,7 +136,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return bool|string|NULL
+	 * @return bool|string|null
 	 */
 	public function GetViewScript () {
 		return $this->viewScript;
@@ -144,7 +144,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetJsClassName () {
 		return $this->jsClassName;
@@ -152,7 +152,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetJsSupportingFile () {
 		return $this->jsSupportingFile;
@@ -160,7 +160,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @return string|NULL
+	 * @return ?string
 	 */
 	public function GetCssSupportingFile () {
 		return $this->cssSupportingFile;
@@ -168,7 +168,7 @@ trait Getters {
 
 	/**
 	 * @inheritDoc
-	 * @var bool|NULL
+	 * @var ?bool
 	 */
 	public function GetTranslate () {
 		return $this->translate;

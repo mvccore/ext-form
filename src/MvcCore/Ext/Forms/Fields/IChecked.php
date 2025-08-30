@@ -38,7 +38,7 @@ interface IChecked {
 	 * If not set, checked flag will be automatically resolved by field value
 	 * with method `static::GetCheckedByValue($checkbox->GetValue());`
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-checked
-	 * @return bool|NULL
+	 * @return ?bool
 	 */
 	public function GetChecked ();
 
