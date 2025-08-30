@@ -176,14 +176,14 @@ trait InternalProps {
 	 *  - `string`				- Translated error message string.
 	 * Example:
 	 * ````
-	 *   \MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $errorMsg) {
+	 *   \MvcCore\Ext\Form::AddSecurityErrorHandler(function($form, $request, $errorMsg) {
 	 *        // ... anything you want to do, for example to sign out user.
 	 *   });
 	 * ````
 	 * @internal
 	 * @var \array[]
 	 */
-	protected static $csrfErrorHandlers = [];
+	protected static $securityErrorHandlers = [];
 
 	/**
 	 * If there is necessary to add into HTML response after rendered form
@@ -198,7 +198,7 @@ trait InternalProps {
 	/**
 	 * Supporting assets nonce attribute for CSP policy, completed only if necessary.
 	 * @internal
-	 * @var \bool[]|\string[]|\NULL[]
+	 * @var array<bool|string|null>
 	 */
 	protected static $assetsNonces = [NULL, NULL];
 

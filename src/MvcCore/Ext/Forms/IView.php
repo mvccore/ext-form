@@ -145,11 +145,10 @@ interface IView {
 	 * for maximum compatibility. New solution is to enable 
 	 * global CSRF protection by http cookie in `Bootstrap.php`:
 	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * \MvcCore\Application::GetInstance()->SetSecurityProtection(
+	 *     \MvcCore\IApplication::SECURITY_PROTECTION_COOKIE
 	 * );
 	 * ```
-	 * @deprecated
 	 * @return string
 	 */
 	public function RenderCsrf ();
@@ -163,11 +162,10 @@ interface IView {
 	 * for maximum compatibility. New solution is to enable 
 	 * global CSRF protection by http cookie in `Bootstrap.php`:
 	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
+	 * \MvcCore\Application::GetInstance()->SetSecurityProtection(
+	 *     \MvcCore\IApplication::SECURITY_PROTECTION_COOKIE
 	 * );
 	 * ```
-	 * @deprecated
 	 * @throws \Exception
 	 * @return \stdClass
 	 */

@@ -265,7 +265,7 @@ trait ConfigProps {
 	protected $translator = NULL;
 
 	/**
-	 * CSRF checking boolean, enabled by default.
+	 * CSRF protection enabled, enabled by default.
 	 * @var bool $enabled
 	 */
 	protected $csrfEnabled = TRUE;

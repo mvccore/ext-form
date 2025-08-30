@@ -13,16 +13,20 @@
 
 namespace MvcCore\Ext\Form;
 
+use \MvcCore\Ext\Form\IConstants as FormConsts,
+	\MvcCore\Request\IConstants as ReqConsts;
+
 /**
  * Trait for class `MvcCore\Ext\Form` containing submitting logic and methods.
  * @mixin \MvcCore\Ext\Form
+ * @phpstan-type SubmitResult array{"0":int,"1":array<string,mixed>,"2":array<array{"0":string,"1":array<string>}>}
  */
 trait Submitting {
 
 	/**
 	 * @inheritDoc
-	 * @param  array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
-	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
+	 * @param  array<string,mixed> $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
+	 * @return SubmitResult An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []) {
 		/** @var $this \MvcCore\Ext\Form */
@@ -30,11 +34,33 @@ trait Submitting {
 		if (!$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, TRUE))
 			return [$this->result, $this->values, $this->errors];
 		unset($this->fieldsEntries);
+		list(
+			$submitWithParams, $rawRequestParams
+		) = $this->submitCompleteParams($rawRequestParams);
+		$this->SubmitSetStartResultState($rawRequestParams);
+		if ($submitWithParams) {
+			$this->SubmitAllFields($rawRequestParams);
+		} else if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
+			$this->SubmitCsrfTokens($rawRequestParams);
+			$this->regenerateSecurityToken();
+			$this->SubmitAllFields($rawRequestParams);
+		}
+		$this->SaveSession();
+		$this->dispatchMoveState(static::DISPATCH_STATE_SUBMITTED);
+		return [$this->result, $this->values, $this->errors];
+	}
+	
+	/**
+	 * Get raw form submit values by form method if given array is empty.
+	 * @param  array<string, mixed> $rawRequestParams optional
+	 * @return array{"0":bool,"1":array<string, mixed>} An array to list: `[$submitWithParams, $rawRequestParams];`
+	 */
+	protected function submitCompleteParams (array & $rawRequestParams = []) {
 		$submitWithParams = count($rawRequestParams) > 0;
 		if (!$submitWithParams) {
-			$sourceType = $this->method === \MvcCore\Ext\IForm::METHOD_GET
-				? \MvcCore\IRequest::PARAM_TYPE_QUERY_STRING
-				: \MvcCore\IRequest::PARAM_TYPE_INPUT;
+			$sourceType = $this->method === ReqConsts::METHOD_GET
+				? ReqConsts::PARAM_TYPE_QUERY_STRING
+				: ReqConsts::PARAM_TYPE_QUERY_STRING | ReqConsts::PARAM_TYPE_INPUT; // sometimes there could be mixed GET and POST
 			$paramsKeys = array_keys($this->fields);
 			if ($this->csrfEnabled && count($this->csrfValue) > 0)
 				$paramsKeys[] = $this->csrfValue[0];
@@ -42,19 +68,7 @@ trait Submitting {
 				FALSE, $paramsKeys, $sourceType
 			);
 		}
-		$this->SubmitSetStartResultState($rawRequestParams);
-		if ($submitWithParams) {
-			$this->SubmitAllFields($rawRequestParams);
-		} else if ($this->SubmitValidateMaxPostSizeIfNecessary()) {
-			$this->application->ValidateCsrfProtection();
-			$this->SubmitCsrfTokens($rawRequestParams);// deprecated, but working in all browsers
-			if (!$this->application->GetTerminated())
-				$this->SubmitAllFields($rawRequestParams);
-		}
-		if (!$this->application->GetTerminated())
-			$this->SaveSession();
-		$this->dispatchMoveState(static::DISPATCH_STATE_SUBMITTED);
-		return [$this->result, $this->values, $this->errors];
+		return [$submitWithParams, $rawRequestParams];
 	}
 
 	/**
@@ -238,7 +252,7 @@ trait Submitting {
 	 * Go through all nested fieldsets in given fieldset and call this method.
 	 * If second param is true, set all fields in given fieldset disabled.
 	 * @param  \MvcCore\Ext\Forms\IFieldset $fieldset 
-	 * @param  bool|NULL $disabled 
+	 * @param  ?bool $disabled 
 	 * @return void
 	 */
 	protected function submitAllFieldsDisabledByFieldsetRecursive (\MvcCore\Ext\Forms\IFieldset $fieldset, $disabled = NULL) {

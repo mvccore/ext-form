@@ -16,59 +16,22 @@ namespace MvcCore\Ext\Form;
 /**
  * Trait for class `MvcCore\Ext\Form` containing methods to create, get and 
  * verify CSRF tokens and to process CSRF error handlers if tokens are not valid.
- * @deprecated
  * @mixin \MvcCore\Ext\Form
  */
 trait Csrf {
 
 	/**
 	 * @inheritDoc
-	 * @deprecated
-	 * @param  \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
-	 * @param  string            $errorMsg Translated error message about CSRF invalid tokens.
-	 * @return void
-	 */
-	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg) {
-		/** @var \MvcCore\Ext\Form $form */
-		if (!$form->csrfEnabled) return;
-		$request = $form->GetRequest();
-		$response = $form->GetResponse();
-		foreach (static::$csrfErrorHandlers as $handlersRecord) {
-			list ($handler, $isClosure) = $handlersRecord;
-			try {
-				if ($isClosure) {
-					$handler($form, $request, $response, $errorMsg);
-				} else {
-					call_user_func($handler, $form, $request, $response, $errorMsg);
-				}
-			} catch (\Throwable $e) {
-				$debugClass = $form->GetApplication()->GetDebugClass();
-				$debugClass::Log($e, \MvcCore\IDebug::CRITICAL);
-			}
-		}
-	}
-
-	/**
-	 * @inheritDoc
-	 * @deprecated
-	 * @throws \Exception
 	 * @param  bool $enabled 
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetEnableCsrf ($enabled = TRUE) {
-		$csrfMode = $this->application->GetCsrfProtection();
-		if (($csrfMode & \MvcCore\IApplication::CSRF_PROTECTION_DISABLED) != 0) {
-			throw new \Exception("CSRF protection disabled globally.");
-		} else if (($csrfMode & \MvcCore\IApplication::CSRF_PROTECTION_COOKIE) != 0) {
-			throw new \Exception("CSRF protection mode configured as http cookie mode.");
-		}
+	public function SetCsrfEnabled ($enabled = TRUE) {
 		$this->csrfEnabled = $enabled;
 		return $this;
 	}
 
 	/**
 	 * @inheritDoc
-	 * @deprecated
 	 * @throws \Exception
 	 * @return \stdClass
 	 */
@@ -84,12 +47,12 @@ trait Csrf {
 
 	/**
 	 * @inheritDoc
-	 * @deprecated
-	 * @param  array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
-	 * @return \MvcCore\Ext\Form
+	 * @param  array<string,mixed> $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
+	 * @throws \MvcCore\Application\TerminateException
+	 * @return ?bool
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []) {
-		if (!$this->csrfEnabled) return $this;
+		if (!$this->csrfEnabled) return NULL;
 		$this->DispatchStateCheck(static::DISPATCH_STATE_SUBMITTED, TRUE);
 		$result = FALSE;
 		list($name, $value) = count($this->csrfValue) > 0
@@ -103,16 +66,22 @@ trait Csrf {
 			if ($this->translate)
 				$errorMsg = call_user_func($this->translator, $errorMsg);
 			$this->AddError($errorMsg);
-			static::ProcessCsrfErrorHandlersQueue($this, $errorMsg);
+			$securityErrorHandlers = $this->application->__get('securityErrorHandlers');
+			if (count($securityErrorHandlers) > 0) {
+				$errorHandlersArgs = [$this->request, $this->response, $this];
+				$handlersResult = !$this->application->ProcessCustomHandlers($securityErrorHandlers, $errorHandlersArgs);
+				// there is possible to continue if any handler doesn't return `FALSE` and
+				// application is not terminated, this protection is not so strict
+				if (!$handlersResult) $this->Terminate();
+			}
 		}
-		return $this;
+		return $result;
 	}
 
 	/**
 	 * @inheritDoc
-	 * @deprecated
 	 * @throws \Exception
-	 * @return list<string|NULL>
+	 * @return array<?string>
 	 */
 	public function SetUpCsrf () {
 		if (!$this->csrfEnabled) throw new \Exception(

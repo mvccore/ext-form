@@ -60,7 +60,7 @@ trait Dispatching {
 		if (self::$toolClass === NULL)
 			self::$toolClass = $app->GetToolClass();
 		$this->csrfEnabled = (
-			($app->GetCsrfProtection() & \MvcCore\IApplication::CSRF_PROTECTION_FORM_INPUT) != 0
+			($app->GetSecurityProtection() & \MvcCore\Application\IConstants::SECURITY_PROTECTION_FORM_TOKEN) != 0
 		);
 	}
 

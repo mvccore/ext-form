@@ -13,6 +13,8 @@
 
 namespace MvcCore\Ext\Form;
 
+use \MvcCore\Application\IConstants as AppConsts;
+
 /**
  * Trait for class `MvcCore\Ext\Form` containing logic and methods to work with
  * values necessary store in session. It use configured core class `\MvcCore\Session`.
@@ -79,5 +81,22 @@ trait Session {
 			self::$allFormsSessions[$this->id] = & $sessionNamespace;
 		}
 		return $sessionNamespace;
+	}
+
+	/**
+	 * If application security mode is configured with security cookie token,
+	 * regenerate this token if necessary by min/max token time settings.
+	 * If token is regenerated, return `TRUE` or `FALSE`. If application is not
+	 * configured like that, return `NULL`.
+	 * @return ?bool
+	 */
+	protected function regenerateSecurityToken () {
+		$securityCookieMode = (
+			($this->application->GetSecurityProtection() & AppConsts::SECURITY_PROTECTION_COOKIE) != 0
+		);
+		if (!$securityCookieMode)
+			return NULL;
+		$sessionClass = self::$sessionClass;
+		return $sessionClass::RegenerateSecurityToken(FALSE, TRUE);
 	}
 }

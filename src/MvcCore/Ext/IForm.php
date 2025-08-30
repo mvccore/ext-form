@@ -13,6 +13,9 @@
 
 namespace MvcCore\Ext;
 
+/**
+ * @phpstan-type SubmitResult array{"0":int,"1":array<string,mixed>,"2":array<array{"0":string,"1":array<string>}>}
+ */
 interface IForm extends \MvcCore\Ext\Form\IConstants {
 
 	/***************************************************************************
@@ -1065,7 +1068,7 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * library assets directory into it, by creating any other custom css for any custom field
 	 * and by change this property value to that directory. All supporting css for `\MvcCore\Ext\Form`
 	 * fields will be loaded now from there.
-	 * @param  string|NULL $cssSupportFilesRootDir
+	 * @param  ?string $cssSupportFilesRootDir
 	 * @return string
 	 */
 	public static function SetCssSupportFilesRootDir ($cssSupportFilesRootDir);
@@ -1170,14 +1173,14 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 *  - `\MvcCore\Response` - Current response object.
 	 *  - `string`            - Translated error message string.
 	 * Example:
-	 *   `\MvcCore\Ext\Form::AddCsrfErrorHandler(function($form, $request, $response, $errorMsg) {
+	 *   `\MvcCore\Ext\Form::AddSecurityErrorHandler(function($form, $request, $response, $errorMsg) {
 	 *       // ... anything you want to do, for example to sign out user.
 	 *   });`
 	 * @param  callable $handler
-	 * @param  int|NULL $priorityIndex
+	 * @param  ?int     $priorityIndex
 	 * @return int New CSRF error handlers count.
 	 */
-	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL);
+	public static function AddSecurityErrorHandler (callable $handler, $priorityIndex = NULL);
 
 	/**
 	 * Add form validators base namespaces to create validator instance by it's class name.
@@ -1554,8 +1557,8 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 * - Process all field values and their validators and call `$form->AddError()` where necessary.
 	 *   `AddError()` method automatically switch `$form->Result` property to zero - `0`, it means error submit result.
 	 * Return array with form result, safe values from validators and errors array.
-	 * @param  array $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
-	 * @return array An array to list: `[$form->result, $form->data, $form->errors];`
+	 * @param  array<string, mixed> $rawRequestParams Optional, raw `$_POST` or `$_GET` array could be passed.
+	 * @return SubmitResult         An array to list: `[$form->result, $form->data, $form->errors];`
 	 */
 	public function Submit (array & $rawRequestParams = []);
 
@@ -1619,95 +1622,36 @@ interface IForm extends \MvcCore\Ext\Form\IConstants {
 	 **************************************************************************/
 
 	/**
-	 * Call all CSRF (Cross Site Request Forgery) error handlers in static queue.
-	 * 
-	 * This function is deprecated but still possible to use
-	 * for maximum compatibility. New solution is to enable 
-	 * global CSRF protection by http cookie in `Bootstrap.php`:
-	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
-	 * );
-	 * ```
-	 * @deprecated
-	 * @param  \MvcCore\Ext\Form $form     The form instance where CSRF error happened.
-	 * @param  string            $errorMsg Translated error message about CSRF invalid tokens.
-	 * @return void
-	 */
-	public static function ProcessCsrfErrorHandlersQueue (\MvcCore\Ext\IForm $form, $errorMsg);
-
-	/**
 	 * Enable or disable CSRF checking, enabled by default.
-	 * 
-	 * This function is deprecated but still possible to use
-	 * for maximum compatibility. New solution is to enable 
-	 * global CSRF protection by http cookie in `Bootstrap.php`:
-	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
-	 * );
-	 * ```
-	 * @deprecated
 	 * @param  bool $enabled
-	 * @throws \Exception
 	 * @return \MvcCore\Ext\Form
 	 */
-	public function SetEnableCsrf ($enabled = TRUE);
+	public function SetCsrfEnabled ($enabled = TRUE);
 
 	/**
 	 * Return current CSRF (Cross Site Request Forgery) hidden
 	 * input name and it's value as `\stdClass`with  keys `name` and `value`.
-	 * 
-	 * This function is deprecated but still possible to use
-	 * for maximum compatibility. New solution is to enable 
-	 * global CSRF protection by http cookie in `Bootstrap.php`:
-	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
-	 * );
-	 * ```
-	 * @deprecated
 	 * @throws \Exception
 	 * @return \stdClass
 	 */
 	public function GetCsrf ();
 
 	/**
-	 * Check CSRF (Cross Site Request Forgery) sent tokens from user with session tokens.
-	 * If tokens are different, add form error and process CSRF error handlers queue.
-	 * If there is any exception caught in CSRF error handlers queue, it's logged
-	 * by configured core debug class with `CRITICAL` flag.
-	 * 
-	 * This function is deprecated but still possible to use
-	 * for maximum compatibility. New solution is to enable 
-	 * global CSRF protection by http cookie in `Bootstrap.php`:
-	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
-	 * );
-	 * ```
-	 * @deprecated
-	 * @param  array $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
-	 * @return \MvcCore\Ext\Form
+	 * Check sent CSRF (Cross Site Request Forgery) tokens from ćlient with session tokens.
+	 * If tokens are different, add form error and process application security handlers queue.
+	 * this method could terminate controller dispatching.
+	 * @param  array<string, mixed> $rawRequestParams Raw request params given into `Submit()` method or all `\MvcCore\Request` params.
+	 * @throws \MvcCore\Application\TerminateException
+	 * @return ?bool
 	 */
 	public function SubmitCsrfTokens (array & $rawRequestParams = []);
 
 	/**
 	 * Create new fresh CSRF (Cross Site Request Forgery) tokens,
-	 * store them in current form session namespace and return them.
+	 * store them in current form session namespace.
 	 * Return previous CSRF tokens from session if any.
-	 * 
-	 * This function is deprecated but still possible to use
-	 * for maximum compatibility. New solution is to enable 
-	 * global CSRF protection by http cookie in `Bootstrap.php`:
-	 * ```
-	 * \MvcCore\Application::GetInstance()->SetCsrfProtection(
-	 *     \MvcCore\IApplication::CSRF_PROTECTION_COOKIE
-	 * );
-	 * ```
-	 * @deprecated
 	 * @throws \Exception
-	 * @return list<string|NULL>
+	 * @return list<?string>
 	 */
 	public function SetUpCsrf ();
 }

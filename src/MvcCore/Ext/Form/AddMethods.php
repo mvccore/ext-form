@@ -121,10 +121,10 @@ trait AddMethods {
 	/**
 	 * @inheritDoc
 	 * @param  callable $handler
-	 * @param  int|NULL $priorityIndex
-	 * @return int New CSRF error handlers count.
+	 * @param  ?int $priorityIndex
+	 * @return int New security error handlers count.
 	 */
-	public static function AddCsrfErrorHandler (callable $handler, $priorityIndex = NULL) {
+	public static function AddSecurityErrorHandler (callable $handler, $priorityIndex = NULL) {
 		if (!is_callable($handler)) 
 			throw new \InvalidArgumentException(
 				'['.get_called_class().'] Given argument is not callable: `'.serialize($handler).'`.'
@@ -136,15 +136,15 @@ trait AddMethods {
 			$isClosure = $reflection->isClosure();
 		}
 		if ($priorityIndex === NULL) {
-			static::$csrfErrorHandlers[] = [$handler, $isClosure];
+			static::$securityErrorHandlers[] = [$handler, $isClosure];
 		} else {
-			if (isset(static::$csrfErrorHandlers[$priorityIndex])) {
-				array_splice(static::$csrfErrorHandlers, $priorityIndex, 0, [$handler, $isClosure]);
+			if (isset(static::$securityErrorHandlers[$priorityIndex])) {
+				array_splice(static::$securityErrorHandlers, $priorityIndex, 0, [$handler, $isClosure]);
 			} else {
-				static::$csrfErrorHandlers[$priorityIndex] = [$handler, $isClosure];
+				static::$securityErrorHandlers[$priorityIndex] = [$handler, $isClosure];
 			}
 		}
-		return count(static::$csrfErrorHandlers);
+		return count(static::$securityErrorHandlers);
 	}
 
 	/**

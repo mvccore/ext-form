@@ -253,7 +253,7 @@ trait GetMethods {
 	public function GetSessionExpiration () {
 		if ($this->sessionExpiration === NULL) {
 			$sessionClass = $this->application->GetSessionClass();
-			$this->sessionExpiration = $sessionClass::GetSessionCsrfMaxTime();
+			$this->sessionExpiration = $sessionClass::GetSessionSecurityMaxTime();
 		}
 		return $this->sessionExpiration;
 	}
