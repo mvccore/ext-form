@@ -1,3 +1,3 @@
-### Fixed
-- Select option type detection with first `NULL` record,
-- selected option detection for numeric option keys with `NULL` and `0`.
+### Updated
+- Improved application security protection into more stable solution with multiple tokens.
+- All PHP Docs types with `NULL` changed into `?` syntax.
